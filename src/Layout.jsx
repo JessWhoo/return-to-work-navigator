@@ -20,6 +20,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Accommodations', icon: FileText, page: 'Accommodations' },
     { name: 'Legal Rights', icon: Shield, page: 'LegalRights' },
     { name: 'Emotional Support', icon: Heart, page: 'EmotionalSupport' },
+    { name: 'Wellness Resources', icon: Sparkles, page: 'WellnessResources' },
     { name: 'Return Planning', icon: Calendar, page: 'ReturnPlanning' },
     { name: 'Resources', icon: BookOpen, page: 'Resources' }
   ];

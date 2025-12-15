@@ -11,7 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { 
   Zap, TrendingDown, TrendingUp, Lightbulb, 
-  Coffee, Moon, Sun, Sunset, Calendar, CheckCircle2 
+  Coffee, Moon, Sun, Sunset, Calendar, CheckCircle2,
+  Smile, Frown, Meh, AlertTriangle, Cloud
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -78,6 +79,8 @@ export default function EnergyManagement() {
     afternoon: 5,
     evening: 5
   });
+  const [mood, setMood] = useState('neutral');
+  const [stressLevel, setStressLevel] = useState(5);
   const [notes, setNotes] = useState('');
 
   const { data: progress } = useQuery({
@@ -102,6 +105,8 @@ export default function EnergyManagement() {
         morning_energy: energyLevels.morning,
         afternoon_energy: energyLevels.afternoon,
         evening_energy: energyLevels.evening,
+        mood: mood,
+        stress_level: stressLevel,
         notes: notes
       };
 
@@ -119,8 +124,7 @@ export default function EnergyManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['userProgress']);
-      toast.success('Energy log saved!');
-      setNotes('');
+      toast.success('Daily wellness log saved!');
     }
   });
 
@@ -133,7 +137,14 @@ export default function EnergyManagement() {
         afternoon: todayLog.afternoon_energy,
         evening: todayLog.evening_energy
       });
+      setMood(todayLog.mood || 'neutral');
+      setStressLevel(todayLog.stress_level || 5);
       setNotes(todayLog.notes || '');
+    } else {
+      setEnergyLevels({ morning: 5, afternoon: 5, evening: 5 });
+      setMood('neutral');
+      setStressLevel(5);
+      setNotes('');
     }
   }, [selectedDate, todayLog]);
 
@@ -154,10 +165,10 @@ export default function EnergyManagement() {
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-          Energy & Fatigue Management
+          Energy & Wellness Tracking
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Track your energy levels and learn strategies to manage fatigue
+          Track your energy, mood, and stress levels to identify patterns and manage well-being
         </p>
       </div>
 
@@ -168,7 +179,7 @@ export default function EnergyManagement() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Calendar className="h-5 w-5 text-amber-600" />
-                <span>Daily Energy Tracker</span>
+                <span>Daily Wellness Tracker</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -243,12 +254,44 @@ export default function EnergyManagement() {
               </div>
 
               <div className="space-y-2">
+                <Label>Overall Mood</Label>
+                <select
+                  value={mood}
+                  onChange={(e) => setMood(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                >
+                  <option value="very_low">😢 Very Low</option>
+                  <option value="low">😕 Low</option>
+                  <option value="neutral">😐 Neutral</option>
+                  <option value="good">🙂 Good</option>
+                  <option value="excellent">😊 Excellent</option>
+                </select>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label>Stress Level</Label>
+                  <Badge className={stressLevel >= 7 ? 'bg-red-500' : stressLevel >= 4 ? 'bg-amber-500' : 'bg-green-500'}>
+                    {stressLevel >= 7 ? 'High' : stressLevel >= 4 ? 'Moderate' : 'Low'}
+                  </Badge>
+                </div>
+                <Slider
+                  value={[stressLevel]}
+                  onValueChange={([value]) => setStressLevel(value)}
+                  max={10}
+                  step={1}
+                  className="w-full"
+                />
+                <p className="text-xs text-gray-500 text-right">{stressLevel}/10</p>
+              </div>
+
+              <div className="space-y-2">
                 <Label>Notes</Label>
                 <Textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="What affected your energy today? Any patterns you noticed?"
-                  rows={4}
+                  placeholder="What affected your energy, mood, or stress today? Any patterns?"
+                  rows={3}
                 />
               </div>
 
@@ -257,7 +300,7 @@ export default function EnergyManagement() {
                 className="w-full bg-gradient-to-r from-amber-600 to-orange-600"
                 disabled={saveEnergyLogMutation.isLoading}
               >
-                {saveEnergyLogMutation.isLoading ? 'Saving...' : 'Save Energy Log'}
+                {saveEnergyLogMutation.isLoading ? 'Saving...' : 'Save Wellness Log'}
               </Button>
             </CardContent>
           </Card>

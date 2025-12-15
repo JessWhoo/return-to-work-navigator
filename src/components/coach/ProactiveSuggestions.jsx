@@ -30,6 +30,13 @@ const ProactiveSuggestion = ({ suggestion, onApply }) => {
       bg: 'bg-rose-50',
       border: 'border-rose-200'
     },
+    wellness: { 
+      icon: Sparkles, 
+      color: 'purple',
+      gradient: 'from-purple-500 to-pink-500',
+      bg: 'bg-purple-50',
+      border: 'border-purple-200'
+    },
     stage: { 
       icon: Calendar, 
       color: 'blue',
@@ -196,6 +203,51 @@ export default function ProactiveSuggestions({ progress, onSelectSuggestion }) {
       });
     }
 
+    // Mood and stress analysis
+    if (progress.energy_logs && progress.energy_logs.length > 0) {
+      const recentLogs = progress.energy_logs.slice(-7);
+      
+      // Check for low mood patterns
+      const lowMoodCount = recentLogs.filter(log => 
+        log.mood === 'very_low' || log.mood === 'low'
+      ).length;
+      
+      if (lowMoodCount >= 4) {
+        suggestions.push({
+          type: 'wellness',
+          priority: 'high',
+          title: 'Mood Support Needed',
+          insight: 'You\'ve had several days of low mood recently. This is understandable, but let\'s find some relief.',
+          actions: [
+            'Try the 5-4-3-2-1 grounding technique when overwhelmed',
+            'Practice daily gratitude - even small things count',
+            'Consider reaching out to a therapist or counselor',
+            'Use the Self-Compassion Break exercise'
+          ],
+          resources: ['Wellness Resources', 'Emotional Support', 'CancerCare Counseling']
+        });
+      }
+      
+      // Check for high stress patterns
+      const avgStress = recentLogs.reduce((sum, log) => sum + (log.stress_level || 5), 0) / recentLogs.length;
+      
+      if (avgStress >= 7) {
+        suggestions.push({
+          type: 'wellness',
+          priority: 'high',
+          title: 'High Stress Levels Detected',
+          insight: `Your average stress level is ${avgStress.toFixed(1)}/10. Let's work on stress reduction techniques.`,
+          actions: [
+            'Practice Box Breathing for 5 minutes daily',
+            'Try Progressive Muscle Relaxation before bed',
+            'Schedule "Worry Time" to contain anxiety',
+            'Consider workplace accommodations to reduce pressure'
+          ],
+          resources: ['Wellness Resources', 'Energy Management', 'Accommodations']
+        });
+      }
+    }
+
     // Emotional support check
     if (!progress.bookmarked_resources?.some(r => r.includes('Emotional')) && completedCount > 5) {
       suggestions.push({
@@ -208,7 +260,7 @@ export default function ProactiveSuggestions({ progress, onSelectSuggestion }) {
           'Consider joining a support group',
           'Practice self-compassion daily'
         ],
-        resources: ['Emotional Support Page', 'CancerCare', 'Cancer Support Community']
+        resources: ['Emotional Support Page', 'Wellness Resources', 'CancerCare']
       });
     }
 
