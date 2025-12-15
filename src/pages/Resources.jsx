@@ -434,33 +434,36 @@ export default function Resources() {
               </div>
 
               <div className="grid gap-5">
-                {category.items.map((resource, index) => (
-                  <Card key={index} className="bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group border-2 border-gray-100 hover:border-indigo-200 overflow-hidden">
-                    <CardContent className="pt-6 relative">
-                      <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-${category.color}-400 to-${category.color}-600`}></div>
-                      <div className="flex items-start justify-between mb-3 pl-3">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Badge className={`bg-gradient-to-r from-${category.color}-500 to-${category.color}-600 text-white shadow-sm`}>
-                              {resource.type}
-                            </Badge>
+                {category.items.map((resource, index) => {
+                  const cardColors = colorMap[category.color];
+                  return (
+                    <Card key={index} className="bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group border-2 border-gray-100 hover:border-indigo-200 overflow-hidden">
+                      <CardContent className="pt-6 relative">
+                        <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${cardColors.iconFrom} ${cardColors.iconTo}`}></div>
+                        <div className="flex items-start justify-between mb-3 pl-3">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
+                                {resource.type}
+                              </Badge>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
+                            <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
+                            <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
-                          <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
-                          <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
+                          <a
+                            href={resource.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
+                          >
+                            <ExternalLink className="h-5 w-5" />
+                          </a>
                         </div>
-                        <a
-                          href={resource.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`ml-4 p-4 rounded-xl bg-gradient-to-br from-${category.color}-100 to-${category.color}-200 text-${category.color}-700 hover:from-${category.color}-500 hover:to-${category.color}-600 hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
-                        >
-                          <ExternalLink className="h-5 w-5" />
-                        </a>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             </div>
           );
