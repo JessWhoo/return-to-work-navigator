@@ -365,6 +365,14 @@ export default function Resources() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  const colorMap = {
+    purple: { from: 'from-purple-100', via: 'via-purple-50', border: 'border-purple-200', iconFrom: 'from-purple-400', iconTo: 'to-purple-600', badge: 'bg-purple-500' },
+    green: { from: 'from-green-100', via: 'via-green-50', border: 'border-green-200', iconFrom: 'from-green-400', iconTo: 'to-green-600', badge: 'bg-green-500' },
+    blue: { from: 'from-blue-100', via: 'via-blue-50', border: 'border-blue-200', iconFrom: 'from-blue-400', iconTo: 'to-blue-600', badge: 'bg-blue-500' },
+    indigo: { from: 'from-indigo-100', via: 'via-indigo-50', border: 'border-indigo-200', iconFrom: 'from-indigo-400', iconTo: 'to-indigo-600', badge: 'bg-indigo-500' },
+    rose: { from: 'from-rose-100', via: 'via-rose-50', border: 'border-rose-200', iconFrom: 'from-rose-400', iconTo: 'to-rose-600', badge: 'bg-rose-500' }
+  };
+
   const filteredResources = resources.map(category => ({
     ...category,
     items: category.items.filter(item =>
@@ -423,12 +431,15 @@ export default function Resources() {
           if (category.items.length === 0) return null;
           
           const Icon = category.icon;
+          const colors = colorMap[category.color];
           return (
             <div key={category.category} className="space-y-4">
-              <div className={`flex items-center space-x-3 p-4 bg-gradient-to-r from-${category.color}-50 to-${category.color}-100 rounded-xl`}>
-                <Icon className={`h-6 w-6 text-${category.color}-700`} />
-                <h2 className="text-2xl font-bold text-gray-800">{category.category}</h2>
-                <Badge variant="secondary" className="ml-auto">
+              <div className={`flex items-center space-x-3 p-5 bg-gradient-to-r ${colors.from} ${colors.via} to-white rounded-2xl shadow-md border-2 ${colors.border} hover:shadow-xl transition-all`}>
+                <div className={`p-3 rounded-xl bg-gradient-to-br ${colors.iconFrom} ${colors.iconTo} shadow-lg`}>
+                  <Icon className="h-7 w-7 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">{category.category}</h2>
+                <Badge className={`ml-auto ${colors.badge} text-white shadow-md`}>
                   {category.items.length} resources
                 </Badge>
               </div>
