@@ -10,7 +10,6 @@ import {
   FileText, Download, Copy, CheckCircle2, 
   Clock, Home, Utensils, ThermometerSun, Briefcase 
 } from 'lucide-react';
-import { toast } from 'sonner';
 
 const commonAccommodations = [
   {

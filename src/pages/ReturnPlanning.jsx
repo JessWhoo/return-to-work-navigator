@@ -12,7 +12,6 @@ import {
   Calendar, Clock, Home, Users, 
   TrendingUp, Copy, Save, CheckCircle2 
 } from 'lucide-react';
-import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 const phasedReturnTemplates = [
