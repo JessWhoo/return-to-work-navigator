@@ -13,6 +13,7 @@ import {
   Bookmark, MessageCircle, BookmarkCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
+import SmartRecommendations from '../components/resources/SmartRecommendations';
 
 const resources = [
   {
@@ -498,6 +499,15 @@ export default function Resources() {
           </div>
         </CardContent>
       </Card>
+
+      {/* AI-Powered Recommendations */}
+      <SmartRecommendations
+        progress={progress}
+        allResources={resources}
+        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+        onDiscussWithCoach={handleDiscussWithCoach}
+        isBookmarked={isBookmarked}
+      />
 
       {/* Resources by Category */}
       <div className="space-y-8">
