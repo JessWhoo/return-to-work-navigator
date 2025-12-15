@@ -5,6 +5,7 @@ import {
   Home, CheckSquare, Zap, MessageSquare, FileText, 
   Shield, Heart, Calendar, BookOpen, Menu, X, Volume2
 } from 'lucide-react';
+import OfflineIndicator from './components/OfflineIndicator';
 
 export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,6 +45,7 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-teal-50">
+      <OfflineIndicator />
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-md border-b border-rose-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
