@@ -7,6 +7,7 @@ import EnergyManagement from './pages/EnergyManagement';
 import Resources from './pages/Resources';
 import EmotionalSupport from './pages/EmotionalSupport';
 import ReturnPlanning from './pages/ReturnPlanning';
+import Coach from './pages/Coach';
 import __Layout from './Layout.jsx';
 
 
@@ -20,6 +21,7 @@ export const PAGES = {
     "Resources": Resources,
     "EmotionalSupport": EmotionalSupport,
     "ReturnPlanning": ReturnPlanning,
+    "Coach": Coach,
 }
 
 export const pagesConfig = {

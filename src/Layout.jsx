@@ -12,9 +12,10 @@ export default function Layout({ children, currentPageName }) {
 
   const navigation = [
     { name: 'Home', icon: Home, page: 'Home' },
+    { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
     { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },
-    { name: 'Communication', icon: MessageSquare, page: 'Communication' },
+    { name: 'Communication', icon: FileText, page: 'Communication' },
     { name: 'Accommodations', icon: FileText, page: 'Accommodations' },
     { name: 'Legal Rights', icon: Shield, page: 'LegalRights' },
     { name: 'Emotional Support', icon: Heart, page: 'EmotionalSupport' },
@@ -97,11 +98,16 @@ export default function Layout({ children, currentPageName }) {
                     className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                       isActive
                         ? 'bg-gradient-to-r from-rose-100 to-teal-100 text-rose-700'
+                        : item.highlight
+                        ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 hover:from-purple-100 hover:to-pink-100'
                         : 'text-gray-700 hover:bg-gray-50'
                     }`}
                   >
                     <Icon className="h-5 w-5" />
                     <span className="font-medium">{item.name}</span>
+                    {item.highlight && !isActive && (
+                      <span className="ml-auto text-xs bg-purple-200 text-purple-700 px-2 py-0.5 rounded-full">New</span>
+                    )}
                   </Link>
                 );
               })}
@@ -124,11 +130,16 @@ export default function Layout({ children, currentPageName }) {
                   className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
                     isActive
                       ? 'bg-gradient-to-r from-rose-100 to-teal-100 text-rose-700 shadow-sm'
+                      : item.highlight
+                      ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 hover:from-purple-100 hover:to-pink-100'
                       : 'text-gray-700 hover:bg-white/50'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span className="font-medium text-sm">{item.name}</span>
+                  {item.highlight && !isActive && (
+                    <span className="ml-auto text-xs bg-purple-200 text-purple-700 px-2 py-0.5 rounded-full">New</span>
+                  )}
                 </Link>
               );
             })}

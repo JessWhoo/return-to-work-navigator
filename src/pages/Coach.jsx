@@ -1,0 +1,343 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { 
+  MessageCircle, Send, Sparkles, Clock, CheckCircle2, 
+  Zap, Heart, Loader2, Plus, TrendingUp
+} from 'lucide-react';
+import MessageBubble from '../components/coach/MessageBubble';
+
+export default function Coach() {
+  const [conversations, setConversations] = useState([]);
+  const [currentConversation, setCurrentConversation] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [isCreatingConversation, setIsCreatingConversation] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const { data: progress } = useQuery({
+    queryKey: ['userProgress'],
+    queryFn: async () => {
+      const progressList = await base44.entities.UserProgress.list();
+      return progressList[0] || null;
+    }
+  });
+
+  useEffect(() => {
+    loadConversations();
+  }, []);
+
+  useEffect(() => {
+    if (currentConversation) {
+      const unsubscribe = base44.agents.subscribeToConversation(
+        currentConversation.id,
+        (data) => {
+          setMessages(data.messages);
+          scrollToBottom();
+        }
+      );
+      return () => unsubscribe();
+    }
+  }, [currentConversation]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const loadConversations = async () => {
+    try {
+      const convos = await base44.agents.listConversations({
+        agent_name: 'return_to_work_coach'
+      });
+      setConversations(convos);
+      
+      if (convos.length > 0 && !currentConversation) {
+        selectConversation(convos[0]);
+      }
+    } catch (error) {
+      console.error('Error loading conversations:', error);
+    }
+  };
+
+  const selectConversation = async (conversation) => {
+    try {
+      const fullConvo = await base44.agents.getConversation(conversation.id);
+      setCurrentConversation(fullConvo);
+      setMessages(fullConvo.messages || []);
+      setTimeout(scrollToBottom, 100);
+    } catch (error) {
+      console.error('Error loading conversation:', error);
+    }
+  };
+
+  const createNewConversation = async () => {
+    setIsCreatingConversation(true);
+    try {
+      const newConvo = await base44.agents.createConversation({
+        agent_name: 'return_to_work_coach',
+        metadata: {
+          name: `Chat ${new Date().toLocaleDateString()}`,
+          created_at: new Date().toISOString()
+        }
+      });
+      
+      await loadConversations();
+      selectConversation(newConvo);
+    } catch (error) {
+      console.error('Error creating conversation:', error);
+    } finally {
+      setIsCreatingConversation(false);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (!inputMessage.trim() || !currentConversation || isSending) return;
+
+    const messageText = inputMessage.trim();
+    setInputMessage('');
+    setIsSending(true);
+
+    try {
+      await base44.agents.addMessage(currentConversation, {
+        role: 'user',
+        content: messageText
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const getProgressSummary = () => {
+    if (!progress) return null;
+    
+    return {
+      stage: progress.journey_stage,
+      completedItems: progress.completed_checklist_items?.length || 0,
+      energyLogs: progress.energy_logs?.length || 0,
+      accommodations: progress.accommodations_requested?.length || 0
+    };
+  };
+
+  const progressSummary = getProgressSummary();
+
+  const starterPrompts = [
+    "I'm anxious about my first day back. What should I expect?",
+    "Help me understand what accommodations I should request",
+    "I'm struggling with fatigue. What strategies can help?",
+    "How do I talk to my boss about my limitations?",
+    "Analyze my progress and give me personalized advice"
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
+      <div className="grid lg:grid-cols-4 gap-6 h-full">
+        {/* Sidebar */}
+        <div className="lg:col-span-1 space-y-4">
+          <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2 text-lg">
+                <Sparkles className="h-5 w-5 text-purple-600" />
+                <span>Your AI Coach</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm text-gray-700">
+              <p>I'm here to support your return-to-work journey with personalized guidance and encouragement.</p>
+              
+              {progressSummary && (
+                <div className="bg-white/60 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600">Journey Stage</span>
+                    <Badge variant="secondary" className="capitalize text-xs">
+                      {progressSummary.stage.replace('_', ' ')}
+                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 pt-2 border-t">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-purple-600">{progressSummary.completedItems}</div>
+                      <div className="text-xs text-gray-500">Completed</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-pink-600">{progressSummary.energyLogs}</div>
+                      <div className="text-xs text-gray-500">Logs</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-teal-600">{progressSummary.accommodations}</div>
+                      <div className="text-xs text-gray-500">Requests</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/80 backdrop-blur-sm">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm">Conversations</CardTitle>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={createNewConversation}
+                  disabled={isCreatingConversation}
+                  className="h-8 w-8 p-0"
+                >
+                  {isCreatingConversation ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Plus className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-2 max-h-[300px] overflow-y-auto">
+              {conversations.length === 0 ? (
+                <p className="text-sm text-gray-500 text-center py-4">
+                  No conversations yet
+                </p>
+              ) : (
+                conversations.map((convo) => (
+                  <button
+                    key={convo.id}
+                    onClick={() => selectConversation(convo)}
+                    className={`w-full text-left p-3 rounded-lg transition-all ${
+                      currentConversation?.id === convo.id
+                        ? 'bg-purple-100 border-2 border-purple-300'
+                        : 'bg-gray-50 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2 mb-1">
+                      <MessageCircle className="h-4 w-4 text-gray-500" />
+                      <span className="text-sm font-medium truncate">
+                        {convo.metadata?.name || 'Conversation'}
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {new Date(convo.created_date).toLocaleDateString()}
+                    </span>
+                  </button>
+                ))
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Main Chat Area */}
+        <div className="lg:col-span-3 flex flex-col h-full">
+          <Card className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm overflow-hidden">
+            {!currentConversation ? (
+              <CardContent className="flex-1 flex flex-col items-center justify-center p-8">
+                <Sparkles className="h-16 w-16 text-purple-300 mb-4" />
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">Welcome to Your AI Coach</h3>
+                <p className="text-gray-600 text-center mb-6 max-w-md">
+                  Start a conversation to get personalized guidance on your return-to-work journey
+                </p>
+                <Button
+                  onClick={createNewConversation}
+                  disabled={isCreatingConversation}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                >
+                  {isCreatingConversation ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Start New Conversation
+                    </>
+                  )}
+                </Button>
+              </CardContent>
+            ) : (
+              <>
+                {/* Messages Area */}
+                <CardContent className="flex-1 overflow-y-auto p-6 space-y-4">
+                  {messages.length === 0 && (
+                    <div className="space-y-6 py-8">
+                      <div className="text-center">
+                        <Heart className="h-12 w-12 text-rose-400 mx-auto mb-3" />
+                        <p className="text-gray-600">How can I support you today?</p>
+                      </div>
+                      
+                      <div className="grid gap-3 max-w-2xl mx-auto">
+                        {starterPrompts.map((prompt, index) => (
+                          <button
+                            key={index}
+                            onClick={() => {
+                              setInputMessage(prompt);
+                              setTimeout(() => sendMessage(), 100);
+                            }}
+                            className="text-left p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 border border-purple-200 transition-all text-sm text-gray-700"
+                          >
+                            {prompt}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {messages.map((message, index) => (
+                    <MessageBubble key={index} message={message} />
+                  ))}
+                  
+                  {isSending && (
+                    <div className="flex items-center space-x-3">
+                      <div className="h-7 w-7 rounded-lg bg-purple-100 flex items-center justify-center">
+                        <Loader2 className="h-4 w-4 text-purple-600 animate-spin" />
+                      </div>
+                      <div className="bg-white border border-gray-200 rounded-2xl px-4 py-2.5">
+                        <p className="text-sm text-gray-500">Thinking...</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
+                </CardContent>
+
+                {/* Input Area */}
+                <div className="border-t border-gray-200 p-4 bg-gray-50">
+                  <div className="flex space-x-3">
+                    <Textarea
+                      value={inputMessage}
+                      onChange={(e) => setInputMessage(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Ask me anything about returning to work..."
+                      className="flex-1 min-h-[60px] max-h-[120px] resize-none"
+                      disabled={isSending}
+                    />
+                    <Button
+                      onClick={sendMessage}
+                      disabled={!inputMessage.trim() || isSending}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-[60px]"
+                    >
+                      <Send className="h-5 w-5" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Press Enter to send, Shift+Enter for new line
+                  </p>
+                </div>
+              </>
+            )}
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
