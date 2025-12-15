@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Copy, MessageSquare, Mail, Users, AlertCircle } from 'lucide-react';
+import { Copy, MessageSquare, Mail, Users, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const emailTemplates = [
