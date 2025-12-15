@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { 
   Zap, TrendingDown, TrendingUp, Lightbulb, 
-  Coffee, Moon, Sun, Sunset, Calendar 
+  Coffee, Moon, Sun, Sunset, Calendar, CheckCircle2 
 } from 'lucide-react';
 import { format } from 'date-fns';
 
