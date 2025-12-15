@@ -11,6 +11,8 @@ import {
   Zap, Heart, Loader2, Plus, TrendingUp
 } from 'lucide-react';
 import MessageBubble from '../components/coach/MessageBubble';
+import ProactiveSuggestions from '../components/coach/ProactiveSuggestions';
+import ReflectionPrompts from '../components/coach/ReflectionPrompts';
 
 export default function Coach() {
   const [conversations, setConversations] = useState([]);
@@ -96,11 +98,11 @@ export default function Coach() {
     }
   };
 
-  const sendMessage = async () => {
-    if (!inputMessage.trim() || !currentConversation || isSending) return;
+  const sendMessage = async (customMessage) => {
+    const messageText = customMessage || inputMessage.trim();
+    if (!messageText || !currentConversation || isSending) return;
 
-    const messageText = inputMessage.trim();
-    setInputMessage('');
+    if (!customMessage) setInputMessage('');
     setIsSending(true);
 
     try {
@@ -113,6 +115,21 @@ export default function Coach() {
     } finally {
       setIsSending(false);
     }
+  };
+
+  const handleSuggestionClick = async (suggestion) => {
+    if (!currentConversation) {
+      await createNewConversation();
+    }
+    const message = `I'd like to discuss this insight: ${suggestion.title}\n\n${suggestion.insight}\n\nCan you help me with this?`;
+    setTimeout(() => sendMessage(message), 500);
+  };
+
+  const handleReflectionShare = async (reflectionText) => {
+    if (!currentConversation) {
+      await createNewConversation();
+    }
+    setTimeout(() => sendMessage(reflectionText), 500);
   };
 
   const handleKeyPress = (e) => {
@@ -147,7 +164,7 @@ export default function Coach() {
     <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
       <div className="grid lg:grid-cols-4 gap-6 h-full">
         {/* Sidebar */}
-        <div className="lg:col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-4 overflow-y-auto max-h-[calc(100vh-12rem)]">
           <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-lg">
@@ -233,10 +250,21 @@ export default function Coach() {
                 ))
               )}
             </CardContent>
-          </Card>
-        </div>
+            </Card>
 
-        {/* Main Chat Area */}
+            {/* Proactive Suggestions */}
+            {progress && (
+            <ProactiveSuggestions 
+              progress={progress} 
+              onSelectSuggestion={handleSuggestionClick}
+            />
+            )}
+
+            {/* Reflection Prompts */}
+            <ReflectionPrompts onSendToCoach={handleReflectionShare} />
+            </div>
+
+            {/* Main Chat Area */}
         <div className="lg:col-span-3 flex flex-col h-full">
           <Card className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm overflow-hidden">
             {!currentConversation ? (
