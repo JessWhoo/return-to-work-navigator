@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '../utils';
+import { base44 } from '@/api/base44Client';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Search, ExternalLink, Building2, DollarSign, 
-  BookOpen, Users, Filter, FileText, Landmark
+  BookOpen, Users, Filter, FileText, Landmark,
+  Bookmark, MessageCircle, BookmarkCheck
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const resources = [
   {
@@ -362,8 +368,53 @@ const resources = [
 ];
 
 export default function Resources() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [showBookmarked, setShowBookmarked] = useState(false);
+
+  const { data: progress } = useQuery({
+    queryKey: ['userProgress'],
+    queryFn: async () => {
+      const progressList = await base44.entities.UserProgress.list();
+      if (progressList.length > 0) return progressList[0];
+      
+      return await base44.entities.UserProgress.create({
+        completed_checklist_items: [],
+        journey_stage: 'planning',
+        bookmarked_resources: []
+      });
+    }
+  });
+
+  const toggleBookmarkMutation = useMutation({
+    mutationFn: async (resourceId) => {
+      const currentBookmarks = progress?.bookmarked_resources || [];
+      const isBookmarked = currentBookmarks.includes(resourceId);
+      const updatedBookmarks = isBookmarked
+        ? currentBookmarks.filter(id => id !== resourceId)
+        : [...currentBookmarks, resourceId];
+      
+      return await base44.entities.UserProgress.update(progress.id, {
+        bookmarked_resources: updatedBookmarks
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userProgress']);
+      toast.success('Bookmark updated');
+    }
+  });
+
+  const handleDiscussWithCoach = (resource) => {
+    const message = `I'd like to learn more about this resource:\n\n${resource.name} (${resource.org})\n${resource.description}\n\nCan you help me understand how to use this resource for my return-to-work journey?`;
+    localStorage.setItem('pendingCoachMessage', message);
+    navigate(createPageUrl('Coach'));
+  };
+
+  const isBookmarked = (resourceId) => {
+    return progress?.bookmarked_resources?.includes(resourceId) || false;
+  };
 
   const colorMap = {
     purple: { from: 'from-purple-100', via: 'via-purple-50', border: 'border-purple-200', iconFrom: 'from-purple-400', iconTo: 'to-purple-600', badge: 'bg-purple-500' },
@@ -375,13 +426,23 @@ export default function Resources() {
 
   const filteredResources = resources.map(category => ({
     ...category,
-    items: category.items.filter(item =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.org.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    items: category.items
+      .map((item, idx) => ({
+        ...item,
+        id: `${category.category}-${idx}`
+      }))
+      .filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.org.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        const matchesBookmark = !showBookmarked || isBookmarked(item.id);
+        
+        return matchesSearch && matchesBookmark;
+      })
   })).filter(category => 
-    selectedCategory === 'all' || category.category === selectedCategory
+    (selectedCategory === 'all' || category.category === selectedCategory) &&
+    category.items.length > 0
   );
 
   const totalResources = resources.reduce((sum, cat) => sum + cat.items.length, 0);
@@ -401,26 +462,39 @@ export default function Resources() {
       {/* Search and Filter */}
       <Card className="bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/30 backdrop-blur-sm border-2 border-indigo-100 shadow-lg">
         <CardContent className="pt-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative group">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-indigo-400 group-hover:text-indigo-600 transition-colors" />
-              <Input
-                placeholder="Search resources..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
-              />
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1 relative group">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-indigo-400 group-hover:text-indigo-600 transition-colors" />
+                <Input
+                  placeholder="Search resources..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
+                />
+              </div>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
+              >
+                <option value="all">All Categories</option>
+                {resources.map(cat => (
+                  <option key={cat.category} value={cat.category}>{cat.category}</option>
+                ))}
+              </select>
             </div>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
-            >
-              <option value="all">All Categories</option>
-              {resources.map(cat => (
-                <option key={cat.category} value={cat.category}>{cat.category}</option>
-              ))}
-            </select>
+            <div className="flex items-center justify-between">
+              <Button
+                variant={showBookmarked ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowBookmarked(!showBookmarked)}
+                className={showBookmarked ? "bg-indigo-600" : ""}
+              >
+                <Bookmark className="h-4 w-4 mr-2" />
+                My Bookmarks ({progress?.bookmarked_resources?.length || 0})
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -445,31 +519,60 @@ export default function Resources() {
               </div>
 
               <div className="grid gap-5">
-                {category.items.map((resource, index) => {
+                {category.items.map((resource) => {
                   const cardColors = colorMap[category.color];
+                  const bookmarked = isBookmarked(resource.id);
                   return (
-                    <Card key={index} className="bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group border-2 border-gray-100 hover:border-indigo-200 overflow-hidden">
+                    <Card key={resource.id} className="bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group border-2 border-gray-100 hover:border-indigo-200 overflow-hidden">
                       <CardContent className="pt-6 relative">
                         <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${cardColors.iconFrom} ${cardColors.iconTo}`}></div>
-                        <div className="flex items-start justify-between mb-3 pl-3">
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-2 mb-2">
-                              <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
-                                {resource.type}
-                              </Badge>
+                        <div className="pl-3 space-y-3">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-2">
+                                <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
+                                  {resource.type}
+                                </Badge>
+                                {bookmarked && (
+                                  <Badge className="bg-amber-100 text-amber-700">
+                                    <BookmarkCheck className="h-3 w-3 mr-1" />
+                                    Saved
+                                  </Badge>
+                                )}
+                              </div>
+                              <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
+                              <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
+                              <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
                             </div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
-                            <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
-                            <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
+                            <a
+                              href={resource.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
+                            >
+                              <ExternalLink className="h-5 w-5" />
+                            </a>
                           </div>
-                          <a
-                            href={resource.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
-                          >
-                            <ExternalLink className="h-5 w-5" />
-                          </a>
+                          <div className="flex gap-2 pt-2 border-t border-gray-100">
+                            <Button
+                              variant={bookmarked ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => toggleBookmarkMutation.mutate(resource.id)}
+                              className="flex-1"
+                            >
+                              {bookmarked ? <BookmarkCheck className="h-4 w-4 mr-2" /> : <Bookmark className="h-4 w-4 mr-2" />}
+                              {bookmarked ? 'Saved' : 'Save'}
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDiscussWithCoach(resource)}
+                              className="flex-1"
+                            >
+                              <MessageCircle className="h-4 w-4 mr-2" />
+                              Discuss with Coach
+                            </Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>

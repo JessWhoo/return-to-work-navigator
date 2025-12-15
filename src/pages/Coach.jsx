@@ -33,6 +33,13 @@ export default function Coach() {
 
   useEffect(() => {
     loadConversations();
+    
+    // Check for pending message from Resources page
+    const pendingMessage = localStorage.getItem('pendingCoachMessage');
+    if (pendingMessage) {
+      localStorage.removeItem('pendingCoachMessage');
+      setInputMessage(pendingMessage);
+    }
   }, []);
 
   useEffect(() => {
