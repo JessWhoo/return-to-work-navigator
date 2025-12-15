@@ -237,10 +237,8 @@ export default function Checklist() {
                       <ChevronDown className="h-5 w-5 text-gray-500" /> : 
                       <ChevronRight className="h-5 w-5 text-gray-500" />
                     }
-                    <CardTitle className="text-xl">
-                      <span className={`bg-gradient-to-r from-${phase.color}-600 to-${phase.color}-700 bg-clip-text text-transparent`}>
-                        {phase.phase}
-                      </span>
+                    <CardTitle className="text-xl text-gray-800">
+                      {phase.phase}
                     </CardTitle>
                   </div>
                   <Badge variant="secondary" className="bg-gray-100">
@@ -258,7 +256,7 @@ export default function Checklist() {
                   
                   {phase.sections.map((section, sectionIndex) => (
                     <div key={sectionIndex} className="space-y-3">
-                      <h4 className={`font-semibold text-${phase.color}-700 text-lg`}>
+                       <h4 className="font-semibold text-gray-800 text-lg">
                         {section.title}
                       </h4>
                       <div className="space-y-3 ml-2">
