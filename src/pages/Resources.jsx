@@ -391,22 +391,22 @@ export default function Resources() {
       </div>
 
       {/* Search and Filter */}
-      <Card className="bg-white/80 backdrop-blur-sm">
+      <Card className="bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/30 backdrop-blur-sm border-2 border-indigo-100 shadow-lg">
         <CardContent className="pt-6">
           <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <div className="flex-1 relative group">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-indigo-400 group-hover:text-indigo-600 transition-colors" />
               <Input
                 placeholder="Search resources..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
               />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
             >
               <option value="all">All Categories</option>
               {resources.map(cat => (
@@ -433,26 +433,27 @@ export default function Resources() {
                 </Badge>
               </div>
 
-              <div className="grid gap-4">
+              <div className="grid gap-5">
                 {category.items.map((resource, index) => (
-                  <Card key={index} className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all group">
-                    <CardContent className="pt-6">
-                      <div className="flex items-start justify-between mb-3">
+                  <Card key={index} className="bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group border-2 border-gray-100 hover:border-indigo-200 overflow-hidden">
+                    <CardContent className="pt-6 relative">
+                      <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-${category.color}-400 to-${category.color}-600`}></div>
+                      <div className="flex items-start justify-between mb-3 pl-3">
                         <div className="flex-1">
-                          <div className="flex items-center space-x-2 mb-1">
-                            <Badge variant="outline" className={`bg-${category.color}-50 text-${category.color}-700 border-${category.color}-200`}>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Badge className={`bg-gradient-to-r from-${category.color}-500 to-${category.color}-600 text-white shadow-sm`}>
                               {resource.type}
                             </Badge>
                           </div>
-                          <h3 className="text-lg font-bold text-gray-800 mb-1">{resource.name}</h3>
-                          <p className="text-sm text-gray-500 mb-2">{resource.org}</p>
-                          <p className="text-sm text-gray-700 leading-relaxed">{resource.description}</p>
+                          <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
+                          <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
+                          <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
                         </div>
                         <a
                           href={resource.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`ml-4 p-3 rounded-lg bg-${category.color}-100 text-${category.color}-700 hover:bg-${category.color}-200 transition-colors group-hover:scale-110 transition-transform flex-shrink-0`}
+                          className={`ml-4 p-4 rounded-xl bg-gradient-to-br from-${category.color}-100 to-${category.color}-200 text-${category.color}-700 hover:from-${category.color}-500 hover:to-${category.color}-600 hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
                         >
                           <ExternalLink className="h-5 w-5" />
                         </a>
@@ -467,10 +468,13 @@ export default function Resources() {
       </div>
 
       {filteredResources.every(cat => cat.items.length === 0) && (
-        <Card className="bg-white/80 backdrop-blur-sm">
-          <CardContent className="pt-12 pb-12 text-center">
-            <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">No resources found matching your search</p>
+        <Card className="bg-gradient-to-br from-gray-50 to-gray-100 backdrop-blur-sm border-2 border-gray-200">
+          <CardContent className="pt-16 pb-16 text-center">
+            <div className="bg-gray-200 rounded-full p-6 w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+              <Search className="h-12 w-12 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">No resources found</h3>
+            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
           </CardContent>
         </Card>
       )}
