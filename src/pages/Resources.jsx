@@ -127,10 +127,10 @@ const resources = [
         type: 'WEBSITE'
       },
       {
-        name: 'Cancer Legal Resource Center',
-        org: 'Disability Rights Legal Center',
-        description: 'Free legal information and resources about cancer-related legal issues, including employment discrimination',
-        url: 'https://www.cancerlegalresourcecenter.org',
+        name: 'Triage Cancer Legal Resources',
+        org: 'Triage Cancer',
+        description: 'Free legal information and resources about cancer-related legal issues, including employment discrimination and workplace rights',
+        url: 'https://triagecancer.org',
         type: 'WEBSITE'
       }
     ]
