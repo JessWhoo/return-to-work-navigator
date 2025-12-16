@@ -14,6 +14,8 @@ import MessageBubble from '../components/coach/MessageBubble';
 import ProactiveSuggestions from '../components/coach/ProactiveSuggestions';
 import ReflectionPrompts from '../components/coach/ReflectionPrompts';
 import UpcomingEvents from '../components/coach/UpcomingEvents';
+import ActionPlanGenerator from '../components/coach/ActionPlanGenerator';
+import SmartInsights from '../components/coach/SmartInsights';
 
 export default function Coach() {
   const [conversations, setConversations] = useState([]);
@@ -334,6 +336,22 @@ export default function Coach() {
               )}
             </CardContent>
             </Card>
+
+            {/* Smart Insights */}
+            {progress && (
+              <SmartInsights 
+                progress={progress}
+                onAskCoach={sendMessage}
+              />
+            )}
+
+            {/* Action Plan Generator */}
+            {progress && (
+              <ActionPlanGenerator 
+                progress={progress}
+                onSendToCoach={sendMessage}
+              />
+            )}
 
             {/* Upcoming Events */}
             {progress && (
