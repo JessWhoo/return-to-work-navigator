@@ -84,7 +84,7 @@ export default function Accommodations() {
     );
   };
 
-  const generateLetter = async () => {
+  const generateLetter = () => {
     if (selectedAccommodations.length === 0) {
       toast.error('Please select at least one accommodation');
       return;
@@ -110,27 +110,18 @@ Thank you for your consideration.
 Sincerely,
 ${formData.name || '[Your name]'}`;
 
-    try {
-      await navigator.clipboard.writeText(letter);
-      toast.success('Accommodation request letter copied to clipboard!');
-    } catch (err) {
-      // Fallback: Create a textarea and copy
-      const textarea = document.createElement('textarea');
-      textarea.value = letter;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        toast.success('Accommodation request letter copied to clipboard!');
-      } catch (e) {
-        toast.error('Could not copy to clipboard. Please select text manually.');
-        // Show the letter in an alert as final fallback
-        alert(letter);
-      }
-      document.body.removeChild(textarea);
-    }
+    // Create and download text file
+    const blob = new Blob([letter], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'accommodation-request-letter.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast.success('Accommodation letter downloaded!');
   };
 
   return (
@@ -267,8 +258,8 @@ ${formData.name || '[Your name]'}`;
                   className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
                   size="lg"
                 >
-                  <Copy className="h-4 w-4 mr-2" />
-                  Generate & Copy Letter
+                  <Download className="h-4 w-4 mr-2" />
+                  Generate & Download Letter
                 </Button>
               </div>
             </CardContent>
@@ -284,7 +275,7 @@ ${formData.name || '[Your name]'}`;
             <Button
               variant="outline"
               size="sm"
-              onClick={async () => {
+              onClick={() => {
                 const template = `[Date]
 
 To Whom It May Concern:
@@ -302,28 +293,22 @@ If you have questions regarding these recommendations, please contact my office 
 Sincerely,
 [Doctor name] [Title]
 [Practice name]`;
-                try {
-                  await navigator.clipboard.writeText(template);
-                  toast.success('Doctor template copied!');
-                } catch (err) {
-                  const textarea = document.createElement('textarea');
-                  textarea.value = template;
-                  textarea.style.position = 'fixed';
-                  textarea.style.opacity = '0';
-                  document.body.appendChild(textarea);
-                  textarea.select();
-                  try {
-                    document.execCommand('copy');
-                    toast.success('Doctor template copied!');
-                  } catch (e) {
-                    toast.error('Could not copy to clipboard');
-                  }
-                  document.body.removeChild(textarea);
-                }
+                
+                const blob = new Blob([template], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'doctor-accommodation-template.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                toast.success('Doctor template downloaded!');
               }}
             >
-              <Copy className="h-4 w-4 mr-2" />
-              Copy Template
+              <Download className="h-4 w-4 mr-2" />
+              Download Template
             </Button>
           </CardTitle>
         </CardHeader>
