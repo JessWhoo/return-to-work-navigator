@@ -97,6 +97,10 @@ export default function EnergyManagement() {
 
   const saveEnergyLogMutation = useMutation({
     mutationFn: async () => {
+      if (!progress?.id) {
+        throw new Error('Progress record not found');
+      }
+
       const existingLogs = progress?.energy_logs || [];
       const logIndex = existingLogs.findIndex(log => log.date === selectedDate);
       
@@ -125,6 +129,9 @@ export default function EnergyManagement() {
     onSuccess: () => {
       queryClient.invalidateQueries(['userProgress']);
       toast.success('Daily wellness log saved!');
+    },
+    onError: (error) => {
+      toast.error('Failed to save wellness log: ' + error.message);
     }
   });
 
@@ -298,9 +305,9 @@ export default function EnergyManagement() {
               <Button
                 onClick={() => saveEnergyLogMutation.mutate()}
                 className="w-full bg-gradient-to-r from-amber-600 to-orange-600"
-                disabled={saveEnergyLogMutation.isLoading}
+                disabled={saveEnergyLogMutation.isPending || !progress?.id}
               >
-                {saveEnergyLogMutation.isLoading ? 'Saving...' : 'Save Wellness Log'}
+                {saveEnergyLogMutation.isPending ? 'Saving...' : 'Save Wellness Log'}
               </Button>
             </CardContent>
           </Card>
