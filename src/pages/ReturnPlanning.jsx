@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { 
   Calendar, Clock, Home, Users, 
-  TrendingUp, Copy, Save, CheckCircle2 
+  TrendingUp, Copy, Save, CheckCircle2, Download 
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -100,8 +100,18 @@ Thank you for your understanding.
 Sincerely,
 [Your name]`;
 
-    navigator.clipboard.writeText(plan);
-    toast.success('Return plan copied to clipboard!');
+    // Create and download text file
+    const blob = new Blob([plan], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'return-to-work-plan.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast.success('Return plan downloaded!');
   };
 
   return (
@@ -256,8 +266,8 @@ Sincerely,
                   className="w-full bg-gradient-to-r from-teal-600 to-cyan-600"
                   disabled={!selectedTemplate || !returnDate}
                 >
-                  <Copy className="h-4 w-4 mr-2" />
-                  Generate Letter
+                  <Download className="h-4 w-4 mr-2" />
+                  Generate & Download Letter
                 </Button>
               </div>
             </CardContent>
