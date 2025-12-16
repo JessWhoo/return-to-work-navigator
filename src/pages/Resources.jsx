@@ -246,7 +246,7 @@ export default function Resources() {
                   variant={showBookmarked ? "default" : "outline"}
                   size="sm"
                   onClick={() => setShowBookmarked(!showBookmarked)}
-                  className={showBookmarked ? "bg-teal-600 hover:bg-teal-700" : "border-slate-600 text-slate-300 hover:bg-slate-700"}
+                  className={showBookmarked ? "bg-teal-600 hover:bg-teal-700 text-white" : "border-slate-600 text-white hover:bg-slate-700"}
                 >
                   <Bookmark className="h-4 w-4 mr-2" />
                   Saved ({progress?.bookmarked_resources?.length || 0})
@@ -259,7 +259,7 @@ export default function Resources() {
                     variant="outline"
                     size="sm"
                     onClick={() => setSelectedTopic(selectedTopic === topic ? 'all' : topic)}
-                    className={`border-slate-600 text-slate-300 hover:bg-slate-700 ${
+                    className={`border-slate-600 text-white hover:bg-slate-700 ${
                       selectedTopic === topic ? 'bg-slate-700 border-teal-500' : ''
                     }`}
                   >
@@ -279,7 +279,7 @@ export default function Resources() {
                   setSelectedStage('all');
                   setShowBookmarked(false);
                 }}
-                className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+                className="text-white hover:text-teal-300 hover:bg-slate-700"
               >
                 Clear Filters
               </Button>
