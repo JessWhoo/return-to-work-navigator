@@ -14,6 +14,7 @@ import {
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
 import AdvancedRecommendations from '../components/resources/AdvancedRecommendations';
+import AIRecommendations from '../components/resources/AIRecommendations';
 import TrendingResources from '../components/resources/TrendingResources';
 import ResourceReviewDialog from '../components/resources/ResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
@@ -294,8 +295,9 @@ export default function Resources() {
         </CardContent>
       </Card>
 
-      {/* Trending Resources */}
-      <TrendingResources
+      {/* AI-Powered Personalized Recommendations */}
+      <AIRecommendations
+        progress={progress}
         allResources={resources}
         onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
         onDiscussWithCoach={handleDiscussWithCoach}
@@ -303,13 +305,11 @@ export default function Resources() {
         getRating={getRating}
       />
 
-      {/* AI-Powered Recommendations */}
-      <AdvancedRecommendations
-        progress={progress}
+      {/* Trending Resources */}
+      <TrendingResources
         allResources={resources}
         onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
         onDiscussWithCoach={handleDiscussWithCoach}
-        onRate={handleRate}
         isBookmarked={isBookmarked}
         getRating={getRating}
       />
