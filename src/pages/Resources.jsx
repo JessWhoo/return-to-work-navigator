@@ -21,6 +21,8 @@ export default function Resources() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
+  const [selectedTopic, setSelectedTopic] = useState('all');
+  const [selectedStage, setSelectedStage] = useState('all');
   const [showBookmarked, setShowBookmarked] = useState(false);
   const [sortBy, setSortBy] = useState('recommended');
 
@@ -112,12 +114,15 @@ export default function Resources() {
       .filter(item => {
         const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.org.toLowerCase().includes(searchQuery.toLowerCase());
+          item.org.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.topics?.some(topic => topic.toLowerCase().includes(searchQuery.toLowerCase()));
         
         const matchesBookmark = !showBookmarked || isBookmarked(item.id);
         const matchesType = selectedType === 'all' || item.type === selectedType;
+        const matchesTopic = selectedTopic === 'all' || item.topics?.includes(selectedTopic);
+        const matchesStage = selectedStage === 'all' || item.stages?.includes(selectedStage);
         
-        return matchesSearch && matchesBookmark && matchesType;
+        return matchesSearch && matchesBookmark && matchesType && matchesTopic && matchesStage;
       })
       .sort((a, b) => {
         if (sortBy === 'rating') {
@@ -131,6 +136,13 @@ export default function Resources() {
   );
 
   const allTypes = [...new Set(resources.flatMap(cat => cat.items.map(item => item.type)))].sort();
+  const allTopics = [...new Set(resources.flatMap(cat => cat.items.flatMap(item => item.topics || [])))].sort();
+  const allStages = [
+    { value: 'planning', label: 'Planning' },
+    { value: 'first_week', label: 'First Week' },
+    { value: 'ongoing', label: 'Ongoing' },
+    { value: 'completed', label: 'Completed' }
+  ];
 
   const totalResources = resources.reduce((sum, cat) => sum + cat.items.length, 0);
   const totalRated = Object.keys(progress?.resource_ratings || {}).length;
@@ -139,69 +151,137 @@ export default function Resources() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
           Resource Library
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           {totalResources} curated resources • {progress?.bookmarked_resources?.length || 0} saved • {totalRated} rated
         </p>
+        <div className="flex flex-wrap justify-center gap-2 pt-2">
+          <Badge className="bg-slate-700 text-slate-300">Articles</Badge>
+          <Badge className="bg-slate-700 text-slate-300">Videos</Badge>
+          <Badge className="bg-slate-700 text-slate-300">Workshops</Badge>
+          <Badge className="bg-slate-700 text-slate-300">Meditations</Badge>
+          <Badge className="bg-slate-700 text-slate-300">Expert Interviews</Badge>
+          <Badge className="bg-slate-700 text-slate-300">Support Groups</Badge>
+        </div>
       </div>
 
       {/* Search and Filter */}
-      <Card className="bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/30 backdrop-blur-sm border-2 border-indigo-100 shadow-lg">
+      <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-teal-600 shadow-lg">
         <CardContent className="pt-6">
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="relative group">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-indigo-400 group-hover:text-indigo-600 transition-colors" />
-                <Input
-                  placeholder="Search resources..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
-                />
-              </div>
+            {/* Primary Search */}
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-400 group-hover:text-teal-300 transition-colors" />
+              <Input
+                placeholder="Search by keyword, topic, or organization..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500 focus:border-teal-400 focus:ring-teal-400"
+              />
+            </div>
+
+            {/* Advanced Filters */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
+                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
               >
                 <option value="all">All Categories</option>
                 {resources.map(cat => (
                   <option key={cat.category} value={cat.category}>{cat.category}</option>
                 ))}
               </select>
+
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
+                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
               >
                 <option value="all">All Types</option>
                 {allTypes.map(type => (
                   <option key={type} value={type}>{type}</option>
                 ))}
               </select>
-            </div>
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <div className="flex gap-2">
-                <Button
-                  variant={showBookmarked ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setShowBookmarked(!showBookmarked)}
-                  className={showBookmarked ? "bg-indigo-600" : ""}
-                >
-                  <Bookmark className="h-4 w-4 mr-2" />
-                  My Bookmarks ({progress?.bookmarked_resources?.length || 0})
-                </Button>
-              </div>
+
+              <select
+                value={selectedTopic}
+                onChange={(e) => setSelectedTopic(e.target.value)}
+                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+              >
+                <option value="all">All Topics</option>
+                {allTopics.map(topic => (
+                  <option key={topic} value={topic}>{topic}</option>
+                ))}
+              </select>
+
+              <select
+                value={selectedStage}
+                onChange={(e) => setSelectedStage(e.target.value)}
+                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+              >
+                <option value="all">All Stages</option>
+                {allStages.map(stage => (
+                  <option key={stage.value} value={stage.value}>{stage.label}</option>
+                ))}
+              </select>
+
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-1.5 text-sm border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
+                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
               >
                 <option value="recommended">Recommended</option>
                 <option value="rating">Highest Rated</option>
               </select>
+            </div>
+
+            {/* Quick Filters */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex gap-2 flex-wrap">
+                <Button
+                  variant={showBookmarked ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowBookmarked(!showBookmarked)}
+                  className={showBookmarked ? "bg-teal-600 hover:bg-teal-700" : "border-slate-600 text-slate-300 hover:bg-slate-700"}
+                >
+                  <Bookmark className="h-4 w-4 mr-2" />
+                  Saved ({progress?.bookmarked_resources?.length || 0})
+                </Button>
+
+                {/* Quick Topic Filters */}
+                {['managing fatigue', 'stress reduction', 'workplace rights', 'accommodations'].map(topic => (
+                  <Button
+                    key={topic}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedTopic(selectedTopic === topic ? 'all' : topic)}
+                    className={`border-slate-600 text-slate-300 hover:bg-slate-700 ${
+                      selectedTopic === topic ? 'bg-slate-700 border-teal-500' : ''
+                    }`}
+                  >
+                    {topic}
+                  </Button>
+                ))}
+              </div>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedCategory('all');
+                  setSelectedType('all');
+                  setSelectedTopic('all');
+                  setSelectedStage('all');
+                  setShowBookmarked(false);
+                }}
+                className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+              >
+                Clear Filters
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -252,6 +332,11 @@ export default function Resources() {
                                 <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
                                   {resource.type}
                                 </Badge>
+                                {resource.topics?.slice(0, 2).map(topic => (
+                                  <Badge key={topic} variant="outline" className="text-xs border-slate-600 text-slate-600">
+                                    {topic}
+                                  </Badge>
+                                ))}
                                 {bookmarked && (
                                   <Badge className="bg-amber-100 text-amber-700">
                                     <BookmarkCheck className="h-3 w-3 mr-1" />

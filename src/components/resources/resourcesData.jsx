@@ -649,6 +649,252 @@ export const resources = [
         type: 'ARTICLE',
         topics: ['sleep', 'shift work', 'hygiene'],
         stages: ['ongoing']
+      },
+      {
+        name: 'Guided Meditation for Workplace Stress',
+        org: 'Calm',
+        description: '10-minute guided meditation specifically for managing workplace anxiety and stress',
+        url: 'https://www.calm.com',
+        type: 'MEDITATION',
+        topics: ['stress reduction', 'meditation', 'anxiety'],
+        stages: ['first_week', 'ongoing']
+      },
+      {
+        name: 'Body Scan Relaxation for Fatigue',
+        org: 'Headspace',
+        description: 'Guided body scan meditation to help manage cancer-related fatigue during work breaks',
+        url: 'https://www.headspace.com',
+        type: 'MEDITATION',
+        topics: ['fatigue', 'relaxation', 'breaks'],
+        stages: ['ongoing']
+      },
+      {
+        name: 'Coping with Imposter Syndrome After Treatment',
+        org: 'Psychology Today',
+        description: 'Expert strategies for overcoming feelings of inadequacy when returning to work post-treatment',
+        url: 'https://www.psychologytoday.com',
+        type: 'ARTICLE',
+        topics: ['imposter syndrome', 'confidence', 'mental health'],
+        stages: ['first_week', 'ongoing']
+      }
+    ]
+  },
+  {
+    category: 'Workshops & Webinars',
+    icon: Video,
+    color: 'indigo',
+    items: [
+      {
+        name: 'Return to Work Preparation Workshop',
+        org: 'Cancer and Careers',
+        description: 'Interactive 90-minute workshop covering all aspects of planning your return, with Q&A',
+        url: 'https://www.cancerandcareers.org',
+        type: 'WORKSHOP',
+        topics: ['return to work', 'preparation', 'planning'],
+        stages: ['planning']
+      },
+      {
+        name: 'Managing Fatigue at Work Workshop',
+        org: 'Cancer Support Community',
+        description: 'Practical workshop teaching pacing strategies and energy conservation techniques',
+        url: 'https://www.cancersupportcommunity.org',
+        type: 'WORKSHOP',
+        topics: ['managing fatigue', 'energy management', 'pacing'],
+        stages: ['planning', 'first_week', 'ongoing']
+      },
+      {
+        name: 'Workplace Communication Skills',
+        org: 'Triage Cancer',
+        description: 'Learn how to effectively communicate with employers, HR, and colleagues about your needs',
+        url: 'https://triagecancer.org',
+        type: 'WORKSHOP',
+        topics: ['communication', 'disclosure', 'advocacy'],
+        stages: ['planning', 'first_week']
+      },
+      {
+        name: 'Understanding Your Legal Rights',
+        org: 'Disability Rights Advocates',
+        description: 'Comprehensive webinar on ADA, FMLA, and discrimination protections for cancer survivors',
+        url: 'https://dralegal.org',
+        type: 'WORKSHOP',
+        topics: ['workplace rights', 'legal', 'ADA', 'FMLA'],
+        stages: ['planning']
+      },
+      {
+        name: 'Building Resilience After Cancer',
+        org: 'Mental Health America',
+        description: 'Workshop focused on developing emotional resilience and coping strategies for workplace challenges',
+        url: 'https://www.mhanational.org',
+        type: 'WORKSHOP',
+        topics: ['resilience', 'coping strategies', 'mental health'],
+        stages: ['ongoing', 'completed']
+      },
+      {
+        name: 'Financial Planning for Survivors',
+        org: 'Family Reach',
+        description: 'Webinar covering medical debt management, insurance navigation, and financial wellness',
+        url: 'https://www.familyreach.org',
+        type: 'WORKSHOP',
+        topics: ['financial planning', 'insurance', 'debt management'],
+        stages: ['planning', 'ongoing']
+      },
+      {
+        name: 'Cognitive Strategies for Chemo Brain',
+        org: 'American Cancer Society',
+        description: 'Learn practical techniques to manage cognitive changes and improve workplace focus',
+        url: 'https://www.cancer.org',
+        type: 'WORKSHOP',
+        topics: ['chemo brain', 'cognitive strategies', 'focus'],
+        stages: ['first_week', 'ongoing']
+      },
+      {
+        name: 'Self-Advocacy Skills for Survivors',
+        org: 'NCCS',
+        description: 'Workshop on speaking up for your needs and navigating workplace accommodations',
+        url: 'https://www.canceradvocacy.org',
+        type: 'WORKSHOP',
+        topics: ['self-advocacy', 'accommodations', 'empowerment'],
+        stages: ['planning', 'first_week', 'ongoing']
+      }
+    ]
+  },
+  {
+    category: 'Stress Reduction & Mindfulness',
+    icon: Heart,
+    color: 'purple',
+    items: [
+      {
+        name: '5-Minute Office Meditation',
+        org: 'Insight Timer',
+        description: 'Quick guided meditation perfect for workplace breaks to reduce stress and refocus',
+        url: 'https://insighttimer.com',
+        type: 'MEDITATION',
+        topics: ['stress reduction', 'meditation', 'workplace'],
+        stages: ['ongoing']
+      },
+      {
+        name: 'Progressive Muscle Relaxation for Work',
+        org: 'Anxiety and Depression Association',
+        description: 'Audio guide for progressive muscle relaxation technique to manage workplace tension',
+        url: 'https://adaa.org',
+        type: 'MEDITATION',
+        topics: ['relaxation', 'stress reduction', 'techniques'],
+        stages: ['ongoing']
+      },
+      {
+        name: 'Breathwork for Anxiety Management',
+        org: 'Calm',
+        description: 'Guided breathwork exercises specifically designed for managing workplace anxiety',
+        url: 'https://www.calm.com',
+        type: 'MEDITATION',
+        topics: ['anxiety', 'breathwork', 'stress reduction'],
+        stages: ['first_week', 'ongoing']
+      },
+      {
+        name: 'Mindful Walking Meditation',
+        org: 'UCLA Mindful',
+        description: 'Guided walking meditation for lunch breaks or commute to build present-moment awareness',
+        url: 'https://www.uclahealth.org/programs/marc',
+        type: 'MEDITATION',
+        topics: ['mindfulness', 'walking', 'awareness'],
+        stages: ['ongoing']
+      },
+      {
+        name: 'Yoga for Cancer Survivors',
+        org: 'Yoga Alliance',
+        description: 'Gentle yoga sequences adapted for cancer survivors to reduce stress and improve energy',
+        url: 'https://www.yogaalliance.org',
+        type: 'VIDEO',
+        topics: ['yoga', 'stress reduction', 'energy'],
+        stages: ['ongoing', 'completed']
+      },
+      {
+        name: 'Loving-Kindness Meditation for Self-Compassion',
+        org: 'Greater Good Science Center',
+        description: 'Meditation practice to cultivate self-compassion and reduce negative self-talk',
+        url: 'https://ggsc.berkeley.edu',
+        type: 'MEDITATION',
+        topics: ['self-compassion', 'meditation', 'mental health'],
+        stages: ['planning', 'first_week', 'ongoing']
+      }
+    ]
+  },
+  {
+    category: 'Expert Interviews & Articles',
+    icon: BookOpen,
+    color: 'emerald',
+    items: [
+      {
+        name: 'Interview: Oncology Social Worker on Workplace Reentry',
+        org: 'Cancer Support Community',
+        description: 'Expert discusses common challenges and proven strategies for successful workplace transitions',
+        url: 'https://www.cancersupportcommunity.org',
+        type: 'ARTICLE',
+        topics: ['expert interview', 'workplace', 'strategies'],
+        stages: ['planning', 'first_week']
+      },
+      {
+        name: 'Managing Fatigue: An Oncologist\'s Perspective',
+        org: 'ASCO',
+        description: 'Clinical insights on cancer-related fatigue and evidence-based management approaches',
+        url: 'https://www.cancer.net',
+        type: 'ARTICLE',
+        topics: ['managing fatigue', 'clinical', 'evidence-based'],
+        stages: ['planning', 'ongoing']
+      },
+      {
+        name: 'Employment Attorney Q&A on Discrimination',
+        org: 'Workplace Fairness',
+        description: 'Legal expert answers common questions about workplace discrimination and your rights',
+        url: 'https://www.workplacefairness.org',
+        type: 'ARTICLE',
+        topics: ['discrimination', 'legal', 'workplace rights'],
+        stages: ['planning', 'ongoing']
+      },
+      {
+        name: 'Occupational Therapist on Workplace Modifications',
+        org: 'American Occupational Therapy Association',
+        description: 'Professional guidance on ergonomic adjustments and workplace accommodations',
+        url: 'https://www.aota.org',
+        type: 'ARTICLE',
+        topics: ['accommodations', 'ergonomics', 'modifications'],
+        stages: ['planning', 'first_week']
+      },
+      {
+        name: 'Psychologist Discusses Return-to-Work Anxiety',
+        org: 'American Psychological Association',
+        description: 'Expert strategies for managing anxiety and building confidence when returning to work',
+        url: 'https://www.apa.org',
+        type: 'ARTICLE',
+        topics: ['anxiety', 'confidence', 'mental health'],
+        stages: ['planning', 'first_week']
+      },
+      {
+        name: 'Nutritionist on Energy-Boosting Foods for Work',
+        org: 'Academy of Nutrition and Dietetics',
+        description: 'Evidence-based nutrition advice for managing energy levels throughout the workday',
+        url: 'https://www.eatright.org',
+        type: 'ARTICLE',
+        topics: ['nutrition', 'energy', 'diet'],
+        stages: ['ongoing']
+      },
+      {
+        name: 'Career Coach on Rebuilding Professional Identity',
+        org: 'Cancer and Careers',
+        description: 'Professional guidance on rediscovering your career goals and professional self after cancer',
+        url: 'https://www.cancerandcareers.org',
+        type: 'ARTICLE',
+        topics: ['career', 'identity', 'goals'],
+        stages: ['ongoing', 'completed']
+      },
+      {
+        name: 'Sleep Specialist on Improving Work Performance',
+        org: 'American Academy of Sleep Medicine',
+        description: 'Expert advice on optimizing sleep quality to enhance daytime energy and focus',
+        url: 'https://aasm.org',
+        type: 'ARTICLE',
+        topics: ['sleep', 'performance', 'energy'],
+        stages: ['ongoing']
       }
     ]
   }
