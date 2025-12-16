@@ -80,6 +80,15 @@ export const resources = [
         type: 'WEBSITE',
         topics: ['legal', 'employment', 'practical'],
         stages: ['planning', 'first_week', 'ongoing']
+      },
+      {
+        name: 'Learn Look Locate - Back to Work',
+        org: 'Learn Look Locate',
+        description: 'Resources and guidance for cancer survivors returning to work',
+        url: 'https://learnlooklocate.com/back-to-work/',
+        type: 'WEBSITE',
+        topics: ['return to work', 'resources', 'guidance'],
+        stages: ['planning', 'first_week', 'ongoing']
       }
     ]
   },
