@@ -223,18 +223,18 @@ export default function LegalRights() {
           return (
             <TabsContent key={law.id} value={law.id} className="space-y-6">
               {/* Law Overview */}
-              <Card className={`bg-gradient-to-r from-${law.color}-50 to-${law.color}-100 border-${law.color}-200`}>
+              <Card className="bg-gradient-to-r from-slate-50 to-slate-100 border-slate-200">
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
-                    <div className={`p-3 rounded-xl bg-${law.color}-600`}>
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-teal-600 to-cyan-600">
                       <Icon className="h-8 w-8 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
-                        <h2 className="text-2xl font-bold text-gray-800">{law.name}</h2>
-                        <Badge variant="secondary">{law.year}</Badge>
+                        <h2 className="text-2xl font-bold text-slate-900">{law.name}</h2>
+                        <Badge className="bg-teal-600 text-white">{law.year}</Badge>
                       </div>
-                      <p className="text-gray-700 leading-relaxed">{law.summary}</p>
+                      <p className="text-slate-800 font-medium leading-relaxed">{law.summary}</p>
                     </div>
                   </div>
                 </CardContent>
