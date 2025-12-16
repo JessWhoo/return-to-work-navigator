@@ -115,12 +115,12 @@ export default function Home() {
         className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-3xl mb-12"
       >
         {/* Animated background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-teal-100">
-          <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-slate-700 to-teal-900">
+          <div className="absolute inset-0 opacity-20">
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute rounded-full bg-gradient-to-br from-rose-400 to-teal-400"
+                className="absolute rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"
                 style={{
                   width: Math.random() * 300 + 50,
                   height: Math.random() * 300 + 50,
@@ -131,7 +131,7 @@ export default function Home() {
                   x: [0, Math.random() * 100 - 50],
                   y: [0, Math.random() * 100 - 50],
                   scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.5, 0.3],
+                  opacity: [0.2, 0.4, 0.2],
                 }}
                 transition={{
                   duration: Math.random() * 10 + 10,
@@ -149,11 +149,11 @@ export default function Home() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-rose-300 shadow-lg"
+            className="inline-flex items-center space-x-2 bg-slate-900/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-teal-500 shadow-lg"
           >
-            <Star className="h-5 w-5 text-rose-500 fill-rose-500" />
-            <span className="text-sm font-semibold text-gray-800">Your Journey, Your Pace</span>
-            <Star className="h-5 w-5 text-teal-500 fill-teal-500" />
+            <Star className="h-5 w-5 text-teal-400 fill-teal-400" />
+            <span className="text-sm font-semibold text-slate-200">Your Journey, Your Pace</span>
+            <Star className="h-5 w-5 text-cyan-400 fill-cyan-400" />
           </motion.div>
           
           <motion.h1 
@@ -162,22 +162,22 @@ export default function Home() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight"
           >
-            <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm">
+            <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent drop-shadow-sm">
               Welcome Back
             </span>
             <br />
-            <span className="text-gray-900">to Your Work,<br />Your Life</span>
+            <span className="text-slate-100">to Your Work,<br />Your Life</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl sm:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-light"
+            className="text-xl sm:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-light"
           >
             Returning to work after cancer treatment is a journey.<br />
             This toolkit provides guidance, templates, and support<br />
-            to help you transition with <span className="font-semibold text-rose-600">confidence</span>.
+            to help you transition with <span className="font-semibold text-teal-400">confidence</span>.
           </motion.p>
 
           <motion.div
@@ -187,13 +187,13 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
           >
             <Link to={createPageUrl('Coach')}>
-              <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
+              <Button className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
                 <MessageSquare className="h-5 w-5 mr-2" />
                 Talk to AI Coach
               </Button>
             </Link>
             <Link to={createPageUrl('Checklist')}>
-              <Button variant="outline" className="border-2 border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+              <Button variant="outline" className="border-2 border-slate-300 text-slate-200 hover:bg-slate-800 hover:border-teal-400 hover:text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
                 <CheckSquare className="h-5 w-5 mr-2" />
                 View My Checklist
               </Button>
@@ -205,10 +205,10 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.6 }}
-              className="bg-white/90 backdrop-blur-md border-2 border-teal-300 rounded-2xl p-6 max-w-md mx-auto shadow-2xl mt-8"
+              className="bg-slate-800/90 backdrop-blur-md border-2 border-teal-500 rounded-2xl p-6 max-w-md mx-auto shadow-2xl mt-8"
             >
-              <p className="text-sm font-medium text-gray-600 mb-2">Your planned return date</p>
-              <p className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
+              <p className="text-sm font-medium text-slate-400 mb-2">Your planned return date</p>
+              <p className="text-3xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
                 {new Date(progress.return_date).toLocaleDateString('en-US', { 
                   weekday: 'long', 
                   year: 'numeric', 
@@ -230,39 +230,39 @@ export default function Home() {
           className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
         >
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-gradient-to-br from-rose-50 to-pink-100 border-2 border-rose-200 shadow-lg hover:shadow-xl transition-all">
+            <Card className="bg-gradient-to-br from-slate-800 to-slate-700 border-2 border-teal-600 shadow-lg hover:shadow-xl transition-all">
               <CardContent className="pt-6">
                 <div className="text-center space-y-2">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
                     {progress.completed_checklist_items?.length || 0}
                   </div>
-                  <p className="text-sm font-semibold text-gray-700">Checklist Items Completed</p>
+                  <p className="text-sm font-semibold text-slate-300">Checklist Items Completed</p>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-gradient-to-br from-teal-50 to-emerald-100 border-2 border-teal-200 shadow-lg hover:shadow-xl transition-all">
+            <Card className="bg-gradient-to-br from-slate-800 to-slate-700 border-2 border-emerald-600 shadow-lg hover:shadow-xl transition-all">
               <CardContent className="pt-6">
                 <div className="text-center space-y-2">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent capitalize">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent capitalize">
                     {progress.journey_stage?.replace('_', ' ') || 'Planning'}
                   </div>
-                  <p className="text-sm font-semibold text-gray-700">Current Stage</p>
+                  <p className="text-sm font-semibold text-slate-300">Current Stage</p>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-amber-200 shadow-lg hover:shadow-xl transition-all">
+            <Card className="bg-gradient-to-br from-slate-800 to-slate-700 border-2 border-cyan-600 shadow-lg hover:shadow-xl transition-all">
               <CardContent className="pt-6">
                 <div className="text-center space-y-2">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
                     {progress.bookmarked_resources?.length || 0}
                   </div>
-                  <p className="text-sm font-semibold text-gray-700">Saved Resources</p>
+                  <p className="text-sm font-semibold text-slate-300">Saved Resources</p>
                 </div>
               </CardContent>
             </Card>
@@ -303,7 +303,7 @@ export default function Home() {
                 whileHover={{ y: -8 }}
               >
                 <Link to={createPageUrl(section.page)}>
-                  <Card className="group hover:shadow-2xl transition-all duration-300 bg-white/90 backdrop-blur-sm border-2 border-gray-200 hover:border-rose-300 h-full">
+                  <Card className="group hover:shadow-2xl transition-all duration-300 bg-slate-800/90 backdrop-blur-sm border-2 border-slate-700 hover:border-teal-500 h-full">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <motion.div 
@@ -313,14 +313,14 @@ export default function Home() {
                         >
                           <Icon className="h-7 w-7 text-white" />
                         </motion.div>
-                        <ArrowRight className="h-6 w-6 text-gray-400 group-hover:text-rose-500 group-hover:translate-x-2 transition-all" />
+                        <ArrowRight className="h-6 w-6 text-slate-500 group-hover:text-teal-400 group-hover:translate-x-2 transition-all" />
                       </div>
-                      
-                      <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:bg-gradient-to-r group-hover:from-rose-600 group-hover:to-pink-600 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+
+                      <h3 className="text-xl font-bold text-slate-200 mb-3 group-hover:bg-gradient-to-r group-hover:from-teal-400 group-hover:to-cyan-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
                         {section.title}
                       </h3>
-                      
-                      <p className="text-gray-600 leading-relaxed text-sm">
+
+                      <p className="text-slate-400 leading-relaxed text-sm">
                         {section.description}
                       </p>
                     </CardContent>
@@ -337,24 +337,24 @@ export default function Home() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1.2 }}
-        className="relative overflow-hidden bg-gradient-to-r from-rose-100 via-pink-100 to-teal-100 rounded-3xl p-12 text-center shadow-xl mt-16"
+        className="relative overflow-hidden bg-gradient-to-r from-slate-800 via-teal-900 to-slate-800 rounded-3xl p-12 text-center shadow-xl mt-16 border-2 border-teal-600"
       >
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-40 h-40 bg-rose-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-teal-400 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-40 h-40 bg-teal-500 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
         <div className="relative z-10">
           <motion.div
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
           >
-            <Heart className="h-16 w-16 text-rose-500 mx-auto mb-6 fill-rose-500" />
+            <Heart className="h-16 w-16 text-teal-400 mx-auto mb-6 fill-teal-400" />
           </motion.div>
-          <h3 className="text-3xl font-bold text-gray-800 mb-4">You're Not Alone</h3>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+          <h3 className="text-3xl font-bold text-slate-100 mb-4">You're Not Alone</h3>
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             You're navigating something incredibly difficult. This toolkit is here to support you 
             every step of the way. Take what you need, move at your own pace, and remember—
-            <span className="font-bold text-rose-700"> your well-being comes first</span>.
+            <span className="font-bold text-teal-400"> your well-being comes first</span>.
           </p>
         </div>
       </motion.div>
