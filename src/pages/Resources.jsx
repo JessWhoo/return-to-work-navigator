@@ -14,6 +14,9 @@ import {
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
 import AdvancedRecommendations from '../components/resources/AdvancedRecommendations';
+import TrendingResources from '../components/resources/TrendingResources';
+import ResourceReviewDialog from '../components/resources/ResourceReviewDialog';
+import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
 
 export default function Resources() {
   const navigate = useNavigate();
@@ -166,6 +169,9 @@ export default function Resources() {
           <Badge className="bg-slate-700 text-slate-300">Expert Interviews</Badge>
           <Badge className="bg-slate-700 text-slate-300">Support Groups</Badge>
         </div>
+        <div className="pt-4">
+          <SuggestResourceDialog />
+        </div>
       </div>
 
       {/* Search and Filter */}
@@ -288,6 +294,15 @@ export default function Resources() {
         </CardContent>
       </Card>
 
+      {/* Trending Resources */}
+      <TrendingResources
+        allResources={resources}
+        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+        onDiscussWithCoach={handleDiscussWithCoach}
+        isBookmarked={isBookmarked}
+        getRating={getRating}
+      />
+
       {/* AI-Powered Recommendations */}
       <AdvancedRecommendations
         progress={progress}
@@ -401,6 +416,10 @@ export default function Resources() {
                               <MessageCircle className="h-4 w-4 mr-2" />
                               Ask Coach
                               </Button>
+                              <ResourceReviewDialog 
+                                resourceId={resource.id}
+                                resourceName={resource.name}
+                              />
                               </div>
                         </div>
                       </CardContent>
