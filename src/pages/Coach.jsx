@@ -99,8 +99,9 @@ export default function Coach() {
         }
       });
       
+      setCurrentConversation(newConvo);
+      setMessages([]);
       await loadConversations();
-      selectConversation(newConvo);
     } catch (error) {
       console.error('Error creating conversation:', error);
     } finally {
