@@ -12,7 +12,7 @@ import {
   Bookmark, MessageCircle, BookmarkCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { resources } from '../data/resourcesData';
+import { resources } from '../components/resources/resourcesData';
 import AdvancedRecommendations from '../components/resources/AdvancedRecommendations';
 
 export default function Resources() {
