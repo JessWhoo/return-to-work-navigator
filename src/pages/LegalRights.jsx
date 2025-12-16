@@ -243,19 +243,19 @@ export default function LegalRights() {
               {/* Detailed Sections */}
               <div className="grid gap-6">
                 {law.sections.map((section, index) => (
-                  <Card key={index} className="bg-white/80 backdrop-blur-sm">
+                  <Card key={index} className="bg-white border-slate-200 shadow-md">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center space-x-2">
-                        <CheckCircle2 className={`h-5 w-5 text-${law.color}-600`} />
-                        <span>{section.title}</span>
+                        <CheckCircle2 className="h-5 w-5 text-teal-600" />
+                        <span className="text-slate-900">{section.title}</span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {section.content.map((item, itemIndex) => (
                           <li key={itemIndex} className="flex items-start space-x-3">
-                            <div className={`h-2 w-2 rounded-full bg-${law.color}-500 mt-2 flex-shrink-0`} />
-                            <span className="text-gray-700 leading-relaxed">{item}</span>
+                            <div className="h-2 w-2 rounded-full bg-teal-600 mt-2 flex-shrink-0" />
+                            <span className="text-slate-800 leading-relaxed">{item}</span>
                           </li>
                         ))}
                       </ul>
