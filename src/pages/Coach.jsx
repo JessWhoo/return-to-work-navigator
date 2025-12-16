@@ -107,22 +107,30 @@ export default function Coach() {
 
   const sendMessage = async (customMessage = null) => {
     const messageText = customMessage || inputMessage.trim();
-    if (!messageText) return;
-    
-    // Create conversation if none exists
-    if (!currentConversation) {
-      await createNewConversation();
-      // Wait a bit for the conversation to be created
-      await new Promise(resolve => setTimeout(resolve, 500));
-    }
-    
-    if (isSending) return;
+    if (!messageText || isSending) return;
 
     if (!customMessage) setInputMessage('');
     setIsSending(true);
 
     try {
-      await base44.agents.addMessage(currentConversation, {
+      let conversationToUse = currentConversation;
+      
+      // Create conversation if none exists
+      if (!conversationToUse) {
+        const newConvo = await base44.agents.createConversation({
+          agent_name: 'return_to_work_coach',
+          metadata: {
+            name: `Chat ${new Date().toLocaleDateString()}`,
+            created_at: new Date().toISOString()
+          }
+        });
+        
+        conversationToUse = newConvo;
+        setCurrentConversation(newConvo);
+        await loadConversations();
+      }
+
+      await base44.agents.addMessage(conversationToUse, {
         role: 'user',
         content: messageText
       });
