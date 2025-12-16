@@ -76,10 +76,20 @@ export default function Coach() {
       setConversations(convos);
       
       if (convos.length > 0 && !currentConversation) {
-        selectConversation(convos[0]);
-      } else if (convos.length === 0 && !currentConversation) {
+        await selectConversation(convos[0]);
+      } else if (convos.length === 0) {
         // Auto-create first conversation for new users
-        await createNewConversation();
+        const newConvo = await base44.agents.createConversation({
+          agent_name: 'return_to_work_coach',
+          metadata: {
+            name: `Chat ${new Date().toLocaleDateString()}`,
+            created_at: new Date().toISOString()
+          }
+        });
+        
+        setCurrentConversation(newConvo);
+        setMessages([]);
+        setConversations([newConvo]);
       }
     } catch (error) {
       console.error('Error loading conversations:', error);
@@ -111,7 +121,12 @@ export default function Coach() {
       
       setCurrentConversation(newConvo);
       setMessages([]);
-      await loadConversations();
+      
+      // Refresh conversations list
+      const convos = await base44.agents.listConversations({
+        agent_name: 'return_to_work_coach'
+      });
+      setConversations(convos);
     } catch (error) {
       console.error('Error creating conversation:', error);
     } finally {
