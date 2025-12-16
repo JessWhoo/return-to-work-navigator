@@ -13,6 +13,7 @@ import {
 import MessageBubble from '../components/coach/MessageBubble';
 import ProactiveSuggestions from '../components/coach/ProactiveSuggestions';
 import ReflectionPrompts from '../components/coach/ReflectionPrompts';
+import UpcomingEvents from '../components/coach/UpcomingEvents';
 
 export default function Coach() {
   const [conversations, setConversations] = useState([]);
@@ -271,6 +272,14 @@ export default function Coach() {
               )}
             </CardContent>
             </Card>
+
+            {/* Upcoming Events */}
+            {progress && (
+              <UpcomingEvents 
+                progress={progress}
+                onAskCoach={sendMessage}
+              />
+            )}
 
             {/* Proactive Suggestions */}
             {progress && (
