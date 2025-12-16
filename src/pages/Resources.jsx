@@ -100,7 +100,8 @@ export default function Resources() {
     amber: { from: 'from-amber-100', via: 'via-amber-50', border: 'border-amber-200', iconFrom: 'from-amber-400', iconTo: 'to-amber-600', badge: 'bg-amber-500' },
     teal: { from: 'from-teal-100', via: 'via-teal-50', border: 'border-teal-200', iconFrom: 'from-teal-400', iconTo: 'to-teal-600', badge: 'bg-teal-500' },
     cyan: { from: 'from-cyan-100', via: 'via-cyan-50', border: 'border-cyan-200', iconFrom: 'from-cyan-400', iconTo: 'to-cyan-600', badge: 'bg-cyan-500' },
-    pink: { from: 'from-pink-100', via: 'via-pink-50', border: 'border-pink-200', iconFrom: 'from-pink-400', iconTo: 'to-pink-600', badge: 'bg-pink-500' }
+    pink: { from: 'from-pink-100', via: 'via-pink-50', border: 'border-pink-200', iconFrom: 'from-pink-400', iconTo: 'to-pink-600', badge: 'bg-pink-500' },
+    emerald: { from: 'from-emerald-100', via: 'via-emerald-50', border: 'border-emerald-200', iconFrom: 'from-emerald-400', iconTo: 'to-emerald-600', badge: 'bg-emerald-500' }
   };
 
   const filteredResources = resources.map(category => ({
