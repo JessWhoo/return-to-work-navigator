@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Copy, MessageSquare, Mail, Users, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Copy, MessageSquare, Mail, Users, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import EmailDrafter from '../components/communication/EmailDrafter';
 
 const emailTemplates = [
   {
@@ -179,7 +180,7 @@ const conversationScripts = [
 ];
 
 export default function Communication() {
-  const [activeTab, setActiveTab] = useState('templates');
+  const [activeTab, setActiveTab] = useState('drafter');
 
   const copyToClipboard = (text, title) => {
     navigator.clipboard.writeText(text);
@@ -220,7 +221,11 @@ export default function Communication() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 bg-white/60 p-1">
+        <TabsList className="grid w-full grid-cols-3 bg-white/60 p-1">
+          <TabsTrigger value="drafter" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-100 data-[state=active]:to-pink-100">
+            <Sparkles className="h-4 w-4 mr-2" />
+            AI Email Drafter
+          </TabsTrigger>
           <TabsTrigger value="templates" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-100 data-[state=active]:to-pink-100">
             <Mail className="h-4 w-4 mr-2" />
             Email Templates
@@ -230,6 +235,11 @@ export default function Communication() {
             Conversation Scripts
           </TabsTrigger>
         </TabsList>
+
+        {/* AI Email Drafter Tab */}
+        <TabsContent value="drafter">
+          <EmailDrafter />
+        </TabsContent>
 
         {/* Email Templates Tab */}
         <TabsContent value="templates" className="space-y-6">

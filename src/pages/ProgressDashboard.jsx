@@ -10,13 +10,15 @@ import {
 } from 'recharts';
 import {
   TrendingUp, TrendingDown, Download, Calendar, CheckCircle2,
-  Zap, Heart, BookOpen, Sparkles, Activity
+  Zap, Heart, BookOpen, Sparkles, Activity, Share2
 } from 'lucide-react';
 import { format, parseISO, differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
+import ShareReportDialog from '../components/dashboard/ShareReportDialog';
 
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
 
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
@@ -240,10 +242,17 @@ export default function ProgressDashboard() {
           </select>
           <Button
             onClick={handleExport}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600"
+            variant="outline"
           >
             <Download className="h-4 w-4 mr-2" />
             Export Data
+          </Button>
+          <Button
+            onClick={() => setShareDialogOpen(true)}
+            className="bg-gradient-to-r from-indigo-600 to-purple-600"
+          >
+            <Share2 className="h-4 w-4 mr-2" />
+            Share Report
           </Button>
         </div>
       </div>
@@ -494,6 +503,14 @@ export default function ProgressDashboard() {
           )}
         </CardContent>
       </Card>
+
+      {/* Share Report Dialog */}
+      <ShareReportDialog
+        open={shareDialogOpen}
+        onClose={() => setShareDialogOpen(false)}
+        progress={progress}
+        metrics={metrics}
+      />
     </div>
   );
 }
