@@ -212,18 +212,18 @@ export default function Home() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
           >
-            <Link to={createPageUrl('Coach')}>
-              <Button className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
+            <Button asChild className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
+              <Link to={createPageUrl('Coach')}>
                 <MessageSquare className="h-5 w-5 mr-2" />
                 Talk to AI Coach
-              </Button>
-            </Link>
-            <Link to={createPageUrl('Checklist')}>
-              <Button variant="outline" className="border-2 border-slate-300 text-slate-200 hover:bg-slate-800 hover:border-teal-400 hover:text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="border-2 border-slate-300 text-slate-200 hover:bg-slate-800 hover:border-teal-400 hover:text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+              <Link to={createPageUrl('Checklist')}>
                 <CheckSquare className="h-5 w-5 mr-2" />
                 View My Checklist
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             {progress?.onboarding_completed && (
               <Button 
                 onClick={() => setShowOnboarding(true)}
