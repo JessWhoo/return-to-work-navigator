@@ -8,14 +8,21 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Search, ExternalLink, Building2, DollarSign, 
-  BookOpen, Users, Filter, FileText, Landmark,
+  Search, ExternalLink, Star,
   Bookmark, MessageCircle, BookmarkCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
-import SmartRecommendations from '../components/resources/SmartRecommendations';
+import { resources } from '../data/resourcesData';
+import AdvancedRecommendations from '../components/resources/AdvancedRecommendations';
 
-const resources = [
+export default function Resources() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedType, setSelectedType] = useState('all');
+  const [showBookmarked, setShowBookmarked] = useState(false);
+  const [sortBy, setSortBy] = useState('recommended');
   {
     category: 'Cancer Organizations',
     icon: Building2,
@@ -407,6 +414,21 @@ export default function Resources() {
     }
   });
 
+  const rateResourceMutation = useMutation({
+    mutationFn: async ({ resourceId, rating }) => {
+      const currentRatings = progress?.resource_ratings || {};
+      const updatedRatings = { ...currentRatings, [resourceId]: rating };
+      
+      return await base44.entities.UserProgress.update(progress.id, {
+        resource_ratings: updatedRatings
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userProgress']);
+      toast.success('Rating saved');
+    }
+  });
+
   const handleDiscussWithCoach = (resource) => {
     const message = `I'd like to learn more about this resource:\n\n${resource.name} (${resource.org})\n${resource.description}\n\nCan you help me understand how to use this resource for my return-to-work journey?`;
     localStorage.setItem('pendingCoachMessage', message);
@@ -415,6 +437,14 @@ export default function Resources() {
 
   const isBookmarked = (resourceId) => {
     return progress?.bookmarked_resources?.includes(resourceId) || false;
+  };
+
+  const getRating = (resourceId) => {
+    return progress?.resource_ratings?.[resourceId] || 0;
+  };
+
+  const handleRate = (resourceId, rating) => {
+    rateResourceMutation.mutate({ resourceId, rating });
   };
 
   const colorMap = {
@@ -430,7 +460,8 @@ export default function Resources() {
     items: category.items
       .map((item, idx) => ({
         ...item,
-        id: `${category.category}-${idx}`
+        id: `${category.category}-${idx}`,
+        rating: getRating(`${category.category}-${idx}`)
       }))
       .filter(item => {
         const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -438,15 +469,25 @@ export default function Resources() {
           item.org.toLowerCase().includes(searchQuery.toLowerCase());
         
         const matchesBookmark = !showBookmarked || isBookmarked(item.id);
+        const matchesType = selectedType === 'all' || item.type === selectedType;
         
-        return matchesSearch && matchesBookmark;
+        return matchesSearch && matchesBookmark && matchesType;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'rating') {
+          return (getRating(b.id) || 0) - (getRating(a.id) || 0);
+        }
+        return 0; // Default order
       })
   })).filter(category => 
     (selectedCategory === 'all' || category.category === selectedCategory) &&
     category.items.length > 0
   );
 
+  const allTypes = [...new Set(resources.flatMap(cat => cat.items.map(item => item.type)))].sort();
+
   const totalResources = resources.reduce((sum, cat) => sum + cat.items.length, 0);
+  const totalRated = Object.keys(progress?.resource_ratings || {}).length;
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
@@ -456,7 +497,7 @@ export default function Resources() {
           Resource Library
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          {totalResources} trusted organizations, guides, and support services to help you on your journey
+          {totalResources} curated resources • {progress?.bookmarked_resources?.length || 0} saved • {totalRated} rated
         </p>
       </div>
 
@@ -464,8 +505,8 @@ export default function Resources() {
       <Card className="bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/30 backdrop-blur-sm border-2 border-indigo-100 shadow-lg">
         <CardContent className="pt-6">
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1 relative group">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="relative group">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-indigo-400 group-hover:text-indigo-600 transition-colors" />
                 <Input
                   placeholder="Search resources..."
@@ -484,29 +525,51 @@ export default function Resources() {
                   <option key={cat.category} value={cat.category}>{cat.category}</option>
                 ))}
               </select>
-            </div>
-            <div className="flex items-center justify-between">
-              <Button
-                variant={showBookmarked ? "default" : "outline"}
-                size="sm"
-                onClick={() => setShowBookmarked(!showBookmarked)}
-                className={showBookmarked ? "bg-indigo-600" : ""}
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
               >
-                <Bookmark className="h-4 w-4 mr-2" />
-                My Bookmarks ({progress?.bookmarked_resources?.length || 0})
-              </Button>
+                <option value="all">All Types</option>
+                {allTypes.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex gap-2">
+                <Button
+                  variant={showBookmarked ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowBookmarked(!showBookmarked)}
+                  className={showBookmarked ? "bg-indigo-600" : ""}
+                >
+                  <Bookmark className="h-4 w-4 mr-2" />
+                  My Bookmarks ({progress?.bookmarked_resources?.length || 0})
+                </Button>
+              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-1.5 text-sm border-2 border-indigo-200 rounded-lg bg-white hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all cursor-pointer"
+              >
+                <option value="recommended">Recommended</option>
+                <option value="rating">Highest Rated</option>
+              </select>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* AI-Powered Recommendations */}
-      <SmartRecommendations
+      <AdvancedRecommendations
         progress={progress}
         allResources={resources}
         onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
         onDiscussWithCoach={handleDiscussWithCoach}
+        onRate={handleRate}
         isBookmarked={isBookmarked}
+        getRating={getRating}
       />
 
       {/* Resources by Category */}
@@ -553,36 +616,60 @@ export default function Resources() {
                               <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
                               <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
                               <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
-                            </div>
-                            <a
+
+                              {/* Rating System */}
+                              <div className="flex items-center space-x-1 mt-2">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <button
+                                    key={star}
+                                    onClick={() => handleRate(resource.id, star)}
+                                    className="transition-transform hover:scale-110"
+                                  >
+                                    <Star
+                                      className={`h-4 w-4 ${
+                                        star <= getRating(resource.id)
+                                          ? 'text-amber-500 fill-amber-500'
+                                          : 'text-gray-300 hover:text-amber-400'
+                                      }`}
+                                    />
+                                  </button>
+                                ))}
+                                {getRating(resource.id) > 0 && (
+                                  <span className="text-xs text-gray-500 ml-2">
+                                    ({getRating(resource.id)}/5)
+                                  </span>
+                                )}
+                              </div>
+                              </div>
+                              <a
                               href={resource.url}
                               target="_blank"
                               rel="noopener noreferrer"
                               className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
-                            >
+                              >
                               <ExternalLink className="h-5 w-5" />
-                            </a>
-                          </div>
-                          <div className="flex gap-2 pt-2 border-t border-gray-100">
-                            <Button
+                              </a>
+                              </div>
+                              <div className="flex gap-2 pt-2 border-t border-gray-100">
+                              <Button
                               variant={bookmarked ? "default" : "outline"}
                               size="sm"
                               onClick={() => toggleBookmarkMutation.mutate(resource.id)}
                               className="flex-1"
-                            >
+                              >
                               {bookmarked ? <BookmarkCheck className="h-4 w-4 mr-2" /> : <Bookmark className="h-4 w-4 mr-2" />}
                               {bookmarked ? 'Saved' : 'Save'}
-                            </Button>
-                            <Button
+                              </Button>
+                              <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleDiscussWithCoach(resource)}
                               className="flex-1"
-                            >
+                              >
                               <MessageCircle className="h-4 w-4 mr-2" />
-                              Discuss with Coach
-                            </Button>
-                          </div>
+                              Ask Coach
+                              </Button>
+                              </div>
                         </div>
                       </CardContent>
                     </Card>
