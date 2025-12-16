@@ -10,6 +10,7 @@ import ReturnPlanning from './pages/ReturnPlanning';
 import Coach from './pages/Coach';
 import WellnessResources from './pages/WellnessResources';
 import ProgressDashboard from './pages/ProgressDashboard';
+import Profile from './pages/Profile';
 import __Layout from './Layout.jsx';
 
 
@@ -26,6 +27,7 @@ export const PAGES = {
     "Coach": Coach,
     "WellnessResources": WellnessResources,
     "ProgressDashboard": ProgressDashboard,
+    "Profile": Profile,
 }
 
 export const pagesConfig = {

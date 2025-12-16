@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 
@@ -13,6 +13,7 @@ export default function Layout({ children, currentPageName }) {
 
   const navigation = [
     { name: 'Home', icon: Home, page: 'Home' },
+    { name: 'My Profile', icon: User, page: 'Profile' },
     { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
     { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
