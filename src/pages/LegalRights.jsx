@@ -15,6 +15,10 @@ const laws = [
     year: 'Amended 2008',
     icon: Shield,
     color: 'blue',
+    gradient: 'from-blue-500 to-cyan-500',
+    bg: 'from-blue-50 to-cyan-50',
+    border: 'border-blue-300',
+    iconBg: 'from-blue-600 to-cyan-600',
     summary: 'Protects you from discrimination and requires employers to provide reasonable accommodations',
     sections: [
       {
@@ -64,6 +68,10 @@ const laws = [
     year: 'Enacted 1993',
     icon: Clock,
     color: 'teal',
+    gradient: 'from-emerald-500 to-teal-500',
+    bg: 'from-emerald-50 to-teal-50',
+    border: 'border-emerald-300',
+    iconBg: 'from-emerald-600 to-teal-600',
     summary: 'Guarantees job-protected, unpaid leave for medical reasons',
     sections: [
       {
@@ -109,6 +117,10 @@ const laws = [
     year: 'Enacted 1985',
     icon: FileText,
     color: 'purple',
+    gradient: 'from-purple-500 to-violet-500',
+    bg: 'from-purple-50 to-violet-50',
+    border: 'border-purple-300',
+    iconBg: 'from-purple-600 to-violet-600',
     summary: 'Allows you to continue employer health insurance after leaving employment',
     sections: [
       {
@@ -143,6 +155,10 @@ const laws = [
     year: 'Enacted 2010',
     icon: Building,
     color: 'rose',
+    gradient: 'from-rose-500 to-pink-500',
+    bg: 'from-rose-50 to-pink-50',
+    border: 'border-rose-300',
+    iconBg: 'from-rose-600 to-pink-600',
     summary: 'Critical health insurance protections including pre-existing condition coverage',
     sections: [
       {
@@ -223,18 +239,18 @@ export default function LegalRights() {
           return (
             <TabsContent key={law.id} value={law.id} className="space-y-6">
               {/* Law Overview */}
-              <Card className="bg-gradient-to-r from-slate-50 to-slate-100 border-slate-200">
+              <Card className={`bg-gradient-to-r ${law.bg} border-2 ${law.border}`}>
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
-                    <div className="p-3 rounded-xl bg-gradient-to-br from-teal-600 to-cyan-600">
+                    <div className={`p-3 rounded-xl bg-gradient-to-br ${law.iconBg}`}>
                       <Icon className="h-8 w-8 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
-                        <h2 className="text-2xl font-bold text-slate-900">{law.name}</h2>
-                        <Badge className="bg-teal-600 text-white">{law.year}</Badge>
+                        <h2 className={`text-2xl font-bold bg-gradient-to-r ${law.gradient} bg-clip-text text-transparent`}>{law.name}</h2>
+                        <Badge className={`bg-gradient-to-r ${law.gradient} text-white`}>{law.year}</Badge>
                       </div>
-                      <p className="text-slate-800 font-medium leading-relaxed">{law.summary}</p>
+                      <p className="text-gray-800 font-medium leading-relaxed">{law.summary}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -243,19 +259,19 @@ export default function LegalRights() {
               {/* Detailed Sections */}
               <div className="grid gap-6">
                 {law.sections.map((section, index) => (
-                  <Card key={index} className="bg-white border-slate-200 shadow-md">
+                  <Card key={index} className={`bg-white border-2 ${law.border} shadow-md`}>
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center space-x-2">
-                        <CheckCircle2 className="h-5 w-5 text-teal-600" />
-                        <span className="text-slate-900">{section.title}</span>
+                        <CheckCircle2 className={`h-5 w-5 text-${law.color}-600`} />
+                        <span className={`bg-gradient-to-r ${law.gradient} bg-clip-text text-transparent font-bold`}>{section.title}</span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {section.content.map((item, itemIndex) => (
                           <li key={itemIndex} className="flex items-start space-x-3">
-                            <div className="h-2 w-2 rounded-full bg-teal-600 mt-2 flex-shrink-0" />
-                            <span className="text-slate-800 leading-relaxed">{item}</span>
+                            <div className={`h-2 w-2 rounded-full bg-gradient-to-r ${law.gradient} mt-2 flex-shrink-0`} />
+                            <span className="text-gray-800 leading-relaxed">{item}</span>
                           </li>
                         ))}
                       </ul>
