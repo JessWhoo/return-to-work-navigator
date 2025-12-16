@@ -123,6 +123,7 @@ export default function SmartInsights({ progress, onAskCoach }) {
       }
 
       // AI-Enhanced Insight
+      const recentLogs = progress.energy_logs?.slice(-7) || [];
       if (recentLogs?.length >= 5) {
         try {
           const aiPrompt = `Analyze this cancer survivor's return-to-work data and provide ONE specific, actionable insight:
