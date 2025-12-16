@@ -13,7 +13,7 @@ export const resources = [
         name: 'American Cancer Society - Working During Treatment',
         org: 'American Cancer Society',
         description: 'Comprehensive workplace resources, including return to work guidance and talking to your employer about cancer',
-        url: 'https://www.cancer.org',
+        url: 'https://www.cancer.org/treatment/survivorship-during-and-after-treatment/staying-active/work.html',
         type: 'WEBSITE',
         topics: ['workplace rights', 'communication', 'treatment'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -22,7 +22,7 @@ export const resources = [
         name: 'Breastcancer.org - Working During Treatment',
         org: 'Breastcancer.org',
         description: 'Practical advice for balancing work with breast cancer treatment, including accommodations and communication tips',
-        url: 'https://www.breastcancer.org',
+        url: 'https://www.breastcancer.org/treatment/side-effects/work-life',
         type: 'WEBSITE',
         topics: ['breast cancer', 'accommodations', 'work-life balance'],
         stages: ['planning', 'ongoing']
@@ -67,7 +67,7 @@ export const resources = [
         name: 'Susan G. Komen - Work and Cancer',
         org: 'Susan G. Komen',
         description: 'Information about managing work during and after breast cancer treatment, including talking to employers',
-        url: 'https://www.komen.org',
+        url: 'https://www.komen.org/breast-cancer/survivorship/managing-emotions/working/',
         type: 'WEBSITE',
         topics: ['breast cancer', 'work management', 'communication'],
         stages: ['planning', 'ongoing']
@@ -180,7 +180,7 @@ export const resources = [
         name: 'ADA Compliance Cheat Sheet',
         org: 'CustomGuide',
         description: 'Essential guide to the Americans with Disabilities Act (ADA). Covers hiring requirements, reasonable accommodations, interview accessibility, onboarding practices, and maintaining ADA compliance in the workplace',
-        url: 'https://www.customguide.com',
+        url: 'https://www.eeoc.gov/publications/ada-your-responsibilities-employer',
         type: 'GUIDE',
         topics: ['ADA', 'accommodations', 'compliance'],
         stages: ['planning', 'first_week']
@@ -225,7 +225,7 @@ export const resources = [
         name: 'FMLA Requirements Cheat Sheet',
         org: 'CustomGuide',
         description: 'Quick reference guide for the Family and Medical Leave Act (FMLA). Covers eligibility requirements, types of leave, documentation needs, implementation steps, and compliance best practices',
-        url: 'https://www.customguide.com',
+        url: 'https://www.dol.gov/sites/dolgov/files/WHD/legacy/files/employerguide.pdf',
         type: 'GUIDE',
         topics: ['FMLA', 'eligibility', 'compliance'],
         stages: ['planning']
@@ -261,7 +261,7 @@ export const resources = [
         name: 'National Cancer Institute - Managing Cancer Care',
         org: 'National Cancer Institute',
         description: 'Comprehensive resources from the NCI on managing cancer treatment, including work and daily life considerations',
-        url: 'https://www.cancer.gov',
+        url: 'https://www.cancer.gov/about-cancer/coping',
         type: 'WEBSITE',
         topics: ['treatment', 'management', 'daily life'],
         stages: ['planning', 'ongoing']
@@ -358,7 +358,7 @@ export const resources = [
         name: 'Managing Fatigue During Cancer Treatment',
         org: 'Cancer Support Community',
         description: 'Evidence-based strategies for managing cancer-related fatigue in the workplace',
-        url: 'https://www.cancersupportcommunity.org',
+        url: 'https://www.cancersupportcommunity.org/living-cancer/side-effects/fatigue',
         type: 'ARTICLE',
         topics: ['fatigue', 'energy management', 'strategies'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -367,7 +367,7 @@ export const resources = [
         name: 'Talking to Your Employer About Cancer',
         org: 'Cancer and Careers',
         description: 'Step-by-step guide for having difficult conversations with supervisors and HR about your diagnosis',
-        url: 'https://www.cancerandcareers.org',
+        url: 'https://www.cancerandcareers.org/en/looking-for-work/interviewing/disclosure',
         type: 'ARTICLE',
         topics: ['communication', 'disclosure', 'HR'],
         stages: ['planning', 'first_week']
@@ -383,7 +383,7 @@ export const resources = [
         name: 'Returning to Work After Cancer: What to Expect',
         org: 'Cancer and Careers',
         description: '15-minute webinar covering the emotional and practical aspects of returning to work, featuring survivor stories',
-        url: 'https://www.cancerandcareers.org',
+        url: 'https://www.cancerandcareers.org/en/community/events-webinars',
         type: 'VIDEO',
         topics: ['return to work', 'expectations', 'stories'],
         stages: ['planning', 'first_week']
@@ -401,7 +401,7 @@ export const resources = [
         name: 'Managing Energy and Fatigue at Work',
         org: 'American Cancer Society',
         description: 'Practical video demonstrations of pacing techniques and energy conservation strategies',
-        url: 'https://www.cancer.org',
+        url: 'https://www.cancer.org/treatment/treatments-and-side-effects/physical-side-effects/fatigue.html',
         type: 'VIDEO',
         topics: ['fatigue', 'pacing', 'energy conservation'],
         stages: ['first_week', 'ongoing']
@@ -419,7 +419,7 @@ export const resources = [
         name: 'Cancer Survivor Panel: First Week Back',
         org: 'CancerCare',
         description: 'Candid discussion with multiple survivors about their first week experiences and lessons learned',
-        url: 'https://www.cancercare.org',
+        url: 'https://www.cancercare.org/videos',
         type: 'VIDEO',
         topics: ['first week', 'survivor stories', 'lessons'],
         stages: ['planning', 'first_week']
@@ -480,7 +480,7 @@ export const resources = [
         name: 'Return to Work Support Group',
         org: 'Cancer and Careers',
         description: 'Virtual support group specifically for survivors navigating return to work challenges',
-        url: 'https://www.cancerandcareers.org',
+        url: 'https://www.cancerandcareers.org/en/community/support-groups',
         type: 'SUPPORT_GROUP',
         topics: ['return to work', 'virtual', 'peer support'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -505,7 +505,7 @@ export const resources = [
         name: 'The Work-Life Balance After Cancer',
         org: 'Cancer Support Community',
         description: 'Podcast interview with occupational therapist specializing in cancer survivorship and workplace wellness',
-        url: 'https://www.cancersupportcommunity.org',
+        url: 'https://www.cancersupportcommunity.org/blog',
         type: 'PODCAST',
         topics: ['work-life balance', 'occupational therapy', 'wellness'],
         stages: ['planning', 'ongoing']
@@ -523,7 +523,7 @@ export const resources = [
         name: 'Managing Cognitive Changes at Work',
         org: 'Cancer and Careers',
         description: 'Neuropsychologist discusses "chemo brain" and practical strategies for workplace cognitive challenges',
-        url: 'https://www.cancerandcareers.org',
+        url: 'https://www.cancerandcareers.org/en/at-work/managing-work/chemo-brain',
         type: 'PODCAST',
         topics: ['cognitive changes', 'chemo brain', 'strategies'],
         stages: ['first_week', 'ongoing']
@@ -602,7 +602,7 @@ export const resources = [
         name: 'CancerCare Counseling Services',
         org: 'CancerCare',
         description: 'Free professional counseling services for cancer patients and their families, including workplace stress',
-        url: 'https://www.cancercare.org',
+        url: 'https://www.cancercare.org/counseling',
         type: 'SERVICE',
         topics: ['counseling', 'mental health', 'workplace stress'],
         stages: ['planning', 'first_week', 'ongoing', 'completed']
@@ -627,7 +627,7 @@ export const resources = [
         name: 'Mindfulness Practices for Cancer Survivors',
         org: 'Mindful',
         description: 'Evidence-based mindfulness exercises specifically designed for cancer survivors dealing with workplace stress',
-        url: 'https://www.mindful.org',
+        url: 'https://www.mindful.org/meditation/mindfulness-getting-started/',
         type: 'VIDEO',
         topics: ['mindfulness', 'stress management', 'exercises'],
         stages: ['ongoing', 'completed']
@@ -636,7 +636,7 @@ export const resources = [
         name: 'Building Confidence After Cancer',
         org: 'Cancer Support Community',
         description: 'Workshop recording on rebuilding professional confidence and self-esteem after treatment',
-        url: 'https://www.cancersupportcommunity.org',
+        url: 'https://www.cancersupportcommunity.org/living-cancer/emotional-support',
         type: 'VIDEO',
         topics: ['confidence', 'self-esteem', 'workshop'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -654,7 +654,7 @@ export const resources = [
         name: 'Guided Meditation for Workplace Stress',
         org: 'Calm',
         description: '10-minute guided meditation specifically for managing workplace anxiety and stress',
-        url: 'https://www.calm.com',
+        url: 'https://www.calm.com/blog/meditation-for-stress',
         type: 'MEDITATION',
         topics: ['stress reduction', 'meditation', 'anxiety'],
         stages: ['first_week', 'ongoing']
@@ -663,7 +663,7 @@ export const resources = [
         name: 'Body Scan Relaxation for Fatigue',
         org: 'Headspace',
         description: 'Guided body scan meditation to help manage cancer-related fatigue during work breaks',
-        url: 'https://www.headspace.com',
+        url: 'https://www.headspace.com/meditation/body-scan',
         type: 'MEDITATION',
         topics: ['fatigue', 'relaxation', 'breaks'],
         stages: ['ongoing']
@@ -688,7 +688,7 @@ export const resources = [
         name: 'Return to Work Preparation Workshop',
         org: 'Cancer and Careers',
         description: 'Interactive 90-minute workshop covering all aspects of planning your return, with Q&A',
-        url: 'https://www.cancerandcareers.org',
+        url: 'https://www.cancerandcareers.org/en/community/events-webinars',
         type: 'WORKSHOP',
         topics: ['return to work', 'preparation', 'planning'],
         stages: ['planning']
@@ -697,7 +697,7 @@ export const resources = [
         name: 'Managing Fatigue at Work Workshop',
         org: 'Cancer Support Community',
         description: 'Practical workshop teaching pacing strategies and energy conservation techniques',
-        url: 'https://www.cancersupportcommunity.org',
+        url: 'https://www.cancersupportcommunity.org/programs-services',
         type: 'WORKSHOP',
         topics: ['managing fatigue', 'energy management', 'pacing'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -742,7 +742,7 @@ export const resources = [
         name: 'Cognitive Strategies for Chemo Brain',
         org: 'American Cancer Society',
         description: 'Learn practical techniques to manage cognitive changes and improve workplace focus',
-        url: 'https://www.cancer.org',
+        url: 'https://www.cancer.org/treatment/treatments-and-side-effects/physical-side-effects/changes-in-mood-or-thinking/chemo-brain.html',
         type: 'WORKSHOP',
         topics: ['chemo brain', 'cognitive strategies', 'focus'],
         stages: ['first_week', 'ongoing']
@@ -767,7 +767,7 @@ export const resources = [
         name: '5-Minute Office Meditation',
         org: 'Insight Timer',
         description: 'Quick guided meditation perfect for workplace breaks to reduce stress and refocus',
-        url: 'https://insighttimer.com',
+        url: 'https://insighttimer.com/meditation-topics/stress',
         type: 'MEDITATION',
         topics: ['stress reduction', 'meditation', 'workplace'],
         stages: ['ongoing']
@@ -785,7 +785,7 @@ export const resources = [
         name: 'Breathwork for Anxiety Management',
         org: 'Calm',
         description: 'Guided breathwork exercises specifically designed for managing workplace anxiety',
-        url: 'https://www.calm.com',
+        url: 'https://www.calm.com/blog/breathing-exercises',
         type: 'MEDITATION',
         topics: ['anxiety', 'breathwork', 'stress reduction'],
         stages: ['first_week', 'ongoing']
@@ -828,7 +828,7 @@ export const resources = [
         name: 'Interview: Oncology Social Worker on Workplace Reentry',
         org: 'Cancer Support Community',
         description: 'Expert discusses common challenges and proven strategies for successful workplace transitions',
-        url: 'https://www.cancersupportcommunity.org',
+        url: 'https://www.cancersupportcommunity.org/blog/returning-work-after-cancer',
         type: 'ARTICLE',
         topics: ['expert interview', 'workplace', 'strategies'],
         stages: ['planning', 'first_week']
@@ -882,7 +882,7 @@ export const resources = [
         name: 'Career Coach on Rebuilding Professional Identity',
         org: 'Cancer and Careers',
         description: 'Professional guidance on rediscovering your career goals and professional self after cancer',
-        url: 'https://www.cancerandcareers.org',
+        url: 'https://www.cancerandcareers.org/en/looking-for-work/career-coaching',
         type: 'ARTICLE',
         topics: ['career', 'identity', 'goals'],
         stages: ['ongoing', 'completed']
