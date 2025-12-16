@@ -105,9 +105,18 @@ export default function Coach() {
     }
   };
 
-  const sendMessage = async (customMessage) => {
+  const sendMessage = async (customMessage = null) => {
     const messageText = customMessage || inputMessage.trim();
-    if (!messageText || !currentConversation || isSending) return;
+    if (!messageText) return;
+    
+    // Create conversation if none exists
+    if (!currentConversation) {
+      await createNewConversation();
+      // Wait a bit for the conversation to be created
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    
+    if (isSending) return;
 
     if (!customMessage) setInputMessage('');
     setIsSending(true);
@@ -125,24 +134,18 @@ export default function Coach() {
   };
 
   const handleSuggestionClick = async (suggestion) => {
-    if (!currentConversation) {
-      await createNewConversation();
-    }
     const message = `I'd like to discuss this insight: ${suggestion.title}\n\n${suggestion.insight}\n\nCan you help me with this?`;
-    setTimeout(() => sendMessage(message), 500);
+    await sendMessage(message);
   };
 
   const handleReflectionShare = async (reflectionText) => {
-    if (!currentConversation) {
-      await createNewConversation();
-    }
-    setTimeout(() => sendMessage(reflectionText), 500);
+    await sendMessage(reflectionText);
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      sendMessage(null);
     }
   };
 
@@ -314,10 +317,7 @@ export default function Coach() {
                         {starterPrompts.map((prompt, index) => (
                           <button
                             key={index}
-                            onClick={() => {
-                              setInputMessage(prompt);
-                              setTimeout(() => sendMessage(), 100);
-                            }}
+                            onClick={() => sendMessage(prompt)}
                             className="text-left p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 border border-purple-200 transition-all text-sm text-gray-700"
                           >
                             {prompt}
@@ -357,7 +357,7 @@ export default function Coach() {
                       disabled={isSending}
                     />
                     <Button
-                      onClick={sendMessage}
+                      onClick={() => sendMessage(null)}
                       disabled={!inputMessage.trim() || isSending}
                       className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-[60px]"
                     >
