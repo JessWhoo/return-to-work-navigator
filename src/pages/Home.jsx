@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   CheckSquare, Zap, MessageSquare, FileText, Shield, 
   Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star
@@ -10,13 +10,31 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import CalendarView from '../components/dashboard/CalendarView';
 
 export default function Home() {
+  const queryClient = useQueryClient();
+  
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
     queryFn: async () => {
       const progressList = await base44.entities.UserProgress.list();
-      return progressList[0] || null;
+      if (progressList.length > 0) return progressList[0];
+      
+      return await base44.entities.UserProgress.create({
+        completed_checklist_items: [],
+        journey_stage: 'planning',
+        calendar_events: []
+      });
+    }
+  });
+
+  const updateProgressMutation = useMutation({
+    mutationFn: async (updates) => {
+      return await base44.entities.UserProgress.update(progress.id, updates);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userProgress']);
     }
   });
 
@@ -249,6 +267,20 @@ export default function Home() {
               </CardContent>
             </Card>
           </motion.div>
+        </motion.div>
+      )}
+
+      {/* Calendar View */}
+      {progress && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <CalendarView 
+            progress={progress} 
+            onUpdateProgress={(updates) => updateProgressMutation.mutate(updates)}
+          />
         </motion.div>
       )}
 
