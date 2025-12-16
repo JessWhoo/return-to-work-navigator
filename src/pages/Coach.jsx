@@ -35,14 +35,18 @@ export default function Coach() {
   });
 
   useEffect(() => {
-    loadConversations();
+    const initializeCoach = async () => {
+      await loadConversations();
+      
+      // Check for pending message from Resources page
+      const pendingMessage = localStorage.getItem('pendingCoachMessage');
+      if (pendingMessage) {
+        localStorage.removeItem('pendingCoachMessage');
+        setInputMessage(pendingMessage);
+      }
+    };
     
-    // Check for pending message from Resources page
-    const pendingMessage = localStorage.getItem('pendingCoachMessage');
-    if (pendingMessage) {
-      localStorage.removeItem('pendingCoachMessage');
-      setInputMessage(pendingMessage);
-    }
+    initializeCoach();
   }, []);
 
   useEffect(() => {
@@ -73,6 +77,9 @@ export default function Coach() {
       
       if (convos.length > 0 && !currentConversation) {
         selectConversation(convos[0]);
+      } else if (convos.length === 0 && !currentConversation) {
+        // Auto-create first conversation for new users
+        await createNewConversation();
       }
     } catch (error) {
       console.error('Error loading conversations:', error);
