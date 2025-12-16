@@ -94,7 +94,11 @@ export default function Resources() {
     green: { from: 'from-green-100', via: 'via-green-50', border: 'border-green-200', iconFrom: 'from-green-400', iconTo: 'to-green-600', badge: 'bg-green-500' },
     blue: { from: 'from-blue-100', via: 'via-blue-50', border: 'border-blue-200', iconFrom: 'from-blue-400', iconTo: 'to-blue-600', badge: 'bg-blue-500' },
     indigo: { from: 'from-indigo-100', via: 'via-indigo-50', border: 'border-indigo-200', iconFrom: 'from-indigo-400', iconTo: 'to-indigo-600', badge: 'bg-indigo-500' },
-    rose: { from: 'from-rose-100', via: 'via-rose-50', border: 'border-rose-200', iconFrom: 'from-rose-400', iconTo: 'to-rose-600', badge: 'bg-rose-500' }
+    rose: { from: 'from-rose-100', via: 'via-rose-50', border: 'border-rose-200', iconFrom: 'from-rose-400', iconTo: 'to-rose-600', badge: 'bg-rose-500' },
+    amber: { from: 'from-amber-100', via: 'via-amber-50', border: 'border-amber-200', iconFrom: 'from-amber-400', iconTo: 'to-amber-600', badge: 'bg-amber-500' },
+    teal: { from: 'from-teal-100', via: 'via-teal-50', border: 'border-teal-200', iconFrom: 'from-teal-400', iconTo: 'to-teal-600', badge: 'bg-teal-500' },
+    cyan: { from: 'from-cyan-100', via: 'via-cyan-50', border: 'border-cyan-200', iconFrom: 'from-cyan-400', iconTo: 'to-cyan-600', badge: 'bg-cyan-500' },
+    pink: { from: 'from-pink-100', via: 'via-pink-50', border: 'border-pink-200', iconFrom: 'from-pink-400', iconTo: 'to-pink-600', badge: 'bg-pink-500' }
   };
 
   const filteredResources = resources.map(category => ({
