@@ -45,6 +45,7 @@ export default function Coach() {
 
   useEffect(() => {
     if (currentConversation?.id) {
+      setMessages(currentConversation.messages || []);
       const unsubscribe = base44.agents.subscribeToConversation(
         currentConversation.id,
         (data) => {
