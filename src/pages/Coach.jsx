@@ -43,17 +43,18 @@ export default function Coach() {
   }, []);
 
   useEffect(() => {
-    if (currentConversation) {
+    if (currentConversation?.id) {
       const unsubscribe = base44.agents.subscribeToConversation(
         currentConversation.id,
         (data) => {
-          setMessages(data.messages);
-          scrollToBottom();
+          setMessages(data.messages || []);
+          setIsSending(false);
+          setTimeout(scrollToBottom, 100);
         }
       );
       return () => unsubscribe();
     }
-  }, [currentConversation]);
+  }, [currentConversation?.id]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -76,7 +77,8 @@ export default function Coach() {
 
   const selectConversation = async (conversation) => {
     try {
-      const fullConvo = await base44.agents.getConversation(conversation.id);
+      const convoId = conversation.id || conversation;
+      const fullConvo = await base44.agents.getConversation(convoId);
       setCurrentConversation(fullConvo);
       setMessages(fullConvo.messages || []);
       setTimeout(scrollToBottom, 100);
@@ -125,9 +127,10 @@ export default function Coach() {
           }
         });
         
-        conversationToUse = newConvo;
         setCurrentConversation(newConvo);
-        await loadConversations();
+        setMessages([]);
+        conversationToUse = newConvo;
+        loadConversations();
       }
 
       await base44.agents.addMessage(conversationToUse, {
@@ -136,7 +139,6 @@ export default function Coach() {
       });
     } catch (error) {
       console.error('Error sending message:', error);
-    } finally {
       setIsSending(false);
     }
   };
