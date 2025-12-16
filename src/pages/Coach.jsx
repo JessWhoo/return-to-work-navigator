@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { 
   MessageCircle, Send, Sparkles, Clock, CheckCircle2, 
-  Zap, Heart, Loader2, Plus, TrendingUp
+  Zap, Heart, Loader2, Plus, TrendingUp, Trash2, X
 } from 'lucide-react';
 import MessageBubble from '../components/coach/MessageBubble';
 import ProactiveSuggestions from '../components/coach/ProactiveSuggestions';
@@ -105,6 +105,39 @@ export default function Coach() {
       console.error('Error creating conversation:', error);
     } finally {
       setIsCreatingConversation(false);
+    }
+  };
+
+  const deleteConversation = async (conversationId) => {
+    try {
+      await base44.agents.deleteConversation(conversationId);
+      
+      if (currentConversation?.id === conversationId) {
+        setCurrentConversation(null);
+        setMessages([]);
+      }
+      
+      await loadConversations();
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+    }
+  };
+
+  const resetAllConversations = async () => {
+    if (!window.confirm('Are you sure you want to delete all conversations? This cannot be undone.')) {
+      return;
+    }
+    
+    try {
+      for (const convo of conversations) {
+        await base44.agents.deleteConversation(convo.id);
+      }
+      
+      setCurrentConversation(null);
+      setMessages([]);
+      setConversations([]);
+    } catch (error) {
+      console.error('Error resetting conversations:', error);
     }
   };
 
@@ -227,19 +260,32 @@ export default function Coach() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm">Conversations</CardTitle>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={createNewConversation}
-                  disabled={isCreatingConversation}
-                  className="h-8 w-8 p-0"
-                >
-                  {isCreatingConversation ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Plus className="h-4 w-4" />
+                <div className="flex gap-1">
+                  {conversations.length > 0 && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={resetAllConversations}
+                      className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                      title="Delete all conversations"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   )}
-                </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={createNewConversation}
+                    disabled={isCreatingConversation}
+                    className="h-8 w-8 p-0"
+                  >
+                    {isCreatingConversation ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Plus className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-2 max-h-[300px] overflow-y-auto">
@@ -249,25 +295,39 @@ export default function Coach() {
                 </p>
               ) : (
                 conversations.map((convo) => (
-                  <button
+                  <div
                     key={convo.id}
-                    onClick={() => selectConversation(convo)}
-                    className={`w-full text-left p-3 rounded-lg transition-all ${
+                    className={`relative group rounded-lg transition-all ${
                       currentConversation?.id === convo.id
                         ? 'bg-purple-100 border-2 border-purple-300'
                         : 'bg-gray-50 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
-                    <div className="flex items-center space-x-2 mb-1">
-                      <MessageCircle className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm font-medium truncate">
-                        {convo.metadata?.name || 'Conversation'}
+                    <button
+                      onClick={() => selectConversation(convo)}
+                      className="w-full text-left p-3 pr-10"
+                    >
+                      <div className="flex items-center space-x-2 mb-1">
+                        <MessageCircle className="h-4 w-4 text-gray-500" />
+                        <span className="text-sm font-medium truncate">
+                          {convo.metadata?.name || 'Conversation'}
+                        </span>
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        {new Date(convo.created_date).toLocaleDateString()}
                       </span>
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      {new Date(convo.created_date).toLocaleDateString()}
-                    </span>
-                  </button>
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteConversation(convo.id);
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded"
+                      title="Delete conversation"
+                    >
+                      <X className="h-4 w-4 text-red-500" />
+                    </button>
+                  </div>
                 ))
               )}
             </CardContent>
