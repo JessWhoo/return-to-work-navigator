@@ -84,7 +84,7 @@ export default function Accommodations() {
     );
   };
 
-  const generateLetter = () => {
+  const generateLetter = async () => {
     if (selectedAccommodations.length === 0) {
       toast.error('Please select at least one accommodation');
       return;
@@ -110,8 +110,27 @@ Thank you for your consideration.
 Sincerely,
 ${formData.name || '[Your name]'}`;
 
-    navigator.clipboard.writeText(letter);
-    toast.success('Accommodation request letter copied to clipboard!');
+    try {
+      await navigator.clipboard.writeText(letter);
+      toast.success('Accommodation request letter copied to clipboard!');
+    } catch (err) {
+      // Fallback: Create a textarea and copy
+      const textarea = document.createElement('textarea');
+      textarea.value = letter;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        toast.success('Accommodation request letter copied to clipboard!');
+      } catch (e) {
+        toast.error('Could not copy to clipboard. Please select text manually.');
+        // Show the letter in an alert as final fallback
+        alert(letter);
+      }
+      document.body.removeChild(textarea);
+    }
   };
 
   return (
@@ -265,7 +284,7 @@ ${formData.name || '[Your name]'}`;
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {
+              onClick={async () => {
                 const template = `[Date]
 
 To Whom It May Concern:
@@ -283,8 +302,24 @@ If you have questions regarding these recommendations, please contact my office 
 Sincerely,
 [Doctor name] [Title]
 [Practice name]`;
-                navigator.clipboard.writeText(template);
-                toast.success('Doctor template copied!');
+                try {
+                  await navigator.clipboard.writeText(template);
+                  toast.success('Doctor template copied!');
+                } catch (err) {
+                  const textarea = document.createElement('textarea');
+                  textarea.value = template;
+                  textarea.style.position = 'fixed';
+                  textarea.style.opacity = '0';
+                  document.body.appendChild(textarea);
+                  textarea.select();
+                  try {
+                    document.execCommand('copy');
+                    toast.success('Doctor template copied!');
+                  } catch (e) {
+                    toast.error('Could not copy to clipboard');
+                  }
+                  document.body.removeChild(textarea);
+                }
               }}
             >
               <Copy className="h-4 w-4 mr-2" />
