@@ -11,9 +11,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
+import OnboardingFlow from '../components/OnboardingFlow';
 
 export default function Home() {
   const queryClient = useQueryClient();
+  const [showOnboarding, setShowOnboarding] = useState(false);
   
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
@@ -24,10 +26,17 @@ export default function Home() {
       return await base44.entities.UserProgress.create({
         completed_checklist_items: [],
         journey_stage: 'planning',
-        calendar_events: []
+        calendar_events: [],
+        onboarding_completed: false
       });
     }
   });
+
+  useEffect(() => {
+    if (progress && !progress.onboarding_completed) {
+      setShowOnboarding(true);
+    }
+  }, [progress]);
 
   const updateProgressMutation = useMutation({
     mutationFn: async (updates) => {
@@ -35,6 +44,18 @@ export default function Home() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['userProgress']);
+    }
+  });
+
+  const completeOnboardingMutation = useMutation({
+    mutationFn: async () => {
+      return await base44.entities.UserProgress.update(progress.id, {
+        onboarding_completed: true
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userProgress']);
+      setShowOnboarding(false);
     }
   });
 
@@ -107,6 +128,11 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto">
+      <OnboardingFlow 
+        open={showOnboarding} 
+        onComplete={() => completeOnboardingMutation.mutate()}
+      />
+      
       {/* Hero Cover Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -198,6 +224,16 @@ export default function Home() {
                 View My Checklist
               </Button>
             </Link>
+            {progress?.onboarding_completed && (
+              <Button 
+                onClick={() => setShowOnboarding(true)}
+                variant="outline"
+                className="border-2 border-cyan-400 text-cyan-300 hover:bg-cyan-900/30 hover:border-cyan-300 px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all"
+              >
+                <Sparkles className="h-5 w-5 mr-2" />
+                View Tutorial
+              </Button>
+            )}
           </motion.div>
 
           {progress?.return_date && (
