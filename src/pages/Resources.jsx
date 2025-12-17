@@ -117,10 +117,17 @@ export default function Resources() {
         rating: getRating(`${category.category}-${idx}`)
       }))
       .filter(item => {
-        const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.org.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.topics?.some(topic => topic.toLowerCase().includes(searchQuery.toLowerCase()));
+        if (!searchQuery.trim() && selectedType === 'all' && selectedTopic === 'all' && selectedStage === 'all' && !showBookmarked) {
+          return true; // Show all if no filters
+        }
+        
+        const query = searchQuery.toLowerCase().trim();
+        const matchesSearch = !query || 
+          item.name?.toLowerCase().includes(query) ||
+          item.description?.toLowerCase().includes(query) ||
+          item.org?.toLowerCase().includes(query) ||
+          item.topics?.some(topic => topic?.toLowerCase().includes(query)) ||
+          item.type?.toLowerCase().includes(query);
         
         const matchesBookmark = !showBookmarked || isBookmarked(item.id);
         const matchesType = selectedType === 'all' || item.type === selectedType;
