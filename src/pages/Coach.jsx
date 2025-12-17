@@ -72,17 +72,14 @@ export default function Coach() {
         agent_name: 'return_to_work_coach'
       });
       
-      if (convos.length > 0) {
-        setConversations(convos);
-        if (!currentConversation) {
-          await selectConversation(convos[0]);
-        }
-      } else {
-        // Auto-create first conversation for new users
-        await createNewConversation();
+      setConversations(convos);
+      
+      if (convos.length > 0 && !currentConversation) {
+        await selectConversation(convos[0]);
       }
     } catch (error) {
       console.error('Error loading conversations:', error);
+      alert('Failed to load conversations. Please refresh the page.');
     } finally {
       setIsLoading(false);
     }
@@ -115,12 +112,12 @@ export default function Coach() {
       setMessages([]);
       
       // Refresh conversations list
-      const convos = await base44.agents.listConversations({
-        agent_name: 'return_to_work_coach'
-      });
-      setConversations(convos);
+      await loadConversations();
+      
+      return newConvo;
     } catch (error) {
       console.error('Error creating conversation:', error);
+      alert('Failed to create conversation. Please try again.');
     } finally {
       setIsCreatingConversation(false);
     }
