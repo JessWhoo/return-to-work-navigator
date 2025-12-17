@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 
@@ -14,8 +14,9 @@ export default function Layout({ children, currentPageName }) {
   const navigation = [
     { name: 'Home', icon: Home, page: 'Home' },
     { name: 'My Profile', icon: User, page: 'Profile' },
+    { name: 'Achievements', icon: Trophy, page: 'Gamification', highlight: true },
     { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
-    { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
+    { name: 'AI Coach', icon: MessageSquare, page: 'Coach' },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
     { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },
     { name: 'Communication', icon: FileText, page: 'Communication' },
