@@ -6,6 +6,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, Circle, ChevronDown, ChevronRight } from 'lucide-react';
+import { useGamification } from '../components/gamification/useGamification';
+import QuickPointsDisplay from '../components/gamification/QuickPointsDisplay';
+import CelebrationModal from '../components/gamification/CelebrationModal';
+import LevelDisplay from '../components/gamification/LevelDisplay';
 
 const checklistData = [
   {
@@ -119,6 +123,7 @@ const checklistData = [
 
 export default function Checklist() {
   const queryClient = useQueryClient();
+  const { trackAction, showQuickPoints, quickPointsAmount, setShowQuickPoints, celebration, setCelebration } = useGamification();
   const [expandedPhases, setExpandedPhases] = useState([0]);
 
   const { data: progress, isLoading } = useQuery({
@@ -146,8 +151,13 @@ export default function Checklist() {
         completed_checklist_items: updatedItems
       });
     },
-    onSuccess: () => {
+    onSuccess: (_, { itemId, isChecked }) => {
       queryClient.invalidateQueries(['userProgress']);
+      
+      // Award points when checking (not unchecking)
+      if (isChecked && progress) {
+        trackAction(progress, 'checklist_complete');
+      }
     }
   });
 
@@ -184,6 +194,19 @@ export default function Checklist() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
+      <QuickPointsDisplay 
+        points={quickPointsAmount}
+        show={showQuickPoints}
+        onComplete={() => setShowQuickPoints(false)}
+      />
+      
+      <CelebrationModal
+        open={celebration.show}
+        onClose={() => setCelebration({ show: false, type: 'points', data: {} })}
+        type={celebration.type}
+        data={celebration.data}
+      />
+      
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-rose-600 to-teal-600 bg-clip-text text-transparent">
@@ -211,6 +234,11 @@ export default function Checklist() {
           </div>
         </CardContent>
       </Card>
+      
+      {/* Gamification Level Display */}
+      {progress?.gamification && (
+        <LevelDisplay points={progress.gamification.total_points} compact />
+      )}
 
       {/* Checklist Phases */}
       <div className="space-y-6">
