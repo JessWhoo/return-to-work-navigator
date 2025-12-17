@@ -11,6 +11,7 @@ import WellnessResources from './pages/WellnessResources';
 import ProgressDashboard from './pages/ProgressDashboard';
 import Profile from './pages/Profile';
 import Gamification from './pages/Gamification';
+import FAQ from './pages/FAQ';
 import __Layout from './Layout.jsx';
 
 
@@ -28,6 +29,7 @@ export const PAGES = {
     "ProgressDashboard": ProgressDashboard,
     "Profile": Profile,
     "Gamification": Gamification,
+    "FAQ": FAQ,
 }
 
 export const pagesConfig = {

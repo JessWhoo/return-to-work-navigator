@@ -24,7 +24,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Emotional Support', icon: Heart, page: 'EmotionalSupport' },
     { name: 'Wellness Resources', icon: Sparkles, page: 'WellnessResources' },
     { name: 'Return Planning', icon: Calendar, page: 'ReturnPlanning' },
-    { name: 'Resources', icon: BookOpen, page: 'Resources' }
+    { name: 'Resources', icon: BookOpen, page: 'Resources' },
+    { name: 'FAQ', icon: MessageSquare, page: 'FAQ' }
   ];
 
   const toggleSpeech = () => {
