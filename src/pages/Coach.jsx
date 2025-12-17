@@ -24,6 +24,7 @@ export default function Coach() {
   const [inputMessage, setInputMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isCreatingConversation, setIsCreatingConversation] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const messagesEndRef = useRef(null);
 
   const { data: progress } = useQuery({
@@ -66,6 +67,7 @@ export default function Coach() {
 
   const loadConversations = async () => {
     try {
+      setIsLoading(true);
       const convos = await base44.agents.listConversations({
         agent_name: 'return_to_work_coach'
       });
@@ -81,6 +83,8 @@ export default function Coach() {
       }
     } catch (error) {
       console.error('Error loading conversations:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -227,6 +231,17 @@ export default function Coach() {
     "How do I talk to my boss about my limitations?",
     "Analyze my progress and give me personalized advice"
   ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="text-center space-y-3">
+          <Loader2 className="h-12 w-12 text-purple-600 animate-spin mx-auto" />
+          <p className="text-slate-300">Loading AI Coach...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
