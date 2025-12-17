@@ -13,8 +13,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
-import AdvancedRecommendations from '../components/resources/AdvancedRecommendations';
-import AIRecommendations from '../components/resources/AIRecommendations';
+import AIPersonalizedEngine from '../components/resources/AIPersonalizedEngine';
 import TrendingResources from '../components/resources/TrendingResources';
 import ResourceReviewDialog from '../components/resources/ResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
@@ -78,9 +77,7 @@ export default function Resources() {
   });
 
   const handleDiscussWithCoach = (resource) => {
-    const message = `I'd like to learn more about this resource:\n\n${resource.name} (${resource.org})\n${resource.description}\n\nCan you help me understand how to use this resource for my return-to-work journey?`;
-    localStorage.setItem('pendingCoachMessage', message);
-    navigate(createPageUrl('Coach'));
+    toast.info('AI Coach feature has been removed from this version');
   };
 
   const isBookmarked = (resourceId) => {
@@ -303,13 +300,12 @@ export default function Resources() {
       </Card>
 
       {/* AI-Powered Personalized Recommendations */}
-      <AIRecommendations
+      <AIPersonalizedEngine
         progress={progress}
-        allResources={resources}
+        resources={resources}
         onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
-        onDiscussWithCoach={handleDiscussWithCoach}
         isBookmarked={isBookmarked}
-        getRating={getRating}
+        onDiscuss={handleDiscussWithCoach}
       />
 
       {/* Trending Resources */}
@@ -414,15 +410,7 @@ export default function Resources() {
                               {bookmarked ? <BookmarkCheck className="h-4 w-4 mr-2" /> : <Bookmark className="h-4 w-4 mr-2" />}
                               {bookmarked ? 'Saved' : 'Save'}
                               </Button>
-                              <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleDiscussWithCoach(resource)}
-                              className="flex-1"
-                              >
-                              <MessageCircle className="h-4 w-4 mr-2" />
-                              Ask Coach
-                              </Button>
+
                               <ResourceReviewDialog 
                                 resourceId={resource.id}
                                 resourceName={resource.name}
