@@ -107,14 +107,10 @@ export default function Coach() {
         }
       });
       
+      // Add to conversations list
+      setConversations(prev => [newConvo, ...prev]);
       setCurrentConversation(newConvo);
       setMessages([]);
-      
-      // Refresh conversations list
-      const convos = await base44.agents.listConversations({
-        agent_name: 'return_to_work_coach'
-      });
-      setConversations(convos);
       
       return newConvo;
     } catch (error) {
@@ -169,18 +165,11 @@ export default function Coach() {
       
       // Create conversation if none exists
       if (!conversationToUse) {
-        const newConvo = await base44.agents.createConversation({
-          agent_name: 'return_to_work_coach',
-          metadata: {
-            name: `Chat ${new Date().toLocaleDateString()}`,
-            created_at: new Date().toISOString()
-          }
-        });
-        
-        setCurrentConversation(newConvo);
-        setMessages([]);
-        conversationToUse = newConvo;
-        loadConversations();
+        conversationToUse = await createNewConversation();
+        if (!conversationToUse) {
+          setIsSending(false);
+          return;
+        }
       }
 
       await base44.agents.addMessage(conversationToUse, {
