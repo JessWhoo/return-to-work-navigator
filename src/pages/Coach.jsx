@@ -79,7 +79,6 @@ export default function Coach() {
       }
     } catch (error) {
       console.error('Error loading conversations:', error);
-      alert('Failed to load conversations. Please refresh the page.');
     } finally {
       setIsLoading(false);
     }
@@ -112,12 +111,14 @@ export default function Coach() {
       setMessages([]);
       
       // Refresh conversations list
-      await loadConversations();
+      const convos = await base44.agents.listConversations({
+        agent_name: 'return_to_work_coach'
+      });
+      setConversations(convos);
       
       return newConvo;
     } catch (error) {
       console.error('Error creating conversation:', error);
-      alert('Failed to create conversation. Please try again.');
     } finally {
       setIsCreatingConversation(false);
     }
