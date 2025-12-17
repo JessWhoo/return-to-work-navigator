@@ -7,7 +7,6 @@ import EnergyManagement from './pages/EnergyManagement';
 import Resources from './pages/Resources';
 import EmotionalSupport from './pages/EmotionalSupport';
 import ReturnPlanning from './pages/ReturnPlanning';
-import Coach from './pages/Coach';
 import WellnessResources from './pages/WellnessResources';
 import ProgressDashboard from './pages/ProgressDashboard';
 import Profile from './pages/Profile';
@@ -25,7 +24,6 @@ export const PAGES = {
     "Resources": Resources,
     "EmotionalSupport": EmotionalSupport,
     "ReturnPlanning": ReturnPlanning,
-    "Coach": Coach,
     "WellnessResources": WellnessResources,
     "ProgressDashboard": ProgressDashboard,
     "Profile": Profile,

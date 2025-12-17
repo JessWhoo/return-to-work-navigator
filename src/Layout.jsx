@@ -16,7 +16,6 @@ export default function Layout({ children, currentPageName }) {
     { name: 'My Profile', icon: User, page: 'Profile' },
     { name: 'Achievements', icon: Trophy, page: 'Gamification', highlight: true },
     { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
-    { name: 'AI Coach', icon: MessageSquare, page: 'Coach' },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
     { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },
     { name: 'Communication', icon: FileText, page: 'Communication' },
