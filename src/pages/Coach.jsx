@@ -35,18 +35,14 @@ export default function Coach() {
   });
 
   useEffect(() => {
-    const initializeCoach = async () => {
-      await loadConversations();
-      
-      // Check for pending message from Resources page
-      const pendingMessage = localStorage.getItem('pendingCoachMessage');
-      if (pendingMessage) {
-        localStorage.removeItem('pendingCoachMessage');
-        setInputMessage(pendingMessage);
-      }
-    };
+    loadConversations();
     
-    initializeCoach();
+    // Check for pending message from Resources page
+    const pendingMessage = localStorage.getItem('pendingCoachMessage');
+    if (pendingMessage) {
+      localStorage.removeItem('pendingCoachMessage');
+      setInputMessage(pendingMessage);
+    }
   }, []);
 
   useEffect(() => {
@@ -73,23 +69,15 @@ export default function Coach() {
       const convos = await base44.agents.listConversations({
         agent_name: 'return_to_work_coach'
       });
-      setConversations(convos);
       
-      if (convos.length > 0 && !currentConversation) {
-        await selectConversation(convos[0]);
-      } else if (convos.length === 0) {
+      if (convos.length > 0) {
+        setConversations(convos);
+        if (!currentConversation) {
+          await selectConversation(convos[0]);
+        }
+      } else {
         // Auto-create first conversation for new users
-        const newConvo = await base44.agents.createConversation({
-          agent_name: 'return_to_work_coach',
-          metadata: {
-            name: `Chat ${new Date().toLocaleDateString()}`,
-            created_at: new Date().toISOString()
-          }
-        });
-        
-        setCurrentConversation(newConvo);
-        setMessages([]);
-        setConversations([newConvo]);
+        await createNewConversation();
       }
     } catch (error) {
       console.error('Error loading conversations:', error);
