@@ -12,6 +12,7 @@ import ProgressDashboard from './pages/ProgressDashboard';
 import Profile from './pages/Profile';
 import Gamification from './pages/Gamification';
 import FAQ from './pages/FAQ';
+import Coach from './pages/Coach';
 import __Layout from './Layout.jsx';
 
 
@@ -30,6 +31,7 @@ export const PAGES = {
     "Profile": Profile,
     "Gamification": Gamification,
     "FAQ": FAQ,
+    "Coach": Coach,
 }
 
 export const pagesConfig = {

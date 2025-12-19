@@ -14,7 +14,8 @@ export default function Layout({ children, currentPageName }) {
   const navigation = [
     { name: 'Home', icon: Home, page: 'Home' },
     { name: 'My Profile', icon: User, page: 'Profile' },
-    { name: 'Achievements', icon: Trophy, page: 'Gamification', highlight: true },
+    { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
+    { name: 'Achievements', icon: Trophy, page: 'Gamification' },
     { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
     { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },

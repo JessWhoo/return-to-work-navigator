@@ -77,7 +77,9 @@ export default function Resources() {
   });
 
   const handleDiscussWithCoach = (resource) => {
-    toast.info('AI Coach feature has been removed from this version');
+    const message = `I'd like to learn more about this resource:\n\n${resource.name} (${resource.org})\n${resource.description}\n\nCan you help me understand how to use this resource for my return-to-work journey?`;
+    localStorage.setItem('pendingCoachMessage', message);
+    navigate(createPageUrl('Coach'));
   };
 
   const isBookmarked = (resourceId) => {
@@ -411,6 +413,15 @@ export default function Resources() {
                               {bookmarked ? 'Saved' : 'Save'}
                               </Button>
 
+                              <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDiscussWithCoach(resource)}
+                              className="flex-1"
+                              >
+                              <MessageCircle className="h-4 w-4 mr-2" />
+                              Ask Coach
+                              </Button>
                               <ResourceReviewDialog 
                                 resourceId={resource.id}
                                 resourceName={resource.name}
