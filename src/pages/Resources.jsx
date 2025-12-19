@@ -9,13 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Search, ExternalLink, Star,
-  Bookmark, MessageCircle, BookmarkCheck
+  Bookmark, MessageCircle, BookmarkCheck, TrendingUp
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
 import AIPersonalizedEngine from '../components/resources/AIPersonalizedEngine';
 import TrendingResources from '../components/resources/TrendingResources';
-import ResourceReviewDialog from '../components/resources/ResourceReviewDialog';
+import EnhancedResourceReviewDialog from '../components/resources/EnhancedResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
 
 export default function Resources() {
@@ -107,14 +107,38 @@ export default function Resources() {
     emerald: { from: 'from-emerald-100', via: 'via-emerald-50', border: 'border-emerald-200', iconFrom: 'from-emerald-400', iconTo: 'to-emerald-600', badge: 'bg-emerald-500' }
   };
 
+  // Fetch all reviews for rating display
+  const { data: allReviews } = useQuery({
+    queryKey: ['all-resource-reviews'],
+    queryFn: async () => {
+      return await base44.entities.ResourceReview.list();
+    }
+  });
+
+  const getResourceRating = (resourceId) => {
+    if (!allReviews) return null;
+    const resourceReviews = allReviews.filter(r => r.resource_id === resourceId);
+    if (resourceReviews.length === 0) return null;
+    const avg = resourceReviews.reduce((sum, r) => sum + r.rating, 0) / resourceReviews.length;
+    return {
+      average: avg,
+      count: resourceReviews.length
+    };
+  };
+
   const filteredResources = resources.map(category => ({
     ...category,
     items: category.items
-      .map((item, idx) => ({
-        ...item,
-        id: `${category.category}-${idx}`,
-        rating: getRating(`${category.category}-${idx}`)
-      }))
+      .map((item, idx) => {
+        const resourceId = `${category.category}-${idx}`;
+        const communityRating = getResourceRating(resourceId);
+        return {
+          ...item,
+          id: resourceId,
+          rating: getRating(resourceId),
+          communityRating
+        };
+      })
       .filter(item => {
         if (!searchQuery.trim() && selectedType === 'all' && selectedTopic === 'all' && selectedStage === 'all' && !showBookmarked) {
           return true; // Show all if no filters
@@ -348,48 +372,70 @@ export default function Resources() {
                         <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${cardColors.iconFrom} ${cardColors.iconTo}`}></div>
                         <div className="pl-3 space-y-3">
                           <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1">
-                              <div className="flex items-center space-x-2 mb-2">
-                                <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
-                                  {resource.type}
-                                </Badge>
-                                {resource.topics?.slice(0, 2).map(topic => (
-                                  <Badge key={topic} variant="outline" className="text-xs border-slate-600 text-slate-600">
-                                    {topic}
-                                  </Badge>
-                                ))}
-                                {bookmarked && (
-                                  <Badge className="bg-amber-100 text-amber-700">
-                                    <BookmarkCheck className="h-3 w-3 mr-1" />
-                                    Saved
-                                  </Badge>
-                                )}
-                              </div>
+                          <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2 flex-wrap">
+                            <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
+                              {resource.type}
+                            </Badge>
+                            {resource.topics?.slice(0, 2).map(topic => (
+                              <Badge key={topic} variant="outline" className="text-xs border-slate-600 text-slate-600">
+                                {topic}
+                              </Badge>
+                            ))}
+                            {bookmarked && (
+                              <Badge className="bg-amber-100 text-amber-700">
+                                <BookmarkCheck className="h-3 w-3 mr-1" />
+                                Saved
+                              </Badge>
+                            )}
+                            {resource.communityRating && resource.communityRating.average >= 4 && (
+                              <Badge className="bg-green-100 text-green-800 border border-green-300">
+                                <TrendingUp className="h-3 w-3 mr-1" />
+                                Highly Rated
+                              </Badge>
+                            )}
+                          </div>
                               <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
                               <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
                               <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
 
                               {/* Rating System */}
-                              <div className="flex items-center space-x-1 mt-2">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <button
-                                    key={star}
-                                    onClick={() => handleRate(resource.id, star)}
-                                    className="transition-transform hover:scale-110"
-                                  >
-                                    <Star
-                                      className={`h-4 w-4 ${
-                                        star <= getRating(resource.id)
-                                          ? 'text-amber-500 fill-amber-500'
-                                          : 'text-gray-300 hover:text-amber-400'
-                                      }`}
-                                    />
-                                  </button>
-                                ))}
-                                {getRating(resource.id) > 0 && (
-                                  <span className="text-xs text-gray-500 ml-2">
-                                    ({getRating(resource.id)}/5)
-                                  </span>
+                              <div className="flex items-center space-x-3 mt-2">
+                                {/* Your Rating */}
+                                <div className="flex items-center space-x-1">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <button
+                                      key={star}
+                                      onClick={() => handleRate(resource.id, star)}
+                                      className="transition-transform hover:scale-110"
+                                    >
+                                      <Star
+                                        className={`h-4 w-4 ${
+                                          star <= getRating(resource.id)
+                                            ? 'text-amber-500 fill-amber-500'
+                                            : 'text-gray-300 hover:text-amber-400'
+                                        }`}
+                                      />
+                                    </button>
+                                  ))}
+                                  {getRating(resource.id) > 0 && (
+                                    <span className="text-xs text-gray-500 ml-2">
+                                      Your rating: {getRating(resource.id)}/5
+                                    </span>
+                                  )}
+                                </div>
+                                
+                                {/* Community Rating */}
+                                {resource.communityRating && (
+                                  <div className="flex items-center space-x-1 pl-3 border-l">
+                                    <Star className="h-4 w-4 text-blue-600 fill-blue-600" />
+                                    <span className="text-sm font-semibold text-blue-700">
+                                      {resource.communityRating.average.toFixed(1)}
+                                    </span>
+                                    <span className="text-xs text-gray-500">
+                                      ({resource.communityRating.count} {resource.communityRating.count === 1 ? 'review' : 'reviews'})
+                                    </span>
+                                  </div>
                                 )}
                               </div>
                               </div>
@@ -422,7 +468,7 @@ export default function Resources() {
                               <MessageCircle className="h-4 w-4 mr-2" />
                               Ask Coach
                               </Button>
-                              <ResourceReviewDialog 
+                              <EnhancedResourceReviewDialog 
                                 resourceId={resource.id}
                                 resourceName={resource.name}
                               />

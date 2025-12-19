@@ -79,16 +79,50 @@ export default function AIPersonalizedEngine({
     try {
       const userData = analyzeUserData();
       
-      // Prepare resource data for AI
+      // Fetch all resource reviews for community feedback
+      const allReviews = await base44.entities.ResourceReview.list();
+      
+      // Calculate average ratings and review counts for each resource
+      const resourceRatings = {};
+      allReviews.forEach(review => {
+        if (!resourceRatings[review.resource_id]) {
+          resourceRatings[review.resource_id] = {
+            ratings: [],
+            reviews: [],
+            helpful_for: []
+          };
+        }
+        resourceRatings[review.resource_id].ratings.push(review.rating);
+        if (review.review_text) {
+          resourceRatings[review.resource_id].reviews.push(review.review_text);
+        }
+        if (review.helpful_for) {
+          resourceRatings[review.resource_id].helpful_for.push(...review.helpful_for);
+        }
+      });
+
+      // Prepare resource data for AI with ratings
       const resourceSummary = resources.map(category => ({
         category: category.name,
-        resources: category.resources.map(r => ({
-          name: r.name,
-          type: r.type,
-          topics: r.topics,
-          stages: r.stages,
-          description: r.description
-        }))
+        resources: category.resources.map((r, idx) => {
+          const resourceId = `${category.name}-${idx}`;
+          const ratings = resourceRatings[resourceId];
+          const avgRating = ratings?.ratings.length > 0
+            ? (ratings.ratings.reduce((sum, r) => sum + r, 0) / ratings.ratings.length).toFixed(1)
+            : null;
+          
+          return {
+            name: r.name,
+            type: r.type,
+            topics: r.topics,
+            stages: r.stages,
+            description: r.description,
+            avg_rating: avgRating,
+            review_count: ratings?.ratings.length || 0,
+            helpful_for: ratings?.helpful_for || [],
+            recent_feedback: ratings?.reviews.slice(-3) || []
+          };
+        })
       }));
 
       const prompt = `You are an expert advisor for cancer survivors returning to work. Analyze this user's data and recommend the most relevant resources.
@@ -104,14 +138,26 @@ USER DATA:
 - Recent Notes: ${userData.recent_notes || 'none'}
 - Engagement Streak: ${userData.current_streak} days
 
-AVAILABLE RESOURCES:
+AVAILABLE RESOURCES WITH COMMUNITY FEEDBACK:
 ${JSON.stringify(resourceSummary, null, 2)}
 
+INSTRUCTIONS:
 Provide 5-7 personalized resource recommendations with detailed reasoning. For each recommendation:
 1. Identify the specific user challenge/need it addresses
 2. Explain why it's timely and relevant now
 3. Suggest how to use it effectively
 4. Rate priority (high/medium/low)
+
+IMPORTANT: Prioritize resources with:
+- Higher average ratings (4+ stars are proven effective)
+- More reviews (shows wider user validation)
+- "Helpful for" tags matching the user's current challenges
+- Recent positive feedback from similar users
+
+Avoid recommending resources with:
+- Average rating below 2.5 stars
+- Consistent negative feedback
+- No reviews (unless exceptionally relevant)
 
 Return recommendations sorted by priority (high first).`;
 
@@ -139,7 +185,8 @@ Return recommendations sorted by priority (high first).`;
                   addresses_challenge: { type: "string" },
                   why_now: { type: "string" },
                   how_to_use: { type: "string" },
-                  expected_benefit: { type: "string" }
+                  expected_benefit: { type: "string" },
+                  community_validation: { type: "string" }
                 }
               }
             },
@@ -374,6 +421,16 @@ Return recommendations sorted by priority (high first).`;
                       </p>
                       <p className="text-sm text-purple-700">{rec.expected_benefit}</p>
                     </div>
+
+                    {/* Community Validation */}
+                    {rec.community_validation && (
+                      <div className="bg-teal-50 border-l-4 border-teal-400 p-3 rounded">
+                        <p className="text-sm font-semibold text-teal-800 mb-1">
+                          Community Feedback:
+                        </p>
+                        <p className="text-sm text-teal-700">{rec.community_validation}</p>
+                      </div>
+                    )}
 
                     {/* Actions */}
                     <div className="flex flex-wrap gap-2 pt-2">
