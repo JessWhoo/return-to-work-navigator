@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageBubble from '../components/coach/MessageBubble';
+import ProactiveCalendarInsights from '../components/coach/ProactiveCalendarInsights';
 
 export default function Coach() {
   const queryClient = useQueryClient();
@@ -18,6 +19,16 @@ export default function Coach() {
   const [message, setMessage] = useState('');
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversations, setConversations] = useState([]);
+
+  // Load user progress for calendar insights
+  const { data: progress } = useQuery({
+    queryKey: ['userProgress'],
+    queryFn: async () => {
+      const progressList = await base44.entities.UserProgress.list();
+      if (progressList.length > 0) return progressList[0];
+      return null;
+    }
+  });
 
   // Load pending message from other pages
   useEffect(() => {
@@ -139,6 +150,21 @@ export default function Coach() {
     }
   };
 
+  const handleQuickMessage = (messageText) => {
+    setMessage(messageText);
+    // Auto-send after a brief delay
+    setTimeout(() => {
+      if (!selectedConversation) {
+        createConversationMutation.mutate();
+        setTimeout(() => {
+          sendMessageMutation.mutate(messageText);
+        }, 500);
+      } else {
+        sendMessageMutation.mutate(messageText);
+      }
+    }, 100);
+  };
+
   const currentConversation = conversations.find(c => c.id === selectedConversation);
   const messages = currentConversation?.messages || [];
 
@@ -209,6 +235,16 @@ export default function Coach() {
               )}
             </CardContent>
           </Card>
+
+          {/* Calendar Insights */}
+          {progress && (
+            <div className="space-y-4">
+              <ProactiveCalendarInsights 
+                progress={progress} 
+                onSendMessage={handleQuickMessage}
+              />
+            </div>
+          )}
 
           {/* Coach Info */}
           <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-2 border-purple-600">
