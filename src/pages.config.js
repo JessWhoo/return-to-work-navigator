@@ -13,6 +13,7 @@ import ProgressDashboard from './pages/ProgressDashboard';
 import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
 import WellnessResources from './pages/WellnessResources';
+import RecordKeeping from './pages/RecordKeeping';
 import __Layout from './Layout.jsx';
 
 
@@ -32,6 +33,7 @@ export const PAGES = {
     "Resources": Resources,
     "ReturnPlanning": ReturnPlanning,
     "WellnessResources": WellnessResources,
+    "RecordKeeping": RecordKeeping,
 }
 
 export const pagesConfig = {

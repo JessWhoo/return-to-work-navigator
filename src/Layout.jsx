@@ -26,6 +26,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Wellness Resources', icon: Sparkles, page: 'WellnessResources' },
     { name: 'Return Planning', icon: Calendar, page: 'ReturnPlanning' },
     { name: 'Resources', icon: BookOpen, page: 'Resources' },
+    { name: 'Record Keeping', icon: FileText, page: 'RecordKeeping' },
     { name: 'FAQ', icon: MessageSquare, page: 'FAQ' }
   ];
 
