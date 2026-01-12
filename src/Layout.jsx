@@ -56,14 +56,16 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <Link to={createPageUrl('Home')} className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg">
-                <Heart className="h-6 w-6 text-white" fill="white" />
-              </div>
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png"
+                alt="Back to Life, Back to Work Navigator"
+                className="h-12 w-12 sm:h-14 sm:w-14 object-contain drop-shadow-lg"
+              />
               <div>
                 <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-                  Back to Life, Back to Work
+                  Navigator
                 </h1>
-                <p className="text-xs text-slate-400 hidden sm:block">Your journey, your pace</p>
+                <p className="text-xs text-slate-400 hidden sm:block">Your return-to-work compass</p>
               </div>
             </Link>
 
