@@ -150,19 +150,29 @@ export default function Coach() {
     }
   };
 
-  const handleQuickMessage = (messageText) => {
-    setMessage(messageText);
-    // Auto-send after a brief delay
-    setTimeout(() => {
-      if (!selectedConversation) {
-        createConversationMutation.mutate();
-        setTimeout(() => {
-          sendMessageMutation.mutate(messageText);
-        }, 500);
-      } else {
-        sendMessageMutation.mutate(messageText);
-      }
-    }, 100);
+  const handleQuickMessage = async (messageText) => {
+    if (!selectedConversation) {
+      // Create conversation first
+      const newConv = await base44.agents.createConversation({
+        agent_name: 'return_to_work_coach',
+        metadata: { name: 'New Conversation' }
+      });
+      setSelectedConversation(newConv);
+      setConversations(prev => [newConv, ...prev]);
+      
+      // Send message
+      await base44.agents.addMessage(newConv, {
+        role: 'user',
+        content: messageText
+      });
+    } else {
+      // Send message to existing conversation
+      await base44.agents.addMessage(selectedConversation, {
+        role: 'user',
+        content: messageText
+      });
+    }
+    setMessage('');
   };
 
   const currentConversation = conversations.find(c => c.id === selectedConversation);

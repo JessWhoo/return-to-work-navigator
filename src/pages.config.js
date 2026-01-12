@@ -1,37 +1,37 @@
-import Home from './pages/Home';
-import Checklist from './pages/Checklist';
-import Communication from './pages/Communication';
 import Accommodations from './pages/Accommodations';
-import LegalRights from './pages/LegalRights';
-import EnergyManagement from './pages/EnergyManagement';
-import Resources from './pages/Resources';
+import Checklist from './pages/Checklist';
+import Coach from './pages/Coach';
+import Communication from './pages/Communication';
 import EmotionalSupport from './pages/EmotionalSupport';
+import EnergyManagement from './pages/EnergyManagement';
+import FAQ from './pages/FAQ';
+import Gamification from './pages/Gamification';
+import Home from './pages/Home';
+import LegalRights from './pages/LegalRights';
+import Profile from './pages/Profile';
+import ProgressDashboard from './pages/ProgressDashboard';
+import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
 import WellnessResources from './pages/WellnessResources';
-import ProgressDashboard from './pages/ProgressDashboard';
-import Profile from './pages/Profile';
-import Gamification from './pages/Gamification';
-import FAQ from './pages/FAQ';
-import Coach from './pages/Coach';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Home": Home,
-    "Checklist": Checklist,
-    "Communication": Communication,
     "Accommodations": Accommodations,
-    "LegalRights": LegalRights,
-    "EnergyManagement": EnergyManagement,
-    "Resources": Resources,
+    "Checklist": Checklist,
+    "Coach": Coach,
+    "Communication": Communication,
     "EmotionalSupport": EmotionalSupport,
+    "EnergyManagement": EnergyManagement,
+    "FAQ": FAQ,
+    "Gamification": Gamification,
+    "Home": Home,
+    "LegalRights": LegalRights,
+    "Profile": Profile,
+    "ProgressDashboard": ProgressDashboard,
+    "Resources": Resources,
     "ReturnPlanning": ReturnPlanning,
     "WellnessResources": WellnessResources,
-    "ProgressDashboard": ProgressDashboard,
-    "Profile": Profile,
-    "Gamification": Gamification,
-    "FAQ": FAQ,
-    "Coach": Coach,
 }
 
 export const pagesConfig = {
