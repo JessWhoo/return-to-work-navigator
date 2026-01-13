@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
@@ -29,6 +29,38 @@ export default function Resources() {
   const [selectedStage, setSelectedStage] = useState('all');
   const [showBookmarked, setShowBookmarked] = useState(false);
   const [sortBy, setSortBy] = useState('recommended');
+
+  // Track search queries
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      const timer = setTimeout(() => {
+        base44.analytics.track({
+          eventName: 'resource_library_searched',
+          properties: {
+            query: searchQuery,
+            query_length: searchQuery.length
+          }
+        });
+      }, 1000); // Debounce to avoid tracking every keystroke
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery]);
+
+  // Track filter usage
+  useEffect(() => {
+    if (selectedCategory !== 'all' || selectedType !== 'all' || selectedTopic !== 'all' || selectedStage !== 'all' || showBookmarked) {
+      base44.analytics.track({
+        eventName: 'resource_library_filtered',
+        properties: {
+          category: selectedCategory,
+          type: selectedType,
+          topic: selectedTopic,
+          stage: selectedStage,
+          show_bookmarked: showBookmarked
+        }
+      });
+    }
+  }, [selectedCategory, selectedType, selectedTopic, selectedStage, showBookmarked]);
 
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
