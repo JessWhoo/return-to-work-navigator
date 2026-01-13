@@ -126,15 +126,19 @@ Focus on actionable insights that can help the user manage symptoms while return
         }
       });
 
-      // Track insights generation
-      base44.analytics.track({
-        eventName: 'ai_symptom_insights_generated',
-        properties: {
-          overall_assessment: response.overall_assessment,
-          patterns_found: response.recurring_patterns?.length || 0,
-          concerns_count: response.concerns?.length || 0
-        }
-      });
+      // Track insights generation (non-blocking)
+      try {
+        base44.analytics.track({
+          eventName: 'ai_symptom_insights_generated',
+          properties: {
+            overall_assessment: response.overall_assessment,
+            patterns_found: response.recurring_patterns?.length || 0,
+            concerns_count: response.concerns?.length || 0
+          }
+        });
+      } catch (error) {
+        console.error('Analytics tracking failed:', error);
+      }
 
       return response;
     },
