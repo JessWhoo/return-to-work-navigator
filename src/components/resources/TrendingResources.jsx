@@ -35,19 +35,18 @@ export default function TrendingResources({
     .flatMap(cat => 
       cat.items.map((item, idx) => ({
         ...item,
-        id: `${cat.category}-${idx}`,
+        id: `${cat.category.split(' ').join('')}-${idx}`,
         category: cat.category,
         color: cat.color,
-        stats: getResourceStats(`${cat.category}-${idx}`)
+        stats: getResourceStats(`${cat.category.split(' ').join('')}-${idx}`)
       }))
     )
     .filter(resource => resource.stats.reviewCount > 0)
     .sort((a, b) => {
-      // Sort by average rating first, then by number of reviews
-      if (b.stats.avgRating !== a.stats.avgRating) {
-        return b.stats.avgRating - a.stats.avgRating;
-      }
-      return b.stats.reviewCount - a.stats.reviewCount;
+      // Calculate a trending score based on rating, reviews, and recency
+      const scoreA = b.stats.avgRating * Math.log(b.stats.reviewCount + 1) * (b.stats.recommendCount / (b.stats.reviewCount || 1));
+      const scoreB = a.stats.avgRating * Math.log(a.stats.reviewCount + 1) * (a.stats.recommendCount / (a.stats.reviewCount || 1));
+      return scoreA - scoreB;
     })
     .slice(0, 5);
 
