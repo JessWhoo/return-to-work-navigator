@@ -14,6 +14,7 @@ import RecordKeeping from './pages/RecordKeeping';
 import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
 import WellnessResources from './pages/WellnessResources';
+import SymptomAnalysis from './pages/SymptomAnalysis';
 import __Layout from './Layout.jsx';
 
 
@@ -34,6 +35,7 @@ export const PAGES = {
     "Resources": Resources,
     "ReturnPlanning": ReturnPlanning,
     "WellnessResources": WellnessResources,
+    "SymptomAnalysis": SymptomAnalysis,
 }
 
 export const pagesConfig = {

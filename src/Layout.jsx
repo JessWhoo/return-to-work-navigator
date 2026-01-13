@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 
@@ -19,6 +19,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
     { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },
+    { name: 'Symptom Analysis', icon: Activity, page: 'SymptomAnalysis' },
     { name: 'Communication', icon: FileText, page: 'Communication' },
     { name: 'Accommodations', icon: FileText, page: 'Accommodations' },
     { name: 'Legal Rights', icon: Shield, page: 'LegalRights' },
