@@ -506,6 +506,17 @@ export default function Resources() {
                               href={resource.url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={() => {
+                                base44.analytics.track({
+                                  eventName: 'resource_external_link_clicked',
+                                  properties: {
+                                    resource_id: resource.id,
+                                    resource_name: resource.name,
+                                    resource_type: resource.type,
+                                    resource_category: category.category
+                                  }
+                                });
+                              }}
                               className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
                               >
                               <ExternalLink className="h-5 w-5" />

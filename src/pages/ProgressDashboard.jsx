@@ -188,6 +188,16 @@ export default function ProgressDashboard() {
       calendarEvents: progress.calendar_events
     };
 
+    // Track export
+    base44.analytics.track({
+      eventName: 'progress_data_exported',
+      properties: {
+        journey_stage: progress.journey_stage,
+        days_tracked: progress.energy_logs?.length || 0,
+        checklist_completion: getMetrics().completionRate
+      }
+    });
+
     const dataStr = JSON.stringify(exportData, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
