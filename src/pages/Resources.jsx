@@ -14,6 +14,7 @@ import {
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
 import AIPersonalizedEngine from '../components/resources/AIPersonalizedEngine';
+import AIRecommendations from '../components/resources/AIRecommendations';
 import TrendingResources from '../components/resources/TrendingResources';
 import EnhancedResourceReviewDialog from '../components/resources/EnhancedResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
@@ -51,6 +52,16 @@ export default function Resources() {
         ? currentBookmarks.filter(id => id !== resourceId)
         : [...currentBookmarks, resourceId];
       
+      // Track resource bookmarking
+      base44.analytics.track({
+        eventName: 'resource_bookmarked',
+        properties: {
+          resource_id: resourceId,
+          action: isBookmarked ? 'removed' : 'added',
+          total_bookmarks: updatedBookmarks.length
+        }
+      });
+
       return await base44.entities.UserProgress.update(progress.id, {
         bookmarked_resources: updatedBookmarks
       });
@@ -77,6 +88,16 @@ export default function Resources() {
   });
 
   const handleDiscussWithCoach = (resource) => {
+    // Track resource discussion with coach
+    base44.analytics.track({
+      eventName: 'resource_discussed_with_coach',
+      properties: {
+        resource_name: resource.name,
+        resource_category: resource.category || 'unknown',
+        resource_type: resource.type
+      }
+    });
+
     const message = `I'd like to learn more about this resource:\n\n${resource.name} (${resource.org})\n${resource.description}\n\nCan you help me understand how to use this resource for my return-to-work journey?`;
     localStorage.setItem('pendingCoachMessage', message);
     navigate(createPageUrl('Coach'));
@@ -325,7 +346,17 @@ export default function Resources() {
         </CardContent>
       </Card>
 
-      {/* AI-Powered Personalized Recommendations */}
+      {/* AI-Powered Smart Recommendations */}
+      <AIRecommendations
+        progress={progress}
+        allResources={resources}
+        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+        onDiscussWithCoach={handleDiscussWithCoach}
+        isBookmarked={isBookmarked}
+        getRating={getRating}
+      />
+
+      {/* Legacy AI Engine */}
       <AIPersonalizedEngine
         progress={progress}
         resources={resources}

@@ -10,10 +10,10 @@ import Home from './pages/Home';
 import LegalRights from './pages/LegalRights';
 import Profile from './pages/Profile';
 import ProgressDashboard from './pages/ProgressDashboard';
+import RecordKeeping from './pages/RecordKeeping';
 import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
 import WellnessResources from './pages/WellnessResources';
-import RecordKeeping from './pages/RecordKeeping';
 import __Layout from './Layout.jsx';
 
 
@@ -30,10 +30,10 @@ export const PAGES = {
     "LegalRights": LegalRights,
     "Profile": Profile,
     "ProgressDashboard": ProgressDashboard,
+    "RecordKeeping": RecordKeeping,
     "Resources": Resources,
     "ReturnPlanning": ReturnPlanning,
     "WellnessResources": WellnessResources,
-    "RecordKeeping": RecordKeeping,
 }
 
 export const pagesConfig = {

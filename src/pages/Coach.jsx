@@ -86,6 +86,15 @@ export default function Coach() {
 
   const createConversationMutation = useMutation({
     mutationFn: async () => {
+      // Track new conversation start
+      base44.analytics.track({
+        eventName: 'ai_coach_conversation_started',
+        properties: {
+          journey_stage: progress?.journey_stage || 'unknown',
+          has_return_date: !!progress?.return_date
+        }
+      });
+
       return await base44.agents.createConversation({
         agent_name: 'return_to_work_coach',
         metadata: {
@@ -104,6 +113,16 @@ export default function Coach() {
     mutationFn: async (messageText) => {
       const conversation = conversations.find(c => c.id === selectedConversation);
       if (!conversation) throw new Error('No conversation selected');
+
+      // Track conversation interaction
+      base44.analytics.track({
+        eventName: 'ai_coach_message_sent',
+        properties: {
+          conversation_id: selectedConversation,
+          message_length: messageText.length,
+          has_calendar_insights: progress?.calendar_events?.length > 0 || !!progress?.return_date
+        }
+      });
 
       return await base44.agents.addMessage(conversation, {
         role: 'user',
