@@ -15,6 +15,7 @@ import {
 import { format, parseISO, differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import ShareReportDialog from '../components/dashboard/ShareReportDialog';
+import AIProgressInsights from '../components/dashboard/AIProgressInsights';
 
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
@@ -256,6 +257,9 @@ export default function ProgressDashboard() {
           </Button>
         </div>
       </div>
+
+      {/* AI Progress Insights */}
+      <AIProgressInsights progress={progress} />
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
