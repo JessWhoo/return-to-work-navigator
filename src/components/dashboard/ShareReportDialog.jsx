@@ -126,6 +126,15 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
   };
 
   const handleDownload = () => {
+    // Track report download
+    base44.analytics.track({
+      eventName: 'progress_report_downloaded',
+      properties: {
+        sections_included: Object.keys(selectedSections).filter(k => selectedSections[k]),
+        journey_stage: progress.journey_stage
+      }
+    });
+
     const reportText = generateReport();
     const blob = new Blob([reportText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -162,6 +171,16 @@ If you have any questions or need additional information, please feel free to re
 Best regards,
 ${user.full_name}
 Generated via Back to Life, Back to Work Toolkit`
+      });
+
+      // Track report share
+      base44.analytics.track({
+        eventName: 'progress_report_shared',
+        properties: {
+          method: 'email',
+          sections_included: Object.keys(selectedSections).filter(k => selectedSections[k]),
+          journey_stage: progress.journey_stage
+        }
       });
 
       toast.success('Report sent successfully');
