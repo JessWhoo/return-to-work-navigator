@@ -20,7 +20,7 @@ export default function AIPersonalizedEngine({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const analyzeUserData = () => {
+  const analyzeUserData = async () => {
     // Extract key data points for AI analysis
     const recentEnergyLogs = progress?.energy_logs?.slice(-7) || [];
     const avgEnergy = recentEnergyLogs.length > 0
@@ -32,6 +32,18 @@ export default function AIPersonalizedEngine({
 
     const avgStress = recentEnergyLogs.length > 0
       ? recentEnergyLogs.reduce((sum, log) => sum + (log.stress_level || 0), 0) / recentEnergyLogs.length
+      : 0;
+
+    // Fetch recent symptoms
+    const symptomRecords = await base44.entities.Record.filter({ type: 'symptom' }, '-date', 10);
+    const recentSymptoms = symptomRecords.slice(0, 5).map(s => ({
+      title: s.title,
+      severity: s.symptom_details?.severity,
+      types: s.symptom_details?.symptom_type || []
+    }));
+
+    const avgSymptomSeverity = recentSymptoms.length > 0
+      ? recentSymptoms.reduce((sum, s) => sum + (s.severity || 0), 0) / recentSymptoms.length
       : 0;
 
     const commonMoods = recentEnergyLogs
@@ -68,7 +80,10 @@ export default function AIPersonalizedEngine({
       upcoming_events_count: upcomingEvents.length,
       recent_notes: recentEnergyLogs.map(log => log.notes).filter(Boolean).join('; '),
       bookmarked_count: progress?.bookmarked_resources?.length || 0,
-      current_streak: progress?.gamification?.current_streak || 0
+      current_streak: progress?.gamification?.current_streak || 0,
+      symptom_count: recentSymptoms.length,
+      avg_symptom_severity: avgSymptomSeverity.toFixed(1),
+      symptom_types: [...new Set(recentSymptoms.flatMap(s => s.types))].join(', ')
     };
   };
 
@@ -77,7 +92,7 @@ export default function AIPersonalizedEngine({
     setError(null);
 
     try {
-      const userData = analyzeUserData();
+      const userData = await analyzeUserData();
       
       // Fetch all resource reviews for community feedback
       const allReviews = await base44.entities.ResourceReview.list();
@@ -137,16 +152,19 @@ USER DATA:
 - Days Until Return: ${userData.days_to_return || 'not set'}
 - Recent Notes: ${userData.recent_notes || 'none'}
 - Engagement Streak: ${userData.current_streak} days
+- Recent Symptoms Logged: ${userData.symptom_count}
+- Average Symptom Severity (1-10): ${userData.avg_symptom_severity}
+- Symptom Types Reported: ${userData.symptom_types || 'none'}
 
 AVAILABLE RESOURCES WITH COMMUNITY FEEDBACK:
 ${JSON.stringify(resourceSummary, null, 2)}
 
 INSTRUCTIONS:
 Provide 5-7 personalized resource recommendations with detailed reasoning. For each recommendation:
-1. Identify the specific user challenge/need it addresses
+1. Identify the specific user challenge/need it addresses (consider symptoms, energy, stress)
 2. Explain why it's timely and relevant now
 3. Suggest how to use it effectively
-4. Rate priority (high/medium/low)
+4. Rate priority (high/medium/low) - prioritize HIGH if symptoms severe (7+) or stress high (7+)
 
 IMPORTANT: Prioritize resources with:
 - Higher average ratings (4+ stars are proven effective)
