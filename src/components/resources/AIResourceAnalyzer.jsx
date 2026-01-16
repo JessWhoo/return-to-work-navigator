@@ -19,6 +19,7 @@ export async function generateAIRecommendations(allResources, progress) {
 
     // Fetch user's records for additional context
     const records = await base44.entities.Record.list('-date', 10);
+    const symptomRecords = await base44.entities.Record.filter({ type: 'symptom' }, '-date', 10);
     
     // Analyze user's current state
     const recentEnergyLogs = progress.energy_logs?.slice(-7) || [];
@@ -34,6 +35,18 @@ export async function generateAIRecommendations(allResources, progress) {
 
     const moods = recentEnergyLogs.map(log => log.mood).filter(Boolean);
     const dominantMood = moods.length > 0 ? moods[moods.length - 1] : 'neutral';
+
+    // Analyze symptoms
+    const recentSymptoms = symptomRecords.slice(0, 5).map(s => ({
+      title: s.title,
+      severity: s.symptom_details?.severity,
+      types: s.symptom_details?.symptom_type || [],
+      date: s.date
+    }));
+
+    const avgSymptomSeverity = recentSymptoms.length > 0
+      ? recentSymptoms.reduce((sum, s) => sum + (s.severity || 0), 0) / recentSymptoms.length
+      : 0;
 
     // Fetch all reviews to get community insights
     const allReviews = await base44.entities.ResourceReview.list();
@@ -55,9 +68,17 @@ USER PROFILE:
 - Current Mood: ${dominantMood}
 - Checklist Progress: ${progress.completed_checklist_items?.length || 0} items completed
 - Accommodations Requested: ${progress.accommodations_requested?.length || 0}
+- Recent Symptoms: ${recentSymptoms.length} logged (avg severity: ${avgSymptomSeverity.toFixed(1)}/10)
+- Symptom Types: ${[...new Set(recentSymptoms.flatMap(s => s.types))].join(', ') || 'none reported'}
 
 RECENT RECORDS (last 10):
 ${records.map(r => `- ${r.type}: ${r.title} (${r.date})`).join('\n')}
+
+RECENT SYMPTOMS (last 5):
+${recentSymptoms.length > 0 
+  ? recentSymptoms.map(s => `- ${s.title} (${s.date}): Severity ${s.severity}/10, Types: ${s.types.join(', ')}`).join('\n')
+  : 'No symptoms logged recently'
+}
 
 UPCOMING EVENTS:
 ${progress.calendar_events?.slice(0, 3).map(e => `- ${e.title} (${e.date})`).join('\n') || 'None scheduled'}
@@ -80,10 +101,12 @@ ${Object.entries(reviewsByResource).slice(0, 10).map(([id, reviews]) => {
 TASK:
 Recommend 5-8 resources that are MOST RELEVANT to this user's current situation. Consider:
 1. Their journey stage and upcoming events
-2. Energy and stress levels
-3. Recent records (medical, workplace issues)
-4. Community ratings and feedback
-5. Variety across different types of support needed
+2. Energy and stress levels - prioritize energy management if levels are low
+3. Recent symptoms - if high severity or frequent, prioritize symptom management resources
+4. Recent records (medical, workplace issues)
+5. Community ratings and feedback - prefer highly-rated resources
+6. Variety across different types of support needed
+7. URGENCY: If symptoms are severe (7+/10) or stress is high (7+/10), mark as high/urgent priority
 
 For each recommendation, provide:
 - resource_id (MUST match exactly from the list above)
