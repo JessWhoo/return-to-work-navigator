@@ -12,6 +12,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageBubble from '../components/coach/MessageBubble';
 import ProactiveCalendarInsights from '../components/coach/ProactiveCalendarInsights';
+import SuggestedQuestions from '../components/coach/SuggestedQuestions';
+import AppFeatureGuide from '../components/coach/AppFeatureGuide';
 
 export default function Coach() {
   const queryClient = useQueryClient();
@@ -272,6 +274,15 @@ export default function Coach() {
                 progress={progress} 
                 onSendMessage={handleQuickMessage}
               />
+              
+              {/* Suggested Questions */}
+              <SuggestedQuestions 
+                progress={progress}
+                onSendMessage={handleQuickMessage}
+              />
+              
+              {/* App Feature Guide */}
+              <AppFeatureGuide />
             </div>
           )}
 
@@ -328,8 +339,18 @@ export default function Coach() {
                         Welcome to Your AI Coach
                       </h3>
                       <p className="text-slate-400 mb-4">
-                        Get personalized guidance for your return-to-work journey. Ask questions, share concerns, and receive tailored advice.
+                        Get personalized guidance for your return-to-work journey. Ask questions, share concerns, and receive tailored advice based on your progress data, symptoms, and current challenges.
                       </p>
+                      <div className="space-y-2 mb-4 text-left max-w-sm mx-auto">
+                        <p className="text-sm text-slate-300 font-semibold">I can help you with:</p>
+                        <ul className="text-xs text-slate-400 space-y-1 ml-4">
+                          <li>• Answering questions about your rights and accommodations</li>
+                          <li>• Providing emotional support and encouragement</li>
+                          <li>• Offering advice based on your energy, symptoms, and progress</li>
+                          <li>• Navigating app features and finding resources</li>
+                          <li>• Connecting insights from symptom analysis and health alerts</li>
+                        </ul>
+                      </div>
                       <Button
                         onClick={() => createConversationMutation.mutate()}
                         className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
@@ -346,11 +367,20 @@ export default function Coach() {
                     <Bot className="h-16 w-16 text-purple-400 mx-auto" />
                     <div>
                       <h3 className="text-lg font-bold text-slate-200 mb-2">
-                        Start the Conversation
+                        Ready to Talk?
                       </h3>
-                      <p className="text-slate-400 text-sm">
-                        Try asking about accommodations, energy management, communication strategies, or any challenges you're facing.
+                      <p className="text-slate-400 text-sm mb-3">
+                        I have access to your journey stage, energy patterns, symptom logs, and progress data to provide personalized guidance.
                       </p>
+                      <div className="text-left max-w-sm mx-auto bg-slate-800 rounded-lg p-3 text-xs text-slate-300">
+                        <p className="font-semibold mb-2">Try asking about:</p>
+                        <ul className="space-y-1 ml-4">
+                          <li>• "What accommodations should I request?"</li>
+                          <li>• "How do I talk to my employer about my cancer?"</li>
+                          <li>• "I'm struggling with fatigue - what can help?"</li>
+                          <li>• "What resources match my current needs?"</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
