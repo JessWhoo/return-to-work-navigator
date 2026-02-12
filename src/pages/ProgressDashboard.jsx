@@ -16,6 +16,10 @@ import { format, parseISO, differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import ShareReportDialog from '../components/dashboard/ShareReportDialog';
 import AIProgressInsights from '../components/dashboard/AIProgressInsights';
+import PredictiveHealthAlerts from '../components/health/PredictiveHealthAlerts';
+import ActivitySymptomCorrelations from '../components/health/ActivitySymptomCorrelations';
+import WhatIfScenarios from '../components/health/WhatIfScenarios';
+import ComparativeInsights from '../components/health/ComparativeInsights';
 
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
@@ -270,6 +274,16 @@ export default function ProgressDashboard() {
 
       {/* AI Progress Insights */}
       <AIProgressInsights progress={progress} />
+
+      {/* Advanced Analytics */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PredictiveHealthAlerts progress={progress} />
+        <ComparativeInsights progress={progress} />
+      </div>
+
+      <ActivitySymptomCorrelations progress={progress} />
+      
+      <WhatIfScenarios progress={progress} />
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
