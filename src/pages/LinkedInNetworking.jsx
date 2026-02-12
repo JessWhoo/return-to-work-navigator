@@ -16,7 +16,7 @@ export default function LinkedInNetworking() {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   // Fetch LinkedIn profile
-  const { data: profile, isLoading: profileLoading } = useQuery({
+  const { data: profile, isLoading: profileLoading, error: profileError } = useQuery({
     queryKey: ['linkedinProfile'],
     queryFn: async () => {
       const response = await base44.functions.invoke('linkedinProfile', {});
@@ -25,7 +25,8 @@ export default function LinkedInNetworking() {
       }
       return response.data.profile;
     },
-    retry: 1
+    retry: false,
+    enabled: false // Don't auto-fetch, wait for manual connection
   });
 
   // Fetch user progress for suggestions
@@ -135,7 +136,21 @@ Make them authentic, hopeful, and suitable for professional networking.`;
       </div>
 
       {/* Profile Card */}
-      {profileLoading ? (
+      {!profile && !profileLoading ? (
+        <Card className="bg-slate-800/90 border-2 border-amber-600">
+          <CardContent className="py-8 text-center">
+            <Users className="h-12 w-12 text-amber-400 mx-auto mb-3" />
+            <h3 className="text-lg font-semibold text-slate-200 mb-2">Connect Your LinkedIn Account</h3>
+            <p className="text-slate-400 text-sm mb-4">
+              Authorize LinkedIn to share your return-to-work journey and connect with other cancer survivor professionals
+            </p>
+            <p className="text-xs text-slate-500 mb-4">
+              To enable this feature, contact your app administrator to authorize LinkedIn from the dashboard settings.
+            </p>
+            <Badge className="bg-amber-600 text-white">Authorization Required</Badge>
+          </CardContent>
+        </Card>
+      ) : profileLoading ? (
         <Card className="bg-slate-800/90 border-2 border-blue-600">
           <CardContent className="py-12 text-center">
             <Loader2 className="h-8 w-8 animate-spin text-blue-400 mx-auto mb-3" />
@@ -170,15 +185,10 @@ Make them authentic, hopeful, and suitable for professional networking.`;
             </div>
           </CardContent>
         </Card>
-      ) : (
-        <Card className="bg-slate-800/90 border-2 border-red-600">
-          <CardContent className="py-8 text-center">
-            <p className="text-red-400 mb-4">Failed to connect to LinkedIn. Please try again later.</p>
-          </CardContent>
-        </Card>
-      )}
+      ) : null}
 
       {/* Share Update Card */}
+      {profile && (
       <Card className="bg-slate-800/90 border-2 border-purple-600">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2 text-slate-200">
@@ -281,6 +291,7 @@ Make them authentic, hopeful, and suitable for professional networking.`;
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* Networking Tips */}
       <Card className="bg-gradient-to-br from-teal-900/40 to-green-900/40 border-2 border-teal-600">
