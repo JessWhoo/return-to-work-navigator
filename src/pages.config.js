@@ -64,6 +64,7 @@ import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
 import SymptomAnalysis from './pages/SymptomAnalysis';
 import WellnessResources from './pages/WellnessResources';
+import LinkedInNetworking from './pages/LinkedInNetworking';
 import __Layout from './Layout.jsx';
 
 
@@ -85,6 +86,7 @@ export const PAGES = {
     "ReturnPlanning": ReturnPlanning,
     "SymptomAnalysis": SymptomAnalysis,
     "WellnessResources": WellnessResources,
+    "LinkedInNetworking": LinkedInNetworking,
 }
 
 export const pagesConfig = {

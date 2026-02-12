@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 
@@ -27,6 +27,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Wellness Resources', icon: Sparkles, page: 'WellnessResources' },
     { name: 'Return Planning', icon: Calendar, page: 'ReturnPlanning' },
     { name: 'Resources', icon: BookOpen, page: 'Resources' },
+    { name: 'LinkedIn Network', icon: Users, page: 'LinkedInNetworking' },
     { name: 'Record Keeping', icon: FileText, page: 'RecordKeeping' },
     { name: 'FAQ', icon: MessageSquare, page: 'FAQ' }
   ];
