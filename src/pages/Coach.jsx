@@ -178,7 +178,7 @@ export default function Coach() {
         agent_name: 'return_to_work_coach',
         metadata: { name: 'New Conversation' }
       });
-      setSelectedConversation(newConv);
+      setSelectedConversation(newConv.id);
       setConversations(prev => [newConv, ...prev]);
       
       // Send message
@@ -188,10 +188,13 @@ export default function Coach() {
       });
     } else {
       // Send message to existing conversation
-      await base44.agents.addMessage(selectedConversation, {
-        role: 'user',
-        content: messageText
-      });
+      const conversation = conversations.find(c => c.id === selectedConversation);
+      if (conversation) {
+        await base44.agents.addMessage(conversation, {
+          role: 'user',
+          content: messageText
+        });
+      }
     }
     setMessage('');
   };

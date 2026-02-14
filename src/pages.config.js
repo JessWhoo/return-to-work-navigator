@@ -57,6 +57,7 @@ import FAQ from './pages/FAQ';
 import Gamification from './pages/Gamification';
 import Home from './pages/Home';
 import LegalRights from './pages/LegalRights';
+import LinkedInNetworking from './pages/LinkedInNetworking';
 import Profile from './pages/Profile';
 import ProgressDashboard from './pages/ProgressDashboard';
 import RecordKeeping from './pages/RecordKeeping';
@@ -64,7 +65,6 @@ import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
 import SymptomAnalysis from './pages/SymptomAnalysis';
 import WellnessResources from './pages/WellnessResources';
-import LinkedInNetworking from './pages/LinkedInNetworking';
 import __Layout from './Layout.jsx';
 
 
@@ -79,6 +79,7 @@ export const PAGES = {
     "Gamification": Gamification,
     "Home": Home,
     "LegalRights": LegalRights,
+    "LinkedInNetworking": LinkedInNetworking,
     "Profile": Profile,
     "ProgressDashboard": ProgressDashboard,
     "RecordKeeping": RecordKeeping,
@@ -86,7 +87,6 @@ export const PAGES = {
     "ReturnPlanning": ReturnPlanning,
     "SymptomAnalysis": SymptomAnalysis,
     "WellnessResources": WellnessResources,
-    "LinkedInNetworking": LinkedInNetworking,
 }
 
 export const pagesConfig = {
