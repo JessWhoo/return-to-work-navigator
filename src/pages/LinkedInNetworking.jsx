@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Share2, Users, Sparkles, Loader2, CheckCircle2, Lightbulb, Send } from 'lucide-react';
+import { Share2, Users, Sparkles, Loader2, CheckCircle2, Lightbulb, Send, TrendingUp, Award, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function LinkedInNetworking() {
@@ -14,6 +14,7 @@ export default function LinkedInNetworking() {
   const [postText, setPostText] = useState('');
   const [visibility, setVisibility] = useState('PUBLIC');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showProgressShare, setShowProgressShare] = useState(false);
 
   // Fetch LinkedIn profile
   const { data: profile, isLoading: profileLoading, error: profileError } = useQuery({
@@ -78,6 +79,63 @@ Make them authentic, hopeful, and suitable for professional networking.`;
     }
   });
 
+  // Generate progress/milestone post suggestions
+  const progressSuggestionsMutation = useMutation({
+    mutationFn: async () => {
+      const completedItems = progress?.completed_checklist_items?.length || 0;
+      const totalPoints = progress?.gamification?.total_points || 0;
+      const currentStreak = progress?.gamification?.current_streak || 0;
+      const badges = progress?.gamification?.badges?.length || 0;
+      const journeyStage = progress?.journey_stage || 'planning';
+      const daysToReturn = progress?.return_date 
+        ? Math.ceil((new Date(progress.return_date) - new Date()) / (1000 * 60 * 60 * 24))
+        : null;
+
+      const prompt = `You are a professional LinkedIn content advisor for cancer survivors returning to work.
+
+USER'S JOURNEY METRICS:
+- Journey Stage: ${journeyStage}
+- Checklist Items Completed: ${completedItems}
+- Engagement Points: ${totalPoints}
+- Current Streak: ${currentStreak} days
+- Badges Earned: ${badges}
+- Days Until Return: ${daysToReturn || 'not set'}
+
+Generate 3 professional LinkedIn post suggestions celebrating their SPECIFIC PROGRESS AND MILESTONES that:
+1. Highlight concrete achievements (checklist completion, streaks, milestones)
+2. Are authentic and inspiring without being overly personal
+3. Show resilience and growth in their return-to-work journey
+4. Include relevant hashtags: #CancerSurvivor #ReturnToWork #Resilience #WorkplaceWellness
+5. Are 150-250 characters each
+6. Mention specific numbers/metrics when impressive (e.g., "Completed 10 checklist items", "15-day engagement streak")
+
+Make them professional, celebratory, and suitable for networking.`;
+
+      const response = await base44.integrations.Core.InvokeLLM({
+        prompt,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            suggestions: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  text: { type: 'string' },
+                  milestone_type: { type: 'string', enum: ['checklist', 'streak', 'stage_progress', 'general'] },
+                  metrics_highlighted: { type: 'string' }
+                }
+              }
+            }
+          },
+          required: ['suggestions']
+        }
+      });
+
+      return response.suggestions;
+    }
+  });
+
   // Share post mutation
   const sharePostMutation = useMutation({
     mutationFn: async ({ text, visibility }) => {
@@ -100,7 +158,8 @@ Make them authentic, hopeful, and suitable for professional networking.`;
         eventName: 'linkedin_post_shared',
         properties: {
           visibility,
-          journey_stage: progress?.journey_stage
+          journey_stage: progress?.journey_stage,
+          is_milestone_post: postText.includes('#ReturnToWork') || postText.includes('milestone')
         }
       });
     },
@@ -185,6 +244,91 @@ Make them authentic, hopeful, and suitable for professional networking.`;
           </CardContent>
         </Card>
       ) : null}
+
+      {/* Progress Milestone Sharing */}
+      {profile && progress && (
+        <Card className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 border-2 border-green-600">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2 text-slate-200">
+              <TrendingUp className="h-5 w-5 text-green-400" />
+              <span>Share Your Progress Milestone</span>
+            </CardTitle>
+            <p className="text-xs text-slate-400 mt-1">
+              Celebrate your achievements and inspire your network
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Progress Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="bg-slate-800/50 rounded-lg p-3 text-center border border-green-600/30">
+                <p className="text-2xl font-bold text-green-400">{progress.completed_checklist_items?.length || 0}</p>
+                <p className="text-xs text-slate-400">Items Completed</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3 text-center border border-cyan-600/30">
+                <p className="text-2xl font-bold text-cyan-400">{progress.gamification?.current_streak || 0}</p>
+                <p className="text-xs text-slate-400">Day Streak</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3 text-center border border-purple-600/30">
+                <p className="text-2xl font-bold text-purple-400">{progress.gamification?.total_points || 0}</p>
+                <p className="text-xs text-slate-400">Points Earned</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3 text-center border border-amber-600/30">
+                <p className="text-2xl font-bold text-amber-400 capitalize">{progress.journey_stage || 'Starting'}</p>
+                <p className="text-xs text-slate-400">Journey Stage</p>
+              </div>
+            </div>
+
+            {/* Generate Progress Post Suggestions */}
+            <Button
+              onClick={() => {
+                setShowProgressShare(!showProgressShare);
+                if (!showProgressShare && !progressSuggestionsMutation.data) {
+                  progressSuggestionsMutation.mutate();
+                }
+              }}
+              variant="outline"
+              className="w-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 border-green-500 text-green-300 hover:bg-green-600/30"
+              disabled={progressSuggestionsMutation.isPending}
+            >
+              {progressSuggestionsMutation.isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Creating Milestone Posts...
+                </>
+              ) : (
+                <>
+                  <Award className="h-4 w-4 mr-2" />
+                  Generate Milestone Post Ideas
+                </>
+              )}
+            </Button>
+
+            {showProgressShare && progressSuggestionsMutation.data && (
+              <div className="space-y-2">
+                {progressSuggestionsMutation.data.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setPostText(suggestion.text);
+                      setShowProgressShare(false);
+                    }}
+                    className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 rounded-lg border border-green-600/40 transition-colors"
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <Badge className="bg-green-600 text-white text-xs capitalize">
+                        {suggestion.milestone_type.replace('_', ' ')}
+                      </Badge>
+                      <Award className="h-4 w-4 text-green-400" />
+                    </div>
+                    <p className="text-sm text-slate-300 mb-1">{suggestion.text}</p>
+                    <p className="text-xs text-slate-500">Highlights: {suggestion.metrics_highlighted}</p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Share Update Card */}
       {profile && (
