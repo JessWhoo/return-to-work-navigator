@@ -334,7 +334,7 @@ Return recommendations sorted by priority (high first).`;
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          {recommendations.user_insights?.primary_challenges && (
+          {recommendations.user_insights?.primary_challenges && recommendations.user_insights.primary_challenges.length > 0 && (
             <div>
               <h4 className="font-semibold text-gray-800 mb-2">Primary Challenges Identified:</h4>
               <div className="flex flex-wrap gap-2">
@@ -347,7 +347,7 @@ Return recommendations sorted by priority (high first).`;
             </div>
           )}
 
-          {recommendations.user_insights?.key_focus_areas && (
+          {recommendations.user_insights?.key_focus_areas && recommendations.user_insights.key_focus_areas.length > 0 && (
             <div>
               <h4 className="font-semibold text-gray-800 mb-2">Key Focus Areas:</h4>
               <div className="flex flex-wrap gap-2">
@@ -377,7 +377,7 @@ Return recommendations sorted by priority (high first).`;
           <span>Personalized Recommendations</span>
         </h3>
 
-        {recommendations.recommendations?.map((rec, idx) => {
+        {recommendations.recommendations && recommendations.recommendations.length > 0 ? recommendations.recommendations.map((rec, idx) => {
           const resource = findResourceByName(rec.resource_name, rec.resource_category);
           const config = priorityConfig[rec.priority] || priorityConfig.medium;
           const Icon = config.icon;
@@ -452,7 +452,7 @@ Return recommendations sorted by priority (high first).`;
 
                     {/* Actions */}
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {resource && (
+                      {resource ? (
                         <>
                           <Button
                             variant="outline"
@@ -482,6 +482,8 @@ Return recommendations sorted by priority (high first).`;
                             </a>
                           </Button>
                         </>
+                      ) : (
+                        <p className="text-sm text-gray-500 italic">Resource not found in library</p>
                       )}
                     </div>
                   </div>
@@ -489,7 +491,13 @@ Return recommendations sorted by priority (high first).`;
               </Card>
             </motion.div>
           );
-        })}
+        }) : (
+          <Card className="border-2 border-dashed border-gray-300">
+            <CardContent className="pt-6 text-center">
+              <p className="text-gray-500">No recommendations available at this time. Try again later.</p>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Next Steps */}
