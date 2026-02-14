@@ -75,6 +75,14 @@ Make them authentic, hopeful, and suitable for professional networking.`;
         }
       });
 
+      base44.analytics.track({
+        eventName: 'linkedin_ai_suggestions_generated',
+        properties: {
+          suggestion_type: 'general',
+          journey_stage: progress?.journey_stage
+        }
+      });
+
       return response.suggestions;
     }
   });
@@ -129,6 +137,16 @@ Make them professional, celebratory, and suitable for networking.`;
             }
           },
           required: ['suggestions']
+        }
+      });
+
+      base44.analytics.track({
+        eventName: 'linkedin_ai_suggestions_generated',
+        properties: {
+          suggestion_type: 'progress_milestone',
+          journey_stage: progress?.journey_stage,
+          completed_items: completedItems,
+          current_streak: currentStreak
         }
       });
 
