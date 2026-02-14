@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Share2, Users, Sparkles, Loader2, CheckCircle2, Lightbulb, Send, TrendingUp, Award, Calendar } from 'lucide-react';
+import { Share2, Users, Sparkles, Loader2, CheckCircle2, Lightbulb, Send, TrendingUp, Award, Calendar, UserPlus, Search, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function LinkedInNetworking() {
@@ -15,6 +15,7 @@ export default function LinkedInNetworking() {
   const [visibility, setVisibility] = useState('PUBLIC');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showProgressShare, setShowProgressShare] = useState(false);
+  const [showNetworkingTools, setShowNetworkingTools] = useState(false);
 
   // Fetch LinkedIn profile
   const { data: profile, isLoading: profileLoading, error: profileError } = useQuery({
@@ -211,6 +212,98 @@ Make them professional, celebratory, and suitable for networking.`;
       properties: {
         suggestion_type: type,
         tone: suggestion.tone || suggestion.milestone_type || 'unknown'
+      }
+    });
+  };
+
+  // Generate networking suggestions
+  const networkingSuggestionsMutation = useMutation({
+    mutationFn: async () => {
+      const prompt = `You are a LinkedIn networking advisor for cancer survivors returning to work.
+
+User's Journey Stage: ${progress?.journey_stage || 'planning'}
+
+Generate networking guidance with:
+1. 3 specific LinkedIn search queries to find cancer survivor professionals (use Boolean operators)
+2. 3 personalized connection request message templates (150 characters each, professional and warm)
+3. 5 relevant LinkedIn hashtags to follow
+4. 3 LinkedIn groups or communities they should consider joining
+
+Make suggestions authentic, professional, and focused on building meaningful connections.`;
+
+      const response = await base44.integrations.Core.InvokeLLM({
+        prompt,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            search_queries: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  query: { type: 'string' },
+                  description: { type: 'string' }
+                }
+              }
+            },
+            connection_messages: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  scenario: { type: 'string' }
+                }
+              }
+            },
+            hashtags: {
+              type: 'array',
+              items: { type: 'string' }
+            },
+            groups: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  description: { type: 'string' }
+                }
+              }
+            }
+          }
+        }
+      });
+
+      base44.analytics.track({
+        eventName: 'linkedin_networking_suggestions_generated',
+        properties: {
+          journey_stage: progress?.journey_stage
+        }
+      });
+
+      return response;
+    }
+  });
+
+  const handleCopyText = (text, label) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`);
+    
+    base44.analytics.track({
+      eventName: 'linkedin_networking_text_copied',
+      properties: {
+        content_type: label
+      }
+    });
+  };
+
+  const handleSearchLinkedIn = (query) => {
+    window.open(`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(query)}`, '_blank');
+    
+    base44.analytics.track({
+      eventName: 'linkedin_search_initiated',
+      properties: {
+        search_type: 'survivor_professionals'
       }
     });
   };
@@ -469,6 +562,135 @@ Make them professional, celebratory, and suitable for networking.`;
           </div>
         </CardContent>
       </Card>
+      )}
+
+      {/* Connect with Survivors */}
+      {profile && (
+        <Card className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border-2 border-blue-600">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2 text-slate-200">
+              <UserPlus className="h-5 w-5 text-blue-400" />
+              <span>Connect with Survivor Professionals</span>
+            </CardTitle>
+            <p className="text-xs text-slate-400 mt-1">
+              Find and connect with other cancer survivors navigating their return to work
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button
+              onClick={() => {
+                setShowNetworkingTools(!showNetworkingTools);
+                if (!showNetworkingTools && !networkingSuggestionsMutation.data) {
+                  networkingSuggestionsMutation.mutate();
+                }
+              }}
+              variant="outline"
+              className="w-full bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-500 text-blue-300 hover:bg-blue-600/30"
+              disabled={networkingSuggestionsMutation.isPending}
+            >
+              {networkingSuggestionsMutation.isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Generating Networking Tools...
+                </>
+              ) : (
+                <>
+                  <Users className="h-4 w-4 mr-2" />
+                  Get Personalized Networking Tools
+                </>
+              )}
+            </Button>
+
+            {showNetworkingTools && networkingSuggestionsMutation.data && (
+              <div className="space-y-4">
+                {/* Search Queries */}
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-200 mb-2 flex items-center space-x-2">
+                    <Search className="h-4 w-4 text-blue-400" />
+                    <span>LinkedIn Search Queries</span>
+                  </h4>
+                  <div className="space-y-2">
+                    {networkingSuggestionsMutation.data.search_queries?.map((item, idx) => (
+                      <div key={idx} className="bg-slate-700 rounded-lg p-3 border border-blue-600/30">
+                        <div className="flex items-start justify-between mb-1">
+                          <p className="text-xs text-slate-400">{item.description}</p>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleSearchLinkedIn(item.query)}
+                            className="h-6 text-blue-400 hover:text-blue-300"
+                          >
+                            <Search className="h-3 w-3 mr-1" />
+                            Search
+                          </Button>
+                        </div>
+                        <p className="text-sm text-slate-300 font-mono">{item.query}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Connection Messages */}
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-200 mb-2 flex items-center space-x-2">
+                    <Send className="h-4 w-4 text-blue-400" />
+                    <span>Connection Request Templates</span>
+                  </h4>
+                  <div className="space-y-2">
+                    {networkingSuggestionsMutation.data.connection_messages?.map((item, idx) => (
+                      <div key={idx} className="bg-slate-700 rounded-lg p-3 border border-blue-600/30">
+                        <div className="flex items-start justify-between mb-1">
+                          <Badge className="bg-blue-600 text-white text-xs">{item.scenario}</Badge>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleCopyText(item.message, 'Message')}
+                            className="h-6 text-blue-400 hover:text-blue-300"
+                          >
+                            <Copy className="h-3 w-3 mr-1" />
+                            Copy
+                          </Button>
+                        </div>
+                        <p className="text-sm text-slate-300">{item.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hashtags */}
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-200 mb-2">Hashtags to Follow</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {networkingSuggestionsMutation.data.hashtags?.map((tag, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleCopyText(tag, 'Hashtag')}
+                        className="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-full text-sm text-blue-400 border border-blue-600/30 transition-colors"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Groups */}
+                {networkingSuggestionsMutation.data.groups && networkingSuggestionsMutation.data.groups.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-200 mb-2">Recommended Groups</h4>
+                    <div className="space-y-2">
+                      {networkingSuggestionsMutation.data.groups.map((group, idx) => (
+                        <div key={idx} className="bg-slate-700 rounded-lg p-3 border border-blue-600/30">
+                          <p className="text-sm font-semibold text-slate-300">{group.name}</p>
+                          <p className="text-xs text-slate-400 mt-1">{group.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {/* Networking Tips */}
