@@ -25,8 +25,7 @@ export default function LinkedInNetworking() {
       }
       return response.data.profile;
     },
-    retry: false,
-    enabled: false // Don't auto-fetch, wait for manual connection
+    retry: false
   });
 
   // Fetch user progress for suggestions
