@@ -165,6 +165,14 @@ Make them professional, celebratory, and suitable for networking.`;
     },
     onError: (error) => {
       toast.error(`Failed to post: ${error.message}`);
+      
+      base44.analytics.track({
+        eventName: 'linkedin_post_failed',
+        properties: {
+          error_message: error.message,
+          journey_stage: progress?.journey_stage
+        }
+      });
     }
   });
 
@@ -176,9 +184,17 @@ Make them professional, celebratory, and suitable for networking.`;
     sharePostMutation.mutate({ text: postText, visibility });
   };
 
-  const handleUseSuggestion = (suggestion) => {
+  const handleUseSuggestion = (suggestion, type = 'general') => {
     setPostText(suggestion.text);
     setShowSuggestions(false);
+    
+    base44.analytics.track({
+      eventName: 'linkedin_suggestion_used',
+      properties: {
+        suggestion_type: type,
+        tone: suggestion.tone || suggestion.milestone_type || 'unknown'
+      }
+    });
   };
 
   return (
@@ -311,6 +327,7 @@ Make them professional, celebratory, and suitable for networking.`;
                     onClick={() => {
                       setPostText(suggestion.text);
                       setShowProgressShare(false);
+                      handleUseSuggestion(suggestion, 'progress_milestone');
                     }}
                     className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 rounded-lg border border-green-600/40 transition-colors"
                   >
