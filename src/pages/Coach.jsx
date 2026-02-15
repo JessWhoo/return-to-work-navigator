@@ -270,24 +270,24 @@ export default function Coach() {
             </CardContent>
           </Card>
 
-          {/* Calendar Insights */}
-          {progress && (
-            <div className="space-y-4">
-              <ProactiveCalendarInsights 
-                progress={progress} 
-                onSendMessage={handleQuickMessage}
-              />
-              
-              {/* Suggested Questions */}
-              <SuggestedQuestions 
-                progress={progress}
-                onSendMessage={handleQuickMessage}
-              />
-              
-              {/* App Feature Guide */}
-              <AppFeatureGuide />
-            </div>
-          )}
+          {/* Sidebar Content */}
+          <div className="space-y-4">
+            {progress && (
+              <>
+                <ProactiveCalendarInsights 
+                  progress={progress} 
+                  onSendMessage={handleQuickMessage}
+                />
+                
+                <SuggestedQuestions 
+                  progress={progress}
+                  onSendMessage={handleQuickMessage}
+                />
+              </>
+            )}
+            
+            <AppFeatureGuide />
+          </div>
 
           {/* Coach Info */}
           <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-2 border-purple-600">

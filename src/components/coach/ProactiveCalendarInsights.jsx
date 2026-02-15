@@ -233,15 +233,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
   const upcomingEvents = getUpcomingEvents();
 
   if (upcomingEvents.length === 0) {
-    return (
-      <Card className="bg-gradient-to-br from-teal-50 to-cyan-50 border-2 border-teal-200">
-        <CardContent className="pt-6 text-center">
-          <Calendar className="h-12 w-12 text-teal-600 mx-auto mb-3" />
-          <p className="text-gray-700 font-medium">No upcoming events in the next 7 days</p>
-          <p className="text-sm text-gray-600 mt-1">Add events to your calendar to receive proactive preparation tips</p>
-        </CardContent>
-      </Card>
-    );
+    return null;
   }
 
   return (
