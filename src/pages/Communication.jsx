@@ -3,9 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Copy, MessageSquare, Mail, Users, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
+import { Copy, MessageSquare, Mail, Users, AlertCircle, CheckCircle2, Sparkles, Plus, FileEdit } from 'lucide-react';
 import { toast } from 'sonner';
 import EmailDrafter from '../components/communication/EmailDrafter';
+import DraftEditor from '../components/communication/DraftEditor';
+import SavedDrafts from '../components/communication/SavedDrafts';
 
 const emailTemplates = [
   {
@@ -138,6 +140,36 @@ const conversationScripts = [
     ]
   },
   {
+    title: 'Declining Additional Work',
+    scenario: 'When you need to say no to new projects or tasks',
+    script: `"I appreciate you thinking of me for this project. Given my current workload and medical treatment schedule, I'm not able to take on additional responsibilities right now. I'm happy to revisit this conversation in [timeframe]."`,
+    tips: [
+      'You don\'t need to apologize for setting limits',
+      'Be clear and direct - "no" is a complete sentence',
+      'Offer an alternative timeframe if appropriate'
+    ]
+  },
+  {
+    title: 'Explaining Energy Limitations',
+    scenario: 'When colleagues don\'t understand your fatigue',
+    script: `"I'm managing some treatment side effects that affect my energy levels. I'm working with my doctor to optimize my work schedule. I appreciate your understanding as I navigate this."`,
+    tips: [
+      'You don\'t need to justify your limitations',
+      'Focus on what you CAN do, not what you can\'t',
+      'Set boundaries around questions about specifics'
+    ]
+  },
+  {
+    title: 'Addressing Performance Concerns',
+    scenario: 'If your manager raises performance issues',
+    script: `"I understand your concerns. My medical condition and treatment have impacted my work temporarily. I've requested accommodations that will help me return to my previous performance level. Let's discuss specific goals and timelines."`,
+    tips: [
+      'Acknowledge concerns without being defensive',
+      'Reference your accommodation requests',
+      'Request specific, measurable expectations'
+    ]
+  },
+  {
     title: 'Response to "What kind of cancer?"',
     scenario: 'When colleagues ask for medical details',
     script: `"I'm keeping my medical details private, but thanks for your concern."`,
@@ -181,6 +213,24 @@ const conversationScripts = [
 
 export default function Communication() {
   const [activeTab, setActiveTab] = useState('drafter');
+  const [showDraftEditor, setShowDraftEditor] = useState(false);
+  const [editingDraft, setEditingDraft] = useState(null);
+
+  const handleEditDraft = (draft) => {
+    setEditingDraft(draft);
+    setShowDraftEditor(true);
+    setActiveTab('my-drafts');
+  };
+
+  const handleCloseDraftEditor = () => {
+    setShowDraftEditor(false);
+    setEditingDraft(null);
+  };
+
+  const handleSaveDraft = () => {
+    setShowDraftEditor(false);
+    setEditingDraft(null);
+  };
 
   const copyToClipboard = (text, title) => {
     navigator.clipboard.writeText(text);
@@ -221,24 +271,52 @@ export default function Communication() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 bg-white/60 p-1">
+        <TabsList className="grid w-full grid-cols-4 bg-white/60 p-1">
           <TabsTrigger value="drafter" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-100 data-[state=active]:to-pink-100">
             <Sparkles className="h-4 w-4 mr-2" />
             AI Email Drafter
           </TabsTrigger>
+          <TabsTrigger value="my-drafts" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-100 data-[state=active]:to-cyan-100">
+            <FileEdit className="h-4 w-4 mr-2" />
+            My Drafts
+          </TabsTrigger>
           <TabsTrigger value="templates" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-100 data-[state=active]:to-pink-100">
             <Mail className="h-4 w-4 mr-2" />
-            Email Templates
+            Templates
           </TabsTrigger>
           <TabsTrigger value="scripts" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-100 data-[state=active]:to-indigo-100">
             <MessageSquare className="h-4 w-4 mr-2" />
-            Conversation Scripts
+            Scripts
           </TabsTrigger>
         </TabsList>
 
         {/* AI Email Drafter Tab */}
         <TabsContent value="drafter">
           <EmailDrafter />
+        </TabsContent>
+
+        {/* My Drafts Tab */}
+        <TabsContent value="my-drafts" className="space-y-6">
+          {!showDraftEditor ? (
+            <>
+              <div className="flex justify-end">
+                <Button
+                  onClick={() => setShowDraftEditor(true)}
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Draft
+                </Button>
+              </div>
+              <SavedDrafts onEdit={handleEditDraft} />
+            </>
+          ) : (
+            <DraftEditor 
+              draft={editingDraft}
+              onClose={handleCloseDraftEditor}
+              onSave={handleSaveDraft}
+            />
+          )}
         </TabsContent>
 
         {/* Email Templates Tab */}
