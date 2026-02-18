@@ -42,14 +42,15 @@ export default function Coach() {
   }, []);
 
   // Load conversations
-  const { data: conversationsList, isLoading: loadingConversations } = useQuery({
+  const { data: conversationsList, isLoading: loadingConversations, error: conversationsError } = useQuery({
     queryKey: ['coach-conversations'],
     queryFn: async () => {
       const convs = await base44.agents.listConversations({
         agent_name: 'return_to_work_coach'
       });
       return convs || [];
-    }
+    },
+    retry: 1
   });
 
   useEffect(() => {
@@ -227,6 +228,19 @@ export default function Coach() {
               {loadingConversations ? (
                 <div className="text-center py-8">
                   <Loader2 className="h-6 w-6 animate-spin mx-auto text-slate-400" />
+                </div>
+              ) : conversationsError ? (
+                <div className="text-center py-8 text-red-400 text-xs">
+                  <p className="font-semibold mb-2">Error loading conversations</p>
+                  <p className="text-slate-400">{conversationsError.message}</p>
+                  <Button
+                    size="sm"
+                    onClick={() => queryClient.invalidateQueries(['coach-conversations'])}
+                    className="mt-3 bg-slate-600 hover:bg-slate-500"
+                  >
+                    <RefreshCw className="h-3 w-3 mr-2" />
+                    Retry
+                  </Button>
                 </div>
               ) : conversations.length === 0 ? (
                 <div className="text-center py-8 text-slate-400 text-sm">
