@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Share2, Users, Sparkles, Loader2, CheckCircle2, Lightbulb, Send, TrendingUp, Award, Calendar, UserPlus, Search, Copy } from 'lucide-react';
 import { toast } from 'sonner';
+import NetworkingTracker from '@/components/linkedin/NetworkingTracker';
+import AIIcebreakers from '@/components/linkedin/AIIcebreakers';
 
 export default function LinkedInNetworking() {
   const queryClient = useQueryClient();
@@ -692,6 +694,12 @@ Make suggestions authentic, professional, and focused on building meaningful con
           </CardContent>
         </Card>
       )}
+
+      {/* AI Icebreakers */}
+      {profile && <AIIcebreakers progress={progress} />}
+
+      {/* Networking Tracker */}
+      {profile && <NetworkingTracker />}
 
       {/* Networking Tips */}
       <Card className="bg-gradient-to-br from-teal-900/40 to-green-900/40 border-2 border-teal-600">
