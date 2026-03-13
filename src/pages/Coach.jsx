@@ -406,16 +406,28 @@ export default function Coach() {
                 </div>
               ) : (
                 <AnimatePresence>
-                  {messages.map((msg, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.05 }}
-                    >
-                      <MessageBubble message={msg} />
-                    </motion.div>
-                  ))}
+                  {messages.map((msg, idx) => {
+                      // Find the preceding user message for sentiment detection on assistant replies
+                      const prevUserMsg = msg.role === 'assistant'
+                        ? messages.slice(0, idx).reverse().find(m => m.role === 'user')?.content
+                        : null;
+                      const sentiment = prevUserMsg ? detectSentimentAndResources(prevUserMsg)?.sentiment : null;
+                      return (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          <MessageBubble
+                            message={msg}
+                            messageIndex={idx}
+                            conversationId={selectedConversation}
+                            detectedSentiment={sentiment}
+                          />
+                        </motion.div>
+                      );
+                    })}
                 </AnimatePresence>
               )}
               <div ref={messagesEndRef} />
