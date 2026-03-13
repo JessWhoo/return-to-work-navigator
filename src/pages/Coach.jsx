@@ -14,6 +14,7 @@ import MessageBubble from '../components/coach/MessageBubble';
 import ProactiveCalendarInsights from '../components/coach/ProactiveCalendarInsights';
 import SuggestedQuestions from '../components/coach/SuggestedQuestions';
 import AppFeatureGuide from '../components/coach/AppFeatureGuide';
+import SentimentResourceSuggestions, { detectSentimentAndResources } from '../components/coach/SentimentResourceSuggestions';
 
 export default function Coach() {
   const queryClient = useQueryClient();
@@ -21,6 +22,7 @@ export default function Coach() {
   const [message, setMessage] = useState('');
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversations, setConversations] = useState([]);
+  const [lastUserMessage, setLastUserMessage] = useState('');
 
   // Load user progress for calendar insights
   const { data: progress } = useQuery({
@@ -114,6 +116,7 @@ export default function Coach() {
 
   const sendMessageMutation = useMutation({
     mutationFn: async (messageText) => {
+      setLastUserMessage(messageText);
       const conversation = conversations.find(c => c.id === selectedConversation);
       if (!conversation) throw new Error('No conversation selected');
 
