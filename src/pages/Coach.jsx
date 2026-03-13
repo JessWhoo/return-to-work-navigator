@@ -433,6 +433,13 @@ export default function Coach() {
               <div ref={messagesEndRef} />
             </CardContent>
 
+            {/* Sentiment-based resource suggestions */}
+            {lastUserMessage && selectedConversation && (
+              <div className="px-4 pb-2 bg-slate-900/50">
+                <SentimentResourceSuggestions lastUserMessage={lastUserMessage} />
+              </div>
+            )}
+
             {/* Input Area */}
             <div className="border-t border-slate-700 p-4 bg-slate-800/90">
               <div className="flex gap-3">
