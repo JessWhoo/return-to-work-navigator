@@ -171,6 +171,16 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                         ))}
                     </div>
                 )}
+
+                {/* Rating — only for assistant messages */}
+                {!isUser && conversationId && (
+                    <ResponseRating
+                        conversationId={conversationId}
+                        messageIndex={messageIndex}
+                        messageSnippet={message.content}
+                        detectedSentiment={detectedSentiment}
+                    />
+                )}
             </div>
         </div>
     );
