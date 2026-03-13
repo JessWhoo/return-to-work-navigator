@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Button } from "@/components/ui/button";
 import { Copy, Zap, CheckCircle2, AlertCircle, Loader2, ChevronRight, Clock } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import ResponseRating from './ResponseRating';
 
 const FunctionDisplay = ({ toolCall }) => {
     const [expanded, setExpanded] = useState(false);
@@ -95,12 +96,12 @@ const FunctionDisplay = ({ toolCall }) => {
 };
 
 export default function MessageBubble({ message, messageIndex, conversationId, detectedSentiment }) {
-  const isUser = message.role === 'user';
+    const isUser = message.role === 'user';
     
     return (
         <div className={cn("flex gap-3", isUser ? "justify-end" : "justify-start")}>
             {!isUser && (
-                <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mt-0.5">
+                <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mt-0.5 flex-shrink-0">
                     <div className="h-1.5 w-1.5 rounded-full bg-purple-500" />
                 </div>
             )}
