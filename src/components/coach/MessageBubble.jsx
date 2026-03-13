@@ -94,8 +94,8 @@ const FunctionDisplay = ({ toolCall }) => {
     );
 };
 
-export default function MessageBubble({ message }) {
-    const isUser = message.role === 'user';
+export default function MessageBubble({ message, messageIndex, conversationId, detectedSentiment }) {
+  const isUser = message.role === 'user';
     
     return (
         <div className={cn("flex gap-3", isUser ? "justify-end" : "justify-start")}>
