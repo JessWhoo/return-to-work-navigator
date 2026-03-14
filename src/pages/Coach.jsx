@@ -136,7 +136,6 @@ export default function Coach() {
       });
     },
     onSuccess: () => {
-      setMessage('');
       queryClient.invalidateQueries(['coach-conversations']);
     }
   });
