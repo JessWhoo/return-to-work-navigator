@@ -155,16 +155,23 @@ export default function Coach() {
     }
   });
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!message.trim()) return;
-    
+    const currentMessage = message;
+    setMessage('');
+
     if (!selectedConversation) {
-      createConversationMutation.mutate();
-      setTimeout(() => {
-        sendMessageMutation.mutate(message);
-      }, 500);
+      const newConv = await base44.agents.createConversation({
+        agent_name: 'return_to_work_coach',
+        metadata: { name: 'New Conversation', created_at: new Date().toISOString() }
+      });
+      setSelectedConversation(newConv.id);
+      setConversations(prev => [newConv, ...prev]);
+      setLastUserMessage(currentMessage);
+      await base44.agents.addMessage(newConv, { role: 'user', content: currentMessage });
+      queryClient.invalidateQueries(['coach-conversations']);
     } else {
-      sendMessageMutation.mutate(message);
+      sendMessageMutation.mutate(currentMessage);
     }
   };
 
