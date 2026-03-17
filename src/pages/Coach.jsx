@@ -158,16 +158,17 @@ export default function Coach() {
     if (!message.trim()) return;
     const currentMessage = message;
     setMessage('');
+    setLastUserMessage(currentMessage);
 
     if (!selectedConversation) {
       const newConv = await base44.agents.createConversation({
         agent_name: 'return_to_work_coach',
         metadata: { name: 'New Conversation', created_at: new Date().toISOString() }
       });
+      const convWithMessages = { ...newConv, messages: [] };
       setSelectedConversation(newConv.id);
-      setConversations(prev => [newConv, ...prev]);
-      setLastUserMessage(currentMessage);
-      await base44.agents.addMessage(newConv, { role: 'user', content: currentMessage });
+      setConversations(prev => [convWithMessages, ...prev]);
+      await base44.agents.addMessage(convWithMessages, { role: 'user', content: currentMessage });
       queryClient.invalidateQueries(['coach-conversations']);
     } else {
       sendMessageMutation.mutate(currentMessage);
