@@ -183,31 +183,23 @@ export default function Coach() {
   };
 
   const handleQuickMessage = async (messageText) => {
+    setLastUserMessage(messageText);
     if (!selectedConversation) {
-      // Create conversation first
       const newConv = await base44.agents.createConversation({
         agent_name: 'return_to_work_coach',
         metadata: { name: 'New Conversation' }
       });
+      const convWithMessages = { ...newConv, messages: [] };
       setSelectedConversation(newConv.id);
-      setConversations(prev => [newConv, ...prev]);
-      
-      // Send message
-      await base44.agents.addMessage(newConv, {
-        role: 'user',
-        content: messageText
-      });
+      setConversations(prev => [convWithMessages, ...prev]);
+      await base44.agents.addMessage(convWithMessages, { role: 'user', content: messageText });
     } else {
-      // Send message to existing conversation
       const conversation = conversations.find(c => c.id === selectedConversation);
       if (conversation) {
-        await base44.agents.addMessage(conversation, {
-          role: 'user',
-          content: messageText
-        });
+        await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
       }
     }
-    setMessage('');
+    queryClient.invalidateQueries(['coach-conversations']);
   };
 
   const currentConversation = conversations.find(c => c.id === selectedConversation);
