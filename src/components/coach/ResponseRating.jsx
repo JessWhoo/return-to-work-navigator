@@ -24,7 +24,7 @@ export default function ResponseRating({ conversationId, messageIndex, messageSn
   };
 
   const handleSubmit = async () => {
-    base44.entities.CoachFeedback.create({
+    await base44.entities.CoachFeedback.create({
       conversation_id: conversationId,
       message_index: messageIndex,
       rating,
@@ -35,11 +35,7 @@ export default function ResponseRating({ conversationId, messageIndex, messageSn
 
     base44.analytics.track({
       eventName: 'coach_response_rated',
-      properties: {
-        rating,
-        feedback_tags: selectedTags,
-        detected_sentiment: detectedSentiment
-      }
+      properties: { rating, feedback_tags: selectedTags, detected_sentiment: detectedSentiment }
     });
 
     setSubmitted(true);
