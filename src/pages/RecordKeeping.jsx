@@ -24,13 +24,15 @@ export default function RecordKeeping() {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [expandedRecord, setExpandedRecord] = useState(null);
 
+  const recordAPI = useOfflineEntity('Record');
+
   const { data: records = [], isLoading } = useQuery({
     queryKey: ['records'],
-    queryFn: () => base44.entities.Record.list('-date')
+    queryFn: () => recordAPI.list('-date')
   });
 
   const deleteRecordMutation = useMutation({
-    mutationFn: (id) => base44.entities.Record.delete(id),
+    mutationFn: (id) => recordAPI.remove(id),
     onSuccess: () => {
       queryClient.invalidateQueries(['records']);
     }

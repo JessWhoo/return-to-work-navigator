@@ -37,14 +37,16 @@ export default function MeetingPrep() {
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [activeTab, setActiveTab] = useState('prep');
 
+  const meetingAPI = useOfflineEntity('MeetingPrep');
+
   const { data: meetings = [], isLoading } = useQuery({
     queryKey: ['meeting-preps'],
-    queryFn: () => base44.entities.MeetingPrep.list('-created_date', 50)
+    queryFn: () => meetingAPI.list('-created_date', 50)
   });
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this meeting prep?')) return;
-    await base44.entities.MeetingPrep.delete(id);
+    await meetingAPI.remove(id);
     queryClient.invalidateQueries(['meeting-preps']);
     if (selectedMeeting?.id === id) { setView('list'); setSelectedMeeting(null); }
   };
@@ -56,7 +58,7 @@ export default function MeetingPrep() {
   };
 
   const refreshSelected = async () => {
-    const updated = await base44.entities.MeetingPrep.list('-created_date', 50);
+    const updated = await meetingAPI.list('-created_date', 50);
     queryClient.setQueryData(['meeting-preps'], updated);
     const fresh = updated.find(m => m.id === selectedMeeting?.id);
     if (fresh) setSelectedMeeting(fresh);
