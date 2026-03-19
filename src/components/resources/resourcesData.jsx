@@ -358,7 +358,7 @@ export const resources = [
         name: 'Managing Fatigue During Cancer Treatment',
         org: 'Cancer Support Community',
         description: 'Evidence-based strategies for managing cancer-related fatigue in the workplace',
-        url: 'https://www.cancersupportcommunity.org/living-cancer/side-effects/fatigue',
+        url: 'https://www.cancersupportcommunity.org/article/fatigue',
         type: 'ARTICLE',
         topics: ['fatigue', 'energy management', 'strategies'],
         stages: ['planning', 'first_week', 'ongoing']
