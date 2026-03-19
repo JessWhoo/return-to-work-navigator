@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 
