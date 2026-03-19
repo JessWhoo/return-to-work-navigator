@@ -259,6 +259,7 @@ function generateProgressSection(doc, progress, y, pageWidth) {
 }
 
 async function buildPDF(type, { meetings, drafts, records, progress }) {
+  const { default: jsPDF } = await import('jspdf');
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const generatedDate = format(new Date(), 'MMMM d, yyyy');
