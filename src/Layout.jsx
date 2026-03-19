@@ -57,6 +57,7 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
       <OfflineIndicator />
+      <NotificationManager />
       {/* Header */}
       <header className="bg-gradient-to-r from-purple-900 to-indigo-900 backdrop-blur-md border-b border-purple-500 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
