@@ -30,7 +30,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Meeting Prep', icon: Users, page: 'MeetingPrep' },
     { name: 'LinkedIn Network', icon: Users, page: 'LinkedInNetworking' },
     { name: 'Record Keeping', icon: FileText, page: 'RecordKeeping' },
-    { name: 'FAQ', icon: MessageSquare, page: 'FAQ' }
+    { name: 'FAQ', icon: MessageSquare, page: 'FAQ' },
+    { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false }
   ];
 
   const toggleSpeech = () => {
