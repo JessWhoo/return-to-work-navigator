@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 
 export default function DraftEditor({ draft, onClose, onSave }) {
   const queryClient = useQueryClient();
+  const draftAPI = useOfflineEntity('CommunicationDraft');
   const [formData, setFormData] = useState({
     title: draft?.title || '',
     scenario_type: draft?.scenario_type || 'accommodation_request',
