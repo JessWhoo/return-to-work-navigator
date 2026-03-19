@@ -22,7 +22,7 @@ export const resources = [
         name: 'Breastcancer.org - Working During Treatment',
         org: 'Breastcancer.org',
         description: 'Practical advice for balancing work with breast cancer treatment, including accommodations and communication tips',
-        url: 'https://www.breastcancer.org/treatment/side-effects/work-life',
+        url: 'https://www.breastcancer.org/managing-life/workplace-job-issues',
         type: 'WEBSITE',
         topics: ['breast cancer', 'accommodations', 'work-life balance'],
         stages: ['planning', 'ongoing']
