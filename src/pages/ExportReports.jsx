@@ -8,7 +8,7 @@ import {
   FileDown, Loader2, CheckCircle, Users, MessageSquare, 
   TrendingUp, FileText, Activity, Stethoscope
 } from 'lucide-react';
-import jsPDF from 'jspdf';
+// jsPDF loaded dynamically to avoid React duplicate instance issues
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
