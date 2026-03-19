@@ -1,5 +1,5 @@
-const CACHE_SHELL = 'app-shell-v1';
-const CACHE_DATA  = 'app-data-v1';
+const CACHE_SHELL = 'app-shell-v2';
+const CACHE_DATA = 'app-data-v2';
 
 const SHELL_URLS = ['/', '/index.html'];
 
@@ -34,7 +34,7 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
   if (url.protocol === 'chrome-extension:') return;
 
-  // API / entity requests  → network-first, fall back to cache
+  // API / entity requests → network-first, fall back to cache
   if (url.pathname.includes('/api/') || url.pathname.includes('/entities/')) {
     event.respondWith(
       fetch(request)
@@ -58,16 +58,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets → cache-first, then network
+  // Static assets → network-first to always get fresh code
   event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(res => {
-        const clone = res.clone();
-        caches.open(CACHE_SHELL).then(c => c.put(request, clone));
-        return res;
-      });
-    })
+    fetch(request).then(res => {
+      const clone = res.clone();
+      caches.open(CACHE_SHELL).then(c => c.put(request, clone));
+      return res;
+    }).catch(() => caches.match(request))
   );
 });
 
