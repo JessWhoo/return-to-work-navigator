@@ -6,6 +6,7 @@ import {
   Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
+import NotificationManager from './components/NotificationManager';
 
 export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
