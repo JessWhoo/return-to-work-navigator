@@ -254,8 +254,13 @@ export default function Resources() {
           <Badge className="bg-slate-700 text-slate-300">Expert Interviews</Badge>
           <Badge className="bg-slate-700 text-slate-300">Support Groups</Badge>
         </div>
-        <div className="pt-4">
+        <div className="pt-4 flex flex-wrap justify-center gap-3">
           <SuggestResourceDialog />
+          <ResourceExportDialog
+            resources={resources}
+            bookmarkedIds={progress?.bookmarked_resources || []}
+            progress={progress}
+          />
         </div>
       </div>
 
