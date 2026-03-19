@@ -13,7 +13,7 @@ export const resources = [
         name: 'American Cancer Society - Working During Treatment',
         org: 'American Cancer Society',
         description: 'Comprehensive workplace resources, including return to work guidance and talking to your employer about cancer',
-        url: 'https://www.cancer.org/treatment/survivorship-during-and-after-treatment/staying-active/work.html',
+        url: 'https://www.cancer.org/cancer/supportive-care/working-during-cancer-treatment.html',
         type: 'WEBSITE',
         topics: ['workplace rights', 'communication', 'treatment'],
         stages: ['planning', 'first_week', 'ongoing']
