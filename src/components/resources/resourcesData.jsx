@@ -828,7 +828,7 @@ export const resources = [
         name: 'Interview: Oncology Social Worker on Workplace Reentry',
         org: 'Cancer Support Community',
         description: 'Expert discusses common challenges and proven strategies for successful workplace transitions',
-        url: 'https://www.cancersupportcommunity.org/blog/returning-work-after-cancer',
+        url: 'https://www.cancersupportcommunity.org/get-support',
         type: 'ARTICLE',
         topics: ['expert interview', 'workplace', 'strategies'],
         stages: ['planning', 'first_week']
