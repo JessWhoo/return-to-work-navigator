@@ -309,27 +309,27 @@ export default function LegalRights() {
               <h4 className="font-semibold text-green-900 mb-2">EEOC</h4>
               <p className="text-sm text-green-800 mb-2">Enforces ADA and employment discrimination laws</p>
               <p className="text-sm text-green-700">📞 1-800-669-4000</p>
-              <p className="text-sm text-green-700">🌐 www.eeoc.gov</p>
+              <a href="https://www.eeoc.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('EEOC', 'https://www.eeoc.gov')} className="text-sm text-green-700 hover:underline">🌐 www.eeoc.gov</a>
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg">
               <h4 className="font-semibold text-blue-900 mb-2">Dept. of Labor</h4>
               <p className="text-sm text-blue-800 mb-2">Enforces FMLA</p>
               <p className="text-sm text-blue-700">📞 1-866-487-2365</p>
-              <p className="text-sm text-blue-700">🌐 www.dol.gov</p>
+              <a href="https://www.dol.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Dept. of Labor', 'https://www.dol.gov')} className="text-sm text-blue-700 hover:underline">🌐 www.dol.gov</a>
             </div>
 
             <div className="bg-purple-50 p-4 rounded-lg">
               <h4 className="font-semibold text-purple-900 mb-2">Job Accommodation Network</h4>
               <p className="text-sm text-purple-800 mb-2">Free guidance on accommodations</p>
               <p className="text-sm text-purple-700">📞 1-800-526-7234</p>
-              <p className="text-sm text-purple-700">🌐 askjan.org</p>
+              <a href="https://askjan.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Job Accommodation Network', 'https://askjan.org')} className="text-sm text-purple-700 hover:underline">🌐 askjan.org</a>
             </div>
 
             <div className="bg-rose-50 p-4 rounded-lg">
               <h4 className="font-semibold text-rose-900 mb-2">Triage Cancer</h4>
               <p className="text-sm text-rose-800 mb-2">Legal info for cancer patients</p>
-              <p className="text-sm text-rose-700">🌐 triagecancer.org</p>
+              <a href="https://triagecancer.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Triage Cancer', 'https://triagecancer.org')} className="text-sm text-rose-700 hover:underline">🌐 triagecancer.org</a>
             </div>
           </div>
         </CardContent>
