@@ -367,7 +367,7 @@ export const resources = [
         name: 'Talking to Your Employer About Cancer',
         org: 'Cancer and Careers',
         description: 'Step-by-step guide for having difficult conversations with supervisors and HR about your diagnosis',
-        url: 'https://www.cancerandcareers.org/en/looking-for-work/interviewing/disclosure',
+        url: 'https://www.cancerandcareers.org/en/at-work/early-career/disclosure-decisions-at-work',
         type: 'ARTICLE',
         topics: ['communication', 'disclosure', 'HR'],
         stages: ['planning', 'first_week']
