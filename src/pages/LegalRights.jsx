@@ -235,6 +235,7 @@ export default function LegalRights() {
               <TabsTrigger 
                 key={law.id} 
                 value={law.id}
+                onClick={() => handleTabChange(law.id)}
                 className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-gray-100 data-[state=active]:to-gray-200"
               >
                 <Icon className="h-4 w-4 mr-2" />
