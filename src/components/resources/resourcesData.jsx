@@ -636,7 +636,7 @@ export const resources = [
         name: 'Building Confidence After Cancer',
         org: 'Cancer Support Community',
         description: 'Workshop recording on rebuilding professional confidence and self-esteem after treatment',
-        url: 'https://www.cancersupportcommunity.org/living-cancer/emotional-support',
+        url: 'https://www.cancersupportcommunity.org/taxonomy/term/1766',
         type: 'VIDEO',
         topics: ['confidence', 'self-esteem', 'workshop'],
         stages: ['planning', 'first_week', 'ongoing']
