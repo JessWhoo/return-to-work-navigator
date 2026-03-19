@@ -180,7 +180,7 @@ export const resources = [
         name: 'ADA Compliance Cheat Sheet',
         org: 'CustomGuide',
         description: 'Essential guide to the Americans with Disabilities Act (ADA). Covers hiring requirements, reasonable accommodations, interview accessibility, onboarding practices, and maintaining ADA compliance in the workplace',
-        url: 'https://www.eeoc.gov/publications/ada-your-responsibilities-employer',
+        url: 'https://www.eeoc.gov/laws/guidance/your-employment-rights-individual-disability',
         type: 'GUIDE',
         topics: ['ADA', 'accommodations', 'compliance'],
         stages: ['planning', 'first_week']
