@@ -58,9 +58,9 @@ export default function DraftEditor({ draft, onClose, onSave }) {
       };
 
       if (draft?.id) {
-        return await base44.entities.CommunicationDraft.update(draft.id, draftData);
+        return await draftAPI.update(draft.id, draftData);
       } else {
-        return await base44.entities.CommunicationDraft.create(draftData);
+        return await draftAPI.create(draftData);
       }
     },
     onSuccess: (savedDraft) => {
