@@ -18,6 +18,7 @@ import AIRecommendations from '../components/resources/AIRecommendations';
 import TrendingResources from '../components/resources/TrendingResources';
 import EnhancedResourceReviewDialog from '../components/resources/EnhancedResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
+import ResourceExportDialog from '../components/resources/ResourceExportDialog';
 
 export default function Resources() {
   const navigate = useNavigate();
