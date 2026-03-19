@@ -15,18 +15,15 @@ import { format } from 'date-fns';
 export default function SavedDrafts({ onEdit }) {
   const queryClient = useQueryClient();
   const [expandedDraft, setExpandedDraft] = useState(null);
+  const draftAPI = useOfflineEntity('CommunicationDraft');
 
   const { data: drafts, isLoading } = useQuery({
     queryKey: ['communication-drafts'],
-    queryFn: async () => {
-      return await base44.entities.CommunicationDraft.list('-updated_date');
-    }
+    queryFn: () => draftAPI.list('-updated_date')
   });
 
   const deleteDraftMutation = useMutation({
-    mutationFn: async (draftId) => {
-      return await base44.entities.CommunicationDraft.delete(draftId);
-    },
+    mutationFn: (draftId) => draftAPI.remove(draftId),
     onSuccess: () => {
       queryClient.invalidateQueries(['communication-drafts']);
       toast.success('Draft deleted');
