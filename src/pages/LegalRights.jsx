@@ -195,6 +195,15 @@ const laws = [
 export default function LegalRights() {
   const [activeTab, setActiveTab] = useState('ada');
 
+  const handleTabChange = (lawId) => {
+    setActiveTab(lawId);
+    base44.analytics.track({ eventName: 'legal_rights_tab_viewed', properties: { law: lawId } });
+  };
+
+  const handleResourceClick = (resource, url) => {
+    base44.analytics.track({ eventName: 'legal_rights_resource_clicked', properties: { resource, url } });
+  };
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
