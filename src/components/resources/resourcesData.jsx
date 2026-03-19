@@ -67,7 +67,7 @@ export const resources = [
         name: 'Susan G. Komen - Work and Cancer',
         org: 'Susan G. Komen',
         description: 'Information about managing work during and after breast cancer treatment, including talking to employers',
-        url: 'https://www.komen.org/breast-cancer/survivorship/managing-emotions/working/',
+        url: 'https://www.komen.org/breast-cancer/survivorship/stress/coping-with-stress/',
         type: 'WEBSITE',
         topics: ['breast cancer', 'work management', 'communication'],
         stages: ['planning', 'ongoing']
