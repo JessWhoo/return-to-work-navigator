@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { FileDown, Loader2, CheckCircle, BookOpen, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { base44 } from '@/api/base44Client';
 
 async function exportResourcesToPDF(selectedResources) {
   const { default: jsPDF } = await import('jspdf');
@@ -150,6 +151,7 @@ export default function ResourceExportDialog({ resources, bookmarkedIds, progres
       // Pre-select bookmarked resources when opening
       setSelected(new Set(allFlat.filter(r => bookmarkedIds.includes(r.id)).map(r => r.id)));
       setFilter('bookmarked');
+      base44.analytics.track({ eventName: 'export_resources_button_clicked', properties: { bookmarked_count: bookmarkedIds.length } });
     }
     setOpen(val);
   };
