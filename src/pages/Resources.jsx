@@ -9,13 +9,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Search, ExternalLink, Star,
-  Bookmark, MessageCircle, BookmarkCheck, TrendingUp
+  Bookmark, MessageCircle, BookmarkCheck, TrendingUp, ThumbsUp, ThumbsDown, Sparkles, X
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
 import AIPersonalizedEngine from '../components/resources/AIPersonalizedEngine';
 import AIRecommendations from '../components/resources/AIRecommendations';
 import TrendingResources from '../components/resources/TrendingResources';
+import RecentlyViewed from '../components/resources/RecentlyViewed';
 import EnhancedResourceReviewDialog from '../components/resources/EnhancedResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
@@ -29,6 +30,9 @@ export default function Resources() {
   const [selectedTopic, setSelectedTopic] = useState('all');
   const [selectedStage, setSelectedStage] = useState('all');
   const [showBookmarked, setShowBookmarked] = useState(false);
+  const [showAIRecommended, setShowAIRecommended] = useState(false);
+  const [showUseful, setShowUseful] = useState(false);
+  const [showNotRelevant, setShowNotRelevant] = useState(false);
   const [sortBy, setSortBy] = useState('recommended');
 
   // Track search queries
@@ -49,7 +53,7 @@ export default function Resources() {
 
   // Track filter usage
   useEffect(() => {
-    if (selectedCategory !== 'all' || selectedType !== 'all' || selectedTopic !== 'all' || selectedStage !== 'all' || showBookmarked) {
+    if (selectedCategory !== 'all' || selectedType !== 'all' || selectedTopic !== 'all' || selectedStage !== 'all' || showBookmarked || showAIRecommended || showUseful || showNotRelevant) {
       base44.analytics.track({
         eventName: 'resource_library_filtered',
         properties: {
@@ -57,11 +61,14 @@ export default function Resources() {
           type: selectedType,
           topic: selectedTopic,
           stage: selectedStage,
-          show_bookmarked: showBookmarked
+          show_bookmarked: showBookmarked,
+          show_ai_recommended: showAIRecommended,
+          show_useful: showUseful,
+          show_not_relevant: showNotRelevant
         }
       });
     }
-  }, [selectedCategory, selectedType, selectedTopic, selectedStage, showBookmarked]);
+  }, [selectedCategory, selectedType, selectedTopic, selectedStage, showBookmarked, showAIRecommended, showUseful, showNotRelevant]);
 
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
@@ -187,6 +194,20 @@ export default function Resources() {
     };
   };
 
+  // Build AI recommended IDs from the last cached recommendations (stored via query cache)
+  const aiRecData = queryClient.getQueryData(['aiRecommendations',
+    progress?.id,
+    Object.keys(progress?.resource_tags || {}).length,
+    (progress?.resource_interactions || []).length
+  ]);
+  const aiRecommendedIds = new Set((aiRecData?.recommendations || []).map(r => r.resource_id));
+
+  // Interaction counts per resource for 'most_viewed' sort
+  const interactionCounts = {};
+  (progress?.resource_interactions || []).forEach(i => {
+    interactionCounts[i.resource_id] = (interactionCounts[i.resource_id] || 0) + 1;
+  });
+
   const filteredResources = resources.map(category => ({
     ...category,
     items: category.items
@@ -201,32 +222,42 @@ export default function Resources() {
         };
       })
       .filter(item => {
-        if (!searchQuery.trim() && selectedType === 'all' && selectedTopic === 'all' && selectedStage === 'all' && !showBookmarked) {
-          return true; // Show all if no filters
-        }
-        
         const query = searchQuery.toLowerCase().trim();
-        const matchesSearch = !query || 
+        const userTag = progress?.resource_tags?.[item.id];
+
+        const matchesSearch = !query ||
           item.name?.toLowerCase().includes(query) ||
           item.description?.toLowerCase().includes(query) ||
           item.org?.toLowerCase().includes(query) ||
           item.topics?.some(topic => topic?.toLowerCase().includes(query)) ||
-          item.type?.toLowerCase().includes(query);
-        
+          item.type?.toLowerCase().includes(query) ||
+          userTag?.toLowerCase().includes(query); // search user-applied tags too
+
         const matchesBookmark = !showBookmarked || isBookmarked(item.id);
+        const matchesAI = !showAIRecommended || aiRecommendedIds.has(item.id);
+        const matchesUseful = !showUseful || userTag === 'useful';
+        const matchesNotRelevant = !showNotRelevant || userTag === 'not_relevant';
         const matchesType = selectedType === 'all' || item.type === selectedType;
         const matchesTopic = selectedTopic === 'all' || item.topics?.includes(selectedTopic);
         const matchesStage = selectedStage === 'all' || item.stages?.includes(selectedStage);
-        
-        return matchesSearch && matchesBookmark && matchesType && matchesTopic && matchesStage;
+
+        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage;
       })
       .sort((a, b) => {
-        if (sortBy === 'rating') {
-          return (getRating(b.id) || 0) - (getRating(a.id) || 0);
+        if (sortBy === 'rating') return (getRating(b.id) || 0) - (getRating(a.id) || 0);
+        if (sortBy === 'community_rating') return ((b.communityRating?.average) || 0) - ((a.communityRating?.average) || 0);
+        if (sortBy === 'most_viewed') return (interactionCounts[b.id] || 0) - (interactionCounts[a.id] || 0);
+        if (sortBy === 'most_recent') {
+          // Sort by last interaction timestamp
+          const getLastSeen = (id) => {
+            const hits = (progress?.resource_interactions || []).filter(i => i.resource_id === id);
+            return hits.length ? Math.max(...hits.map(i => new Date(i.timestamp).getTime())) : 0;
+          };
+          return getLastSeen(b.id) - getLastSeen(a.id);
         }
-        return 0; // Default order
+        return 0;
       })
-  })).filter(category => 
+  })).filter(category =>
     (selectedCategory === 'all' || category.category === selectedCategory) &&
     category.items.length > 0
   );
@@ -337,8 +368,11 @@ export default function Resources() {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
               >
-                <option value="recommended">Recommended</option>
-                <option value="rating">Highest Rated</option>
+                <option value="recommended">Default Order</option>
+                <option value="rating">My Highest Rated</option>
+                <option value="community_rating">Community Rated</option>
+                <option value="most_viewed">Most Viewed by Me</option>
+                <option value="most_recent">Recently Viewed</option>
               </select>
             </div>
 
@@ -355,6 +389,38 @@ export default function Resources() {
                   Saved ({progress?.bookmarked_resources?.length || 0})
                 </Button>
 
+                <Button
+                  variant={showAIRecommended ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowAIRecommended(!showAIRecommended)}
+                  className={showAIRecommended ? "bg-purple-600 hover:bg-purple-700 text-white" : "border-slate-600 text-purple-400 hover:bg-slate-700 hover:text-purple-300"}
+                >
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  AI Recommended
+                </Button>
+
+                <Button
+                  variant={showUseful ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => { setShowUseful(!showUseful); if (showNotRelevant) setShowNotRelevant(false); }}
+                  className={showUseful ? "bg-green-600 hover:bg-green-700 text-white" : "border-slate-600 text-green-400 hover:bg-slate-700 hover:text-green-300"}
+                >
+                  <ThumbsUp className="h-4 w-4 mr-2" />
+                  Useful ({Object.values(progress?.resource_tags || {}).filter(t => t === 'useful').length})
+                </Button>
+
+                <Button
+                  variant={showNotRelevant ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => { setShowNotRelevant(!showNotRelevant); if (showUseful) setShowUseful(false); }}
+                  className={showNotRelevant ? "bg-red-600 hover:bg-red-700 text-white" : "border-slate-600 text-red-400 hover:bg-slate-700 hover:text-red-300"}
+                >
+                  <ThumbsDown className="h-4 w-4 mr-2" />
+                  Not for Me ({Object.values(progress?.resource_tags || {}).filter(t => t === 'not_relevant').length})
+                </Button>
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
                 {/* Quick Topic Filters */}
                 {['managing fatigue', 'stress reduction', 'workplace rights', 'accommodations'].map(topic => (
                   <Button
@@ -369,27 +435,38 @@ export default function Resources() {
                     {topic}
                   </Button>
                 ))}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCategory('all');
+                    setSelectedType('all');
+                    setSelectedTopic('all');
+                    setSelectedStage('all');
+                    setShowBookmarked(false);
+                    setShowAIRecommended(false);
+                    setShowUseful(false);
+                    setShowNotRelevant(false);
+                  }}
+                  className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+                >
+                  <X className="h-4 w-4 mr-1" />
+                  Clear All
+                </Button>
               </div>
-
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                  setSelectedType('all');
-                  setSelectedTopic('all');
-                  setSelectedStage('all');
-                  setShowBookmarked(false);
-                }}
-                className="text-cyan-400 hover:text-cyan-300 hover:bg-slate-700"
-              >
-                Clear Filters
-              </Button>
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* Recently Viewed */}
+      <RecentlyViewed
+        progress={progress}
+        allResources={resources}
+        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+        isBookmarked={isBookmarked}
+      />
 
       {/* AI-Powered Smart Recommendations */}
       <AIRecommendations
@@ -468,6 +545,24 @@ export default function Resources() {
                               <Badge className="bg-green-100 text-green-800 border border-green-300">
                                 <TrendingUp className="h-3 w-3 mr-1" />
                                 Highly Rated
+                              </Badge>
+                            )}
+                            {progress?.resource_tags?.[resource.id] === 'useful' && (
+                              <Badge className="bg-green-100 text-green-700 border border-green-300">
+                                <ThumbsUp className="h-3 w-3 mr-1" />
+                                Useful
+                              </Badge>
+                            )}
+                            {progress?.resource_tags?.[resource.id] === 'not_relevant' && (
+                              <Badge className="bg-red-100 text-red-700 border border-red-300">
+                                <ThumbsDown className="h-3 w-3 mr-1" />
+                                Not for Me
+                              </Badge>
+                            )}
+                            {aiRecommendedIds.has(resource.id) && (
+                              <Badge className="bg-purple-100 text-purple-700 border border-purple-300">
+                                <Sparkles className="h-3 w-3 mr-1" />
+                                AI Pick
                               </Badge>
                             )}
                           </div>
