@@ -10,6 +10,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ExportReports from './pages/ExportReports';
+import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -62,6 +63,7 @@ const AuthenticatedApp = () => {
         />
       ))}
       <Route path="/ExportReports" element={<LayoutWrapper currentPageName="ExportReports"><ExportReports /></LayoutWrapper>} />
+      <Route path="/EmployerEmailGenerator" element={<LayoutWrapper currentPageName="EmployerEmailGenerator"><EmployerEmailGenerator /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

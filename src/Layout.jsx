@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown, Mail
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
@@ -32,6 +32,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'LinkedIn Network', icon: Users, page: 'LinkedInNetworking' },
     { name: 'Record Keeping', icon: FileText, page: 'RecordKeeping' },
     { name: 'FAQ', icon: MessageSquare, page: 'FAQ' },
+    { name: 'Employer Emails', icon: Mail, page: 'EmployerEmailGenerator', highlight: false },
     { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false }
   ];
 
