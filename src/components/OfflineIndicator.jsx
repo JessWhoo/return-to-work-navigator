@@ -72,7 +72,7 @@ export default function OfflineIndicator() {
 
     return (
       <div className="fixed bottom-4 right-4 z-50 animate-in slide-in-from-bottom">
-        <Badge className={`${cfg.bg} text-white px-4 py-2 shadow-lg flex items-center space-x-2`}>
+        <Badge variant="default" className={`${cfg.bg} text-white px-4 py-2 shadow-lg flex items-center space-x-2`}>
           {cfg.icon}
           <span>{cfg.text}</span>
         </Badge>
@@ -83,7 +83,7 @@ export default function OfflineIndicator() {
   // Offline banner
   return (
     <div className="fixed bottom-4 right-4 z-50 animate-in slide-in-from-bottom flex flex-col items-end gap-2">
-      <Badge className="bg-orange-500 text-white px-4 py-2 shadow-lg flex items-center space-x-2">
+      <Badge variant="default" className="bg-orange-500 text-white px-4 py-2 shadow-lg flex items-center space-x-2">
         <WifiOff className="h-4 w-4" />
         <span>You're offline</span>
         {pendingCount > 0 && (

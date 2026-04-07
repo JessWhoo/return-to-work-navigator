@@ -47,7 +47,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
     { value: 'assertive', label: 'Assertive', desc: 'Confident and direct' },
     { value: 'collaborative', label: 'Collaborative', desc: 'Team-focused approach' },
     { value: 'formal', label: 'Formal', desc: 'Official and structured' },
-    { value: 'friendly', label: 'Friendly', label: 'Warm yet professional' }
+    { value: 'friendly', label: 'Friendly', desc: 'Warm yet professional' }
   ];
 
   const saveDraftMutation = useMutation({
