@@ -38,11 +38,14 @@ export default function AIRecommendations({
 
   const getTag = (resourceId) => progress?.resource_tags?.[resourceId] || null;
 
+  const tagCount = Object.keys(progress?.resource_tags || {}).length;
+  const interactionCount = (progress?.resource_interactions || []).length;
+
   const { data: aiRecommendations, isLoading } = useQuery({
-    queryKey: ['aiRecommendations', progress?.id],
+    queryKey: ['aiRecommendations', progress?.id, tagCount, interactionCount],
     queryFn: () => generateAIRecommendations(allResources, progress),
     enabled: !!progress,
-    staleTime: 10 * 60 * 1000, // Cache for 10 minutes
+    staleTime: 10 * 60 * 1000,
     retry: 1
   });
 

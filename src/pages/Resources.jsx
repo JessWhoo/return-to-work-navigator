@@ -529,6 +529,7 @@ export default function Resources() {
                                     resource_category: category.category
                                   }
                                 });
+                                logInteraction(resource.id, 'link_click');
                               }}
                               className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
                               >
