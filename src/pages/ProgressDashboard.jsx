@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import PullToRefresh from '../components/PullToRefresh';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,6 +25,11 @@ import ComparativeInsights from '../components/health/ComparativeInsights';
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries();
+  };
 
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
@@ -235,6 +241,7 @@ export default function ProgressDashboard() {
   }
 
   return (
+    <PullToRefresh onRefresh={handleRefresh}>
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -540,5 +547,6 @@ export default function ProgressDashboard() {
         metrics={metrics}
       />
     </div>
+    </PullToRefresh>
   );
 }

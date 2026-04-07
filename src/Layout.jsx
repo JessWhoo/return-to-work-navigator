@@ -1,16 +1,74 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown, Mail
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown, Mail, ChevronLeft, BarChart2
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
 
+// Apply dark mode based on system preference
+if (typeof window !== 'undefined') {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (prefersDark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+}
+
+function BottomNav({ currentPageName }) {
+  const items = [
+    { name: 'Home', icon: Home, page: 'Home', path: '/' },
+    { name: 'Coach', icon: MessageSquare, page: 'Coach', path: '/Coach' },
+    { name: 'Dashboard', icon: BarChart2, page: 'ProgressDashboard', path: '/ProgressDashboard' },
+    { name: 'Resources', icon: BookOpen, page: 'Resources', path: '/Resources' },
+    { name: 'Profile', icon: User, page: 'Profile', path: '/Profile' },
+  ];
+  return (
+    <nav
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-900 to-indigo-900 border-t border-purple-600 flex"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
+      {items.map((item) => {
+        const Icon = item.icon;
+        const isActive = currentPageName === item.page;
+        return (
+          <Link
+            key={item.name}
+            to={item.path}
+            className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-all ${
+              isActive ? 'text-cyan-300' : 'text-purple-300 hover:text-cyan-200'
+            }`}
+          >
+            <Icon className={`h-5 w-5 ${isActive ? 'text-cyan-300' : ''}`} />
+            <span className="text-[10px] font-medium">{item.name}</span>
+            {isActive && <div className="absolute top-0 w-6 h-0.5 bg-cyan-400 rounded-full" />}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
 export default function Layout({ children, currentPageName }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [speechEnabled, setSpeechEnabled] = useState(false);
+
+  // Keep dark mode in sync with system preference
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => {
+      document.documentElement.classList.toggle('dark', e.matches);
+    };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  const isHomePage = currentPageName === 'Home' || location.pathname === '/';
 
   const navigation = [
     { name: 'Home', icon: Home, page: 'Home' },
@@ -60,9 +118,22 @@ export default function Layout({ children, currentPageName }) {
       <OfflineIndicator />
       <NotificationManager />
       {/* Header */}
-      <header className="bg-gradient-to-r from-purple-900 to-indigo-900 backdrop-blur-md border-b border-purple-500 sticky top-0 z-50">
+      <header
+        className="bg-gradient-to-r from-purple-900 to-indigo-900 backdrop-blur-md border-b border-purple-500 sticky top-0 z-50"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-2">
+              {!isHomePage && (
+                <button
+                  onClick={() => navigate(-1)}
+                  className="p-1.5 rounded-lg text-cyan-300 hover:bg-purple-700 transition-colors lg:hidden"
+                  aria-label="Go back"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+              )}
             <Link to={createPageUrl('Home')} className="flex items-center space-x-3">
               <img 
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png"
@@ -76,6 +147,7 @@ export default function Layout({ children, currentPageName }) {
                 <p className="text-xs text-cyan-300 hidden sm:block">Your return-to-work compass</p>
               </div>
             </Link>
+            </div>
 
             <div className="flex items-center space-x-2">
               <button
@@ -164,7 +236,7 @@ export default function Layout({ children, currentPageName }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8" onClick={(e) => {
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-24 lg:pb-8" onClick={(e) => {
           const target = /** @type {HTMLElement} */ (e.target);
           if (speechEnabled && target?.textContent) {
             speakText(target.textContent);
@@ -174,8 +246,11 @@ export default function Layout({ children, currentPageName }) {
         </main>
       </div>
 
+      {/* Bottom Nav (mobile only) */}
+      <BottomNav currentPageName={currentPageName} />
+
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-purple-950 to-indigo-950 text-cyan-300 mt-16 border-t border-purple-600">
+      <footer className="bg-gradient-to-r from-purple-950 to-indigo-950 text-cyan-300 mt-16 border-t border-purple-600 mb-16 lg:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-2">
             <p className="text-sm">© 2025 Back to Life, Back to Work for Cancer Survivors</p>

@@ -15,9 +15,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import RecordDetailView from '../components/records/RecordDetailView';
+import PullToRefresh from '../components/PullToRefresh';
 
 export default function RecordKeeping() {
   const queryClient = useQueryClient();
+
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries();
+  };
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -65,6 +70,7 @@ export default function RecordKeeping() {
   };
 
   return (
+    <PullToRefresh onRefresh={handleRefresh}>
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -251,5 +257,6 @@ export default function RecordKeeping() {
         editRecord={selectedRecord}
       />
     </div>
+    </PullToRefresh>
   );
 }

@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  overscroll-behavior-y: none;
+}
+
+.mobile-ui-select-none button,
+.mobile-ui-select-none [role="button"],
+.mobile-ui-select-none svg,
+.mobile-ui-select-none [data-badge] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

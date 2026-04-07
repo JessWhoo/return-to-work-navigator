@@ -8,9 +8,20 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { 
   User, Mail, Calendar, TrendingUp, BookmarkCheck, 
-  FileText, Bell, Shield, CheckCircle2, Award, Target
+  FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -426,6 +437,51 @@ export default function Profile() {
               >
                 Sign Out
               </Button>
+            </CardContent>
+          </Card>
+
+          {/* Danger Zone */}
+          <Card className="bg-slate-800/50 border-red-900/60">
+            <CardHeader>
+              <CardTitle className="text-red-400 flex items-center gap-2">
+                <Trash2 className="h-5 w-5" />
+                Danger Zone
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-slate-400 mb-4">
+                Permanently delete your account and all associated data. This action cannot be undone.
+              </p>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" className="w-full">
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete Account
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-slate-900 border-slate-700">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-slate-100">Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-slate-400">
+                      This will permanently delete your account, all progress data, records, and settings.
+                      This action <strong className="text-red-400">cannot be undone</strong>.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                      onClick={() => {
+                        toast.error('Account deletion requires contacting support.');
+                      }}
+                    >
+                      Yes, Delete My Account
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </CardContent>
           </Card>
         </TabsContent>
