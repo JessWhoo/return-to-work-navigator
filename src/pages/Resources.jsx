@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Search, ExternalLink, Star,
-  Bookmark, MessageCircle, BookmarkCheck, TrendingUp, ThumbsUp, ThumbsDown, Sparkles, X
+  Bookmark, MessageCircle, BookmarkCheck, TrendingUp, ThumbsUp, ThumbsDown, Sparkles, X, Tag
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
@@ -20,6 +20,7 @@ import RecentlyViewed from '../components/resources/RecentlyViewed';
 import EnhancedResourceReviewDialog from '../components/resources/EnhancedResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
+import ResourceTagEditor from '../components/resources/ResourceTagEditor';
 
 export default function Resources() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function Resources() {
   const [showAIRecommended, setShowAIRecommended] = useState(false);
   const [showUseful, setShowUseful] = useState(false);
   const [showNotRelevant, setShowNotRelevant] = useState(false);
+  const [showTagged, setShowTagged] = useState(false);
   const [sortBy, setSortBy] = useState('recommended');
 
   // Track search queries
@@ -225,13 +227,18 @@ export default function Resources() {
         const query = searchQuery.toLowerCase().trim();
         const userTag = progress?.resource_tags?.[item.id];
 
+        const aiTags = progress?.resource_ai_tags?.[item.id] || [];
+        const customTags = progress?.resource_custom_tags?.[item.id] || [];
+
         const matchesSearch = !query ||
           item.name?.toLowerCase().includes(query) ||
           item.description?.toLowerCase().includes(query) ||
           item.org?.toLowerCase().includes(query) ||
           item.topics?.some(topic => topic?.toLowerCase().includes(query)) ||
           item.type?.toLowerCase().includes(query) ||
-          userTag?.toLowerCase().includes(query); // search user-applied tags too
+          userTag?.toLowerCase().includes(query) ||
+          aiTags.some(t => t.toLowerCase().includes(query)) ||
+          customTags.some(t => t.toLowerCase().includes(query));
 
         const matchesBookmark = !showBookmarked || isBookmarked(item.id);
         const matchesAI = !showAIRecommended || aiRecommendedIds.has(item.id);
@@ -240,12 +247,14 @@ export default function Resources() {
         const matchesType = selectedType === 'all' || item.type === selectedType;
         const matchesTopic = selectedTopic === 'all' || item.topics?.includes(selectedTopic);
         const matchesStage = selectedStage === 'all' || item.stages?.includes(selectedStage);
+        const matchesTagged = !showTagged || (aiTags.length > 0 || customTags.length > 0);
 
-        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage;
+        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage && matchesTagged;
       })
       .sort((a, b) => {
         if (sortBy === 'rating') return (getRating(b.id) || 0) - (getRating(a.id) || 0);
         if (sortBy === 'community_rating') return ((b.communityRating?.average) || 0) - ((a.communityRating?.average) || 0);
+        if (sortBy === 'most_reviewed') return (b.communityRating?.count || 0) - (a.communityRating?.count || 0);
         if (sortBy === 'most_viewed') return (interactionCounts[b.id] || 0) - (interactionCounts[a.id] || 0);
         if (sortBy === 'most_recent') {
           // Sort by last interaction timestamp
@@ -310,7 +319,7 @@ export default function Resources() {
             <div className="relative group">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-400 group-hover:text-teal-300 transition-colors" />
               <Input
-                placeholder="Search by keyword, topic, or organization..."
+                placeholder="Search by title, topic, tag, organization..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500 focus:border-teal-400 focus:ring-teal-400"
@@ -371,6 +380,7 @@ export default function Resources() {
                 <option value="recommended">Default Order</option>
                 <option value="rating">My Highest Rated</option>
                 <option value="community_rating">Community Rated</option>
+                <option value="most_reviewed">Most Reviewed</option>
                 <option value="most_viewed">Most Viewed by Me</option>
                 <option value="most_recent">Recently Viewed</option>
               </select>
@@ -418,6 +428,16 @@ export default function Resources() {
                   <ThumbsDown className="h-4 w-4 mr-2" />
                   Not for Me ({Object.values(progress?.resource_tags || {}).filter(t => t === 'not_relevant').length})
                 </Button>
+
+                <Button
+                  variant={showTagged ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowTagged(!showTagged)}
+                  className={showTagged ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "border-slate-600 text-indigo-400 hover:bg-slate-700 hover:text-indigo-300"}
+                >
+                  <Tag className="h-4 w-4 mr-2" />
+                  Tagged Only
+                </Button>
               </div>
 
               <div className="flex items-center gap-2 flex-wrap">
@@ -448,6 +468,7 @@ export default function Resources() {
                     setShowAIRecommended(false);
                     setShowUseful(false);
                     setShowNotRelevant(false);
+                    setShowTagged(false);
                   }}
                   className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
                 >
@@ -569,6 +590,30 @@ export default function Resources() {
                               <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
                               <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
                               <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
+
+                              {/* AI + Custom Tag Display */}
+                              {(() => {
+                                const aiT = progress?.resource_ai_tags?.[resource.id] || [];
+                                const customT = progress?.resource_custom_tags?.[resource.id] || [];
+                                const allT = [...new Set([...aiT, ...customT])];
+                                return allT.length > 0 ? (
+                                  <div className="flex flex-wrap gap-1 mt-2">
+                                    {aiT.map(tag => (
+                                      <Badge key={tag} className="bg-purple-50 text-purple-700 border border-purple-200 text-xs">
+                                        <Sparkles className="h-2.5 w-2.5 mr-1" />{tag}
+                                      </Badge>
+                                    ))}
+                                    {customT.map(tag => (
+                                      <Badge key={tag} className="bg-teal-50 text-teal-700 border border-teal-200 text-xs">
+                                        {tag}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                ) : null;
+                              })()}
+                              <div className="mt-1">
+                                <ResourceTagEditor resource={resource} progress={progress} />
+                              </div>
 
                               {/* Rating System */}
                               <div className="flex items-center space-x-3 mt-2">

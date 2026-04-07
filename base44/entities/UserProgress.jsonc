@@ -79,8 +79,7 @@
           },
           "review_date": {
             "type": "string",
-            "format": "date",
-            "description": "Date for accommodation review"
+            "format": "date"
           }
         }
       },
@@ -113,6 +112,28 @@
           "useful",
           "not_relevant"
         ]
+      },
+      "default": {}
+    },
+    "resource_ai_tags": {
+      "type": "object",
+      "description": "AI-generated tags per resource (resourceId -> string[])",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "default": {}
+    },
+    "resource_custom_tags": {
+      "type": "object",
+      "description": "User-defined custom tags per resource (resourceId -> string[])",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       },
       "default": {}
     },
@@ -232,21 +253,18 @@
       "properties": {
         "total_points": {
           "type": "number",
-          "default": 0,
-          "description": "Total points earned"
+          "default": 0
         },
         "level": {
           "type": "number",
-          "default": 1,
-          "description": "Current level (1-10)"
+          "default": 1
         },
         "badges": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "default": [],
-          "description": "Array of earned badge IDs"
+          "default": []
         },
         "achievements": {
           "type": "array",
@@ -265,31 +283,26 @@
               }
             }
           },
-          "default": [],
-          "description": "Earned achievements with timestamps"
+          "default": []
         },
         "current_streak": {
           "type": "number",
-          "default": 0,
-          "description": "Current daily engagement streak"
+          "default": 0
         },
         "longest_streak": {
           "type": "number",
-          "default": 0,
-          "description": "Longest daily engagement streak"
+          "default": 0
         },
         "last_activity_date": {
           "type": "string",
-          "format": "date",
-          "description": "Last date of any tracked activity"
+          "format": "date"
         },
         "milestones_reached": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "default": [],
-          "description": "Array of milestone IDs reached"
+          "default": []
         }
       },
       "default": {
