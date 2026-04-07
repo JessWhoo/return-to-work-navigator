@@ -46,7 +46,7 @@ async function checkMeetingReminders() {
       // meeting_date is a date string "YYYY-MM-DD", treat as local noon
       const meetingDate = new Date(`${m.meeting_date}T12:00:00`);
       if (meetingDate >= now && meetingDate <= in24h) {
-        const hoursAway = Math.round((meetingDate - now) / (1000 * 60 * 60));
+        const hoursAway = Math.round((meetingDate.getTime() - now.getTime()) / (1000 * 60 * 60));
         const timeLabel = hoursAway <= 1 ? 'within the next hour' : `in about ${hoursAway} hours`;
         sendNotification(
           `📅 Upcoming Meeting: ${m.title}`,

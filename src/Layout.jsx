@@ -164,8 +164,9 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Main Content */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8" onClick={(e) => {
-          if (speechEnabled && e.target.textContent) {
-            speakText(e.target.textContent);
+          const target = /** @type {HTMLElement} */ (e.target);
+          if (speechEnabled && target?.textContent) {
+            speakText(target.textContent);
           }
         }}>
           {children}

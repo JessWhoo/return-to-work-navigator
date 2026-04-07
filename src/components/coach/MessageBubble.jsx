@@ -117,12 +117,15 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                             <ReactMarkdown 
                                 className="text-sm prose prose-sm prose-slate max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                                 components={{
-                                    code: ({ inline, className, children, ...props }) => {
+                                    code: (props) => {
+                                        // @ts-ignore - inline prop from react-markdown
+                                        const inline = props.inline;
+                                        const { className, children, ...restProps } = props;
                                         const match = /language-(\w+)/.exec(className || '');
                                         return !inline && match ? (
                                             <div className="relative group/code">
                                                 <pre className="bg-slate-900 text-slate-100 rounded-lg p-3 overflow-x-auto my-2">
-                                                    <code className={className} {...props}>{children}</code>
+                                                    <code className={className} {...restProps}>{children}</code>
                                                 </pre>
                                                 <Button
                                                     size="icon"
