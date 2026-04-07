@@ -1,0 +1,324 @@
+{
+  "name": "UserProgress",
+  "type": "object",
+  "properties": {
+    "completed_checklist_items": {
+      "type": "array",
+      "description": "Array of completed checklist item IDs",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "journey_stage": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "first_week",
+        "ongoing",
+        "completed"
+      ],
+      "default": "planning",
+      "description": "Current stage in return to work journey"
+    },
+    "energy_logs": {
+      "type": "array",
+      "description": "Daily energy, mood, and stress level tracking",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "morning_energy": {
+            "type": "number"
+          },
+          "afternoon_energy": {
+            "type": "number"
+          },
+          "evening_energy": {
+            "type": "number"
+          },
+          "mood": {
+            "type": "string",
+            "enum": [
+              "very_low",
+              "low",
+              "neutral",
+              "good",
+              "excellent"
+            ]
+          },
+          "stress_level": {
+            "type": "number",
+            "description": "1-10 scale"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "default": []
+    },
+    "accommodations_requested": {
+      "type": "array",
+      "description": "Accommodations that have been requested",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "date_requested": {
+            "type": "string",
+            "format": "date"
+          },
+          "review_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date for accommodation review"
+          }
+        }
+      },
+      "default": []
+    },
+    "bookmarked_resources": {
+      "type": "array",
+      "description": "Bookmarked resource IDs",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "resource_ratings": {
+      "type": "object",
+      "description": "User ratings for resources (resourceId: rating 1-5)",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 5
+      },
+      "default": {}
+    },
+    "resource_tags": {
+      "type": "object",
+      "description": "User-applied tags per resource: 'useful' or 'not_relevant'",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "useful",
+          "not_relevant"
+        ]
+      },
+      "default": {}
+    },
+    "resource_interactions": {
+      "type": "array",
+      "description": "Log of user interactions with resources for pattern analysis",
+      "items": {
+        "type": "object",
+        "properties": {
+          "resource_id": {
+            "type": "string"
+          },
+          "event": {
+            "type": "string",
+            "enum": [
+              "view",
+              "link_click",
+              "bookmark",
+              "download",
+              "ask_coach"
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "default": []
+    },
+    "return_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Planned or actual return to work date"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Personal notes and reflections"
+    },
+    "calendar_events": {
+      "type": "array",
+      "description": "Custom calendar events for return-to-work planning",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "meeting",
+              "medical",
+              "milestone",
+              "reminder",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "date",
+          "type"
+        ]
+      },
+      "default": []
+    },
+    "notification_preferences": {
+      "type": "object",
+      "description": "User notification preferences",
+      "properties": {
+        "email_reminders": {
+          "type": "boolean",
+          "default": true
+        },
+        "progress_updates": {
+          "type": "boolean",
+          "default": true
+        },
+        "new_resources": {
+          "type": "boolean",
+          "default": true
+        },
+        "weekly_summary": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "default": {
+        "email_reminders": true,
+        "progress_updates": true,
+        "new_resources": true,
+        "weekly_summary": true
+      }
+    },
+    "onboarding_completed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user has completed the onboarding flow"
+    },
+    "gamification": {
+      "type": "object",
+      "description": "Gamification data including points, badges, and achievements",
+      "properties": {
+        "total_points": {
+          "type": "number",
+          "default": 0,
+          "description": "Total points earned"
+        },
+        "level": {
+          "type": "number",
+          "default": 1,
+          "description": "Current level (1-10)"
+        },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Array of earned badge IDs"
+        },
+        "achievements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "earned_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "points_awarded": {
+                "type": "number"
+              }
+            }
+          },
+          "default": [],
+          "description": "Earned achievements with timestamps"
+        },
+        "current_streak": {
+          "type": "number",
+          "default": 0,
+          "description": "Current daily engagement streak"
+        },
+        "longest_streak": {
+          "type": "number",
+          "default": 0,
+          "description": "Longest daily engagement streak"
+        },
+        "last_activity_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Last date of any tracked activity"
+        },
+        "milestones_reached": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Array of milestone IDs reached"
+        }
+      },
+      "default": {
+        "total_points": 0,
+        "level": 1,
+        "badges": [],
+        "achievements": [],
+        "current_streak": 0,
+        "longest_streak": 0,
+        "milestones_reached": []
+      }
+    }
+  },
+  "required": [],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

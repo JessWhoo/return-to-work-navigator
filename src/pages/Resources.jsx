@@ -120,8 +120,15 @@ export default function Resources() {
     }
   });
 
+  const logInteraction = async (resourceId, event) => {
+    if (!progress?.id) return;
+    const newInteraction = { resource_id: resourceId, event, timestamp: new Date().toISOString() };
+    const updated = [...(progress.resource_interactions || []).slice(-99), newInteraction]; // keep last 100
+    await base44.entities.UserProgress.update(progress.id, { resource_interactions: updated });
+    queryClient.invalidateQueries(['userProgress']);
+  };
+
   const handleDiscussWithCoach = (resource) => {
-    // Track resource discussion with coach
     base44.analytics.track({
       eventName: 'resource_discussed_with_coach',
       properties: {
@@ -130,7 +137,7 @@ export default function Resources() {
         resource_type: resource.type
       }
     });
-
+    logInteraction(resource.id, 'ask_coach');
     const message = `I'd like to learn more about this resource:\n\n${resource.name} (${resource.org})\n${resource.description}\n\nCan you help me understand how to use this resource for my return-to-work journey?`;
     localStorage.setItem('pendingCoachMessage', message);
     navigate(createPageUrl('Coach'));

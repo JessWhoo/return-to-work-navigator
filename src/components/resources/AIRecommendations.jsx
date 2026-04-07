@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Star, ExternalLink, MessageCircle, Bookmark, BookmarkCheck, Loader2, Zap, TrendingUp } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { Sparkles, Star, ExternalLink, MessageCircle, Bookmark, BookmarkCheck, Loader2, Zap, TrendingUp, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { generateAIRecommendations } from './AIResourceAnalyzer';
 
 export default function AIRecommendations({ 
@@ -15,6 +16,27 @@ export default function AIRecommendations({
   getRating 
 }) {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [pendingTags, setPendingTags] = useState({});
+  const queryClient = useQueryClient();
+
+  const handleTag = async (resourceId, tag) => {
+    if (!progress?.id) return;
+    const currentTag = progress.resource_tags?.[resourceId];
+    const newTag = currentTag === tag ? null : tag; // toggle off if same
+
+    setPendingTags(prev => ({ ...prev, [resourceId]: newTag || 'clearing' }));
+
+    const updatedTags = { ...(progress.resource_tags || {}) };
+    if (newTag) updatedTags[resourceId] = newTag;
+    else delete updatedTags[resourceId];
+
+    await base44.entities.UserProgress.update(progress.id, { resource_tags: updatedTags });
+    base44.analytics.track({ eventName: 'resource_tagged', properties: { resource_id: resourceId, tag: newTag || 'removed' } });
+    queryClient.invalidateQueries(['userProgress']);
+    setPendingTags(prev => { const n = { ...prev }; delete n[resourceId]; return n; });
+  };
+
+  const getTag = (resourceId) => progress?.resource_tags?.[resourceId] || null;
 
   const { data: aiRecommendations, isLoading } = useQuery({
     queryKey: ['aiRecommendations', progress?.id],
@@ -198,7 +220,7 @@ export default function AIRecommendations({
                       </div>
                     )}
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                       <Button
                         variant={bookmarked ? "default" : "outline"}
                         size="sm"
@@ -216,6 +238,30 @@ export default function AIRecommendations({
                       >
                         <MessageCircle className="h-3 w-3 mr-1" />
                         Ask Coach
+                      </Button>
+                    </div>
+                    {/* Tag buttons for fine-tuning AI */}
+                    <div className="flex gap-2 pt-2 border-t border-purple-100">
+                      <span className="text-xs text-gray-500 self-center mr-1">Fine-tune AI:</span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        disabled={!!pendingTags[resource.id]}
+                        onClick={() => handleTag(resource.id, 'useful')}
+                        className={`text-xs px-2 h-7 ${getTag(resource.id) === 'useful' ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'text-gray-500 hover:text-green-600 hover:bg-green-50'}`}
+                      >
+                        <ThumbsUp className="h-3 w-3 mr-1" />
+                        Useful
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        disabled={!!pendingTags[resource.id]}
+                        onClick={() => handleTag(resource.id, 'not_relevant')}
+                        className={`text-xs px-2 h-7 ${getTag(resource.id) === 'not_relevant' ? 'bg-red-100 text-red-700 hover:bg-red-200' : 'text-gray-500 hover:text-red-600 hover:bg-red-50'}`}
+                      >
+                        <ThumbsDown className="h-3 w-3 mr-1" />
+                        Not for me
                       </Button>
                     </div>
                   </div>

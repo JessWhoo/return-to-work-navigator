@@ -58,6 +58,25 @@ export async function generateAIRecommendations(allResources, progress) {
       reviewsByResource[review.resource_id].push(review);
     });
 
+    // Analyze user interaction patterns
+    const interactions = progress.resource_interactions || [];
+    const interactionCounts = {};
+    interactions.forEach(i => {
+      if (!interactionCounts[i.resource_id]) interactionCounts[i.resource_id] = { view: 0, link_click: 0, bookmark: 0, ask_coach: 0 };
+      interactionCounts[i.resource_id][i.event] = (interactionCounts[i.resource_id][i.event] || 0) + 1;
+    });
+
+    // User tags: useful vs not_relevant
+    const resourceTags = progress.resource_tags || {};
+    const usefulIds = Object.entries(resourceTags).filter(([, v]) => v === 'useful').map(([k]) => k);
+    const notRelevantIds = Object.entries(resourceTags).filter(([, v]) => v === 'not_relevant').map(([k]) => k);
+
+    // Find patterns in what user finds useful — extract topics/categories
+    const usefulResources = flatResources.filter(r => usefulIds.includes(r.resource_id));
+    const usefulTopics = [...new Set(usefulResources.flatMap(r => r.topics || []))];
+    const usefulCategories = [...new Set(usefulResources.map(r => r.category))];
+    const usefulTypes = [...new Set(usefulResources.map(r => r.type))];
+
     // Build comprehensive prompt for AI
     const prompt = `You are an expert return-to-work coach for cancer survivors. Analyze the user's current state and recommend the most relevant resources.
 
@@ -70,6 +89,18 @@ USER PROFILE:
 - Accommodations Requested: ${progress.accommodations_requested?.length || 0}
 - Recent Symptoms: ${recentSymptoms.length} logged (avg severity: ${avgSymptomSeverity.toFixed(1)}/10)
 - Symptom Types: ${[...new Set(recentSymptoms.flatMap(s => s.types))].join(', ') || 'none reported'}
+
+USER INTERACTION PATTERNS (explicit feedback):
+- Resources tagged as USEFUL by user: ${usefulIds.length > 0 ? usefulIds.join(', ') : 'none yet'}
+- Preferred topics (from useful tags): ${usefulTopics.join(', ') || 'none yet'}
+- Preferred categories: ${usefulCategories.join(', ') || 'none yet'}
+- Preferred types: ${usefulTypes.join(', ') || 'none yet'}
+- Resources tagged as NOT RELEVANT (MUST exclude from recommendations): ${notRelevantIds.length > 0 ? notRelevantIds.join(', ') : 'none'}
+
+ENGAGEMENT PATTERNS (most clicked/viewed):
+${Object.entries(interactionCounts).slice(0, 10).map(([id, counts]) => 
+  `- ${id}: ${counts.view || 0} views, ${counts.link_click || 0} link clicks, ${counts.ask_coach || 0} coach asks`
+).join('\n') || '- No interaction data yet'}
 
 RECENT RECORDS (last 10):
 ${records.map(r => `- ${r.type}: ${r.title} (${r.date})`).join('\n')}
@@ -107,14 +138,17 @@ Recommend 5-8 resources that are MOST RELEVANT to this user's current situation.
 5. Community ratings and feedback - prefer highly-rated resources
 6. Variety across different types of support needed
 7. URGENCY: If symptoms are severe (7+/10) or stress is high (7+/10), mark as high/urgent priority
+8. CRITICAL: NEVER recommend resources tagged as "not_relevant" by the user
+9. STRONGLY PREFER resources matching user's preferred topics/categories/types from useful tags
+10. Boost relevance_score for resources similar to ones the user has engaged with most
 
 For each recommendation, provide:
 - resource_id (MUST match exactly from the list above)
 - priority (urgent/high/medium/low)
-- reason (why this resource is relevant RIGHT NOW for this user - be specific and personal)
+- reason (why this resource is relevant RIGHT NOW for this user - be specific and personal, mention if it matches their stated preferences)
 - relevance_score (1-10, how relevant is this)
 
-Also provide overall_insights (2-3 sentences about the user's current state and general recommendations).`;
+Also provide overall_insights (2-3 sentences about the user's current state and general recommendations, mentioning any clear preference patterns observed).`;
 
     const response = await base44.integrations.Core.InvokeLLM({
       prompt,
