@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { 
   MessageSquare, Send, Loader2, Sparkles, Plus, 
-  Trash2, Bot, User as UserIcon, RefreshCw
+  Trash2, Bot, RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageBubble from '../components/coach/MessageBubble';
@@ -15,6 +15,8 @@ import ProactiveCalendarInsights from '../components/coach/ProactiveCalendarInsi
 import SuggestedQuestions from '../components/coach/SuggestedQuestions';
 import AppFeatureGuide from '../components/coach/AppFeatureGuide';
 import SentimentResourceSuggestions, { detectSentimentAndResources } from '../components/coach/SentimentResourceSuggestions';
+import ConversationHistory from '../components/coach/ConversationHistory';
+import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceSuggestions';
 
 export default function Coach() {
   const queryClient = useQueryClient();
@@ -208,119 +210,55 @@ export default function Coach() {
   return (
     <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
-        {/* Sidebar - Conversations */}
-        <div className="lg:col-span-1 space-y-4">
-          <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-purple-600">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between text-slate-200">
-                <div className="flex items-center space-x-2">
-                  <MessageSquare className="h-5 w-5" />
-                  <span>Conversations</span>
-                </div>
-                <Button
-                  size="sm"
-                  onClick={() => createConversationMutation.mutate()}
-                  className="bg-purple-600 hover:bg-purple-700"
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 max-h-[calc(100vh-20rem)] overflow-y-auto">
-              {loadingConversations ? (
-                <div className="text-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin mx-auto text-slate-400" />
-                </div>
-              ) : conversationsError ? (
-                <div className="text-center py-8 text-red-400 text-xs">
-                  <p className="font-semibold mb-2">Error loading conversations</p>
-                  <p className="text-slate-400">{conversationsError.message}</p>
-                  <Button
-                    size="sm"
-                    onClick={() => queryClient.invalidateQueries(['coach-conversations'])}
-                    className="mt-3 bg-slate-600 hover:bg-slate-500"
-                  >
-                    <RefreshCw className="h-3 w-3 mr-2" />
-                    Retry
-                  </Button>
-                </div>
-              ) : conversations.length === 0 ? (
-                <div className="text-center py-8 text-slate-400 text-sm">
-                  No conversations yet.<br />Start a new one!
-                </div>
-              ) : (
-                conversations.map((conv) => (
-                  <button
-                    key={conv.id}
-                    onClick={() => setSelectedConversation(conv.id)}
-                    className={`w-full text-left p-3 rounded-lg transition-all ${
-                      selectedConversation === conv.id
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">
-                          {conv.metadata?.name || 'Conversation'}
-                        </p>
-                        <p className="text-xs opacity-75 truncate">
-                          {conv.messages?.length || 0} messages
-                        </p>
-                      </div>
-                      {selectedConversation === conv.id && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteConversationMutation.mutate(conv.id);
-                          }}
-                          className="ml-2 p-1 hover:bg-purple-700 rounded"
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </button>
-                      )}
-                    </div>
-                  </button>
-                ))
-              )}
+        {/* Sidebar */}
+        <div className="lg:col-span-1 flex flex-col gap-4 h-full overflow-y-auto">
+          {/* Conversation History Panel */}
+          <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-purple-600 flex flex-col" style={{ maxHeight: '50vh' }}>
+            <CardContent className="pt-4 pb-4 flex flex-col flex-1 overflow-hidden">
+              <ConversationHistory
+                conversations={conversations}
+                selectedConversation={selectedConversation}
+                onSelect={setSelectedConversation}
+                onNew={() => createConversationMutation.mutate()}
+                onDelete={(id) => deleteConversationMutation.mutate(id)}
+                onRefresh={() => queryClient.invalidateQueries(['coach-conversations'])}
+                loading={loadingConversations}
+                error={conversationsError}
+              />
             </CardContent>
           </Card>
 
-          {/* Sidebar Content */}
-          <div className="space-y-4">
+          {/* Coach Avatar */}
+          <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border border-purple-600/60">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                  <Bot className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-200">AI Return-to-Work Coach</h3>
+                  <p className="text-xs text-slate-400">Your 24/7 return-to-work guide</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contextual Sidebar Tools */}
+          <div className="space-y-3">
             {progress && (
               <>
                 <ProactiveCalendarInsights 
                   progress={progress} 
                   onSendMessage={handleQuickMessage}
                 />
-                
                 <SuggestedQuestions 
                   progress={progress}
                   onSendMessage={handleQuickMessage}
                 />
               </>
             )}
-            
             <AppFeatureGuide />
           </div>
-
-          {/* Coach Info */}
-          <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-2 border-purple-600">
-            <CardContent className="pt-6">
-              <div className="text-center space-y-3">
-                <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                  <Bot className="h-8 w-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-200">AI Return-to-Work Coach</h3>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Your 24/7 guide for navigating your return to work journey
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Main Chat Area */}
@@ -437,6 +375,11 @@ export default function Coach() {
               <div className="px-4 pb-2 bg-slate-900/50">
                 <SentimentResourceSuggestions lastUserMessage={lastUserMessage} />
               </div>
+            )}
+
+            {/* Proactive library resource suggestions based on conversation context */}
+            {messages.length >= 2 && (
+              <ProactiveResourceSuggestions messages={messages} />
             )}
 
             {/* Input Area */}
