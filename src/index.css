@@ -6,6 +6,22 @@ body {
   overscroll-behavior-y: none;
 }
 
+/* Global hover effects */
+.rounded-xl,
+.rounded-2xl,
+[class*="Card"] {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:not([disabled]),
+a {
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+button:not([disabled]):active {
+  transform: scale(0.96);
+}
+
 .mobile-ui-select-none button,
 .mobile-ui-select-none [role="button"],
 .mobile-ui-select-none svg,
