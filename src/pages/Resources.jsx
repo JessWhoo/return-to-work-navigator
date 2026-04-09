@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+class ErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { hasError: false }; }
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() { return this.state.hasError ? null : this.props.children; }
+}
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -482,40 +488,48 @@ export default function Resources() {
       </Card>
 
       {/* Recently Viewed */}
-      <RecentlyViewed
-        progress={progress}
-        allResources={resources}
-        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
-        isBookmarked={isBookmarked}
-      />
+      <ErrorBoundary>
+        <RecentlyViewed
+          progress={progress}
+          allResources={resources}
+          onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+          isBookmarked={isBookmarked}
+        />
+      </ErrorBoundary>
 
       {/* AI-Powered Smart Recommendations */}
-      <AIRecommendations
-        progress={progress}
-        allResources={resources}
-        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
-        onDiscussWithCoach={handleDiscussWithCoach}
-        isBookmarked={isBookmarked}
-        getRating={getRating}
-      />
+      <ErrorBoundary>
+        <AIRecommendations
+          progress={progress}
+          allResources={resources}
+          onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+          onDiscussWithCoach={handleDiscussWithCoach}
+          isBookmarked={isBookmarked}
+          getRating={getRating}
+        />
+      </ErrorBoundary>
 
       {/* Legacy AI Engine */}
-      <AIPersonalizedEngine
-        progress={progress}
-        resources={resources}
-        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
-        isBookmarked={isBookmarked}
-        onDiscuss={handleDiscussWithCoach}
-      />
+      <ErrorBoundary>
+        <AIPersonalizedEngine
+          progress={progress}
+          resources={resources}
+          onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+          isBookmarked={isBookmarked}
+          onDiscuss={handleDiscussWithCoach}
+        />
+      </ErrorBoundary>
 
       {/* Trending Resources */}
-      <TrendingResources
-        allResources={resources}
-        onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
-        onDiscussWithCoach={handleDiscussWithCoach}
-        isBookmarked={isBookmarked}
-        getRating={getRating}
-      />
+      <ErrorBoundary>
+        <TrendingResources
+          allResources={resources}
+          onBookmark={(resourceId) => toggleBookmarkMutation.mutate(resourceId)}
+          onDiscussWithCoach={handleDiscussWithCoach}
+          isBookmarked={isBookmarked}
+          getRating={getRating}
+        />
+      </ErrorBoundary>
 
       {/* Resources by Category */}
       <div className="space-y-8">
