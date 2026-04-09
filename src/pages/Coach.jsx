@@ -54,7 +54,9 @@ export default function Coach() {
       });
       return convs || [];
     },
-    retry: 1
+    retry: 2,
+    retryDelay: 1000,
+    staleTime: 30000,
   });
 
   useEffect(() => {
@@ -206,6 +208,17 @@ export default function Coach() {
 
   const currentConversation = conversations.find(c => c.id === selectedConversation);
   const messages = currentConversation?.messages || [];
+
+  if (loadingConversations) {
+    return (
+      <div className="max-w-7xl mx-auto flex items-center justify-center h-64">
+        <div className="text-center space-y-3">
+          <Loader2 className="h-10 w-10 animate-spin text-purple-400 mx-auto" />
+          <p className="text-slate-400 text-sm">Loading your coach...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
