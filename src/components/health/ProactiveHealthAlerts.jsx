@@ -218,9 +218,9 @@ Return proactive, supportive alerts that help the user maintain their health.`;
 
       <AnimatePresence>
         {visibleAlerts.map((alert) => {
-          const config = priorityConfig[alert.priority];
+          const config = priorityConfig[alert.priority] || priorityConfig.low;
           const PriorityIcon = config.icon;
-          const TypeIcon = typeIcons[alert.type];
+          const TypeIcon = typeIcons[alert.type] || Heart;
 
           return (
             <motion.div
