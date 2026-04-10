@@ -1,0 +1,43 @@
+{
+  "name": "DailyAffirmation",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "The affirmation message text"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the affirmation was generated"
+    },
+    "is_saved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user has saved/favorited this affirmation"
+    },
+    "is_shared": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user shared this affirmation"
+    }
+  },
+  "required": [
+    "text",
+    "date"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}
