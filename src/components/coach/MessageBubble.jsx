@@ -47,12 +47,12 @@ const FunctionDisplay = ({ toolCall }) => {
                 onClick={() => setExpanded(!expanded)}
                 className={cn(
                     "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all",
-                    "hover:bg-slate-50",
-                    expanded ? "bg-slate-50 border-slate-300" : "bg-white border-slate-200"
+                    "hover:bg-slate-700",
+                    expanded ? "bg-slate-700 border-slate-500" : "bg-slate-800 border-slate-600"
                 )}
             >
                 <Icon className={cn("h-3 w-3", statusConfig.color, statusConfig.spin && "animate-spin")} />
-                <span className="text-slate-700">{formattedName}</span>
+                <span className="text-slate-200">{formattedName}</span>
                 {statusConfig.text && (
                     <span className={cn("text-slate-500", isError && "text-red-600")}>
                         • {statusConfig.text}
@@ -69,7 +69,7 @@ const FunctionDisplay = ({ toolCall }) => {
                     {toolCall.arguments_string && (
                         <div>
                             <div className="text-xs text-slate-500 mb-1">Parameters:</div>
-                            <pre className="bg-slate-50 rounded-md p-2 text-xs text-slate-600 whitespace-pre-wrap">
+                            <pre className="bg-slate-900 rounded-md p-2 text-xs text-slate-300 whitespace-pre-wrap">
                                 {(() => {
                                     try {
                                         return JSON.stringify(JSON.parse(toolCall.arguments_string), null, 2);
@@ -83,7 +83,7 @@ const FunctionDisplay = ({ toolCall }) => {
                     {parsedResults && (
                         <div>
                             <div className="text-xs text-slate-500 mb-1">Result:</div>
-                            <pre className="bg-slate-50 rounded-md p-2 text-xs text-slate-600 whitespace-pre-wrap max-h-48 overflow-auto">
+                            <pre className="bg-slate-900 rounded-md p-2 text-xs text-slate-300 whitespace-pre-wrap max-h-48 overflow-auto">
                                 {typeof parsedResults === 'object' ? 
                                     JSON.stringify(parsedResults, null, 2) : parsedResults}
                             </pre>
@@ -109,16 +109,16 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                 {message.content && (
                     <div className={cn(
                         "rounded-2xl px-4 py-2.5",
-                        isUser ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white" : "bg-white border border-gray-200"
+                        isUser ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white" : "bg-slate-700 border border-slate-600 text-slate-100"
                     )}>
                         {isUser ? (
                             <p className="text-sm leading-relaxed">{message.content}</p>
                         ) : (
                             <ReactMarkdown 
-                                className="text-sm prose prose-sm prose-slate max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                                className="text-sm prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                                 components={{
                                     code: (props) => {
-                                        // @ts-ignore - inline prop from react-markdown
+                                        // @ts-ignore
                                         const inline = props.inline;
                                         const { className, children, ...restProps } = props;
                                         const match = /language-(\w+)/.exec(className || '');
