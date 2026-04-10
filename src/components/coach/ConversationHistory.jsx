@@ -83,10 +83,13 @@ export default function ConversationHistory({
             const { title, preview, lastActivity, msgCount } = getConversationPreview(conv);
             const isActive = selectedConversation === conv.id;
             return (
-              <button
+              <div
                 key={conv.id}
                 onClick={() => onSelect(conv.id)}
-                className={`w-full text-left p-3 rounded-xl transition-all group relative ${
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && onSelect(conv.id)}
+                className={`w-full text-left p-3 rounded-xl transition-all group relative cursor-pointer ${
                   isActive
                     ? 'bg-purple-700/80 border border-purple-500 shadow-lg shadow-purple-900/30'
                     : 'bg-slate-800/60 border border-slate-700/50 hover:bg-slate-700/60 hover:border-slate-600'
@@ -95,10 +98,10 @@ export default function ConversationHistory({
                 <div className="flex items-start justify-between gap-1.5">
                   <div className="flex-1 min-w-0">
                     <p className={`text-xs font-semibold truncate leading-snug ${isActive ? 'text-white' : 'text-slate-200'}`}>
-                      {title.length > 48 ? title.slice(0, 48) + '…' : title}
+                      {title.length > 48 ? title.slice(0, 48) + '\u2026' : title}
                     </p>
                     <p className={`text-xs mt-0.5 truncate leading-snug ${isActive ? 'text-purple-200/70' : 'text-slate-500'}`}>
-                      {preview.length > 65 ? preview.slice(0, 65) + '…' : preview}
+                      {preview.length > 65 ? preview.slice(0, 65) + '\u2026' : preview}
                     </p>
                     <div className="flex items-center gap-2 mt-1.5">
                       {lastActivity && (
@@ -122,7 +125,7 @@ export default function ConversationHistory({
                     </button>
                   )}
                 </div>
-              </button>
+              </div>
             );
           })
         )}
