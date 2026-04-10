@@ -57,7 +57,7 @@ import FAQ from './pages/FAQ';
 import Gamification from './pages/Gamification';
 import Home from './pages/Home';
 import LegalRights from './pages/LegalRights';
-import LinkedInNetworking from './pages/LinkedInNetworking';
+
 import Profile from './pages/Profile';
 import ProgressDashboard from './pages/ProgressDashboard';
 import RecordKeeping from './pages/RecordKeeping';
@@ -80,7 +80,7 @@ export const PAGES = {
     "Gamification": Gamification,
     "Home": Home,
     "LegalRights": LegalRights,
-    "LinkedInNetworking": LinkedInNetworking,
+
     "Profile": Profile,
     "ProgressDashboard": ProgressDashboard,
     "RecordKeeping": RecordKeeping,
