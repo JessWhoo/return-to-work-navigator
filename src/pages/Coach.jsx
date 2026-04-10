@@ -113,7 +113,7 @@ export default function Coach() {
       });
     },
     onSuccess: (newConv) => {
-      queryClient.invalidateQueries(['coach-conversations']);
+      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
       setSelectedConversation(newConv.id);
     }
   });
@@ -140,7 +140,7 @@ export default function Coach() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['coach-conversations']);
+      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
     }
   });
 
@@ -173,7 +173,7 @@ export default function Coach() {
       setSelectedConversation(newConv.id);
       setConversations(prev => [convWithMessages, ...prev]);
       await base44.agents.addMessage(convWithMessages, { role: 'user', content: currentMessage });
-      queryClient.invalidateQueries(['coach-conversations']);
+      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
     } else {
       sendMessageMutation.mutate(currentMessage);
     }
@@ -203,7 +203,7 @@ export default function Coach() {
         await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
       }
     }
-    queryClient.invalidateQueries(['coach-conversations']);
+    queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
   };
 
   const currentConversation = conversations.find(c => c.id === selectedConversation);
@@ -234,7 +234,7 @@ export default function Coach() {
                 onSelect={setSelectedConversation}
                 onNew={() => createConversationMutation.mutate()}
                 onDelete={(id) => deleteConversationMutation.mutate(id)}
-                onRefresh={() => queryClient.invalidateQueries(['coach-conversations'])}
+                onRefresh={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
                 loading={loadingConversations}
                 error={conversationsError}
               />
@@ -287,7 +287,7 @@ export default function Coach() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => queryClient.invalidateQueries(['coach-conversations'])}
+                    onClick={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
                     className="text-slate-400 hover:text-slate-200"
                   >
                     <RefreshCw className="h-4 w-4" />
