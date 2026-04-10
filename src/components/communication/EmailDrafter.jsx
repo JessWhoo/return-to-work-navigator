@@ -108,7 +108,7 @@ ${emailBody}`;
   };
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm">
+    <Card className="bg-slate-800 border-slate-600">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Mail className="h-5 w-5 text-indigo-600" />
@@ -118,7 +118,7 @@ ${emailBody}`;
             AI-Powered
           </Badge>
         </CardTitle>
-        <p className="text-sm text-gray-600 mt-2">
+        <p className="text-sm text-slate-400 mt-2">
           Generate professional emails to your employer or HR team
         </p>
       </CardHeader>
@@ -129,7 +129,7 @@ ${emailBody}`;
             <select
               value={emailType}
               onChange={(e) => setEmailType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option value="accommodation_request">Accommodation Request</option>
               <option value="return_plan">Return-to-Work Plan</option>
@@ -202,7 +202,7 @@ ${emailBody}`;
                   rows={12}
                   className="font-mono text-sm"
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-slate-400">
                   Feel free to edit the draft above to personalize it
                 </p>
               </div>
