@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { createPageUrl } from './utils';
 import { 
   Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown, Mail, ChevronLeft, BarChart2
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown, Mail, ChevronLeft, BarChart2, Briefcase
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
