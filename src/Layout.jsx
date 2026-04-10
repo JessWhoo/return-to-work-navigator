@@ -6,7 +6,7 @@ import {
   Home, CheckSquare, Zap, MessageSquare, FileText,
   Shield, Heart, Calendar, BookOpen, Menu, X, Volume2,
   Sparkles, TrendingUp, User, Trophy, Activity, Users,
-  FileDown, Mail, ChevronLeft, BarChart2, Search
+  FileDown, Mail, ChevronLeft, BarChart2, Search, Globe
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
@@ -95,7 +95,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'FAQ', icon: MessageSquare, page: 'FAQ' },
     { name: 'Employer Emails', icon: Mail, page: 'EmployerEmailGenerator', highlight: false },
     { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false },
-    { name: 'Job Boards', icon: Search, page: 'JobBoards', highlight: false }
+    { name: 'Job Boards', icon: Search, page: 'JobBoards', highlight: false },
+    { name: 'Community Hub', icon: Globe, page: 'CommunityHub', highlight: false }
   ];
 
   const toggleSpeech = () => {

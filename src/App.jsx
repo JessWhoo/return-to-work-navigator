@@ -12,6 +12,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ExportReports from './pages/ExportReports';
 import JobBoards from './pages/JobBoards';
 import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
+import CommunityHub from './pages/CommunityHub';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -66,6 +67,7 @@ const AuthenticatedApp = () => {
       <Route path="/ExportReports" element={<LayoutWrapper currentPageName="ExportReports"><ExportReports /></LayoutWrapper>} />
       <Route path="/EmployerEmailGenerator" element={<LayoutWrapper currentPageName="EmployerEmailGenerator"><EmployerEmailGenerator /></LayoutWrapper>} />
       <Route path="/JobBoards" element={<LayoutWrapper currentPageName="JobBoards"><JobBoards /></LayoutWrapper>} />
+      <Route path="/CommunityHub" element={<LayoutWrapper currentPageName="CommunityHub"><CommunityHub /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

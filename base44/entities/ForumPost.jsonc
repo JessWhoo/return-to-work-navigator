@@ -1,0 +1,75 @@
+{
+  "name": "ForumPost",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Post title"
+    },
+    "content": {
+      "type": "string",
+      "description": "Post body"
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "general",
+        "fatigue_management",
+        "workplace_rights",
+        "accommodations",
+        "emotional_support",
+        "returning_to_work",
+        "resources"
+      ],
+      "description": "Topic category"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Display name (can be anonymous)"
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "default": false
+    },
+    "resource_id": {
+      "type": "string",
+      "description": "Optional linked resource ID"
+    },
+    "is_pinned": {
+      "type": "boolean",
+      "default": false
+    },
+    "reply_count": {
+      "type": "number",
+      "default": 0
+    },
+    "likes": {
+      "type": "number",
+      "default": 0
+    },
+    "liked_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "required": [
+    "title",
+    "content",
+    "topic"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}
