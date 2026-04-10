@@ -255,9 +255,9 @@ export default function LegalRights() {
         {laws.map((law) => {
           const Icon = law.icon;
           return (
-            <TabsContent key={law.id} value={law.id} className="space-y-6">
+            <TabsContent key={law.id} value={law.id} className="space-y-6" style={{outline:'none'}}>
               {/* Law Overview */}
-              <Card className="bg-slate-800 border-2 border-slate-600">
+              <Card className="border-2 border-slate-600" style={{backgroundColor:'#1e293b'}}>
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
                     <div className={`p-3 rounded-xl bg-gradient-to-br ${law.iconBg}`}>
@@ -277,7 +277,7 @@ export default function LegalRights() {
               {/* Detailed Sections */}
               <div className="grid gap-6">
                 {law.sections.map((section, index) => (
-                  <Card key={index} className="bg-slate-800 border-2 border-slate-600 shadow-md">
+                  <Card key={index} className="border-2 border-slate-600 shadow-md" style={{backgroundColor:'#1e293b'}}>
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center space-x-2">
                         <CheckCircle2 className={`h-5 w-5 ${iconColorMap[law.color] || 'text-cyan-400'}`} />
