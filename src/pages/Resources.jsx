@@ -683,6 +683,19 @@ export default function Resources() {
                                     resource_category: category.category
                                   }
                                 });
+                                const isHRLegal = /legal|law|rights|hr|human resource|employment|workplace|government|accommodat/i.test(category.category);
+                                if (isHRLegal) {
+                                  base44.analytics.track({
+                                    eventName: 'hr_legal_resource_link_clicked',
+                                    properties: {
+                                      resource_id: resource.id,
+                                      resource_name: resource.name,
+                                      resource_url: resource.url,
+                                      resource_type: resource.type,
+                                      resource_category: category.category
+                                    }
+                                  });
+                                }
                                 logInteraction(resource.id, 'link_click');
                               }}
                               className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
