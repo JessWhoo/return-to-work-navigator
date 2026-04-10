@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPageUrl } from './utils';
-import { 
-  Home, CheckSquare, Zap, MessageSquare, FileText, 
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2, Sparkles, TrendingUp, User, Trophy, Activity, Users, FileDown, Mail, ChevronLeft, BarChart2, Briefcase
+import {
+  Home, CheckSquare, Zap, MessageSquare, FileText,
+  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2,
+  Sparkles, TrendingUp, User, Trophy, Activity, Users,
+  FileDown, Mail, ChevronLeft, BarChart2, Search
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
@@ -93,7 +95,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'FAQ', icon: MessageSquare, page: 'FAQ' },
     { name: 'Employer Emails', icon: Mail, page: 'EmployerEmailGenerator', highlight: false },
     { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false },
-    { name: 'Job Boards', icon: Briefcase, page: 'JobBoards', highlight: false }
+    { name: 'Job Boards', icon: Search, page: 'JobBoards', highlight: false }
   ];
 
   const toggleSpeech = () => {
