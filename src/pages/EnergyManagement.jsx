@@ -174,7 +174,7 @@ export default function EnergyManagement() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
           Energy & Wellness Tracking
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Track your energy, mood, and stress levels to identify patterns and manage well-being
         </p>
       </div>
@@ -182,7 +182,7 @@ export default function EnergyManagement() {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Energy Tracker */}
         <div className="lg:col-span-1 space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm sticky top-24">
+          <Card className="bg-slate-800 border-slate-600 sticky top-24">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Calendar className="h-5 w-5 text-amber-600" />
@@ -218,7 +218,7 @@ export default function EnergyManagement() {
                     step={1}
                     className="w-full"
                   />
-                  <p className="text-xs text-gray-500 text-right">{energyLevels.morning}/10</p>
+                  <p className="text-xs text-slate-400 text-right">{energyLevels.morning}/10</p>
                 </div>
 
                 <div className="space-y-3">
@@ -237,7 +237,7 @@ export default function EnergyManagement() {
                     max={10}
                     step={1}
                   />
-                  <p className="text-xs text-gray-500 text-right">{energyLevels.afternoon}/10</p>
+                  <p className="text-xs text-slate-400 text-right">{energyLevels.afternoon}/10</p>
                 </div>
 
                 <div className="space-y-3">
@@ -256,7 +256,7 @@ export default function EnergyManagement() {
                     max={10}
                     step={1}
                   />
-                  <p className="text-xs text-gray-500 text-right">{energyLevels.evening}/10</p>
+                  <p className="text-xs text-slate-400 text-right">{energyLevels.evening}/10</p>
                 </div>
               </div>
 
@@ -265,7 +265,7 @@ export default function EnergyManagement() {
                 <select
                   value={mood}
                   onChange={(e) => setMood(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 >
                   <option value="very_low">😢 Very Low</option>
                   <option value="low">😕 Low</option>
@@ -289,7 +289,7 @@ export default function EnergyManagement() {
                   step={1}
                   className="w-full"
                 />
-                <p className="text-xs text-gray-500 text-right">{stressLevel}/10</p>
+                <p className="text-xs text-slate-400 text-right">{stressLevel}/10</p>
               </div>
 
               <div className="space-y-2">
@@ -318,13 +318,13 @@ export default function EnergyManagement() {
           {energyTips.map((category) => {
             const Icon = category.icon;
             return (
-              <Card key={category.title} className="bg-white/80 backdrop-blur-sm">
+              <Card key={category.title} className="bg-slate-800 border-slate-600">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-3">
                     <div className={`p-2 rounded-lg bg-${category.color}-100`}>
                       <Icon className={`h-6 w-6 text-${category.color}-600`} />
                     </div>
-                    <span>{category.title}</span>
+                    <span className="text-slate-100">{category.title}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -332,7 +332,7 @@ export default function EnergyManagement() {
                     {category.tips.map((tip, index) => (
                       <li key={index} className="flex items-start space-x-3">
                         <CheckCircle2 className={`h-5 w-5 text-${category.color}-600 flex-shrink-0 mt-0.5`} />
-                        <span className="text-gray-700 leading-relaxed">{tip}</span>
+                        <span className="text-slate-200 leading-relaxed">{tip}</span>
                       </li>
                     ))}
                   </ul>
@@ -343,9 +343,9 @@ export default function EnergyManagement() {
 
           {/* Past Logs Summary */}
           {progress?.energy_logs && progress.energy_logs.length > 0 && (
-            <Card className="bg-white/80 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle>Recent Energy Patterns</CardTitle>
+            <Card className="bg-slate-800 border-slate-600">
+            <CardHeader>
+              <CardTitle className="text-slate-100">Recent Energy Patterns</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -355,12 +355,12 @@ export default function EnergyManagement() {
                     .map((log, index) => {
                       const avg = ((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1);
                       return (
-                        <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                          <span className="text-sm font-medium text-gray-700">
+                        <div key={index} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                          <span className="text-sm font-medium text-slate-200">
                             {format(new Date(log.date), 'MMM d, yyyy')}
                           </span>
                           <div className="flex items-center space-x-3">
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-slate-400">
                               M:{log.morning_energy} A:{log.afternoon_energy} E:{log.evening_energy}
                             </span>
                             <Badge className={getEnergyColor(parseFloat(avg))}>

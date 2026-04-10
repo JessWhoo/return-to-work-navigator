@@ -152,7 +152,7 @@ export default function EmotionalSupport() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
           Emotional Support & Well-Being
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Resources for managing anxiety, building confidence, and finding support
         </p>
       </div>
@@ -162,20 +162,20 @@ export default function EmotionalSupport() {
         {supportResources.map((resource) => {
           const Icon = resource.icon;
           return (
-            <Card key={resource.title} className="bg-white/80 backdrop-blur-sm">
+            <Card key={resource.title} className="bg-slate-800 border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
                   <div className={`p-2 rounded-lg bg-${resource.color}-100`}>
                     <Icon className={`h-6 w-6 text-${resource.color}-600`} />
                   </div>
-                  <span>{resource.title}</span>
+                  <span className="text-slate-100">{resource.title}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {resource.strategies.map((item, index) => (
                   <div key={index} className={`p-4 bg-${resource.color}-50 rounded-lg border-l-4 border-${resource.color}-400`}>
                     <h4 className={`font-semibold text-${resource.color}-900 mb-2`}>{item.strategy}</h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">{item.description}</p>
+                    <p className="text-sm text-slate-300 leading-relaxed">{item.description}</p>
                   </div>
                 ))}
               </CardContent>
@@ -186,7 +186,7 @@ export default function EmotionalSupport() {
 
       {/* Peer Support */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+        <h2 className="text-2xl font-bold text-slate-100 flex items-center space-x-2">
           <Users className="h-7 w-7 text-teal-600" />
           <span>Peer Support Networks</span>
         </h2>
@@ -195,16 +195,16 @@ export default function EmotionalSupport() {
           {peerSupport.map((org) => {
             const Icon = org.icon;
             return (
-              <Card key={org.name} className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all">
+              <Card key={org.name} className="bg-slate-800 border-slate-600 hover:shadow-lg transition-all">
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-3 mb-3">
                     <div className={`p-2 rounded-lg bg-${org.color}-100`}>
                       <Icon className={`h-5 w-5 text-${org.color}-600`} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-gray-800 mb-1">{org.name}</h3>
-                      <p className="text-sm text-gray-600 leading-relaxed mb-2">{org.description}</p>
-                      <p className="text-xs text-gray-500">{org.contact}</p>
+                      <h3 className="font-bold text-slate-100 mb-1">{org.name}</h3>
+                      <p className="text-sm text-slate-300 leading-relaxed mb-2">{org.description}</p>
+                      <p className="text-xs text-slate-400">{org.contact}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -216,16 +216,16 @@ export default function EmotionalSupport() {
 
       {/* Coping Strategies */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+        <h2 className="text-2xl font-bold text-slate-100 flex items-center space-x-2">
           <Book className="h-7 w-7 text-rose-600" />
           <span>Practical Coping Strategies</span>
         </h2>
 
         <div className="grid gap-6">
           {copingStrategies.map((strategy, index) => (
-            <Card key={index} className="bg-white/80 backdrop-blur-sm">
+            <Card key={index} className="bg-slate-800 border-slate-600">
               <CardHeader>
-                <CardTitle className="text-lg text-rose-700">{strategy.title}</CardTitle>
+                <CardTitle className="text-lg text-rose-400">{strategy.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ol className="space-y-3">
@@ -234,7 +234,7 @@ export default function EmotionalSupport() {
                       <Badge className="bg-rose-100 text-rose-700 flex-shrink-0">
                         {stepIndex + 1}
                       </Badge>
-                      <span className="text-gray-700 leading-relaxed">{step}</span>
+                      <span className="text-slate-200 leading-relaxed">{step}</span>
                     </li>
                   ))}
                 </ol>
@@ -245,15 +245,15 @@ export default function EmotionalSupport() {
       </div>
 
       {/* Supportive Message */}
-      <Card className="bg-gradient-to-r from-pink-100 via-rose-100 to-teal-100 border-rose-200">
+      <Card className="bg-gradient-to-r from-pink-900/40 via-rose-900/40 to-teal-900/40 border-rose-700">
         <CardContent className="pt-6 text-center">
           <Heart className="h-12 w-12 text-rose-500 mx-auto mb-4" />
-          <h3 className="text-2xl font-bold text-gray-800 mb-3">You're Doing Great</h3>
-          <p className="text-gray-700 max-w-2xl mx-auto leading-relaxed mb-4">
+          <h3 className="text-2xl font-bold text-slate-100 mb-3">You're Doing Great</h3>
+          <p className="text-slate-300 max-w-2xl mx-auto leading-relaxed mb-4">
             Some days will be harder than others. That's not weakness—that's being human. 
             Be patient with yourself. You've already proven how strong you are.
           </p>
-          <p className="text-sm text-gray-600 italic">
+          <p className="text-sm text-slate-400 italic">
             If you're struggling, please reach out to a mental health professional. 
             There's no shame in needing support.
           </p>

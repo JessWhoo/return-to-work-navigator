@@ -121,19 +121,19 @@ Sincerely,
         <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
           Plan Your Return
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Create a phased return-to-work schedule that supports your recovery
         </p>
       </div>
 
       {/* Current Return Date */}
       {progress?.return_date && (
-        <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+        <Card className="bg-slate-800 border-teal-700">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Your planned return date:</p>
-                <p className="text-2xl font-bold text-teal-700">
+                <p className="text-sm text-slate-400 mb-1">Your planned return date:</p>
+                <p className="text-2xl font-bold text-teal-400">
                   {format(new Date(progress.return_date), 'EEEE, MMMM d, yyyy')}
                 </p>
               </div>
@@ -146,10 +146,10 @@ Sincerely,
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Template Selection */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm">
+          <Card className="bg-slate-800 border-slate-600">
             <CardHeader>
-              <CardTitle>Choose a Phased Return Template</CardTitle>
-              <p className="text-sm text-gray-500 mt-2">
+              <CardTitle className="text-slate-100">Choose a Phased Return Template</CardTitle>
+              <p className="text-sm text-slate-400 mt-2">
                 Select a template that matches your needs. You can customize it further below.
               </p>
             </CardHeader>
@@ -160,14 +160,14 @@ Sincerely,
                   onClick={() => setSelectedTemplate(template.name)}
                   className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                     selectedTemplate === template.name
-                      ? 'border-teal-500 bg-teal-50'
-                      : 'border-gray-200 hover:border-teal-300 bg-white'
+                      ? 'border-teal-500 bg-teal-900/30'
+                      : 'border-slate-600 hover:border-teal-500 bg-slate-700'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-bold text-gray-800">{template.name}</h3>
-                      <p className="text-sm text-gray-600">{template.description}</p>
+                      <h3 className="font-bold text-slate-100">{template.name}</h3>
+                      <p className="text-sm text-slate-400">{template.description}</p>
                     </div>
                     {selectedTemplate === template.name && (
                       <CheckCircle2 className="h-6 w-6 text-teal-600 flex-shrink-0" />
@@ -178,8 +178,8 @@ Sincerely,
                     {template.phases.map((phase, index) => (
                       <div key={index} className="flex items-center space-x-2 text-sm">
                         <Badge variant="outline" className="bg-white">Week {phase.week}</Badge>
-                        <span className="text-gray-700">
-                          {phase.hours}hrs/week, {phase.remote} remote
+                        <span className="text-slate-200">
+                         {phase.hours}hrs/week, {phase.remote} remote
                         </span>
                       </div>
                     ))}
@@ -191,29 +191,29 @@ Sincerely,
 
           {/* Selected Template Details */}
           {selectedTemplate && (
-            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+            <Card className="bg-slate-800 border-teal-700">
               <CardHeader>
-                <CardTitle>Your Selected Plan: {selectedTemplate}</CardTitle>
+                <CardTitle className="text-slate-100">Your Selected Plan: {selectedTemplate}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {phasedReturnTemplates
                   .find(t => t.name === selectedTemplate)
                   ?.phases.map((phase, index) => (
-                    <div key={index} className="bg-white/60 p-4 rounded-lg">
+                    <div key={index} className="bg-slate-700 p-4 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-gray-800">Week {phase.week}</h4>
+                        <h4 className="font-semibold text-slate-100">Week {phase.week}</h4>
                         <div className="flex items-center space-x-2">
                           <Clock className="h-4 w-4 text-teal-600" />
-                          <span className="text-sm font-medium">{phase.hours} hours/week</span>
+                          <span className="text-sm font-medium text-slate-200">{phase.hours} hours/week</span>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 mb-2">
                         <Home className="h-4 w-4 text-teal-600" />
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-slate-300">
                           Remote: {phase.remote} {typeof phase.remote === 'number' ? 'days/week' : ''}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600">{phase.notes}</p>
+                      <p className="text-sm text-slate-400">{phase.notes}</p>
                     </div>
                   ))}
               </CardContent>
@@ -223,9 +223,9 @@ Sincerely,
 
         {/* Form */}
         <div className="space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm sticky top-24">
+          <Card className="bg-slate-800 border-slate-600 sticky top-24">
             <CardHeader>
-              <CardTitle className="text-lg">Plan Details</CardTitle>
+              <CardTitle className="text-lg text-slate-100">Plan Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -274,10 +274,10 @@ Sincerely,
           </Card>
 
           {/* Tips Card */}
-          <Card className="bg-amber-50 border-amber-200">
+          <Card className="bg-amber-900/30 border-amber-700">
             <CardContent className="pt-6">
-              <h4 className="font-semibold text-amber-900 mb-3">💡 Planning Tips</h4>
-              <ul className="space-y-2 text-sm text-amber-800">
+              <h4 className="font-semibold text-amber-300 mb-3">💡 Planning Tips</h4>
+              <ul className="space-y-2 text-sm text-amber-200">
                 <li>• Start slower than you think you need to</li>
                 <li>• Build in review points to adjust the plan</li>
                 <li>• Communicate your plan clearly in writing</li>

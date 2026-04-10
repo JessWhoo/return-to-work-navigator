@@ -212,23 +212,23 @@ export default function Checklist() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-rose-600 to-teal-600 bg-clip-text text-transparent">
           Your Return to Work Checklist
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
         </p>
       </div>
 
       {/* Progress Overview */}
-      <Card className="bg-white/80 backdrop-blur-sm border-rose-200">
+      <Card className="bg-slate-800 border-rose-700">
         <CardContent className="pt-6">
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">Overall Progress</span>
+              <span className="text-sm font-medium text-slate-200">Overall Progress</span>
               <span className="text-sm font-bold text-rose-600">
                 {completedItems.length} of {totalItems} completed
               </span>
             </div>
             <Progress value={progressPercentage} className="h-3" />
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-slate-400 text-center">
               {progressPercentage.toFixed(0)}% complete
             </p>
           </div>
@@ -253,10 +253,10 @@ export default function Checklist() {
           return (
             <Card 
               key={phaseIndex}
-              className="bg-white/80 backdrop-blur-sm border-2 hover:shadow-lg transition-all"
+              className="bg-slate-800 border-2 border-slate-600 hover:border-slate-500 hover:shadow-lg transition-all"
             >
               <CardHeader 
-                className="cursor-pointer hover:bg-gray-50/50 transition-colors"
+                className="cursor-pointer hover:bg-slate-700/50 transition-colors"
                 onClick={() => togglePhase(phaseIndex)}
               >
                 <div className="flex items-center justify-between">
@@ -265,7 +265,7 @@ export default function Checklist() {
                       <ChevronDown className="h-5 w-5 text-gray-500" /> : 
                       <ChevronRight className="h-5 w-5 text-gray-500" />
                     }
-                    <CardTitle className="text-xl text-gray-800">
+                    <CardTitle className="text-xl text-slate-100">
                       {phase.phase}
                     </CardTitle>
                   </div>
@@ -284,7 +284,7 @@ export default function Checklist() {
                   
                   {phase.sections.map((section, sectionIndex) => (
                     <div key={sectionIndex} className="space-y-3">
-                       <h4 className="font-semibold text-gray-800 text-lg">
+                       <h4 className="font-semibold text-slate-100 text-lg">
                         {section.title}
                       </h4>
                       <div className="space-y-3 ml-2">
@@ -293,7 +293,7 @@ export default function Checklist() {
                           return (
                             <div 
                               key={item.id}
-                              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50/50 transition-colors"
+                              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-slate-700/50 transition-colors"
                             >
                               <Checkbox
                                 id={item.id}
@@ -304,7 +304,7 @@ export default function Checklist() {
                               <label
                                 htmlFor={item.id}
                                 className={`flex-1 text-sm leading-relaxed cursor-pointer ${
-                                  isChecked ? 'line-through text-gray-500' : 'text-gray-700'
+                                     isChecked ? 'line-through text-slate-500' : 'text-slate-200'
                                 }`}
                               >
                                 {item.text}
@@ -327,11 +327,11 @@ export default function Checklist() {
 
       {/* Completion Message */}
       {progressPercentage === 100 && (
-        <Card className="bg-gradient-to-r from-green-50 to-teal-50 border-green-200">
+        <Card className="bg-gradient-to-r from-green-900/30 to-teal-900/30 border-green-700">
           <CardContent className="pt-6 text-center">
             <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Congratulations! 🎉</h3>
-            <p className="text-gray-700">
+            <h3 className="text-2xl font-bold text-slate-100 mb-2">Congratulations! 🎉</h3>
+            <p className="text-slate-200">
               You've completed all checklist items. Remember, returning to work is an ongoing journey. 
               Continue to advocate for yourself and adjust as needed.
             </p>

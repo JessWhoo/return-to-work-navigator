@@ -227,13 +227,13 @@ export default function WellnessResources() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
           Wellness Resources
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Science-backed techniques for managing stress, improving mood, and enhancing well-being
         </p>
       </div>
 
       {/* Quick Exercises */}
-      <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
+      <Card className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-purple-700">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Sparkles className="h-6 w-6 text-purple-600" />
@@ -245,14 +245,14 @@ export default function WellnessResources() {
             {quickExercises.map((exercise) => {
               const Icon = exercise.icon;
               return (
-                <Card key={exercise.name} className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all">
+                <Card key={exercise.name} className="bg-slate-800 border-slate-600 hover:shadow-lg transition-all">
                   <CardContent className="pt-6 text-center space-y-3">
                     <div className={`p-3 rounded-full bg-${exercise.color}-100 w-16 h-16 mx-auto flex items-center justify-center`}>
                       <Icon className={`h-8 w-8 text-${exercise.color}-600`} />
                     </div>
-                    <h3 className="font-bold text-gray-800">{exercise.name}</h3>
+                    <h3 className="font-bold text-slate-100">{exercise.name}</h3>
                     <Badge variant="secondary">{exercise.duration}</Badge>
-                    <p className="text-sm text-gray-600 leading-relaxed">{exercise.instructions}</p>
+                    <p className="text-sm text-slate-300 leading-relaxed">{exercise.instructions}</p>
                   </CardContent>
                 </Card>
               );
@@ -266,13 +266,13 @@ export default function WellnessResources() {
         {copingMechanisms.map((category) => {
           const Icon = category.icon;
           return (
-            <Card key={category.category} className="bg-white/80 backdrop-blur-sm">
+            <Card key={category.category} className="bg-slate-800 border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
                   <div className={`p-2 rounded-lg bg-${category.color}-100`}>
                     <Icon className={`h-6 w-6 text-${category.color}-600`} />
                   </div>
-                  <span>{category.category}</span>
+                  <span className="text-slate-100">{category.category}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -284,12 +284,12 @@ export default function WellnessResources() {
                     }`}>
                       <button
                         onClick={() => toggleTechnique(category.category, technique.name)}
-                        className="w-full p-4 text-left hover:bg-gray-50 transition-colors"
+                        className="w-full p-4 text-left hover:bg-slate-700 transition-colors"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <h4 className="font-bold text-gray-800 mb-1">{technique.name}</h4>
-                            <p className="text-sm text-gray-600 mb-2">{technique.description}</p>
+                            <h4 className="font-bold text-slate-100 mb-1">{technique.name}</h4>
+                            <p className="text-sm text-slate-300 mb-2">{technique.description}</p>
                             <Badge variant="outline" className="text-xs">{technique.duration}</Badge>
                           </div>
                           <CheckCircle2 className={`h-6 w-6 transition-transform ${
@@ -299,15 +299,15 @@ export default function WellnessResources() {
                       </button>
                       
                       {isExpanded && (
-                        <div className="p-4 border-t border-gray-200 bg-white">
-                          <h5 className="font-semibold text-sm text-gray-700 mb-3">Step-by-Step:</h5>
+                        <div className="p-4 border-t border-slate-600 bg-slate-700">
+                          <h5 className="font-semibold text-sm text-slate-300 mb-3">Step-by-Step:</h5>
                           <ol className="space-y-2">
                             {technique.steps.map((step, idx) => (
                               <li key={idx} className="flex items-start space-x-3">
                                 <Badge className={`bg-${category.color}-500 text-white flex-shrink-0`}>
                                   {idx + 1}
                                 </Badge>
-                                <span className="text-sm text-gray-700 leading-relaxed">{step}</span>
+                                <span className="text-sm text-slate-200 leading-relaxed">{step}</span>
                               </li>
                             ))}
                           </ol>
@@ -323,13 +323,13 @@ export default function WellnessResources() {
       </div>
 
       {/* Important Note */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+      <Card className="bg-gradient-to-r from-blue-900/30 to-indigo-900/30 border-blue-700">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-3">
             <Heart className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
             <div className="space-y-2">
-              <h3 className="font-semibold text-blue-900">These Techniques Take Practice</h3>
-              <p className="text-sm text-blue-800 leading-relaxed">
+              <h3 className="font-semibold text-blue-300">These Techniques Take Practice</h3>
+              <p className="text-sm text-blue-200 leading-relaxed">
                 Don't expect instant results. Like any skill, these techniques become more effective with regular practice. 
                 Start with one technique and practice it daily for a week. If you're struggling with severe anxiety or depression, 
                 please reach out to a mental health professional - these tools complement but don't replace professional care.

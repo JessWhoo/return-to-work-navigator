@@ -211,15 +211,15 @@ export default function LegalRights() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
           Your Legal Rights
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Understanding your workplace protections as a cancer survivor
         </p>
       </div>
 
       {/* Important Notice */}
-      <Alert className="bg-amber-50 border-amber-200">
+      <Alert className="bg-amber-900/30 border-amber-600">
         <AlertCircle className="h-5 w-5 text-amber-600" />
-        <AlertDescription className="text-amber-900">
+        <AlertDescription className="text-amber-200">
           <strong>Important Notice:</strong> This information is for educational purposes only and should not be 
           considered legal advice. For specific guidance about your situation, please consult with a 
           qualified employment attorney or contact the EEOC.
@@ -228,7 +228,7 @@ export default function LegalRights() {
 
       {/* Laws Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 bg-white/60 p-1">
+        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 bg-slate-800 border border-slate-600 p-1">
           {laws.map((law) => {
             const Icon = law.icon;
             return (
@@ -236,7 +236,7 @@ export default function LegalRights() {
                 key={law.id} 
                 value={law.id}
                 onClick={() => handleTabChange(law.id)}
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-gray-100 data-[state=active]:to-gray-200"
+                className="text-slate-300 data-[state=active]:bg-slate-600 data-[state=active]:text-white"
               >
                 <Icon className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">{law.id.toUpperCase()}</span>
@@ -250,7 +250,7 @@ export default function LegalRights() {
           return (
             <TabsContent key={law.id} value={law.id} className="space-y-6">
               {/* Law Overview */}
-              <Card className={`bg-gradient-to-r ${law.bg} border-2 ${law.border}`}>
+              <Card className="bg-slate-800 border-2 border-slate-600">
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
                     <div className={`p-3 rounded-xl bg-gradient-to-br ${law.iconBg}`}>
@@ -261,7 +261,7 @@ export default function LegalRights() {
                         <h2 className={`text-2xl font-bold bg-gradient-to-r ${law.gradient} bg-clip-text text-transparent`}>{law.name}</h2>
                         <Badge className={`bg-gradient-to-r ${law.gradient} text-white`}>{law.year}</Badge>
                       </div>
-                      <p className="text-gray-800 font-medium leading-relaxed">{law.summary}</p>
+                      <p className="text-slate-200 font-medium leading-relaxed">{law.summary}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -270,7 +270,7 @@ export default function LegalRights() {
               {/* Detailed Sections */}
               <div className="grid gap-6">
                 {law.sections.map((section, index) => (
-                  <Card key={index} className={`bg-white border-2 ${law.border} shadow-md`}>
+                  <Card key={index} className="bg-slate-800 border-2 border-slate-600 shadow-md">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center space-x-2">
                         <CheckCircle2 className={`h-5 w-5 text-${law.color}-600`} />
@@ -282,7 +282,7 @@ export default function LegalRights() {
                         {section.content.map((item, itemIndex) => (
                           <li key={itemIndex} className="flex items-start space-x-3">
                             <div className={`h-2 w-2 rounded-full bg-gradient-to-r ${law.gradient} mt-2 flex-shrink-0`} />
-                            <span className="text-gray-800 leading-relaxed">{item}</span>
+                            <span className="text-slate-200 leading-relaxed">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -296,7 +296,7 @@ export default function LegalRights() {
       </Tabs>
 
       {/* Resources for Help */}
-      <Card className="bg-white/80 backdrop-blur-sm border-green-200">
+      <Card className="bg-slate-800 border-green-700">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Scale className="h-6 w-6 text-green-600" />
@@ -305,31 +305,31 @@ export default function LegalRights() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-green-900 mb-2">EEOC</h4>
-              <p className="text-sm text-green-800 mb-2">Enforces ADA and employment discrimination laws</p>
-              <p className="text-sm text-green-700">📞 1-800-669-4000</p>
-              <a href="https://www.eeoc.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('EEOC', 'https://www.eeoc.gov')} className="text-sm text-green-700 hover:underline">🌐 www.eeoc.gov</a>
+            <div className="bg-green-900/30 p-4 rounded-lg border border-green-700">
+              <h4 className="font-semibold text-green-300 mb-2">EEOC</h4>
+              <p className="text-sm text-green-200 mb-2">Enforces ADA and employment discrimination laws</p>
+              <p className="text-sm text-green-300">📞 1-800-669-4000</p>
+              <a href="https://www.eeoc.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('EEOC', 'https://www.eeoc.gov')} className="text-sm text-green-400 hover:underline">🌐 www.eeoc.gov</a>
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-blue-900 mb-2">Dept. of Labor</h4>
-              <p className="text-sm text-blue-800 mb-2">Enforces FMLA</p>
-              <p className="text-sm text-blue-700">📞 1-866-487-2365</p>
-              <a href="https://www.dol.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Dept. of Labor', 'https://www.dol.gov')} className="text-sm text-blue-700 hover:underline">🌐 www.dol.gov</a>
+            <div className="bg-blue-900/30 p-4 rounded-lg border border-blue-700">
+              <h4 className="font-semibold text-blue-300 mb-2">Dept. of Labor</h4>
+              <p className="text-sm text-blue-200 mb-2">Enforces FMLA</p>
+              <p className="text-sm text-blue-300">📞 1-866-487-2365</p>
+              <a href="https://www.dol.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Dept. of Labor', 'https://www.dol.gov')} className="text-sm text-blue-400 hover:underline">🌐 www.dol.gov</a>
             </div>
 
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-purple-900 mb-2">Job Accommodation Network</h4>
-              <p className="text-sm text-purple-800 mb-2">Free guidance on accommodations</p>
-              <p className="text-sm text-purple-700">📞 1-800-526-7234</p>
-              <a href="https://askjan.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Job Accommodation Network', 'https://askjan.org')} className="text-sm text-purple-700 hover:underline">🌐 askjan.org</a>
+            <div className="bg-purple-900/30 p-4 rounded-lg border border-purple-700">
+              <h4 className="font-semibold text-purple-300 mb-2">Job Accommodation Network</h4>
+              <p className="text-sm text-purple-200 mb-2">Free guidance on accommodations</p>
+              <p className="text-sm text-purple-300">📞 1-800-526-7234</p>
+              <a href="https://askjan.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Job Accommodation Network', 'https://askjan.org')} className="text-sm text-purple-400 hover:underline">🌐 askjan.org</a>
             </div>
 
-            <div className="bg-rose-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-rose-900 mb-2">Triage Cancer</h4>
-              <p className="text-sm text-rose-800 mb-2">Legal info for cancer patients</p>
-              <a href="https://triagecancer.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Triage Cancer', 'https://triagecancer.org')} className="text-sm text-rose-700 hover:underline">🌐 triagecancer.org</a>
+            <div className="bg-rose-900/30 p-4 rounded-lg border border-rose-700">
+              <h4 className="font-semibold text-rose-300 mb-2">Triage Cancer</h4>
+              <p className="text-sm text-rose-200 mb-2">Legal info for cancer patients</p>
+              <a href="https://triagecancer.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Triage Cancer', 'https://triagecancer.org')} className="text-sm text-rose-400 hover:underline">🌐 triagecancer.org</a>
             </div>
           </div>
         </CardContent>

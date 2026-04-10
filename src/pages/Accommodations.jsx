@@ -131,7 +131,7 @@ ${formData.name || '[Your name]'}`;
         <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
           Workplace Accommodations
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
           Select the accommodations you need and generate a formal request letter
         </p>
       </div>
@@ -139,13 +139,13 @@ ${formData.name || '[Your name]'}`;
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Left: Common Accommodations */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm">
+          <Card className="bg-slate-800 border-slate-600">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <FileText className="h-6 w-6 text-purple-600" />
                 <span>Select Your Accommodations</span>
               </CardTitle>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-slate-400 mt-2">
                 Choose from common accommodations. You can customize or add more in the form.
               </p>
             </CardHeader>
@@ -158,7 +158,7 @@ ${formData.name || '[Your name]'}`;
                       <div className={`p-2 rounded-lg bg-${category.color}-100`}>
                         <Icon className={`h-5 w-5 text-${category.color}-600`} />
                       </div>
-                      <h3 className="font-semibold text-gray-800">{category.category}</h3>
+                      <h3 className="font-semibold text-slate-100">{category.category}</h3>
                     </div>
                     
                     <div className="space-y-2 ml-2">
@@ -172,7 +172,7 @@ ${formData.name || '[Your name]'}`;
                           />
                           <label
                             htmlFor={`${category.category}-${index}`}
-                            className="text-sm text-gray-700 cursor-pointer flex-1 leading-relaxed"
+                            className="text-sm text-slate-200 cursor-pointer flex-1 leading-relaxed"
                           >
                             {item}
                           </label>
@@ -188,9 +188,9 @@ ${formData.name || '[Your name]'}`;
 
         {/* Right: Form & Preview */}
         <div className="space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm sticky top-24">
+          <Card className="bg-slate-800 border-slate-600 sticky top-24">
             <CardHeader>
-              <CardTitle className="text-lg">Your Information</CardTitle>
+              <CardTitle className="text-lg text-slate-100">Your Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -245,12 +245,12 @@ ${formData.name || '[Your name]'}`;
               </div>
 
               <div className="pt-4 space-y-3">
-                <div className="bg-purple-50 p-3 rounded-lg">
-                  <p className="text-sm font-medium text-purple-900 mb-1">Selected:</p>
-                  <p className="text-2xl font-bold text-purple-700">
+                <div className="bg-purple-900/30 p-3 rounded-lg border border-purple-700">
+                  <p className="text-sm font-medium text-purple-300 mb-1">Selected:</p>
+                  <p className="text-2xl font-bold text-purple-300">
                     {selectedAccommodations.length}
                   </p>
-                  <p className="text-xs text-purple-600">accommodations</p>
+                  <p className="text-xs text-purple-400">accommodations</p>
                 </div>
 
                 <Button
@@ -268,7 +268,7 @@ ${formData.name || '[Your name]'}`;
       </div>
 
       {/* Doctor Template */}
-      <Card className="bg-white/80 backdrop-blur-sm border-teal-200">
+      <Card className="bg-slate-800 border-teal-700">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Doctor's Documentation Template</span>
@@ -313,11 +313,11 @@ Sincerely,
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-slate-300 mb-4">
             Give this template to your doctor to complete on their letterhead. This documentation 
             supports your accommodation request.
           </p>
-          <pre className="whitespace-pre-wrap font-sans text-sm text-gray-700 bg-gray-50 p-4 rounded-lg leading-relaxed">
+          <pre className="whitespace-pre-wrap font-sans text-sm text-slate-200 bg-slate-900 p-4 rounded-lg leading-relaxed">
 {`[Date]
 
 To Whom It May Concern:
