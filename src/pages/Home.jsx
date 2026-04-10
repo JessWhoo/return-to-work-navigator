@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import ProactiveHealthAlerts from '../components/health/ProactiveHealthAlerts';
-import DailyAffirmation from '../components/DailyAffirmation';
+
 
 export default function Home() {
   const navigate = useNavigate();
@@ -255,8 +255,7 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* Daily Affirmation */}
-      <DailyAffirmation progress={progress} />
+
 
       {/* Quick Stats */}
       {progress && (
