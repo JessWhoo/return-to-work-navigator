@@ -27,6 +27,7 @@ import EnhancedResourceReviewDialog from '../components/resources/EnhancedResour
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
 import ResourceTagEditor from '../components/resources/ResourceTagEditor';
+import ResourceSummary from '../components/resources/ResourceSummary';
 
 export default function Resources() {
   const navigate = useNavigate();
@@ -628,6 +629,7 @@ export default function Resources() {
                               <div className="mt-1">
                                 <ResourceTagEditor resource={resource} progress={progress} />
                               </div>
+                              <ResourceSummary resource={resource} />
 
                               {/* Rating System */}
                               <div className="flex items-center space-x-3 mt-2">
