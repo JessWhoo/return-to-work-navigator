@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -61,16 +61,16 @@ Respond with ONLY the affirmation text, no quotes, no extra text.`,
     }
   };
 
-  // Auto-generate if no affirmation today
   const { isLoading: isLoadingAffirmations } = useQuery({
     queryKey: ['dailyAffirmations'],
     queryFn: () => base44.entities.DailyAffirmation.list('-created_date', 50),
-    onSuccess: (data) => {
-      if (!data.find(a => a.date === today)) {
-        generateAffirmation();
-      }
-    },
   });
+
+  useEffect(() => {
+    if (!isLoadingAffirmations && !todayAffirmation && !generating) {
+      generateAffirmation();
+    }
+  }, [isLoadingAffirmations, todayAffirmation]);
 
   const handleToggleSave = async () => {
     if (!todayAffirmation) return;
