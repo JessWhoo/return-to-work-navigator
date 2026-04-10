@@ -142,8 +142,16 @@ const copingStrategies = [
   }
 ];
 
+const COLOR_MAP = {
+  purple: { bg: 'bg-purple-900/40', icon: 'text-purple-300', border: 'border-purple-400', heading: 'text-purple-200' },
+  amber:  { bg: 'bg-amber-900/40',  icon: 'text-amber-300',  border: 'border-amber-400',  heading: 'text-amber-200' },
+  teal:   { bg: 'bg-teal-900/40',   icon: 'text-teal-300',   border: 'border-teal-400',   heading: 'text-teal-200' },
+  blue:   { bg: 'bg-blue-900/40',   icon: 'text-blue-300',   border: 'border-blue-400',   heading: 'text-blue-200' },
+  rose:   { bg: 'bg-rose-900/40',   icon: 'text-rose-300',   border: 'border-rose-400',   heading: 'text-rose-200' },
+  green:  { bg: 'bg-green-900/40',  icon: 'text-green-300',  border: 'border-green-400',  heading: 'text-green-200' },
+};
+
 export default function EmotionalSupport() {
-  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
@@ -165,16 +173,16 @@ export default function EmotionalSupport() {
             <Card key={resource.title} className="bg-slate-800 border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg bg-${resource.color}-100`}>
-                    <Icon className={`h-6 w-6 text-${resource.color}-600`} />
+                  <div className={`p-2 rounded-lg ${COLOR_MAP[resource.color]?.bg || 'bg-slate-700'}`}>
+                    <Icon className={`h-6 w-6 ${COLOR_MAP[resource.color]?.icon || 'text-slate-300'}`} />
                   </div>
                   <span className="text-slate-100">{resource.title}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {resource.strategies.map((item, index) => (
-                  <div key={index} className={`p-4 bg-${resource.color}-50 rounded-lg border-l-4 border-${resource.color}-400`}>
-                    <h4 className={`font-semibold text-${resource.color}-900 mb-2`}>{item.strategy}</h4>
+                  <div key={index} className={`p-4 bg-slate-900/60 rounded-lg border-l-4 ${COLOR_MAP[resource.color]?.border || 'border-slate-400'}`}>
+                    <h4 className={`font-semibold mb-2 ${COLOR_MAP[resource.color]?.heading || 'text-slate-200'}`}>{item.strategy}</h4>
                     <p className="text-sm text-slate-300 leading-relaxed">{item.description}</p>
                   </div>
                 ))}
@@ -198,8 +206,8 @@ export default function EmotionalSupport() {
               <Card key={org.name} className="bg-slate-800 border-slate-600 hover:shadow-lg transition-all">
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-3 mb-3">
-                    <div className={`p-2 rounded-lg bg-${org.color}-100`}>
-                      <Icon className={`h-5 w-5 text-${org.color}-600`} />
+                    <div className={`p-2 rounded-lg ${COLOR_MAP[org.color]?.bg || 'bg-slate-700'}`}>
+                      <Icon className={`h-5 w-5 ${COLOR_MAP[org.color]?.icon || 'text-slate-300'}`} />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-bold text-slate-100 mb-1">{org.name}</h3>
