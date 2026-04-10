@@ -92,7 +92,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Record Keeping', icon: FileText, page: 'RecordKeeping' },
     { name: 'FAQ', icon: MessageSquare, page: 'FAQ' },
     { name: 'Employer Emails', icon: Mail, page: 'EmployerEmailGenerator', highlight: false },
-    { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false }
+    { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false },
+    { name: 'Job Boards', icon: Briefcase, page: 'JobBoards', highlight: false }
   ];
 
   const toggleSpeech = () => {
