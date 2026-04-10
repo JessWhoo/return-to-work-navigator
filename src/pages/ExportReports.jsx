@@ -20,7 +20,7 @@ const REPORT_TYPES = [
     icon: Users,
     color: 'from-purple-500 to-indigo-500',
     badge: 'For HR / Supervisors',
-    badgeColor: 'bg-purple-100 text-purple-800'
+    badgeColor: 'bg-purple-900 text-purple-200'
   },
   {
     id: 'communication',
@@ -29,7 +29,7 @@ const REPORT_TYPES = [
     icon: MessageSquare,
     color: 'from-blue-500 to-cyan-500',
     badge: 'For Professional Records',
-    badgeColor: 'bg-blue-100 text-blue-800'
+    badgeColor: 'bg-blue-900 text-blue-200'
   },
   {
     id: 'symptom_log',
@@ -38,7 +38,7 @@ const REPORT_TYPES = [
     icon: Activity,
     color: 'from-rose-500 to-pink-500',
     badge: 'For Healthcare Providers',
-    badgeColor: 'bg-rose-100 text-rose-800'
+    badgeColor: 'bg-rose-900 text-rose-200'
   },
   {
     id: 'progress',
@@ -47,7 +47,7 @@ const REPORT_TYPES = [
     icon: TrendingUp,
     color: 'from-teal-500 to-emerald-500',
     badge: 'Comprehensive Overview',
-    badgeColor: 'bg-teal-100 text-teal-800'
+    badgeColor: 'bg-teal-900 text-teal-200'
   },
   {
     id: 'full',
@@ -56,7 +56,7 @@ const REPORT_TYPES = [
     icon: Stethoscope,
     color: 'from-amber-500 to-orange-500',
     badge: 'All-in-One',
-    badgeColor: 'bg-amber-100 text-amber-800'
+    badgeColor: 'bg-amber-900 text-amber-200'
   }
 ];
 

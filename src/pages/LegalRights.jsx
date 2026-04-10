@@ -192,6 +192,13 @@ const laws = [
   }
 ];
 
+const iconColorMap = {
+  blue: 'text-blue-400',
+  teal: 'text-teal-400',
+  purple: 'text-purple-400',
+  rose: 'text-rose-400',
+};
+
 export default function LegalRights() {
   const [activeTab, setActiveTab] = useState('ada');
 
@@ -273,7 +280,7 @@ export default function LegalRights() {
                   <Card key={index} className="bg-slate-800 border-2 border-slate-600 shadow-md">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center space-x-2">
-                        <CheckCircle2 className={`h-5 w-5 text-${law.color}-600`} />
+                        <CheckCircle2 className={`h-5 w-5 ${iconColorMap[law.color] || 'text-cyan-400'}`} />
                         <span className={`bg-gradient-to-r ${law.gradient} bg-clip-text text-transparent font-bold`}>{section.title}</span>
                       </CardTitle>
                     </CardHeader>
