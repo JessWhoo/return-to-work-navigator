@@ -438,33 +438,14 @@ Rules:
                       <p className="text-[10px] text-slate-500">Fill in any <span className="text-indigo-400">[bracketed placeholders]</span> before sending.</p>
                     </div>
 
-                    <div className="space-y-2 pt-1">
-                      <div className="space-y-1.5">
-                        <Label className="text-xs text-slate-300">Recipient Email (for mailto)</Label>
-                        <Input
-                          type="email"
-                          placeholder="hr@company.com"
-                          value={recipientEmail}
-                          onChange={e => setRecipientEmail(e.target.value)}
-                          className="h-8 text-xs bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500"
-                        />
-                      </div>
-                      <div className="flex gap-2">
-                        <Button onClick={copyToClipboard} variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700">
-                          <Copy className="h-4 w-4 mr-2" /> Copy
-                        </Button>
-                        <Button onClick={generateEmail} variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700" title="Regenerate">
-                          <RefreshCw className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          onClick={openInMailClient}
-                          disabled={!recipientEmail}
-                          className="flex-1 bg-indigo-600 hover:bg-indigo-700"
-                        >
-                          <Send className="h-4 w-4 mr-2" /> Open in Mail
-                        </Button>
-                      </div>
-                    </div>
+                    <div className="flex gap-2 pt-1">
+                       <Button onClick={copyToClipboard} variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700">
+                         <Copy className="h-4 w-4 mr-2" /> Copy
+                       </Button>
+                       <Button onClick={generateEmail} variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700" title="Regenerate">
+                         <RefreshCw className="h-4 w-4" />
+                       </Button>
+                     </div>
                   </motion.div>
                 </AnimatePresence>
               )}
