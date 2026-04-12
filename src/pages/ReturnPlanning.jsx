@@ -62,13 +62,18 @@ export default function ReturnPlanning() {
 
   const saveReturnDateMutation = useMutation({
     mutationFn: async (date) => {
-      return await base44.entities.UserProgress.update(progress.id, {
-        return_date: date
-      });
+      if (progress?.id) {
+        return await base44.entities.UserProgress.update(progress.id, { return_date: date });
+      } else {
+        return await base44.entities.UserProgress.create({ return_date: date });
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['userProgress']);
       toast.success('Return date saved!');
+    },
+    onError: (err) => {
+      toast.error('Failed to save: ' + err.message);
     }
   });
 
