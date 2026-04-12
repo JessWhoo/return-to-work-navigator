@@ -109,14 +109,11 @@ export default function Accommodations() {
       y += extraSpacing;
     };
 
-    // Header
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     addLine(today, 11, false, 4);
-    addLine(`To: ${formData.supervisor || '[Supervisor/HR Name]'}`, 11, false, 8);
-
+    addLine('To: ' + (formData.supervisor || '[Supervisor/HR Name]'), 11, false, 8);
     addLine('Re: Request for Reasonable Workplace Accommodation', 13, true, 6);
-
-    addLine(`Dear ${formData.supervisor || '[Supervisor/HR Name]'},`, 11, false, 4);
+    addLine('Dear ' + (formData.supervisor || '[Supervisor/HR Name]') + ',', 11, false, 4);
 
     addLine(
       'I am writing to formally request reasonable workplace accommodations under the Americans with Disabilities Act (ADA). I have a medical condition for which my healthcare provider has recommended workplace modifications to enable me to continue performing my essential job functions.',
@@ -125,7 +122,7 @@ export default function Accommodations() {
 
     addLine('Specifically, I am requesting the following accommodations:', 11, true, 2);
     selectedAccommodations.forEach(acc => {
-      addLine(`  • ${acc}`, 11, false, 1);
+      addLine('  \u2022 ' + acc, 11, false, 1);
     });
     y += 4;
 
@@ -135,12 +132,12 @@ export default function Accommodations() {
     }
 
     addLine(
-      `These accommodations would be needed starting ${formData.startDate || '[date]'} and continuing for approximately ${formData.duration || '[duration]'}. I have attached supporting medical documentation from my healthcare provider.`,
+      'These accommodations would be needed starting ' + (formData.startDate || '[date]') + ' and continuing for approximately ' + (formData.duration || '[duration]') + '. I have attached supporting medical documentation from my healthcare provider.',
       11, false, 4
     );
 
     addLine(
-      "I am happy to discuss these accommodations and explore alternatives that meet both my medical needs and the company's operational requirements. Please let me know when we can schedule a meeting.", Please let me know when we can schedule a meeting.',
+      "I am happy to discuss these accommodations and explore alternatives that meet both my medical needs and the company's operational requirements. Please let me know when we can schedule a meeting.",
       11, false, 6
     );
 
@@ -154,7 +151,6 @@ export default function Accommodations() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
           Workplace Accommodations
@@ -165,7 +161,6 @@ export default function Accommodations() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Left: Common Accommodations */}
         <div className="lg:col-span-2 space-y-6">
           <Card className="bg-slate-800 border-slate-600">
             <CardHeader>
@@ -188,7 +183,6 @@ export default function Accommodations() {
                       </div>
                       <h3 className="font-semibold text-slate-100">{category.category}</h3>
                     </div>
-                    
                     <div className="space-y-2 ml-2">
                       {category.items.map((item, index) => (
                         <div key={index} className="flex items-start space-x-3">
@@ -214,7 +208,6 @@ export default function Accommodations() {
           </Card>
         </div>
 
-        {/* Right: Form & Preview */}
         <div className="space-y-6">
           <Card className="bg-slate-800 border-slate-600 sticky top-24">
             <CardHeader>
@@ -230,7 +223,6 @@ export default function Accommodations() {
                   placeholder="Jane Doe"
                 />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="supervisor">Supervisor/HR Name</Label>
                 <Input
@@ -240,7 +232,6 @@ export default function Accommodations() {
                   placeholder="John Smith"
                 />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="startDate">Start Date</Label>
                 <Input
@@ -250,7 +241,6 @@ export default function Accommodations() {
                   onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
                 />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="duration">Duration</Label>
                 <Input
@@ -260,7 +250,6 @@ export default function Accommodations() {
                   placeholder="6 months / ongoing"
                 />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="notes">Additional Notes (Optional)</Label>
                 <Textarea
@@ -271,16 +260,12 @@ export default function Accommodations() {
                   rows={3}
                 />
               </div>
-
               <div className="pt-4 space-y-3">
                 <div className="bg-purple-900/30 p-3 rounded-lg border border-purple-700">
                   <p className="text-sm font-medium text-purple-300 mb-1">Selected:</p>
-                  <p className="text-2xl font-bold text-purple-300">
-                    {selectedAccommodations.length}
-                  </p>
+                  <p className="text-2xl font-bold text-purple-300">{selectedAccommodations.length}</p>
                   <p className="text-xs text-purple-400">accommodations</p>
                 </div>
-
                 <Button
                   onClick={generateLetter}
                   className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
@@ -295,7 +280,6 @@ export default function Accommodations() {
         </div>
       </div>
 
-      {/* Doctor Template */}
       <Card className="bg-slate-800 border-teal-700">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
@@ -321,7 +305,6 @@ If you have questions regarding these recommendations, please contact my office 
 Sincerely,
 [Doctor name] [Title]
 [Practice name]`;
-                
                 const blob = new Blob([template], { type: 'text/plain' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -331,7 +314,6 @@ Sincerely,
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                
                 toast.success('Doctor template downloaded!');
               }}
             >
