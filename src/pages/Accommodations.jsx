@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
+import { jsPDF } from 'jspdf';
 import { 
   FileText, Download, Copy, CheckCircle2, 
   Clock, Home, Utensils, ThermometerSun, Briefcase 
@@ -90,38 +91,65 @@ export default function Accommodations() {
       return;
     }
 
-    const letter = `Subject: Request for Reasonable Accommodation under ADA
+    const doc = new jsPDF();
+    const margin = 20;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const maxWidth = pageWidth - margin * 2;
+    let y = margin;
 
-Dear ${formData.supervisor || '[Supervisor/HR Name]'},
+    const addLine = (text, fontSize = 11, bold = false, extraSpacing = 0) => {
+      doc.setFontSize(fontSize);
+      doc.setFont('helvetica', bold ? 'bold' : 'normal');
+      const lines = doc.splitTextToSize(text, maxWidth);
+      lines.forEach(line => {
+        if (y > 270) { doc.addPage(); y = margin; }
+        doc.text(line, margin, y);
+        y += fontSize * 0.5 + 2;
+      });
+      y += extraSpacing;
+    };
 
-I am requesting reasonable accommodation under the Americans with Disabilities Act due to a medical condition. My doctor has provided documentation regarding my condition and recommended workplace modifications that would enable me to continue performing my essential job functions.
+    // Header
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    addLine(today, 11, false, 4);
+    addLine(`To: ${formData.supervisor || '[Supervisor/HR Name]'}`, 11, false, 8);
 
-Specifically, I am requesting:
+    addLine('Re: Request for Reasonable Workplace Accommodation', 13, true, 6);
 
-${selectedAccommodations.map(acc => `• ${acc}`).join('\n')}
+    addLine(`Dear ${formData.supervisor || '[Supervisor/HR Name]'},`, 11, false, 4);
 
-${formData.additionalNotes ? `\nAdditional context:\n${formData.additionalNotes}\n` : ''}
-These accommodations would be needed starting ${formData.startDate || '[date]'} and continuing for approximately ${formData.duration || '[duration]'}. I have attached medical documentation from my healthcare provider supporting these requests.
+    addLine(
+      'I am writing to formally request reasonable workplace accommodations under the Americans with Disabilities Act (ADA). I have a medical condition for which my healthcare provider has recommended workplace modifications to enable me to continue performing my essential job functions.',
+      11, false, 4
+    );
 
-I am happy to discuss these accommodations and explore alternatives that would meet both my medical needs and the company's operational requirements. Please let me know when we can schedule a meeting to discuss this request.
+    addLine('Specifically, I am requesting the following accommodations:', 11, true, 2);
+    selectedAccommodations.forEach(acc => {
+      addLine(`  • ${acc}`, 11, false, 1);
+    });
+    y += 4;
 
-Thank you for your consideration.
+    if (formData.additionalNotes) {
+      addLine('Additional Context:', 11, true, 2);
+      addLine(formData.additionalNotes, 11, false, 4);
+    }
 
-Sincerely,
-${formData.name || '[Your name]'}`;
+    addLine(
+      `These accommodations would be needed starting ${formData.startDate || '[date]'} and continuing for approximately ${formData.duration || '[duration]'}. I have attached supporting medical documentation from my healthcare provider.`,
+      11, false, 4
+    );
 
-    // Create and download text file
-    const blob = new Blob([letter], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'accommodation-request-letter.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    toast.success('Accommodation letter downloaded!');
+    addLine(
+      "I am happy to discuss these accommodations and explore alternatives that meet both my medical needs and the company's operational requirements. Please let me know when we can schedule a meeting.", Please let me know when we can schedule a meeting.',
+      11, false, 6
+    );
+
+    addLine('Thank you for your consideration.', 11, false, 8);
+    addLine('Sincerely,', 11, false, 10);
+    addLine(formData.name || '[Your Name]', 11, true);
+
+    doc.save('accommodation-request-letter.pdf');
+    toast.success('Accommodation letter downloaded as PDF!');
   };
 
   return (
