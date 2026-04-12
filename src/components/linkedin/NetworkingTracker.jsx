@@ -57,7 +57,7 @@ export default function NetworkingTracker() {
     mutationFn: async (data) => {
       return await base44.entities.NetworkingContact.create(data);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries(['networkingContacts']);
       setIsAddingContact(false);
       setNewContact({
@@ -75,7 +75,7 @@ export default function NetworkingTracker() {
       
       base44.analytics.track({
         eventName: 'networking_contact_added',
-        properties: { contact_status: data.connection_status }
+        properties: { contact_status: variables.connection_status }
       });
     }
   });

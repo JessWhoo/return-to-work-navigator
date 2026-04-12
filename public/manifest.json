@@ -1,0 +1,29 @@
+{
+  "name": "Navigator — Back to Life, Back to Work",
+  "short_name": "Navigator",
+  "description": "Your return-to-work compass for cancer survivors. Manage accommodations, track energy, and navigate your journey with confidence.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#4c1d95",
+  "theme_color": "#4c1d95",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["health", "medical", "productivity"],
+  "icons": [
+    {
+      "src": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
