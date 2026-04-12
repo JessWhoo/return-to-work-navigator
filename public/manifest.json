@@ -1,13 +1,13 @@
 {
   "name": "Navigator — Back to Life, Back to Work",
   "short_name": "Navigator",
-  "description": "Your return-to-work compass for cancer survivors. Manage accommodations, track energy, and navigate your journey with confidence.",
+  "description": "Your return-to-work compass for cancer survivors",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#4c1d95",
   "theme_color": "#4c1d95",
-  "scope": "/",
+  "background_color": "#1e1b4b",
   "lang": "en",
   "categories": ["health", "medical", "productivity"],
   "icons": [
@@ -25,5 +25,31 @@
     }
   ],
   "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "AI Coach",
+      "short_name": "Coach",
+      "description": "Open the AI return-to-work coach",
+      "url": "/Coach",
+      "icons": [
+        {
+          "src": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Progress Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your progress",
+      "url": "/ProgressDashboard",
+      "icons": [
+        {
+          "src": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
   "prefer_related_applications": false
 }
