@@ -80,7 +80,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
     { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
     { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },
-    { name: 'Symptom Analysis', icon: Activity, page: 'SymptomAnalysis' },
+
     { name: 'Communication', icon: FileText, page: 'Communication' },
     { name: 'Accommodations', icon: FileText, page: 'Accommodations' },
     { name: 'Legal Rights', icon: Shield, page: 'LegalRights' },
