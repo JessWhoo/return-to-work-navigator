@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   CheckSquare, Zap, MessageSquare, FileText, Shield, 
-  Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star
+  Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -126,6 +126,14 @@ export default function Home() {
       page: 'Resources',
       color: 'from-indigo-400 to-blue-500',
       bgColor: 'bg-indigo-50'
+    },
+    {
+      title: 'Job Boards',
+      description: 'Cancer-friendly job boards, returnship programs, and remote work opportunities',
+      icon: Search,
+      page: 'JobBoards',
+      color: 'from-sky-400 to-blue-500',
+      bgColor: 'bg-sky-50'
     }
   ];
 
