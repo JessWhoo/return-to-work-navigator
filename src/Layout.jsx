@@ -92,7 +92,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Employer Emails', icon: Mail, page: 'EmployerEmailGenerator', highlight: false },
     { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false },
     { name: 'Job Boards', icon: Search, page: 'JobBoards', highlight: false },
-    { name: 'Community Hub', icon: Globe, page: 'CommunityHub', highlight: false }
+    { name: 'Community Hub', icon: Globe, page: 'CommunityHub', highlight: false },
+    { name: 'State Laws', icon: Shield, page: 'StateByStateLaws', highlight: false }
   ];
 
   const toggleSpeech = () => {
