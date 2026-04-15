@@ -93,7 +93,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false },
     { name: 'Job Boards', icon: Search, page: 'JobBoards', highlight: false },
     { name: 'Community Hub', icon: Globe, page: 'CommunityHub', highlight: false },
-    { name: 'State Laws', icon: Shield, page: 'StateByStateLaws', highlight: false }
+    { name: 'State Laws', icon: Shield, page: 'StateByStateLaws', highlight: false },
+    { name: 'International Laws', icon: Globe, page: 'InternationalLaws', highlight: false }
   ];
 
   const toggleSpeech = () => {

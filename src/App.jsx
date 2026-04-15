@@ -14,6 +14,7 @@ import JobBoards from './pages/JobBoards';
 import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
 import CommunityHub from './pages/CommunityHub';
 import StateByStateLaws from './pages/StateByStateLaws';
+import InternationalLaws from './pages/InternationalLaws';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -70,6 +71,7 @@ const AuthenticatedApp = () => {
       <Route path="/JobBoards" element={<LayoutWrapper currentPageName="JobBoards"><JobBoards /></LayoutWrapper>} />
       <Route path="/CommunityHub" element={<LayoutWrapper currentPageName="CommunityHub"><CommunityHub /></LayoutWrapper>} />
       <Route path="/StateByStateLaws" element={<LayoutWrapper currentPageName="StateByStateLaws"><StateByStateLaws /></LayoutWrapper>} />
+      <Route path="/InternationalLaws" element={<LayoutWrapper currentPageName="InternationalLaws"><InternationalLaws /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
