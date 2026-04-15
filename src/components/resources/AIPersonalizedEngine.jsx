@@ -118,9 +118,9 @@ export default function AIPersonalizedEngine({
 
       // Prepare resource data for AI with ratings
       const resourceSummary = resources.map(category => ({
-        category: category.name,
-        resources: category.resources.map((r, idx) => {
-          const resourceId = `${category.name}-${idx}`;
+        category: category.category,
+        resources: category.items.map((r, idx) => {
+          const resourceId = `${category.category}-${idx}`;
           const ratings = resourceRatings[resourceId];
           const avgRating = ratings?.ratings.length > 0
             ? (ratings.ratings.reduce((sum, r) => sum + r, 0) / ratings.ratings.length).toFixed(1)
@@ -227,11 +227,11 @@ Return recommendations sorted by priority (high first).`;
 
   const findResourceByName = (resourceName, categoryName) => {
     const category = resources.find(cat => 
-      cat.name.toLowerCase() === categoryName.toLowerCase()
+      cat.category.toLowerCase() === categoryName.toLowerCase()
     );
     if (!category) return null;
     
-    return category.resources.find(res => 
+    return category.items.find(res => 
       res.name.toLowerCase().includes(resourceName.toLowerCase()) ||
       resourceName.toLowerCase().includes(res.name.toLowerCase())
     );
