@@ -11,7 +11,7 @@ export async function generateAIRecommendations(allResources, progress) {
     const flatResources = allResources.flatMap(cat =>
       cat.items.map((item, idx) => ({
         ...item,
-        resource_id: `${cat.category.split(' ').join('')}-${idx}`,
+        resource_id: `${cat.category}-${idx}`,
         category: cat.category,
         color: cat.color
       }))

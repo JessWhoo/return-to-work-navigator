@@ -73,20 +73,17 @@ export default function AIRecommendations({
 
   const getResourceById = (resourceId) => {
     if (!resourceId || !allResources) return null;
-    for (const category of allResources) {
-      const index = parseInt(resourceId.split('-').pop());
-      if (resourceId.startsWith(category.category.split(' ').join(''))) {
-        const item = category.items?.[index];
-        if (!item) return null;
-        return {
-          ...item,
-          id: resourceId,
-          category: category.category,
-          color: category.color
-        };
-      }
-    }
-    return null;
+    // IDs are formatted as "{category}-{index}" e.g. "Mental Health Support-2"
+    const lastDashIdx = resourceId.lastIndexOf('-');
+    if (lastDashIdx === -1) return null;
+    const categoryName = resourceId.substring(0, lastDashIdx);
+    const index = parseInt(resourceId.substring(lastDashIdx + 1));
+    if (isNaN(index)) return null;
+    const category = allResources.find(c => c.category === categoryName);
+    if (!category) return null;
+    const item = category.items?.[index];
+    if (!item) return null;
+    return { ...item, id: resourceId, category: category.category, color: category.color };
   };
 
   const recommendedResources = aiRecommendations?.recommendations?.map(rec => {
