@@ -51,7 +51,7 @@ const jobBoards = [
       },
       {
         name: 'LinkedIn Career Breaks',
-        url: 'https://www.linkedin.com/help/linkedin/answer/a549880',
+        url: 'https://www.linkedin.com/pulse/how-add-career-break-your-linkedin-profile-linkedin-news/',
         description: 'LinkedIn now supports adding career break entries. Use this to frame your treatment time professionally and connect with returnship-friendly employers.',
         tags: ['Career Gap', 'Networking', 'Free']
       }
