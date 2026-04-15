@@ -177,6 +177,13 @@ Also provide overall_insights (2-3 sentences about the user's current state and 
     return response;
   } catch (error) {
     console.error('AI recommendation error:', error);
+    base44.analytics.track({
+      eventName: 'ai_recommendations_failed',
+      properties: {
+        error_message: error?.message || 'unknown',
+        journey_stage: progress?.journey_stage || 'unknown',
+      }
+    });
     return { recommendations: [], overall_insights: '' };
   }
 }
