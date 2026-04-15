@@ -81,7 +81,7 @@ Write in a warm, supportive tone. Be specific and actionable.`,
           size="sm"
           onClick={handleGenerate}
           disabled={loading}
-          className="border-purple-300 text-purple-600 hover:bg-purple-50 hover:text-purple-700 text-xs h-7"
+          className="bg-purple-100 border-purple-400 text-purple-800 hover:bg-purple-200 hover:text-purple-900 font-semibold text-xs h-8 px-3 shadow-sm"
         >
           {loading ? (
             <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
