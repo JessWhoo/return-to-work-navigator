@@ -196,14 +196,14 @@ export default function AIRecommendations({
                             <div
                               key={i}
                               className={`h-2 w-2 rounded-full ${
-                                i < Math.round(resource.relevance_score)
+                                i < Math.round(resource.relevance_score ?? 0)
                                   ? 'bg-purple-600'
                                   : 'bg-purple-200'
                               }`}
                             />
                           ))}
                           <span className="text-xs font-bold text-purple-700 ml-1">
-                            {resource.relevance_score.toFixed(1)}/10
+                            {(resource.relevance_score ?? 0).toFixed(1)}/10
                           </span>
                         </div>
                       </div>
