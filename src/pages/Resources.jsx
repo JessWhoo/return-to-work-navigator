@@ -28,6 +28,7 @@ import SuggestResourceDialog from '../components/resources/SuggestResourceDialog
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
 import ResourceTagEditor from '../components/resources/ResourceTagEditor';
 import ResourceSummary from '../components/resources/ResourceSummary';
+import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
 
 export default function Resources() {
   const navigate = useNavigate();
@@ -487,6 +488,14 @@ export default function Resources() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Resource Comparison Tool */}
+      <ErrorBoundary>
+        <ResourceComparisonTool
+          progress={progress}
+          allResources={resources}
+        />
+      </ErrorBoundary>
 
       {/* Recently Viewed */}
       <ErrorBoundary>
