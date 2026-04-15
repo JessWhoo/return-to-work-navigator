@@ -29,6 +29,7 @@ import ResourceExportDialog from '../components/resources/ResourceExportDialog';
 import ResourceTagEditor from '../components/resources/ResourceTagEditor';
 import ResourceSummary from '../components/resources/ResourceSummary';
 import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
+import ResourceQA from '../components/resources/ResourceQA';
 
 export default function Resources() {
   const navigate = useNavigate();
@@ -79,6 +80,11 @@ export default function Resources() {
       });
     }
   }, [selectedCategory, selectedType, selectedTopic, selectedStage, showBookmarked, showAIRecommended, showUseful, showNotRelevant]);
+
+  const { data: currentUser } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: () => base44.auth.me(),
+  });
 
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
@@ -639,6 +645,7 @@ export default function Resources() {
                                 <ResourceTagEditor resource={resource} progress={progress} />
                               </div>
                               <ResourceSummary resource={resource} />
+                              <ResourceQA resourceId={resource.id} currentUser={currentUser} />
 
                               {/* Rating System */}
                               <div className="flex items-center space-x-3 mt-2">
