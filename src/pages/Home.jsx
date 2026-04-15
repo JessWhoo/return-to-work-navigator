@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
@@ -19,6 +19,17 @@ export default function Home() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [showOnboarding, setShowOnboarding] = useState(false);
+
+  const particles = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    width: Math.random() * 300 + 50,
+    height: Math.random() * 300 + 50,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    dx: Math.random() * 100 - 50,
+    dy: Math.random() * 100 - 50,
+    duration: Math.random() * 10 + 10,
+  })), []);
   
   const { data: progress } = useQuery({
     queryKey: ['userProgress'],
@@ -154,24 +165,24 @@ export default function Home() {
         {/* Animated background */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-slate-700 to-teal-900">
           <div className="absolute inset-0 opacity-20">
-            {[...Array(20)].map((_, i) => (
+            {particles.map((p) => (
               <motion.div
-                key={i}
+                key={p.id}
                 className="absolute rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"
                 style={{
-                  width: Math.random() * 300 + 50,
-                  height: Math.random() * 300 + 50,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  width: p.width,
+                  height: p.height,
+                  left: p.left,
+                  top: p.top,
                 }}
                 animate={{
-                  x: [0, Math.random() * 100 - 50],
-                  y: [0, Math.random() * 100 - 50],
+                  x: [0, p.dx],
+                  y: [0, p.dy],
                   scale: [1, 1.1, 1],
                   opacity: [0.2, 0.4, 0.2],
                 }}
                 transition={{
-                  duration: Math.random() * 10 + 10,
+                  duration: p.duration,
                   repeat: Infinity,
                   repeatType: "reverse",
                 }}
