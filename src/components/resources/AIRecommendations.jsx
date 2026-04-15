@@ -72,11 +72,14 @@ export default function AIRecommendations({
   };
 
   const getResourceById = (resourceId) => {
+    if (!resourceId || !allResources) return null;
     for (const category of allResources) {
       const index = parseInt(resourceId.split('-').pop());
       if (resourceId.startsWith(category.category.split(' ').join(''))) {
+        const item = category.items?.[index];
+        if (!item) return null;
         return {
-          ...category.items[index],
+          ...item,
           id: resourceId,
           category: category.category,
           color: category.color
