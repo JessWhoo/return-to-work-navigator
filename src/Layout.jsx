@@ -211,7 +211,7 @@ export default function Layout({ children, currentPageName }) {
       <div className="flex max-w-7xl mx-auto">
         {/* Desktop Sidebar */}
         <aside className="hidden lg:block w-64 p-6">
-          <nav className="space-y-2 sticky top-24">
+          <nav className="space-y-2 sticky top-24 overflow-y-auto max-h-[calc(100vh-7rem)] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = currentPageName === item.page;
