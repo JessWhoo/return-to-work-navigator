@@ -57,7 +57,6 @@ import FAQ from './pages/FAQ';
 import Gamification from './pages/Gamification';
 import Home from './pages/Home';
 import LegalRights from './pages/LegalRights';
-
 import Profile from './pages/Profile';
 import ProgressDashboard from './pages/ProgressDashboard';
 import RecordKeeping from './pages/RecordKeeping';
@@ -68,6 +67,16 @@ import WellnessResources from './pages/WellnessResources';
 import MeetingPrep from './pages/MeetingPrep';
 import InternationalLaws from './pages/InternationalLaws';
 import StateByStateLaws from './pages/StateByStateLaws';
+import MyJourney from './pages/MyJourney';
+import CommunicationToolkit from './pages/CommunicationToolkit';
+import LegalPolicyHub from './pages/LegalPolicyHub';
+import WellbeingHub from './pages/WellbeingHub';
+import CareerHub from './pages/CareerHub';
+import HelpSupport from './pages/HelpSupport';
+import CommunityHub from './pages/CommunityHub';
+import ExportReports from './pages/ExportReports';
+import JobBoards from './pages/JobBoards';
+import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
 import __Layout from './Layout.jsx';
 
 
@@ -82,7 +91,6 @@ export const PAGES = {
     "Gamification": Gamification,
     "Home": Home,
     "LegalRights": LegalRights,
-
     "Profile": Profile,
     "ProgressDashboard": ProgressDashboard,
     "RecordKeeping": RecordKeeping,
@@ -93,6 +101,16 @@ export const PAGES = {
     "MeetingPrep": MeetingPrep,
     "InternationalLaws": InternationalLaws,
     "StateByStateLaws": StateByStateLaws,
+    "MyJourney": MyJourney,
+    "CommunicationToolkit": CommunicationToolkit,
+    "LegalPolicyHub": LegalPolicyHub,
+    "WellbeingHub": WellbeingHub,
+    "CareerHub": CareerHub,
+    "HelpSupport": HelpSupport,
+    "CommunityHub": CommunityHub,
+    "ExportReports": ExportReports,
+    "JobBoards": JobBoards,
+    "EmployerEmailGenerator": EmployerEmailGenerator,
 }
 
 export const pagesConfig = {

@@ -9,16 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import ExportReports from './pages/ExportReports';
-import JobBoards from './pages/JobBoards';
-import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
-import CommunityHub from './pages/CommunityHub';
-import MyJourney from './pages/MyJourney';
-import CommunicationToolkit from './pages/CommunicationToolkit';
-import LegalPolicyHub from './pages/LegalPolicyHub';
-import WellbeingHub from './pages/WellbeingHub';
-import CareerHub from './pages/CareerHub';
-import HelpSupport from './pages/HelpSupport';
+
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -70,16 +61,6 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
-      <Route path="/ExportReports" element={<LayoutWrapper currentPageName="ExportReports"><ExportReports /></LayoutWrapper>} />
-      <Route path="/EmployerEmailGenerator" element={<LayoutWrapper currentPageName="EmployerEmailGenerator"><EmployerEmailGenerator /></LayoutWrapper>} />
-      <Route path="/JobBoards" element={<LayoutWrapper currentPageName="JobBoards"><JobBoards /></LayoutWrapper>} />
-      <Route path="/CommunityHub" element={<LayoutWrapper currentPageName="CommunityHub"><CommunityHub /></LayoutWrapper>} />
-      <Route path="/MyJourney" element={<LayoutWrapper currentPageName="MyJourney"><MyJourney /></LayoutWrapper>} />
-      <Route path="/CommunicationToolkit" element={<LayoutWrapper currentPageName="CommunicationToolkit"><CommunicationToolkit /></LayoutWrapper>} />
-      <Route path="/LegalPolicyHub" element={<LayoutWrapper currentPageName="LegalPolicyHub"><LegalPolicyHub /></LayoutWrapper>} />
-      <Route path="/WellbeingHub" element={<LayoutWrapper currentPageName="WellbeingHub"><WellbeingHub /></LayoutWrapper>} />
-      <Route path="/CareerHub" element={<LayoutWrapper currentPageName="CareerHub"><CareerHub /></LayoutWrapper>} />
-      <Route path="/HelpSupport" element={<LayoutWrapper currentPageName="HelpSupport"><HelpSupport /></LayoutWrapper>} />
 
 
       <Route path="*" element={<PageNotFound />} />
