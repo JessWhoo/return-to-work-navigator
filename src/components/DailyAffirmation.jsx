@@ -15,7 +15,7 @@ export default function DailyAffirmation({ progress }) {
   const [generating, setGenerating] = useState(false);
 
   // Fetch today's affirmation and saved ones
-  const { data: affirmations = [] } = useQuery({
+  const { data: affirmations = [], isLoading: isLoadingAffirmations } = useQuery({
     queryKey: ['dailyAffirmations'],
     queryFn: () => base44.entities.DailyAffirmation.list('-created_date', 50),
   });
@@ -50,7 +50,11 @@ The affirmation should:
 Respond with ONLY the affirmation text, no quotes, no extra text.`,
       });
 
-      await createMutation.mutateAsync({ text: text.trim(), date: today, is_saved: false, is_shared: false });
+      try {
+        await createMutation.mutateAsync({ text: text.trim(), date: today, is_saved: false, is_shared: false });
+      } catch {
+        // user may not have permission to create affirmations (e.g. guest)
+      }
 
       base44.analytics.track({
         eventName: 'daily_affirmation_generated',
@@ -61,16 +65,11 @@ Respond with ONLY the affirmation text, no quotes, no extra text.`,
     }
   };
 
-  const { isLoading: isLoadingAffirmations } = useQuery({
-    queryKey: ['dailyAffirmations'],
-    queryFn: () => base44.entities.DailyAffirmation.list('-created_date', 50),
-  });
-
   useEffect(() => {
     if (!isLoadingAffirmations && !todayAffirmation && !generating) {
       generateAffirmation();
     }
-  }, [isLoadingAffirmations, todayAffirmation]);
+  }, [isLoadingAffirmations, todayAffirmation, generating]);
 
   const handleToggleSave = async () => {
     if (!todayAffirmation) return;
