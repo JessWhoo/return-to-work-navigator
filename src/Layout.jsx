@@ -25,9 +25,9 @@ function BottomNav({ currentPageName }) {
   const items = [
     { name: 'Home', icon: Home, page: 'Home', path: '/' },
     { name: 'Coach', icon: MessageSquare, page: 'Coach', path: '/Coach' },
-    { name: 'Dashboard', icon: BarChart2, page: 'ProgressDashboard', path: '/ProgressDashboard' },
-    { name: 'Resources', icon: BookOpen, page: 'Resources', path: '/Resources' },
-    { name: 'Profile', icon: User, page: 'Profile', path: '/Profile' },
+    { name: 'Journey', icon: BarChart2, page: 'MyJourney', path: '/MyJourney' },
+    { name: 'Community', icon: BookOpen, page: 'CommunityHub', path: '/CommunityHub' },
+    { name: 'Help', icon: Heart, page: 'HelpSupport', path: '/HelpSupport' },
   ];
   return (
     <nav
@@ -75,26 +75,14 @@ export default function Layout({ children, currentPageName }) {
 
   const navigation = [
     { name: 'Home', icon: Home, page: 'Home' },
-    { name: 'My Profile', icon: User, page: 'Profile' },
     { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
-    { name: 'Progress Dashboard', icon: TrendingUp, page: 'ProgressDashboard' },
-    { name: 'My Checklist', icon: CheckSquare, page: 'Checklist' },
-    { name: 'Energy & Fatigue', icon: Zap, page: 'EnergyManagement' },
-
-    { name: 'Communication', icon: FileText, page: 'Communication' },
-    { name: 'Accommodations', icon: FileText, page: 'Accommodations' },
-    { name: 'Legal Rights', icon: Shield, page: 'LegalRights' },
-    { name: 'Emotional Support', icon: Heart, page: 'EmotionalSupport' },
-    { name: 'Return Planning', icon: Calendar, page: 'ReturnPlanning' },
-    { name: 'Resources', icon: BookOpen, page: 'Resources' },
-    { name: 'Meeting Prep', icon: Users, page: 'MeetingPrep' },
-    { name: 'FAQ', icon: MessageSquare, page: 'FAQ' },
-    { name: 'Employer Emails', icon: Mail, page: 'EmployerEmailGenerator', highlight: false },
-    { name: 'Export Reports', icon: FileDown, page: 'ExportReports', highlight: false },
-    { name: 'Job Boards', icon: Search, page: 'JobBoards', highlight: false },
-    { name: 'Community Hub', icon: Globe, page: 'CommunityHub', highlight: false },
-    { name: 'State Laws', icon: Shield, page: 'StateByStateLaws', highlight: false },
-    { name: 'International Laws', icon: Globe, page: 'InternationalLaws', highlight: false }
+    { name: 'My Journey', icon: TrendingUp, page: 'MyJourney' },
+    { name: 'Health & Well-Being', icon: Zap, page: 'WellbeingHub' },
+    { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
+    { name: 'Legal & Policy', icon: Shield, page: 'LegalPolicyHub' },
+    { name: 'Career & Return', icon: Calendar, page: 'CareerHub' },
+    { name: 'Community & Resources', icon: BookOpen, page: 'CommunityHub' },
+    { name: 'Help & Support', icon: Heart, page: 'HelpSupport' },
   ];
 
   const toggleSpeech = () => {
