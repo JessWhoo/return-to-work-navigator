@@ -311,12 +311,26 @@ export default function Resources() {
           {totalResources} curated resources • {progress?.bookmarked_resources?.length || 0} saved • {totalRated} rated
         </p>
         <div className="flex flex-wrap justify-center gap-2 pt-2">
-          <Badge className="bg-slate-700 text-slate-300">Articles</Badge>
-          <Badge className="bg-slate-700 text-slate-300">Videos</Badge>
-          <Badge className="bg-slate-700 text-slate-300">Workshops</Badge>
-          <Badge className="bg-slate-700 text-slate-300">Meditations</Badge>
-          <Badge className="bg-slate-700 text-slate-300">Expert Interviews</Badge>
-          <Badge className="bg-slate-700 text-slate-300">Support Groups</Badge>
+          {[
+            { label: 'Articles', type: 'ARTICLE' },
+            { label: 'Videos', type: 'VIDEO' },
+            { label: 'Workshops', type: 'WORKSHOP' },
+            { label: 'Meditations', type: 'MEDITATION' },
+            { label: 'Expert Interviews', type: 'PODCAST' },
+            { label: 'Support Groups', type: 'SUPPORT_GROUP' },
+          ].map(({ label, type }) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(selectedType === type ? 'all' : type)}
+              className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-pointer ${
+                selectedType === type
+                  ? 'bg-teal-500 text-white border-teal-500'
+                  : 'bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600 hover:text-white'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
         <div className="pt-4 flex flex-wrap justify-center gap-3">
           <SuggestResourceDialog />
