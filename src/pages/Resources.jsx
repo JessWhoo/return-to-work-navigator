@@ -91,12 +91,15 @@ export default function Resources() {
     queryFn: async () => {
       const progressList = await base44.entities.UserProgress.list();
       if (progressList.length > 0) return progressList[0];
-      
-      return await base44.entities.UserProgress.create({
-        completed_checklist_items: [],
-        journey_stage: 'planning',
-        bookmarked_resources: []
-      });
+      try {
+        return await base44.entities.UserProgress.create({
+          completed_checklist_items: [],
+          journey_stage: 'planning',
+          bookmarked_resources: []
+        });
+      } catch {
+        return null;
+      }
     }
   });
 
