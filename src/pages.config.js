@@ -66,6 +66,8 @@ import ReturnPlanning from './pages/ReturnPlanning';
 import SymptomAnalysis from './pages/SymptomAnalysis';
 import WellnessResources from './pages/WellnessResources';
 import MeetingPrep from './pages/MeetingPrep';
+import InternationalLaws from './pages/InternationalLaws';
+import StateByStateLaws from './pages/StateByStateLaws';
 import __Layout from './Layout.jsx';
 
 
@@ -89,6 +91,8 @@ export const PAGES = {
     "SymptomAnalysis": SymptomAnalysis,
     "WellnessResources": WellnessResources,
     "MeetingPrep": MeetingPrep,
+    "InternationalLaws": InternationalLaws,
+    "StateByStateLaws": StateByStateLaws,
 }
 
 export const pagesConfig = {
