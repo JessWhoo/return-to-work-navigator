@@ -37,12 +37,16 @@ export default function Home() {
       const progressList = await base44.entities.UserProgress.list();
       if (progressList.length > 0) return progressList[0];
       
-      return await base44.entities.UserProgress.create({
-        completed_checklist_items: [],
-        journey_stage: 'planning',
-        calendar_events: [],
-        onboarding_completed: false
-      });
+      try {
+        return await base44.entities.UserProgress.create({
+          completed_checklist_items: [],
+          journey_stage: 'planning',
+          calendar_events: [],
+          onboarding_completed: false
+        });
+      } catch {
+        return null;
+      }
     }
   });
 
