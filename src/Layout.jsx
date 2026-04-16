@@ -3,10 +3,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPageUrl } from './utils';
 import {
-  Home, CheckSquare, Zap, MessageSquare, FileText,
+  Home, Zap, MessageSquare, FileText,
   Shield, Heart, Calendar, BookOpen, Menu, X, Volume2,
-  Sparkles, TrendingUp, User, Activity, Users,
-  FileDown, Mail, ChevronLeft, BarChart2, Search, Globe
+  TrendingUp, ChevronLeft, BarChart2
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
