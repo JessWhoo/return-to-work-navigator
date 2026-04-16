@@ -70,6 +70,8 @@ const AuthenticatedApp = () => {
       <Route path="/EmployerEmailGenerator" element={<LayoutWrapper currentPageName="EmployerEmailGenerator"><EmployerEmailGenerator /></LayoutWrapper>} />
       <Route path="/JobBoards" element={<LayoutWrapper currentPageName="JobBoards"><JobBoards /></LayoutWrapper>} />
       <Route path="/CommunityHub" element={<LayoutWrapper currentPageName="CommunityHub"><CommunityHub /></LayoutWrapper>} />
+      <Route path="/StateByStateLaws" element={<LayoutWrapper currentPageName="StateByStateLaws"><StateByStateLaws /></LayoutWrapper>} />
+      <Route path="/InternationalLaws" element={<LayoutWrapper currentPageName="InternationalLaws"><InternationalLaws /></LayoutWrapper>} />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>
