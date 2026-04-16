@@ -58,6 +58,7 @@ export default function Home() {
 
   const updateProgressMutation = useMutation({
     mutationFn: async (updates) => {
+      if (!progress?.id) return null;
       return await base44.entities.UserProgress.update(progress.id, updates);
     },
     onSuccess: () => {
@@ -67,6 +68,7 @@ export default function Home() {
 
   const completeOnboardingMutation = useMutation({
     mutationFn: async () => {
+      if (!progress?.id) return null;
       return await base44.entities.UserProgress.update(progress.id, {
         onboarding_completed: true
       });
