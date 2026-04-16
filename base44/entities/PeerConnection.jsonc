@@ -1,0 +1,108 @@
+{
+  "name": "PeerConnection",
+  "type": "object",
+  "properties": {
+    "display_name": {
+      "type": "string",
+      "description": "Anonymous display name chosen by the user"
+    },
+    "industry": {
+      "type": "string",
+      "enum": [
+        "Healthcare",
+        "Education",
+        "Technology",
+        "Finance",
+        "Retail & Hospitality",
+        "Manufacturing",
+        "Government & Nonprofit",
+        "Creative & Media",
+        "Legal & Professional Services",
+        "Other"
+      ],
+      "description": "Industry they work in"
+    },
+    "return_stage": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "first_week",
+        "ongoing",
+        "completed"
+      ],
+      "description": "Current return-to-work stage"
+    },
+    "cancer_type_general": {
+      "type": "string",
+      "enum": [
+        "Breast",
+        "Colorectal",
+        "Lung",
+        "Blood (Leukemia/Lymphoma)",
+        "Prostate",
+        "Skin",
+        "Gynecologic",
+        "Head & Neck",
+        "Other / Prefer not to say"
+      ],
+      "description": "General cancer type (optional, for better matching)"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Short anonymous bio or message to potential connections"
+    },
+    "looking_for": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Workplace advice",
+          "Emotional support",
+          "Industry-specific tips",
+          "Accommodation guidance",
+          "General encouragement"
+        ]
+      },
+      "default": [],
+      "description": "What the user is looking for from a peer connection"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this profile is visible for matching"
+    },
+    "connection_requests_sent": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "IDs of PeerConnection profiles this user has sent a connection request to"
+    },
+    "connection_requests_received": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "IDs of PeerConnection profiles that have sent a request to this user"
+    }
+  },
+  "required": [
+    "display_name",
+    "industry",
+    "return_stage"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}
