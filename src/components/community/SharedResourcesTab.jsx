@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bookmark, Copy, ExternalLink, Share2 } from 'lucide-react';
+import { Bookmark, Copy, ExternalLink, Share2, Library, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 import { resources as allResources } from '../../components/resources/resourcesData';
 
 export default function SharedResourcesTab() {
@@ -55,6 +56,19 @@ export default function SharedResourcesTab() {
 
   return (
     <div className="space-y-6 mt-4">
+      {/* Link to main Resource Library */}
+      <Link to="/Resources">
+        <div className="flex items-center justify-between bg-gradient-to-r from-teal-900/60 to-cyan-900/60 border border-teal-600 rounded-xl p-4 hover:border-teal-400 transition-all cursor-pointer">
+          <div className="flex items-center gap-3">
+            <Library className="h-6 w-6 text-teal-300" />
+            <div>
+              <p className="text-white font-semibold">Browse the Full Resource Library</p>
+              <p className="text-slate-400 text-sm">90+ curated guides, videos, legal tools & support groups</p>
+            </div>
+          </div>
+          <ArrowRight className="h-5 w-5 text-teal-400 flex-shrink-0" />
+        </div>
+      </Link>
       <Card className="bg-slate-800 border-slate-600">
         <CardHeader>
           <CardTitle className="text-slate-100 text-lg flex items-center gap-2">
