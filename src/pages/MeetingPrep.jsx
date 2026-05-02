@@ -13,6 +13,7 @@ import {
 import { format } from 'date-fns';
 import MeetingPrepForm from '../components/meetingprep/MeetingPrepForm';
 import EmployerResponseLog from '../components/meetingprep/EmployerResponseLog';
+import ConversationSimulator from '../components/meetingprep/ConversationSimulator';
 
 const STATUS_CONFIG = {
   drafting: { label: 'Drafting', color: 'bg-slate-700 text-slate-300', icon: Clock },
@@ -215,8 +216,11 @@ export default function MeetingPrep() {
             <TabsTrigger value="prep" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
               Meeting Prep
             </TabsTrigger>
+            <TabsTrigger value="practice" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
+              Practice
+            </TabsTrigger>
             <TabsTrigger value="responses" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
-              Employer Responses
+              Responses
               {(selectedMeeting.employer_responses?.length || 0) > 0 && (
                 <span className="ml-1.5 bg-purple-500 text-white text-xs rounded-full px-1.5 py-0.5">
                   {selectedMeeting.employer_responses.length}
@@ -313,6 +317,11 @@ export default function MeetingPrep() {
               }}>
               <MessageSquare className="h-4 w-4 mr-2" /> Discuss this meeting with my AI Coach
             </Button>
+          </TabsContent>
+
+          {/* PRACTICE TAB */}
+          <TabsContent value="practice" className="mt-4">
+            <ConversationSimulator meeting={selectedMeeting} />
           </TabsContent>
 
           {/* RESPONSES TAB */}
