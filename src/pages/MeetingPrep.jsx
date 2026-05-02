@@ -8,12 +8,13 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Plus, Calendar, ChevronRight, Loader2, Users, FileText,
-  CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2
+  CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2, Library
 } from 'lucide-react';
 import { format } from 'date-fns';
 import MeetingPrepForm from '../components/meetingprep/MeetingPrepForm';
 import EmployerResponseLog from '../components/meetingprep/EmployerResponseLog';
 import ConversationSimulator from '../components/meetingprep/ConversationSimulator';
+import TemplateLibrary from '../components/meetingprep/TemplateLibrary';
 
 const STATUS_CONFIG = {
   drafting: { label: 'Drafting', color: 'bg-slate-700 text-slate-300', icon: Clock },
@@ -34,7 +35,7 @@ const MEETING_TYPE_LABELS = {
 
 export default function MeetingPrep() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list'); // 'list' | 'new' | 'detail'
+  const [view, setView] = useState('list'); // 'list' | 'new' | 'detail' | 'templates'
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [activeTab, setActiveTab] = useState('prep');
 
@@ -74,10 +75,16 @@ export default function MeetingPrep() {
             <h1 className="text-3xl font-bold text-white">Meeting Prep</h1>
             <p className="text-slate-400 mt-1">Prepare talking points, track employer responses, get AI coaching.</p>
           </div>
-          <Button onClick={() => setView('new')}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-            <Plus className="h-4 w-4 mr-2" /> New Meeting Prep
-          </Button>
+          <div className="flex gap-2 flex-wrap">
+            <Button variant="outline" onClick={() => setView('templates')}
+              className="border-slate-600 text-slate-300 hover:text-white hover:border-purple-500">
+              <Library className="h-4 w-4 mr-2" /> Templates
+            </Button>
+            <Button onClick={() => setView('new')}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+              <Plus className="h-4 w-4 mr-2" /> New Meeting Prep
+            </Button>
+          </div>
         </div>
 
         {isLoading ? (
@@ -227,6 +234,9 @@ export default function MeetingPrep() {
                 </span>
               )}
             </TabsTrigger>
+            <TabsTrigger value="templates" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
+              Templates
+            </TabsTrigger>
             <TabsTrigger value="edit" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
               Edit
             </TabsTrigger>
@@ -329,6 +339,11 @@ export default function MeetingPrep() {
             <EmployerResponseLog meeting={selectedMeeting} onUpdate={refreshSelected} />
           </TabsContent>
 
+          {/* TEMPLATES TAB */}
+          <TabsContent value="templates" className="mt-4">
+            <TemplateLibrary />
+          </TabsContent>
+
           {/* EDIT TAB */}
           <TabsContent value="edit" className="mt-4">
             <MeetingPrepForm
@@ -338,6 +353,24 @@ export default function MeetingPrep() {
             />
           </TabsContent>
         </Tabs>
+      </div>
+    );
+  }
+
+  // TEMPLATES VIEW
+  if (view === 'templates') {
+    return (
+      <div className="max-w-3xl mx-auto space-y-4">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" onClick={() => setView('list')} className="text-slate-400 hover:text-slate-200">
+            ← Back
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-white">Template Library</h1>
+            <p className="text-slate-400 text-sm mt-0.5">Customizable email and agenda templates for common workplace scenarios.</p>
+          </div>
+        </div>
+        <TemplateLibrary />
       </div>
     );
   }
