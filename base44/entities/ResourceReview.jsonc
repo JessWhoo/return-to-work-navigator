@@ -1,0 +1,70 @@
+{
+  "name": "ResourceReview",
+  "type": "object",
+  "properties": {
+    "resource_id": {
+      "type": "string",
+      "description": "ID of the resource being reviewed"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Star rating 1-5"
+    },
+    "review_text": {
+      "type": "string",
+      "description": "Written review/feedback"
+    },
+    "helpful_for": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What was this resource most helpful for"
+    },
+    "would_recommend": {
+      "type": "boolean",
+      "description": "Would recommend to others"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional description or context for this review"
+    }
+  },
+  "required": [
+    "resource_id",
+    "rating"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

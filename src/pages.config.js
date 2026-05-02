@@ -77,6 +77,8 @@ import CommunityHub from './pages/CommunityHub';
 import ExportReports from './pages/ExportReports';
 import JobBoards from './pages/JobBoards';
 import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import __Layout from './Layout.jsx';
 
 
@@ -111,6 +113,8 @@ export const PAGES = {
     "ExportReports": ExportReports,
     "JobBoards": JobBoards,
     "EmployerEmailGenerator": EmployerEmailGenerator,
+    "About": About,
+    "Contact": Contact,
 }
 
 export const pagesConfig = {

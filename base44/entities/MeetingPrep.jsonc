@@ -1,0 +1,144 @@
+{
+  "name": "MeetingPrep",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Short title for this meeting prep"
+    },
+    "meeting_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Scheduled date of the meeting"
+    },
+    "meeting_type": {
+      "type": "string",
+      "enum": [
+        "accommodation_request",
+        "return_to_work_plan",
+        "performance_review",
+        "hr_discussion",
+        "supervisor_checkin",
+        "disclosure",
+        "other"
+      ],
+      "description": "Type of meeting"
+    },
+    "attendees": {
+      "type": "string",
+      "description": "Who will be in the meeting (e.g., supervisor, HR, team lead)"
+    },
+    "goals": {
+      "type": "string",
+      "description": "What the user hopes to achieve from this meeting"
+    },
+    "talking_points": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Key points to raise during the meeting"
+    },
+    "accommodation_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "accommodation": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [],
+      "description": "Specific accommodations being requested with reasons"
+    },
+    "anticipated_objections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Potential employer concerns or pushback anticipated"
+    },
+    "employer_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "response_text": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "denied",
+              "pending",
+              "partial",
+              "follow_up_needed"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [],
+      "description": "Log of employer responses over time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "drafting",
+        "ready",
+        "completed",
+        "follow_up"
+      ],
+      "default": "drafting",
+      "description": "Current status of this meeting prep"
+    },
+    "outcome_summary": {
+      "type": "string",
+      "description": "Post-meeting summary of what was decided"
+    },
+    "documents_to_bring": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Documents or evidence to bring"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional description or notes about this meeting prep"
+    }
+  },
+  "required": [
+    "title",
+    "meeting_type"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

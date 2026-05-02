@@ -1,0 +1,70 @@
+{
+  "name": "CoachFeedback",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "ID of the conversation this feedback belongs to"
+    },
+    "message_index": {
+      "type": "number",
+      "description": "Index of the message being rated"
+    },
+    "rating": {
+      "type": "string",
+      "enum": [
+        "helpful",
+        "not_helpful"
+      ],
+      "description": "User rating of the response"
+    },
+    "feedback_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Quick feedback tags selected by user"
+    },
+    "message_snippet": {
+      "type": "string",
+      "description": "First 200 chars of the rated message for context"
+    },
+    "detected_sentiment": {
+      "type": "string",
+      "enum": [
+        "anxious",
+        "overwhelmed",
+        "hopeful",
+        "frustrated",
+        "sad",
+        "neutral",
+        "positive"
+      ],
+      "description": "Detected sentiment of the preceding user message"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional description or context for this feedback"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "rating"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

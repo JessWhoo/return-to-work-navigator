@@ -256,6 +256,10 @@ export default function Layout({ children, currentPageName }) {
             <p className="text-sm">© 2025 Back to Life, Back to Work for Cancer Survivors</p>
             <p className="text-xs text-cyan-400">Information is for educational purposes only</p>
             <p className="text-xs text-cyan-500 italic">Not meant to be legal advice. Please consult with legal counsel.</p>
+            <div className="flex justify-center gap-4 pt-1">
+              <Link to="/About" className="text-xs text-cyan-400 hover:text-cyan-300 underline transition-colors">About</Link>
+              <Link to="/Contact" className="text-xs text-cyan-400 hover:text-cyan-300 underline transition-colors">Contact</Link>
+            </div>
           </div>
         </div>
       </footer>
