@@ -20,7 +20,7 @@ export default function Contact() {
     setSending(true);
     try {
       await base44.integrations.Core.SendEmail({
-        to: 'support@backtolfe.app',
+        to: 'jess@artisanhrai.com',
         subject: `Contact Form: ${form.name}`,
         body: `From: ${form.name} <${form.email}>\n\n${form.message}`,
       });
@@ -54,10 +54,10 @@ export default function Contact() {
             <div>
               <p className="text-slate-200 font-semibold mb-1">Email</p>
               <a
-                href="mailto:support@backtolife.app"
+                href="mailto:jess@artisanhrai.com"
                 className="text-teal-400 hover:text-teal-300 text-sm transition-colors flex items-center gap-1"
               >
-                support@backtolife.app <ExternalLink className="h-3 w-3" />
+                jess@artisanhrai.com <ExternalLink className="h-3 w-3" />
               </a>
               <p className="text-slate-500 text-xs mt-1">We aim to respond within 2 business days.</p>
             </div>
