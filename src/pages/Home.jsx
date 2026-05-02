@@ -13,6 +13,7 @@ import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import ProactiveHealthAlerts from '../components/health/ProactiveHealthAlerts';
+import DailyCheckIn from '../components/DailyCheckIn';
 
 
 export default function Home() {
@@ -342,6 +343,9 @@ export default function Home() {
           <ProactiveHealthAlerts />
         </motion.div>
       )}
+
+      {/* Daily Check-In */}
+      <DailyCheckIn />
 
       {/* Calendar View */}
       {progress && (
