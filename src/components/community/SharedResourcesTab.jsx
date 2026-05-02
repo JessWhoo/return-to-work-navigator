@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Bookmark, Copy, ExternalLink, Share2, Library, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
-import { resources as allResources } from '../../components/resources/resourcesData';
+import { resources as allResources } from '../resources/resourcesData';
 
 export default function SharedResourcesTab() {
   const [selectedIds, setSelectedIds] = useState(new Set());
