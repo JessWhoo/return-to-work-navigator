@@ -895,6 +895,15 @@ export const resources = [
         type: 'ARTICLE',
         topics: ['sleep', 'performance', 'energy'],
         stages: ['ongoing']
+      },
+      {
+        name: "Nancy's List Financial Assistance",
+        org: "Nancy's List",
+        description: "Comprehensive directory of financial resources for cancer patients, including assistance with living expenses, medications, co-pays, dental, vision, transportation, food, caregiving, legal resources, scholarships, retreats, and wish fulfillment organizations. Founded by a stage 4 ovarian cancer survivor.",
+        url: 'https://nancyslist.org/financial-assistance/',
+        type: 'WEBSITE',
+        topics: ['financial assistance', 'medications', 'living expenses', 'transportation', 'food', 'legal', 'scholarships', 'caregiving'],
+        stages: ['planning', 'first_week', 'ongoing', 'completed']
       }
     ]
   }
