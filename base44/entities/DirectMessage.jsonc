@@ -1,0 +1,45 @@
+{
+  "name": "DirectMessage",
+  "type": "object",
+  "properties": {
+    "conversation_key": {
+      "type": "string",
+      "description": "Sorted pair of profile IDs: 'profileA_profileB' (alphabetical order)"
+    },
+    "sender_profile_id": {
+      "type": "string",
+      "description": "ID of the PeerConnection or MentorshipProfile of the sender"
+    },
+    "sender_display_name": {
+      "type": "string",
+      "description": "Anonymous display name of the sender"
+    },
+    "content": {
+      "type": "string",
+      "description": "Message text"
+    },
+    "is_read": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the recipient has read this message"
+    }
+  },
+  "required": [
+    "conversation_key",
+    "sender_profile_id",
+    "sender_display_name",
+    "content"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

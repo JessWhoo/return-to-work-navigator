@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Users, FileText, Bookmark, Heart, GraduationCap } from 'lucide-react';
+import { Users, FileText, Bookmark, Heart, GraduationCap, MessageCircle } from 'lucide-react';
 import ForumTab from '../components/community/ForumTab';
 import ProgressReportTab from '../components/community/ProgressReportTab';
 import SharedResourcesTab from '../components/community/SharedResourcesTab';
 import PeerConnectionsTab from '../components/community/PeerConnectionsTab';
 import MentorshipTab from '../components/community/MentorshipTab';
+import MessagesTab from '../components/community/MessagesTab';
 
 export default function CommunityHub() {
   return (
@@ -20,7 +21,7 @@ export default function CommunityHub() {
       </div>
 
       <Tabs defaultValue="forum">
-        <TabsList className="grid grid-cols-5 bg-slate-800 border border-slate-600 w-full">
+        <TabsList className="grid grid-cols-6 bg-slate-800 border border-slate-600 w-full">
           <TabsTrigger value="forum" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-slate-300 flex gap-1 items-center text-xs sm:text-sm">
             <Users className="h-4 w-4" /><span className="hidden sm:inline">Forum</span>
           </TabsTrigger>
@@ -36,6 +37,9 @@ export default function CommunityHub() {
           <TabsTrigger value="resources" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-slate-300 flex gap-1 items-center text-xs sm:text-sm">
             <Bookmark className="h-4 w-4" /><span className="hidden sm:inline">Resources</span>
           </TabsTrigger>
+          <TabsTrigger value="messages" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-slate-300 flex gap-1 items-center text-xs sm:text-sm">
+            <MessageCircle className="h-4 w-4" /><span className="hidden sm:inline">Messages</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="forum"><ForumTab /></TabsContent>
@@ -43,6 +47,7 @@ export default function CommunityHub() {
         <TabsContent value="mentorship"><MentorshipTab /></TabsContent>
         <TabsContent value="report"><ProgressReportTab /></TabsContent>
         <TabsContent value="resources"><SharedResourcesTab /></TabsContent>
+        <TabsContent value="messages"><MessagesTab /></TabsContent>
       </Tabs>
     </div>
   );
