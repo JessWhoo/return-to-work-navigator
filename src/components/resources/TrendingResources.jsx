@@ -35,10 +35,10 @@ export default function TrendingResources({
     .flatMap(cat => 
       cat.items.map((item, idx) => ({
         ...item,
-        id: `${cat.category.split(' ').join('')}-${idx}`,
+        id: `${cat.category}-${idx}`,
         category: cat.category,
         color: cat.color,
-        stats: getResourceStats(`${cat.category.split(' ').join('')}-${idx}`)
+        stats: getResourceStats(`${cat.category}-${idx}`)
       }))
     )
     .filter(resource => resource.stats.reviewCount > 0)
