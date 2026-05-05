@@ -4,10 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Upload, Sparkles, Briefcase, MapPin, DollarSign,
-  CheckCircle2, Clock, XCircle, FileText, Loader2, Plus, X
+  CheckCircle2, FileText, Loader2, ClipboardList
 } from 'lucide-react';
+import ResumeAnalyzer from './ResumeAnalyzer';
 
 const MOCK_JOBS = [
   { id: 1, title: 'HR Coordinator', company: 'HealthFirst', location: 'Remote', salary: '$55k–$70k', match: 94, tags: ['Part-Time', 'Flexible', 'Healthcare'] },
@@ -17,6 +19,9 @@ const MOCK_JOBS = [
 ];
 
 export default function ApplyIQ() {
+  const [activeTab, setActiveTab] = useState('agent');
+  const [sharedResumeUrl, setSharedResumeUrl] = useState('');
+  const [sharedResumeFile, setSharedResumeFile] = useState(null);
   const [step, setStep] = useState('setup'); // setup | results
   const [resumeFile, setResumeFile] = useState(null);
   const [resumeUrl, setResumeUrl] = useState('');
@@ -49,6 +54,8 @@ export default function ApplyIQ() {
     setUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     setResumeUrl(file_url);
+    setSharedResumeUrl(file_url);
+    setSharedResumeFile(file);
     setUploading(false);
   };
 
@@ -73,8 +80,7 @@ export default function ApplyIQ() {
     return null;
   };
 
-  if (step === 'setup') {
-    return (
+  const agentContent = step === 'setup' ? (
       <div className="space-y-6 max-w-2xl mx-auto">
         {/* Hero Banner */}
         <div className="rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 text-white shadow-xl">
@@ -186,11 +192,7 @@ export default function ApplyIQ() {
           )}
         </Button>
       </div>
-    );
-  }
-
-  // Results step
-  return (
+  ) : (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
@@ -254,6 +256,40 @@ export default function ApplyIQ() {
           Applied to {Object.values(applications).filter(s => s === 'applied').length} of {matchedJobs.length} jobs
         </p>
       </div>
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid w-full grid-cols-2 bg-slate-800/50 border border-slate-700 max-w-md">
+          <TabsTrigger
+            value="agent"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white text-slate-300"
+          >
+            <Sparkles className="h-4 w-4 mr-2" />
+            Job Agent
+          </TabsTrigger>
+          <TabsTrigger
+            value="analyzer"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white text-slate-300"
+          >
+            <ClipboardList className="h-4 w-4 mr-2" />
+            Resume Analyzer
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="agent">
+          {agentContent}
+        </TabsContent>
+        <TabsContent value="analyzer">
+          <ResumeAnalyzer
+            sharedResumeUrl={sharedResumeUrl}
+            sharedResumeFile={sharedResumeFile}
+            onResumeUploaded={(url, file) => { setSharedResumeUrl(url); setSharedResumeFile(file); }}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
