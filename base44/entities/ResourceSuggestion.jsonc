@@ -1,0 +1,120 @@
+{
+  "name": "ResourceSuggestion",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the suggested resource"
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization providing the resource"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL to the resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the resource provides"
+    },
+    "category": {
+      "type": "string",
+      "description": "Suggested category for the resource"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "WEBSITE",
+        "ARTICLE",
+        "VIDEO",
+        "GUIDE",
+        "PODCAST",
+        "SUPPORT_GROUP",
+        "WORKSHOP",
+        "MEDITATION",
+        "TOOL",
+        "SERVICE"
+      ],
+      "description": "Type of resource"
+    },
+    "suggested_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Topics this resource covers"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending",
+      "description": "Review status"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes from the suggester"
+    }
+  },
+  "required": [
+    "name",
+    "url",
+    "description",
+    "category",
+    "type"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "write": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
