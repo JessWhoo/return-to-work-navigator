@@ -35,21 +35,7 @@
       "created_by": "{{user.email}}"
     },
     "read": {
-      "$or": [
-        {
-          "created_by": "{{user.email}}"
-        },
-        {
-          "data.conversation_key": {
-            "$regex": "^((?!\\b{{user.peer_profile_id}}\\b).*_)?\\b{{user.peer_profile_id}}\\b(_(?!\\b{{user.peer_profile_id}}\\b).*})?$"
-          }
-        },
-        {
-          "data.conversation_key": {
-            "$regex": "^((?!\\b{{user.mentorship_profile_id}}\\b).*_)?\\b{{user.mentorship_profile_id}}\\b(_(?!\\b{{user.mentorship_profile_id}}\\b).*})?$"
-          }
-        }
-      ]
+      "created_by": "{{user.email}}"
     },
     "update": {
       "created_by": "{{user.email}}"
