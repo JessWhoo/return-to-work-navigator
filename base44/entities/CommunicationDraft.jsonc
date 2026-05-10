@@ -1,0 +1,90 @@
+{
+  "name": "CommunicationDraft",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the draft"
+    },
+    "scenario_type": {
+      "type": "string",
+      "enum": [
+        "diagnosis_disclosure",
+        "accommodation_request",
+        "schedule_flexibility",
+        "work_from_home",
+        "declining_task",
+        "explaining_limitations",
+        "return_to_work_plan",
+        "follow_up_request",
+        "boundaries_setting",
+        "other"
+      ],
+      "description": "Type of communication scenario"
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Who this communication is for (e.g., supervisor, HR, team)"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Email subject line"
+    },
+    "content": {
+      "type": "string",
+      "description": "Draft content"
+    },
+    "tone": {
+      "type": "string",
+      "enum": [
+        "professional",
+        "assertive",
+        "collaborative",
+        "formal",
+        "friendly"
+      ],
+      "default": "professional",
+      "description": "Desired tone for the communication"
+    },
+    "ai_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [],
+      "description": "AI-generated suggestions for improvement"
+    },
+    "is_finalized": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the draft is complete"
+    }
+  },
+  "required": [
+    "title",
+    "scenario_type",
+    "content"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

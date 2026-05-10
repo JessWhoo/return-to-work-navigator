@@ -1,0 +1,110 @@
+{
+  "name": "NetworkingContact",
+  "type": "object",
+  "properties": {
+    "contact_name": {
+      "type": "string",
+      "description": "Name of the professional contact"
+    },
+    "contact_title": {
+      "type": "string",
+      "description": "Job title or position"
+    },
+    "contact_company": {
+      "type": "string",
+      "description": "Company or organization"
+    },
+    "linkedin_url": {
+      "type": "string",
+      "description": "LinkedIn profile URL"
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "connected",
+        "declined",
+        "follow_up_needed",
+        "no_response"
+      ],
+      "default": "pending",
+      "description": "Status of the connection"
+    },
+    "initial_message": {
+      "type": "string",
+      "description": "Message sent with connection request"
+    },
+    "date_contacted": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of initial outreach"
+    },
+    "follow_up_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date for follow-up reminder"
+    },
+    "follow_up_completed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether follow-up has been completed"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Tags for categorizing contacts (e.g., cancer survivor, HR professional, mentor)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Personal notes about the contact or conversation"
+    },
+    "interaction_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "message",
+              "meeting",
+              "call",
+              "comment",
+              "other"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [],
+      "description": "History of interactions with this contact"
+    }
+  },
+  "required": [
+    "contact_name",
+    "date_contacted"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

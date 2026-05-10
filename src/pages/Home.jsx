@@ -281,7 +281,19 @@ export default function Home() {
         </div>
       </motion.div>
 
-
+      {/* Standing Ovation Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25, duration: 0.6 }}
+        className="mb-12 rounded-3xl overflow-hidden shadow-2xl border-2 border-teal-600"
+      >
+        <img
+          src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png"
+          alt="Every Survivor Deserves a Standing Ovation - Celebrating the strength, beauty, and resilience of cancer survivors"
+          className="w-full h-auto block"
+        />
+      </motion.div>
 
       {/* Quick Stats */}
       {progress && (

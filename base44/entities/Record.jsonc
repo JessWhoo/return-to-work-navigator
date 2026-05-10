@@ -1,0 +1,162 @@
+{
+  "name": "Record",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "medical",
+        "workplace",
+        "journal",
+        "symptom"
+      ],
+      "description": "Type of record"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title or brief description"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the record"
+    },
+    "content": {
+      "type": "string",
+      "description": "Detailed notes and content"
+    },
+    "medical_details": {
+      "type": "object",
+      "properties": {
+        "doctor_name": {
+          "type": "string"
+        },
+        "symptoms_discussed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recommendations": {
+          "type": "string"
+        },
+        "work_restrictions": {
+          "type": "string"
+        },
+        "next_appointment": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "workplace_details": {
+      "type": "object",
+      "properties": {
+        "meeting_type": {
+          "type": "string",
+          "enum": [
+            "supervisor",
+            "hr",
+            "team",
+            "accommodation_review",
+            "other"
+          ]
+        },
+        "attendees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "topics_discussed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outcomes": {
+          "type": "string"
+        },
+        "follow_up_needed": {
+          "type": "boolean"
+        },
+        "follow_up_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "symptom_details": {
+      "type": "object",
+      "properties": {
+        "symptom_type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "severity": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "duration": {
+          "type": "string"
+        },
+        "triggers": {
+          "type": "string"
+        },
+        "relief_measures": {
+          "type": "string"
+        }
+      }
+    },
+    "mood": {
+      "type": "string",
+      "enum": [
+        "very_low",
+        "low",
+        "neutral",
+        "good",
+        "excellent"
+      ],
+      "description": "Mood at time of entry"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Custom tags for organization"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "File URLs for attachments"
+    }
+  },
+  "required": [
+    "type",
+    "title",
+    "date",
+    "content"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}
