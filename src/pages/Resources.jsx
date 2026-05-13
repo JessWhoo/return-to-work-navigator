@@ -39,6 +39,7 @@ export default function Resources() {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedTopic, setSelectedTopic] = useState('all');
   const [selectedStage, setSelectedStage] = useState('all');
+  const [selectedQuickTag, setSelectedQuickTag] = useState('all');
   const [showBookmarked, setShowBookmarked] = useState(false);
   const [showAIRecommended, setShowAIRecommended] = useState(false);
   const [showUseful, setShowUseful] = useState(false);
@@ -266,7 +267,20 @@ export default function Resources() {
         const matchesStage = selectedStage === 'all' || item.stages?.includes(selectedStage);
         const matchesTagged = !showTagged || (aiTags.length > 0 || customTags.length > 0);
 
-        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage && matchesTagged;
+        const matchesQuickTag = selectedQuickTag === 'all' || (() => {
+          const tagQ = selectedQuickTag.toLowerCase();
+          const haystack = [
+            item.name,
+            item.description,
+            item.org,
+            ...(item.topics || []),
+            ...aiTags,
+            ...customTags,
+          ].filter(Boolean).join(' ').toLowerCase();
+          return haystack.includes(tagQ);
+        })();
+
+        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage && matchesTagged && matchesQuickTag;
       })
       .sort((a, b) => {
         if (sortBy === 'rating') return (getRating(b.id) || 0) - (getRating(a.id) || 0);
@@ -417,6 +431,27 @@ export default function Resources() {
               </select>
             </div>
 
+            {/* Quick Tag Chips */}
+            <div className="flex items-center flex-wrap gap-2 pt-1">
+              <span className="text-xs font-semibold text-slate-400 mr-1 flex items-center">
+                <Tag className="h-3.5 w-3.5 mr-1" />
+                Quick tags:
+              </span>
+              {['ADA', 'FMLA', 'disclosure', 'flexibility', 'accommodations', 'fatigue', 'mental health', 'remote work', 'return to work'].map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedQuickTag(selectedQuickTag === tag ? 'all' : tag)}
+                  className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border transition-all ${
+                    selectedQuickTag === tag
+                      ? 'bg-gradient-to-r from-rose-300 to-sky-300 text-white border-transparent shadow-sm'
+                      : 'bg-white/70 text-sky-800/80 border-white/80 hover:bg-white hover:border-rose-200'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+
             {/* Quick Filters */}
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex gap-2 flex-wrap">
@@ -500,6 +535,7 @@ export default function Resources() {
                     setShowUseful(false);
                     setShowNotRelevant(false);
                     setShowTagged(false);
+                    setSelectedQuickTag('all');
                   }}
                   className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
                 >
