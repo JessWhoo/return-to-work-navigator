@@ -117,6 +117,14 @@
       "default": [],
       "description": "Documents or evidence to bring"
     },
+    "linked_resource_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "IDs of Resource records linked to this meeting prep for quick reference"
+    },
     "description": {
       "type": "string",
       "maxLength": 1000,

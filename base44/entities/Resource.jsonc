@@ -1,0 +1,97 @@
+{
+  "name": "Resource",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the resource"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "career_advice",
+        "legal_rights",
+        "workplace_policies"
+      ],
+      "description": "Primary category of the resource"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "article",
+        "guide",
+        "video",
+        "checklist",
+        "template",
+        "website",
+        "policy_document",
+        "other"
+      ],
+      "default": "article",
+      "description": "Format/type of the resource"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short summary of what this resource covers"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full content or detailed notes (optional)"
+    },
+    "url": {
+      "type": "string",
+      "description": "External URL to the resource (optional)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Organization or author providing the resource"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Topic tags (e.g. ADA, FMLA, accommodations, disclosure)"
+    },
+    "relevant_meeting_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "accommodation_request",
+          "return_to_work_plan",
+          "performance_review",
+          "hr_discussion",
+          "supervisor_checkin",
+          "disclosure",
+          "other"
+        ]
+      },
+      "default": [],
+      "description": "Meeting types this resource is most useful for"
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
