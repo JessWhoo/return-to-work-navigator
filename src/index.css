@@ -199,3 +199,22 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+/* Global text contrast boost - darken light text colors across the app for readability */
+@layer utilities {
+  .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; }
+  .text-slate-600 { color: rgb(15 23 42) !important; }
+  .text-gray-300, .text-gray-400, .text-gray-500 { color: rgb(31 41 55) !important; }
+  .text-gray-600 { color: rgb(17 24 39) !important; }
+  .text-sky-600\/70, .text-sky-600\/80, .text-sky-700\/60, .text-sky-700\/70, .text-sky-700\/80,
+  .text-sky-800\/60, .text-sky-800\/70, .text-sky-800\/80 { color: rgb(12 74 110) !important; }
+  .text-rose-400, .text-rose-500 { color: rgb(190 18 60) !important; }
+  .text-cyan-400 { color: rgb(14 116 144) !important; }
+  .text-teal-400 { color: rgb(15 118 110) !important; }
+  .text-purple-400 { color: rgb(126 34 206) !important; }
+  .text-indigo-400 { color: rgb(67 56 202) !important; }
+  .text-emerald-400 { color: rgb(4 120 87) !important; }
+  .text-amber-400, .text-amber-500 { color: rgb(180 83 9) !important; }
+  .text-muted-foreground { color: rgb(51 65 85) !important; }
+  body { font-weight: 450; }
+}
