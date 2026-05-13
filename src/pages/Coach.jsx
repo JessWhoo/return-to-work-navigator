@@ -221,7 +221,7 @@ export default function Coach() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
+    <div className="max-w-7xl mx-auto h-[calc(100vh-16rem)] lg:h-[calc(100vh-12rem)] pb-4">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
         {/* Sidebar */}
         <div className="lg:col-span-1 flex flex-col gap-4 h-full overflow-y-auto">
