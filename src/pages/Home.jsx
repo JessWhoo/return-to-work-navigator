@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
-import ProactiveHealthAlerts from '../components/health/ProactiveHealthAlerts';
 import DailyCheckIn from '../components/DailyCheckIn';
 
 
@@ -341,18 +340,6 @@ export default function Home() {
               </CardContent>
             </Card>
           </motion.div>
-        </motion.div>
-      )}
-
-      {/* Health Alerts */}
-      {progress && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="mb-12"
-        >
-          <ProactiveHealthAlerts />
         </motion.div>
       )}
 
