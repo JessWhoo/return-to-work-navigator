@@ -24,6 +24,7 @@ import ResourceTagEditor from '../components/resources/ResourceTagEditor';
 import ResourceSummary from '../components/resources/ResourceSummary';
 import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
 import ResourceQA from '../components/resources/ResourceQA';
+import useSEO from '@/hooks/useSEO';
 
 class ErrorBoundary extends Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -32,6 +33,11 @@ class ErrorBoundary extends Component {
 }
 
 export default function Resources() {
+  useSEO({
+    title: 'Resource Library',
+    description: 'Browse curated articles, videos, workshops, and support groups for cancer survivors navigating their return to work.',
+    path: '/Resources'
+  });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');

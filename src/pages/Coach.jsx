@@ -17,8 +17,14 @@ import AppFeatureGuide from '../components/coach/AppFeatureGuide';
 import SentimentResourceSuggestions, { detectSentimentAndResources } from '../components/coach/SentimentResourceSuggestions';
 import ConversationHistory from '../components/coach/ConversationHistory';
 import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceSuggestions';
+import useSEO from '@/hooks/useSEO';
 
 export default function Coach() {
+  useSEO({
+    title: 'AI Coach',
+    description: 'Chat with your AI return-to-work coach for personalized guidance, emotional support, and tailored advice on workplace accommodations.',
+    path: '/Coach'
+  });
   const queryClient = useQueryClient();
   const messagesEndRef = useRef(null);
   const [message, setMessage] = useState('');

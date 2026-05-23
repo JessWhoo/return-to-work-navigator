@@ -13,9 +13,15 @@ import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import DailyCheckIn from '../components/DailyCheckIn';
+import useSEO from '@/hooks/useSEO';
 
 
 export default function Home() {
+  useSEO({
+    title: 'Home',
+    description: 'Your return-to-work compass for cancer survivors. Track progress, manage energy, request accommodations, and find support — at your own pace.',
+    path: '/'
+  });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [showOnboarding, setShowOnboarding] = useState(false);

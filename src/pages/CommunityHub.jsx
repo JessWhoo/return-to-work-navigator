@@ -7,8 +7,14 @@ import SharedResourcesTab from '../components/community/SharedResourcesTab';
 import PeerConnectionsTab from '../components/community/PeerConnectionsTab';
 import MentorshipTab from '../components/community/MentorshipTab';
 import MessagesTab from '../components/community/MessagesTab';
+import useSEO from '@/hooks/useSEO';
 
 export default function CommunityHub() {
+  useSEO({
+    title: 'Community Hub',
+    description: 'Connect with peers, share your story, find mentors, and build strength together with fellow cancer survivors returning to work.',
+    path: '/CommunityHub'
+  });
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="text-center space-y-2">

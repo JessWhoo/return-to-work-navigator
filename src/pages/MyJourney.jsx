@@ -4,8 +4,14 @@ import { User, TrendingUp, CheckSquare } from 'lucide-react';
 import Profile from './Profile';
 import ProgressDashboard from './ProgressDashboard';
 import Checklist from './Checklist';
+import useSEO from '@/hooks/useSEO';
 
 export default function MyJourney() {
+  useSEO({
+    title: 'My Journey',
+    description: 'Track your return-to-work progress, complete your checklist, and manage your profile — all in one place.',
+    path: '/MyJourney'
+  });
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">
