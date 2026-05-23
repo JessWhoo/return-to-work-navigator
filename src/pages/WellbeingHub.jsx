@@ -8,10 +8,10 @@ export default function WellbeingHub() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-400 to-rose-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-amber-700 via-orange-700 to-rose-700 bg-clip-text text-transparent drop-shadow-sm">
           Health & Well-Being
         </h1>
-        <p className="text-lg text-slate-300">Energy management, fatigue tracking, and emotional support</p>
+        <p className="text-lg font-medium text-slate-800">Energy management, fatigue tracking, and emotional support</p>
       </div>
 
       <Tabs defaultValue="energy" className="space-y-6">

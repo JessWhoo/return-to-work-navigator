@@ -324,10 +324,10 @@ export default function Resources() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-teal-700 via-cyan-700 to-sky-700 bg-clip-text text-transparent drop-shadow-sm">
           Resource Library
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg font-medium text-slate-800 max-w-2xl mx-auto">
           {totalResources} curated resources • {progress?.bookmarked_resources?.length || 0} saved • {totalRated} rated
         </p>
         <div className="flex flex-wrap justify-center gap-2 pt-2">

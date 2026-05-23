@@ -8,10 +8,10 @@ export default function HelpSupport() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-teal-700 via-cyan-700 to-sky-700 bg-clip-text text-transparent drop-shadow-sm">
           Help & Support
         </h1>
-        <p className="text-lg text-slate-300">Frequently asked questions and export your data</p>
+        <p className="text-lg font-medium text-slate-800">Frequently asked questions and export your data</p>
       </div>
 
       <Tabs defaultValue="faq" className="space-y-6">

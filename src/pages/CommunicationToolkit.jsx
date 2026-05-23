@@ -9,10 +9,10 @@ export default function CommunicationToolkit() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 bg-clip-text text-transparent drop-shadow-sm">
           Communication Toolkit
         </h1>
-        <p className="text-lg text-slate-300">Templates, AI email drafting, and meeting preparation</p>
+        <p className="text-lg font-medium text-slate-800">Templates, AI email drafting, and meeting preparation</p>
       </div>
 
       <Tabs defaultValue="templates" className="space-y-6">

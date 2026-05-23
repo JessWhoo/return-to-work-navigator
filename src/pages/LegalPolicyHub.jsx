@@ -10,10 +10,10 @@ export default function LegalPolicyHub() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-green-700 via-emerald-700 to-teal-700 bg-clip-text text-transparent drop-shadow-sm">
           Legal & Policy Guidance
         </h1>
-        <p className="text-lg text-slate-300">Your rights, accommodations, and laws explained</p>
+        <p className="text-lg font-medium text-slate-800">Your rights, accommodations, and laws explained</p>
       </div>
 
       <Tabs defaultValue="rights" className="space-y-6">

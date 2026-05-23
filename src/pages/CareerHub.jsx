@@ -9,10 +9,10 @@ export default function CareerHub() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-teal-700 via-cyan-700 to-blue-700 bg-clip-text text-transparent drop-shadow-sm">
           Career & Return Planning
         </h1>
-        <p className="text-lg text-slate-300">Plan your return to work and explore career opportunities</p>
+        <p className="text-lg font-medium text-slate-800">Plan your return to work and explore career opportunities</p>
       </div>
 
       <Tabs defaultValue="planning" className="space-y-6">
