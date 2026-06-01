@@ -20,6 +20,7 @@ import RecentlyViewed from '../components/resources/RecentlyViewed';
 import EnhancedResourceReviewDialog from '../components/resources/EnhancedResourceReviewDialog';
 import SuggestResourceDialog from '../components/resources/SuggestResourceDialog';
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
+import ShareKitDialog from '../components/resources/ShareKitDialog';
 import ResourceTagEditor from '../components/resources/ResourceTagEditor';
 import ResourceSummary from '../components/resources/ResourceSummary';
 import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
@@ -358,6 +359,11 @@ export default function Resources() {
             resources={resources}
             bookmarkedIds={progress?.bookmarked_resources || []}
             progress={progress}
+          />
+          <ShareKitDialog
+            resources={resources}
+            bookmarkedIds={progress?.bookmarked_resources || []}
+            notes={progress?.notes || ''}
           />
         </div>
       </div>
