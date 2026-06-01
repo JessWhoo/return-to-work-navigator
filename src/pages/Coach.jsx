@@ -219,8 +219,8 @@ export default function Coach() {
     return (
       <div className="max-w-7xl mx-auto flex items-center justify-center h-64">
         <div className="text-center space-y-3">
-          <Loader2 className="h-10 w-10 animate-spin text-purple-400 mx-auto" />
-          <p className="text-slate-400 text-sm">Loading your coach...</p>
+          <Loader2 className="h-10 w-10 animate-spin text-purple-300 mx-auto" />
+          <p className="text-slate-100 text-sm font-medium">Loading your coach...</p>
         </div>
       </div>
     );
@@ -255,8 +255,8 @@ export default function Coach() {
                   <Bot className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-200">AI Return-to-Work Coach</h3>
-                  <p className="text-xs text-slate-400">Your 24/7 return-to-work guide</p>
+                  <h3 className="text-sm font-bold text-white">AI Return-to-Work Coach</h3>
+                  <p className="text-xs text-slate-200">Your 24/7 return-to-work guide</p>
                 </div>
               </div>
             </CardContent>
@@ -285,8 +285,8 @@ export default function Coach() {
           <Card className="flex-1 flex flex-col bg-slate-800/90 backdrop-blur-sm border-2 border-purple-600 overflow-hidden">
             <CardHeader className="border-b border-slate-700">
               <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center space-x-2 text-slate-200">
-                  <Sparkles className="h-5 w-5 text-purple-400" />
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Sparkles className="h-5 w-5 text-purple-300" />
                   <span>Chat with Your Coach</span>
                 </CardTitle>
                 {currentConversation && (
@@ -294,7 +294,7 @@ export default function Coach() {
                     variant="ghost"
                     size="sm"
                     onClick={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
-                    className="text-slate-400 hover:text-slate-200"
+                    className="text-slate-200 hover:text-white"
                   >
                     <RefreshCw className="h-4 w-4" />
                   </Button>
@@ -311,15 +311,15 @@ export default function Coach() {
                       <MessageSquare className="h-10 w-10 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-200 mb-2">
+                      <h3 className="text-2xl font-bold text-white mb-2">
                         Welcome to Your AI Coach
                       </h3>
-                      <p className="text-slate-400 mb-4">
+                      <p className="text-slate-100 mb-4 leading-relaxed">
                         Get personalized guidance for your return-to-work journey. Ask questions, share concerns, and receive tailored advice based on your progress data, symptoms, and current challenges.
                       </p>
                       <div className="space-y-2 mb-4 text-left max-w-sm mx-auto">
-                        <p className="text-sm text-slate-300 font-semibold">I can help you with:</p>
-                        <ul className="text-xs text-slate-400 space-y-1 ml-4">
+                        <p className="text-sm text-white font-semibold">I can help you with:</p>
+                        <ul className="text-sm text-slate-100 space-y-1 ml-4">
                           <li>• Answering questions about your rights and accommodations</li>
                           <li>• Providing emotional support and encouragement</li>
                           <li>• Offering advice based on your energy, symptoms, and progress</li>
@@ -340,16 +340,16 @@ export default function Coach() {
               ) : messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center space-y-4 max-w-md">
-                    <Bot className="h-16 w-16 text-purple-400 mx-auto" />
+                    <Bot className="h-16 w-16 text-purple-300 mx-auto" />
                     <div>
-                      <h3 className="text-lg font-bold text-slate-200 mb-2">
+                      <h3 className="text-xl font-bold text-white mb-2">
                         Ready to Talk?
                       </h3>
-                      <p className="text-slate-400 text-sm mb-3">
+                      <p className="text-slate-100 text-sm mb-3 leading-relaxed">
                         I have access to your journey stage, energy patterns, symptom logs, and progress data to provide personalized guidance.
                       </p>
-                      <div className="text-left max-w-sm mx-auto bg-slate-800 rounded-lg p-3 text-xs text-slate-300">
-                        <p className="font-semibold mb-2">Try asking about:</p>
+                      <div className="text-left max-w-sm mx-auto bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-slate-100">
+                        <p className="font-semibold mb-2 text-white">Try asking about:</p>
                         <ul className="space-y-1 ml-4">
                           <li>• "What accommodations should I request?"</li>
                           <li>• "How do I talk to my employer about my cancer?"</li>
@@ -409,7 +409,7 @@ export default function Coach() {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message... (Shift+Enter for new line)"
-                  className="flex-1 min-h-[60px] max-h-[200px] bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500 focus:border-purple-500 focus:ring-purple-500"
+                  className="flex-1 min-h-[60px] max-h-[200px] bg-slate-900 border-slate-600 text-white placeholder:text-slate-400 focus:border-purple-500 focus:ring-purple-500"
                   disabled={sendMessageMutation.isPending}
                 />
                 <Button
@@ -425,7 +425,7 @@ export default function Coach() {
                 </Button>
               </div>
               {selectedConversation && (
-                <p className="text-xs text-slate-500 mt-2">
+                <p className="text-xs text-slate-300 mt-2">
                   Press Enter to send • Shift+Enter for new line
                 </p>
               )}
