@@ -1,10 +1,11 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, FileText, Globe } from 'lucide-react';
+import { Shield, FileText, Globe, Lock } from 'lucide-react';
 import LegalRights from './LegalRights';
 import Accommodations from './Accommodations';
 import StateByStateLaws from './StateByStateLaws';
 import InternationalLaws from './InternationalLaws';
+import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
 
 export default function LegalPolicyHub() {
   return (
@@ -16,8 +17,12 @@ export default function LegalPolicyHub() {
         <p className="text-lg font-medium text-slate-800">Your rights, accommodations, and laws explained</p>
       </div>
 
-      <Tabs defaultValue="rights" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 border border-slate-700">
+      <Tabs defaultValue="disclosure" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-slate-800/50 border border-slate-700 h-auto">
+          <TabsTrigger value="disclosure" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white text-slate-300">
+            <Lock className="h-4 w-4 mr-2" />
+            Rights & Disclosure
+          </TabsTrigger>
           <TabsTrigger value="rights" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white text-slate-300">
             <Shield className="h-4 w-4 mr-2" />
             Legal Rights
@@ -36,6 +41,9 @@ export default function LegalPolicyHub() {
           </TabsTrigger>
         </TabsList>
 
+        <TabsContent value="disclosure">
+          <WorkplaceRightsAndDisclosure />
+        </TabsContent>
         <TabsContent value="rights">
           <LegalRights />
         </TabsContent>
