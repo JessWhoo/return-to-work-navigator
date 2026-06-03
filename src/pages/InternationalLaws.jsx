@@ -369,13 +369,13 @@ export default function InternationalLaws() {
         </div>
       )}
 
-      <Card className="bg-amber-900/20 border-amber-800">
+      <Card className="bg-amber-50 border-2 border-amber-400">
         <div className="p-5">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="h-5 w-5 text-amber-700 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-semibold text-amber-300 mb-1">Important Disclaimer</p>
-              <p className="text-sm text-amber-200">
+              <p className="text-base font-bold text-amber-900 mb-1">Important Disclaimer</p>
+              <p className="text-sm text-slate-900 leading-relaxed">
                 This information is for educational purposes only and provides general summaries. Employment laws change frequently and vary by employer size, industry, and individual circumstances. <strong>Please consult a qualified local employment attorney or HR professional</strong> for advice specific to your country and situation.
               </p>
             </div>
