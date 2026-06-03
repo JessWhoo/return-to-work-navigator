@@ -30,7 +30,7 @@ function BottomNav({ currentPageName }) {
   ];
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-rose-100/80 via-sky-100/80 to-emerald-100/80 backdrop-blur-md border-t border-white/60 flex"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 flex"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {items.map((item) => {
@@ -104,18 +104,12 @@ export default function Layout({ children, currentPageName }) {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-rose-50 via-sky-50 to-emerald-50 overflow-hidden">
-      {/* Watercolor washes */}
-      <div className="pointer-events-none absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-rose-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute top-20 -right-32 w-[32rem] h-[32rem] rounded-full bg-sky-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-1/3 w-[30rem] h-[30rem] rounded-full bg-amber-100/50 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/2 left-10 w-[22rem] h-[22rem] rounded-full bg-emerald-100/40 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-20 right-1/4 w-[24rem] h-[24rem] rounded-full bg-violet-100/40 blur-3xl" />
+    <div className="relative min-h-screen bg-slate-50 overflow-hidden">
       <OfflineIndicator />
       <NotificationManager />
       {/* Header */}
       <header
-        className="relative z-50 bg-gradient-to-r from-rose-100/70 via-amber-50/70 to-sky-100/70 backdrop-blur-md border-b border-white/60 sticky top-0"
+        className="relative z-50 bg-white border-b border-slate-200 sticky top-0"
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -170,7 +164,7 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-white/60 bg-gradient-to-br from-rose-50/80 via-amber-50/80 to-sky-50/80 backdrop-blur-md">
+          <div className="lg:hidden border-t border-slate-200 bg-white">
             <nav className="px-4 py-3 space-y-1">
               {navigation.map((item) => {
                 const Icon = item.icon;
@@ -256,7 +250,7 @@ export default function Layout({ children, currentPageName }) {
       <BottomNav currentPageName={currentPageName} />
 
       {/* Footer */}
-      <footer className="relative bg-gradient-to-r from-rose-100/70 via-amber-50/70 to-sky-100/70 backdrop-blur-md text-sky-800 mt-16 border-t border-white/60 mb-16 lg:mb-0">
+      <footer className="relative bg-white text-slate-800 mt-16 border-t border-slate-200 mb-16 lg:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-2">
             <p className="text-sm">© 2025 Back to Life, Back to Work for Cancer Survivors</p>
