@@ -200,14 +200,22 @@ button:focus-visible {
   }
 }
 
-/* Global text contrast boost - darken light text colors across the app for readability */
+/* Global text contrast boost - improve readability across the entire app */
 @layer utilities {
+  /* On light backgrounds: darken light gray text */
   .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; }
   .text-slate-600 { color: rgb(15 23 42) !important; }
   .text-gray-300, .text-gray-400, .text-gray-500 { color: rgb(31 41 55) !important; }
   .text-gray-600 { color: rgb(17 24 39) !important; }
+  .text-zinc-300, .text-zinc-400, .text-zinc-500 { color: rgb(24 24 27) !important; }
+  .text-neutral-300, .text-neutral-400, .text-neutral-500 { color: rgb(23 23 23) !important; }
+  .text-stone-300, .text-stone-400, .text-stone-500 { color: rgb(28 25 23) !important; }
+
+  /* Translucent sky text used in layout/footer */
   .text-sky-600\/70, .text-sky-600\/80, .text-sky-700\/60, .text-sky-700\/70, .text-sky-700\/80,
   .text-sky-800\/60, .text-sky-800\/70, .text-sky-800\/80 { color: rgb(12 74 110) !important; }
+
+  /* Faded accent colors -> stronger shades */
   .text-rose-400, .text-rose-500 { color: rgb(190 18 60) !important; }
   .text-cyan-400 { color: rgb(14 116 144) !important; }
   .text-teal-400 { color: rgb(15 118 110) !important; }
@@ -215,6 +223,35 @@ button:focus-visible {
   .text-indigo-400 { color: rgb(67 56 202) !important; }
   .text-emerald-400 { color: rgb(4 120 87) !important; }
   .text-amber-400, .text-amber-500 { color: rgb(180 83 9) !important; }
+  .text-blue-400, .text-blue-500 { color: rgb(29 78 216) !important; }
+  .text-green-400, .text-green-500 { color: rgb(21 128 61) !important; }
+  .text-yellow-400, .text-yellow-500 { color: rgb(161 98 7) !important; }
+  .text-orange-400, .text-orange-500 { color: rgb(194 65 12) !important; }
+  .text-red-400, .text-red-500 { color: rgb(185 28 28) !important; }
+  .text-pink-400, .text-pink-500 { color: rgb(190 24 93) !important; }
+  .text-violet-400, .text-violet-500 { color: rgb(109 40 217) !important; }
+
+  /* Shadcn muted token */
   .text-muted-foreground { color: rgb(51 65 85) !important; }
+
+  /* On DARK backgrounds: lighten muted gray text instead of darkening */
+  .bg-slate-900 .text-slate-400, .bg-slate-900 .text-slate-500, .bg-slate-900 .text-slate-600,
+  .bg-slate-800 .text-slate-400, .bg-slate-800 .text-slate-500, .bg-slate-800 .text-slate-600,
+  .bg-slate-900\/50 .text-slate-400, .bg-slate-900\/50 .text-slate-500,
+  .bg-slate-800\/90 .text-slate-400, .bg-slate-800\/90 .text-slate-500,
+  .bg-slate-800\/50 .text-slate-400, .bg-slate-800\/50 .text-slate-500,
+  .bg-gray-900 .text-gray-400, .bg-gray-900 .text-gray-500,
+  .bg-gray-800 .text-gray-400, .bg-gray-800 .text-gray-500 {
+    color: rgb(226 232 240) !important;
+  }
+  .bg-slate-900 .text-muted-foreground, .bg-slate-800 .text-muted-foreground,
+  .bg-slate-900\/50 .text-muted-foreground, .bg-slate-800\/90 .text-muted-foreground {
+    color: rgb(203 213 225) !important;
+  }
+
+  /* Slightly heavier default body weight for legibility */
   body { font-weight: 450; }
+
+  /* Lift small/fine text */
+  .text-xs { font-weight: 500; }
 }
