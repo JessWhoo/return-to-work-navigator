@@ -292,19 +292,19 @@ export default function InternationalLaws() {
       </div>
 
       {/* Global Note */}
-      <Card className="bg-indigo-900/40 border-indigo-700">
+      <Card className="bg-indigo-50 border-2 border-indigo-300">
         <div className="p-5">
           <div className="flex items-start gap-3">
-            <Globe className="h-6 w-6 text-indigo-400 flex-shrink-0 mt-0.5" />
+            <Globe className="h-6 w-6 text-indigo-700 flex-shrink-0 mt-0.5" />
             <div className="space-y-2">
-              <h3 className="font-semibold text-indigo-300">Universal Principles</h3>
-              <div className="grid sm:grid-cols-2 gap-2 text-sm text-indigo-200">
-                <div><strong>Anti-discrimination:</strong> Most countries prohibit cancer discrimination in employment through disability or health laws.</div>
-                <div><strong>Reasonable adjustments:</strong> Employers globally are increasingly required to accommodate cancer patients returning to work.</div>
-                <div><strong>Income replacement:</strong> Most developed nations offer some form of sickness benefit ranging from 50–100% of wages.</div>
-                <div><strong>Dismissal protection:</strong> Many countries restrict or prohibit dismissal during active illness or treatment.</div>
+              <h3 className="text-lg font-bold text-indigo-900">Universal Principles</h3>
+              <div className="grid sm:grid-cols-2 gap-2 text-sm text-slate-900 leading-relaxed">
+                <div><strong className="text-indigo-900">Anti-discrimination:</strong> Most countries prohibit cancer discrimination in employment through disability or health laws.</div>
+                <div><strong className="text-indigo-900">Reasonable adjustments:</strong> Employers globally are increasingly required to accommodate cancer patients returning to work.</div>
+                <div><strong className="text-indigo-900">Income replacement:</strong> Most developed nations offer some form of sickness benefit ranging from 50–100% of wages.</div>
+                <div><strong className="text-indigo-900">Dismissal protection:</strong> Many countries restrict or prohibit dismissal during active illness or treatment.</div>
               </div>
-              <p className="text-xs text-indigo-400 mt-2">Laws vary significantly between countries and can change. Always verify current rules with local legal counsel or government resources.</p>
+              <p className="text-xs text-slate-700 mt-2 italic">Laws vary significantly between countries and can change. Always verify current rules with local legal counsel or government resources.</p>
             </div>
           </div>
         </div>
