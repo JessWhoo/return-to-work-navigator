@@ -208,12 +208,12 @@ const jobBoards = [
 ];
 
 const colorMap = {
-  rose: { bg: 'bg-rose-900/30', border: 'border-rose-700', icon: 'bg-rose-700', text: 'text-rose-100', badge: 'bg-rose-800 text-rose-100', pill: 'bg-rose-900/50 text-rose-100 border-rose-700' },
-  violet: { bg: 'bg-violet-900/30', border: 'border-violet-700', icon: 'bg-violet-700', text: 'text-violet-100', badge: 'bg-violet-800 text-violet-100', pill: 'bg-violet-900/50 text-violet-100 border-violet-700' },
-  blue: { bg: 'bg-blue-900/30', border: 'border-blue-700', icon: 'bg-blue-700', text: 'text-blue-100', badge: 'bg-blue-800 text-blue-100', pill: 'bg-blue-900/50 text-blue-100 border-blue-700' },
-  teal: { bg: 'bg-teal-900/30', border: 'border-teal-700', icon: 'bg-teal-700', text: 'text-teal-100', badge: 'bg-teal-800 text-teal-100', pill: 'bg-teal-900/50 text-teal-100 border-teal-700' },
-  purple: { bg: 'bg-purple-900/30', border: 'border-purple-700', icon: 'bg-purple-700', text: 'text-purple-100', badge: 'bg-purple-800 text-purple-100', pill: 'bg-purple-900/50 text-purple-100 border-purple-700' },
-  green: { bg: 'bg-green-900/30', border: 'border-green-700', icon: 'bg-green-700', text: 'text-green-100', badge: 'bg-green-800 text-green-100', pill: 'bg-green-900/50 text-green-100 border-green-700' },
+  rose: { bg: 'bg-rose-900/30', border: 'border-rose-700', icon: 'bg-rose-700', text: 'text-rose-900', badge: 'bg-rose-800 text-rose-100', pill: 'bg-rose-900/50 text-rose-100 border-rose-700' },
+  violet: { bg: 'bg-violet-900/30', border: 'border-violet-700', icon: 'bg-violet-700', text: 'text-violet-900', badge: 'bg-violet-800 text-violet-100', pill: 'bg-violet-900/50 text-violet-100 border-violet-700' },
+  blue: { bg: 'bg-blue-900/30', border: 'border-blue-700', icon: 'bg-blue-700', text: 'text-blue-900', badge: 'bg-blue-800 text-blue-100', pill: 'bg-blue-900/50 text-blue-100 border-blue-700' },
+  teal: { bg: 'bg-teal-900/30', border: 'border-teal-700', icon: 'bg-teal-700', text: 'text-teal-900', badge: 'bg-teal-800 text-teal-100', pill: 'bg-teal-900/50 text-teal-100 border-teal-700' },
+  purple: { bg: 'bg-purple-900/30', border: 'border-purple-700', icon: 'bg-purple-700', text: 'text-purple-900', badge: 'bg-purple-800 text-purple-100', pill: 'bg-purple-900/50 text-purple-100 border-purple-700' },
+  green: { bg: 'bg-green-900/30', border: 'border-green-700', icon: 'bg-green-700', text: 'text-green-900', badge: 'bg-green-800 text-green-100', pill: 'bg-green-900/50 text-green-100 border-green-700' },
   amber: { bg: 'bg-amber-900/30', border: 'border-amber-700', icon: 'bg-amber-700', text: 'text-amber-100', badge: 'bg-amber-800 text-amber-100', pill: 'bg-amber-900/50 text-amber-100 border-amber-700' },
 };
 
@@ -277,10 +277,10 @@ export default function JobBoards() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-700 to-blue-800 bg-clip-text text-transparent">
           Job Boards & Career Resources
         </h1>
-        <p className="text-lg text-slate-100 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-800 max-w-2xl mx-auto">
           Curated job boards for cancer survivors — flexible, remote, and disability-inclusive employers
         </p>
         {/* Stats Bar */}
