@@ -283,10 +283,10 @@ export default function InternationalLaws() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-700 to-blue-800 bg-clip-text text-transparent">
           International Employment Laws
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-800 max-w-2xl mx-auto">
           Cancer survivor employment rights and protections across {countries.length} countries worldwide
         </p>
       </div>
