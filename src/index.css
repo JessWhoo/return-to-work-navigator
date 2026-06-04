@@ -249,28 +249,44 @@ button:focus-visible {
     color: rgb(203 213 225) !important;
   }
 
-  /* Slightly heavier default body weight for legibility */
-  body { font-weight: 450; }
+  /* Heavier default body weight for legibility */
+  body { font-weight: 500; color: rgb(15 23 42); }
 
   /* Lift small/fine text */
-  .text-xs { font-weight: 500; }
+  .text-xs { font-weight: 600; }
+  .text-sm { font-weight: 500; }
 
-  /* Global page title readability boost - applies to all h1/h2 headers */
+  /* Global page title readability boost - applies to all h1/h2/h3 headers */
   h1 {
     font-weight: 800 !important;
     letter-spacing: -0.025em;
     line-height: 1.15;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    color: rgb(15 23 42);
   }
   h2 {
-    font-weight: 700 !important;
-    letter-spacing: -0.015em;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
     line-height: 1.2;
+    color: rgb(15 23 42);
+  }
+  h3 {
+    font-weight: 700 !important;
+    color: rgb(15 23 42);
   }
 
   /* Strengthen gradient titles (clip-text) so they remain crisp and dark enough */
-  h1.bg-clip-text, h2.bg-clip-text {
-    filter: saturate(1.15) contrast(1.1);
-    text-shadow: none;
+  h1.bg-clip-text, h2.bg-clip-text, h3.bg-clip-text {
+    filter: saturate(1.25) contrast(1.15);
+    color: transparent;
+  }
+
+  /* Boost borders globally - replace faint borders with stronger ones */
+  .border-slate-100, .border-slate-200 { border-color: rgb(203 213 225) !important; }
+  .border-gray-100, .border-gray-200 { border-color: rgb(209 213 219) !important; }
+  .border-white\/60, .border-white\/70, .border-white\/80 { border-color: rgb(203 213 225) !important; }
+
+  /* Translucent white backgrounds → solid white for clarity */
+  .bg-white\/40, .bg-white\/50, .bg-white\/60, .bg-white\/70, .bg-white\/80, .bg-white\/90 {
+    background-color: rgb(255 255 255) !important;
   }
 }
