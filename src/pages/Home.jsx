@@ -175,12 +175,12 @@ export default function Home() {
         className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-3xl mb-12"
       >
         {/* Animated background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-sky-100 to-emerald-100">
-          <div className="absolute inset-0 opacity-60">
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-200 via-sky-200 to-emerald-200">
+          <div className="absolute inset-0 opacity-80">
             {particles.map((p) => (
               <motion.div
                 key={p.id}
-                className="absolute rounded-full bg-gradient-to-br from-rose-200 to-sky-200 blur-2xl"
+                className="absolute rounded-full bg-gradient-to-br from-rose-400 to-sky-400 blur-2xl"
                 style={{
                   width: p.width,
                   height: p.height,
@@ -209,11 +209,11 @@ export default function Home() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center space-x-2 bg-white/70 backdrop-blur-md px-6 py-3 rounded-full border border-white/80 shadow-md"
+            className="inline-flex items-center space-x-2 bg-white px-6 py-3 rounded-full border-2 border-rose-300 shadow-lg"
           >
-            <Star className="h-5 w-5 text-rose-300 fill-rose-300" />
-            <span className="text-sm font-semibold text-sky-800/80">Your Journey, Your Pace</span>
-            <Star className="h-5 w-5 text-sky-300 fill-sky-300" />
+            <Star className="h-5 w-5 text-rose-500 fill-rose-500" />
+            <span className="text-sm font-bold text-slate-900">Your Journey, Your Pace</span>
+            <Star className="h-5 w-5 text-sky-500 fill-sky-500" />
           </motion.div>
           
           <motion.h1 
@@ -222,22 +222,22 @@ export default function Home() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight"
           >
-            <span className="bg-gradient-to-r from-rose-400 via-violet-400 to-sky-500 bg-clip-text text-transparent drop-shadow-sm">
+            <span className="bg-gradient-to-r from-rose-600 via-violet-600 to-sky-700 bg-clip-text text-transparent">
               Welcome Back
             </span>
             <br />
-            <span className="text-sky-900/80">to Your Work,<br />Your Life</span>
+            <span className="text-slate-900">to Your Work,<br />Your Life</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl sm:text-2xl text-sky-800/80 max-w-3xl mx-auto leading-relaxed font-light"
+            className="text-xl sm:text-2xl text-slate-800 max-w-3xl mx-auto leading-relaxed font-medium"
           >
             Returning to work after cancer treatment is a journey.<br />
             This toolkit provides guidance, templates, and support<br />
-            to help you transition with <span className="font-semibold text-rose-500">confidence</span>.
+            to help you transition with <span className="font-bold text-rose-600">confidence</span>.
           </motion.p>
 
           <motion.div
@@ -248,7 +248,7 @@ export default function Home() {
           >
             <Button 
               onClick={() => navigate(createPageUrl('Checklist'))}
-              className="bg-gradient-to-r from-rose-300 via-violet-300 to-sky-300 hover:from-rose-400 hover:via-violet-400 hover:to-sky-400 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="bg-gradient-to-r from-rose-500 via-violet-500 to-sky-600 hover:from-rose-600 hover:via-violet-600 hover:to-sky-700 text-white font-bold px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
             >
               <CheckSquare className="h-5 w-5 mr-2" />
               View My Checklist
@@ -257,7 +257,7 @@ export default function Home() {
               <Button 
                 onClick={() => setShowOnboarding(true)}
                 variant="outline"
-                className="border-2 border-sky-300 text-sky-700 bg-white/60 hover:bg-white hover:border-sky-400 px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all"
+                className="border-2 border-sky-600 text-sky-700 bg-white hover:bg-sky-50 hover:border-sky-700 font-semibold px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all"
               >
                 <Sparkles className="h-5 w-5 mr-2" />
                 View Tutorial
@@ -270,10 +270,10 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.6 }}
-              className="bg-white/70 backdrop-blur-md border border-white/80 rounded-2xl p-6 max-w-md mx-auto shadow-lg mt-8"
+              className="bg-white border-2 border-rose-300 rounded-2xl p-6 max-w-md mx-auto shadow-xl mt-8"
             >
-              <p className="text-sm font-medium text-sky-700/80 mb-2">Your planned return date</p>
-              <p className="text-3xl font-bold bg-gradient-to-r from-rose-400 to-sky-500 bg-clip-text text-transparent">
+              <p className="text-sm font-semibold text-slate-700 mb-2">Your planned return date</p>
+              <p className="text-3xl font-extrabold bg-gradient-to-r from-rose-600 to-sky-700 bg-clip-text text-transparent">
                 {new Date(progress.return_date).toLocaleDateString('en-US', { 
                   weekday: 'long', 
                   year: 'numeric', 
@@ -309,39 +309,39 @@ export default function Home() {
           className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
         >
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-gradient-to-br from-rose-50/80 to-white/80 backdrop-blur-sm border border-white/80 shadow-md hover:shadow-lg transition-all">
+            <Card className="bg-white border-2 border-rose-200 shadow-md hover:shadow-xl hover:border-rose-400 transition-all">
               <CardContent className="pt-6">
                 <div className="text-center space-y-2">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-rose-400 to-violet-400 bg-clip-text text-transparent">
+                  <div className="text-4xl font-extrabold bg-gradient-to-r from-rose-600 to-violet-600 bg-clip-text text-transparent">
                     {progress.completed_checklist_items?.length || 0}
                   </div>
-                  <p className="text-sm font-semibold text-sky-800/80">Checklist Items Completed</p>
+                  <p className="text-sm font-bold text-slate-800">Checklist Items Completed</p>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-gradient-to-br from-emerald-50/80 to-white/80 backdrop-blur-sm border border-white/80 shadow-md hover:shadow-lg transition-all">
+            <Card className="bg-white border-2 border-emerald-200 shadow-md hover:shadow-xl hover:border-emerald-400 transition-all">
               <CardContent className="pt-6">
                 <div className="text-center space-y-2">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-sky-400 bg-clip-text text-transparent capitalize">
+                  <div className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-sky-600 bg-clip-text text-transparent capitalize">
                     {progress.journey_stage?.replace('_', ' ') || 'Planning'}
                   </div>
-                  <p className="text-sm font-semibold text-sky-800/80">Current Stage</p>
+                  <p className="text-sm font-bold text-slate-800">Current Stage</p>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-gradient-to-br from-sky-50/80 to-white/80 backdrop-blur-sm border border-white/80 shadow-md hover:shadow-lg transition-all">
+            <Card className="bg-white border-2 border-sky-200 shadow-md hover:shadow-xl hover:border-sky-400 transition-all">
               <CardContent className="pt-6">
                 <div className="text-center space-y-2">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-sky-400 to-violet-400 bg-clip-text text-transparent">
+                  <div className="text-4xl font-extrabold bg-gradient-to-r from-sky-600 to-violet-600 bg-clip-text text-transparent">
                     {progress.bookmarked_resources?.length || 0}
                   </div>
-                  <p className="text-sm font-semibold text-sky-800/80">Saved Resources</p>
+                  <p className="text-sm font-bold text-slate-800">Saved Resources</p>
                 </div>
               </CardContent>
             </Card>
@@ -372,7 +372,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <h2 className="text-3xl font-bold text-sky-900/80 mb-8 text-center">Explore Your Toolkit</h2>
+        <h2 className="text-3xl font-extrabold text-slate-900 mb-8 text-center">Explore Your Toolkit</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map((section, index) => {
             const Icon = section.icon;
@@ -385,24 +385,24 @@ export default function Home() {
                 whileHover={{ y: -8 }}
               >
                 <Link to={createPageUrl(section.page)}>
-                  <Card className="group hover:shadow-xl transition-all duration-300 bg-white/70 backdrop-blur-sm border border-white/80 hover:border-rose-200 h-full">
+                  <Card className="group hover:shadow-2xl transition-all duration-300 bg-white border-2 border-slate-200 hover:border-rose-400 h-full">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <motion.div 
-                          className={`p-4 rounded-2xl bg-gradient-to-br ${section.color} shadow-md opacity-80`}
+                          className={`p-4 rounded-2xl bg-gradient-to-br ${section.color} shadow-lg`}
                           whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
                           transition={{ duration: 0.5 }}
                         >
                           <Icon className="h-7 w-7 text-white" />
                         </motion.div>
-                        <ArrowRight className="h-6 w-6 text-sky-400/70 group-hover:text-rose-400 group-hover:translate-x-2 transition-all" />
+                        <ArrowRight className="h-6 w-6 text-slate-400 group-hover:text-rose-600 group-hover:translate-x-2 transition-all" />
                       </div>
 
-                      <h3 className="text-xl font-bold text-sky-900/80 mb-3 group-hover:bg-gradient-to-r group-hover:from-rose-400 group-hover:to-sky-500 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+                      <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:from-rose-600 group-hover:to-sky-700 group-hover:bg-clip-text group-hover:text-transparent transition-all">
                         {section.title}
                       </h3>
 
-                      <p className="text-sky-800/70 leading-relaxed text-sm">
+                      <p className="text-slate-700 leading-relaxed text-sm font-medium">
                         {section.description}
                       </p>
                     </CardContent>
@@ -419,25 +419,25 @@ export default function Home() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1.2 }}
-        className="relative overflow-hidden bg-gradient-to-r from-rose-100/70 via-amber-50/70 to-sky-100/70 backdrop-blur-md rounded-3xl p-12 text-center shadow-lg mt-16 border border-white/80"
+        className="relative overflow-hidden bg-gradient-to-r from-rose-200 via-amber-100 to-sky-200 rounded-3xl p-12 text-center shadow-xl mt-16 border-2 border-rose-300"
       >
-        <div className="absolute inset-0 opacity-60">
-          <div className="absolute top-0 left-0 w-40 h-40 bg-rose-200 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-sky-200 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-emerald-100 rounded-full blur-3xl"></div>
+        <div className="absolute inset-0 opacity-70">
+          <div className="absolute top-0 left-0 w-40 h-40 bg-rose-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-sky-400 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-emerald-300 rounded-full blur-3xl"></div>
         </div>
         <div className="relative z-10">
           <motion.div
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
           >
-            <Heart className="h-16 w-16 text-rose-400 mx-auto mb-6 fill-rose-300" />
+            <Heart className="h-16 w-16 text-rose-600 mx-auto mb-6 fill-rose-500" />
           </motion.div>
-          <h3 className="text-3xl font-bold text-sky-900/80 mb-4">You're Not Alone</h3>
-          <p className="text-lg text-sky-800/80 max-w-2xl mx-auto leading-relaxed">
+          <h3 className="text-3xl font-extrabold text-slate-900 mb-4">You're Not Alone</h3>
+          <p className="text-lg text-slate-800 max-w-2xl mx-auto leading-relaxed font-medium">
             You're navigating something incredibly difficult. This toolkit is here to support you 
             every step of the way. Take what you need, move at your own pace, and remember—
-            <span className="font-bold text-rose-500"> your well-being comes first</span>.
+            <span className="font-bold text-rose-700"> your well-being comes first</span>.
           </p>
         </div>
       </motion.div>
