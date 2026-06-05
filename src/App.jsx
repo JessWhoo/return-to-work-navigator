@@ -10,6 +10,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Roadmap from './pages/Roadmap';
+import DisclosureGuide from './pages/DisclosureGuide';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -68,6 +69,15 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="Roadmap">
             <Roadmap />
+          </LayoutWrapper>
+        }
+      />
+
+      <Route
+        path="/DisclosureGuide"
+        element={
+          <LayoutWrapper currentPageName="DisclosureGuide">
+            <DisclosureGuide />
           </LayoutWrapper>
         }
       />

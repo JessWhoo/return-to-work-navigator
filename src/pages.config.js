@@ -79,6 +79,7 @@ import JobBoards from './pages/JobBoards';
 import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import DisclosureGuide from './pages/DisclosureGuide';
 import __Layout from './Layout.jsx';
 
 
@@ -115,6 +116,7 @@ export const PAGES = {
     "EmployerEmailGenerator": EmployerEmailGenerator,
     "About": About,
     "Contact": Contact,
+    "DisclosureGuide": DisclosureGuide,
 }
 
 export const pagesConfig = {

@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Mail, Users } from 'lucide-react';
+import { FileText, Mail, Users, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import Communication from './Communication';
 import EmployerEmailGenerator from './EmployerEmailGenerator';
 import MeetingPrep from './MeetingPrep';
@@ -14,6 +16,22 @@ export default function CommunicationToolkit() {
         </h1>
         <p className="text-lg font-medium text-slate-800">Templates, AI email drafting, and meeting preparation</p>
       </div>
+
+      <Link to="/DisclosureGuide" className="block">
+        <Card className="bg-gradient-to-r from-rose-100 via-violet-100 to-sky-100 border-2 border-rose-300 hover:border-rose-500 shadow-md hover:shadow-xl transition-all">
+          <CardContent className="p-5 flex items-center gap-4">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-rose-500 to-violet-600 shadow-lg flex-shrink-0">
+              <ShieldCheck className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs font-extrabold uppercase tracking-wider text-rose-700">New guide</p>
+              <h3 className="text-lg font-extrabold text-slate-900">Telling Your Employer About Your Diagnosis</h3>
+              <p className="text-sm font-medium text-slate-700">Step-by-step checklist to feel confident and protected by disability laws.</p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-rose-600 flex-shrink-0" />
+          </CardContent>
+        </Card>
+      </Link>
 
       <Tabs defaultValue="templates" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3 bg-slate-800/50 border border-slate-700">
