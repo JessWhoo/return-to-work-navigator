@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Roadmap from './pages/Roadmap';
 import DisclosureGuide from './pages/DisclosureGuide';
+import ResourceLibrary from './pages/ResourceLibrary';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -78,6 +79,15 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="DisclosureGuide">
             <DisclosureGuide />
+          </LayoutWrapper>
+        }
+      />
+
+      <Route
+        path="/ResourceLibrary"
+        element={
+          <LayoutWrapper currentPageName="ResourceLibrary">
+            <ResourceLibrary />
           </LayoutWrapper>
         }
       />

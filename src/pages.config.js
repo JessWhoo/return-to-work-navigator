@@ -80,6 +80,7 @@ import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import DisclosureGuide from './pages/DisclosureGuide';
+import ResourceLibrary from './pages/ResourceLibrary';
 import __Layout from './Layout.jsx';
 
 
@@ -117,6 +118,7 @@ export const PAGES = {
     "About": About,
     "Contact": Contact,
     "DisclosureGuide": DisclosureGuide,
+    "ResourceLibrary": ResourceLibrary,
 }
 
 export const pagesConfig = {
