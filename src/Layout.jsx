@@ -20,7 +20,20 @@ if (typeof window !== 'undefined') {
   }
 }
 
+// Per-tab scroll-position memory so switching tabs preserves where you were.
+// Tab "stack" key = the bottom-nav root path. Sub-pages reached from a tab keep
+// their own scroll under that same root key.
+const TAB_SCROLL_KEY = '__tabScrollPositions__';
+function readScrollMap() {
+  try { return JSON.parse(sessionStorage.getItem(TAB_SCROLL_KEY) || '{}'); }
+  catch { return {}; }
+}
+function writeScrollMap(map) {
+  try { sessionStorage.setItem(TAB_SCROLL_KEY, JSON.stringify(map)); } catch {}
+}
+
 function BottomNav({ currentPageName }) {
+  const location = useLocation();
   const items = [
     { name: 'Home', icon: Home, page: 'Home', path: '/' },
     { name: 'Coach', icon: MessageSquare, page: 'Coach', path: '/Coach' },
@@ -28,6 +41,14 @@ function BottomNav({ currentPageName }) {
     { name: 'Community', icon: BookOpen, page: 'CommunityHub', path: '/CommunityHub' },
     { name: 'Help', icon: Heart, page: 'HelpSupport', path: '/HelpSupport' },
   ];
+
+  const handleTabClick = () => {
+    // Save current scroll for the path being left, so it can be restored on return.
+    const map = readScrollMap();
+    map[location.pathname] = window.scrollY || document.documentElement.scrollTop || 0;
+    writeScrollMap(map);
+  };
+
   return (
     <nav
       className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-slate-300 shadow-lg flex"
@@ -40,6 +61,7 @@ function BottomNav({ currentPageName }) {
           <Link
             key={item.name}
             to={item.path}
+            onClick={handleTabClick}
             className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-all relative ${
               isActive ? 'text-rose-600' : 'text-slate-700 hover:text-rose-600'
             }`}
@@ -69,6 +91,30 @@ export default function Layout({ children, currentPageName }) {
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
   }, []);
+
+  // Restore previous scroll position for this path (if any) on navigation,
+  // otherwise scroll to top. Save current scroll before leaving.
+  useEffect(() => {
+    const map = readScrollMap();
+    const saved = map[location.pathname];
+    // Defer one frame so the new page has rendered.
+    const id = requestAnimationFrame(() => {
+      window.scrollTo({ top: typeof saved === 'number' ? saved : 0, behavior: 'auto' });
+    });
+
+    const saveCurrent = () => {
+      const m = readScrollMap();
+      m[location.pathname] = window.scrollY || document.documentElement.scrollTop || 0;
+      writeScrollMap(m);
+    };
+    window.addEventListener('pagehide', saveCurrent);
+
+    return () => {
+      cancelAnimationFrame(id);
+      saveCurrent();
+      window.removeEventListener('pagehide', saveCurrent);
+    };
+  }, [location.pathname]);
 
   const isHomePage = currentPageName === 'Home' || location.pathname === '/';
 

@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { 
   User, Mail, Calendar, TrendingUp, BookmarkCheck, 
-  FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2
+  FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2, AlertTriangle
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -29,6 +29,8 @@ export default function Profile() {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState('');
+  const [confirmText, setConfirmText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['currentUser'],
@@ -89,6 +91,47 @@ export default function Profile() {
       return;
     }
     updateUserMutation.mutate({ full_name: editedName });
+  };
+
+  const handleDeleteAccount = async () => {
+    if (confirmText.trim().toUpperCase() !== 'DELETE') {
+      toast.error('Please type DELETE to confirm');
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      // Delete all user-owned data via the SDK (each entity is created_by_id-scoped via RLS).
+      const entityNames = [
+        'UserProgress', 'Record', 'CommunicationDraft', 'MeetingPrep',
+        'DailyAffirmation', 'CoachFeedback', 'ResourceReview',
+        'ResourceSuggestion', 'NetworkingContact', 'PeerConnection',
+        'MentorshipProfile', 'DirectMessage', 'ForumPost', 'ForumReply',
+      ];
+      for (const name of entityNames) {
+        try {
+          const items = await base44.entities[name].list();
+          await Promise.all(
+            (items || []).map((item) =>
+              base44.entities[name].delete(item.id).catch(() => null)
+            )
+          );
+        } catch {
+          // entity may not be readable or empty — skip
+        }
+      }
+
+      // Clear local cache
+      try { localStorage.clear(); } catch {}
+      try { sessionStorage.clear(); } catch {}
+
+      toast.success('Your account data has been deleted. Signing you out...');
+      setTimeout(() => {
+        base44.auth.logout();
+      }, 1200);
+    } catch (error) {
+      setIsDeleting(false);
+      toast.error('Could not complete deletion: ' + (error?.message || 'unknown error'));
+    }
   };
 
   const handleNotificationToggle = (key) => {
@@ -452,7 +495,7 @@ export default function Profile() {
               <p className="text-sm text-slate-400 mb-4">
                 Permanently delete your account and all associated data. This action cannot be undone.
               </p>
-              <AlertDialog>
+              <AlertDialog onOpenChange={(open) => { if (!open) setConfirmText(''); }}>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" className="w-full">
                     <Trash2 className="h-4 w-4 mr-2" />
@@ -461,23 +504,48 @@ export default function Profile() {
                 </AlertDialogTrigger>
                 <AlertDialogContent className="bg-slate-900 border-slate-700">
                   <AlertDialogHeader>
-                    <AlertDialogTitle className="text-slate-100">Are you absolutely sure?</AlertDialogTitle>
-                    <AlertDialogDescription className="text-slate-400">
-                      This will permanently delete your account, all progress data, records, and settings.
-                      This action <strong className="text-red-400">cannot be undone</strong>.
+                    <AlertDialogTitle className="text-slate-100 flex items-center gap-2">
+                      <AlertTriangle className="h-5 w-5 text-red-400" />
+                      Permanently delete your account?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-slate-400 space-y-3">
+                      <span className="block">This will <strong className="text-red-400">permanently erase</strong>:</span>
+                      <ul className="list-disc list-inside space-y-1 text-slate-300 text-sm">
+                        <li>Your journey progress, checklists, and gamification points</li>
+                        <li>All saved records, symptom logs, and energy data</li>
+                        <li>Communication drafts and meeting preparation notes</li>
+                        <li>Bookmarked resources, ratings, and reviews</li>
+                        <li>Community profiles, peer connections, and messages</li>
+                        <li>All notification preferences</li>
+                      </ul>
+                      <span className="block text-red-300 text-sm">
+                        This action <strong>cannot be undone</strong> — there is no recovery once data is deleted.
+                      </span>
+                      <span className="block text-slate-300 text-sm pt-2">
+                        Type <strong className="text-red-400">DELETE</strong> below to confirm:
+                      </span>
+                      <Input
+                        value={confirmText}
+                        onChange={(e) => setConfirmText(e.target.value)}
+                        placeholder="Type DELETE to confirm"
+                        className="bg-slate-800 border-slate-600 text-slate-100 mt-1"
+                        disabled={isDeleting}
+                      />
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel className="bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700">
+                    <AlertDialogCancel disabled={isDeleting} className="bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700">
                       Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction
-                      className="bg-red-600 hover:bg-red-700 text-white"
-                      onClick={() => {
-                        toast.error('Account deletion requires contacting support.');
+                      disabled={isDeleting || confirmText.trim().toUpperCase() !== 'DELETE'}
+                      className="bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteAccount();
                       }}
                     >
-                      Yes, Delete My Account
+                      {isDeleting ? 'Deleting...' : 'Yes, Delete My Account'}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

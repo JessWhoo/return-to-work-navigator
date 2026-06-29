@@ -118,7 +118,7 @@ export default function Resources() {
       const updatedBookmarks = isBookmarked
         ? currentBookmarks.filter(id => id !== resourceId)
         : [...currentBookmarks, resourceId];
-      
+
       // Track resource bookmarking
       base44.analytics.track({
         eventName: 'resource_bookmarked',
@@ -133,9 +133,32 @@ export default function Resources() {
         bookmarked_resources: updatedBookmarks
       });
     },
+    // Optimistic update — flip the bookmark instantly, roll back if the server rejects.
+    onMutate: async (resourceId) => {
+      await queryClient.cancelQueries({ queryKey: ['userProgress'] });
+      const previous = queryClient.getQueryData(['userProgress']);
+      queryClient.setQueryData(['userProgress'], (old) => {
+        if (!old) return old;
+        const currentBookmarks = old.bookmarked_resources || [];
+        const isBookmarked = currentBookmarks.includes(resourceId);
+        const updatedBookmarks = isBookmarked
+          ? currentBookmarks.filter(id => id !== resourceId)
+          : [...currentBookmarks, resourceId];
+        return { ...old, bookmarked_resources: updatedBookmarks };
+      });
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(['userProgress'], context.previous);
+      }
+      toast.error('Could not update bookmark');
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
       toast.success('Bookmark updated');
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
     }
   });
 

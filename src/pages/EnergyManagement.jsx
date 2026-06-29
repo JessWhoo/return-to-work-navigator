@@ -17,6 +17,7 @@ import {
 import { format, parseISO } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import AISymptomInsights from '../components/symptoms/AISymptomInsights';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 const energyTips = [
   {
@@ -173,14 +174,18 @@ function EnergyTab({ progress, queryClient }) {
 
             <div className="space-y-2">
               <Label>Overall Mood</Label>
-              <select value={mood} onChange={(e) => setMood(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                <option value="very_low">😢 Very Low</option>
-                <option value="low">😕 Low</option>
-                <option value="neutral">😐 Neutral</option>
-                <option value="good">🙂 Good</option>
-                <option value="excellent">😊 Excellent</option>
-              </select>
+              <BottomSheetSelect
+                value={mood}
+                onValueChange={setMood}
+                title="How are you feeling overall?"
+                options={[
+                  { value: 'very_low', label: '😢 Very Low' },
+                  { value: 'low', label: '😕 Low' },
+                  { value: 'neutral', label: '😐 Neutral' },
+                  { value: 'good', label: '🙂 Good' },
+                  { value: 'excellent', label: '😊 Excellent' },
+                ]}
+              />
             </div>
 
             <div className="space-y-2">

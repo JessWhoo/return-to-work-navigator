@@ -10,6 +10,7 @@ import {
   Briefcase, Heart, Users, Sparkles, Clock
 } from 'lucide-react';
 import { toast } from 'sonner';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 const INDUSTRIES = [
   'Healthcare', 'Education', 'Technology', 'Finance',
@@ -119,14 +120,13 @@ function MentorshipForm({ existing, onSave, onCancel }) {
         {/* Industry */}
         <div>
           <label className="text-slate-300 text-sm font-medium block mb-1">Industry *</label>
-          <select
+          <BottomSheetSelect
             value={form.industry}
-            onChange={e => setForm(prev => ({ ...prev, industry: e.target.value }))}
-            className="w-full px-3 py-2 text-sm border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
-          >
-            <option value="">Select your industry…</option>
-            {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
-          </select>
+            onValueChange={(v) => setForm(prev => ({ ...prev, industry: v }))}
+            title="Select your industry"
+            placeholder="Select your industry…"
+            options={INDUSTRIES.map(i => ({ value: i, label: i }))}
+          />
         </div>
 
         {/* Stage */}
@@ -493,24 +493,30 @@ export default function MentorshipTab() {
         <div className="space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <h3 className="text-white font-semibold">Browse All Participants</h3>
-            <div className="flex gap-2 flex-wrap">
-              <select
-                value={filterRole}
-                onChange={e => setFilterRole(e.target.value)}
-                className="px-3 py-2 text-sm border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              >
-                <option value="all">All Roles</option>
-                <option value="mentor">Mentors only</option>
-                <option value="mentee">Mentees only</option>
-              </select>
-              <select
-                value={filterIndustry}
-                onChange={e => setFilterIndustry(e.target.value)}
-                className="px-3 py-2 text-sm border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              >
-                <option value="all">All Industries</option>
-                {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
-              </select>
+            <div className="flex gap-2 flex-wrap items-center">
+              <div className="min-w-[150px]">
+                <BottomSheetSelect
+                  value={filterRole}
+                  onValueChange={setFilterRole}
+                  title="Filter by role"
+                  options={[
+                    { value: 'all', label: 'All Roles' },
+                    { value: 'mentor', label: 'Mentors only' },
+                    { value: 'mentee', label: 'Mentees only' },
+                  ]}
+                />
+              </div>
+              <div className="min-w-[170px]">
+                <BottomSheetSelect
+                  value={filterIndustry}
+                  onValueChange={setFilterIndustry}
+                  title="Filter by industry"
+                  options={[
+                    { value: 'all', label: 'All Industries' },
+                    ...INDUSTRIES.map(i => ({ value: i, label: i })),
+                  ]}
+                />
+              </div>
               <span className="text-slate-400 text-sm self-center">{filteredProfiles.length} found</span>
             </div>
           </div>

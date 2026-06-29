@@ -146,18 +146,38 @@ export default function Checklist() {
       const updatedItems = isChecked
         ? [...currentItems, itemId]
         : currentItems.filter(id => id !== itemId);
-      
+
       return await base44.entities.UserProgress.update(progress.id, {
         completed_checklist_items: updatedItems
       });
     },
-    onSuccess: (_, { itemId, isChecked }) => {
-      queryClient.invalidateQueries(['userProgress']);
-      
+    // Optimistic update — apply locally instantly, roll back on error.
+    onMutate: async ({ itemId, isChecked }) => {
+      await queryClient.cancelQueries({ queryKey: ['userProgress'] });
+      const previous = queryClient.getQueryData(['userProgress']);
+      queryClient.setQueryData(['userProgress'], (old) => {
+        if (!old) return old;
+        const currentItems = old.completed_checklist_items || [];
+        const updatedItems = isChecked
+          ? [...currentItems, itemId]
+          : currentItems.filter(id => id !== itemId);
+        return { ...old, completed_checklist_items: updatedItems };
+      });
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(['userProgress'], context.previous);
+      }
+    },
+    onSuccess: (_, { isChecked }) => {
       // Award points when checking (not unchecking)
       if (isChecked && progress) {
         trackAction(progress, 'checklist_complete');
       }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
     }
   });
 
