@@ -508,31 +508,36 @@ export default function Profile() {
                       <AlertTriangle className="h-5 w-5 text-red-400" />
                       Permanently delete your account?
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="text-slate-400 space-y-3">
-                      <span className="block">This will <strong className="text-red-400">permanently erase</strong>:</span>
-                      <ul className="list-disc list-inside space-y-1 text-slate-300 text-sm">
-                        <li>Your journey progress, checklists, and gamification points</li>
-                        <li>All saved records, symptom logs, and energy data</li>
-                        <li>Communication drafts and meeting preparation notes</li>
-                        <li>Bookmarked resources, ratings, and reviews</li>
-                        <li>Community profiles, peer connections, and messages</li>
-                        <li>All notification preferences</li>
-                      </ul>
-                      <span className="block text-red-300 text-sm">
-                        This action <strong>cannot be undone</strong> — there is no recovery once data is deleted.
-                      </span>
-                      <span className="block text-slate-300 text-sm pt-2">
+                    <AlertDialogDescription className="text-slate-400">
+                      This will permanently erase all of your data. This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <div className="space-y-3 text-sm">
+                    <p className="text-slate-300 font-medium">This will permanently erase:</p>
+                    <ul className="list-disc list-inside space-y-1 text-slate-400">
+                      <li>Your journey progress, checklists, and gamification points</li>
+                      <li>All saved records, symptom logs, and energy data</li>
+                      <li>Communication drafts and meeting preparation notes</li>
+                      <li>Bookmarked resources, ratings, and reviews</li>
+                      <li>Community profiles, peer connections, and messages</li>
+                      <li>All notification preferences</li>
+                    </ul>
+                    <p className="text-red-300">
+                      This action <strong>cannot be undone</strong> — there is no recovery once data is deleted.
+                    </p>
+                    <div className="pt-2">
+                      <Label className="text-slate-300 block mb-1">
                         Type <strong className="text-red-400">DELETE</strong> below to confirm:
-                      </span>
+                      </Label>
                       <Input
                         value={confirmText}
                         onChange={(e) => setConfirmText(e.target.value)}
                         placeholder="Type DELETE to confirm"
-                        className="bg-slate-800 border-slate-600 text-slate-100 mt-1"
+                        className="bg-slate-800 border-slate-600 text-slate-100"
                         disabled={isDeleting}
                       />
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
+                    </div>
+                  </div>
                   <AlertDialogFooter>
                     <AlertDialogCancel disabled={isDeleting} className="bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700">
                       Cancel
