@@ -107,16 +107,21 @@ export default function Profile() {
         'ResourceSuggestion', 'NetworkingContact', 'PeerConnection',
         'MentorshipProfile', 'DirectMessage', 'ForumPost', 'ForumReply',
       ];
+      const currentUserId = user?.id;
       for (const name of entityNames) {
         try {
-          const items = await base44.entities[name].list();
+          // Filter by created_by_id so we only ever try to read/delete our own rows.
+          // Some entities deny .list() without a filter (403) for non-admins.
+          const items = currentUserId
+            ? await base44.entities[name].filter({ created_by_id: currentUserId }).catch(() => [])
+            : await base44.entities[name].list().catch(() => []);
           await Promise.all(
             (items || []).map((item) =>
               base44.entities[name].delete(item.id).catch(() => null)
             )
           );
         } catch {
-          // entity may not be readable or empty — skip
+          // entity may not be readable or already empty — skip
         }
       }
 
