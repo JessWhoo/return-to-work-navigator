@@ -26,7 +26,7 @@ export default function Home() {
   const queryClient = useQueryClient();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
-  const particles = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
+  const particles = useMemo(() => Array.from({ length: 6 }, (_, i) => ({
     id: i,
     width: Math.random() * 300 + 50,
     height: Math.random() * 300 + 50,
@@ -381,7 +381,7 @@ export default function Home() {
                 key={section.page}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
+                transition={{ delay: 0.05 + index * 0.03 }}
                 whileHover={{ y: -8 }}
               >
                 <Link to={createPageUrl(section.page)}>
@@ -418,7 +418,7 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={{ delay: 0.2 }}
         className="relative overflow-hidden bg-gradient-to-r from-rose-200 via-amber-100 to-sky-200 rounded-3xl p-12 text-center shadow-xl mt-16 border-2 border-rose-300"
       >
         <div className="absolute inset-0 opacity-70">
