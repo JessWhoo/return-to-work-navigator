@@ -129,11 +129,10 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
   );
 }
 
-export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers, allMentors }) {
+export default function MessagesPanel({ myPeerProfile, allPeers }) {
   const [openConv, setOpenConv] = useState(null); // { myProfile, otherProfile }
 
-  // Gather all matched profiles: peers who sent/received requests, mentors who matched
-  const myProfile = myPeerProfile || myMentorProfile;
+  const myProfile = myPeerProfile;
 
   const matchedProfiles = React.useMemo(() => {
     const results = [];
@@ -142,15 +141,7 @@ export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers
       const receivedIds = myPeerProfile.connection_requests_received || [];
       const matchedIds = new Set([...sentIds, ...receivedIds]);
       allPeers.forEach(p => {
-        if (matchedIds.has(p.id)) results.push({ profile: p, source: 'peer' });
-      });
-    }
-    if (myMentorProfile) {
-      const sentIds = myMentorProfile.match_requests_sent || [];
-      const receivedIds = myMentorProfile.match_requests_received || [];
-      const matchedIds = new Set([...sentIds, ...receivedIds]);
-      allMentors.forEach(p => {
-        if (matchedIds.has(p.id)) results.push({ profile: p, source: 'mentorship' });
+        if (matchedIds.has(p.id)) results.push({ profile: p });
       });
     }
     // Deduplicate by profile id
@@ -160,7 +151,7 @@ export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers
       seen.add(r.profile.id);
       return true;
     });
-  }, [myPeerProfile, myMentorProfile, allPeers, allMentors]);
+  }, [myPeerProfile, allPeers]);
 
   // Unread counts per conversation
   const queryClient = useQueryClient();
@@ -196,7 +187,7 @@ export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers
       <div className="text-center py-16 text-slate-400">
         <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
         <p className="font-medium">No profile yet</p>
-        <p className="text-sm mt-1">Join the Peers or Mentorship program to start messaging matched connections.</p>
+        <p className="text-sm mt-1">Join the Peers program to start messaging matched connections.</p>
       </div>
     );
   }
@@ -206,7 +197,7 @@ export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers
       <div className="text-center py-16 text-slate-400">
         <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
         <p className="font-medium">No connections yet</p>
-        <p className="text-sm mt-1">Send connection or match requests in the Peers or Mentorship tabs to unlock messaging.</p>
+        <p className="text-sm mt-1">Send connection requests in the Peers tab to unlock messaging.</p>
       </div>
     );
   }
@@ -214,13 +205,12 @@ export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers
   return (
     <div className="space-y-3">
       <p className="text-slate-400 text-sm">{matchedProfiles.length} connection{matchedProfiles.length !== 1 ? 's' : ''}</p>
-      {matchedProfiles.map(({ profile, source }) => {
+      {matchedProfiles.map(({ profile }) => {
         const unread = getUnread(profile);
-        const activeMyProfile = source === 'peer' ? myPeerProfile : myMentorProfile;
         return (
           <button
             key={profile.id}
-            onClick={() => setOpenConv({ myProfile: activeMyProfile, otherProfile: profile })}
+            onClick={() => setOpenConv({ myProfile: myPeerProfile, otherProfile: profile })}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-teal-500 transition-all text-left"
           >
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white font-bold flex-shrink-0">
@@ -228,7 +218,7 @@ export default function MessagesPanel({ myPeerProfile, myMentorProfile, allPeers
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white font-semibold text-sm">{profile.display_name}</p>
-              <p className="text-slate-400 text-xs truncate">{profile.industry} · {source === 'mentorship' ? (profile.role === 'mentor' ? '🎓 Mentor' : '🌱 Mentee') : 'Peer'}</p>
+              <p className="text-slate-400 text-xs truncate">{profile.industry} · Peer</p>
             </div>
             {unread > 0 && (
               <span className="bg-teal-500 text-white text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">

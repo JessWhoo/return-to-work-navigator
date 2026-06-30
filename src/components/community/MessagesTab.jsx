@@ -16,14 +16,7 @@ export default function MessagesTab() {
     enabled: !!currentUser,
   });
 
-  const { data: allMentors = [] } = useQuery({
-    queryKey: ['mentorshipProfiles'],
-    queryFn: () => base44.entities.MentorshipProfile.filter({ is_active: true }),
-    enabled: !!currentUser,
-  });
-
   const myPeerProfile = allPeers.find(p => p.created_by === currentUser?.email) || null;
-  const myMentorProfile = allMentors.find(p => p.created_by === currentUser?.email) || null;
 
   return (
     <div className="space-y-4 py-4">
@@ -33,15 +26,13 @@ export default function MessagesTab() {
         </div>
         <div>
           <h2 className="text-white font-bold text-lg">Direct Messages</h2>
-          <p className="text-slate-400 text-sm">Chat privately with your matched peers and mentors.</p>
+          <p className="text-slate-400 text-sm">Chat privately with your matched peers.</p>
         </div>
       </div>
 
       <MessagesPanel
         myPeerProfile={myPeerProfile}
-        myMentorProfile={myMentorProfile}
         allPeers={allPeers}
-        allMentors={allMentors}
       />
     </div>
   );

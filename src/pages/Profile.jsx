@@ -105,7 +105,7 @@ export default function Profile() {
         'UserProgress', 'Record', 'CommunicationDraft', 'MeetingPrep',
         'DailyAffirmation', 'CoachFeedback', 'ResourceReview',
         'ResourceSuggestion', 'NetworkingContact', 'PeerConnection',
-        'MentorshipProfile', 'DirectMessage', 'ForumPost', 'ForumReply',
+        'DirectMessage', 'ForumPost', 'ForumReply',
       ];
       const currentUserId = user?.id;
       for (const name of entityNames) {
