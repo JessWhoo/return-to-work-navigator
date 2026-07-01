@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Users, FileText, Bookmark, Heart, MessageCircle } from 'lucide-react';
+import { Users, FileText, Bookmark, Heart, MessageCircle, MessageCircleQuestion, ArrowRight } from 'lucide-react';
 import ForumTab from '../components/community/ForumTab';
 import ProgressReportTab from '../components/community/ProgressReportTab';
 import SharedResourcesTab from '../components/community/SharedResourcesTab';
@@ -24,6 +25,26 @@ export default function CommunityHub() {
           You're not alone on this journey. Connect with peers, share your story, and find strength together.
         </p>
       </div>
+
+      <Link
+        to="/ExpertQA"
+        className="block rounded-2xl bg-gradient-to-r from-violet-600 via-rose-500 to-amber-500 p-5 text-white shadow-lg hover:shadow-xl transition-shadow"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-white/25 backdrop-blur p-2.5 rounded-xl flex-shrink-0">
+              <MessageCircleQuestion className="h-6 w-6" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-extrabold text-lg leading-tight">Ask the Experts</p>
+              <p className="text-sm text-white/90 leading-tight">
+                Answers from attorneys and oncology pros on fatigue, rights, and more.
+              </p>
+            </div>
+          </div>
+          <ArrowRight className="h-5 w-5 flex-shrink-0" />
+        </div>
+      </Link>
 
       <Tabs defaultValue="forum">
         <TabsList className="grid grid-cols-5 bg-slate-800 border border-slate-600 w-full">

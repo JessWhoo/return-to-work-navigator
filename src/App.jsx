@@ -12,6 +12,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Roadmap from './pages/Roadmap';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
+import ExpertQA from './pages/ExpertQA';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -88,6 +89,15 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="ResourceLibrary">
             <ResourceLibrary />
+          </LayoutWrapper>
+        }
+      />
+
+      <Route
+        path="/ExpertQA"
+        element={
+          <LayoutWrapper currentPageName="ExpertQA">
+            <ExpertQA />
           </LayoutWrapper>
         }
       />

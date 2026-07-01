@@ -1,0 +1,108 @@
+{
+  "name": "ExpertQA",
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "description": "The question being asked"
+    },
+    "question_details": {
+      "type": "string",
+      "description": "Additional context or details about the question"
+    },
+    "answer": {
+      "type": "string",
+      "description": "Expert answer to the question"
+    },
+    "expert_name": {
+      "type": "string",
+      "description": "Name of the expert who answered"
+    },
+    "expert_title": {
+      "type": "string",
+      "description": "Title or credentials of the expert (e.g., 'Employment Attorney', 'Oncology Social Worker')"
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "fatigue",
+        "rights",
+        "accommodations",
+        "disclosure",
+        "communication",
+        "career_return",
+        "emotional_support",
+        "insurance_benefits",
+        "general"
+      ],
+      "description": "Topic category"
+    },
+    "asker_name": {
+      "type": "string",
+      "description": "Display name of the user who asked (or 'Anonymous')"
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "default": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "answered",
+        "featured"
+      ],
+      "default": "pending",
+      "description": "Answer status"
+    },
+    "helpful_count": {
+      "type": "number",
+      "default": 0
+    },
+    "helpful_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "view_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "question",
+    "topic"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {},
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
