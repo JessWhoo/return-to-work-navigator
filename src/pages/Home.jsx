@@ -42,7 +42,7 @@ export default function Home() {
     queryFn: async () => {
       const progressList = await base44.entities.UserProgress.list();
       if (progressList.length > 0) return progressList[0];
-      
+
       try {
         return await base44.entities.UserProgress.create({
           completed_checklist_items: [],
@@ -51,9 +51,14 @@ export default function Home() {
           onboarding_completed: false
         });
       } catch {
-        return null;
+        // Create can 403 if another component/tab already made the record.
+        // Refetch — the existing record should now show up.
+        const retry = await base44.entities.UserProgress.list();
+        return retry[0] || null;
       }
-    }
+    },
+    retry: false,
+    staleTime: 60_000,
   });
 
   useEffect(() => {
