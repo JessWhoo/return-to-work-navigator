@@ -101,7 +101,7 @@ export default function About() {
             { icon: Zap, color: 'text-amber-600', title: 'Energy & Mood Tracking', desc: 'Daily check-ins with AI-matched resource recommendations.' },
             { icon: Shield, color: 'text-green-700', title: 'Legal Rights Guidance', desc: 'Plain-language summaries of ADA, FMLA, and state laws.' },
             { icon: BookOpen, color: 'text-indigo-700', title: '90+ Curated Resources', desc: 'Vetted guides, videos, support groups, and tools.' },
-            { icon: Users, color: 'text-cyan-700', title: 'Community & Peer Support', desc: 'Anonymous forums and peer matching for shared experiences.' },
+            { icon: Users, color: 'text-cyan-700', title: 'Community Forum', desc: 'Anonymous forums to share experiences and support.' },
             { icon: Heart, color: 'text-rose-600', title: 'AI Return-to-Work Coach', desc: 'Personalized guidance available 24/7 via conversational AI.' },
             { icon: ArrowRight, color: 'text-teal-700', title: 'Communication Toolkit', desc: 'Templates and scripts for employer conversations and emails.' },
           ].map(f => (
