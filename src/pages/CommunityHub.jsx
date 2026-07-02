@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Users, FileText, Bookmark, Heart, MessageCircle, MessageCircleQuestion, ArrowRight } from 'lucide-react';
+import { Users, FileText, Bookmark, Heart, MessageCircle, MessageCircleQuestion, ArrowRight, Sparkles } from 'lucide-react';
 import ForumTab from '../components/community/ForumTab';
 import ProgressReportTab from '../components/community/ProgressReportTab';
 import SharedResourcesTab from '../components/community/SharedResourcesTab';
@@ -25,6 +25,26 @@ export default function CommunityHub() {
           You're not alone on this journey. Connect with peers, share your story, and find strength together.
         </p>
       </div>
+
+      <Link
+        to="/ExpertAdvice"
+        className="block rounded-2xl bg-gradient-to-r from-sky-600 via-violet-600 to-rose-500 p-5 text-white shadow-lg hover:shadow-xl transition-shadow"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-white/25 backdrop-blur p-2.5 rounded-xl flex-shrink-0">
+              <Sparkles className="h-6 w-6" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-extrabold text-lg leading-tight">Expert Advice</p>
+              <p className="text-sm text-white/90 leading-tight">
+                Professional tips on workplace adjustments, emotional readiness, and career conversations.
+              </p>
+            </div>
+          </div>
+          <ArrowRight className="h-5 w-5 flex-shrink-0" />
+        </div>
+      </Link>
 
       <Link
         to="/ExpertQA"

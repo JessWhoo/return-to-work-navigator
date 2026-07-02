@@ -13,6 +13,7 @@ import Roadmap from './pages/Roadmap';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
 import ExpertQA from './pages/ExpertQA';
+import ExpertAdvice from './pages/ExpertAdvice';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -98,6 +99,15 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="ExpertQA">
             <ExpertQA />
+          </LayoutWrapper>
+        }
+      />
+
+      <Route
+        path="/ExpertAdvice"
+        element={
+          <LayoutWrapper currentPageName="ExpertAdvice">
+            <ExpertAdvice />
           </LayoutWrapper>
         }
       />
