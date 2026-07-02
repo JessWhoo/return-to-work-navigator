@@ -82,6 +82,15 @@ export const resources = [
         stages: ['planning', 'first_week', 'ongoing']
       },
       {
+        name: 'Triage Cancer - Free Resources by Topic',
+        org: 'Triage Cancer',
+        description: 'Free directory of resources organized by topic — including employment, insurance, finances, disability, medical care, and legal issues — for cancer patients, survivors, and caregivers',
+        url: 'https://triagecancer.org/free-cancer-resources-by-topic',
+        type: 'WEBSITE',
+        topics: ['free resources', 'employment', 'insurance', 'finances', 'disability', 'legal'],
+        stages: ['planning', 'first_week', 'ongoing', 'completed']
+      },
+      {
         name: 'Learn Look Locate - Back to Work',
         org: 'Learn Look Locate',
         description: 'Resources and guidance for cancer survivors returning to work',
