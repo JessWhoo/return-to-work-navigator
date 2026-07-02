@@ -319,6 +319,15 @@ export const resources = [
         stages: ['planning', 'first_week', 'ongoing']
       },
       {
+        name: 'Cancer and Careers - Free Publications (Order by Mail)',
+        org: 'Cancer and Careers',
+        description: 'Order free printed publications shipped directly to you, including guides on managing work during treatment, job search, legal rights, and career development for cancer survivors',
+        url: 'https://www.cancerandcareers.org/publication_orders/new',
+        type: 'GUIDE',
+        topics: ['free publications', 'printed materials', 'guides', 'career'],
+        stages: ['planning', 'first_week', 'ongoing', 'completed']
+      },
+      {
         name: 'EEOC: Cancer in the Workplace and the ADA',
         org: 'EEOC',
         description: 'Official guidance on how the Americans with Disabilities Act applies to employees with cancer',
