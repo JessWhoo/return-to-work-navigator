@@ -201,16 +201,16 @@ export default function FAQ() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
           Frequently Asked Questions
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
           Find answers to common questions about returning to work after cancer treatment
         </p>
       </div>
 
       {/* Search */}
-      <Card className="bg-slate-800 border-2 border-teal-600">
+      <Card className="bg-white border-2 border-teal-300">
         <CardContent className="pt-6">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" />
             <Input
               placeholder="Search for answers..."
               value={searchQuery}
@@ -224,9 +224,9 @@ export default function FAQ() {
       {/* FAQ Categories */}
       <div className="space-y-4">
         {filteredFAQ.length === 0 ? (
-          <Card className="bg-slate-800 border-slate-600">
+          <Card className="bg-white border-slate-300">
             <CardContent className="pt-6 text-center">
-              <p className="text-slate-400">No results found for "{searchQuery}"</p>
+              <p className="text-slate-700">No results found for "{searchQuery}"</p>
             </CardContent>
           </Card>
         ) : (
@@ -238,27 +238,27 @@ export default function FAQ() {
             return (
               <Card
                 key={actualIndex}
-                className="bg-slate-800 border-2 border-slate-600 hover:border-slate-500 hover:shadow-lg transition-all overflow-hidden"
+                className="bg-white border-2 border-slate-300 hover:border-slate-400 hover:shadow-lg transition-all overflow-hidden"
               >
                 <CardHeader
-                  className="cursor-pointer hover:bg-slate-700/50 transition-colors"
+                  className="cursor-pointer hover:bg-slate-50 transition-colors"
                   onClick={() => toggleCategory(actualIndex)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       {isExpanded ? (
-                        <ChevronDown className="h-5 w-5 text-gray-500" />
+                        <ChevronDown className="h-5 w-5 text-slate-600" />
                       ) : (
-                        <ChevronRight className="h-5 w-5 text-gray-500" />
+                        <ChevronRight className="h-5 w-5 text-slate-600" />
                       )}
                       <div className={`p-2 rounded-lg bg-gradient-to-br ${category.color}`}>
                         <Icon className="h-5 w-5 text-white" />
                       </div>
-                      <CardTitle className="text-xl text-slate-100">
+                      <CardTitle className="text-xl text-slate-900">
                         {category.category}
                       </CardTitle>
                     </div>
-                    <Badge variant="secondary" className="bg-gray-100">
+                    <Badge variant="secondary" className="bg-slate-100 text-slate-800">
                       {category.questions.length}
                     </Badge>
                   </div>
@@ -280,20 +280,20 @@ export default function FAQ() {
                           return (
                             <div
                               key={questionIndex}
-                              className="border-l-4 border-gray-200 hover:border-teal-400 transition-colors"
+                              className="border-l-4 border-slate-300 hover:border-teal-500 transition-colors"
                             >
                               <button
                                 onClick={() => toggleQuestion(actualIndex, questionIndex)}
-                                className="w-full text-left p-4 hover:bg-slate-700 transition-colors rounded-r-lg"
+                                className="w-full text-left p-4 hover:bg-slate-50 transition-colors rounded-r-lg"
                               >
                                 <div className="flex items-start justify-between">
-                                  <h4 className="font-semibold text-slate-100 pr-4">
+                                  <h4 className="font-semibold text-slate-900 pr-4">
                                     {question.q}
                                   </h4>
                                   {isQuestionExpanded ? (
-                                    <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                                    <ChevronDown className="h-5 w-5 text-slate-600 flex-shrink-0 mt-0.5" />
                                   ) : (
-                                    <ChevronRight className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                                    <ChevronRight className="h-5 w-5 text-slate-600 flex-shrink-0 mt-0.5" />
                                   )}
                                 </div>
                               </button>
@@ -306,7 +306,7 @@ export default function FAQ() {
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.2 }}
                                   >
-                                    <div className="px-4 pb-4 text-slate-300 leading-relaxed">
+                                    <div className="px-4 pb-4 text-slate-700 leading-relaxed">
                                       {question.a}
                                     </div>
                                   </motion.div>
@@ -326,11 +326,11 @@ export default function FAQ() {
       </div>
 
       {/* Help Section */}
-      <Card className="bg-gradient-to-br from-teal-900/30 to-cyan-900/30 border-2 border-teal-700">
+      <Card className="bg-gradient-to-br from-teal-50 to-cyan-50 border-2 border-teal-300">
         <CardContent className="pt-6 text-center space-y-3">
-          <Heart className="h-12 w-12 text-teal-400 mx-auto" />
-          <h3 className="text-xl font-bold text-slate-100">Still Have Questions?</h3>
-          <p className="text-slate-300">
+          <Heart className="h-12 w-12 text-teal-600 mx-auto" />
+          <h3 className="text-xl font-bold text-slate-900">Still Have Questions?</h3>
+          <p className="text-slate-700">
             Can't find what you're looking for? Explore our Resources section for additional support,
             or consult with your healthcare team and legal counsel for personalized guidance.
           </p>
