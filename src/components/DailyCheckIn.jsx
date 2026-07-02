@@ -122,8 +122,8 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-slate-100 text-lg">Daily Check-In</CardTitle>
-                <p className="text-slate-400 text-sm mt-0.5">Log your mood & get a personalized resource</p>
+                <CardTitle className="text-slate-100 text-xl font-bold">Daily Check-In</CardTitle>
+                <p className="text-slate-300 text-base mt-1 font-medium">Log your mood & get a personalized resource</p>
               </div>
             </div>
             {open ? <ChevronUp className="h-5 w-5 text-slate-400" /> : <ChevronDown className="h-5 w-5 text-slate-400" />}
@@ -146,16 +146,16 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     {/* Mood */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Smile className="h-4 w-4 text-teal-400" />
-                        <span className="text-slate-200 font-medium text-sm">How are you feeling today?</span>
+                        <Smile className="h-5 w-5 text-teal-400" />
+                        <span className="text-slate-100 font-semibold text-base">How are you feeling today?</span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {MOODS.map(m => (
                           <button
                             key={m.value}
                             onClick={() => setMood(m.value)}
-                            className={`px-3 py-1.5 rounded-lg border-2 text-sm font-medium transition-all ${
-                              mood === m.value ? m.color : 'border-slate-600 text-slate-400 hover:border-slate-500'
+                            className={`px-4 py-2 rounded-lg border-2 text-base font-semibold transition-all ${
+                              mood === m.value ? m.color : 'border-slate-600 text-slate-300 hover:border-slate-500'
                             }`}
                           >
                             {m.label}
@@ -167,19 +167,19 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     {/* Energy */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Zap className="h-4 w-4 text-amber-400" />
-                        <span className="text-slate-200 font-medium text-sm">Energy level (1–10)</span>
-                        {energy && <span className="ml-auto text-teal-400 font-bold text-base">{energy}/10</span>}
+                        <Zap className="h-5 w-5 text-amber-400" />
+                        <span className="text-slate-100 font-semibold text-base">Energy level (1–10)</span>
+                        {energy && <span className="ml-auto text-teal-300 font-bold text-lg">{energy}/10</span>}
                       </div>
                       <div className="flex gap-1.5 flex-wrap">
                         {ENERGY_LEVELS.map(n => (
                           <button
                             key={n}
                             onClick={() => setEnergy(n)}
-                            className={`w-9 h-9 rounded-lg text-sm font-bold border-2 transition-all ${
+                            className={`w-10 h-10 rounded-lg text-base font-bold border-2 transition-all ${
                               energy === n
                                 ? 'bg-gradient-to-br from-amber-500 to-orange-500 border-amber-400 text-white shadow-lg'
-                                : 'border-slate-600 text-slate-400 hover:border-amber-500 hover:text-amber-300'
+                                : 'border-slate-600 text-slate-300 hover:border-amber-500 hover:text-amber-300'
                             }`}
                           >
                             {n}
@@ -191,18 +191,18 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     {/* Challenge */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <AlertCircle className="h-4 w-4 text-rose-400" />
-                        <span className="text-slate-200 font-medium text-sm">Your top challenge today</span>
+                        <AlertCircle className="h-5 w-5 text-rose-400" />
+                        <span className="text-slate-100 font-semibold text-base">Your top challenge today</span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {CHALLENGES.map(c => (
                           <button
                             key={c}
                             onClick={() => setChallenge(c)}
-                            className={`px-3 py-1.5 rounded-lg border-2 text-xs font-medium transition-all ${
+                            className={`px-4 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${
                               challenge === c
-                                ? 'border-rose-500 bg-rose-900/30 text-rose-300'
-                                : 'border-slate-600 text-slate-400 hover:border-rose-500 hover:text-rose-300'
+                                ? 'border-rose-500 bg-rose-900/30 text-rose-200'
+                                : 'border-slate-600 text-slate-300 hover:border-rose-500 hover:text-rose-300'
                             }`}
                           >
                             {c}
@@ -214,12 +214,12 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     <Button
                       onClick={handleSubmit}
                       disabled={!canSubmit || loading}
-                      className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-5 rounded-xl shadow-lg disabled:opacity-40"
+                      className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold text-base py-6 rounded-xl shadow-lg disabled:opacity-40"
                     >
                       {loading ? (
-                        <span className="flex items-center gap-2"><RefreshCw className="h-4 w-4 animate-spin" /> Finding your resource…</span>
+                        <span className="flex items-center gap-2"><RefreshCw className="h-5 w-5 animate-spin" /> Finding your resource…</span>
                       ) : (
-                        <span className="flex items-center gap-2"><Sparkles className="h-4 w-4" /> Get Today's Resource</span>
+                        <span className="flex items-center gap-2"><Sparkles className="h-5 w-5" /> Get Today's Resource</span>
                       )}
                     </Button>
                   </>
@@ -231,39 +231,39 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <Sparkles className="h-5 w-5 text-teal-400" />
-                      <span className="text-teal-300 font-semibold">Your resource for today</span>
+                      <span className="text-teal-200 font-bold text-base">Your resource for today</span>
                     </div>
 
                     <div className="bg-slate-700/60 border border-teal-600 rounded-xl p-4 space-y-3">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-white font-semibold leading-tight">{recommendation.resource.name}</p>
-                          <p className="text-slate-400 text-xs mt-0.5">{recommendation.resource.org}</p>
+                          <p className="text-white font-bold text-lg leading-snug">{recommendation.resource.name}</p>
+                          <p className="text-slate-300 text-sm mt-1 font-medium">{recommendation.resource.org}</p>
                         </div>
-                        <Badge className="bg-slate-600 text-slate-300 text-xs flex-shrink-0">
+                        <Badge className="bg-slate-600 text-slate-100 text-sm font-semibold flex-shrink-0">
                           {recommendation.resource.type}
                         </Badge>
                       </div>
-                      <p className="text-slate-300 text-sm leading-relaxed">{recommendation.resource.description}</p>
+                      <p className="text-slate-100 text-base leading-relaxed font-medium">{recommendation.resource.description}</p>
                       <div className="bg-teal-900/40 border border-teal-700 rounded-lg px-3 py-2">
-                        <p className="text-teal-300 text-xs italic">💡 {recommendation.reason}</p>
+                        <p className="text-teal-100 text-sm italic font-medium">💡 {recommendation.reason}</p>
                       </div>
                       <a
                         href={recommendation.resource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+                        className="flex items-center gap-2 text-cyan-300 hover:text-cyan-200 text-base font-semibold transition-colors"
                       >
-                        <ExternalLink className="h-4 w-4" /> Open Resource
+                        <ExternalLink className="h-5 w-5" /> Open Resource
                       </a>
                     </div>
 
                     <Button
                       onClick={reset}
                       variant="outline"
-                      className="w-full border-slate-600 text-slate-400 hover:text-white hover:border-slate-400"
+                      className="w-full border-slate-600 text-slate-200 hover:text-white hover:border-slate-400 font-semibold text-base"
                     >
-                      <RefreshCw className="h-4 w-4 mr-2" /> Log Again
+                      <RefreshCw className="h-5 w-5 mr-2" /> Log Again
                     </Button>
                   </motion.div>
                 )}
