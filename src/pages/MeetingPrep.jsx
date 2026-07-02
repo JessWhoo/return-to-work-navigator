@@ -8,13 +8,14 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Plus, Calendar, ChevronRight, Loader2, Users, FileText,
-  CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2, Library
+  CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2, Library, Download
 } from 'lucide-react';
 import { format } from 'date-fns';
 import MeetingPrepForm from '../components/meetingprep/MeetingPrepForm';
 import EmployerResponseLog from '../components/meetingprep/EmployerResponseLog';
 import ConversationSimulator from '../components/meetingprep/ConversationSimulator';
 import TemplateLibrary from '../components/meetingprep/TemplateLibrary';
+import { exportMeetingPrepPdf } from '../components/meetingprep/exportMeetingPrepPdf';
 
 const STATUS_CONFIG = {
   drafting: { label: 'Drafting', color: 'bg-slate-700 text-slate-300', icon: Clock },
@@ -211,11 +212,18 @@ export default function MeetingPrep() {
               </div>
             </div>
           </div>
-          <Button size="sm" variant="ghost"
-            onClick={() => { setActiveTab('edit'); }}
-            className="text-slate-400 hover:text-slate-200 flex-shrink-0">
-            <Pencil className="h-4 w-4 mr-1" /> Edit
-          </Button>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <Button size="sm" variant="ghost"
+              onClick={() => exportMeetingPrepPdf(selectedMeeting)}
+              className="text-slate-400 hover:text-slate-200">
+              <Download className="h-4 w-4 mr-1" /> Export PDF
+            </Button>
+            <Button size="sm" variant="ghost"
+              onClick={() => { setActiveTab('edit'); }}
+              className="text-slate-400 hover:text-slate-200">
+              <Pencil className="h-4 w-4 mr-1" /> Edit
+            </Button>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
