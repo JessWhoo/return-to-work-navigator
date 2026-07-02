@@ -25,6 +25,7 @@ import ResourceTagEditor from '../components/resources/ResourceTagEditor';
 import ResourceSummary from '../components/resources/ResourceSummary';
 import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
 import ResourceQA from '../components/resources/ResourceQA';
+import EmailToHRButton from '../components/resources/EmailToHRButton';
 import useSEO from '@/hooks/useSEO';
 
 class ErrorBoundary extends Component {
@@ -832,6 +833,13 @@ export default function Resources() {
                               <EnhancedResourceReviewDialog 
                                 resourceId={resource.id}
                                 resourceName={resource.name}
+                              />
+                              <EmailToHRButton
+                                resourceName={resource.name}
+                                resourceUrl={resource.url}
+                                resourceDescription={resource.description}
+                                resourceOrg={resource.org}
+                                className="flex-1"
                               />
                               </div>
                         </div>

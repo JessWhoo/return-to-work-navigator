@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, ExternalLink, BookOpen } from 'lucide-react';
+import EmailToHRButton from '@/components/resources/EmailToHRButton';
 
 const CATEGORY_STYLES = {
   legal: 'from-indigo-500 to-violet-600',
@@ -62,16 +63,31 @@ export default function LibraryCard({ item }) {
     </Card>
   );
 
-  if (item.external) {
-    return (
-      <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
-        {inner}
-      </a>
-    );
-  }
+  // Share button rendered outside the clickable card wrapper so its dialog
+  // clicks don't trigger the card's navigation.
+  const shareButton = (
+    <div className="mt-2" onClick={(e) => e.preventDefault()}>
+      <EmailToHRButton
+        resourceName={item.title}
+        resourceUrl={item.external ? item.link : `${window.location.origin}${item.link || ''}`}
+        resourceDescription={item.summary}
+        className="w-full"
+      />
+    </div>
+  );
+
   return (
-    <Link to={item.link} className="block h-full">
-      {inner}
-    </Link>
+    <div className="h-full flex flex-col">
+      {item.external ? (
+        <a href={item.link} target="_blank" rel="noopener noreferrer" className="block flex-1">
+          {inner}
+        </a>
+      ) : (
+        <Link to={item.link} className="block flex-1">
+          {inner}
+        </Link>
+      )}
+      {shareButton}
+    </div>
   );
 }
