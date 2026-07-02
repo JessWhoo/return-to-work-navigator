@@ -111,7 +111,7 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
       transition={{ delay: 0.25 }}
       className="mb-10"
     >
-      <Card className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-teal-700 shadow-xl">
+      <Card className="bg-white border-2 border-teal-500 shadow-xl">
         <CardHeader
           className="cursor-pointer select-none"
           onClick={() => setOpen(o => !o)}
@@ -122,11 +122,11 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-slate-100 text-xl font-bold">Daily Check-In</CardTitle>
-                <p className="text-slate-300 text-base mt-1 font-medium">Log your mood & get a personalized resource</p>
+                <CardTitle className="text-slate-900 text-xl font-bold">Daily Check-In</CardTitle>
+                <p className="text-slate-700 text-base mt-1 font-semibold">Log your mood & get a personalized resource</p>
               </div>
             </div>
-            {open ? <ChevronUp className="h-5 w-5 text-slate-400" /> : <ChevronDown className="h-5 w-5 text-slate-400" />}
+            {open ? <ChevronUp className="h-6 w-6 text-slate-700" /> : <ChevronDown className="h-6 w-6 text-slate-700" />}
           </div>
         </CardHeader>
 
@@ -146,8 +146,8 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     {/* Mood */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Smile className="h-5 w-5 text-teal-400" />
-                        <span className="text-slate-100 font-semibold text-base">How are you feeling today?</span>
+                        <Smile className="h-5 w-5 text-teal-600" />
+                        <span className="text-slate-900 font-bold text-base">How are you feeling today?</span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {MOODS.map(m => (
@@ -155,7 +155,9 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                             key={m.value}
                             onClick={() => setMood(m.value)}
                             className={`px-4 py-2 rounded-lg border-2 text-base font-semibold transition-all ${
-                              mood === m.value ? m.color : 'border-slate-600 text-slate-300 hover:border-slate-500'
+                              mood === m.value
+                                ? 'border-teal-600 bg-teal-50 text-slate-900'
+                                : 'border-slate-300 text-slate-800 hover:border-teal-500 bg-white'
                             }`}
                           >
                             {m.label}
@@ -167,9 +169,9 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     {/* Energy */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Zap className="h-5 w-5 text-amber-400" />
-                        <span className="text-slate-100 font-semibold text-base">Energy level (1–10)</span>
-                        {energy && <span className="ml-auto text-teal-300 font-bold text-lg">{energy}/10</span>}
+                        <Zap className="h-5 w-5 text-amber-600" />
+                        <span className="text-slate-900 font-bold text-base">Energy level (1–10)</span>
+                        {energy && <span className="ml-auto text-teal-700 font-bold text-lg">{energy}/10</span>}
                       </div>
                       <div className="flex gap-1.5 flex-wrap">
                         {ENERGY_LEVELS.map(n => (
@@ -178,8 +180,8 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                             onClick={() => setEnergy(n)}
                             className={`w-10 h-10 rounded-lg text-base font-bold border-2 transition-all ${
                               energy === n
-                                ? 'bg-gradient-to-br from-amber-500 to-orange-500 border-amber-400 text-white shadow-lg'
-                                : 'border-slate-600 text-slate-300 hover:border-amber-500 hover:text-amber-300'
+                                ? 'bg-gradient-to-br from-amber-500 to-orange-500 border-amber-500 text-white shadow-lg'
+                                : 'border-slate-300 text-slate-800 hover:border-amber-500 bg-white'
                             }`}
                           >
                             {n}
@@ -191,8 +193,8 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     {/* Challenge */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <AlertCircle className="h-5 w-5 text-rose-400" />
-                        <span className="text-slate-100 font-semibold text-base">Your top challenge today</span>
+                        <AlertCircle className="h-5 w-5 text-rose-600" />
+                        <span className="text-slate-900 font-bold text-base">Your top challenge today</span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {CHALLENGES.map(c => (
@@ -201,8 +203,8 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                             onClick={() => setChallenge(c)}
                             className={`px-4 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${
                               challenge === c
-                                ? 'border-rose-500 bg-rose-900/30 text-rose-200'
-                                : 'border-slate-600 text-slate-300 hover:border-rose-500 hover:text-rose-300'
+                                ? 'border-rose-600 bg-rose-50 text-slate-900'
+                                : 'border-slate-300 text-slate-800 hover:border-rose-500 bg-white'
                             }`}
                           >
                             {c}
@@ -230,29 +232,29 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     className="space-y-4"
                   >
                     <div className="flex items-center gap-2 mb-1">
-                      <Sparkles className="h-5 w-5 text-teal-400" />
-                      <span className="text-teal-200 font-bold text-base">Your resource for today</span>
+                      <Sparkles className="h-5 w-5 text-teal-600" />
+                      <span className="text-teal-800 font-bold text-base">Your resource for today</span>
                     </div>
 
-                    <div className="bg-slate-700/60 border border-teal-600 rounded-xl p-4 space-y-3">
+                    <div className="bg-teal-50 border-2 border-teal-500 rounded-xl p-4 space-y-3">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-white font-bold text-lg leading-snug">{recommendation.resource.name}</p>
-                          <p className="text-slate-300 text-sm mt-1 font-medium">{recommendation.resource.org}</p>
+                          <p className="text-slate-900 font-bold text-lg leading-snug">{recommendation.resource.name}</p>
+                          <p className="text-slate-700 text-sm mt-1 font-semibold">{recommendation.resource.org}</p>
                         </div>
-                        <Badge className="bg-slate-600 text-slate-100 text-sm font-semibold flex-shrink-0">
+                        <Badge className="bg-slate-200 text-slate-900 text-sm font-semibold flex-shrink-0">
                           {recommendation.resource.type}
                         </Badge>
                       </div>
-                      <p className="text-slate-100 text-base leading-relaxed font-medium">{recommendation.resource.description}</p>
-                      <div className="bg-teal-900/40 border border-teal-700 rounded-lg px-3 py-2">
-                        <p className="text-teal-100 text-sm italic font-medium">💡 {recommendation.reason}</p>
+                      <p className="text-slate-900 text-base leading-relaxed font-medium">{recommendation.resource.description}</p>
+                      <div className="bg-white border-2 border-teal-400 rounded-lg px-3 py-2">
+                        <p className="text-slate-900 text-sm italic font-semibold">💡 {recommendation.reason}</p>
                       </div>
                       <a
                         href={recommendation.resource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-cyan-300 hover:text-cyan-200 text-base font-semibold transition-colors"
+                        className="flex items-center gap-2 text-teal-700 hover:text-teal-800 text-base font-bold transition-colors"
                       >
                         <ExternalLink className="h-5 w-5" /> Open Resource
                       </a>
@@ -261,7 +263,7 @@ Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explai
                     <Button
                       onClick={reset}
                       variant="outline"
-                      className="w-full border-slate-600 text-slate-200 hover:text-white hover:border-slate-400 font-semibold text-base"
+                      className="w-full border-2 border-slate-400 text-slate-900 bg-white hover:bg-slate-50 font-semibold text-base"
                     >
                       <RefreshCw className="h-5 w-5 mr-2" /> Log Again
                     </Button>
