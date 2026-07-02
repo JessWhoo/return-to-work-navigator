@@ -28,8 +28,8 @@ export default function About() {
             />
             <div className="space-y-3 flex-1">
               <div>
-                <p className="text-2xl font-bold text-slate-900">Founder &amp; Creator</p>
-                <p className="text-rose-700 font-semibold text-base">Back to Life, Back to Work Navigator</p>
+                <p className="text-2xl font-bold text-slate-900">Jess Whorton</p>
+                <p className="text-rose-700 font-semibold text-base">Founder &amp; Creator — Back to Life, Back to Work Navigator</p>
               </div>
               <p className="text-slate-800 text-base leading-relaxed font-medium">
                 As a cancer survivor herself, our founder knows firsthand how isolating and overwhelming the return-to-work
