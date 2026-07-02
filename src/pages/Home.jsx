@@ -37,12 +37,17 @@ export default function Home() {
     duration: Math.random() * 10 + 10,
   })), []);
   
-  const { data: progress } = useQuery({
+  const { data: progress, error: progressError } = useQuery({
     queryKey: ['userProgress'],
     queryFn: async () => {
+      // First try to read an existing record — the common case after first load.
       const progressList = await base44.entities.UserProgress.list();
       if (progressList.length > 0) return progressList[0];
 
+      // No record yet — attempt to create one. This can 403 if another
+      // component/tab created a record in the same instant, or if the user
+      // session is stale. Always fall back to a re-list rather than surfacing
+      // the transient race as a hard failure.
       try {
         return await base44.entities.UserProgress.create({
           completed_checklist_items: [],
@@ -50,14 +55,20 @@ export default function Home() {
           calendar_events: [],
           onboarding_completed: false
         });
-      } catch {
-        // Create can 403 if another component/tab already made the record.
-        // Refetch — the existing record should now show up.
+      } catch (err) {
         const retry = await base44.entities.UserProgress.list();
-        return retry[0] || null;
+        if (retry.length > 0) return retry[0];
+        // Genuine failure — bubble up so react-query records the error and
+        // downstream UI can degrade gracefully instead of spinning forever.
+        throw err;
       }
     },
-    retry: false,
+    retry: (failureCount, err) => {
+      // Retry twice for transient 403s (race with another tab/component)
+      // but never for other errors.
+      const status = err?.response?.status ?? err?.status;
+      return status === 403 && failureCount < 2;
+    },
     staleTime: 60_000,
   });
 
@@ -89,6 +100,12 @@ export default function Home() {
       setShowOnboarding(false);
     }
   });
+
+  const handleCompleteOnboarding = () => {
+    // Guard against double-clicks: ignore if a completion is already in flight.
+    if (completeOnboardingMutation.isPending) return;
+    completeOnboardingMutation.mutate();
+  };
 
   const sections = [
     {
@@ -169,7 +186,7 @@ export default function Home() {
     <div className="max-w-7xl mx-auto">
       <OnboardingFlow 
         open={showOnboarding} 
-        onComplete={() => completeOnboardingMutation.mutate()}
+        onComplete={handleCompleteOnboarding}
       />
       
       {/* Hero Cover Section */}
@@ -261,8 +278,9 @@ export default function Home() {
             {progress?.onboarding_completed && (
               <Button 
                 onClick={() => setShowOnboarding(true)}
+                disabled={showOnboarding}
                 variant="outline"
-                className="border-2 border-sky-600 text-sky-700 bg-white hover:bg-sky-50 hover:border-sky-700 font-semibold px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all"
+                className="border-2 border-sky-600 text-sky-700 bg-white hover:bg-sky-50 hover:border-sky-700 font-semibold px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all disabled:opacity-60"
               >
                 <Sparkles className="h-5 w-5 mr-2" />
                 View Tutorial
