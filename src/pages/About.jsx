@@ -93,28 +93,6 @@ export default function About() {
         </CardContent>
       </Card>
 
-      {/* Who builds it */}
-      <Card className="bg-white border-2 border-purple-400 shadow-md">
-        <CardContent className="p-8 space-y-4">
-          <h2 className="text-3xl font-bold text-purple-700">Who Builds It</h2>
-          <p className="text-slate-800 text-base leading-relaxed font-medium">
-            The Back to Life, Back to Work Navigator is developed by a team passionate about the intersection of
-            healthcare, workplace equity, and technology. Our mission is to close the support gap that exists for
-            cancer survivors re-entering the workforce — a gap that too often leaves people feeling isolated and
-            ill-equipped to advocate for themselves.
-          </p>
-          <p className="text-slate-800 text-base leading-relaxed font-medium">
-            The platform draws on guidance from oncology social workers, employment attorneys, occupational therapists,
-            and most importantly, the lived experiences of cancer survivors themselves. We are committed to keeping
-            this resource free, evidence-based, and continually improving based on user feedback.
-          </p>
-          <p className="text-slate-700 text-sm italic font-semibold">
-            Note: Information provided is for educational purposes only and does not constitute legal or medical advice.
-            Please consult with qualified professionals for your specific situation.
-          </p>
-        </CardContent>
-      </Card>
-
       {/* Feature highlights */}
       <div>
         <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">Key Features</h2>
