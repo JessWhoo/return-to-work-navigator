@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/lib/AuthContext';
 import { 
   CheckSquare, Zap, MessageSquare, FileText, Shield, 
   Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search
@@ -24,6 +25,7 @@ export default function Home() {
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { isAuthenticated, user } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   const particles = useMemo(() => Array.from({ length: 6 }, (_, i) => ({
@@ -38,7 +40,8 @@ export default function Home() {
   })), []);
   
   const { data: progress, error: progressError } = useQuery({
-    queryKey: ['userProgress'],
+    queryKey: ['userProgress', user?.id],
+    enabled: !!isAuthenticated && !!user?.id,
     queryFn: async () => {
       // First try to read an existing record — the common case after first load.
       const progressList = await base44.entities.UserProgress.list();
