@@ -98,6 +98,11 @@ export default function Profile() {
       toast.error('Please type DELETE to confirm');
       return;
     }
+    const currentUserId = user?.id;
+    if (!currentUserId) {
+      toast.error('Could not verify your account. Please refresh and try again.');
+      return;
+    }
     setIsDeleting(true);
     try {
       // Delete all user-owned data via the SDK (each entity is created_by_id-scoped via RLS).
@@ -107,14 +112,13 @@ export default function Profile() {
         'ResourceSuggestion', 'NetworkingContact', 'PeerConnection',
         'DirectMessage', 'ForumPost', 'ForumReply',
       ];
-      const currentUserId = user?.id;
       for (const name of entityNames) {
         try {
-          // Filter by created_by_id so we only ever try to read/delete our own rows.
-          // Some entities deny .list() without a filter (403) for non-admins.
-          const items = currentUserId
-            ? await base44.entities[name].filter({ created_by_id: currentUserId }).catch(() => [])
-            : await base44.entities[name].list().catch(() => []);
+          // Strictly filter by the authenticated user's id — never fall back
+          // to an unfiltered list, which could return other users' rows.
+          const items = await base44.entities[name]
+            .filter({ created_by_id: currentUserId })
+            .catch(() => []);
           await Promise.all(
             (items || []).map((item) =>
               base44.entities[name].delete(item.id).catch(() => null)
