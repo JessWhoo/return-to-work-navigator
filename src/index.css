@@ -217,7 +217,7 @@ button:focus-visible {
 /* Global text contrast boost - improve readability across the entire app */
 @layer utilities {
   /* On light backgrounds: darken light gray text */
-  .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; }
+  .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; font-weight: 500; }
   .text-slate-600 { color: rgb(15 23 42) !important; }
   .text-gray-300, .text-gray-400, .text-gray-500 { color: rgb(31 41 55) !important; }
   .text-gray-600 { color: rgb(17 24 39) !important; }

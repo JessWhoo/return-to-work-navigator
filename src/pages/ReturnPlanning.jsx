@@ -126,7 +126,7 @@ Sincerely,
         <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
           Plan Your Return
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 max-w-2xl mx-auto font-medium">
           Create a phased return-to-work schedule that supports your recovery
         </p>
       </div>
@@ -137,7 +137,7 @@ Sincerely,
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-400 mb-1">Your planned return date:</p>
+                <p className="text-sm text-slate-700 mb-1 font-semibold">Your planned return date:</p>
                 <p className="text-2xl font-bold text-teal-400">
                   {format(new Date(progress.return_date), 'EEEE, MMMM d, yyyy')}
                 </p>
@@ -154,7 +154,7 @@ Sincerely,
           <Card className="bg-slate-800 border-slate-600">
             <CardHeader>
               <CardTitle className="text-slate-100">Choose a Phased Return Template</CardTitle>
-              <p className="text-sm text-slate-400 mt-2">
+              <p className="text-sm text-slate-700 mt-2 font-medium">
                 Select a template that matches your needs. You can customize it further below.
               </p>
             </CardHeader>
@@ -172,7 +172,7 @@ Sincerely,
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="font-bold text-slate-100">{template.name}</h3>
-                      <p className="text-sm text-slate-400">{template.description}</p>
+                      <p className="text-sm text-slate-700 font-medium">{template.description}</p>
                     </div>
                     {selectedTemplate === template.name && (
                       <CheckCircle2 className="h-6 w-6 text-teal-600 flex-shrink-0" />
@@ -218,7 +218,7 @@ Sincerely,
                           Remote: {phase.remote} {typeof phase.remote === 'number' ? 'days/week' : ''}
                         </span>
                       </div>
-                      <p className="text-sm text-slate-400">{phase.notes}</p>
+                      <p className="text-sm text-slate-700">{phase.notes}</p>
                     </div>
                   ))}
               </CardContent>
