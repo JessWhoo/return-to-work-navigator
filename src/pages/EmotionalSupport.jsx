@@ -160,7 +160,7 @@ export default function EmotionalSupport() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
           Emotional Support & Well-Being
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-100 max-w-2xl mx-auto">
           Resources for managing anxiety, building confidence, and finding support
         </p>
       </div>
@@ -183,7 +183,7 @@ export default function EmotionalSupport() {
                 {resource.strategies.map((item, index) => (
                   <div key={index} className={`p-4 bg-slate-900/60 rounded-lg border-l-4 ${COLOR_MAP[resource.color]?.border || 'border-slate-400'}`}>
                     <h4 className={`font-semibold mb-2 ${COLOR_MAP[resource.color]?.heading || 'text-slate-200'}`}>{item.strategy}</h4>
-                    <p className="text-sm text-slate-300 leading-relaxed">{item.description}</p>
+                    <p className="text-sm text-slate-100 leading-relaxed">{item.description}</p>
                   </div>
                 ))}
               </CardContent>
@@ -211,8 +211,8 @@ export default function EmotionalSupport() {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-bold text-slate-100 mb-1">{org.name}</h3>
-                      <p className="text-sm text-slate-300 leading-relaxed mb-2">{org.description}</p>
-                      <p className="text-xs text-slate-400">{org.contact}</p>
+                      <p className="text-sm text-slate-100 leading-relaxed mb-2">{org.description}</p>
+                      <p className="text-xs text-slate-200">{org.contact}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -257,11 +257,11 @@ export default function EmotionalSupport() {
         <CardContent className="pt-6 text-center">
           <Heart className="h-12 w-12 text-rose-500 mx-auto mb-4" />
           <h3 className="text-2xl font-bold text-slate-100 mb-3">You're Doing Great</h3>
-          <p className="text-slate-300 max-w-2xl mx-auto leading-relaxed mb-4">
+          <p className="text-slate-100 max-w-2xl mx-auto leading-relaxed mb-4">
             Some days will be harder than others. That's not weakness—that's being human. 
             Be patient with yourself. You've already proven how strong you are.
           </p>
-          <p className="text-sm text-slate-400 italic">
+          <p className="text-sm text-slate-200 italic">
             If you're struggling, please reach out to a mental health professional. 
             There's no shame in needing support.
           </p>
