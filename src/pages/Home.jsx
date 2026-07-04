@@ -25,7 +25,7 @@ export default function Home() {
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoadingAuth } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   const particles = useMemo(() => Array.from({ length: 6 }, (_, i) => ({
@@ -39,18 +39,21 @@ export default function Home() {
     duration: Math.random() * 10 + 10,
   })), []);
   
-  const { data: progress, error: progressError } = useQuery({
+  const { data: progress } = useQuery({
     queryKey: ['userProgress', user?.id],
-    enabled: !!isAuthenticated && !!user?.id,
+    // Wait until auth has fully resolved AND we have a real user id before
+    // touching any user-scoped entity. Firing earlier races the token load
+    // and produces 401 on /User/me and 403 on POST /UserProgress.
+    enabled: !isLoadingAuth && !!isAuthenticated && !!user?.id,
     queryFn: async () => {
-      // First try to read an existing record — the common case after first load.
+      // Read existing record first — the common case after first load.
       const progressList = await base44.entities.UserProgress.list();
       if (progressList.length > 0) return progressList[0];
 
-      // No record yet — attempt to create one. This can 403 if another
-      // component/tab created a record in the same instant, or if the user
-      // session is stale. Always fall back to a re-list rather than surfacing
-      // the transient race as a hard failure.
+      // No record — try to create one. If the create is rejected (transient
+      // token race with another tab/component), fall back to a re-list rather
+      // than surfacing the race as a hard error that cascades into script
+      // failures downstream.
       try {
         return await base44.entities.UserProgress.create({
           completed_checklist_items: [],
@@ -58,20 +61,18 @@ export default function Home() {
           calendar_events: [],
           onboarding_completed: false
         });
-      } catch (err) {
-        const retry = await base44.entities.UserProgress.list();
-        if (retry.length > 0) return retry[0];
-        // Genuine failure — bubble up so react-query records the error and
-        // downstream UI can degrade gracefully instead of spinning forever.
-        throw err;
+      } catch {
+        const retry = await base44.entities.UserProgress.list().catch(() => []);
+        return retry[0] || null;
       }
     },
     retry: (failureCount, err) => {
-      // Retry twice for transient 403s (race with another tab/component)
-      // but never for other errors.
+      // Retry a couple of times for transient auth-races (401/403), never
+      // for other errors.
       const status = err?.response?.status ?? err?.status;
-      return status === 403 && failureCount < 2;
+      return (status === 401 || status === 403) && failureCount < 2;
     },
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 4000),
     staleTime: 60_000,
   });
 
