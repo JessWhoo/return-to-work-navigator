@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Users, FileText, Bookmark, MessageCircleQuestion, ArrowRight, Sparkles } from 'lucide-react';
-import ForumTab from '../components/community/ForumTab';
+import { FileText, Bookmark, MessageCircleQuestion, ArrowRight, Sparkles } from 'lucide-react';
 import ProgressReportTab from '../components/community/ProgressReportTab';
 import SharedResourcesTab from '../components/community/SharedResourcesTab';
 import useSEO from '@/hooks/useSEO';
@@ -64,11 +63,8 @@ export default function CommunityHub() {
         </div>
       </Link>
 
-      <Tabs defaultValue="forum">
-        <TabsList className="grid grid-cols-3 bg-slate-800 border border-slate-600 w-full">
-          <TabsTrigger value="forum" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-slate-300 flex gap-1 items-center text-xs sm:text-sm">
-            <Users className="h-4 w-4" /><span className="hidden sm:inline">Forum</span>
-          </TabsTrigger>
+      <Tabs defaultValue="report">
+        <TabsList className="grid grid-cols-2 bg-slate-800 border border-slate-600 w-full">
           <TabsTrigger value="report" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-slate-300 flex gap-1 items-center text-xs sm:text-sm">
             <FileText className="h-4 w-4" /><span className="hidden sm:inline">Progress</span>
           </TabsTrigger>
@@ -77,7 +73,6 @@ export default function CommunityHub() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="forum"><ForumTab /></TabsContent>
         <TabsContent value="report"><ProgressReportTab /></TabsContent>
         <TabsContent value="resources"><SharedResourcesTab /></TabsContent>
       </Tabs>
