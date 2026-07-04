@@ -7,7 +7,7 @@ import { useAuth } from '@/lib/AuthContext';
 import { 
   CheckSquare, Zap, MessageSquare, FileText, Shield, 
   Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search,
-  CalendarClock
+  CalendarClock, Feather
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -192,6 +192,14 @@ export default function Home() {
       page: 'CoachBooking',
       color: 'from-violet-400 to-fuchsia-500',
       bgColor: 'bg-violet-50'
+    },
+    {
+      title: 'From the Founder',
+      description: 'Blog posts from Jess — reflections, inspiration, and hope for the road back to work',
+      icon: Feather,
+      page: 'Blog',
+      color: 'from-rose-400 to-violet-500',
+      bgColor: 'bg-rose-50'
     }
   ];
 

@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Blog from './pages/Blog';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -112,6 +113,15 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="ExpertAdvice">
             <ExpertAdvice />
+          </LayoutWrapper>
+        }
+      />
+
+      <Route
+        path="/Blog"
+        element={
+          <LayoutWrapper currentPageName="Blog">
+            <Blog />
           </LayoutWrapper>
         }
       />
