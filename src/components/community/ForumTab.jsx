@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Heart, Plus, ChevronDown, ChevronUp, Send, User } from 'lucide-react';
+import { MessageCircle, Heart, ChevronDown, ChevronUp, Send, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -85,9 +85,7 @@ function ReplySection({ post, currentUser }) {
 export default function ForumTab() {
   const queryClient = useQueryClient();
   const [filterTopic, setFilterTopic] = useState('all');
-  const [showNew, setShowNew] = useState(false);
   const [expandedPost, setExpandedPost] = useState(null);
-  const [form, setForm] = useState({ title: '', content: '', topic: 'general', is_anonymous: false });
 
   const { data: currentUser } = useQuery({
     queryKey: ['me'],
@@ -101,16 +99,6 @@ export default function ForumTab() {
       : base44.entities.ForumPost.filter({ topic: filterTopic }, '-created_date', 50),
   });
 
-  const createPost = useMutation({
-    mutationFn: (data) => base44.entities.ForumPost.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['forumPosts']);
-      setShowNew(false);
-      setForm({ title: '', content: '', topic: 'general', is_anonymous: false });
-      toast.success('Post created!');
-    }
-  });
-
   const likePost = useMutation({
     mutationFn: async (post) => {
       const liked = post.liked_by?.includes(currentUser?.email);
@@ -121,17 +109,6 @@ export default function ForumTab() {
     },
     onSuccess: () => queryClient.invalidateQueries(['forumPosts'])
   });
-
-  const handleSubmit = () => {
-    if (!form.title.trim() || !form.content.trim()) return;
-    createPost.mutate({
-      ...form,
-      author_name: form.is_anonymous ? 'Anonymous' : (currentUser?.full_name || 'Member'),
-      likes: 0,
-      liked_by: [],
-      reply_count: 0
-    });
-  };
 
   const topicConfig = Object.fromEntries(TOPICS.map(t => [t.value, t]));
 
@@ -153,40 +130,12 @@ export default function ForumTab() {
         ))}
       </div>
 
-      {/* New Post */}
-      <Button onClick={() => setShowNew(!showNew)} className="bg-teal-600 hover:bg-teal-700 w-full">
-        <Plus className="h-4 w-4 mr-2" /> New Post
-      </Button>
-
-      {showNew && (
-        <Card className="bg-slate-800 border-teal-600 border-2">
-          <CardContent className="pt-5 space-y-3">
-            <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-              placeholder="Post title..." className="bg-slate-700 border-slate-500 text-slate-200 placeholder:text-slate-400" />
-            <textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
-              placeholder="Share your thoughts, questions, or experiences..."
-              rows={4} className="w-full bg-slate-700 border border-slate-500 text-slate-200 placeholder:text-slate-400 rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-teal-500" />
-            <div className="flex gap-3 items-center flex-wrap">
-              <select value={form.topic} onChange={e => setForm(f => ({ ...f, topic: e.target.value }))}
-                className="bg-slate-700 border border-slate-500 text-slate-200 rounded-md px-3 py-2 text-sm">
-                {TOPICS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-              </select>
-              <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
-                <input type="checkbox" checked={form.is_anonymous} onChange={e => setForm(f => ({ ...f, is_anonymous: e.target.checked }))} className="rounded" />
-                Post anonymously
-              </label>
-              <Button onClick={handleSubmit} className="ml-auto bg-teal-600 hover:bg-teal-700">Post</Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
       {/* Posts List */}
       {isLoading && <p className="text-slate-400 text-center py-8">Loading posts…</p>}
       {!isLoading && posts.length === 0 && (
         <div className="text-center py-12 text-slate-400">
           <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-40" />
-          <p>No posts yet. Be the first to start a conversation!</p>
+          <p>No posts to show yet.</p>
         </div>
       )}
       {posts.map(post => {
