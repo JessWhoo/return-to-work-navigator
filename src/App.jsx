@@ -19,6 +19,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
+import EmergencyContacts from './pages/EmergencyContacts';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -122,6 +123,15 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="Blog">
             <Blog />
+          </LayoutWrapper>
+        }
+      />
+
+      <Route
+        path="/emergency-contacts"
+        element={
+          <LayoutWrapper currentPageName="EmergencyContacts">
+            <EmergencyContacts />
           </LayoutWrapper>
         }
       />
