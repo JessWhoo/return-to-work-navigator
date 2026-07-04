@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CalendarClock, HeartHandshake, ShieldCheck, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CalendarClock, HeartHandshake, ShieldCheck, Sparkles, LogIn } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import useSEO from '@/hooks/useSEO';
 import CoachBookingForm from '@/components/booking/CoachBookingForm';
@@ -13,7 +14,7 @@ export default function CoachBooking() {
     description: 'Schedule a one-on-one session with a return-to-work coach. Pick a time that works for you and get personalized guidance.',
     path: '/CoachBooking',
   });
-  const { user, isAuthenticated, isLoadingAuth } = useAuth();
+  const { user, isAuthenticated, isLoadingAuth, navigateToLogin } = useAuth();
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -77,6 +78,24 @@ export default function CoachBooking() {
           {isLoadingAuth ? (
             <div className="py-12 flex justify-center">
               <div className="w-8 h-8 border-4 border-slate-200 border-t-rose-500 rounded-full animate-spin" />
+            </div>
+          ) : !isAuthenticated ? (
+            <div className="py-8 text-center space-y-4">
+              <div className="mx-auto w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center border-2 border-rose-200">
+                <LogIn className="h-7 w-7 text-rose-600" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-lg font-bold text-slate-900">Sign in to book a session</p>
+                <p className="text-sm text-slate-700 font-medium max-w-md mx-auto">
+                  Booking is free — you just need an account so your coach can confirm the session and reach you.
+                </p>
+              </div>
+              <Button
+                onClick={() => navigateToLogin?.()}
+                className="bg-gradient-to-r from-rose-500 via-violet-500 to-sky-600 hover:from-rose-600 hover:via-violet-600 hover:to-sky-700 text-white font-bold px-6 py-5 rounded-xl shadow-lg"
+              >
+                Sign in to continue
+              </Button>
             </div>
           ) : (
             <CoachBookingForm user={user} />
