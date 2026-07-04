@@ -22,7 +22,7 @@ export default function About() {
           <h2 className="text-3xl font-bold text-rose-700 mb-6 text-center sm:text-left">Meet the Founder</h2>
           <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
             <img
-              src="https://media.base44.com/images/public/69406c752de234aafebf891d/09d111f53_AirBrush_20250925233307.jpg"
+              src="https://media.base44.com/images/public/69406c752de234aafebf891d/c66b3b480_IMG_1779.jpg"
               alt="Founder & Creator"
               className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl object-cover border-4 border-rose-400 shadow-xl flex-shrink-0"
             />
