@@ -18,6 +18,7 @@ import { format, parseISO } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import AISymptomInsights from '../components/symptoms/AISymptomInsights';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
+import DownloadPlannerButton from '../components/planner/DownloadPlannerButton';
 
 const energyTips = [
   {
@@ -450,9 +451,12 @@ export default function EnergyManagement() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-500 to-rose-500 bg-clip-text text-transparent">
           Energy, Fatigue & Symptoms
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 max-w-2xl mx-auto font-medium">
           Track your daily energy levels, mood, and symptoms to identify patterns and manage your well-being
         </p>
+        <div className="flex justify-center pt-2">
+          <DownloadPlannerButton weeks={1} />
+        </div>
       </div>
 
       {/* Tabs */}
