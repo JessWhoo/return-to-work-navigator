@@ -7,6 +7,20 @@
   -webkit-touch-callout: none;
 }
 
+/* Site-wide accessible text scaling.
+   Increasing the root font-size proportionally enlarges every rem-based size
+   used by Tailwind (text-xs, text-sm, text-base, text-lg, spacing, etc.),
+   so text is more readable on both mobile and desktop without hand-editing
+   every component. Mobile gets a slightly smaller bump than desktop. */
+html {
+  font-size: 17.5px;
+}
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 html, body {
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
@@ -250,11 +264,12 @@ button:focus-visible {
   }
 
   /* Heavier default body weight for legibility */
-  body { font-weight: 500; color: rgb(15 23 42); }
+  body { font-weight: 500; color: rgb(15 23 42); line-height: 1.55; }
 
-  /* Lift small/fine text */
-  .text-xs { font-weight: 600; }
-  .text-sm { font-weight: 500; }
+  /* Lift small/fine text — bump size + weight so nothing dips below a
+     comfortably readable minimum on either mobile or desktop. */
+  .text-xs { font-size: 0.8125rem; line-height: 1.15rem; font-weight: 600; }
+  .text-sm { font-size: 0.95rem;   line-height: 1.4rem;  font-weight: 500; }
 
   /* Global page title readability boost - applies to all h1/h2/h3 headers */
   h1 {
