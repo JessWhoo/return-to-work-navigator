@@ -304,4 +304,104 @@ button:focus-visible {
   .bg-white\/40, .bg-white\/50, .bg-white\/60, .bg-white\/70, .bg-white\/80, .bg-white\/90 {
     background-color: rgb(255 255 255) !important;
   }
+
+  /* =========================================================
+     GLOBAL LIGHT-THEME OVERRIDE
+     Force any page still using dark-theme surfaces to match the
+     light Home theme. This flips dark card/panel backgrounds to
+     white, and light-on-dark text to dark-on-light — everywhere.
+     ========================================================= */
+
+  /* Dark surface backgrounds → white */
+  .bg-slate-900, .bg-slate-800, .bg-slate-700,
+  .bg-gray-900, .bg-gray-800, .bg-gray-700,
+  .bg-zinc-900, .bg-zinc-800,
+  .bg-neutral-900, .bg-neutral-800,
+  .bg-stone-900, .bg-stone-800 {
+    background-color: rgb(255 255 255) !important;
+  }
+
+  /* Translucent dark surfaces → white */
+  .bg-slate-900\/50, .bg-slate-900\/40, .bg-slate-900\/30,
+  .bg-slate-800\/90, .bg-slate-800\/80, .bg-slate-800\/70, .bg-slate-800\/60,
+  .bg-slate-800\/50, .bg-slate-800\/40, .bg-slate-800\/30,
+  .bg-slate-700\/50, .bg-slate-700\/40, .bg-slate-700\/30,
+  .bg-gray-900\/50, .bg-gray-800\/50,
+  .bg-black\/40, .bg-black\/50, .bg-black\/60 {
+    background-color: rgb(255 255 255) !important;
+  }
+
+  /* Hover states that revealed dark surfaces */
+  .hover\:bg-slate-800:hover, .hover\:bg-slate-700:hover,
+  .hover\:bg-slate-800\/50:hover, .hover\:bg-slate-700\/50:hover,
+  .hover\:bg-gray-800:hover, .hover\:bg-gray-700:hover {
+    background-color: rgb(241 245 249) !important; /* slate-100 */
+  }
+
+  /* Dark gradient backgrounds → soft light gradient */
+  [class*="from-slate-900"], [class*="from-slate-800"],
+  [class*="to-slate-900"], [class*="to-slate-800"],
+  [class*="via-slate-900"], [class*="via-slate-800"],
+  [class*="from-gray-900"], [class*="from-gray-800"],
+  [class*="to-gray-900"], [class*="to-gray-800"],
+  [class*="from-zinc-900"], [class*="to-zinc-900"] {
+    --tw-gradient-from: rgb(255 255 255) !important;
+    --tw-gradient-to: rgb(248 250 252) !important;
+    --tw-gradient-via: rgb(255 255 255) !important;
+  }
+
+  /* Colored dark-tinted overlays used as card bgs (e.g. rose-900/30) → white */
+  [class*="bg-rose-900"], [class*="bg-pink-900"], [class*="bg-red-900"],
+  [class*="bg-emerald-900"], [class*="bg-green-900"], [class*="bg-teal-900"],
+  [class*="bg-sky-900"], [class*="bg-blue-900"], [class*="bg-indigo-900"],
+  [class*="bg-violet-900"], [class*="bg-purple-900"], [class*="bg-fuchsia-900"],
+  [class*="bg-amber-900"], [class*="bg-orange-900"], [class*="bg-yellow-900"] {
+    background-color: rgb(255 255 255) !important;
+  }
+
+  /* Light-on-dark text → dark-on-light */
+  .text-slate-50, .text-slate-100, .text-slate-200 { color: rgb(15 23 42) !important; }
+  .text-gray-50,  .text-gray-100,  .text-gray-200  { color: rgb(17 24 39) !important; }
+  .text-zinc-50,  .text-zinc-100,  .text-zinc-200  { color: rgb(24 24 27) !important; }
+  .text-neutral-50, .text-neutral-100, .text-neutral-200 { color: rgb(23 23 23) !important; }
+  .text-stone-50, .text-stone-100, .text-stone-200 { color: rgb(28 25 23) !important; }
+  .text-white { color: rgb(15 23 42) !important; }
+
+  /* BUT: keep white text on gradient/solid colored buttons & badges where
+     it's meant to be white on a saturated background. */
+  .bg-gradient-to-r .text-white, .bg-gradient-to-br .text-white,
+  .bg-gradient-to-l .text-white, .bg-gradient-to-bl .text-white,
+  .bg-gradient-to-t .text-white, .bg-gradient-to-b .text-white,
+  [class*="bg-rose-5"] .text-white,   [class*="bg-rose-6"] .text-white,   [class*="bg-rose-7"] .text-white,
+  [class*="bg-pink-5"] .text-white,   [class*="bg-pink-6"] .text-white,   [class*="bg-pink-7"] .text-white,
+  [class*="bg-red-5"] .text-white,    [class*="bg-red-6"] .text-white,    [class*="bg-red-7"] .text-white,
+  [class*="bg-emerald-5"] .text-white,[class*="bg-emerald-6"] .text-white,[class*="bg-emerald-7"] .text-white,
+  [class*="bg-green-5"] .text-white,  [class*="bg-green-6"] .text-white,  [class*="bg-green-7"] .text-white,
+  [class*="bg-teal-5"] .text-white,   [class*="bg-teal-6"] .text-white,   [class*="bg-teal-7"] .text-white,
+  [class*="bg-sky-5"] .text-white,    [class*="bg-sky-6"] .text-white,    [class*="bg-sky-7"] .text-white,
+  [class*="bg-blue-5"] .text-white,   [class*="bg-blue-6"] .text-white,   [class*="bg-blue-7"] .text-white,
+  [class*="bg-indigo-5"] .text-white, [class*="bg-indigo-6"] .text-white, [class*="bg-indigo-7"] .text-white,
+  [class*="bg-violet-5"] .text-white, [class*="bg-violet-6"] .text-white, [class*="bg-violet-7"] .text-white,
+  [class*="bg-purple-5"] .text-white, [class*="bg-purple-6"] .text-white, [class*="bg-purple-7"] .text-white,
+  [class*="bg-fuchsia-5"] .text-white,[class*="bg-fuchsia-6"] .text-white,[class*="bg-fuchsia-7"] .text-white,
+  [class*="bg-amber-5"] .text-white,  [class*="bg-amber-6"] .text-white,
+  [class*="bg-orange-5"] .text-white, [class*="bg-orange-6"] .text-white, [class*="bg-orange-7"] .text-white,
+  button.bg-rose-600 .text-white, button.bg-sky-600 .text-white,
+  .bg-rose-600, .bg-rose-700, .bg-sky-600, .bg-sky-700, .bg-emerald-600, .bg-emerald-700,
+  .bg-teal-600, .bg-teal-700, .bg-violet-600, .bg-violet-700, .bg-indigo-600, .bg-indigo-700,
+  .bg-blue-600, .bg-blue-700, .bg-purple-600, .bg-purple-700, .bg-pink-600, .bg-pink-700 {
+    color: rgb(255 255 255) !important;
+  }
+  /* Restore actual white text sitting directly on any saturated colored bg */
+  [class*="bg-gradient-to"] > .text-white,
+  [class*="bg-gradient-to"] .text-white {
+    color: rgb(255 255 255) !important;
+  }
+
+  /* Dark borders → light borders */
+  .border-slate-600, .border-slate-700, .border-slate-800, .border-slate-900,
+  .border-gray-600, .border-gray-700, .border-gray-800, .border-gray-900,
+  .border-zinc-700, .border-zinc-800 {
+    border-color: rgb(203 213 225) !important; /* slate-300 */
+  }
 }
