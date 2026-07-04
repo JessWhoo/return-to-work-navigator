@@ -1,0 +1,123 @@
+{
+  "name": "CoachBooking",
+  "type": "object",
+  "properties": {
+    "requested_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the user is requesting for the coaching session"
+    },
+    "requested_time": {
+      "type": "string",
+      "description": "Time slot the user has requested (e.g. '09:00 AM')"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone name of the requester (e.g. 'America/Denver')"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "enum": [
+        30,
+        45,
+        60
+      ],
+      "default": 30,
+      "description": "Length of the session in minutes"
+    },
+    "session_format": {
+      "type": "string",
+      "enum": [
+        "video",
+        "phone"
+      ],
+      "default": "video",
+      "description": "How the user wants to meet with the coach"
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "return_to_work_planning",
+        "accommodations",
+        "workplace_disclosure",
+        "energy_and_fatigue",
+        "career_transition",
+        "communication_and_boundaries",
+        "emotional_support",
+        "other"
+      ],
+      "description": "Primary topic the user wants to cover"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Additional context or questions the user wants the coach to know"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Email the coach should use to confirm the session"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Name the user would like the coach to use"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "confirmed",
+        "completed",
+        "cancelled"
+      ],
+      "default": "requested",
+      "description": "Booking status"
+    }
+  },
+  "required": [
+    "requested_date",
+    "requested_time",
+    "topic",
+    "contact_email"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

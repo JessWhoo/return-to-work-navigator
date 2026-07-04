@@ -81,6 +81,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
+import CoachBooking from './pages/CoachBooking';
 import __Layout from './Layout.jsx';
 
 
@@ -119,6 +120,7 @@ export const PAGES = {
     "Contact": Contact,
     "DisclosureGuide": DisclosureGuide,
     "ResourceLibrary": ResourceLibrary,
+    "CoachBooking": CoachBooking,
 }
 
 export const pagesConfig = {

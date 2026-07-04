@@ -6,7 +6,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/lib/AuthContext';
 import { 
   CheckSquare, Zap, MessageSquare, FileText, Shield, 
-  Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search
+  Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search,
+  CalendarClock
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -183,6 +184,14 @@ export default function Home() {
       page: 'JobBoards',
       color: 'from-sky-400 to-blue-500',
       bgColor: 'bg-sky-50'
+    },
+    {
+      title: 'Book a Coach',
+      description: 'Schedule a one-on-one session with a return-to-work coach at a time that works for you',
+      icon: CalendarClock,
+      page: 'CoachBooking',
+      color: 'from-violet-400 to-fuchsia-500',
+      bgColor: 'bg-violet-50'
     }
   ];
 
