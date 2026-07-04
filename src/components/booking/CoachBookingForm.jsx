@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format, addDays, startOfToday, isWeekend } from 'date-fns';
 import { Button } from '@/components/ui/button';
@@ -54,6 +54,43 @@ export default function CoachBookingForm({ user, onBooked }) {
   const [contactEmail, setContactEmail] = useState(user?.email || '');
   const [submitting, setSubmitting] = useState(false);
 
+  // Which time slots are already booked on the coach's calendar for the selected date.
+  const [busyMap, setBusyMap] = useState({}); // { '09:00 AM': true, ... }
+  const [loadingAvailability, setLoadingAvailability] = useState(false);
+
+  // When the date or duration changes, ask the backend which slots are busy.
+  useEffect(() => {
+    if (!selectedDate) {
+      setBusyMap({});
+      return;
+    }
+    let cancelled = false;
+    setLoadingAvailability(true);
+    (async () => {
+      try {
+        const res = await base44.functions.invoke('getCoachAvailability', {
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          timezone,
+          slots: TIME_SLOTS,
+          durationMinutes: Number(duration),
+        });
+        if (cancelled) return;
+        setBusyMap(res?.data?.busy || {});
+        // Clear the selection if it just became unavailable.
+        if (selectedTime && res?.data?.busy?.[selectedTime]) {
+          setSelectedTime(null);
+        }
+      } catch (err) {
+        console.warn('Availability lookup failed:', err);
+        if (!cancelled) setBusyMap({});
+      } finally {
+        if (!cancelled) setLoadingAvailability(false);
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate, duration, timezone]);
+
   const canSubmit =
     !!selectedDate && !!selectedTime && !!topic && !!contactEmail.trim();
 
@@ -74,10 +111,29 @@ export default function CoachBookingForm({ user, onBooked }) {
         status: 'requested',
       });
 
+      // Add this session to the coach's Google Calendar (invites the client too).
+      // Non-fatal — the booking record is still saved if the calendar call fails.
+      const topicLabel = TOPICS.find((t) => t.value === topic)?.label || topic;
+      try {
+        await base44.functions.invoke('createCoachCalendarEvent', {
+          bookingId: booking.id,
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          time: selectedTime,
+          durationMinutes: Number(duration),
+          timezone,
+          topicLabel,
+          sessionFormat: format_,
+          contactName: contactName.trim(),
+          contactEmail: contactEmail.trim(),
+          notes: notes.trim(),
+        });
+      } catch (calErr) {
+        console.warn('Calendar event creation failed:', calErr);
+      }
+
       // Send a confirmation email so the user has a written record of the request.
       // Failure here shouldn't block the booking itself — just log it.
       try {
-        const topicLabel = TOPICS.find((t) => t.value === topic)?.label || topic;
         await base44.integrations.Core.SendEmail({
           to: contactEmail.trim(),
           subject: 'Your coaching session request',
@@ -168,19 +224,27 @@ export default function CoachBookingForm({ user, onBooked }) {
           <Clock className="h-4 w-4 text-sky-600" />
           Choose a time
           <span className="ml-2 text-xs font-semibold text-slate-600">({timezone})</span>
+          {loadingAvailability && (
+            <span className="ml-2 text-xs font-medium text-slate-600">Checking availability…</span>
+          )}
         </Label>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2">
           {TIME_SLOTS.map((t) => {
             const active = selectedTime === t;
+            const isBusy = !!busyMap[t];
+            const disabled = !selectedDate || isBusy;
             return (
               <button
                 key={t}
                 type="button"
-                disabled={!selectedDate}
+                disabled={disabled}
                 onClick={() => setSelectedTime(t)}
+                title={isBusy ? 'Already booked' : undefined}
                 className={`px-2 py-3 rounded-lg border-2 text-sm font-bold transition-all ${
                   active
                     ? 'border-sky-600 bg-sky-50 text-slate-900 shadow-md'
+                    : isBusy
+                    ? 'border-slate-200 bg-slate-100 text-slate-500 line-through cursor-not-allowed'
                     : 'border-slate-300 bg-white text-slate-800 hover:border-sky-400 disabled:opacity-40 disabled:cursor-not-allowed'
                 }`}
               >
@@ -191,6 +255,11 @@ export default function CoachBookingForm({ user, onBooked }) {
         </div>
         {!selectedDate && (
           <p className="text-xs text-slate-600 mt-2 font-medium">Pick a date first to select a time.</p>
+        )}
+        {selectedDate && !loadingAvailability && Object.values(busyMap).some(Boolean) && (
+          <p className="text-xs text-slate-600 mt-2 font-medium">
+            Grayed-out times are already booked on the coach's calendar.
+          </p>
         )}
       </div>
 
