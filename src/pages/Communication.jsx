@@ -272,19 +272,19 @@ export default function Communication() {
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-4 bg-slate-800 border border-slate-600 p-1">
-          <TabsTrigger value="drafter" className="text-slate-300 data-[state=active]:bg-purple-700 data-[state=active]:text-white">
+          <TabsTrigger value="drafter" className="text-slate-100 data-[state=active]:bg-purple-700 data-[state=active]:text-white">
             <Sparkles className="h-4 w-4 mr-2" />
             AI Email Drafter
           </TabsTrigger>
-          <TabsTrigger value="my-drafts" className="text-slate-300 data-[state=active]:bg-teal-700 data-[state=active]:text-white">
+          <TabsTrigger value="my-drafts" className="text-slate-100 data-[state=active]:bg-teal-700 data-[state=active]:text-white">
             <FileEdit className="h-4 w-4 mr-2" />
             My Drafts
           </TabsTrigger>
-          <TabsTrigger value="templates" className="text-slate-300 data-[state=active]:bg-rose-700 data-[state=active]:text-white">
+          <TabsTrigger value="templates" className="text-slate-100 data-[state=active]:bg-rose-700 data-[state=active]:text-white">
             <Mail className="h-4 w-4 mr-2" />
             Templates
           </TabsTrigger>
-          <TabsTrigger value="scripts" className="text-slate-300 data-[state=active]:bg-blue-700 data-[state=active]:text-white">
+          <TabsTrigger value="scripts" className="text-slate-100 data-[state=active]:bg-blue-700 data-[state=active]:text-white">
             <MessageSquare className="h-4 w-4 mr-2" />
             Scripts
           </TabsTrigger>
