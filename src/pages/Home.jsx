@@ -20,14 +20,21 @@ import useSEO from '@/hooks/useSEO';
 
 export default function Home() {
   useSEO({
-    title: 'Home',
+    title: 'Your Return-to-Work Dashboard',
     description: 'Your return-to-work compass for cancer survivors. Track progress, manage energy, request accommodations, and find support — at your own pace.',
-    path: '/'
+    path: '/home'
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isAuthenticated, user, isLoadingAuth } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Respect users who ask for reduced motion — skip decorative particle animation
+  // and heavy transforms in that case.
+  const prefersReducedMotion = useMemo(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
 
   const particles = useMemo(() => Array.from({ length: 6 }, (_, i) => ({
     id: i,
@@ -40,7 +47,7 @@ export default function Home() {
     duration: Math.random() * 10 + 10,
   })), []);
   
-  const { data: progress } = useQuery({
+  const { data: progress, isLoading: isProgressLoading, isError: isProgressError, refetch: refetchProgress } = useQuery({
     queryKey: ['userProgress', user?.id],
     // Wait until auth has fully resolved AND we have a real user id before
     // touching any user-scoped entity. Firing earlier races the token load
@@ -217,8 +224,8 @@ export default function Home() {
         transition={{ duration: 0.8 }}
         className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-3xl mb-12"
       >
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-200 via-sky-200 to-emerald-200">
+        {/* Animated background — purely decorative */}
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-rose-200 via-sky-200 to-emerald-200">
           <div className="absolute inset-0 opacity-80">
             {particles.map((p) => (
               <motion.div
@@ -230,13 +237,13 @@ export default function Home() {
                   left: p.left,
                   top: p.top,
                 }}
-                animate={{
+                animate={prefersReducedMotion ? undefined : {
                   x: [0, p.dx],
                   y: [0, p.dy],
                   scale: [1, 1.1, 1],
                   opacity: [0.2, 0.4, 0.2],
                 }}
-                transition={{
+                transition={prefersReducedMotion ? undefined : {
                   duration: p.duration,
                   repeat: Infinity,
                   repeatType: "reverse",
@@ -296,6 +303,18 @@ export default function Home() {
               <CheckSquare className="h-5 w-5 mr-2" />
               View My Checklist
             </Button>
+            {/* First-time users: offer a guided tour instead of jumping straight into the checklist */}
+            {isAuthenticated && progress && !progress.onboarding_completed && (
+              <Button
+                onClick={() => setShowOnboarding(true)}
+                disabled={showOnboarding}
+                variant="outline"
+                className="border-2 border-rose-500 text-rose-700 bg-white hover:bg-rose-50 hover:border-rose-600 font-semibold px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all disabled:opacity-60"
+              >
+                <Sparkles className="h-5 w-5 mr-2" />
+                Take the Tour
+              </Button>
+            )}
             {progress?.onboarding_completed && (
               <Button 
                 onClick={() => setShowOnboarding(true)}
@@ -343,6 +362,40 @@ export default function Home() {
           className="w-full h-auto block"
         />
       </motion.div>
+
+      {/* Quick Stats — loading skeleton */}
+      {isProgressLoading && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12" aria-hidden="true">
+          {[0, 1, 2].map((i) => (
+            <Card key={i} className="bg-white border-2 border-slate-200 shadow-md">
+              <CardContent className="pt-6">
+                <div className="text-center space-y-3 animate-pulse">
+                  <div className="h-10 w-16 mx-auto rounded-md bg-slate-200" />
+                  <div className="h-3 w-32 mx-auto rounded bg-slate-200" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Quick Stats — error state */}
+      {isProgressError && !isProgressLoading && (
+        <div className="mb-12">
+          <Card className="bg-white border-2 border-rose-300 shadow-md">
+            <CardContent className="p-6 text-center space-y-3">
+              <p className="text-slate-900 font-bold">We couldn't load your progress just now.</p>
+              <p className="text-sm text-slate-700">Please check your connection and try again.</p>
+              <Button
+                onClick={() => refetchProgress()}
+                className="bg-rose-600 hover:bg-rose-700 text-white font-semibold"
+              >
+                Try again
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Quick Stats */}
       {progress && (
@@ -465,15 +518,16 @@ export default function Home() {
         transition={{ delay: 0.2 }}
         className="relative overflow-hidden bg-gradient-to-r from-rose-200 via-amber-100 to-sky-200 rounded-3xl p-12 text-center shadow-xl mt-16 border-2 border-rose-300"
       >
-        <div className="absolute inset-0 opacity-70">
+        <div aria-hidden="true" className="absolute inset-0 opacity-70">
           <div className="absolute top-0 left-0 w-40 h-40 bg-rose-400 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 bg-sky-400 rounded-full blur-3xl"></div>
           <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-emerald-300 rounded-full blur-3xl"></div>
         </div>
         <div className="relative z-10">
           <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+            aria-hidden="true"
+            animate={prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }}
+            transition={prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity, repeatType: "reverse" }}
           >
             <Heart className="h-16 w-16 text-rose-600 mx-auto mb-6 fill-rose-500" />
           </motion.div>

@@ -9,11 +9,11 @@ import { resources as allResources } from './resources/resourcesData';
 import { toast } from 'sonner';
 
 const MOODS = [
-  { value: 'very_low', label: '😞 Very Low', color: 'border-red-500 bg-red-900/30 text-red-300' },
-  { value: 'low', label: '😔 Low', color: 'border-orange-500 bg-orange-900/30 text-orange-300' },
-  { value: 'neutral', label: '😐 Neutral', color: 'border-yellow-500 bg-yellow-900/30 text-yellow-300' },
-  { value: 'good', label: '🙂 Good', color: 'border-teal-500 bg-teal-900/30 text-teal-300' },
-  { value: 'excellent', label: '😄 Excellent', color: 'border-green-500 bg-green-900/30 text-green-300' },
+  { value: 'very_low', label: '😞 Very Low' },
+  { value: 'low', label: '😔 Low' },
+  { value: 'neutral', label: '😐 Neutral' },
+  { value: 'good', label: '🙂 Good' },
+  { value: 'excellent', label: '😄 Excellent' },
 ];
 
 const ENERGY_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
