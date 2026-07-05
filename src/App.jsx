@@ -20,6 +20,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
 import EmergencyContacts from './pages/EmergencyContacts';
+import Landing from './pages/Landing';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -56,7 +57,8 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route path="/" element={
+      <Route path="/" element={<Landing />} />
+      <Route path="/home" element={
         <LayoutWrapper currentPageName={mainPageKey}>
           <MainPage />
         </LayoutWrapper>
