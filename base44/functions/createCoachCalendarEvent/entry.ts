@@ -10,19 +10,37 @@ Deno.serve(async (req) => {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json();
-    const {
-      bookingId, date, time, durationMinutes, timezone,
-      topicLabel, sessionFormat, contactName, contactEmail, notes,
-    } = body;
+    const { bookingId, topicLabel } = body;
 
-    if (!date || !time || !contactEmail) {
-      return Response.json({ error: 'Missing required booking fields' }, { status: 400 });
+    if (!bookingId) {
+      return Response.json({ error: 'Missing bookingId' }, { status: 400 });
     }
 
-    // Prevent abuse of the coach's Google Calendar to send invites to arbitrary
-    // addresses: the invitee must be the authenticated caller's own email.
+    // Authorization: only create a calendar event from a real CoachBooking that
+    // this caller owns. All event fields come from the stored booking, not the
+    // request body, so the caller can't set an arbitrary invitee, time, or notes.
+    const booking = await base44.asServiceRole.entities.CoachBooking.get(bookingId).catch(() => null);
+    if (!booking) return Response.json({ error: 'Booking not found' }, { status: 404 });
+    if (booking.created_by_id !== user.id) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const date = booking.requested_date;
+    const time = booking.requested_time;
+    const durationMinutes = booking.duration_minutes;
+    const timezone = booking.timezone;
+    const sessionFormat = booking.session_format;
+    const contactName = booking.contact_name;
+    const contactEmail = booking.contact_email;
+    const notes = booking.notes;
+
+    if (!date || !time || !contactEmail) {
+      return Response.json({ error: 'Booking is missing required fields' }, { status: 400 });
+    }
+
+    // Belt-and-suspenders: invitee must also match the authenticated caller's email.
     if (!user.email || String(contactEmail).trim().toLowerCase() !== String(user.email).trim().toLowerCase()) {
-      return Response.json({ error: 'Contact email must match your account email' }, { status: 403 });
+      return Response.json({ error: 'Booking contact email must match your account email' }, { status: 403 });
     }
 
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('googlecalendar');
