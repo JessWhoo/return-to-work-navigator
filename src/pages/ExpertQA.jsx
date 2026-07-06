@@ -323,11 +323,27 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
     setSubmitting(true);
     setError('');
     try {
+      // Verify the user is authenticated before attempting to create.
+      // ExpertQA has an RLS create rule that requires the record be tied to a user.
+      let user = currentUser;
+      if (!user) {
+        try {
+          user = await base44.auth.me();
+        } catch {
+          user = null;
+        }
+      }
+      if (!user) {
+        setError('Please log in to ask a question. You can sign in from the top-right and try again.');
+        setSubmitting(false);
+        return;
+      }
+
       const payload = {
         question: question.trim(),
         topic,
         is_anonymous: anonymous,
-        asker_name: anonymous ? 'Anonymous' : (currentUser?.full_name || 'Anonymous'),
+        asker_name: anonymous ? 'Anonymous' : (user.full_name || 'Anonymous'),
         status: 'pending',
       };
       if (details.trim()) payload.question_details = details.trim();
@@ -336,7 +352,12 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
       onOpenChange(false);
       onCreated?.();
     } catch (err) {
-      setError(err?.message || 'Could not submit your question. Please try again.');
+      const msg = err?.message || '';
+      if (/permission denied/i.test(msg)) {
+        setError("You need to be signed in to submit a question. Please log in and try again.");
+      } else {
+        setError(msg || 'Could not submit your question. Please try again.');
+      }
     } finally {
       setSubmitting(false);
     }
