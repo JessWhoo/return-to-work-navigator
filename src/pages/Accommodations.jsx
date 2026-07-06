@@ -155,20 +155,20 @@ export default function Accommodations() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
           Workplace Accommodations
         </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
           Select the accommodations you need and generate a formal request letter
         </p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-slate-800 border-slate-600">
+          <Card className="bg-white border-slate-300">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <FileText className="h-6 w-6 text-purple-600" />
                 <span>Select Your Accommodations</span>
               </CardTitle>
-              <p className="text-sm text-slate-400 mt-2">
+              <p className="text-sm text-slate-700 mt-2">
                 Choose from common accommodations. You can customize or add more in the form.
               </p>
             </CardHeader>
@@ -181,7 +181,7 @@ export default function Accommodations() {
                       <div className={`p-2 rounded-lg bg-${category.color}-100`}>
                         <Icon className={`h-5 w-5 text-${category.color}-600`} />
                       </div>
-                      <h3 className="font-semibold text-slate-100">{category.category}</h3>
+                      <h3 className="font-semibold text-slate-900">{category.category}</h3>
                     </div>
                     <div className="space-y-2 ml-2">
                       {category.items.map((item, index) => (
@@ -194,7 +194,7 @@ export default function Accommodations() {
                           />
                           <label
                             htmlFor={`${category.category}-${index}`}
-                            className="text-sm text-slate-200 cursor-pointer flex-1 leading-relaxed"
+                            className="text-sm text-slate-800 cursor-pointer flex-1 leading-relaxed"
                           >
                             {item}
                           </label>
@@ -209,9 +209,9 @@ export default function Accommodations() {
         </div>
 
         <div className="space-y-6">
-          <Card className="bg-slate-800 border-slate-600 sticky top-24">
+          <Card className="bg-white border-slate-300 sticky top-24">
             <CardHeader>
-              <CardTitle className="text-lg text-slate-100">Your Information</CardTitle>
+              <CardTitle className="text-lg text-slate-900">Your Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -261,10 +261,10 @@ export default function Accommodations() {
                 />
               </div>
               <div className="pt-4 space-y-3">
-                <div className="bg-purple-900/30 p-3 rounded-lg border border-purple-700">
-                  <p className="text-sm font-medium text-purple-300 mb-1">Selected:</p>
-                  <p className="text-2xl font-bold text-purple-300">{selectedAccommodations.length}</p>
-                  <p className="text-xs text-purple-400">accommodations</p>
+                <div className="bg-purple-50 p-3 rounded-lg border border-purple-300">
+                  <p className="text-sm font-medium text-purple-800 mb-1">Selected:</p>
+                  <p className="text-2xl font-bold text-purple-800">{selectedAccommodations.length}</p>
+                  <p className="text-xs text-purple-700">accommodations</p>
                 </div>
                 <Button
                   onClick={generateLetter}
@@ -280,7 +280,7 @@ export default function Accommodations() {
         </div>
       </div>
 
-      <Card className="bg-slate-800 border-teal-700">
+      <Card className="bg-white border-teal-500">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Doctor's Documentation Template</span>
@@ -323,11 +323,11 @@ Sincerely,
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-300 mb-4">
+          <p className="text-sm text-slate-700 mb-4">
             Give this template to your doctor to complete on their letterhead. This documentation 
             supports your accommodation request.
           </p>
-          <pre className="whitespace-pre-wrap font-sans text-sm text-slate-200 bg-slate-900 p-4 rounded-lg leading-relaxed">
+          <pre className="whitespace-pre-wrap font-sans text-sm text-slate-800 bg-slate-100 p-4 rounded-lg leading-relaxed border border-slate-300">
 {`[Date]
 
 To Whom It May Concern:
