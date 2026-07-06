@@ -19,6 +19,12 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Missing required booking fields' }, { status: 400 });
     }
 
+    // Prevent abuse of the coach's Google Calendar to send invites to arbitrary
+    // addresses: the invitee must be the authenticated caller's own email.
+    if (!user.email || String(contactEmail).trim().toLowerCase() !== String(user.email).trim().toLowerCase()) {
+      return Response.json({ error: 'Contact email must match your account email' }, { status: 403 });
+    }
+
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('googlecalendar');
 
     // Parse "09:00 AM" → 24h

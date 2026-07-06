@@ -46,6 +46,11 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
+    // Require an authenticated admin to trigger this bulk email operation.
+    const caller = await base44.auth.me().catch(() => null);
+    if (!caller) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    if (caller.role !== 'admin') return Response.json({ error: 'Forbidden' }, { status: 403 });
+
     // List all users, then load each one's progress via service role.
     const users = await base44.asServiceRole.entities.User.list();
 
@@ -92,7 +97,8 @@ Deno.serve(async (req) => {
         });
         sent++;
       } catch (err) {
-        errors.push(`${u.email || u.id}: ${err.message}`);
+        // Do not leak user emails/IDs in the response.
+        errors.push(err.message);
       }
     }
 
