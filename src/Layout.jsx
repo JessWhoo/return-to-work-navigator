@@ -340,9 +340,10 @@ export default function Layout({ children, currentPageName }) {
             <p className="text-sm font-semibold">© 2025 Back to Life, Back to Work for Cancer Survivors</p>
             <p className="text-xs text-slate-700 font-medium">Information is for educational purposes only</p>
             <p className="text-xs text-slate-700 italic font-medium">Not meant to be legal advice. Please consult with legal counsel.</p>
-            <div className="flex justify-center gap-4 pt-1">
+            <div className="flex justify-center gap-4 pt-1 flex-wrap">
               <Link to="/About" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">About</Link>
               <Link to="/Contact" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Contact</Link>
+              <Link to="/privacy-pledge" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Privacy</Link>
             </div>
           </div>
         </div>

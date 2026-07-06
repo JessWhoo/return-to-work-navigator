@@ -418,6 +418,11 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
             />
             <span className="text-sm text-slate-800 font-medium">Ask anonymously</span>
           </label>
+          <p className="text-xs text-slate-600 leading-relaxed -mt-2">
+            <Shield className="inline h-3 w-3 mr-1 -mt-0.5 text-slate-500" />
+            Your name won't be shown publicly when "anonymously" is checked. Your account is still
+            linked internally so our moderators can respond and keep this space safe.
+          </p>
           {error && (
             <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-sm text-rose-700 font-medium">
               {error}
