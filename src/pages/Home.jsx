@@ -119,95 +119,114 @@ export default function Home() {
     completeOnboardingMutation.mutate();
   };
 
-  const sections = [
+  const sectionGroups = [
     {
-      title: 'My Journey Checklist',
-      description: 'Track your progress through each phase of returning to work',
-      icon: CheckSquare,
-      page: 'Checklist',
-      color: 'from-rose-400 to-pink-500',
-      bgColor: 'bg-rose-50'
+      groupTitle: 'Plan & Track',
+      groupDescription: 'Map out your return and stay on top of it.',
+      items: [
+        {
+          title: 'My Journey Checklist',
+          description: 'Track your progress through each phase of returning to work',
+          icon: CheckSquare,
+          page: 'Checklist',
+          color: 'from-rose-400 to-pink-500',
+        },
+        {
+          title: 'Return Planning',
+          description: 'Create a phased return-to-work schedule',
+          icon: Calendar,
+          page: 'ReturnPlanning',
+          color: 'from-teal-400 to-cyan-500',
+        },
+      ],
     },
     {
-      title: 'Energy & Fatigue',
-      description: 'Manage fatigue with pacing strategies and energy tracking',
-      icon: Zap,
-      page: 'EnergyManagement',
-      color: 'from-amber-400 to-orange-500',
-      bgColor: 'bg-amber-50'
+      groupTitle: 'Work & Career',
+      groupDescription: 'Conversations, requests, and next opportunities.',
+      items: [
+        {
+          title: 'Communication Tools',
+          description: 'Templates, scripts, and guidance for workplace conversations',
+          icon: MessageSquare,
+          page: 'Communication',
+          color: 'from-blue-400 to-indigo-500',
+        },
+        {
+          title: 'Request Accommodations',
+          description: 'Learn about your rights and generate accommodation requests',
+          icon: FileText,
+          page: 'Accommodations',
+          color: 'from-purple-400 to-violet-500',
+        },
+        {
+          title: 'Job Boards',
+          description: 'Cancer-friendly job boards, returnship programs, and remote work opportunities',
+          icon: Search,
+          page: 'JobBoards',
+          color: 'from-sky-400 to-blue-500',
+        },
+      ],
     },
     {
-      title: 'Communication Tools',
-      description: 'Templates, scripts, and guidance for workplace conversations',
-      icon: MessageSquare,
-      page: 'Communication',
-      color: 'from-blue-400 to-indigo-500',
-      bgColor: 'bg-blue-50'
+      groupTitle: 'Health & Support',
+      groupDescription: 'Care for your energy and your emotional well-being.',
+      items: [
+        {
+          title: 'Energy & Fatigue',
+          description: 'Manage fatigue with pacing strategies and energy tracking',
+          icon: Zap,
+          page: 'EnergyManagement',
+          color: 'from-amber-400 to-orange-500',
+        },
+        {
+          title: 'Emotional Support',
+          description: 'Resources for managing anxiety and building confidence',
+          icon: Heart,
+          page: 'EmotionalSupport',
+          color: 'from-pink-400 to-rose-500',
+        },
+      ],
     },
     {
-      title: 'Request Accommodations',
-      description: 'Learn about your rights and generate accommodation requests',
-      icon: FileText,
-      page: 'Accommodations',
-      color: 'from-purple-400 to-violet-500',
-      bgColor: 'bg-purple-50'
+      groupTitle: 'Rights & Legal',
+      groupDescription: 'Know the protections that stand behind you.',
+      items: [
+        {
+          title: 'Legal Rights',
+          description: 'Understand ADA, FMLA, and your workplace protections',
+          icon: Shield,
+          page: 'LegalRights',
+          color: 'from-green-400 to-emerald-500',
+        },
+      ],
     },
     {
-      title: 'Legal Rights',
-      description: 'Understand ADA, FMLA, and your workplace protections',
-      icon: Shield,
-      page: 'LegalRights',
-      color: 'from-green-400 to-emerald-500',
-      bgColor: 'bg-green-50'
+      groupTitle: 'Learn & Connect',
+      groupDescription: 'Guides, coaching, and stories to walk alongside you.',
+      items: [
+        {
+          title: 'Resource Library',
+          description: 'Access curated guides, organizations, and support services',
+          icon: BookOpen,
+          page: 'Resources',
+          color: 'from-indigo-400 to-blue-500',
+        },
+        {
+          title: 'Book a Coach',
+          description: 'Schedule a one-on-one session with a return-to-work coach at a time that works for you',
+          icon: CalendarClock,
+          page: 'CoachBooking',
+          color: 'from-violet-400 to-fuchsia-500',
+        },
+        {
+          title: 'From the Founder',
+          description: 'Blog posts from Jess — reflections, inspiration, and hope for the road back to work',
+          icon: Feather,
+          page: 'Blog',
+          color: 'from-rose-400 to-violet-500',
+        },
+      ],
     },
-    {
-      title: 'Emotional Support',
-      description: 'Resources for managing anxiety and building confidence',
-      icon: Heart,
-      page: 'EmotionalSupport',
-      color: 'from-pink-400 to-rose-500',
-      bgColor: 'bg-pink-50'
-    },
-    {
-      title: 'Return Planning',
-      description: 'Create a phased return-to-work schedule',
-      icon: Calendar,
-      page: 'ReturnPlanning',
-      color: 'from-teal-400 to-cyan-500',
-      bgColor: 'bg-teal-50'
-    },
-    {
-      title: 'Resource Library',
-      description: 'Access curated guides, organizations, and support services',
-      icon: BookOpen,
-      page: 'Resources',
-      color: 'from-indigo-400 to-blue-500',
-      bgColor: 'bg-indigo-50'
-    },
-    {
-      title: 'Job Boards',
-      description: 'Cancer-friendly job boards, returnship programs, and remote work opportunities',
-      icon: Search,
-      page: 'JobBoards',
-      color: 'from-sky-400 to-blue-500',
-      bgColor: 'bg-sky-50'
-    },
-    {
-      title: 'Book a Coach',
-      description: 'Schedule a one-on-one session with a return-to-work coach at a time that works for you',
-      icon: CalendarClock,
-      page: 'CoachBooking',
-      color: 'from-violet-400 to-fuchsia-500',
-      bgColor: 'bg-violet-50'
-    },
-    {
-      title: 'From the Founder',
-      description: 'Blog posts from Jess — reflections, inspiration, and hope for the road back to work',
-      icon: Feather,
-      page: 'Blog',
-      color: 'from-rose-400 to-violet-500',
-      bgColor: 'bg-rose-50'
-    }
   ];
 
   return (
@@ -431,51 +450,75 @@ export default function Home() {
         </motion.div>
       )}
 
-      {/* Main Sections Grid */}
+      {/* Main Sections Grid — grouped by theme */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <h2 className="text-3xl font-extrabold text-slate-900 mb-8 text-center">Explore Your Toolkit</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sections.map((section, index) => {
-            const Icon = section.icon;
-            return (
-              <motion.div
-                key={section.page}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05 + index * 0.03 }}
-                whileHover={{ y: -8 }}
-              >
-                <Link to={createPageUrl(section.page)}>
-                  <Card className="group hover:shadow-2xl transition-all duration-300 bg-white border-2 border-slate-200 hover:border-rose-400 h-full">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <motion.div 
-                          className={`p-4 rounded-2xl bg-gradient-to-br ${section.color} shadow-lg`}
-                          whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <Icon className="h-7 w-7 text-white" />
-                        </motion.div>
-                        <ArrowRight className="h-6 w-6 text-slate-400 group-hover:text-rose-600 group-hover:translate-x-2 transition-all" />
-                      </div>
+        <h2 className="text-3xl font-extrabold text-slate-900 mb-2 text-center">Explore Your Toolkit</h2>
+        <p className="text-center text-slate-700 font-medium mb-10 max-w-xl mx-auto">
+          Everything you need, organized by what you're working on.
+        </p>
 
-                      <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:from-rose-600 group-hover:to-sky-700 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-                        {section.title}
-                      </h3>
+        <div className="space-y-12">
+          {sectionGroups.map((group, gIdx) => (
+            <div key={group.groupTitle}>
+              <div className="mb-5 flex items-baseline justify-between gap-4 border-b-2 border-slate-200 pb-3">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+                    {group.groupTitle}
+                  </h3>
+                  <p className="text-sm text-slate-700 font-medium mt-0.5">
+                    {group.groupDescription}
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-full whitespace-nowrap">
+                  {group.items.length} {group.items.length === 1 ? 'tool' : 'tools'}
+                </span>
+              </div>
 
-                      <p className="text-slate-700 leading-relaxed text-sm font-medium">
-                        {section.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
-            );
-          })}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {group.items.map((section, index) => {
+                  const Icon = section.icon;
+                  return (
+                    <motion.div
+                      key={section.page}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 + (gIdx * 0.05) + index * 0.03 }}
+                      whileHover={{ y: -8 }}
+                    >
+                      <Link to={createPageUrl(section.page)}>
+                        <Card className="group hover:shadow-2xl transition-all duration-300 bg-white border-2 border-slate-200 hover:border-rose-400 h-full">
+                          <CardContent className="p-6">
+                            <div className="flex items-start justify-between mb-4">
+                              <motion.div
+                                className={`p-4 rounded-2xl bg-gradient-to-br ${section.color} shadow-lg`}
+                                whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
+                                transition={{ duration: 0.5 }}
+                              >
+                                <Icon className="h-7 w-7 text-white" />
+                              </motion.div>
+                              <ArrowRight className="h-6 w-6 text-slate-400 group-hover:text-rose-600 group-hover:translate-x-2 transition-all" />
+                            </div>
+
+                            <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:from-rose-600 group-hover:to-sky-700 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+                              {section.title}
+                            </h3>
+
+                            <p className="text-slate-700 leading-relaxed text-sm font-medium">
+                              {section.description}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </motion.div>
 
