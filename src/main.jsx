@@ -1,7 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from '@/App.jsx'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import '@/index.css'
+
+// Global handlers so uncaught errors and promise rejections in click handlers,
+// effects, or async code get logged instead of crashing silently.
+window.addEventListener('error', (event) => {
+  console.error('[GlobalError]', event.message, event.error);
+});
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('[UnhandledRejection]', event.reason);
+});
 
 // Register service worker for offline support
 if ('serviceWorker' in navigator) {
@@ -40,7 +50,9 @@ if ('serviceWorker' in navigator) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-  <App />
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
   // </React.StrictMode>,
 )
 
