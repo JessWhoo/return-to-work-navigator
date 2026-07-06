@@ -7,7 +7,7 @@ import useSEO from '@/hooks/useSEO';
 import { founderPosts } from '@/components/blog/founderPosts';
 
 const LOGO_URL =
-  'https://media.base44.com/images/public/69406c752de234aafebf891d/ef1f55ae7_433da2071_IMG_1196.png';
+  'https://media.base44.com/images/public/69406c752de234aafebf891d/accf1a360_Gemini_Generated_Image_judm8cjudm8cjudm.png';
 
 const features = [
   {
@@ -57,7 +57,7 @@ export default function Landing() {
           </div>
           <Link
             to="/login"
-            className="text-sm font-bold text-slate-800 hover:text-rose-600 transition-colors"
+            className="text-sm font-bold text-slate-800 hover:text-violet-700 transition-colors"
           >
             Sign in
           </Link>
@@ -75,7 +75,7 @@ export default function Landing() {
               For cancer survivors
             </span>
             <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
-              <span className="bg-gradient-to-r from-rose-600 via-violet-600 to-sky-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-violet-600 via-purple-500 to-emerald-600 bg-clip-text text-transparent">
                 Back to Life,
               </span>
               <br />
@@ -89,7 +89,7 @@ export default function Landing() {
             <div className="mt-8 flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
               <Button
                 asChild
-                className="bg-gradient-to-r from-rose-500 via-violet-500 to-sky-600 hover:from-rose-600 hover:via-violet-600 hover:to-sky-700 text-white font-bold px-7 py-6 rounded-xl shadow-lg text-base"
+                className="bg-gradient-to-r from-violet-500 via-purple-500 to-emerald-600 hover:from-violet-600 hover:via-purple-600 hover:to-emerald-700 text-white font-bold px-7 py-6 rounded-xl shadow-lg text-base"
               >
                 <Link to="/home">
                   Get started
@@ -98,7 +98,7 @@ export default function Landing() {
               </Button>
               <Link
                 to="/About"
-                className="px-5 py-3 rounded-xl font-bold text-slate-800 hover:text-rose-600 transition-colors"
+                className="px-5 py-3 rounded-xl font-bold text-slate-800 hover:text-violet-700 transition-colors"
               >
                 Learn more →
               </Link>
@@ -112,7 +112,7 @@ export default function Landing() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="relative flex items-center justify-center"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-rose-300/40 via-violet-300/40 to-sky-400/40 blur-3xl rounded-full" />
+            <div className="absolute inset-0 bg-gradient-to-br from-violet-300/50 via-purple-300/40 to-emerald-300/40 blur-3xl rounded-full" />
             <img
               src={LOGO_URL}
               alt="Back to Life, Back to Work Navigator compass"
@@ -133,7 +133,7 @@ export default function Landing() {
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.05 }}
                 className="bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-rose-500 via-violet-500 to-sky-600 flex items-center justify-center shadow-md">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 via-purple-500 to-emerald-600 flex items-center justify-center shadow-md">
                   <Icon className="h-5 w-5 text-white" />
                 </div>
                 <h3 className="mt-4 font-extrabold text-slate-900">{f.title}</h3>
@@ -149,7 +149,7 @@ export default function Landing() {
         <section className="mt-20 lg:mt-28">
           <div className="flex items-end justify-between gap-4 mb-8">
             <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-bold tracking-wide uppercase">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-bold tracking-wide uppercase">
                 <BookOpen className="h-3.5 w-3.5" />
                 From the Founder
               </span>
@@ -163,7 +163,7 @@ export default function Landing() {
             </div>
             <Link
               to="/Blog"
-              className="hidden sm:inline-flex items-center gap-1 text-sm font-bold text-rose-600 hover:text-rose-700 transition-colors whitespace-nowrap"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-bold text-violet-700 hover:text-violet-800 transition-colors whitespace-nowrap"
             >
               Read all posts <ArrowRight className="h-4 w-4" />
             </Link>
@@ -179,10 +179,10 @@ export default function Landing() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
                 className="group bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col"
               >
-                <span className="inline-block self-start px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-100 to-violet-100 text-rose-700 text-xs font-bold">
+                <span className="inline-block self-start px-2.5 py-0.5 rounded-full bg-gradient-to-r from-violet-100 to-emerald-100 text-violet-700 text-xs font-bold">
                   {post.tag}
                 </span>
-                <h3 className="mt-4 text-xl font-extrabold text-slate-900 leading-snug group-hover:text-rose-600 transition-colors">
+                <h3 className="mt-4 text-xl font-extrabold text-slate-900 leading-snug group-hover:text-violet-700 transition-colors">
                   {post.title}
                 </h3>
                 <p className="mt-3 text-sm text-slate-700 font-medium leading-relaxed flex-1">
@@ -190,7 +190,7 @@ export default function Landing() {
                 </p>
                 <Link
                   to="/Blog"
-                  className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-rose-600 hover:text-rose-700"
+                  className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-violet-700 hover:text-violet-800"
                 >
                   Read more <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -201,7 +201,7 @@ export default function Landing() {
           <div className="mt-6 sm:hidden text-center">
             <Link
               to="/Blog"
-              className="inline-flex items-center gap-1 text-sm font-bold text-rose-600 hover:text-rose-700"
+              className="inline-flex items-center gap-1 text-sm font-bold text-violet-700 hover:text-violet-800"
             >
               Read all posts <ArrowRight className="h-4 w-4" />
             </Link>
@@ -210,8 +210,8 @@ export default function Landing() {
 
         {/* Bottom CTA */}
         <div className="mt-20 lg:mt-24 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-10 sm:p-14 text-center">
-          <div className="absolute -top-16 -right-16 w-72 h-72 bg-rose-500/20 blur-3xl rounded-full" />
-          <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-sky-500/20 blur-3xl rounded-full" />
+          <div className="absolute -top-16 -right-16 w-72 h-72 bg-violet-500/25 blur-3xl rounded-full" />
+          <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-emerald-500/20 blur-3xl rounded-full" />
           <div className="relative">
             <img
               src={LOGO_URL}

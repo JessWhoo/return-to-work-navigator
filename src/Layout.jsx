@@ -63,12 +63,12 @@ function BottomNav({ currentPageName }) {
             to={item.path}
             onClick={handleTabClick}
             className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-all relative ${
-              isActive ? 'text-rose-600' : 'text-slate-700 hover:text-rose-600'
+              isActive ? 'text-violet-700' : 'text-slate-700 hover:text-violet-700'
             }`}
           >
-            <Icon className={`h-5 w-5 ${isActive ? 'text-rose-600' : ''}`} />
+            <Icon className={`h-5 w-5 ${isActive ? 'text-violet-700' : ''}`} />
             <span className="text-[10px] font-bold">{item.name}</span>
-            {isActive && <div className="absolute top-0 w-8 h-1 bg-rose-600 rounded-full" />}
+            {isActive && <div className="absolute top-0 w-8 h-1 bg-violet-600 rounded-full" />}
           </Link>
         );
       })}
@@ -172,12 +172,12 @@ export default function Layout({ children, currentPageName }) {
               )}
             <Link to={createPageUrl('Home')} className="flex items-center space-x-3">
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png"
+                src="https://media.base44.com/images/public/69406c752de234aafebf891d/accf1a360_Gemini_Generated_Image_judm8cjudm8cjudm.png"
                 alt="Back to Life, Back to Work Navigator"
-                className="h-12 w-12 sm:h-14 sm:w-14 object-contain drop-shadow-lg"
+                className="h-12 w-12 sm:h-14 sm:w-14 object-contain rounded-full drop-shadow-lg"
               />
               <div>
-                <h1 className="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-rose-600 via-violet-600 to-sky-700 bg-clip-text text-transparent">
+                <h1 className="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-violet-600 via-purple-500 to-emerald-600 bg-clip-text text-transparent">
                   Navigator
                 </h1>
                 <p className="text-xs text-slate-700 font-semibold hidden sm:block">Your return-to-work compass</p>
@@ -190,7 +190,7 @@ export default function Layout({ children, currentPageName }) {
                 onClick={toggleSpeech}
                 className={`p-2 rounded-lg transition-all ${
                   speechEnabled 
-                    ? 'bg-gradient-to-br from-rose-500 to-sky-600 text-white shadow-md' 
+                    ? 'bg-gradient-to-br from-violet-500 to-emerald-600 text-white shadow-md' 
                     : 'bg-white text-slate-800 hover:bg-slate-100 border-2 border-slate-300'
                 }`}
                 title="Toggle text-to-speech"
@@ -222,16 +222,16 @@ export default function Layout({ children, currentPageName }) {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                       isActive
-                        ? 'bg-gradient-to-r from-sky-600 to-emerald-600 text-white shadow-md font-bold'
+                        ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
                         : item.highlight
-                        ? 'bg-gradient-to-r from-rose-500 to-violet-500 text-white hover:from-rose-600 hover:to-violet-600 font-bold'
+                        ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
                         : 'text-slate-800 hover:bg-slate-100 font-semibold'
                     }`}
                   >
                     <Icon className="h-5 w-5" />
                     <span>{item.name}</span>
                     {item.highlight && !isActive && (
-                      <span className="ml-auto text-xs bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-pink-500/50">New</span>
+                      <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
                     )}
                   </Link>
                 );
@@ -254,16 +254,16 @@ export default function Layout({ children, currentPageName }) {
                   to={createPageUrl(item.page)}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
                     isActive
-                      ? 'bg-gradient-to-r from-sky-600 to-emerald-600 text-white shadow-md font-bold'
+                      ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
                       : item.highlight
-                      ? 'bg-gradient-to-r from-rose-500 to-violet-500 text-white hover:from-rose-600 hover:to-violet-600 font-bold'
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
                       : 'text-slate-800 hover:bg-slate-100 font-semibold'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span className="text-sm">{item.name}</span>
                   {item.highlight && !isActive && (
-                    <span className="ml-auto text-xs bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-pink-500/50">New</span>
+                    <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
                   )}
                 </Link>
               );
@@ -303,8 +303,8 @@ export default function Layout({ children, currentPageName }) {
             <p className="text-xs text-slate-700 font-medium">Information is for educational purposes only</p>
             <p className="text-xs text-slate-700 italic font-medium">Not meant to be legal advice. Please consult with legal counsel.</p>
             <div className="flex justify-center gap-4 pt-1">
-              <Link to="/About" className="text-xs text-rose-600 hover:text-rose-700 font-bold underline transition-colors">About</Link>
-              <Link to="/Contact" className="text-xs text-rose-600 hover:text-rose-700 font-bold underline transition-colors">Contact</Link>
+              <Link to="/About" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">About</Link>
+              <Link to="/Contact" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Contact</Link>
             </div>
           </div>
         </div>
