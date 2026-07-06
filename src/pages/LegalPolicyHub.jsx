@@ -18,24 +18,24 @@ export default function LegalPolicyHub() {
       </div>
 
       <Tabs defaultValue="disclosure" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-slate-800/50 border border-slate-700 h-auto">
-          <TabsTrigger value="disclosure" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white text-slate-300">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-white border border-slate-300 h-auto">
+          <TabsTrigger value="disclosure" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white text-slate-800">
             <Lock className="h-4 w-4 mr-2" />
             Rights & Disclosure
           </TabsTrigger>
-          <TabsTrigger value="rights" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white text-slate-300">
+          <TabsTrigger value="rights" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white text-slate-800">
             <Shield className="h-4 w-4 mr-2" />
             Legal Rights
           </TabsTrigger>
-          <TabsTrigger value="accommodations" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-violet-600 data-[state=active]:text-white text-slate-300">
+          <TabsTrigger value="accommodations" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-violet-600 data-[state=active]:text-white text-slate-800">
             <FileText className="h-4 w-4 mr-2" />
             Accommodations
           </TabsTrigger>
-          <TabsTrigger value="state" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white text-slate-300">
+          <TabsTrigger value="state" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white text-slate-800">
             <Globe className="h-4 w-4 mr-2" />
             State Laws
           </TabsTrigger>
-          <TabsTrigger value="international" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-600 data-[state=active]:to-cyan-600 data-[state=active]:text-white text-slate-300">
+          <TabsTrigger value="international" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-600 data-[state=active]:to-cyan-600 data-[state=active]:text-white text-slate-800">
             <Globe className="h-4 w-4 mr-2" />
             International
           </TabsTrigger>

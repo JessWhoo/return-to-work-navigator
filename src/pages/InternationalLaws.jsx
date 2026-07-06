@@ -187,10 +187,10 @@ const countries = [
 ];
 
 const ratingConfig = {
-  strongest: { label: 'Strongest Protections', color: 'bg-emerald-700 text-emerald-100', border: 'border-emerald-600', icon: Star },
-  strong: { label: 'Strong Protections', color: 'bg-teal-700 text-teal-100', border: 'border-teal-600', icon: CheckCircle2 },
-  moderate: { label: 'Moderate Protections', color: 'bg-amber-700 text-amber-100', border: 'border-amber-600', icon: Info },
-  basic: { label: 'Basic Protections', color: 'bg-slate-600 text-slate-200', border: 'border-slate-500', icon: AlertTriangle },
+  strongest: { label: 'Strongest Protections', color: 'bg-emerald-700 text-white', border: 'border-emerald-400', icon: Star },
+  strong: { label: 'Strong Protections', color: 'bg-teal-700 text-white', border: 'border-teal-400', icon: CheckCircle2 },
+  moderate: { label: 'Moderate Protections', color: 'bg-amber-700 text-white', border: 'border-amber-400', icon: Info },
+  basic: { label: 'Basic Protections', color: 'bg-slate-700 text-white', border: 'border-slate-400', icon: AlertTriangle },
 };
 
 function CountryCard({ data }) {
@@ -199,17 +199,17 @@ function CountryCard({ data }) {
   const RatingIcon = cfg.icon;
 
   return (
-    <Card className="bg-slate-800 border-slate-600 hover:border-slate-400 transition-all">
+    <Card className="bg-white border-slate-300 hover:border-slate-500 transition-all">
       <button onClick={() => setExpanded(!expanded)} className="w-full text-left">
         <div className="p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0 text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-300 flex items-center justify-center flex-shrink-0 text-2xl">
                 {data.flag}
               </div>
               <div>
-                <h3 className="font-bold text-slate-100 text-lg">{data.country}</h3>
-                <p className="text-sm text-slate-400 leading-snug">{data.summary}</p>
+                <h3 className="font-bold text-slate-900 text-lg">{data.country}</h3>
+                <p className="text-sm text-slate-700 leading-snug">{data.summary}</p>
               </div>
             </div>
             <div className="flex flex-col items-end gap-2 flex-shrink-0">
@@ -217,26 +217,26 @@ function CountryCard({ data }) {
                 <RatingIcon className="h-3 w-3" />
                 {cfg.label}
               </span>
-              {expanded ? <ChevronUp className="h-4 w-4 text-slate-400" /> : <ChevronDown className="h-4 w-4 text-slate-400" />}
+              {expanded ? <ChevronUp className="h-4 w-4 text-slate-700" /> : <ChevronDown className="h-4 w-4 text-slate-700" />}
             </div>
           </div>
         </div>
       </button>
 
       {expanded && (
-        <div className="px-5 pb-5 space-y-4 border-t border-slate-700 pt-4">
-          <div className={`p-3 rounded-lg border ${cfg.border} bg-slate-900/50`}>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Key Points</p>
-            <p className="text-sm text-slate-200">{data.keyPoints}</p>
+        <div className="px-5 pb-5 space-y-4 border-t border-slate-300 pt-4">
+          <div className={`p-3 rounded-lg border ${cfg.border} bg-slate-50`}>
+            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1">Key Points</p>
+            <p className="text-sm text-slate-900">{data.keyPoints}</p>
           </div>
 
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Laws & Protections</p>
+            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Laws & Protections</p>
             {data.highlights.map((h, i) => (
-              <div key={i} className="bg-slate-700/60 rounded-lg p-3">
+              <div key={i} className="bg-slate-50 border border-slate-200 rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-bold bg-slate-600 text-slate-200 px-2 py-0.5 rounded flex-shrink-0 mt-0.5">{h.label}</span>
-                  <p className="text-sm text-slate-300 leading-relaxed">{h.detail}</p>
+                  <span className="text-xs font-bold bg-slate-800 text-white px-2 py-0.5 rounded flex-shrink-0 mt-0.5">{h.label}</span>
+                  <p className="text-sm text-slate-800 leading-relaxed">{h.detail}</p>
                 </div>
               </div>
             ))}
@@ -246,7 +246,7 @@ function CountryCard({ data }) {
             <div className="flex gap-3 flex-wrap">
               {data.resources.map(r => (
                 <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer"
-                  className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+                  className="text-xs text-cyan-700 hover:text-cyan-800 underline underline-offset-2 font-semibold">
                   → {r.name}
                 </a>
               ))}
@@ -316,13 +316,13 @@ export default function InternationalLaws() {
           const cfg = ratingConfig[key];
           const Icon = cfg.icon;
           return (
-            <div key={key} className="bg-slate-800 border border-slate-600 rounded-lg p-3 text-center">
+            <div key={key} className="bg-white border border-slate-300 rounded-lg p-3 text-center">
               <span className={`text-xs px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 ${cfg.color}`}>
                 <Icon className="h-3 w-3" />
                 {cfg.label}
               </span>
-              <p className="text-lg font-bold text-slate-200 mt-2">{counts[key] || 0}</p>
-              <p className="text-xs text-slate-400">countries</p>
+              <p className="text-lg font-bold text-slate-900 mt-2">{counts[key] || 0}</p>
+              <p className="text-xs text-slate-700">countries</p>
             </div>
           );
         })}
@@ -331,12 +331,12 @@ export default function InternationalLaws() {
       {/* Search & Filter */}
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
           <Input
             placeholder="Search by country, law name, or topic..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-slate-800 border-slate-600 text-slate-200 placeholder:text-slate-500"
+            className="pl-10 bg-white border-slate-300 text-slate-900 placeholder:text-slate-500"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -347,7 +347,7 @@ export default function InternationalLaws() {
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                 ratingFilter === f
                   ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30'
-                  : 'bg-slate-800 text-slate-300 border border-slate-600 hover:border-cyan-500'
+                  : 'bg-white text-slate-800 border border-slate-300 hover:border-cyan-500'
               }`}
             >
               {f} {f !== 'All' && <span className="ml-1 opacity-70">({counts[f.toLowerCase()] ?? 0})</span>}
@@ -357,10 +357,10 @@ export default function InternationalLaws() {
       </div>
 
       {filtered.length === 0 ? (
-        <Card className="bg-slate-800 border-slate-600">
+        <Card className="bg-white border-slate-300">
           <div className="py-8 text-center">
             <Search className="h-10 w-10 text-slate-500 mx-auto mb-3" />
-            <p className="text-slate-400">No countries found for "{search}". Try a broader search.</p>
+            <p className="text-slate-700">No countries found for "{search}". Try a broader search.</p>
           </div>
         </Card>
       ) : (
