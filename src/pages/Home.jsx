@@ -285,9 +285,8 @@ export default function Home() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-xl sm:text-2xl text-slate-800 max-w-3xl mx-auto leading-relaxed font-medium"
           >
-            Returning to work after cancer treatment is a journey.<br />
-            This toolkit provides guidance, templates, and support<br />
-            to help you transition with <span className="font-bold text-rose-600">confidence</span>.
+            Practical guidance, templates, and support to help you
+            transition back with <span className="font-bold text-rose-600">confidence</span>.
           </motion.p>
 
           <motion.div
@@ -303,8 +302,7 @@ export default function Home() {
               <CheckSquare className="h-5 w-5 mr-2" />
               View My Checklist
             </Button>
-            {/* First-time users: offer a guided tour instead of jumping straight into the checklist */}
-            {isAuthenticated && progress && !progress.onboarding_completed && (
+            {isAuthenticated && progress && (
               <Button
                 onClick={() => setShowOnboarding(true)}
                 disabled={showOnboarding}
@@ -315,37 +313,7 @@ export default function Home() {
                 Take the Tour
               </Button>
             )}
-            {progress?.onboarding_completed && (
-              <Button 
-                onClick={() => setShowOnboarding(true)}
-                disabled={showOnboarding}
-                variant="outline"
-                className="border-2 border-sky-600 text-sky-700 bg-white hover:bg-sky-50 hover:border-sky-700 font-semibold px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all disabled:opacity-60"
-              >
-                <Sparkles className="h-5 w-5 mr-2" />
-                View Tutorial
-              </Button>
-            )}
           </motion.div>
-
-          {progress?.return_date && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1, duration: 0.6 }}
-              className="bg-white border-2 border-rose-300 rounded-2xl p-6 max-w-md mx-auto shadow-xl mt-8"
-            >
-              <p className="text-sm font-semibold text-slate-700 mb-2">Your planned return date</p>
-              <p className="text-3xl font-extrabold bg-gradient-to-r from-rose-600 to-sky-700 bg-clip-text text-transparent">
-                {new Date(progress.return_date).toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </p>
-            </motion.div>
-          )}
         </div>
       </motion.div>
 
