@@ -210,8 +210,8 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t-2 border-slate-300 bg-white shadow-lg">
-            <nav className="px-4 py-3 space-y-1">
+          <div className="lg:hidden border-t-2 border-slate-300 bg-white shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
+            <nav className="px-4 py-3 pb-6 space-y-1">
               {navigation.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPageName === item.page;
