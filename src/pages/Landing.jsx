@@ -96,12 +96,7 @@ export default function Landing() {
                   <ArrowRight className="h-5 w-5 ml-1" />
                 </Link>
               </Button>
-              <Link
-                to="/About"
-                className="px-5 py-3 rounded-xl font-bold text-slate-800 hover:text-violet-700 transition-colors"
-              >
-                Learn more →
-              </Link>
+
             </div>
           </motion.div>
 
