@@ -118,16 +118,36 @@ export default function Layout({ children, currentPageName }) {
 
   const isHomePage = currentPageName === 'Home' || location.pathname === '/';
 
-  const navigation = [
-    { name: 'Home', icon: Home, page: 'Home' },
-    { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
-    { name: 'My Journey', icon: TrendingUp, page: 'MyJourney' },
-    { name: 'Health & Well-Being', icon: Zap, page: 'WellbeingHub' },
-    { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
-    { name: 'Legal & Policy', icon: Shield, page: 'LegalPolicyHub' },
-    { name: 'Career & Return', icon: Calendar, page: 'CareerHub' },
-    { name: 'Community & Resources', icon: BookOpen, page: 'CommunityHub' },
-    { name: 'Help & Support', icon: Heart, page: 'HelpSupport' },
+  const navigationGroups = [
+    {
+      label: null, // top-level, no header
+      items: [
+        { name: 'Home', icon: Home, page: 'Home' },
+        { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
+      ],
+    },
+    {
+      label: 'Your Return Journey',
+      items: [
+        { name: 'My Journey', icon: TrendingUp, page: 'MyJourney' },
+        { name: 'Career & Return', icon: Calendar, page: 'CareerHub' },
+        { name: 'Health & Well-Being', icon: Zap, page: 'WellbeingHub' },
+      ],
+    },
+    {
+      label: 'Tools & Rights',
+      items: [
+        { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
+        { name: 'Legal & Policy', icon: Shield, page: 'LegalPolicyHub' },
+      ],
+    },
+    {
+      label: 'Community & Help',
+      items: [
+        { name: 'Community & Resources', icon: BookOpen, page: 'CommunityHub' },
+        { name: 'Help & Support', icon: Heart, page: 'HelpSupport' },
+      ],
+    },
   ];
 
   const toggleSpeech = () => {
@@ -211,31 +231,40 @@ export default function Layout({ children, currentPageName }) {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="lg:hidden border-t-2 border-slate-300 bg-white shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
-            <nav className="px-4 py-3 pb-6 space-y-1">
-              {navigation.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPageName === item.page;
-                return (
-                  <Link
-                    key={item.name}
-                    to={createPageUrl(item.page)}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                      isActive
-                        ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
-                        : item.highlight
-                        ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
-                        : 'text-slate-800 hover:bg-slate-100 font-semibold'
-                    }`}
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span>{item.name}</span>
-                    {item.highlight && !isActive && (
-                      <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
-                    )}
-                  </Link>
-                );
-              })}
+            <nav className="px-4 py-3 pb-6 space-y-4">
+              {navigationGroups.map((group, gIdx) => (
+                <div key={group.label || `group-${gIdx}`} className="space-y-1">
+                  {group.label && (
+                    <div className="px-4 pt-2 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
+                      {group.label}
+                    </div>
+                  )}
+                  {group.items.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = currentPageName === item.page;
+                    return (
+                      <Link
+                        key={item.name}
+                        to={createPageUrl(item.page)}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                          isActive
+                            ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
+                            : item.highlight
+                            ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
+                            : 'text-slate-800 hover:bg-slate-100 font-semibold'
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                        <span>{item.name}</span>
+                        {item.highlight && !isActive && (
+                          <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ))}
             </nav>
           </div>
         )}
@@ -244,30 +273,39 @@ export default function Layout({ children, currentPageName }) {
       <div className="flex max-w-7xl mx-auto">
         {/* Desktop Sidebar */}
         <aside className="hidden lg:block w-64 p-6">
-          <nav className="space-y-2 sticky top-24 overflow-y-auto max-h-[calc(100vh-7rem)] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPageName === item.page;
-              return (
-                <Link
-                  key={item.name}
-                  to={createPageUrl(item.page)}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
-                    isActive
-                      ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
-                      : item.highlight
-                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
-                      : 'text-slate-800 hover:bg-slate-100 font-semibold'
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-sm">{item.name}</span>
-                  {item.highlight && !isActive && (
-                    <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
-                  )}
-                </Link>
-              );
-            })}
+          <nav className="space-y-5 sticky top-24 overflow-y-auto max-h-[calc(100vh-7rem)] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {navigationGroups.map((group, gIdx) => (
+              <div key={group.label || `group-${gIdx}`} className="space-y-1">
+                {group.label && (
+                  <div className="px-4 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
+                    {group.label}
+                  </div>
+                )}
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = currentPageName === item.page;
+                  return (
+                    <Link
+                      key={item.name}
+                      to={createPageUrl(item.page)}
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
+                        isActive
+                          ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
+                          : item.highlight
+                          ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
+                          : 'text-slate-800 hover:bg-slate-100 font-semibold'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span className="text-sm">{item.name}</span>
+                      {item.highlight && !isActive && (
+                        <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            ))}
           </nav>
         </aside>
 
