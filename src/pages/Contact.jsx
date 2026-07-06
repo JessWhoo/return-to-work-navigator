@@ -36,43 +36,43 @@ export default function Contact() {
     <div className="max-w-3xl mx-auto py-12 px-4 space-y-10">
       {/* Header */}
       <div className="text-center space-y-3">
-        <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent leading-tight">
+        <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-700 bg-clip-text text-transparent leading-tight">
           Contact Us
         </h1>
-        <p className="text-slate-300 text-lg max-w-xl mx-auto">
+        <p className="text-slate-700 text-lg max-w-xl mx-auto">
           We'd love to hear from you — questions, feedback, or partnership inquiries are all welcome.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* Email */}
-        <Card className="bg-slate-800/80 border-teal-700">
+        <Card className="bg-white border-teal-400">
           <CardContent className="p-6 flex items-start gap-4">
-            <div className="p-2 rounded-xl bg-teal-900/60 border border-teal-700 flex-shrink-0">
-              <Mail className="h-5 w-5 text-teal-400" />
+            <div className="p-2 rounded-xl bg-teal-50 border border-teal-300 flex-shrink-0">
+              <Mail className="h-5 w-5 text-teal-700" />
             </div>
             <div>
-              <p className="text-slate-200 font-semibold mb-1">Email</p>
+              <p className="text-slate-900 font-semibold mb-1">Email</p>
               <a
                 href="mailto:jess@artisanhrai.com"
-                className="text-teal-400 hover:text-teal-300 text-sm transition-colors flex items-center gap-1"
+                className="text-teal-700 hover:text-teal-800 text-sm transition-colors flex items-center gap-1"
               >
                 jess@artisanhrai.com <ExternalLink className="h-3 w-3" />
               </a>
-              <p className="text-slate-500 text-xs mt-1">We aim to respond within 2 business days.</p>
+              <p className="text-slate-700 text-xs mt-1">We aim to respond within 2 business days.</p>
             </div>
           </CardContent>
         </Card>
 
         {/* AI Coach */}
-        <Card className="bg-slate-800/80 border-cyan-700">
+        <Card className="bg-white border-cyan-400">
           <CardContent className="p-6 flex items-start gap-4">
-            <div className="p-2 rounded-xl bg-cyan-900/60 border border-cyan-700 flex-shrink-0">
-              <MessageSquare className="h-5 w-5 text-cyan-400" />
+            <div className="p-2 rounded-xl bg-cyan-50 border border-cyan-300 flex-shrink-0">
+              <MessageSquare className="h-5 w-5 text-cyan-700" />
             </div>
             <div>
-              <p className="text-slate-200 font-semibold mb-1">Immediate Support</p>
-              <p className="text-slate-400 text-sm">
+              <p className="text-slate-900 font-semibold mb-1">Immediate Support</p>
+              <p className="text-slate-700 text-sm">
                 For return-to-work questions, our AI Coach is available 24/7 inside the app.
               </p>
             </div>
@@ -81,16 +81,16 @@ export default function Contact() {
       </div>
 
       {/* Contact Form */}
-      <Card className="bg-slate-800/80 border-slate-700">
+      <Card className="bg-white border-slate-300">
         <CardContent className="p-8">
           {sent ? (
             <div className="text-center space-y-3 py-8">
-              <CheckCircle className="h-12 w-12 text-teal-400 mx-auto" />
-              <p className="text-slate-100 font-semibold text-lg">Message Sent!</p>
-              <p className="text-slate-400">Thank you for reaching out. We'll be in touch soon.</p>
+              <CheckCircle className="h-12 w-12 text-teal-600 mx-auto" />
+              <p className="text-slate-900 font-semibold text-lg">Message Sent!</p>
+              <p className="text-slate-700">Thank you for reaching out. We'll be in touch soon.</p>
               <Button
                 variant="outline"
-                className="border-slate-600 text-slate-400 hover:text-white mt-2"
+                className="border-slate-400 text-slate-800 hover:bg-slate-100 mt-2"
                 onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }); }}
               >
                 Send another message
@@ -98,36 +98,36 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
-              <h2 className="text-xl font-semibold text-slate-100">Send a Message</h2>
+              <h2 className="text-xl font-semibold text-slate-900">Send a Message</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-slate-400 text-sm font-medium">Your Name</label>
+                  <label className="text-slate-800 text-sm font-medium">Your Name</label>
                   <Input
                     placeholder="Jane Smith"
                     value={form.name}
                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-500"
+                    className="bg-white border-slate-300 text-slate-900 placeholder-slate-500"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-slate-400 text-sm font-medium">Email Address</label>
+                  <label className="text-slate-800 text-sm font-medium">Email Address</label>
                   <Input
                     type="email"
                     placeholder="jane@example.com"
                     value={form.email}
                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-500"
+                    className="bg-white border-slate-300 text-slate-900 placeholder-slate-500"
                   />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-sm font-medium">Message</label>
+                <label className="text-slate-800 text-sm font-medium">Message</label>
                 <textarea
                   rows={5}
                   placeholder="Tell us how we can help…"
                   value={form.message}
                   onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  className="w-full rounded-md bg-slate-700 border border-slate-600 text-slate-100 placeholder-slate-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
+                  className="w-full rounded-md bg-white border border-slate-300 text-slate-900 placeholder-slate-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
                 />
               </div>
               <Button
