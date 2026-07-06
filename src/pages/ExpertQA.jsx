@@ -312,26 +312,31 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
   const [topic, setTopic] = useState('');
   const [anonymous, setAnonymous] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const reset = () => {
-    setQuestion(''); setDetails(''); setTopic(''); setAnonymous(true);
+    setQuestion(''); setDetails(''); setTopic(''); setAnonymous(true); setError('');
   };
 
   const submit = async () => {
     if (!question.trim() || !topic) return;
     setSubmitting(true);
+    setError('');
     try {
-      await base44.entities.ExpertQA.create({
+      const payload = {
         question: question.trim(),
-        question_details: details.trim() || undefined,
         topic,
         is_anonymous: anonymous,
         asker_name: anonymous ? 'Anonymous' : (currentUser?.full_name || 'Anonymous'),
         status: 'pending',
-      });
+      };
+      if (details.trim()) payload.question_details = details.trim();
+      await base44.entities.ExpertQA.create(payload);
       reset();
       onOpenChange(false);
       onCreated?.();
+    } catch (err) {
+      setError(err?.message || 'Could not submit your question. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -392,6 +397,11 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
             />
             <span className="text-sm text-slate-800 font-medium">Ask anonymously</span>
           </label>
+          {error && (
+            <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-sm text-rose-700 font-medium">
+              {error}
+            </div>
+          )}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
