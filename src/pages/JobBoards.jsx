@@ -50,10 +50,10 @@ const jobBoards = [
         tags: ['Returnship', 'Paid Programs', 'Flexible']
       },
       {
-        name: 'LinkedIn Career Breaks',
-        url: 'https://www.linkedin.com/pulse/how-add-career-break-your-linkedin-profile-linkedin-news/',
-        description: 'LinkedIn now supports adding career break entries. Use this to frame your treatment time professionally and connect with returnship-friendly employers.',
-        tags: ['Career Gap', 'Networking', 'Free']
+        name: 'How to Talk About Career Breaks',
+        url: 'https://www.linkedin.com/pulse/how-talk-career-breaks-rewriting-narrative-around-employment-gaps-tyyqe/',
+        description: 'Practical article on rewriting the narrative around employment gaps — how to confidently explain a medical or personal career break to recruiters and hiring managers.',
+        tags: ['Career Gap', 'Interview Prep', 'Free']
       }
     ]
   },
