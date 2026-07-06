@@ -8,6 +8,7 @@ import {
   Shield, Scale, FileText, AlertCircle, 
   CheckCircle2, Building, Users, Clock 
 } from 'lucide-react';
+import AccommodationRequestGuide from '@/components/legal/AccommodationRequestGuide';
 
 const laws = [
   {
@@ -301,6 +302,9 @@ export default function LegalRights() {
           );
         })}
       </Tabs>
+
+      {/* Plain-language accommodation request guide */}
+      <AccommodationRequestGuide />
 
       {/* Resources for Help */}
       <Card className="bg-white border-green-500">
