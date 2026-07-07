@@ -27,21 +27,34 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
 
-    // Trust-boundary. Non-admin callers (including anonymous attackers hitting
-    // the URL directly) are NOT trusted just because auth.me() returned null.
-    // A non-admin request is only accepted if it looks like a genuine Base44
-    // entity-automation trigger AND passes a freshness check further below
-    // (the target booking must have been created seconds ago — real automation
-    // fires immediately; an attacker cannot make a fresh CoachBooking they
-    // don't own, so they cannot satisfy both conditions).
-    const caller = await base44.auth.me().catch(() => null);
-    const isAdmin = !!(caller && caller.role === 'admin');
-    const looksLikeAutomationPayload =
+    // Trust-boundary — explicit allow-list, positive checks only.
+    //
+    // A missing session (base44.auth.me() throwing / returning null) is NEVER
+    // by itself treated as "trusted automation" — an anonymous external HTTP
+    // caller produces the same null. Access is granted ONLY when one of these
+    // positive conditions is met:
+    //
+    //   PATH A — Admin: caller is authenticated AND caller.role === 'admin'.
+    //   PATH B — Entity automation on CoachBooking.create: the request body
+    //            carries the automation-shaped payload (event.type,
+    //            event.entity_name, event.entity_id, data), AND the target
+    //            booking passes the freshness + identity checks below.
+    //
+    // A caller who is authenticated but not admin, or an anonymous caller
+    // without the automation payload, is rejected here.
+    let isAdmin = false;
+    try {
+      const caller = await base44.auth.me();
+      isAdmin = !!(caller && caller.role === 'admin');
+    } catch {
+      isAdmin = false;
+    }
+    const hasAutomationPayload =
       body?.event?.type === 'create' &&
       body?.event?.entity_name === 'CoachBooking' &&
       typeof body?.event?.entity_id === 'string' &&
       typeof body?.data === 'object' && body?.data !== null;
-    if (!isAdmin && !looksLikeAutomationPayload) {
+    if (!isAdmin && !hasAutomationPayload) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
