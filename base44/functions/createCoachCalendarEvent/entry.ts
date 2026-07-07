@@ -27,21 +27,21 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
 
-    // Trust-boundary: this endpoint is ONLY callable by
-    //   (a) an admin user, OR
-    //   (b) the internal entity automation on CoachBooking.create, which
-    //       delivers a payload shaped { event: { type, entity_name, entity_id }, ... }
-    //       and runs with no user context (auth.me() returns null).
-    // Regular authenticated end users cannot reach the calendar token sink;
-    // they trigger calendar creation indirectly by creating a CoachBooking.
+    // Trust-boundary. Non-admin callers (including anonymous attackers hitting
+    // the URL directly) are NOT trusted just because auth.me() returned null.
+    // A non-admin request is only accepted if it looks like a genuine Base44
+    // entity-automation trigger AND passes a freshness check further below
+    // (the target booking must have been created seconds ago — real automation
+    // fires immediately; an attacker cannot make a fresh CoachBooking they
+    // don't own, so they cannot satisfy both conditions).
     const caller = await base44.auth.me().catch(() => null);
-    const isAdmin = caller && caller.role === 'admin';
-    const isAutomation =
-      caller === null &&
+    const isAdmin = !!(caller && caller.role === 'admin');
+    const looksLikeAutomationPayload =
       body?.event?.type === 'create' &&
       body?.event?.entity_name === 'CoachBooking' &&
-      typeof body?.event?.entity_id === 'string';
-    if (!isAdmin && !isAutomation) {
+      typeof body?.event?.entity_id === 'string' &&
+      typeof body?.data === 'object' && body?.data !== null;
+    if (!isAdmin && !looksLikeAutomationPayload) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -59,17 +59,23 @@ Deno.serve(async (req) => {
     const booking = await base44.asServiceRole.entities.CoachBooking.get(bookingId).catch(() => null);
     if (!booking) return Response.json({ error: 'Booking not found' }, { status: 404 });
 
-    // Defense-in-depth against automation impersonation: an unauthenticated
-    // "automation" caller can only act on a booking that was just created.
-    // Legitimate entity automations fire within seconds of CoachBooking.create,
-    // so a 5-minute freshness window is generous for real traffic and blocks
-    // any anonymous attacker who tries to replay old bookingIds through the
-    // automation-shaped payload. Admins bypass this window.
+    // Freshness gate for the non-admin (automation) path. Base44 entity
+    // automations invoke this within a few seconds of CoachBooking.create,
+    // so a 60-second window covers real traffic. An external attacker cannot
+    // both (a) forge an automation-shaped payload AND (b) point it at a
+    // brand-new booking they don't own — booking creation is RLS-scoped to
+    // its creator, so freshly-created bookingIds are not guessable/reachable
+    // from an anonymous session. Admins bypass this window.
     if (!isAdmin) {
-      const AUTOMATION_FRESHNESS_MS = 5 * 60 * 1000;
+      const AUTOMATION_FRESHNESS_MS = 60 * 1000;
       const createdAt = booking.created_date ? new Date(booking.created_date).getTime() : 0;
       if (!createdAt || Date.now() - createdAt > AUTOMATION_FRESHNESS_MS) {
-        return Response.json({ error: 'Automation window expired' }, { status: 403 });
+        return Response.json({ error: 'Forbidden' }, { status: 403 });
+      }
+      // The automation payload's entity_id must match the booking we loaded —
+      // prevents any confusion between body.bookingId and body.event.entity_id.
+      if (body?.event?.entity_id !== booking.id) {
+        return Response.json({ error: 'Forbidden' }, { status: 403 });
       }
     }
 
