@@ -111,25 +111,10 @@ export default function CoachBookingForm({ user, onBooked }) {
         status: 'requested',
       });
 
-      // Add this session to the coach's Google Calendar (invites the client too).
-      // Non-fatal — the booking record is still saved if the calendar call fails.
+      // The coach's Google Calendar event is created server-side by the
+      // "New coach booking → calendar event" entity automation, which fires
+      // on CoachBooking.create. Clients cannot invoke that endpoint directly.
       const topicLabel = TOPICS.find((t) => t.value === topic)?.label || topic;
-      try {
-        await base44.functions.invoke('createCoachCalendarEvent', {
-          bookingId: booking.id,
-          date: format(selectedDate, 'yyyy-MM-dd'),
-          time: selectedTime,
-          durationMinutes: Number(duration),
-          timezone,
-          topicLabel,
-          sessionFormat: format_,
-          contactName: contactName.trim(),
-          contactEmail: contactEmail.trim(),
-          notes: notes.trim(),
-        });
-      } catch (calErr) {
-        console.warn('Calendar event creation failed:', calErr);
-      }
 
       // Send a confirmation email so the user has a written record of the request.
       // Failure here shouldn't block the booking itself — just log it.

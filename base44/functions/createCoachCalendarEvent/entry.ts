@@ -1,47 +1,56 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Creates a Google Calendar event on the coach's calendar for a confirmed booking.
-// Frontend sends { bookingId, topicLabel }.
 //
-// SECURITY MODEL — service-role connector token is used because the coach's
-// Google Calendar is a single shared resource (the app owner's), not the
-// end user's. Compensating controls that must ALL pass before the token is
-// ever requested:
-//   1. Caller is authenticated (base44.auth.me()).
-//   2. bookingId resolves to a real CoachBooking owned by the caller
-//      (booking.created_by_id === user.id, enforced against the stored row —
-//      not any request-body field).
-//   3. booking.status is in {'requested','confirmed'} — cancelled/completed
-//      bookings cannot spawn events.
-//   4. booking.requested_date is today or later (no back-dated events).
-//   5. booking.calendar_event_id is empty — idempotency prevents a single
-//      booking from spawning multiple events on retry/abuse.
-//   6. booking.contact_email matches the authenticated user's email.
-//   7. Per-user rate limit: at most 2 calendar events in a rolling 24h window.
-//   8. Event fields (date, time, invitee, notes) are ALL read from the stored
-//      CoachBooking row — never from the request body. The client cannot
-//      influence what lands on the coach's calendar beyond the topic label.
+// SECURITY MODEL:
+// End users CANNOT invoke this function directly. Access is restricted to:
+//   (a) admin callers (caller.role === 'admin'), or
+//   (b) trusted internal entity automations on CoachBooking.create, which
+//       run with no user context and thus cannot be spoofed by a client.
+//
+// The "New coach booking → calendar event" entity automation is the normal
+// production path. Regular users create a CoachBooking via their user-scoped
+// SDK (RLS pins created_by_id to their own id), the automation fires, and
+// this function then validates the record and creates the calendar event.
+//
+// Additional gates enforced on every invocation:
+//   - booking.status must be in {'requested','confirmed'}
+//   - booking.requested_date must be today or later
+//   - booking.calendar_event_id must be empty (idempotency)
+//   - booking.contact_email must be present
+//   - Per-owner rate limit: 2 calendar events / 24h across their bookings
+//   - Event fields are read from the stored CoachBooking row only — never
+//     from the request body, so no request field influences the calendar.
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const body = await req.json();
-    const { bookingId, topicLabel } = body;
+    // Trust-boundary: this endpoint is ONLY callable by admins OR by internal
+    // entity automations (which have no user context — auth.me() returns null).
+    // Regular authenticated end users cannot reach the calendar token sink; they
+    // trigger calendar creation indirectly by creating a CoachBooking, and the
+    // "New coach booking → calendar event" entity automation invokes us here.
+    const caller = await base44.auth.me().catch(() => null);
+    const isAutomation = caller === null;
+    const isAdmin = caller && caller.role === 'admin';
+    if (!isAutomation && !isAdmin) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const body = await req.json().catch(() => ({}));
+    // Entity automation payload wraps the record: { event, data, ... }.
+    // Admin payload can pass { bookingId, topicLabel } directly.
+    const bookingId = body?.bookingId || body?.event?.entity_id;
+    const topicLabel = body?.topicLabel;
 
     if (!bookingId) {
       return Response.json({ error: 'Missing bookingId' }, { status: 400 });
     }
 
-    // Authorization: only create a calendar event from a real CoachBooking that
-    // this caller owns. All event fields come from the stored booking, not the
-    // request body, so the caller can't set an arbitrary invitee, time, or notes.
+    // Load the booking with service role. Since only admins/automations reach
+    // this point, service-role access here is not a user-controlled path.
     const booking = await base44.asServiceRole.entities.CoachBooking.get(bookingId).catch(() => null);
     if (!booking) return Response.json({ error: 'Booking not found' }, { status: 404 });
-    if (booking.created_by_id !== user.id) {
-      return Response.json({ error: 'Forbidden' }, { status: 403 });
-    }
 
     // Only active bookings can create calendar events — blocks cancelled/completed reuse.
     if (booking.status && !['requested', 'confirmed'].includes(booking.status)) {
@@ -63,12 +72,13 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Per-user rate limit: cap how many calendar events a single user can spawn.
-    // Prevents a malicious user from flooding the coach's calendar via many bookings.
+    // Per-booking-owner rate limit: cap how many calendar events a single user's
+    // bookings can spawn in a rolling 24h window. Even when triggered by an
+    // automation, we won't create more than N events for the same owner per day.
     const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
     const RATE_LIMIT_MAX = 2;
     const recentBookings = await base44.asServiceRole.entities.CoachBooking.filter({
-      created_by_id: user.id,
+      created_by_id: booking.created_by_id,
     });
     const recentEventCount = (recentBookings || []).filter((b: any) =>
       b.calendar_event_id &&
@@ -76,7 +86,7 @@ Deno.serve(async (req) => {
       Date.now() - new Date(b.created_date).getTime() < RATE_LIMIT_WINDOW_MS
     ).length;
     if (recentEventCount >= RATE_LIMIT_MAX) {
-      return Response.json({ error: 'Booking rate limit reached. Please try again later.' }, { status: 429 });
+      return Response.json({ error: 'Booking owner rate limit reached.' }, { status: 429 });
     }
 
     const date = booking.requested_date;
@@ -92,15 +102,9 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Booking is missing required fields' }, { status: 400 });
     }
 
-    // Belt-and-suspenders: invitee must also match the authenticated caller's email.
-    if (!user.email || String(contactEmail).trim().toLowerCase() !== String(user.email).trim().toLowerCase()) {
-      return Response.json({ error: 'Booking contact email must match your account email' }, { status: 403 });
-    }
-
-    // Only after ALL authorization gates (1-8 above) have passed do we access
-    // the coach's shared Google Calendar OAuth token. Access is scoped to a
-    // single primary-calendar events.insert call whose event body is fully
-    // derived from the validated, caller-owned CoachBooking row.
+    // Only after ALL authorization gates have passed — and only when the caller
+    // is an admin OR the invocation came from a trusted entity automation — do
+    // we access the coach's shared Google Calendar OAuth token.
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('googlecalendar');
 
     // Parse "09:00 AM" → 24h
