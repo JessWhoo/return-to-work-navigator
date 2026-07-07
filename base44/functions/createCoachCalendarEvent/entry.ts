@@ -25,6 +25,42 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
+    // Only active bookings can create calendar events — blocks cancelled/completed reuse.
+    if (booking.status && !['requested', 'confirmed'].includes(booking.status)) {
+      return Response.json({ error: 'Booking is not in an active state' }, { status: 400 });
+    }
+
+    // Booking must be for a future date — blocks backfilling the coach's past calendar.
+    if (booking.requested_date && booking.requested_date < new Date().toISOString().slice(0, 10)) {
+      return Response.json({ error: 'Booking date must be in the future' }, { status: 400 });
+    }
+
+    // Idempotency: if this booking already produced a calendar event, don't create another.
+    if (booking.calendar_event_id) {
+      return Response.json({
+        eventId: booking.calendar_event_id,
+        htmlLink: booking.calendar_event_link || null,
+        meetLink: booking.calendar_meet_link || null,
+        alreadyExists: true,
+      });
+    }
+
+    // Per-user rate limit: cap how many calendar events a single user can spawn.
+    // Prevents a malicious user from flooding the coach's calendar via many bookings.
+    const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
+    const RATE_LIMIT_MAX = 5;
+    const recentBookings = await base44.asServiceRole.entities.CoachBooking.filter({
+      created_by_id: user.id,
+    });
+    const recentEventCount = (recentBookings || []).filter((b: any) =>
+      b.calendar_event_id &&
+      b.created_date &&
+      Date.now() - new Date(b.created_date).getTime() < RATE_LIMIT_WINDOW_MS
+    ).length;
+    if (recentEventCount >= RATE_LIMIT_MAX) {
+      return Response.json({ error: 'Booking rate limit reached. Please try again later.' }, { status: 429 });
+    }
+
     const date = booking.requested_date;
     const time = booking.requested_time;
     const durationMinutes = booking.duration_minutes;
@@ -96,6 +132,15 @@ Deno.serve(async (req) => {
     }
 
     const created = await res.json();
+
+    // Persist the event reference on the booking so the same booking can't
+    // spawn a second calendar event (idempotency guard above).
+    await base44.asServiceRole.entities.CoachBooking.update(bookingId, {
+      calendar_event_id: created.id,
+      calendar_event_link: created.htmlLink || null,
+      calendar_meet_link: created.hangoutLink || null,
+    }).catch(() => { /* non-fatal — event is already created */ });
+
     return Response.json({
       eventId: created.id,
       htmlLink: created.htmlLink,

@@ -71,6 +71,18 @@
       ],
       "default": "requested",
       "description": "Booking status"
+    },
+    "calendar_event_id": {
+      "type": "string",
+      "description": "Google Calendar event ID once the booking has been added to the coach's calendar. Used to prevent duplicate event creation."
+    },
+    "calendar_event_link": {
+      "type": "string",
+      "description": "Public link to the Google Calendar event"
+    },
+    "calendar_meet_link": {
+      "type": "string",
+      "description": "Google Meet link for the session, if applicable"
     }
   },
   "required": [
