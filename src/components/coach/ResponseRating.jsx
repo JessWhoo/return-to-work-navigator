@@ -7,6 +7,18 @@ import { cn } from '@/lib/utils';
 const FEEDBACK_TAGS_HELPFUL = ['Empathetic', 'Actionable', 'Informative', 'Encouraging'];
 const FEEDBACK_TAGS_NOT_HELPFUL = ['Too generic', 'Not relevant', 'Needs more detail', 'Missed the point'];
 
+// Strip HTML tags, markdown syntax, and collapse whitespace so a stored
+// message_snippet can NEVER carry executable markup into any admin viewer.
+function sanitizeSnippet(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/<[^>]*>/g, '')                 // strip HTML tags
+    .replace(/[`*_~[\]()#>!]/g, '')          // strip markdown control chars
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 200);
+}
+
 export default function ResponseRating({ conversationId, messageIndex, messageSnippet, detectedSentiment }) {
   const [rating, setRating] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -29,7 +41,7 @@ export default function ResponseRating({ conversationId, messageIndex, messageSn
       message_index: messageIndex,
       rating,
       feedback_tags: selectedTags,
-      message_snippet: messageSnippet?.slice(0, 200) || '',
+      message_snippet: sanitizeSnippet(messageSnippet),
       detected_sentiment: detectedSentiment || 'neutral'
     });
 
