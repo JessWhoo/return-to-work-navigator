@@ -68,15 +68,35 @@ Deno.serve(async (req) => {
 
     const payload = await req.json().catch(() => ({}));
     const event = payload?.event || {};
-    let resource = payload?.data;
 
-    // If the payload was too large, fetch the record via service role.
-    if (payload?.payload_too_large && event?.entity_id) {
-      resource = await base44.asServiceRole.entities.Resource.get(event.entity_id);
+    // Trust-boundary: this endpoint is ONLY callable by
+    //   (a) an admin user (for manual re-sends), OR
+    //   (b) the internal entity automation on Resource.create, which delivers
+    //       a payload shaped { event: { type, entity_name, entity_id }, ... }
+    //       and runs with no user context (auth.me() returns null).
+    // Unauthenticated callers and regular authenticated users are rejected so
+    // nobody can trigger a mass email blast with attacker-controlled content.
+    const caller = await base44.auth.me().catch(() => null);
+    const isAdmin = caller && caller.role === 'admin';
+    const isAutomation =
+      caller === null &&
+      event?.type === 'create' &&
+      event?.entity_name === 'Resource' &&
+      typeof event?.entity_id === 'string';
+    if (!isAdmin && !isAutomation) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
+    // Always load the resource fresh from the DB using the event's entity_id.
+    // Ignore any resource fields in the request body so attacker-controlled
+    // title / summary / url can never appear in outbound emails.
+    const entityId = event?.entity_id || payload?.resourceId;
+    if (!entityId) {
+      return Response.json({ error: 'Missing resource id' }, { status: 400 });
+    }
+    const resource = await base44.asServiceRole.entities.Resource.get(entityId).catch(() => null);
     if (!resource || !resource.title) {
-      return Response.json({ error: 'No resource data provided' }, { status: 400 });
+      return Response.json({ error: 'Resource not found' }, { status: 404 });
     }
 
     const users = await base44.asServiceRole.entities.User.list();
