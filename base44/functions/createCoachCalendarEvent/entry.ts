@@ -1,8 +1,26 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Creates a Google Calendar event on the coach's calendar for a confirmed booking.
-// Frontend sends { bookingId, date, time, durationMinutes, timezone, topicLabel,
-// sessionFormat, contactName, contactEmail, notes }.
+// Frontend sends { bookingId, topicLabel }.
+//
+// SECURITY MODEL — service-role connector token is used because the coach's
+// Google Calendar is a single shared resource (the app owner's), not the
+// end user's. Compensating controls that must ALL pass before the token is
+// ever requested:
+//   1. Caller is authenticated (base44.auth.me()).
+//   2. bookingId resolves to a real CoachBooking owned by the caller
+//      (booking.created_by_id === user.id, enforced against the stored row —
+//      not any request-body field).
+//   3. booking.status is in {'requested','confirmed'} — cancelled/completed
+//      bookings cannot spawn events.
+//   4. booking.requested_date is today or later (no back-dated events).
+//   5. booking.calendar_event_id is empty — idempotency prevents a single
+//      booking from spawning multiple events on retry/abuse.
+//   6. booking.contact_email matches the authenticated user's email.
+//   7. Per-user rate limit: at most 2 calendar events in a rolling 24h window.
+//   8. Event fields (date, time, invitee, notes) are ALL read from the stored
+//      CoachBooking row — never from the request body. The client cannot
+//      influence what lands on the coach's calendar beyond the topic label.
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -48,7 +66,7 @@ Deno.serve(async (req) => {
     // Per-user rate limit: cap how many calendar events a single user can spawn.
     // Prevents a malicious user from flooding the coach's calendar via many bookings.
     const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
-    const RATE_LIMIT_MAX = 5;
+    const RATE_LIMIT_MAX = 2;
     const recentBookings = await base44.asServiceRole.entities.CoachBooking.filter({
       created_by_id: user.id,
     });
@@ -79,6 +97,10 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Booking contact email must match your account email' }, { status: 403 });
     }
 
+    // Only after ALL authorization gates (1-8 above) have passed do we access
+    // the coach's shared Google Calendar OAuth token. Access is scoped to a
+    // single primary-calendar events.insert call whose event body is fully
+    // derived from the validated, caller-owned CoachBooking row.
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('googlecalendar');
 
     // Parse "09:00 AM" → 24h
