@@ -22,6 +22,7 @@ import Blog from './pages/Blog';
 import EmergencyContacts from './pages/EmergencyContacts';
 import Landing from './pages/Landing';
 import PrivacyPledge from './pages/PrivacyPledge';
+import PrivacySecurity from './pages/PrivacySecurity';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -140,6 +141,15 @@ const AuthenticatedApp = () => {
       />
 
       <Route path="/privacy-pledge" element={<PrivacyPledge />} />
+
+      <Route
+        path="/PrivacySecurity"
+        element={
+          <LayoutWrapper currentPageName="PrivacySecurity">
+            <PrivacySecurity />
+          </LayoutWrapper>
+        }
+      />
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

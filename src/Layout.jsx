@@ -343,7 +343,8 @@ export default function Layout({ children, currentPageName }) {
             <div className="flex justify-center gap-4 pt-1 flex-wrap">
               <Link to="/About" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">About</Link>
               <Link to="/Contact" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Contact</Link>
-              <Link to="/privacy-pledge" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Privacy</Link>
+              <Link to="/privacy-pledge" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Privacy Pledge</Link>
+              <Link to="/PrivacySecurity" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Privacy & Security</Link>
             </div>
           </div>
         </div>
