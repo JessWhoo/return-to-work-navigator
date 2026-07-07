@@ -22,6 +22,7 @@ import SuggestResourceDialog from '../components/resources/SuggestResourceDialog
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
 import ShareKitDialog from '../components/resources/ShareKitDialog';
 import ResourceTagEditor from '../components/resources/ResourceTagEditor';
+import RecoveryNeedsFilter, { resourceMatchesNeeds } from '../components/resources/RecoveryNeedsFilter';
 import ResourceSummary from '../components/resources/ResourceSummary';
 import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
 import ResourceQA from '../components/resources/ResourceQA';
@@ -48,6 +49,7 @@ export default function Resources() {
   const [selectedTopic, setSelectedTopic] = useState('all');
   const [selectedStage, setSelectedStage] = useState('all');
   const [selectedQuickTag, setSelectedQuickTag] = useState('all');
+  const [selectedNeeds, setSelectedNeeds] = useState([]);
   const [showBookmarked, setShowBookmarked] = useState(false);
   const [showAIRecommended, setShowAIRecommended] = useState(false);
   const [showUseful, setShowUseful] = useState(false);
@@ -297,6 +299,7 @@ export default function Resources() {
         const matchesTopic = selectedTopic === 'all' || item.topics?.includes(selectedTopic);
         const matchesStage = selectedStage === 'all' || item.stages?.includes(selectedStage);
         const matchesTagged = !showTagged || (aiTags.length > 0 || customTags.length > 0);
+        const matchesNeeds = resourceMatchesNeeds(item, selectedNeeds, [...aiTags, ...customTags]);
 
         const matchesQuickTag = selectedQuickTag === 'all' || (() => {
           const tagQ = selectedQuickTag.toLowerCase();
@@ -311,7 +314,7 @@ export default function Resources() {
           return haystack.includes(tagQ);
         })();
 
-        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage && matchesTagged && matchesQuickTag;
+        return matchesSearch && matchesBookmark && matchesAI && matchesUseful && matchesNotRelevant && matchesType && matchesTopic && matchesStage && matchesTagged && matchesQuickTag && matchesNeeds;
       })
       .sort((a, b) => {
         if (sortBy === 'rating') return (getRating(b.id) || 0) - (getRating(a.id) || 0);
@@ -391,6 +394,29 @@ export default function Resources() {
           />
         </div>
       </div>
+
+      {/* Recovery Needs Filter */}
+      <RecoveryNeedsFilter
+        selected={selectedNeeds}
+        onToggle={(id) => {
+          setSelectedNeeds((prev) =>
+            prev.includes(id) ? prev.filter((n) => n !== id) : [...prev, id]
+          );
+          base44.analytics.track({
+            eventName: 'resource_recovery_need_toggled',
+            properties: { need_id: id }
+          });
+        }}
+        onClear={() => setSelectedNeeds([])}
+        resultCount={
+          resources.reduce((sum, cat) => sum + cat.items.filter((item, idx) => {
+            const id = `${cat.category}-${idx}`;
+            const aiTags = progress?.resource_ai_tags?.[id] || [];
+            const customTags = progress?.resource_custom_tags?.[id] || [];
+            return resourceMatchesNeeds(item, selectedNeeds, [...aiTags, ...customTags]);
+          }).length, 0)
+        }
+      />
 
       {/* Search and Filter */}
       <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-teal-600 shadow-lg">
@@ -572,6 +598,7 @@ export default function Resources() {
                     setShowNotRelevant(false);
                     setShowTagged(false);
                     setSelectedQuickTag('all');
+                    setSelectedNeeds([]);
                   }}
                   className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
                 >
