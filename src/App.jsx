@@ -5,10 +5,11 @@ import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
 import NavigationTracker from '@/lib/NavigationTracker'
 import { pagesConfig } from './pages.config'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import Roadmap from './pages/Roadmap';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
@@ -56,36 +57,43 @@ const AuthenticatedApp = () => {
     }
   }
 
+  // Redirect unauthenticated users on private routes to the public landing page.
+  const RedirectToLanding = <Navigate to="/" replace />;
+
   // Render the main app
   return (
     <Routes>
+      {/* ------- Public routes (no auth required) ------- */}
       <Route path="/" element={<Landing />} />
-      <Route path="/home" element={
-        <LayoutWrapper currentPageName={mainPageKey}>
-          <MainPage />
-        </LayoutWrapper>
-      } />
-      {Object.entries(Pages).map(([path, Page]) => (
-        <Route
-          key={path}
-          path={`/${path}`}
-          element={
-            <LayoutWrapper currentPageName={path}>
-              <Page />
-            </LayoutWrapper>
-          }
-        />
-      ))}
-
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/privacy-pledge" element={<PrivacyPledge />} />
       <Route
-        path="/Roadmap"
+        path="/PrivacySecurity"
         element={
-          <LayoutWrapper currentPageName="Roadmap">
-            <Roadmap />
+          <LayoutWrapper currentPageName="PrivacySecurity">
+            <PrivacySecurity />
           </LayoutWrapper>
         }
       />
-
+      <Route
+        path="/Blog"
+        element={
+          <LayoutWrapper currentPageName="Blog">
+            <Blog />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/emergency-contacts"
+        element={
+          <LayoutWrapper currentPageName="EmergencyContacts">
+            <EmergencyContacts />
+          </LayoutWrapper>
+        }
+      />
       <Route
         path="/DisclosureGuide"
         element={
@@ -94,7 +102,6 @@ const AuthenticatedApp = () => {
           </LayoutWrapper>
         }
       />
-
       <Route
         path="/ResourceLibrary"
         element={
@@ -103,16 +110,6 @@ const AuthenticatedApp = () => {
           </LayoutWrapper>
         }
       />
-
-      <Route
-        path="/ExpertQA"
-        element={
-          <LayoutWrapper currentPageName="ExpertQA">
-            <ExpertQA />
-          </LayoutWrapper>
-        }
-      />
-
       <Route
         path="/ExpertAdvice"
         element={
@@ -122,39 +119,41 @@ const AuthenticatedApp = () => {
         }
       />
 
-      <Route
-        path="/Blog"
-        element={
-          <LayoutWrapper currentPageName="Blog">
-            <Blog />
+      {/* ------- Protected routes (require sign-in) ------- */}
+      <Route element={<ProtectedRoute unauthenticatedElement={RedirectToLanding} />}>
+        <Route path="/home" element={
+          <LayoutWrapper currentPageName={mainPageKey}>
+            <MainPage />
           </LayoutWrapper>
-        }
-      />
-
-      <Route
-        path="/emergency-contacts"
-        element={
-          <LayoutWrapper currentPageName="EmergencyContacts">
-            <EmergencyContacts />
-          </LayoutWrapper>
-        }
-      />
-
-      <Route path="/privacy-pledge" element={<PrivacyPledge />} />
-
-      <Route
-        path="/PrivacySecurity"
-        element={
-          <LayoutWrapper currentPageName="PrivacySecurity">
-            <PrivacySecurity />
-          </LayoutWrapper>
-        }
-      />
-
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
+        } />
+        {Object.entries(Pages).map(([path, Page]) => (
+          <Route
+            key={path}
+            path={`/${path}`}
+            element={
+              <LayoutWrapper currentPageName={path}>
+                <Page />
+              </LayoutWrapper>
+            }
+          />
+        ))}
+        <Route
+          path="/Roadmap"
+          element={
+            <LayoutWrapper currentPageName="Roadmap">
+              <Roadmap />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/ExpertQA"
+          element={
+            <LayoutWrapper currentPageName="ExpertQA">
+              <ExpertQA />
+            </LayoutWrapper>
+          }
+        />
+      </Route>
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>
