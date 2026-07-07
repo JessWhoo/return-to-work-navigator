@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import DraftFromResourcesButton from './DraftFromResourcesButton';
 
 export default function SavedDrafts({ onEdit }) {
   const queryClient = useQueryClient();
@@ -72,9 +73,12 @@ export default function SavedDrafts({ onEdit }) {
         <CardContent className="py-12 text-center">
           <FileText className="h-12 w-12 text-purple-400 mx-auto mb-3" />
           <h3 className="text-lg font-semibold text-gray-700 mb-2">No saved drafts yet</h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mb-4">
             Start creating and saving your workplace communications
           </p>
+          <div className="flex justify-center">
+            <DraftFromResourcesButton />
+          </div>
         </CardContent>
       </Card>
     );
@@ -82,11 +86,14 @@ export default function SavedDrafts({ onEdit }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">Your Saved Drafts</h3>
-        <Badge className="bg-purple-100 text-purple-700">
-          {drafts.length} {drafts.length === 1 ? 'draft' : 'drafts'}
-        </Badge>
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-800">Your Saved Drafts</h3>
+          <Badge className="bg-purple-100 text-purple-700">
+            {drafts.length} {drafts.length === 1 ? 'draft' : 'drafts'}
+          </Badge>
+        </div>
+        <DraftFromResourcesButton />
       </div>
 
       {drafts.map((draft) => {
