@@ -59,6 +59,20 @@ Deno.serve(async (req) => {
     const booking = await base44.asServiceRole.entities.CoachBooking.get(bookingId).catch(() => null);
     if (!booking) return Response.json({ error: 'Booking not found' }, { status: 404 });
 
+    // Defense-in-depth against automation impersonation: an unauthenticated
+    // "automation" caller can only act on a booking that was just created.
+    // Legitimate entity automations fire within seconds of CoachBooking.create,
+    // so a 5-minute freshness window is generous for real traffic and blocks
+    // any anonymous attacker who tries to replay old bookingIds through the
+    // automation-shaped payload. Admins bypass this window.
+    if (!isAdmin) {
+      const AUTOMATION_FRESHNESS_MS = 5 * 60 * 1000;
+      const createdAt = booking.created_date ? new Date(booking.created_date).getTime() : 0;
+      if (!createdAt || Date.now() - createdAt > AUTOMATION_FRESHNESS_MS) {
+        return Response.json({ error: 'Automation window expired' }, { status: 403 });
+      }
+    }
+
     // Only active bookings can create calendar events — blocks cancelled/completed reuse.
     if (booking.status && !['requested', 'confirmed'].includes(booking.status)) {
       return Response.json({ error: 'Booking is not in an active state' }, { status: 400 });
