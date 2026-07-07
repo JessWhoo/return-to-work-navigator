@@ -25,19 +25,26 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    // Trust-boundary: this endpoint is ONLY callable by admins OR by internal
-    // entity automations (which have no user context — auth.me() returns null).
-    // Regular authenticated end users cannot reach the calendar token sink; they
-    // trigger calendar creation indirectly by creating a CoachBooking, and the
-    // "New coach booking → calendar event" entity automation invokes us here.
+    const body = await req.json().catch(() => ({}));
+
+    // Trust-boundary: this endpoint is ONLY callable by
+    //   (a) an admin user, OR
+    //   (b) the internal entity automation on CoachBooking.create, which
+    //       delivers a payload shaped { event: { type, entity_name, entity_id }, ... }
+    //       and runs with no user context (auth.me() returns null).
+    // Regular authenticated end users cannot reach the calendar token sink;
+    // they trigger calendar creation indirectly by creating a CoachBooking.
     const caller = await base44.auth.me().catch(() => null);
-    const isAutomation = caller === null;
     const isAdmin = caller && caller.role === 'admin';
-    if (!isAutomation && !isAdmin) {
+    const isAutomation =
+      caller === null &&
+      body?.event?.type === 'create' &&
+      body?.event?.entity_name === 'CoachBooking' &&
+      typeof body?.event?.entity_id === 'string';
+    if (!isAdmin && !isAutomation) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const body = await req.json().catch(() => ({}));
     // Entity automation payload wraps the record: { event, data, ... }.
     // Admin payload can pass { bookingId, topicLabel } directly.
     const bookingId = body?.bookingId || body?.event?.entity_id;
