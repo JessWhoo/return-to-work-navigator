@@ -34,6 +34,10 @@ async function requestPermission() {
 async function checkMeetingReminders() {
   if (Notification.permission !== 'granted') return;
   try {
+    // Meeting data is per-user — skip entirely for signed-out visitors
+    // to avoid unauthorized (401) requests.
+    const authed = await base44.auth.isAuthenticated().catch(() => false);
+    if (!authed) return;
     const meetings = await base44.entities.MeetingPrep.list('-meeting_date', 50);
     if (!meetings?.length) return;
 
