@@ -21,9 +21,16 @@ export default function LegalRightsChecklist() {
 
   useEffect(() => {
     (async () => {
-      const list = await base44.entities.UserProgress.list();
-      const record = list?.[0] || await base44.entities.UserProgress.create({ completed_checklist_items: [] });
-      setProgress(record);
+      try {
+        const list = await base44.entities.UserProgress.list();
+        const record = list?.[0] || await base44.entities.UserProgress.create({ completed_checklist_items: [] });
+        setProgress(record);
+      } catch {
+        // Signed-out visitor — keep progress in this browser instead.
+        let saved = [];
+        try { saved = JSON.parse(localStorage.getItem('legalChecklistLocal') || '[]'); } catch { /* ignore */ }
+        setProgress({ id: null, completed_checklist_items: saved });
+      }
       setLoading(false);
     })();
   }, []);
@@ -46,6 +53,12 @@ export default function LegalRightsChecklist() {
     const existing = progress.completed_checklist_items || [];
     const preserved = existing.filter((id) => !LEGAL_ITEM_IDS.has(id));
     const merged = [...preserved, ...nextLegalIds];
+    if (!progress.id) {
+      // Local (signed-out) mode
+      localStorage.setItem('legalChecklistLocal', JSON.stringify(merged));
+      setProgress({ ...progress, completed_checklist_items: merged });
+      return;
+    }
     setSaving(true);
     const updated = await base44.entities.UserProgress.update(progress.id, {
       completed_checklist_items: merged,
