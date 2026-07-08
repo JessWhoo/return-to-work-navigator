@@ -9,8 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { 
-  Calendar, Clock, Home, Users, 
-  TrendingUp, Copy, Save, CheckCircle2, Download 
+  Calendar, Clock, Home, Save, CheckCircle2, Download 
 } from 'lucide-react';
 import { format } from 'date-fns';
 

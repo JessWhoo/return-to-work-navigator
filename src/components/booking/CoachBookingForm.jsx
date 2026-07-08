@@ -88,7 +88,7 @@ export default function CoachBookingForm({ user, onBooked }) {
       }
     })();
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [selectedDate, duration, timezone]);
 
   const canSubmit =

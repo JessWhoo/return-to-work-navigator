@@ -1,5 +1,4 @@
 import React from 'react';
-import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { BADGES } from './GamificationSystem';
 

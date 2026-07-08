@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Trophy, Award, Sparkles } from 'lucide-react';
+import { Trophy, Sparkles } from 'lucide-react';
 import BadgeDisplay from './BadgeDisplay';
 
 export default function CelebrationModal({ 

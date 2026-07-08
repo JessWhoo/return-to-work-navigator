@@ -4,10 +4,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { 
-  MessageSquare, Send, Loader2, Sparkles, Plus, 
-  Trash2, Bot, RefreshCw
+  MessageSquare, Send, Loader2, Sparkles, Plus, Bot, RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageBubble from '../components/coach/MessageBubble';

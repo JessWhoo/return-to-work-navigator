@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Activity, Plus, Calendar, TrendingUp, AlertCircle,
-  Thermometer, Clock, Zap
+  Thermometer, Clock
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';

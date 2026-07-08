@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, User, Tag, AlertCircle } from 'lucide-react';
+import { Tag, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function RecordDetailView({ record }) {
