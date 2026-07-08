@@ -41,7 +41,7 @@
         },
         {
           "user_condition": {
-            "role": "user"
+            "role": "admin"
           }
         }
       ]
