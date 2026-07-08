@@ -69,21 +69,30 @@ Deno.serve(async (req) => {
     const payload = await req.json().catch(() => ({}));
     const event = payload?.event || {};
 
-    // Trust-boundary: this endpoint is ONLY callable by
-    //   (a) an admin user (for manual re-sends), OR
-    //   (b) the internal entity automation on Resource.create, which delivers
-    //       a payload shaped { event: { type, entity_name, entity_id }, ... }
-    //       and runs with no user context (auth.me() returns null).
-    // Unauthenticated callers and regular authenticated users are rejected so
-    // nobody can trigger a mass email blast with attacker-controlled content.
-    const caller = await base44.auth.me().catch(() => null);
-    const isAdmin = caller && caller.role === 'admin';
-    const isAutomation =
-      caller === null &&
+    // Trust-boundary — explicit allow-list, positive checks only.
+    //
+    // A missing session (base44.auth.me() throwing / returning null) is NEVER
+    // by itself treated as "trusted automation" — an anonymous external HTTP
+    // caller produces the same null. Access is granted ONLY when:
+    //
+    //   PATH A — Admin: caller is authenticated AND caller.role === 'admin'.
+    //   PATH B — Entity automation on Resource.create: request body carries
+    //            the automation-shaped payload AND the target Resource passes
+    //            the freshness check below. Resource.create RLS already
+    //            restricts creation to admins, so an anonymous attacker can't
+    //            spawn a fresh Resource to slip through this window.
+    let isAdmin = false;
+    try {
+      const caller = await base44.auth.me();
+      isAdmin = !!(caller && caller.role === 'admin');
+    } catch {
+      isAdmin = false;
+    }
+    const hasAutomationPayload =
       event?.type === 'create' &&
       event?.entity_name === 'Resource' &&
       typeof event?.entity_id === 'string';
-    if (!isAdmin && !isAutomation) {
+    if (!isAdmin && !hasAutomationPayload) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -97,6 +106,22 @@ Deno.serve(async (req) => {
     const resource = await base44.asServiceRole.entities.Resource.get(entityId).catch(() => null);
     if (!resource || !resource.title) {
       return Response.json({ error: 'Resource not found' }, { status: 404 });
+    }
+
+    // Freshness gate for the non-admin (automation) path. Base44 entity
+    // automations invoke this within a few seconds of Resource.create, so a
+    // 60-second window covers real traffic. Resource creation is RLS-gated
+    // to admins, so an anonymous attacker cannot produce a fresh entity_id
+    // that satisfies this check.
+    if (!isAdmin) {
+      const AUTOMATION_FRESHNESS_MS = 60 * 1000;
+      const createdAt = resource.created_date ? new Date(resource.created_date).getTime() : 0;
+      if (!createdAt || Date.now() - createdAt > AUTOMATION_FRESHNESS_MS) {
+        return Response.json({ error: 'Forbidden' }, { status: 403 });
+      }
+      if (event?.entity_id !== resource.id) {
+        return Response.json({ error: 'Forbidden' }, { status: 403 });
+      }
     }
 
     const users = await base44.asServiceRole.entities.User.list();
