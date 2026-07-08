@@ -22,7 +22,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
 import EmergencyContacts from './pages/EmergencyContacts';
-import Landing from './pages/Landing';
 import PrivacySecurity from './pages/PrivacySecurity';
 import AccommodationWorksheet from './pages/AccommodationWorksheet';
 
@@ -58,7 +57,11 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       {/* ------- Public routes (no auth required) ------- */}
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={
+        <LayoutWrapper currentPageName={mainPageKey}>
+          <MainPage />
+        </LayoutWrapper>
+      } />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
