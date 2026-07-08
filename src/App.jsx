@@ -23,7 +23,6 @@ import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
 import EmergencyContacts from './pages/EmergencyContacts';
 import Landing from './pages/Landing';
-import PrivacyPledge from './pages/PrivacyPledge';
 import PrivacySecurity from './pages/PrivacySecurity';
 
 
@@ -70,7 +69,6 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/privacy-pledge" element={<PrivacyPledge />} />
       <Route
         path="/PrivacySecurity"
         element={

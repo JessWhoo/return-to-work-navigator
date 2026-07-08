@@ -279,16 +279,6 @@ export default function PrivacySecurity() {
               </div>
             </Link>
             <Link
-              to="/privacy-pledge"
-              className="flex items-center gap-3 p-4 bg-white rounded-lg border-2 border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all"
-            >
-              <Shield className="h-5 w-5 text-emerald-700" />
-              <div>
-                <div className="font-bold text-slate-900 text-sm">Read the Privacy Pledge</div>
-                <div className="text-xs text-slate-600">Our commitment to you</div>
-              </div>
-            </Link>
-            <Link
               to="/Contact"
               className="flex items-center gap-3 p-4 bg-white rounded-lg border-2 border-slate-200 hover:border-sky-400 hover:shadow-md transition-all"
             >
