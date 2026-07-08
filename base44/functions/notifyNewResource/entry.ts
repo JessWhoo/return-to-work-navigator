@@ -88,11 +88,25 @@ Deno.serve(async (req) => {
     } catch {
       isAdmin = false;
     }
+
+    // Shared-secret gate for the automation path. The entity automation is
+    // configured to pass this secret via function_args; anonymous external
+    // callers cannot know it. Accept via header OR body for flexibility.
+    const automationSecret = Deno.env.get('NOTIFY_NEW_RESOURCE_AUTOMATION_SECRET') || '';
+    const providedSecret =
+      req.headers.get('x-automation-secret') ||
+      payload?.automation_secret ||
+      '';
+    const hasValidAutomationSecret =
+      automationSecret.length > 0 && providedSecret === automationSecret;
+
     const hasAutomationPayload =
       event?.type === 'create' &&
       event?.entity_name === 'Resource' &&
       typeof event?.entity_id === 'string';
-    if (!isAdmin && !hasAutomationPayload) {
+    const isAutomation = hasValidAutomationSecret && hasAutomationPayload;
+
+    if (!isAdmin && !isAutomation) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
