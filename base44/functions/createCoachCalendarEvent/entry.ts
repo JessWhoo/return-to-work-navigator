@@ -49,12 +49,26 @@ Deno.serve(async (req) => {
     } catch {
       isAdmin = false;
     }
+
+    // Shared-secret gate for the automation path. The entity automation is
+    // configured to pass this secret via function_args; anonymous external
+    // callers cannot know it. Payload shape alone is NOT trusted.
+    const automationSecret = Deno.env.get('COACH_CALENDAR_AUTOMATION_SECRET') || '';
+    const providedSecret =
+      req.headers.get('x-automation-secret') ||
+      body?.automation_secret ||
+      '';
+    const hasValidAutomationSecret =
+      automationSecret.length > 0 && providedSecret === automationSecret;
+
     const hasAutomationPayload =
       body?.event?.type === 'create' &&
       body?.event?.entity_name === 'CoachBooking' &&
       typeof body?.event?.entity_id === 'string' &&
       typeof body?.data === 'object' && body?.data !== null;
-    if (!isAdmin && !hasAutomationPayload) {
+    const isAutomation = hasValidAutomationSecret && hasAutomationPayload;
+
+    if (!isAdmin && !isAutomation) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
