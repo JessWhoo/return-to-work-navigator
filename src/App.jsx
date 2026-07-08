@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Roadmap from './pages/Roadmap';
+import LegalRightsChecklist from './pages/LegalRightsChecklist';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
 import ExpertQA from './pages/ExpertQA';
@@ -150,6 +151,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="ExpertQA">
               <ExpertQA />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/LegalRightsChecklist"
+          element={
+            <LayoutWrapper currentPageName="LegalRightsChecklist">
+              <LegalRightsChecklist />
             </LayoutWrapper>
           }
         />

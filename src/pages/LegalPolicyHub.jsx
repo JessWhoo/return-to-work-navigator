@@ -1,10 +1,11 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, FileText, Globe, Lock } from 'lucide-react';
+import { Shield, FileText, Globe, Lock, CheckSquare } from 'lucide-react';
 import LegalRights from './LegalRights';
 import Accommodations from './Accommodations';
 import StateByStateLaws from './StateByStateLaws';
 import InternationalLaws from './InternationalLaws';
+import LegalRightsChecklist from './LegalRightsChecklist';
 import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
 
 export default function LegalPolicyHub() {
@@ -18,7 +19,7 @@ export default function LegalPolicyHub() {
       </div>
 
       <Tabs defaultValue="disclosure" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-white border border-slate-300 h-auto">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-6 bg-white border border-slate-300 h-auto">
           <TabsTrigger value="disclosure" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white text-slate-800">
             <Lock className="h-4 w-4 mr-2" />
             Rights & Disclosure
@@ -39,6 +40,10 @@ export default function LegalPolicyHub() {
             <Globe className="h-4 w-4 mr-2" />
             International
           </TabsTrigger>
+          <TabsTrigger value="checklist" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-green-600 data-[state=active]:text-white text-slate-800">
+            <CheckSquare className="h-4 w-4 mr-2" />
+            Checklist
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="disclosure">
@@ -55,6 +60,9 @@ export default function LegalPolicyHub() {
         </TabsContent>
         <TabsContent value="international">
           <InternationalLaws />
+        </TabsContent>
+        <TabsContent value="checklist">
+          <LegalRightsChecklist />
         </TabsContent>
       </Tabs>
     </div>
