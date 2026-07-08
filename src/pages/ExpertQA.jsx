@@ -16,8 +16,10 @@ import {
 import {
   MessageCircleQuestion, Search, Plus, ThumbsUp, Sparkles,
   Battery, Scale, Handshake, MessageSquare, Briefcase,
-  Heart, Shield, HelpCircle, Star, CheckCircle2, User
+  Heart, Shield, HelpCircle, Star, CheckCircle2, User, LogIn
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
 
 const TOPICS = [
   { id: 'all', label: 'All Topics', icon: MessageCircleQuestion, color: 'from-slate-500 to-slate-600' },
@@ -41,10 +43,19 @@ export default function ExpertQA() {
   const [askOpen, setAskOpen] = useState(false);
   const [expanded, setExpanded] = useState(null);
 
+  // ExpertQA is on a public route — anonymous visitors can browse. Don't retry
+  // on 401 (that just produces console noise for a normal state) and treat
+  // "not signed in" as `null` rather than a query error.
   const { data: currentUser } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: async () => {
+      try { return await base44.auth.me(); }
+      catch { return null; }
+    },
+    retry: false,
+    staleTime: 60_000,
   });
+  const { toast } = useToast();
 
   const { data: qaList = [], isLoading } = useQuery({
     queryKey: ['expertQA'],
@@ -78,7 +89,13 @@ export default function ExpertQA() {
 
   const markHelpful = useMutation({
     mutationFn: async (item) => {
-      if (!currentUser) return;
+      if (!currentUser) {
+        toast({
+          title: 'Sign in required',
+          description: 'Please sign in to mark answers as helpful.',
+        });
+        return;
+      }
       const already = item.helpful_by?.includes(currentUser.id);
       const helpful_by = already
         ? (item.helpful_by || []).filter(id => id !== currentUser.id)
@@ -362,6 +379,21 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
       setSubmitting(false);
     }
   };
+
+  // Unauthenticated visitors: replace the "Ask a question" button with a
+  // sign-in prompt, so we never even attempt a 403-guaranteed create call.
+  if (!currentUser) {
+    return (
+      <Button
+        asChild
+        className="bg-gradient-to-r from-rose-500 to-violet-600 hover:from-rose-600 hover:to-violet-700"
+      >
+        <Link to="/login">
+          <LogIn className="h-4 w-4 mr-2" /> Sign in to ask
+        </Link>
+      </Button>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
