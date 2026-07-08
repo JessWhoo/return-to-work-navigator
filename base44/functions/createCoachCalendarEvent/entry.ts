@@ -77,12 +77,25 @@ Deno.serve(async (req) => {
     const providedSecret = typeof body?.automation_secret === 'string'
       ? body.automation_secret
       : '';
-    // Require a non-trivial secret to be configured. If the env var is missing
-    // or too short, the automation path is disabled entirely — an empty
-    // providedSecret can never match.
+    // Require a strong secret (≥32 chars, mixed character classes) to enable
+    // the automation path. If the env var is missing, too short, or looks
+    // weak (all one character class, or a well-known placeholder), the
+    // automation path is disabled entirely — an empty or weak providedSecret
+    // can never match.
+    const MIN_SECRET_LENGTH = 32;
+    const looksStrongEnough = (s: string): boolean => {
+      if (s.length < MIN_SECRET_LENGTH) return false;
+      // Require at least two of: lowercase, uppercase, digit, symbol.
+      let classes = 0;
+      if (/[a-z]/.test(s)) classes++;
+      if (/[A-Z]/.test(s)) classes++;
+      if (/[0-9]/.test(s)) classes++;
+      if (/[^A-Za-z0-9]/.test(s)) classes++;
+      return classes >= 2;
+    };
     const hasValidAutomationSecret =
-      automationSecret.length >= 16 &&
-      providedSecret.length >= 16 &&
+      looksStrongEnough(automationSecret) &&
+      providedSecret.length === automationSecret.length &&
       constantTimeEquals(providedSecret, automationSecret);
 
     const hasAutomationPayload =
