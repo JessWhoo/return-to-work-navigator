@@ -50,21 +50,35 @@ Deno.serve(async (req) => {
       isAdmin = false;
     }
 
+    // Constant-time string equality — prevents timing-based extraction of the
+    // secret one character at a time. Length mismatch always returns false
+    // in constant time relative to the compared secret's own length.
+    const constantTimeEquals = (a: string, b: string): boolean => {
+      if (typeof a !== 'string' || typeof b !== 'string') return false;
+      if (a.length !== b.length) return false;
+      let diff = 0;
+      for (let i = 0; i < a.length; i++) {
+        diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+      }
+      return diff === 0;
+    };
+
     // Shared-secret gate for the automation path. The entity automation is
-    // configured to pass this secret via function_args; anonymous external
-    // callers cannot know it. Payload shape alone is NOT trusted.
+    // configured to pass this secret via function_args (server-side only) —
+    // it never travels through the client. We deliberately do NOT accept the
+    // secret from an HTTP header, because a header value is trivially spoofable
+    // and any leak of the header format would widen the attack surface.
     const automationSecret = Deno.env.get('COACH_CALENDAR_AUTOMATION_SECRET') || '';
-    const providedSecret =
-      req.headers.get('x-automation-secret') ||
-      body?.automation_secret ||
-      '';
+    const providedSecret = typeof body?.automation_secret === 'string'
+      ? body.automation_secret
+      : '';
     // Require a non-trivial secret to be configured. If the env var is missing
     // or too short, the automation path is disabled entirely — an empty
     // providedSecret can never match.
     const hasValidAutomationSecret =
       automationSecret.length >= 16 &&
       providedSecret.length >= 16 &&
-      providedSecret === automationSecret;
+      constantTimeEquals(providedSecret, automationSecret);
 
     const hasAutomationPayload =
       body?.event?.type === 'create' &&
