@@ -47,19 +47,12 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
-      navigateToLogin();
-      return null;
-    }
+  // Handle authentication errors — only the "not registered" case shows a
+  // dedicated screen. Missing auth is ignored so the app is fully browsable
+  // without signing in.
+  if (authError && authError.type === 'user_not_registered') {
+    return <UserNotRegisteredError />;
   }
-
-  // Redirect unauthenticated users on private routes to the public landing page.
-  const RedirectToLanding = <Navigate to="/" replace />;
 
   // Render the main app
   return (
@@ -119,8 +112,8 @@ const AuthenticatedApp = () => {
         }
       />
 
-      {/* ------- Protected routes (require sign-in) ------- */}
-      <Route element={<ProtectedRoute unauthenticatedElement={RedirectToLanding} />}>
+      {/* ------- App routes (no sign-in required) ------- */}
+      <Route>
         <Route path="/home" element={
           <LayoutWrapper currentPageName={mainPageKey}>
             <MainPage />
