@@ -43,10 +43,15 @@ Deno.serve(async (req) => {
     // A caller who is authenticated but not admin, or an anonymous caller
     // without the automation payload, is rejected here.
     let isAdmin = false;
+    let hasAuthenticatedCaller = false;
     try {
       const caller = await base44.auth.me();
-      isAdmin = !!(caller && caller.role === 'admin');
+      if (caller) {
+        hasAuthenticatedCaller = true;
+        isAdmin = caller.role === 'admin';
+      }
     } catch {
+      hasAuthenticatedCaller = false;
       isAdmin = false;
     }
 
@@ -85,7 +90,13 @@ Deno.serve(async (req) => {
       body?.event?.entity_name === 'CoachBooking' &&
       typeof body?.event?.entity_id === 'string' &&
       typeof body?.data === 'object' && body?.data !== null;
-    const isAutomation = hasValidAutomationSecret && hasAutomationPayload;
+    // Real Base44 entity automations invoke this function with NO user session
+    // attached. Requiring the absence of an authenticated caller means that
+    // even if the shared secret were somehow leaked, a logged-in attacker
+    // replaying it from a browser session (the realistic exfil path) is
+    // rejected here — the secret alone is not sufficient.
+    const isAutomation =
+      hasValidAutomationSecret && hasAutomationPayload && !hasAuthenticatedCaller;
 
     if (!isAdmin && !isAutomation) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
