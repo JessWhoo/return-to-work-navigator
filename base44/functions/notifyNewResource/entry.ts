@@ -26,14 +26,39 @@ const TYPE_LABELS: Record<string, string> = {
   other: "Resource",
 };
 
+// Escape untrusted string content before interpolating into the HTML email
+// template. Covers the five characters that can break out of text nodes or
+// attribute values into markup / script contexts.
+function escapeHtml(val: unknown): string {
+  return (val ?? "").toString()
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Only allow http(s) / mailto URLs into the <a href> — blocks javascript:,
+// data:, vbscript: and other script-capable schemes. Returns null if unsafe.
+function safeHref(val: unknown): string | null {
+  const raw = (val ?? "").toString().trim();
+  if (!raw) return null;
+  if (!/^(https?:|mailto:)/i.test(raw)) return null;
+  return escapeHtml(raw);
+}
+
 function buildEmailBody(name: string, resource: any) {
-  const greeting = name ? `Hi ${name},` : "Hi there,";
-  const categoryLabel = CATEGORY_LABELS[resource.category] || "New resource";
-  const typeLabel = TYPE_LABELS[resource.type] || "Resource";
-  const summary = resource.summary || "A new resource has been added to your library.";
-  const source = resource.source ? `<p style="margin: 4px 0 0 0; color: #475569; font-size: 14px;">Source: ${resource.source}</p>` : "";
-  const externalLink = resource.url
-    ? `<p style="margin: 12px 0 0 0;"><a href="${resource.url}" style="color: #7c3aed; font-weight: 600;">Open the resource →</a></p>`
+  const greeting = name ? `Hi ${escapeHtml(name)},` : "Hi there,";
+  const categoryLabel = escapeHtml(CATEGORY_LABELS[resource.category] || "New resource");
+  const typeLabel = escapeHtml(TYPE_LABELS[resource.type] || "Resource");
+  const title = escapeHtml(resource.title);
+  const summary = escapeHtml(resource.summary || "A new resource has been added to your library.");
+  const source = resource.source
+    ? `<p style="margin: 4px 0 0 0; color: #475569; font-size: 14px;">Source: ${escapeHtml(resource.source)}</p>`
+    : "";
+  const safeUrl = safeHref(resource.url);
+  const externalLink = safeUrl
+    ? `<p style="margin: 12px 0 0 0;"><a href="${safeUrl}" style="color: #7c3aed; font-weight: 600;">Open the resource →</a></p>`
     : "";
 
   return `
@@ -45,7 +70,7 @@ function buildEmailBody(name: string, resource: any) {
       <p>We just added a new ${typeLabel.toLowerCase()} to the ${categoryLabel} section of your library:</p>
 
       <div style="background: #f8fafc; border-left: 4px solid #7c3aed; padding: 16px 20px; border-radius: 6px; margin: 18px 0;">
-        <p style="margin: 0; font-weight: 700; font-size: 17px; color: #0f172a;">${resource.title}</p>
+        <p style="margin: 0; font-weight: 700; font-size: 17px; color: #0f172a;">${title}</p>
         <p style="margin: 8px 0 0 0; color: #334155;">${summary}</p>
         ${source}
         ${externalLink}
@@ -165,7 +190,7 @@ Deno.serve(async (req) => {
         await base44.asServiceRole.integrations.Core.SendEmail({
           from_name: "Navigator",
           to: u.email,
-          subject: `New in your library: ${resource.title}`,
+          subject: `New in your library: ${String(resource.title).replace(/[\r\n]+/g, ' ').slice(0, 200)}`,
           body,
         });
         sent++;
