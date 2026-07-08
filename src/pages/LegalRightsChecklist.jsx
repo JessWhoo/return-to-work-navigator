@@ -82,11 +82,11 @@ export default function LegalRightsChecklist() {
           </div>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-emerald-700 via-green-700 to-teal-700 bg-clip-text text-transparent">
-          Legal Rights Checklist
+          Legal Rights & Medical Accommodations Checklist
         </h1>
         <p className="text-slate-700 font-medium max-w-2xl mx-auto">
           Track the steps that protect you: understanding your rights, gathering documents,
-          requesting accommodations, and using FMLA leave.
+          FMLA paperwork, and requesting medical accommodations like ergonomic adjustments.
         </p>
       </div>
 

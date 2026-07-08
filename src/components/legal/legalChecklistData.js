@@ -47,6 +47,20 @@ export const legalChecklistSections = [
     ],
   },
   {
+    id: 'legal:medical-acc',
+    title: 'Medical & physical accommodations',
+    description: 'Specific adjustments to request so your workspace and schedule support your recovery.',
+    items: [
+      { id: 'legal:med-ergonomic', label: 'Request ergonomic desk / chair adjustments' },
+      { id: 'legal:med-schedule', label: 'Request a modified or flexible work schedule' },
+      { id: 'legal:med-remote', label: 'Request remote or hybrid work options if needed' },
+      { id: 'legal:med-breaks', label: 'Request additional rest breaks for fatigue management' },
+      { id: 'legal:med-parking', label: 'Request accessible parking or a workspace closer to facilities' },
+      { id: 'legal:med-appointments', label: 'Arrange time off for ongoing medical appointments' },
+      { id: 'legal:med-equipment', label: 'Request assistive equipment (screen filters, headsets, footrests)' },
+    ],
+  },
+  {
     id: 'legal:protect',
     title: 'Protect yourself',
     description: 'Keep a record in case something changes or goes wrong.',
