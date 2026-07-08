@@ -91,7 +91,7 @@ export default function Landing() {
                 asChild
                 className="bg-gradient-to-r from-violet-500 via-purple-500 to-emerald-600 hover:from-violet-600 hover:via-purple-600 hover:to-emerald-700 text-white font-bold px-7 py-6 rounded-xl shadow-lg text-base"
               >
-                <Link to="/home">
+                <Link to="/register">
                   Get started
                   <ArrowRight className="h-5 w-5 ml-1" />
                 </Link>
@@ -223,7 +223,7 @@ export default function Landing() {
               asChild
               className="mt-7 bg-white hover:bg-slate-100 text-slate-900 font-bold px-7 py-6 rounded-xl shadow-lg text-base"
             >
-              <Link to="/home">
+              <Link to="/register">
                 Open Navigator
                 <ArrowRight className="h-5 w-5 ml-1" />
               </Link>
