@@ -1,61 +1,93 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Creates a Google Calendar event on the coach's calendar for an existing
-// CoachBooking. ADMIN-ONLY manual path.
+// Entity automation handler for CoachBooking.create.
 //
-// SECURITY MODEL:
-//   - Callers MUST be authenticated AND have role === 'admin'.
-//   - There is no shared-secret bypass, no header-based auth, and no
-//     body-supplied token. The service-role calendar access is only
-//     reached after a positive admin identity check.
+// This function is invoked ONLY by the "New coach booking → calendar event"
+// entity automation configured in Base44. It intentionally does not expose
+// any client-usable authorization path:
 //
-// The normal production path (automatic event creation when a user requests
-// a coaching session) is handled by the separate `onCoachBookingCreated`
-// entity-automation handler, which is invoked directly by the Base44
-// automation runner and rejects any request carrying a user session.
+//   - It performs NO shared-secret check against a request body.
+//   - It refuses any request that arrives with an authenticated user session
+//     attached — real entity automations run with no user context.
+//   - It requires the entity-automation-shaped payload (event.type,
+//     event.entity_name === 'CoachBooking', event.entity_id, data).
+//   - It reloads the booking from the database and enforces the same
+//     freshness + entity_id + rate-limit gates as before.
+//
+// End users and admins do NOT call this function — admins wanting to add
+// a calendar event manually should use createCoachCalendarEvent (admin-gated).
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    // Positive admin check. Any failure to load the caller, or a caller
-    // without role === 'admin', is rejected.
-    let isAdmin = false;
+    // Hard requirement: automations run without a user session. If a session
+    // is attached, this is not the automation runner and must be rejected.
+    let hasSession = false;
     try {
       const caller = await base44.auth.me();
-      isAdmin = !!(caller && caller.role === 'admin');
+      hasSession = !!caller;
     } catch {
-      isAdmin = false;
+      hasSession = false;
     }
-    if (!isAdmin) {
+    if (hasSession) {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const body = await req.json().catch(() => ({}));
-    const bookingId = typeof body?.bookingId === 'string' ? body.bookingId : '';
-    const topicLabel = typeof body?.topicLabel === 'string' ? body.topicLabel : '';
 
-    if (!bookingId) {
-      return Response.json({ error: 'Missing bookingId' }, { status: 400 });
+    // Require the entity-automation payload shape.
+    const isAutomationPayload =
+      body?.event?.type === 'create' &&
+      body?.event?.entity_name === 'CoachBooking' &&
+      typeof body?.event?.entity_id === 'string' &&
+      typeof body?.data === 'object' && body?.data !== null;
+    if (!isAutomationPayload) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
+
+    const bookingId = body.event.entity_id;
 
     const booking = await base44.asServiceRole.entities.CoachBooking.get(bookingId).catch(() => null);
     if (!booking) return Response.json({ error: 'Booking not found' }, { status: 404 });
 
+    // Freshness: automation fires within seconds of creation.
+    const AUTOMATION_FRESHNESS_MS = 60 * 1000;
+    const createdAt = booking.created_date ? new Date(booking.created_date).getTime() : 0;
+    if (!createdAt || Date.now() - createdAt > AUTOMATION_FRESHNESS_MS) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Only active bookings.
     if (booking.status && !['requested', 'confirmed'].includes(booking.status)) {
       return Response.json({ error: 'Booking is not in an active state' }, { status: 400 });
     }
 
+    // Future date only.
     if (booking.requested_date && booking.requested_date < new Date().toISOString().slice(0, 10)) {
       return Response.json({ error: 'Booking date must be in the future' }, { status: 400 });
     }
 
+    // Idempotency.
     if (booking.calendar_event_id) {
       return Response.json({
         eventId: booking.calendar_event_id,
-        htmlLink: booking.calendar_event_link || null,
-        meetLink: booking.calendar_meet_link || null,
         alreadyExists: true,
       });
+    }
+
+    // Per-booking-owner rate limit.
+    const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
+    const RATE_LIMIT_MAX = 2;
+    const recentBookings = await base44.asServiceRole.entities.CoachBooking.filter({
+      created_by_id: booking.created_by_id,
+    });
+    const recentEventCount = (recentBookings || []).filter((b: any) =>
+      b.calendar_event_id &&
+      b.created_date &&
+      Date.now() - new Date(b.created_date).getTime() < RATE_LIMIT_WINDOW_MS
+    ).length;
+    if (recentEventCount >= RATE_LIMIT_MAX) {
+      return Response.json({ error: 'Booking owner rate limit reached.' }, { status: 429 });
     }
 
     const date = booking.requested_date;
@@ -66,6 +98,7 @@ Deno.serve(async (req) => {
     const contactName = booking.contact_name;
     const contactEmail = booking.contact_email;
     const notes = booking.notes;
+    const topicLabel = booking.topic || 'Return-to-work';
 
     if (!date || !time || !contactEmail) {
       return Response.json({ error: 'Booking is missing required fields' }, { status: 400 });
@@ -89,9 +122,9 @@ Deno.serve(async (req) => {
     const endLocal = `${date}T${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}:00`;
 
     const event = {
-      summary: `Coaching session — ${contactName || 'Client'} (${topicLabel || 'Return-to-work'})`,
+      summary: `Coaching session — ${contactName || 'Client'} (${topicLabel})`,
       description: [
-        `Topic: ${topicLabel || 'Return-to-work'}`,
+        `Topic: ${topicLabel}`,
         `Format: ${sessionFormat === 'phone' ? 'Phone call' : 'Video call'}`,
         `Client: ${contactName || ''} <${contactEmail}>`,
         notes ? `\nNotes from client:\n${notes}` : '',
