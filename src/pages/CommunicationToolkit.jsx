@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Mail, Users, ShieldCheck, ArrowRight } from 'lucide-react';
+import { FileText, Mail, Users, ShieldCheck, ArrowRight, Printer } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import Communication from './Communication';
 import EmployerEmailGenerator from './EmployerEmailGenerator';
@@ -29,6 +29,22 @@ export default function CommunicationToolkit() {
               <p className="text-sm font-medium text-slate-700">Step-by-step checklist to feel confident and protected by disability laws.</p>
             </div>
             <ArrowRight className="h-5 w-5 text-rose-600 flex-shrink-0" />
+          </CardContent>
+        </Card>
+      </Link>
+
+      <Link to="/AccommodationWorksheet" className="block">
+        <Card className="bg-gradient-to-r from-violet-100 via-purple-100 to-emerald-100 border-2 border-violet-300 hover:border-violet-500 shadow-md hover:shadow-xl transition-all">
+          <CardContent className="p-5 flex items-center gap-4">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-violet-500 to-emerald-600 shadow-lg flex-shrink-0">
+              <Printer className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs font-extrabold uppercase tracking-wider text-violet-700">Printable worksheet</p>
+              <h3 className="text-lg font-extrabold text-slate-900">Accommodation Meeting Worksheet</h3>
+              <p className="text-sm font-medium text-slate-700">Fill in your goals and requests, then download a clean PDF to bring to your meeting.</p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-violet-600 flex-shrink-0" />
           </CardContent>
         </Card>
       </Link>

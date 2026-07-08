@@ -24,6 +24,7 @@ import Blog from './pages/Blog';
 import EmergencyContacts from './pages/EmergencyContacts';
 import Landing from './pages/Landing';
 import PrivacySecurity from './pages/PrivacySecurity';
+import AccommodationWorksheet from './pages/AccommodationWorksheet';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -157,6 +158,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="LegalRightsChecklist">
               <LegalRightsChecklist />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/AccommodationWorksheet"
+          element={
+            <LayoutWrapper currentPageName="AccommodationWorksheet">
+              <AccommodationWorksheet />
             </LayoutWrapper>
           }
         />
