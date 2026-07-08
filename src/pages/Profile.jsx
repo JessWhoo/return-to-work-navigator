@@ -98,35 +98,15 @@ export default function Profile() {
       toast.error('Please type DELETE to confirm');
       return;
     }
-    const currentUserId = user?.id;
-    if (!currentUserId) {
-      toast.error('Could not verify your account. Please refresh and try again.');
-      return;
-    }
     setIsDeleting(true);
     try {
-      // Delete all user-owned data via the SDK (each entity is created_by_id-scoped via RLS).
-      const entityNames = [
-        'UserProgress', 'Record', 'CommunicationDraft', 'MeetingPrep',
-        'DailyAffirmation', 'CoachFeedback', 'ResourceReview',
-        'ResourceSuggestion', 'NetworkingContact', 'PeerConnection',
-        'DirectMessage', 'ForumPost', 'ForumReply',
-      ];
-      for (const name of entityNames) {
-        try {
-          // Strictly filter by the authenticated user's id — never fall back
-          // to an unfiltered list, which could return other users' rows.
-          const items = await base44.entities[name]
-            .filter({ created_by_id: currentUserId })
-            .catch(() => []);
-          await Promise.all(
-            (items || []).map((item) =>
-              base44.entities[name].delete(item.id).catch(() => null)
-            )
-          );
-        } catch {
-          // entity may not be readable or already empty — skip
-        }
+      // Deletion is executed server-side. The backend function reads the
+      // user id from the authenticated session (not the request body) and
+      // deletes only rows where created_by_id matches that session user —
+      // so this cannot be manipulated to touch another user's data.
+      const response = await base44.functions.invoke('deleteMyAccount', {});
+      if (response?.data?.error) {
+        throw new Error(response.data.error);
       }
 
       // Clear local cache

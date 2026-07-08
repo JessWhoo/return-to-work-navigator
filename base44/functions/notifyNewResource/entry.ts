@@ -97,8 +97,13 @@ Deno.serve(async (req) => {
       req.headers.get('x-automation-secret') ||
       payload?.automation_secret ||
       '';
+    // Require a non-trivial secret to be configured. If the env var is missing
+    // or too short, the automation path is disabled entirely — an empty
+    // providedSecret can never match.
     const hasValidAutomationSecret =
-      automationSecret.length > 0 && providedSecret === automationSecret;
+      automationSecret.length >= 16 &&
+      providedSecret.length >= 16 &&
+      providedSecret === automationSecret;
 
     const hasAutomationPayload =
       event?.type === 'create' &&
