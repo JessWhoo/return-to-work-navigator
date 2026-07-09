@@ -416,4 +416,68 @@ button:focus-visible {
   .border-zinc-700, .border-zinc-800 {
     border-color: rgb(203 213 225) !important; /* slate-300 */
   }
+
+  /* =========================================================
+     READABILITY: very light colored text (50–300 shades) was
+     designed for dark backgrounds. Since dark surfaces are now
+     flipped to white, darken these shades to their readable
+     700/800 equivalents everywhere by default.
+     ========================================================= */
+  .text-red-50, .text-red-100, .text-red-200, .text-red-300 { color: rgb(185 28 28) !important; }
+  .text-rose-50, .text-rose-100, .text-rose-200, .text-rose-300 { color: rgb(190 18 60) !important; }
+  .text-pink-50, .text-pink-100, .text-pink-200, .text-pink-300 { color: rgb(190 24 93) !important; }
+  .text-fuchsia-50, .text-fuchsia-100, .text-fuchsia-200, .text-fuchsia-300, .text-fuchsia-400 { color: rgb(162 28 175) !important; }
+  .text-purple-50, .text-purple-100, .text-purple-200, .text-purple-300 { color: rgb(126 34 206) !important; }
+  .text-violet-50, .text-violet-100, .text-violet-200, .text-violet-300 { color: rgb(109 40 217) !important; }
+  .text-indigo-50, .text-indigo-100, .text-indigo-200, .text-indigo-300 { color: rgb(67 56 202) !important; }
+  .text-blue-50, .text-blue-100, .text-blue-200, .text-blue-300 { color: rgb(29 78 216) !important; }
+  .text-sky-50, .text-sky-100, .text-sky-200, .text-sky-300, .text-sky-400 { color: rgb(3 105 161) !important; }
+  .text-cyan-50, .text-cyan-100, .text-cyan-200, .text-cyan-300 { color: rgb(14 116 144) !important; }
+  .text-teal-50, .text-teal-100, .text-teal-200, .text-teal-300 { color: rgb(15 118 110) !important; }
+  .text-emerald-50, .text-emerald-100, .text-emerald-200, .text-emerald-300 { color: rgb(4 120 87) !important; }
+  .text-green-50, .text-green-100, .text-green-200, .text-green-300 { color: rgb(21 128 61) !important; }
+  .text-lime-50, .text-lime-100, .text-lime-200, .text-lime-300, .text-lime-400 { color: rgb(77 124 15) !important; }
+  .text-yellow-50, .text-yellow-100, .text-yellow-200, .text-yellow-300 { color: rgb(161 98 7) !important; }
+  .text-amber-50, .text-amber-100, .text-amber-200, .text-amber-300 { color: rgb(146 64 14) !important; }
+  .text-orange-50, .text-orange-100, .text-orange-200, .text-orange-300 { color: rgb(154 52 18) !important; }
+
+  /* EXCEPTION: on genuinely saturated colored backgrounds and colored
+     gradients, light text is intentional — keep it white there. */
+  :is([class*="bg-gradient-to"],
+    .bg-red-500, .bg-red-600, .bg-red-700,
+    .bg-rose-500, .bg-rose-600, .bg-rose-700,
+    .bg-pink-500, .bg-pink-600, .bg-pink-700,
+    .bg-fuchsia-500, .bg-fuchsia-600, .bg-fuchsia-700,
+    .bg-purple-500, .bg-purple-600, .bg-purple-700,
+    .bg-violet-500, .bg-violet-600, .bg-violet-700,
+    .bg-indigo-500, .bg-indigo-600, .bg-indigo-700,
+    .bg-blue-500, .bg-blue-600, .bg-blue-700,
+    .bg-sky-500, .bg-sky-600, .bg-sky-700,
+    .bg-cyan-500, .bg-cyan-600, .bg-cyan-700,
+    .bg-teal-500, .bg-teal-600, .bg-teal-700,
+    .bg-emerald-500, .bg-emerald-600, .bg-emerald-700,
+    .bg-green-500, .bg-green-600, .bg-green-700,
+    .bg-lime-500, .bg-lime-600, .bg-lime-700,
+    .bg-yellow-500, .bg-yellow-600,
+    .bg-amber-500, .bg-amber-600,
+    .bg-orange-500, .bg-orange-600, .bg-orange-700)
+  :is(.text-red-50, .text-red-100, .text-red-200, .text-red-300,
+    .text-rose-50, .text-rose-100, .text-rose-200, .text-rose-300,
+    .text-pink-50, .text-pink-100, .text-pink-200, .text-pink-300,
+    .text-fuchsia-50, .text-fuchsia-100, .text-fuchsia-200, .text-fuchsia-300,
+    .text-purple-50, .text-purple-100, .text-purple-200, .text-purple-300,
+    .text-violet-50, .text-violet-100, .text-violet-200, .text-violet-300,
+    .text-indigo-50, .text-indigo-100, .text-indigo-200, .text-indigo-300,
+    .text-blue-50, .text-blue-100, .text-blue-200, .text-blue-300,
+    .text-sky-50, .text-sky-100, .text-sky-200, .text-sky-300,
+    .text-cyan-50, .text-cyan-100, .text-cyan-200, .text-cyan-300,
+    .text-teal-50, .text-teal-100, .text-teal-200, .text-teal-300,
+    .text-emerald-50, .text-emerald-100, .text-emerald-200, .text-emerald-300,
+    .text-green-50, .text-green-100, .text-green-200, .text-green-300,
+    .text-lime-50, .text-lime-100, .text-lime-200, .text-lime-300,
+    .text-yellow-50, .text-yellow-100, .text-yellow-200, .text-yellow-300,
+    .text-amber-50, .text-amber-100, .text-amber-200, .text-amber-300,
+    .text-orange-50, .text-orange-100, .text-orange-200, .text-orange-300) {
+    color: rgb(255 255 255) !important;
+  }
 }
