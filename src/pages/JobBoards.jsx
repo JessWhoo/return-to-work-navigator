@@ -7,7 +7,7 @@ import { base44 } from '@/api/base44Client';
 import {
   Search, ExternalLink, Briefcase, Star, Globe,
   Heart, Shield, Users, Zap, Bookmark, BookmarkCheck,
-  RefreshCw, ChevronDown, ChevronUp, Lightbulb
+  RefreshCw, ChevronDown, ChevronUp, Lightbulb, MessageSquare
 } from 'lucide-react';
 
 const jobBoards = [
@@ -48,12 +48,20 @@ const jobBoards = [
         url: 'https://www.pathforward.org',
         description: 'Returnship programs at leading companies for people returning to work after time off. Many roles are specifically supportive of medical gaps.',
         tags: ['Returnship', 'Paid Programs', 'Flexible']
-      },
+      }
+    ]
+  },
+  {
+    category: 'How to Talk About Career Breaks',
+    icon: MessageSquare,
+    color: 'purple',
+    boards: [
       {
         name: 'How to Talk About Career Breaks',
         url: 'https://www.linkedin.com/pulse/how-talk-career-breaks-rewriting-narrative-around-employment-gaps-tyyqe/',
         description: 'Practical article on rewriting the narrative around employment gaps — how to confidently explain a medical or personal career break to recruiters and hiring managers.',
-        tags: ['Career Gap', 'Interview Prep', 'Free']
+        tags: ['Career Gap', 'Interview Prep', 'Free'],
+        featured: true
       }
     ]
   },
