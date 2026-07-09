@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Apply dark mode based on system preference
 if (typeof window !== 'undefined') {
@@ -151,21 +152,34 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   const toggleSpeech = () => {
-    if (!speechEnabled) {
-      const utterance = new SpeechSynthesisUtterance("Text-to-speech enabled. Click on any text to hear it read aloud.");
-      window.speechSynthesis.speak(utterance);
-    } else {
-      window.speechSynthesis.cancel();
+    // speechSynthesis is unavailable or throws in some browsers/webviews —
+    // never let the toggle click crash the page.
+    try {
+      if (!window.speechSynthesis) return;
+      if (!speechEnabled) {
+        const utterance = new SpeechSynthesisUtterance("Text-to-speech enabled. Click on any text to hear it read aloud.");
+        window.speechSynthesis.speak(utterance);
+      } else {
+        window.speechSynthesis.cancel();
+      }
+      setSpeechEnabled(!speechEnabled);
+    } catch (err) {
+      console.error('[Layout] toggleSpeech failed:', err);
     }
-    setSpeechEnabled(!speechEnabled);
   };
 
   const speakText = (text) => {
-    if (speechEnabled && text) {
+    if (!speechEnabled || !text) return;
+    // This runs from a click handler attached to ALL page clicks — a throw
+    // here would error on every single click, causing a cascading error loop.
+    try {
+      if (!window.speechSynthesis) return;
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.9;
       window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('[Layout] speakText failed:', err);
     }
   };
 
@@ -311,9 +325,13 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Main Content */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-24 lg:pb-8" onClick={(e) => {
-          const target = /** @type {HTMLElement} */ (e.target);
-          if (speechEnabled && target?.textContent) {
-            speakText(target.textContent);
+          try {
+            const target = /** @type {HTMLElement} */ (e.target);
+            if (speechEnabled && target?.textContent) {
+              speakText(target.textContent);
+            }
+          } catch (err) {
+            console.error('[Layout] click-to-speak handler failed:', err);
           }
         }}>
           <AnimatePresence mode="wait">
@@ -324,7 +342,9 @@ export default function Layout({ children, currentPageName }) {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
             >
-              {children}
+              <ErrorBoundary>
+                {children}
+              </ErrorBoundary>
             </motion.div>
           </AnimatePresence>
         </main>
