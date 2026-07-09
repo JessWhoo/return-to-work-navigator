@@ -11,14 +11,10 @@ import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Apply dark mode based on system preference
+// The app is designed as a light theme — force light mode regardless of the
+// device's system preference (dark mode made cards black with dark text).
 if (typeof window !== 'undefined') {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (prefersDark) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
+  document.documentElement.classList.remove('dark');
 }
 
 // Per-tab scroll-position memory so switching tabs preserves where you were.
@@ -83,14 +79,9 @@ export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [speechEnabled, setSpeechEnabled] = useState(false);
 
-  // Keep dark mode in sync with system preference
+  // Always keep the light theme active — never follow system dark mode.
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e) => {
-      document.documentElement.classList.toggle('dark', e.matches);
-    };
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    document.documentElement.classList.remove('dark');
   }, []);
 
   // Restore previous scroll position for this path (if any) on navigation,
