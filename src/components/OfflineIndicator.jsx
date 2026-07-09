@@ -13,8 +13,12 @@ export default function OfflineIndicator() {
   // Poll outbox count every few seconds when offline
   useEffect(() => {
     const poll = async () => {
-      const items = await getOutbox();
-      setPendingCount(items.length);
+      try {
+        const items = await getOutbox();
+        setPendingCount(items.length);
+      } catch {
+        // Offline storage unavailable (e.g. private browsing) — ignore.
+      }
     };
     poll();
     const id = setInterval(poll, 5000);

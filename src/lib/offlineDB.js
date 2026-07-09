@@ -9,6 +9,15 @@ const STORES     = ['MeetingPrep', 'CommunicationDraft', 'Record', '_outbox'];
 
 let _db = null;
 
+// IndexedDB rejects with DOMException (or null), which lacks a `.stack` in
+// some browsers (Safari) and crashes global error reporters. Always reject
+// with a real Error.
+function toError(raw) {
+  const err = new Error(raw?.message || 'IndexedDB error');
+  err.name = raw?.name || 'IndexedDBError';
+  return err;
+}
+
 function openDB() {
   if (_db) return Promise.resolve(_db);
   return new Promise((resolve, reject) => {
@@ -22,7 +31,7 @@ function openDB() {
       });
     };
     req.onsuccess  = (e) => { _db = e.target.result; resolve(_db); };
-    req.onerror    = (e) => reject(e.target.error);
+    req.onerror    = (e) => reject(toError(e.target.error));
   });
 }
 
@@ -37,7 +46,7 @@ function tx(storeName, mode = 'readonly') {
 function promisify(req) {
   return new Promise((res, rej) => {
     req.onsuccess = e => res(e.target.result);
-    req.onerror   = e => rej(e.target.error);
+    req.onerror   = e => rej(toError(e.target.error));
   });
 }
 
@@ -63,7 +72,7 @@ export async function putMany(storeName, records) {
   return new Promise((res, rej) => {
     records.forEach(r => store.put(r));
     txn.oncomplete = () => res();
-    txn.onerror    = e => rej(e.target.error);
+    txn.onerror    = e => rej(toError(e.target.error));
   });
 }
 
