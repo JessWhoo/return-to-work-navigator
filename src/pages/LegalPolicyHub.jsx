@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, FileText, Globe, Lock, CheckSquare } from 'lucide-react';
+import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight } from 'lucide-react';
 import LegalRights from './LegalRights';
 import Accommodations from './Accommodations';
 import StateByStateLaws from './StateByStateLaws';
@@ -17,6 +18,20 @@ export default function LegalPolicyHub() {
         </h1>
         <p className="text-lg font-medium text-slate-800">Your rights, accommodations, and laws explained</p>
       </div>
+
+      <Link
+        to="/LegalDirectory"
+        className="flex items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all"
+      >
+        <div className="flex items-center gap-3">
+          <Search className="h-6 w-6 flex-shrink-0" />
+          <div>
+            <p className="font-extrabold">Searchable Legal Directory</p>
+            <p className="text-sm text-white/90 font-medium">Find quick answers on FMLA, ADA, state laws, accommodations, insurance & privacy</p>
+          </div>
+        </div>
+        <ArrowRight className="h-6 w-6 flex-shrink-0" />
+      </Link>
 
       <Tabs defaultValue="disclosure" className="space-y-6">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-6 bg-white border border-slate-300 h-auto">
