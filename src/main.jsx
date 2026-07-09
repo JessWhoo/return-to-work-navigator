@@ -3,15 +3,11 @@ import ReactDOM from 'react-dom/client'
 import App from '@/App.jsx'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import '@/index.css'
+import { installGlobalErrorLogging } from '@/lib/errorLogger'
 
-// Global handlers so uncaught errors and promise rejections in click handlers,
-// effects, or async code get logged instead of crashing silently.
-window.addEventListener('error', (event) => {
-  console.error('[GlobalError]', event.message, event.error);
-});
-window.addEventListener('unhandledrejection', (event) => {
-  console.error('[UnhandledRejection]', event.reason);
-});
+// Detailed logging for uncaught errors and promise rejections — full stack
+// traces, source location, page URL, plus a session log via window.__errorLog()
+installGlobalErrorLogging();
 
 // Register service worker for offline support
 if ('serviceWorker' in navigator) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { logError } from '@/lib/errorLogger';
 
 /**
  * Top-level error boundary. Catches render/lifecycle errors anywhere in the
@@ -16,8 +17,8 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    // Log for debugging; do not surface raw error details to end users.
-    console.error('[ErrorBoundary] Caught error:', error, info?.componentStack);
+    // Detailed log (stack + component tree); not surfaced to end users.
+    logError('RenderError', error, { componentStack: info?.componentStack });
   }
 
   handleReload = () => {
