@@ -36,7 +36,7 @@ export default function DirectoryEntryCard({ entry }) {
             )}
             <div className="flex flex-wrap gap-1.5">
               {entry.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs bg-slate-50">{tag}</Badge>
+                <Badge key={tag} variant="outline" className="text-xs bg-slate-100 text-slate-800 border-slate-300 font-bold">{tag}</Badge>
               ))}
             </div>
           </div>
