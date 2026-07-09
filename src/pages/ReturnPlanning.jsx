@@ -279,10 +279,10 @@ Sincerely,
           </Card>
 
           {/* Tips Card */}
-          <Card className="bg-amber-900/30 border-amber-700">
+          <Card className="bg-amber-50 border-amber-300">
             <CardContent className="pt-6">
-              <h4 className="font-semibold text-amber-300 mb-3">💡 Planning Tips</h4>
-              <ul className="space-y-2 text-sm text-amber-200">
+              <h4 className="font-semibold text-amber-800 mb-3">💡 Planning Tips</h4>
+              <ul className="space-y-2 text-sm text-amber-900">
                 <li>• Start slower than you think you need to</li>
                 <li>• Build in review points to adjust the plan</li>
                 <li>• Communicate your plan clearly in writing</li>
