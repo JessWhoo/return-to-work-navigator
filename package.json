@@ -53,6 +53,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^11.16.4",
+    "glob": "^11.1.0",
     "html2canvas": "^1.4.1",
     "input-otp": "^1.4.2",
     "jspdf": "^4.2.1",
@@ -77,6 +78,9 @@
     "three": "^0.171.0",
     "vaul": "^1.1.2",
     "zod": "^3.24.2"
+  },
+  "overrides": {
+    "glob": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
