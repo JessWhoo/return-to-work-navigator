@@ -96,12 +96,7 @@ export default function ExpertQA() {
         });
         return;
       }
-      const already = item.helpful_by?.includes(currentUser.id);
-      const helpful_by = already
-        ? (item.helpful_by || []).filter(id => id !== currentUser.id)
-        : [...(item.helpful_by || []), currentUser.id];
-      const helpful_count = helpful_by.length;
-      return base44.entities.ExpertQA.update(item.id, { helpful_by, helpful_count });
+      return base44.functions.invoke('markQAHelpful', { qaId: item.id });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['expertQA'] }),
   });

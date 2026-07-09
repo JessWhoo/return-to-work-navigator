@@ -6,10 +6,22 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+
+    // Require a signed-in user: this endpoint exposes the coach's private
+    // calendar free/busy data via a service-role connector, so anonymous
+    // callers must never reach it. (Booking itself already requires login.)
+    const caller = await base44.auth.me().catch(() => null);
+    if (!caller) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { date, timezone, slots, durationMinutes } = await req.json();
 
-    if (!date || !Array.isArray(slots) || slots.length === 0) {
-      return Response.json({ error: 'Missing date or slots' }, { status: 400 });
+    if (!date || !Array.isArray(slots) || slots.length === 0 || slots.length > 50) {
+      return Response.json({ error: 'Missing or invalid date/slots' }, { status: 400 });
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date))) {
+      return Response.json({ error: 'Invalid date format' }, { status: 400 });
     }
     const tz = timezone || 'UTC';
     const duration = Number(durationMinutes) || 30;
