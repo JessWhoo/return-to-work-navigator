@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { Stethoscope, Briefcase, BookOpen, Activity, Calendar, Tag } from 'lucide-react';
+import { Stethoscope, Briefcase, BookOpen, Activity, Tag } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function AddRecordDialog({ open, onClose, editRecord }) {

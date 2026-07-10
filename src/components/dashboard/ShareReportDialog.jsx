@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
-  FileText, Download, Mail, Lock, 
+  FileText, Download, Mail, 
   CheckCircle2, Shield, Loader2 
 } from 'lucide-react';
 import { format } from 'date-fns';

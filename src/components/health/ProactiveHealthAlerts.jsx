@@ -4,11 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   AlertTriangle, Heart, Activity, Brain, Phone, 
-  Coffee, Bed, CheckCircle, X, Sparkles, Loader2
+  Coffee, CheckCircle, X, Sparkles, Loader2
 } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { format, parseISO, subDays } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProactiveHealthAlerts() {

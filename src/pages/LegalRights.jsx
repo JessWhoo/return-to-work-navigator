@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   Shield, Scale, FileText, AlertCircle, 
-  CheckCircle2, Building, Users, Clock 
+  CheckCircle2, Building, Clock 
 } from 'lucide-react';
 import AccommodationRequestGuide from '@/components/legal/AccommodationRequestGuide';
 

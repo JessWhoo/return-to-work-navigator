@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Button } from '@/components/ui/button';
 import { ThumbsUp, ThumbsDown, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

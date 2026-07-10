@@ -8,8 +8,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { jsPDF } from 'jspdf';
 import { 
-  FileText, Download, Copy, CheckCircle2, 
-  Clock, Home, Utensils, ThermometerSun, Briefcase 
+  FileText,
+  Download,
+  Clock,
+  Home,
+  Utensils,
+  Briefcase
 } from 'lucide-react';
 
 const commonAccommodations = [

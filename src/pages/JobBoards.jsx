@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import React, { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import {
-  Search, ExternalLink, Briefcase, Star, Globe,
+  Search, ExternalLink, Briefcase, Globe,
   Heart, Shield, Users, Zap, Bookmark, BookmarkCheck,
   RefreshCw, ChevronDown, ChevronUp, Lightbulb, MessageSquare
 } from 'lucide-react';
