@@ -86,6 +86,7 @@
     "mdast-util-to-hast": "^13.2.1",
     "yaml": "$yaml",
     "quill": "$quill",
+    "rgbcolor": "npm:noop2@^2.0.0",
     "brace-expansion@1": "^1.1.13",
     "brace-expansion@2": "^2.0.3"
   },
