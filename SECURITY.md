@@ -2,20 +2,19 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Only the latest code on the `main` branch is supported for security updates.
+Supported means security fixes are made on `main` only; no backports are
+provided for older snapshots or forks.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| `main`  | :white_check_mark: |
+| Other   | :x:                |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Please report vulnerabilities using GitHub Private Vulnerability Reporting at
+https://github.com/JessWhoo/return-to-work-navigator/security/advisories/new.
+Include reproduction steps, impact, and any proof-of-concept details. We will
+acknowledge new reports within 72 hours, provide status updates at least weekly
+while triaging, and share remediation or disclosure timing once confirmed.
