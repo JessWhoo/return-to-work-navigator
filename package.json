@@ -83,7 +83,7 @@
     "glob": "^11.1.0",
     "postcss": "$postcss",
     "mdast-util-to-hast": "^13.2.1",
-    "yaml": "^2.8.3",
+    "yaml": "$yaml",
     "brace-expansion@1": "^1.1.13",
     "brace-expansion@2": "^2.0.3"
   },
