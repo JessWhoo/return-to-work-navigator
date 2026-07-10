@@ -69,6 +69,11 @@
     "view_count": {
       "type": "number",
       "default": 0
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional description or context for this Q&A"
     }
   },
   "required": [
