@@ -80,6 +80,7 @@
   },
   "overrides": {
     "glob": "^11.1.0",
+    "postcss": "^8.5.3",
     "brace-expansion@1": "^1.1.13",
     "brace-expansion@2": "^2.0.3"
   },
