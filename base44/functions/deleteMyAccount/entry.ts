@@ -27,19 +27,31 @@ Deno.serve(async (req) => {
 
     const userId: string = user.id;
 
-    const entityNames = [
-      'UserProgress', 'Record', 'CommunicationDraft', 'MeetingPrep',
-      'DailyAffirmation', 'CoachFeedback', 'ResourceReview',
-      'ResourceSuggestion', 'NetworkingContact', 'PeerConnection',
-      'DirectMessage', 'ForumPost', 'ForumReply', 'CoachBooking',
+    // Static, direct references to each entity client — no dynamic key lookup,
+    // so nothing outside this hardcoded list can ever be resolved.
+    const svc = base44.asServiceRole.entities;
+    const entityClients = [
+      ['UserProgress', svc.UserProgress],
+      ['Record', svc.Record],
+      ['CommunicationDraft', svc.CommunicationDraft],
+      ['MeetingPrep', svc.MeetingPrep],
+      ['DailyAffirmation', svc.DailyAffirmation],
+      ['CoachFeedback', svc.CoachFeedback],
+      ['ResourceReview', svc.ResourceReview],
+      ['ResourceSuggestion', svc.ResourceSuggestion],
+      ['NetworkingContact', svc.NetworkingContact],
+      ['PeerConnection', svc.PeerConnection],
+      ['DirectMessage', svc.DirectMessage],
+      ['ForumPost', svc.ForumPost],
+      ['ForumReply', svc.ForumReply],
+      ['CoachBooking', svc.CoachBooking],
     ];
 
     const results: Record<string, number> = {};
     const errors: string[] = [];
 
-    for (const name of entityNames) {
+    for (const [name, entities] of entityClients) {
       try {
-        const entities = (base44.asServiceRole.entities as any)[name];
         if (!entities) continue;
         const items = await entities.filter({ created_by_id: userId }).catch(() => []);
         let deleted = 0;
