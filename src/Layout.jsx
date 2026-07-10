@@ -10,6 +10,7 @@ import {
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
 import ErrorBoundary from './components/ErrorBoundary';
+import GlobalSearch from './components/search/GlobalSearch';
 
 // The app is designed as a light theme — force light mode regardless of the
 // device's system preference (dark mode made cards black with dark text).
@@ -211,6 +212,11 @@ export default function Layout({ children, currentPageName }) {
             </Link>
             </div>
 
+            {/* Global search (desktop) */}
+            <div className="hidden md:block flex-1 max-w-md mx-6">
+              <GlobalSearch />
+            </div>
+
             <div className="flex items-center space-x-2">
               <button
                 onClick={toggleSpeech}
@@ -231,6 +237,11 @@ export default function Layout({ children, currentPageName }) {
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>
+          </div>
+
+          {/* Global search (mobile) */}
+          <div className="md:hidden pb-3">
+            <GlobalSearch />
           </div>
         </div>
 
