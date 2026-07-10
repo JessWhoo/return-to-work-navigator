@@ -7,8 +7,18 @@ const STAGE_LABELS: Record<string, string> = {
   completed: "Return complete",
 };
 
+// Escape HTML entities so user-controlled values can't inject markup into emails.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function buildEmailBody(name: string, stageLabel: string, daysSinceLog: number | null) {
-  const greeting = name ? `Hi ${name},` : "Hi there,";
+  const greeting = name ? `Hi ${escapeHtml(name)},` : "Hi there,";
   const energyLine = daysSinceLog === null
     ? "We noticed you haven't logged any energy check-ins yet. Even a quick note about how you're feeling can help you spot patterns over time."
     : daysSinceLog >= 7
