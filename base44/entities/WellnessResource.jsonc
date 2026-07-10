@@ -1,0 +1,68 @@
+{
+  "name": "WellnessResource",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the wellness resource"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short description of what this resource covers"
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "fatigue_management",
+        "legal_rights",
+        "emotional_wellbeing",
+        "workplace_accommodations",
+        "nutrition_movement",
+        "sleep_rest"
+      ],
+      "description": "Topic category for filtering"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "article",
+        "guide",
+        "video",
+        "tool",
+        "website"
+      ],
+      "default": "article",
+      "description": "Format of the resource"
+    },
+    "url": {
+      "type": "string",
+      "description": "External link to the resource (optional)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Organization or author providing the resource"
+    }
+  },
+  "required": [
+    "title",
+    "topic"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

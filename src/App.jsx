@@ -25,6 +25,7 @@ import EmergencyContacts from './pages/EmergencyContacts';
 import PrivacySecurity from './pages/PrivacySecurity';
 import AccommodationWorksheet from './pages/AccommodationWorksheet';
 import LegalDirectory from './pages/LegalDirectory';
+import WellnessLibrary from './pages/WellnessLibrary';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -96,6 +97,14 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="DisclosureGuide">
             <DisclosureGuide />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/WellnessLibrary"
+        element={
+          <LayoutWrapper currentPageName="WellnessLibrary">
+            <WellnessLibrary />
           </LayoutWrapper>
         }
       />

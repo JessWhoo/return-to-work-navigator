@@ -1,0 +1,32 @@
+{
+  "name": "WellnessResourceRating",
+  "type": "object",
+  "properties": {
+    "resource_id": {
+      "type": "string",
+      "description": "ID of the WellnessResource being rated"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "How helpful this resource was, 1-5 stars"
+    }
+  },
+  "required": [
+    "resource_id",
+    "rating"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {},
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

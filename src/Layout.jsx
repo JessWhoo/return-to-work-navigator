@@ -124,6 +124,7 @@ export default function Layout({ children, currentPageName }) {
         { name: 'My Journey', icon: TrendingUp, page: 'MyJourney' },
         { name: 'Career & Return', icon: Calendar, page: 'CareerHub' },
         { name: 'Health & Well-Being', icon: Zap, page: 'WellbeingHub' },
+        { name: 'Wellness Library', icon: BookOpen, page: 'WellnessLibrary' },
       ],
     },
     {
