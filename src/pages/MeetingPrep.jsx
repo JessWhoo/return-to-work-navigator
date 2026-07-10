@@ -15,6 +15,7 @@ import MeetingPrepForm from '../components/meetingprep/MeetingPrepForm';
 import EmployerResponseLog from '../components/meetingprep/EmployerResponseLog';
 import ConversationSimulator from '../components/meetingprep/ConversationSimulator';
 import TemplateLibrary from '../components/meetingprep/TemplateLibrary';
+import TalkingPointsGenerator from '../components/meetingprep/TalkingPointsGenerator';
 import { exportMeetingPrepPdf } from '../components/meetingprep/exportMeetingPrepPdf';
 
 const STATUS_CONFIG = {
@@ -87,6 +88,8 @@ export default function MeetingPrep() {
             </Button>
           </div>
         </div>
+
+        <TalkingPointsGenerator />
 
         {isLoading ? (
           <div className="flex justify-center py-12">
