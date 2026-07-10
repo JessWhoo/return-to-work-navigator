@@ -66,7 +66,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.54.2",
     "react-hot-toast": "^2.6.0",
-    "react-markdown": "^9.0.1",
+    "react-markdown": "^9.1.0",
     "react-quill": "^2.0.0",
     "react-resizable-panels": "^2.1.7",
     "react-router-dom": "^6.30.4",
@@ -81,6 +81,7 @@
   "overrides": {
     "glob": "^11.1.0",
     "postcss": "$postcss",
+    "mdast-util-to-hast": "^13.2.1",
     "brace-expansion@1": "^1.1.13",
     "brace-expansion@2": "^2.0.3"
   },
