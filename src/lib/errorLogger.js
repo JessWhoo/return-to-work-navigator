@@ -14,6 +14,14 @@ function writeLog(entries) {
   try { sessionStorage.setItem(LOG_KEY, JSON.stringify(entries.slice(-MAX_ENTRIES))); } catch { /* ignore */ }
 }
 
+// Storm suppression: the same error repeating rapidly (e.g. thrown every
+// animation frame) must not flood the console with hundreds of entries.
+// Log the first few occurrences in full, then only a periodic summary.
+const recentErrors = new Map(); // key -> { count, firstSeen }
+const DEDUPE_WINDOW_MS = 5000;
+const MAX_FULL_LOGS = 3;
+const SUMMARY_EVERY = 25;
+
 export function logError(type, error, extra = {}) {
   const entry = {
     type,
@@ -24,14 +32,34 @@ export function logError(type, error, extra = {}) {
     ...extra,
   };
 
-  // Detailed console output with grouped stack trace
-  console.groupCollapsed(`%c[${type}] ${entry.message}`, 'color:#dc2626;font-weight:bold');
-  console.error('Time:', entry.time);
-  console.error('Page:', entry.url);
-  if (entry.stack) console.error('Stack:\n' + entry.stack);
-  if (extra.componentStack) console.error('Component stack:\n' + extra.componentStack);
-  if (extra.source) console.error('Source:', extra.source, `line ${extra.line}:${extra.col}`);
-  console.groupEnd();
+  const key = `${type}|${entry.message}|${extra.source || ''}|${extra.line || ''}`;
+  const now = Date.now();
+  const seen = recentErrors.get(key);
+  if (seen && now - seen.firstSeen < DEDUPE_WINDOW_MS) {
+    seen.count += 1;
+    if (seen.count % SUMMARY_EVERY === 0) {
+      console.warn(`[${type}] "${entry.message}" repeated ${seen.count}x in the last ${Math.round((now - seen.firstSeen) / 1000)}s — suppressing duplicates.`);
+    }
+    if (seen.count > MAX_FULL_LOGS) return entry; // suppressed: no console spam, no log-file growth
+  } else {
+    recentErrors.set(key, { count: 1, firstSeen: now });
+    // Keep the map small
+    if (recentErrors.size > 50) {
+      for (const [k, v] of recentErrors) {
+        if (now - v.firstSeen > DEDUPE_WINDOW_MS) recentErrors.delete(k);
+      }
+    }
+  }
+
+  // Single structured console entry with all context (stack, component tree,
+  // source location) — one console.error per error, never a multi-line burst.
+  console.error(`[${type}] ${entry.message}`, {
+    time: entry.time,
+    page: entry.url,
+    stack: entry.stack || '(no stack — likely a cross-origin script; details unavailable to the page)',
+    ...(extra.componentStack ? { componentStack: extra.componentStack } : {}),
+    ...(extra.source ? { source: `${extra.source} line ${extra.line}:${extra.col}` } : {}),
+  });
 
   const log = readLog();
   log.push(entry);
