@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search, HeartPulse, X } from 'lucide-react';
 import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
+import { useAuth } from '@/lib/AuthContext';
 
 const TOPICS = [
   { id: 'all', label: 'All Topics' },
@@ -16,6 +17,7 @@ const TOPICS = [
 ];
 
 export default function WellnessLibrary() {
+  const { isAuthenticated, isLoadingAuth, user: authUser } = useAuth();
   const [resources, setResources] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [user, setUser] = useState(null);
@@ -24,6 +26,9 @@ export default function WellnessLibrary() {
   const [topic, setTopic] = useState('all');
 
   useEffect(() => {
+    // Wait for auth to settle so we never call user-scoped endpoints
+    // while signed out (that produced repeated 401s on page load).
+    if (isLoadingAuth) return;
     const load = async () => {
       const [res, rats] = await Promise.all([
         base44.entities.WellnessResource.list('-created_date', 200),
@@ -31,15 +36,11 @@ export default function WellnessLibrary() {
       ]);
       setResources(res);
       setRatings(rats);
-      try {
-        setUser(await base44.auth.me());
-      } catch {
-        setUser(null);
-      }
+      setUser(isAuthenticated ? authUser : null);
       setLoading(false);
     };
     load();
-  }, []);
+  }, [isLoadingAuth, isAuthenticated, authUser]);
 
   const ratingStats = useMemo(() => {
     const stats = {};
