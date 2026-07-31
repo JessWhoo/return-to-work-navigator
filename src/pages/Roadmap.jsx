@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { motion } from 'framer-motion';
 import {
-import { useUserProgress } from '@/hooks/useUserProgress';
   CheckCircle2, Circle, Clock, MapPin, Sparkles,
   CalendarDays, HeartHandshake, Briefcase, Flag, ChevronRight
 } from 'lucide-react';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const PHASES = [
   {

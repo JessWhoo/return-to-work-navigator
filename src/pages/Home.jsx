@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '@/lib/AuthContext';
 import { 
   CheckSquare, Zap, MessageSquare, FileText, Shield, 
   Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search,
@@ -16,6 +15,7 @@ import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import DailyCheckIn from '../components/DailyCheckIn';
 import useSEO from '@/hooks/useSEO';
+import { useAuth } from '@/lib/AuthContext';
 import { useUserProgress } from '@/hooks/useUserProgress';
 
 
