@@ -669,8 +669,8 @@ export default function Resources() {
                 <div className={`p-3 rounded-xl bg-gradient-to-br ${colors.iconFrom} ${colors.iconTo} shadow-lg`}>
                   <Icon className="h-7 w-7 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">{category.category}</h2>
-                <Badge className={`ml-auto ${colors.badge} text-white shadow-md`}>
+                <h2 className="text-2xl font-extrabold text-slate-900">{category.category}</h2>
+                <Badge className={`ml-auto bg-white text-slate-900 border-2 ${colors.border} font-bold shadow-sm`}>
                   {category.items.length} resources
                 </Badge>
               </div>
