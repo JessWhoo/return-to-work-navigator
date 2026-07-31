@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Copy, CheckCircle, TrendingUp, Zap, Shield } from 'lucide-react';
 import { toast } from 'sonner';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const SECTIONS = [
   { key: 'journey_stage', label: 'Journey Stage', icon: TrendingUp },
@@ -19,13 +20,7 @@ export default function ProgressReportTab() {
   const [generatedReport, setGeneratedReport] = useState('');
   const [generating, setGenerating] = useState(false);
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const list = await base44.entities.UserProgress.list();
-      return list[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   const toggleSection = (key) => {
     setSelected(prev => {

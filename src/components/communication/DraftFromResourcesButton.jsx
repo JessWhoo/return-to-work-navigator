@@ -13,6 +13,7 @@ import {
 import { Sparkles, Loader2, Bookmark } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources as resourceCatalog } from '@/components/resources/resourcesData';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 /**
  * Button + dialog that asks the accommodation_email_assistant backend function
@@ -26,13 +27,7 @@ export default function DraftFromResourcesButton() {
   const [notes, setNotes] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const list = await base44.entities.UserProgress.list();
-      return list[0] || null;
-    },
-  });
+  const { data: progress } = useUserProgress();
 
   const bookmarkedIds = progress?.bookmarked_resources || [];
   const bookmarkedResources = resolveBookmarkedResources(bookmarkedIds);

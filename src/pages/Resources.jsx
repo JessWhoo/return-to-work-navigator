@@ -29,6 +29,7 @@ import ResourceQA from '../components/resources/ResourceQA';
 import EmailToHRButton from '../components/resources/EmailToHRButton';
 import useSEO from '@/hooks/useSEO';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
 
 class ErrorBoundary extends Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -37,6 +38,7 @@ class ErrorBoundary extends Component {
 }
 
 export default function Resources() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   useSEO({
     title: 'Resource Library',
     description: 'Browse curated articles, videos, workshops, and support groups for cancer survivors navigating their return to work.',
@@ -96,6 +98,7 @@ export default function Resources() {
   const { data: currentUser } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const { data: progress } = useUserProgress({

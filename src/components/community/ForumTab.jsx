@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { MessageCircle, Heart, ChevronDown, ChevronUp, Send, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
+import { useAuth } from '@/lib/AuthContext';
 
 const TOPICS = [
   { value: 'general', label: 'General', color: 'bg-slate-500' },
@@ -83,6 +84,7 @@ function ReplySection({ post, currentUser }) {
 }
 
 export default function ForumTab() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const queryClient = useQueryClient();
   const [filterTopic, setFilterTopic] = useState('all');
   const [expandedPost, setExpandedPost] = useState(null);
@@ -90,6 +92,7 @@ export default function ForumTab() {
   const { data: currentUser } = useQuery({
     queryKey: ['me'],
     queryFn: () => base44.auth.me(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const { data: posts = [], isLoading } = useQuery({

@@ -8,18 +8,13 @@ import { Bookmark, Copy, ExternalLink, Share2, Library, ArrowRight } from 'lucid
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { resources as allResources } from '../resources/resourcesData';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function SharedResourcesTab() {
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [shareText, setShareText] = useState('');
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const list = await base44.entities.UserProgress.list();
-      return list[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   const bookmarkedIds = progress?.bookmarked_resources || [];
 

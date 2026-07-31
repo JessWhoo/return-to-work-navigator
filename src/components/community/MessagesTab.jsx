@@ -3,11 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import MessagesPanel from './MessagesPanel';
 import { MessageCircle } from 'lucide-react';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function MessagesTab() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const { data: currentUser } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const { data: allPeers = [] } = useQuery({

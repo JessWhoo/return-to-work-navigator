@@ -25,8 +25,10 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Profile() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState('');
@@ -35,7 +37,8 @@ export default function Profile() {
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me()
+    queryFn: () => base44.auth.me(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const { data: progress } = useUserProgress({

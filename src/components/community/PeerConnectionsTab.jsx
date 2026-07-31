@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Users, UserPlus, CheckCircle, Edit3, Heart, Briefcase, ArrowRight, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuth } from '@/lib/AuthContext';
 
 const INDUSTRIES = [
   'Healthcare', 'Education', 'Technology', 'Finance',
@@ -214,6 +215,7 @@ function PeerCard({ peer, isSelf, onConnect, alreadyConnected }) {
 }
 
 export default function PeerConnectionsTab() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(false);
   const [filterIndustry, setFilterIndustry] = useState('all');
@@ -222,6 +224,7 @@ export default function PeerConnectionsTab() {
   const { data: currentUser } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const { data: allPeers = [], isLoading } = useQuery({
