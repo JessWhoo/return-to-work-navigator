@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
 
 const phasedReturnTemplates = [
   {
@@ -46,6 +47,7 @@ const phasedReturnTemplates = [
 
 export default function ReturnPlanning() {
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [returnDate, setReturnDate] = useState('');
   const [customPlan, setCustomPlan] = useState('');
@@ -54,6 +56,9 @@ export default function ReturnPlanning() {
 
   const saveReturnDateMutation = useMutation({
     mutationFn: async (date) => {
+      if (!isAuthenticated) {
+        throw new Error('Please sign in to save your return date.');
+      }
       if (progress?.id) {
         return await base44.entities.UserProgress.update(progress.id, { return_date: date });
       } else {

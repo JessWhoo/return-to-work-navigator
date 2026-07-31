@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Shield, CheckCircle2, RotateCcw } from 'lucide-react';
 import { legalChecklistSections } from '@/components/legal/legalChecklistData';
+import { useAuth } from '@/lib/AuthContext';
 
 // All checklist item ids (legal: prefixed) — used to isolate this checklist's
 // completions from the main return-to-work checklist that shares the same
@@ -15,25 +16,40 @@ const LEGAL_ITEM_IDS = new Set(
 );
 
 export default function LegalRightsChecklist() {
+  const { isAuthenticated, isLoadingAuth, user } = useAuth();
   const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    // Wait for auth to fully resolve before touching any user-scoped entity —
+    // firing earlier produces 401/403 request failures.
+    if (isLoadingAuth) return;
+
     (async () => {
+      const localMode = () => {
+        let saved = [];
+        try { saved = JSON.parse(localStorage.getItem('legalChecklistLocal') || '[]'); } catch { /* ignore */ }
+        setProgress({ id: null, completed_checklist_items: saved });
+      };
+
+      if (!isAuthenticated || !user?.id) {
+        // Signed-out visitor — keep progress in this browser, no API calls.
+        localMode();
+        setLoading(false);
+        return;
+      }
+
       try {
         const list = await base44.entities.UserProgress.list();
         const record = list?.[0] || await base44.entities.UserProgress.create({ completed_checklist_items: [] });
         setProgress(record);
       } catch {
-        // Signed-out visitor — keep progress in this browser instead.
-        let saved = [];
-        try { saved = JSON.parse(localStorage.getItem('legalChecklistLocal') || '[]'); } catch { /* ignore */ }
-        setProgress({ id: null, completed_checklist_items: saved });
+        localMode();
       }
       setLoading(false);
     })();
-  }, []);
+  }, [isLoadingAuth, isAuthenticated, user?.id]);
 
   const completed = useMemo(() => {
     const all = progress?.completed_checklist_items || [];
