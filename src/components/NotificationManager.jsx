@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
+import { useAuth } from '@/lib/AuthContext';
 
 const STORAGE_KEY_PERMISSION = 'notif_permission_asked';
 const STORAGE_KEY_DAILY = 'notif_daily_log_date';
@@ -34,10 +35,6 @@ async function requestPermission() {
 async function checkMeetingReminders() {
   if (Notification.permission !== 'granted') return;
   try {
-    // Meeting data is per-user — skip entirely for signed-out visitors
-    // to avoid unauthorized (401) requests.
-    const authed = await base44.auth.isAuthenticated().catch(() => false);
-    if (!authed) return;
     const meetings = await base44.entities.MeetingPrep.list('-meeting_date', 50);
     if (!meetings?.length) return;
 
@@ -83,9 +80,13 @@ function checkDailyLogReminder() {
 }
 
 export default function NotificationManager() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const initialized = useRef(false);
 
   useEffect(() => {
+    // Meeting data is per-user — never run (and never call user-scoped
+    // endpoints) until auth resolves and the visitor is signed in.
+    if (isLoadingAuth || !isAuthenticated) return;
     if (initialized.current) return;
     initialized.current = true;
 
@@ -106,7 +107,7 @@ export default function NotificationManager() {
       clearInterval(meetingInterval);
       clearInterval(dailyInterval);
     };
-  }, []);
+  }, [isLoadingAuth, isAuthenticated]);
 
   return null; // purely behavioral, no UI
 }
