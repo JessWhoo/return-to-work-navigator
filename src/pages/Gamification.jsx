@@ -5,27 +5,20 @@ import { Trophy, Award, Target, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import GamificationDashboard from '../components/gamification/GamificationDashboard';
 import { motion } from 'framer-motion';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function Gamification() {
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      
-      return await base44.entities.UserProgress.create({
-        completed_checklist_items: [],
-        journey_stage: 'planning',
-        gamification: {
-          total_points: 0,
-          level: 1,
-          badges: [],
-          achievements: [],
-          current_streak: 0,
-          longest_streak: 0,
-          milestones_reached: []
-        }
-      });
+  const { data: progress } = useUserProgress({
+    completed_checklist_items: [],
+    journey_stage: 'planning',
+    gamification: {
+      total_points: 0,
+      level: 1,
+      badges: [],
+      achievements: [],
+      current_streak: 0,
+      longest_streak: 0,
+      milestones_reached: []
     }
   });
   

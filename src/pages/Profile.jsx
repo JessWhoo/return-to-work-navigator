@@ -24,6 +24,7 @@ import {
   FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2, AlertTriangle
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -37,22 +38,14 @@ export default function Profile() {
     queryFn: () => base44.auth.me()
   });
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      
-      return await base44.entities.UserProgress.create({
-        completed_checklist_items: [],
-        journey_stage: 'planning',
-        notification_preferences: {
-          email_reminders: true,
-          progress_updates: true,
-          new_resources: true,
-          weekly_summary: true
-        }
-      });
+  const { data: progress } = useUserProgress({
+    completed_checklist_items: [],
+    journey_stage: 'planning',
+    notification_preferences: {
+      email_reminders: true,
+      progress_updates: true,
+      new_resources: true,
+      weekly_summary: true
     }
   });
 

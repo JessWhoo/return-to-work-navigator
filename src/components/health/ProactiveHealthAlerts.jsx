@@ -9,18 +9,13 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function ProactiveHealthAlerts() {
   const queryClient = useQueryClient();
   const [dismissedAlerts, setDismissedAlerts] = useState([]);
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      return progressList[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   const { data: symptomRecords } = useQuery({
     queryKey: ['recentSymptoms'],

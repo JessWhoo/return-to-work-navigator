@@ -21,6 +21,7 @@ import PredictiveHealthAlerts from '../components/health/PredictiveHealthAlerts'
 import ActivitySymptomCorrelations from '../components/health/ActivitySymptomCorrelations';
 import WhatIfScenarios from '../components/health/WhatIfScenarios';
 import ComparativeInsights from '../components/health/ComparativeInsights';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
@@ -31,13 +32,7 @@ export default function ProgressDashboard() {
     await queryClient.invalidateQueries();
   };
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      return progressList[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   const { data: checklistData } = useQuery({
     queryKey: ['checklistData'],

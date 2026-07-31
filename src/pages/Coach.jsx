@@ -16,6 +16,7 @@ import SentimentResourceSuggestions, { detectSentimentAndResources } from '../co
 import ConversationHistory from '../components/coach/ConversationHistory';
 import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceSuggestions';
 import useSEO from '@/hooks/useSEO';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function Coach() {
   useSEO({
@@ -31,14 +32,7 @@ export default function Coach() {
   const [lastUserMessage, setLastUserMessage] = useState('');
 
   // Load user progress for calendar insights
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      return null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   // Load pending message from other pages
   useEffect(() => {

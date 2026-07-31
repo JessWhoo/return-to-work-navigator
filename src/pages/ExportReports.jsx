@@ -10,6 +10,7 @@ import {
 // jsPDF loaded dynamically to avoid React duplicate instance issues
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const REPORT_TYPES = [
   {
@@ -315,9 +316,7 @@ export default function ExportReports() {
   const { data: meetings } = useQuery({ queryKey: ['meetingPreps'], queryFn: () => base44.entities.MeetingPrep.list('-meeting_date') });
   const { data: drafts } = useQuery({ queryKey: ['communicationDrafts'], queryFn: () => base44.entities.CommunicationDraft.list('-updated_date') });
   const { data: records } = useQuery({ queryKey: ['records'], queryFn: () => base44.entities.Record.list('-date') });
-  const { data: progressList } = useQuery({ queryKey: ['userProgress'], queryFn: () => base44.entities.UserProgress.list() });
-
-  const progress = progressList?.[0];
+  const { data: progress } = useUserProgress();
 
   const handleExport = async (type) => {
     setGenerating(type);

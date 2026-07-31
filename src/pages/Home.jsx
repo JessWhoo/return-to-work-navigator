@@ -16,6 +16,7 @@ import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import DailyCheckIn from '../components/DailyCheckIn';
 import useSEO from '@/hooks/useSEO';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 
 export default function Home() {
@@ -47,41 +48,11 @@ export default function Home() {
     duration: Math.random() * 10 + 10,
   })), []);
   
-  const { data: progress, isLoading: isProgressLoading, isError: isProgressError, refetch: refetchProgress } = useQuery({
-    queryKey: ['userProgress', user?.id],
-    // Wait until auth has fully resolved AND we have a real user id before
-    // touching any user-scoped entity. Firing earlier races the token load
-    // and produces 401 on /User/me and 403 on POST /UserProgress.
-    enabled: !isLoadingAuth && !!isAuthenticated && !!user?.id,
-    queryFn: async () => {
-      // Read existing record first — the common case after first load.
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-
-      // No record — try to create one. If the create is rejected (transient
-      // token race with another tab/component), fall back to a re-list rather
-      // than surfacing the race as a hard error that cascades into script
-      // failures downstream.
-      try {
-        return await base44.entities.UserProgress.create({
-          completed_checklist_items: [],
-          journey_stage: 'planning',
-          calendar_events: [],
-          onboarding_completed: false
-        });
-      } catch {
-        const retry = await base44.entities.UserProgress.list().catch(() => []);
-        return retry[0] || null;
-      }
-    },
-    retry: (failureCount, err) => {
-      // Retry a couple of times for transient auth-races (401/403), never
-      // for other errors.
-      const status = err?.response?.status ?? err?.status;
-      return (status === 401 || status === 403) && failureCount < 2;
-    },
-    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 4000),
-    staleTime: 60_000,
+  const { data: progress, isLoading: isProgressLoading, isError: isProgressError, refetch: refetchProgress } = useUserProgress({
+    completed_checklist_items: [],
+    journey_stage: 'planning',
+    calendar_events: [],
+    onboarding_completed: false
   });
 
   useEffect(() => {

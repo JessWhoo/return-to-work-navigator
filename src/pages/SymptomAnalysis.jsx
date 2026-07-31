@@ -11,6 +11,7 @@ import {
 import { format, parseISO } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import AISymptomInsights from '../components/symptoms/AISymptomInsights';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function SymptomAnalysis() {
   const queryClient = useQueryClient();
@@ -23,13 +24,7 @@ export default function SymptomAnalysis() {
     }
   });
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      return progressList[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   const deleteRecordMutation = useMutation({
     mutationFn: async (id) => await base44.entities.Record.delete(id),

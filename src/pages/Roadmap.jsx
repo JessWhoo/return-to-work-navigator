@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { motion } from 'framer-motion';
 import {
+import { useUserProgress } from '@/hooks/useUserProgress';
   CheckCircle2, Circle, Clock, MapPin, Sparkles,
   CalendarDays, HeartHandshake, Briefcase, Flag, ChevronRight
 } from 'lucide-react';
@@ -82,13 +83,7 @@ function getPhaseIndex(stage) {
 export default function Roadmap() {
   const [activePhase, setActivePhase] = useState(null);
 
-  const { data: progress, isLoading } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const list = await base44.entities.UserProgress.list();
-      return list[0] || null;
-    },
-  });
+  const { data: progress, isLoading } = useUserProgress();
 
   const currentIndex = getPhaseIndex(progress?.journey_stage);
   const completedIds = useMemo(

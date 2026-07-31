@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const EMAIL_SCENARIOS = [
   {
@@ -94,13 +95,7 @@ export default function EmployerEmailGenerator() {
   const [showConvPicker, setShowConvPicker] = useState(false);
 
   // Load user progress for context
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const list = await base44.entities.UserProgress.list();
-      return list[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   // Load coach conversations
   const { data: conversations = [], isLoading: loadingConvs } = useQuery({

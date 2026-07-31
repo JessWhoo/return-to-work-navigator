@@ -12,6 +12,7 @@ import {
   Calendar, Clock, Home, Save, CheckCircle2, Download 
 } from 'lucide-react';
 import { format } from 'date-fns';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const phasedReturnTemplates = [
   {
@@ -49,15 +50,7 @@ export default function ReturnPlanning() {
   const [returnDate, setReturnDate] = useState('');
   const [customPlan, setCustomPlan] = useState('');
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      
-      return await base44.entities.UserProgress.create({});
-    }
-  });
+  const { data: progress } = useUserProgress({});
 
   const saveReturnDateMutation = useMutation({
     mutationFn: async (date) => {

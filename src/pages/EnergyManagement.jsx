@@ -19,6 +19,7 @@ import AddRecordDialog from '../components/records/AddRecordDialog';
 import AISymptomInsights from '../components/symptoms/AISymptomInsights';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import DownloadPlannerButton from '../components/planner/DownloadPlannerButton';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const energyTips = [
   {
@@ -436,14 +437,7 @@ export default function EnergyManagement() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('energy');
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      return await base44.entities.UserProgress.create({ energy_logs: [] });
-    }
-  });
+  const { data: progress } = useUserProgress({ energy_logs: [] });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">

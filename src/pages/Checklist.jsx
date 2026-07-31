@@ -10,6 +10,7 @@ import { useGamification } from '../components/gamification/useGamification';
 import QuickPointsDisplay from '../components/gamification/QuickPointsDisplay';
 import CelebrationModal from '../components/gamification/CelebrationModal';
 import LevelDisplay from '../components/gamification/LevelDisplay';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 const checklistData = [
   {
@@ -129,18 +130,9 @@ export default function Checklist() {
   const { trackAction, showQuickPoints, quickPointsAmount, setShowQuickPoints, celebration, setCelebration } = useGamification();
   const [expandedPhases, setExpandedPhases] = useState([0]);
 
-  const { data: progress, isLoading } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      
-      const newProgress = await base44.entities.UserProgress.create({
-        completed_checklist_items: [],
-        journey_stage: 'planning'
-      });
-      return newProgress;
-    }
+  const { data: progress, isLoading } = useUserProgress({
+    completed_checklist_items: [],
+    journey_stage: 'planning'
   });
 
   const updateProgressMutation = useMutation({

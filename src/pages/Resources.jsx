@@ -28,6 +28,7 @@ import ResourceComparisonTool from '../components/resources/ResourceComparisonTo
 import ResourceQA from '../components/resources/ResourceQA';
 import EmailToHRButton from '../components/resources/EmailToHRButton';
 import useSEO from '@/hooks/useSEO';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 class ErrorBoundary extends Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -97,21 +98,10 @@ export default function Resources() {
     queryFn: () => base44.auth.me(),
   });
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      if (progressList.length > 0) return progressList[0];
-      try {
-        return await base44.entities.UserProgress.create({
-          completed_checklist_items: [],
-          journey_stage: 'planning',
-          bookmarked_resources: []
-        });
-      } catch {
-        return null;
-      }
-    }
+  const { data: progress } = useUserProgress({
+    completed_checklist_items: [],
+    journey_stage: 'planning',
+    bookmarked_resources: []
   });
 
   const toggleBookmarkMutation = useMutation({

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Mail, Copy, Send, Sparkles, User, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function EmailDrafter() {
   const [recipient, setRecipient] = useState('');
@@ -18,13 +19,7 @@ export default function EmailDrafter() {
   const [emailType, setEmailType] = useState('accommodation_request');
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const { data: progress } = useQuery({
-    queryKey: ['userProgress'],
-    queryFn: async () => {
-      const progressList = await base44.entities.UserProgress.list();
-      return progressList[0] || null;
-    }
-  });
+  const { data: progress } = useUserProgress();
 
   const emailTemplates = {
     accommodation_request: {
