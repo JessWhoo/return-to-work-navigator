@@ -5,6 +5,11 @@ import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
 
 const AuthContext = createContext();
 
+// Tokens that already failed /User/me once. Kept at module scope so a
+// StrictMode double-mount (or a remount) never re-fires the same doomed
+// request and produces a second 401.
+const rejectedTokens = new Set();
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -13,7 +18,13 @@ export const AuthProvider = ({ children }) => {
   const [authError, setAuthError] = useState(null);
   const [appPublicSettings, setAppPublicSettings] = useState(null); // Contains only { id, public_settings }
 
+  const didInit = React.useRef(false);
+
   useEffect(() => {
+    // Guard against StrictMode's double effect invocation — otherwise the
+    // whole auth check (including /User/me) runs twice on every load.
+    if (didInit.current) return;
+    didInit.current = true;
     checkAppState();
   }, []);
 
@@ -38,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         setAppPublicSettings(publicSettings);
         
         // If we got the app public settings successfully, check if user is authenticated
-        if (appParams.token) {
+        if (appParams.token && !rejectedTokens.has(appParams.token)) {
           await checkUserAuth();
         } else {
           setIsLoadingAuth(false);
@@ -104,6 +115,7 @@ export const AuthProvider = ({ children }) => {
       // a signed-out user instead of every request failing with 401.
       // (The app is public — no login is required to browse.)
       if (error.status === 401 || error.status === 403) {
+        if (appParams.token) rejectedTokens.add(appParams.token);
         try {
           base44.auth.logout(); // removes stale token, no redirect
         } catch {
