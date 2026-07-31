@@ -11,6 +11,11 @@
       "minimum": 1,
       "maximum": 5,
       "description": "How helpful this resource was, 1-5 stars"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional notes or context for this rating"
     }
   },
   "required": [
