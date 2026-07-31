@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight } from 'lucide-react';
-import LegalRights from './LegalRights';
-import Accommodations from './Accommodations';
-import StateByStateLaws from './StateByStateLaws';
-import InternationalLaws from './InternationalLaws';
-import LegalRightsChecklist from './LegalRightsChecklist';
 import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
+
+// Secondary tabs load on demand so the hub's initial render isn't blocked by
+// five full pages of content that most visitors never open.
+const LegalRights = lazy(() => import('./LegalRights'));
+const Accommodations = lazy(() => import('./Accommodations'));
+const StateByStateLaws = lazy(() => import('./StateByStateLaws'));
+const InternationalLaws = lazy(() => import('./InternationalLaws'));
+const LegalRightsChecklist = lazy(() => import('./LegalRightsChecklist'));
+
+const TabFallback = () => (
+  <div className="flex justify-center py-16">
+    <div className="w-8 h-8 border-4 border-slate-200 border-t-violet-600 rounded-full animate-spin" />
+  </div>
+);
 
 export default function LegalPolicyHub() {
   return (
@@ -65,19 +74,19 @@ export default function LegalPolicyHub() {
           <WorkplaceRightsAndDisclosure />
         </TabsContent>
         <TabsContent value="rights">
-          <LegalRights />
+          <Suspense fallback={<TabFallback />}><LegalRights /></Suspense>
         </TabsContent>
         <TabsContent value="accommodations">
-          <Accommodations />
+          <Suspense fallback={<TabFallback />}><Accommodations /></Suspense>
         </TabsContent>
         <TabsContent value="state">
-          <StateByStateLaws />
+          <Suspense fallback={<TabFallback />}><StateByStateLaws /></Suspense>
         </TabsContent>
         <TabsContent value="international">
-          <InternationalLaws />
+          <Suspense fallback={<TabFallback />}><InternationalLaws /></Suspense>
         </TabsContent>
         <TabsContent value="checklist">
-          <LegalRightsChecklist />
+          <Suspense fallback={<TabFallback />}><LegalRightsChecklist /></Suspense>
         </TabsContent>
       </Tabs>
     </div>

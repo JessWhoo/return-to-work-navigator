@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { searchSite } from './searchIndex';
@@ -8,7 +8,7 @@ export default function GlobalSearch() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
   const navigate = useNavigate();
-  const results = searchSite(query);
+  const results = useMemo(() => searchSite(query), [query]);
 
   useEffect(() => {
     const onClickOutside = (e) => {
