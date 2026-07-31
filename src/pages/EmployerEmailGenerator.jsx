@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
-  Mail, Sparkles, Copy, Send, ChevronDown, ChevronUp,
+  Mail, Sparkles, Copy, ChevronDown, ChevronUp,
   MessageSquare, User, Loader2, CheckCircle2, RefreshCw, Info
 } from 'lucide-react';
 import { toast } from 'sonner';

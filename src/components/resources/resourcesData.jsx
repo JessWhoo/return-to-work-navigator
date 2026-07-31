@@ -1,6 +1,6 @@
 import { 
   Building2, DollarSign, Landmark, BookOpen, Users, 
-  Video, FileText, Mic, Heart, Brain, Briefcase, Shield
+  Video, FileText, Mic, Heart, Brain, Briefcase
 } from 'lucide-react';
 
 export const resources = [

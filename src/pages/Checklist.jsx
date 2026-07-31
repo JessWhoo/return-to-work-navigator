@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, Circle, ChevronDown, ChevronRight } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react';
 import { useGamification } from '../components/gamification/useGamification';
 import QuickPointsDisplay from '../components/gamification/QuickPointsDisplay';
 import CelebrationModal from '../components/gamification/CelebrationModal';

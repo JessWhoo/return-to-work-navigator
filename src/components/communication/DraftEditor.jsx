@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOfflineEntity } from '@/lib/useOfflineEntity';
@@ -9,8 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Save, Sparkles, Loader2, Copy, Check, Lightbulb, 
-  AlertCircle, X, FileText
+  Save, Sparkles, Loader2, Copy, Check, Lightbulb, X, FileText
 } from 'lucide-react';
 import { toast } from 'sonner';
 

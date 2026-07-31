@@ -5,8 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Star, MessageSquare, ThumbsUp, ThumbsDown, TrendingUp } from 'lucide-react';
+import { Star, MessageSquare, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { toast } from 'sonner';
 
 const helpfulOptions = [

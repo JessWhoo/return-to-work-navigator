@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Sparkles, Heart, Zap, AlertTriangle, Brain, Shield, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 

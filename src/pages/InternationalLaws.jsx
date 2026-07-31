@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Shield, ChevronDown, ChevronUp, Star, AlertTriangle, CheckCircle2, Info, Globe } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, Star, AlertTriangle, CheckCircle2, Info, Globe } from 'lucide-react';
 
 const countries = [
   {

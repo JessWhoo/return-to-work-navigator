@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
-  Shield, Lock, Eye, EyeOff, UserCheck, Database, Server, Trash2,
-  Download, KeyRound, HeartPulse, MessageCircle, FileText, CheckCircle2,
+  Shield, Lock, EyeOff, UserCheck, Database, Trash2, KeyRound, HeartPulse, MessageCircle, FileText, CheckCircle2,
   AlertTriangle, Mail
 } from 'lucide-react';
 import useSEO from '@/hooks/useSEO';

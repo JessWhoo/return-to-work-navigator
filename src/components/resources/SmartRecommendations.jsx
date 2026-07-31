@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, ChevronRight, Loader2, ExternalLink, Bookmark, MessageCircle } from 'lucide-react';
-import { toast } from 'sonner';
 
 export default function SmartRecommendations({ 
   progress, 

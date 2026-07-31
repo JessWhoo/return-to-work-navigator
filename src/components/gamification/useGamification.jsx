@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { awardPoints, POINTS } from './GamificationSystem';
-import { toast } from 'sonner';
 
 export function useGamification() {
   const queryClient = useQueryClient();

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { 
-  Heart, Brain, Wind, Waves, Moon, Sparkles,
-  Play, Pause, Volume2, VolumeX, CheckCircle2
+  Heart, Brain, Wind, Waves, Moon, Sparkles, CheckCircle2
 } from 'lucide-react';
 
 const copingMechanisms = [

@@ -5,7 +5,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FileDown, Loader2, CheckCircle, BookOpen, X } from 'lucide-react';
+import { FileDown, Loader2, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { base44 } from '@/api/base44Client';

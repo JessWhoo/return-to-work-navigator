@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOfflineEntity } from '@/lib/useOfflineEntity';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { 
   Plus, Search, FileText, Stethoscope, Briefcase, 
-  BookOpen, Activity, Calendar, Tag, Filter,
+  BookOpen, Activity, Calendar, Tag,
   ChevronDown, Edit, Trash2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { CalendarIcon, Clock, Stethoscope, Star, Bell, MoreHorizontal } from 'lucide-react';
+import { CalendarIcon, Stethoscope, Star, Bell, MoreHorizontal } from 'lucide-react';
 
 const eventTypes = [
   { value: 'meeting', label: 'Meeting', icon: CalendarIcon, color: 'purple' },

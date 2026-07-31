@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
   Sparkles, TrendingUp, ExternalLink, Bookmark, BookmarkCheck,
-  MessageCircle, RefreshCw, ChevronDown, ChevronUp, Star
+  MessageCircle, ChevronDown, ChevronUp, Star
 } from 'lucide-react';
 import { parseISO, differenceInDays, isBefore, addDays } from 'date-fns';
 

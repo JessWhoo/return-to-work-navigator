@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
-  Lightbulb, AlertCircle, TrendingDown, Calendar, 
+  Lightbulb, TrendingDown, Calendar, 
   Heart, CheckCircle2, Sparkles, ArrowRight
 } from 'lucide-react';
 
