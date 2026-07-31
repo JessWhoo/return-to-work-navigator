@@ -26,6 +26,7 @@ import PrivacySecurity from './pages/PrivacySecurity';
 import AccommodationWorksheet from './pages/AccommodationWorksheet';
 import LegalDirectory from './pages/LegalDirectory';
 import WellnessLibrary from './pages/WellnessLibrary';
+import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -164,6 +165,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="LegalRightsChecklist">
               <LegalRightsChecklist />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/LegalRightsAdvisor"
+          element={
+            <LayoutWrapper currentPageName="LegalRightsAdvisor">
+              <LegalRightsAdvisor />
             </LayoutWrapper>
           }
         />
