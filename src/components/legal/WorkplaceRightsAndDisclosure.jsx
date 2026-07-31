@@ -275,9 +275,9 @@ export default function WorkplaceRightsAndDisclosure() {
               <p className="font-semibold text-slate-900">U.S. EEOC</p>
               <p className="text-xs text-slate-700">File a workplace discrimination complaint</p>
             </a>
-            <a href="https://www.cancerlegalresources.org" target="_blank" rel="noopener noreferrer"
+            <a href="https://publiccounsel.org/issues/consumer-rights-economic-justice/cancer-justice/" target="_blank" rel="noopener noreferrer"
                className="block bg-white rounded-lg p-3 border border-blue-200 hover:border-blue-400 transition-colors">
-              <p className="font-semibold text-slate-900">Cancer Legal Resource Center</p>
+              <p className="font-semibold text-slate-900">Cancer Justice (formerly CLRC)</p>
               <p className="text-xs text-slate-700">Free legal info & referrals for cancer patients</p>
             </a>
             <a href="https://triagecancer.org" target="_blank" rel="noopener noreferrer"
