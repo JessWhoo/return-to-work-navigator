@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
+import { useQueryClient } from '@tanstack/react-query';
 import { format, addDays, startOfToday, isWeekend } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,6 +42,7 @@ function useAvailableDates() {
 }
 
 export default function CoachBookingForm({ user, onBooked }) {
+  const queryClient = useQueryClient();
   const dates = useAvailableDates();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
@@ -145,8 +147,9 @@ export default function CoachBookingForm({ user, onBooked }) {
 
       toast({
         title: 'Session requested',
-        description: 'A coach will confirm your time by email shortly.',
+        description: 'A coach will confirm your time by email shortly. You can add it to your Google Calendar from "Your upcoming sessions" above.',
       });
+      queryClient.invalidateQueries({ queryKey: ['coachBookings'] });
       onBooked?.(booking);
 
       // Reset key fields so the form can be used again.

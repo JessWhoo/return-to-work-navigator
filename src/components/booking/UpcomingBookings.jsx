@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, Video, Phone, X } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import AddToGoogleCalendarButton from '@/components/booking/AddToGoogleCalendarButton';
 
 const TOPIC_LABELS = {
   return_to_work_planning: 'Return-to-work planning',
@@ -87,10 +88,11 @@ export default function UpcomingBookings({ enabled = true }) {
                   <span>{TOPIC_LABELS[b.topic] || b.topic}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Badge className={`border ${STATUS_STYLES[b.status] || STATUS_STYLES.requested} capitalize font-bold`}>
                   {b.status}
                 </Badge>
+                <AddToGoogleCalendarButton booking={b} />
                 <Button
                   variant="outline"
                   size="sm"
