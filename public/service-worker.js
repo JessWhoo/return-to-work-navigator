@@ -1,5 +1,5 @@
-const CACHE_SHELL = 'app-shell-v2';
-const CACHE_DATA = 'app-data-v2';
+const CACHE_SHELL = 'app-shell-v3';
+const CACHE_DATA = 'app-data-v3';
 
 const SHELL_URLS = ['/', '/index.html'];
 
@@ -30,17 +30,22 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET and cross-origin extension requests
+  // Skip non-GET requests entirely.
   if (request.method !== 'GET') return;
-  if (url.protocol === 'chrome-extension:') return;
+  // Skip ALL cross-origin requests (fonts, CDNs, third-party scripts, images).
+  // Serving cross-origin scripts through the SW cache makes them "opaque" —
+  // any error inside them surfaces as a detail-less "Script error." cascade.
+  if (url.origin !== self.location.origin) return;
 
   // API / entity requests → network-first, fall back to cache
   if (url.pathname.includes('/api/') || url.pathname.includes('/entities/')) {
     event.respondWith(
       fetch(request)
         .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE_DATA).then(c => c.put(request, clone));
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_DATA).then(c => c.put(request, clone));
+          }
           return res;
         })
         .catch(() => caches.match(request))
@@ -61,8 +66,10 @@ self.addEventListener('fetch', (event) => {
   // Static assets → network-first to always get fresh code
   event.respondWith(
     fetch(request).then(res => {
-      const clone = res.clone();
-      caches.open(CACHE_SHELL).then(c => c.put(request, clone));
+      if (res.ok) {
+        const clone = res.clone();
+        caches.open(CACHE_SHELL).then(c => c.put(request, clone));
+      }
       return res;
     }).catch(() => caches.match(request))
   );

@@ -22,6 +22,28 @@ const DEDUPE_WINDOW_MS = 5000;
 const MAX_FULL_LOGS = 3;
 const SUMMARY_EVERY = 25;
 
+// Storm recovery: if errors keep firing continuously (e.g. a broken cached
+// script erroring every frame), reload once to get back to a clean state.
+// A sessionStorage timestamp guard prevents reload loops.
+const STORM_THRESHOLD = 40;      // errors...
+const STORM_WINDOW_MS = 10000;   // ...within this window
+const RECOVERY_KEY = '__errorStormRecoveryAt__';
+let stormTimestamps = [];
+
+function maybeRecoverFromStorm(now) {
+  stormTimestamps.push(now);
+  stormTimestamps = stormTimestamps.filter(t => now - t < STORM_WINDOW_MS);
+  if (stormTimestamps.length < STORM_THRESHOLD) return;
+
+  let lastRecovery = 0;
+  try { lastRecovery = Number(sessionStorage.getItem(RECOVERY_KEY)) || 0; } catch { /* ignore */ }
+  if (now - lastRecovery < 60000) return; // already recovered recently — don't loop
+
+  try { sessionStorage.setItem(RECOVERY_KEY, String(now)); } catch { /* ignore */ }
+  console.warn('[ErrorLogger] Sustained error storm detected — reloading to recover.');
+  window.location.reload();
+}
+
 export function logError(type, error, extra = {}) {
   const entry = {
     type,
@@ -34,6 +56,7 @@ export function logError(type, error, extra = {}) {
 
   const key = `${type}|${entry.message}|${extra.source || ''}|${extra.line || ''}`;
   const now = Date.now();
+  maybeRecoverFromStorm(now);
   const seen = recentErrors.get(key);
   if (seen && now - seen.firstSeen < DEDUPE_WINDOW_MS) {
     seen.count += 1;
