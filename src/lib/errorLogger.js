@@ -40,8 +40,27 @@ function maybeRecoverFromStorm(now) {
   if (now - lastRecovery < 60000) return; // already recovered recently — don't loop
 
   try { sessionStorage.setItem(RECOVERY_KEY, String(now)); } catch { /* ignore */ }
-  console.warn('[ErrorLogger] Sustained error storm detected — reloading to recover.');
-  window.location.reload();
+  console.warn('[ErrorLogger] Sustained error storm detected — purging caches and reloading to recover.');
+
+  // Purge the service worker + all caches before reloading. A storm of opaque
+  // "Script error"s is typically a stale/poisoned service-worker cache; a plain
+  // reload would land right back in the same broken state.
+  const purge = [];
+  if ('serviceWorker' in navigator) {
+    purge.push(
+      navigator.serviceWorker.getRegistrations()
+        .then(regs => Promise.all(regs.map(r => r.unregister())))
+        .catch(() => {})
+    );
+  }
+  if (typeof caches !== 'undefined') {
+    purge.push(
+      caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).catch(() => {})
+    );
+  }
+  const reload = () => window.location.reload();
+  Promise.all(purge).then(reload, reload);
+  setTimeout(reload, 3000); // hard fallback if purge hangs
 }
 
 export function logError(type, error, extra = {}) {
