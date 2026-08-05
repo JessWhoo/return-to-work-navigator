@@ -143,6 +143,22 @@ button:focus-visible {
 
 
 
+/* When the printable meeting document is open, print ONLY the document —
+   hide all app chrome (header, nav, footer, page content behind it). */
+@media print {
+  .printable-doc {
+    display: block !important;
+    position: static !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+  body:has(.printable-doc) *:not(.printable-doc):not(.printable-doc *) {
+    visibility: hidden;
+  }
+  .printable-doc, .printable-doc * { visibility: visible; }
+  .printable-doc { position: absolute !important; inset: 0 !important; }
+}
+
 @layer base {
   :root {
     --background: 260 40% 49%;

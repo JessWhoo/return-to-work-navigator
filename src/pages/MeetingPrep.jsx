@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Plus, Calendar, ChevronRight, Loader2, Users, FileText,
-  CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2, Library, Download
+  CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2, Library, Download, Printer
 } from 'lucide-react';
 import { format } from 'date-fns';
 import MeetingPrepForm from '../components/meetingprep/MeetingPrepForm';
@@ -16,6 +16,7 @@ import ConversationSimulator from '../components/meetingprep/ConversationSimulat
 import TemplateLibrary from '../components/meetingprep/TemplateLibrary';
 import TalkingPointsGenerator from '../components/meetingprep/TalkingPointsGenerator';
 import { exportMeetingPrepPdf } from '../components/meetingprep/exportMeetingPrepPdf';
+import PrintableMeetingDoc from '../components/meetingprep/PrintableMeetingDoc';
 
 const STATUS_CONFIG = {
   drafting: { label: 'Drafting', color: 'bg-slate-700 text-slate-300', icon: Clock },
@@ -39,6 +40,7 @@ export default function MeetingPrep() {
   const [view, setView] = useState('list'); // 'list' | 'new' | 'detail' | 'templates'
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [activeTab, setActiveTab] = useState('prep');
+  const [showPrintDoc, setShowPrintDoc] = useState(false);
 
   const meetingAPI = useOfflineEntity('MeetingPrep');
 
@@ -192,6 +194,9 @@ export default function MeetingPrep() {
 
     return (
       <div className="max-w-3xl mx-auto space-y-4">
+        {showPrintDoc && (
+          <PrintableMeetingDoc meeting={selectedMeeting} onClose={() => setShowPrintDoc(false)} />
+        )}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <Button variant="ghost" onClick={() => setView('list')} className="text-slate-400 hover:text-slate-200">
@@ -215,6 +220,11 @@ export default function MeetingPrep() {
             </div>
           </div>
           <div className="flex items-center gap-1 flex-shrink-0">
+            <Button size="sm" variant="ghost"
+              onClick={() => setShowPrintDoc(true)}
+              className="text-slate-400 hover:text-slate-200">
+              <Printer className="h-4 w-4 mr-1" /> Print Document
+            </Button>
             <Button size="sm" variant="ghost"
               onClick={() => exportMeetingPrepPdf(selectedMeeting)}
               className="text-slate-400 hover:text-slate-200">
