@@ -24,8 +24,9 @@ if ('serviceWorker' in navigator) {
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Activate the new worker; the controllerchange listener below
+                // performs the single reload once it takes control.
                 newWorker.postMessage({ type: 'SKIP_WAITING' });
-                window.location.reload();
               }
             });
           }
@@ -34,10 +35,13 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.warn('[SW] registration failed:', err));
   });
 
-  // If a new SW has taken control, reload to get fresh assets
+  // If a new SW has taken control after an UPDATE, reload once to get fresh
+  // assets. Skip the very first install (no previous controller) — reloading
+  // then caused every fresh visit to double-load the page.
+  const hadController = !!navigator.serviceWorker.controller;
   let refreshing = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!refreshing) {
+    if (hadController && !refreshing) {
       refreshing = true;
       window.location.reload();
     }
