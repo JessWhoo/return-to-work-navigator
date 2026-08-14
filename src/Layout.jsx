@@ -11,6 +11,7 @@ import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
 import ErrorBoundary from './components/ErrorBoundary';
 import GlobalSearch from './components/search/GlobalSearch';
+import AnalyticsTracker from './components/analytics/AnalyticsTracker';
 
 // The app is designed as a light theme — force light mode regardless of the
 // device's system preference (dark mode made cards black with dark text).
@@ -180,6 +181,7 @@ export default function Layout({ children, currentPageName }) {
     <div className="relative min-h-screen bg-slate-50 overflow-hidden">
       <OfflineIndicator />
       <NotificationManager />
+      <AnalyticsTracker />
       {/* Header */}
       <header
         className="relative z-50 bg-white border-b-2 border-slate-300 shadow-sm sticky top-0"
