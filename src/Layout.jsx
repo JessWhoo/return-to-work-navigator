@@ -362,7 +362,7 @@ export default function Layout({ children, currentPageName }) {
       <footer className="relative bg-white text-slate-900 mt-16 border-t-2 border-slate-300 mb-16 lg:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-2">
-            <p className="text-sm font-semibold">© 2025 Back to Life, Back to Work for Cancer Survivors</p>
+            <p className="text-sm font-semibold">© 2026 Back to Life, Back to Work for Cancer Survivors</p>
             <p className="text-xs text-slate-700 font-medium">Information is for educational purposes only</p>
             <p className="text-xs text-slate-700 italic font-medium">Not meant to be legal advice. Please consult with legal counsel.</p>
             <div className="flex justify-center gap-4 pt-1 flex-wrap">

@@ -219,10 +219,10 @@ export default function Coach() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto h-[calc(100vh-16rem)] lg:h-[calc(100vh-12rem)] pb-4">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
+    <div className="max-w-7xl mx-auto pb-4 lg:h-[calc(100vh-12rem)]">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:h-full">
         {/* Sidebar */}
-        <div className="lg:col-span-1 flex flex-col gap-4 h-full overflow-y-auto">
+        <div className="lg:col-span-1 flex flex-col gap-4 lg:h-full lg:min-h-0 lg:overflow-y-auto">
           {/* Conversation History Panel */}
           <Card className="bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md flex flex-col" style={{ maxHeight: '50vh' }}>
             <CardContent className="pt-4 pb-4 flex flex-col flex-1 overflow-hidden">
@@ -273,8 +273,8 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className="lg:col-span-3 flex flex-col h-full">
-          <Card className="flex-1 flex flex-col bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md overflow-hidden">
+        <div className="lg:col-span-3 flex flex-col h-[75vh] lg:h-full min-h-0">
+          <Card className="flex-1 min-h-0 flex flex-col bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md overflow-hidden">
             <CardHeader className="border-b border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center space-x-2 text-slate-900">
@@ -295,7 +295,7 @@ export default function Coach() {
             </CardHeader>
 
             {/* Messages */}
-            <CardContent className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50">
+            <CardContent className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-slate-50">
               {!selectedConversation ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center space-y-4 max-w-md">
