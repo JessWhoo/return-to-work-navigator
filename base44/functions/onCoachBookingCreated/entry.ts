@@ -35,6 +35,22 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
 
+    // Shared-secret gate. The entity automation passes this via function_args;
+    // an anonymous external caller cannot know it. If the env var is missing or
+    // too short, this path is disabled entirely.
+    const automationSecret = Deno.env.get('COACH_CALENDAR_AUTOMATION_SECRET') || '';
+    const providedSecret =
+      req.headers.get('x-automation-secret') ||
+      (typeof body?.automation_secret === 'string' ? body.automation_secret : '') ||
+      '';
+    const hasValidAutomationSecret =
+      automationSecret.length >= 16 &&
+      providedSecret.length >= 16 &&
+      providedSecret === automationSecret;
+    if (!hasValidAutomationSecret) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     // Require the entity-automation payload shape.
     const isAutomationPayload =
       body?.event?.type === 'create' &&
