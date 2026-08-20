@@ -17,6 +17,7 @@ import ConversationHistory from '../components/coach/ConversationHistory';
 import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceSuggestions';
 import useSEO from '@/hooks/useSEO';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Coach() {
   useSEO({
@@ -30,6 +31,8 @@ export default function Coach() {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [lastUserMessage, setLastUserMessage] = useState('');
+  const [chatError, setChatError] = useState(null);
+  const { isAuthenticated, isLoadingAuth } = useAuth();
 
   // Load user progress for calendar insights
   const { data: progress } = useUserProgress();
@@ -52,6 +55,9 @@ export default function Coach() {
       });
       return convs || [];
     },
+    // Agent conversations are per-user — never fire this for anonymous
+    // visitors (it 401s and surfaces as repeated script errors).
+    enabled: !isLoadingAuth && !!isAuthenticated,
     retry: 2,
     retryDelay: 1000,
     staleTime: 30000,
@@ -111,8 +117,12 @@ export default function Coach() {
       });
     },
     onSuccess: (newConv) => {
+      setChatError(null);
       queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
       setSelectedConversation(newConv.id);
+    },
+    onError: () => {
+      setChatError("Couldn't start a new conversation. Please try again.");
     }
   });
 
@@ -138,7 +148,12 @@ export default function Coach() {
       });
     },
     onSuccess: () => {
+      setChatError(null);
       queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
+    },
+    onError: (_err, messageText) => {
+      setChatError("Your message couldn't be sent. Please try again.");
+      setMessage(messageText);
     }
   });
 
@@ -161,17 +176,23 @@ export default function Coach() {
     const currentMessage = message;
     setMessage('');
     setLastUserMessage(currentMessage);
+    setChatError(null);
 
     if (!selectedConversation) {
-      const newConv = await base44.agents.createConversation({
-        agent_name: 'return_to_work_coach',
-        metadata: { name: 'New Conversation', created_at: new Date().toISOString() }
-      });
-      const convWithMessages = { ...newConv, messages: [] };
-      setSelectedConversation(newConv.id);
-      setConversations(prev => [convWithMessages, ...prev]);
-      await base44.agents.addMessage(convWithMessages, { role: 'user', content: currentMessage });
-      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
+      try {
+        const newConv = await base44.agents.createConversation({
+          agent_name: 'return_to_work_coach',
+          metadata: { name: 'New Conversation', created_at: new Date().toISOString() }
+        });
+        const convWithMessages = { ...newConv, messages: [] };
+        setSelectedConversation(newConv.id);
+        setConversations(prev => [convWithMessages, ...prev]);
+        await base44.agents.addMessage(convWithMessages, { role: 'user', content: currentMessage });
+        queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
+      } catch {
+        setChatError("Your message couldn't be sent. Please try again.");
+        setMessage(currentMessage);
+      }
     } else {
       sendMessageMutation.mutate(currentMessage);
     }
@@ -186,22 +207,27 @@ export default function Coach() {
 
   const handleQuickMessage = async (messageText) => {
     setLastUserMessage(messageText);
-    if (!selectedConversation) {
-      const newConv = await base44.agents.createConversation({
-        agent_name: 'return_to_work_coach',
-        metadata: { name: 'New Conversation' }
-      });
-      const convWithMessages = { ...newConv, messages: [] };
-      setSelectedConversation(newConv.id);
-      setConversations(prev => [convWithMessages, ...prev]);
-      await base44.agents.addMessage(convWithMessages, { role: 'user', content: messageText });
-    } else {
-      const conversation = conversations.find(c => c.id === selectedConversation);
-      if (conversation) {
-        await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
+    setChatError(null);
+    try {
+      if (!selectedConversation) {
+        const newConv = await base44.agents.createConversation({
+          agent_name: 'return_to_work_coach',
+          metadata: { name: 'New Conversation' }
+        });
+        const convWithMessages = { ...newConv, messages: [] };
+        setSelectedConversation(newConv.id);
+        setConversations(prev => [convWithMessages, ...prev]);
+        await base44.agents.addMessage(convWithMessages, { role: 'user', content: messageText });
+      } else {
+        const conversation = conversations.find(c => c.id === selectedConversation);
+        if (conversation) {
+          await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
+        }
       }
+      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
+    } catch {
+      setChatError("Your message couldn't be sent. Please try again.");
     }
-    queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
   };
 
   const currentConversation = conversations.find(c => c.id === selectedConversation);
@@ -296,7 +322,25 @@ export default function Coach() {
 
             {/* Messages */}
             <CardContent className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-slate-50">
-              {!selectedConversation ? (
+              {!isLoadingAuth && !isAuthenticated ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center space-y-4 max-w-md">
+                    <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                      <MessageSquare className="h-10 w-10 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-900">Sign in to chat with your coach</h3>
+                    <p className="text-slate-800 leading-relaxed">
+                      Your coaching conversations are private and saved to your account. Please sign in to start chatting.
+                    </p>
+                    <Button
+                      onClick={() => base44.auth.redirectToLogin()}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    >
+                      Sign in
+                    </Button>
+                  </div>
+                </div>
+              ) : !selectedConversation ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center space-y-4 max-w-md">
                     <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
@@ -395,6 +439,9 @@ export default function Coach() {
 
             {/* Input Area */}
             <div className="border-t border-purple-200 p-4 bg-white">
+              {chatError && (
+                <p className="text-sm text-red-700 font-semibold mb-2" role="alert">{chatError}</p>
+              )}
               <div className="flex gap-3">
                 <Textarea
                   value={message}
@@ -402,11 +449,11 @@ export default function Coach() {
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message... (Shift+Enter for new line)"
                   className="flex-1 min-h-[60px] max-h-[200px] bg-white border-2 border-purple-200 text-slate-900 placeholder:text-slate-500 focus:border-purple-500 focus:ring-purple-500"
-                  disabled={sendMessageMutation.isPending}
+                  disabled={sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
                 />
                 <Button
                   onClick={handleSend}
-                  disabled={!message.trim() || sendMessageMutation.isPending}
+                  disabled={!message.trim() || sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 self-end"
                 >
                   {sendMessageMutation.isPending ? (
