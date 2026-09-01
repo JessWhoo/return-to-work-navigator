@@ -12,6 +12,10 @@ import {
   Clock, Home, Utensils, Briefcase 
 } from 'lucide-react';
 
+// Static class maps — Tailwind purges dynamically built class names.
+const CAT_BG = { blue: 'bg-blue-100', teal: 'bg-teal-100', purple: 'bg-purple-100', rose: 'bg-rose-100' };
+const CAT_TEXT = { blue: 'text-blue-600', teal: 'text-teal-600', purple: 'text-purple-600', rose: 'text-rose-600' };
+
 const commonAccommodations = [
   {
     category: 'Schedule Flexibility',
@@ -178,8 +182,8 @@ export default function Accommodations() {
                 return (
                   <div key={category.category} className="space-y-3">
                     <div className="flex items-center space-x-2">
-                      <div className={`p-2 rounded-lg bg-${category.color}-100`}>
-                        <Icon className={`h-5 w-5 text-${category.color}-600`} />
+                      <div className={`p-2 rounded-lg ${CAT_BG[category.color]}`}>
+                        <Icon className={`h-5 w-5 ${CAT_TEXT[category.color]}`} />
                       </div>
                       <h3 className="font-semibold text-slate-900">{category.category}</h3>
                     </div>

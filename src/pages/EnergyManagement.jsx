@@ -20,6 +20,11 @@ import AISymptomInsights from '../components/symptoms/AISymptomInsights';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import DownloadPlannerButton from '../components/planner/DownloadPlannerButton';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
+
+// Static class maps — Tailwind purges dynamically built class names.
+const TIP_BG = { amber: 'bg-amber-100', blue: 'bg-blue-100', teal: 'bg-teal-100', rose: 'bg-rose-100' };
+const TIP_TEXT = { amber: 'text-amber-600', blue: 'text-blue-600', teal: 'text-teal-600', rose: 'text-rose-600' };
 
 const energyTips = [
   {
@@ -121,7 +126,7 @@ function EnergyTab({ progress, queryClient }) {
       return await base44.entities.UserProgress.update(progress.id, { energy_logs: updatedLogs });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       toast.success('Daily wellness log saved!');
     },
     onError: (error) => toast.error('Failed to save: ' + error.message)
@@ -223,8 +228,8 @@ function EnergyTab({ progress, queryClient }) {
             <Card key={category.title} className="bg-slate-800 border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg bg-${category.color}-100`}>
-                    <Icon className={`h-6 w-6 text-${category.color}-600`} />
+                  <div className={`p-2 rounded-lg ${TIP_BG[category.color]}`}>
+                    <Icon className={`h-6 w-6 ${TIP_TEXT[category.color]}`} />
                   </div>
                   <span className="text-slate-100">{category.title}</span>
                 </CardTitle>
@@ -233,7 +238,7 @@ function EnergyTab({ progress, queryClient }) {
                 <ul className="space-y-3">
                   {category.tips.map((tip, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <CheckCircle2 className={`h-5 w-5 text-${category.color}-600 flex-shrink-0 mt-0.5`} />
+                      <CheckCircle2 className={`h-5 w-5 ${TIP_TEXT[category.color]} flex-shrink-0 mt-0.5`} />
                       <span className="text-slate-200 leading-relaxed">{tip}</span>
                     </li>
                   ))}
@@ -250,7 +255,7 @@ function EnergyTab({ progress, queryClient }) {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {progress.energy_logs
+                {[...progress.energy_logs]
                   .sort((a, b) => new Date(b.date) - new Date(a.date))
                   .slice(0, 7)
                   .map((log, index) => {
@@ -278,16 +283,18 @@ function EnergyTab({ progress, queryClient }) {
 
 function SymptomTab({ progress }) {
   const queryClient = useQueryClient();
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [showAddDialog, setShowAddDialog] = useState(false);
 
   const { data: symptomRecords, isLoading } = useQuery({
     queryKey: ['symptomRecords'],
-    queryFn: async () => await base44.entities.Record.filter({ type: 'symptom' }, '-date', 50)
+    queryFn: async () => await base44.entities.Record.filter({ type: 'symptom' }, '-date', 50),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const deleteRecordMutation = useMutation({
     mutationFn: async (id) => await base44.entities.Record.delete(id),
-    onSuccess: () => queryClient.invalidateQueries(['symptomRecords'])
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['symptomRecords'] })
   });
 
   const getSeverityColor = (severity) => {

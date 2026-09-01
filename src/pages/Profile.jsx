@@ -55,19 +55,21 @@ export default function Profile() {
   const { data: reviews } = useQuery({
     queryKey: ['userReviews'],
     queryFn: () => base44.entities.ResourceReview.list(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
     initialData: []
   });
 
   const { data: suggestions } = useQuery({
     queryKey: ['userSuggestions'],
     queryFn: () => base44.entities.ResourceSuggestion.list(),
+    enabled: !isLoadingAuth && !!isAuthenticated,
     initialData: []
   });
 
   const updateUserMutation = useMutation({
     mutationFn: (data) => base44.auth.updateMe(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['currentUser']);
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       toast.success('Profile updated successfully');
       setIsEditing(false);
     }
@@ -76,7 +78,7 @@ export default function Profile() {
   const updateProgressMutation = useMutation({
     mutationFn: (data) => base44.entities.UserProgress.update(progress.id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       toast.success('Preferences updated');
     }
   });

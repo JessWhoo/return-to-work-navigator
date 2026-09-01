@@ -15,9 +15,11 @@ import { format } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import RecordDetailView from '../components/records/RecordDetailView';
 import PullToRefresh from '../components/PullToRefresh';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function RecordKeeping() {
   const queryClient = useQueryClient();
+  const { isAuthenticated, isLoadingAuth } = useAuth();
 
   const handleRefresh = async () => {
     await queryClient.invalidateQueries();
@@ -32,13 +34,14 @@ export default function RecordKeeping() {
 
   const { data: records = [], isLoading } = useQuery({
     queryKey: ['records'],
-    queryFn: () => recordAPI.list('-date')
+    queryFn: () => recordAPI.list('-date'),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const deleteRecordMutation = useMutation({
     mutationFn: (id) => recordAPI.remove(id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['records']);
+      queryClient.invalidateQueries({ queryKey: ['records'] });
     }
   });
 
@@ -52,8 +55,8 @@ export default function RecordKeeping() {
 
   const filteredRecords = records.filter(record => {
     const matchesSearch = searchQuery === '' || 
-      record.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.content.toLowerCase().includes(searchQuery.toLowerCase());
+      (record.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (record.content || '').toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = typeFilter === 'all' || record.type === typeFilter;
     return matchesSearch && matchesType;
   });

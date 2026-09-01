@@ -67,7 +67,7 @@ export default function Home() {
       return await base44.entities.UserProgress.update(progress.id, updates);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
     }
   });
 
@@ -79,7 +79,7 @@ export default function Home() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       setShowOnboarding(false);
     }
   });
