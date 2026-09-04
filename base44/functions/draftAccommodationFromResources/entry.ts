@@ -103,7 +103,7 @@ Return JSON with:
   body: string (the full email body, ready to send)
   suggestions: array of 2-3 short strings — tips the user could tweak before sending`;
 
-    const llmResult = await base44.integrations.Core.InvokeLLM({
+    const llmResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt,
       response_json_schema: {
         type: 'object',
