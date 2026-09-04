@@ -13,6 +13,15 @@ import ErrorBoundary from './components/ErrorBoundary';
 import GlobalSearch from './components/search/GlobalSearch';
 import AnalyticsTracker from './components/analytics/AnalyticsTracker';
 import { applyAccessibilityMode, isAccessibilityModeOn } from '@/lib/accessibilityMode';
+import ListenButton from './components/a11y/ListenButton';
+
+// Resource / article style pages where listening to the content is useful.
+const READABLE_PAGES = new Set([
+  'Resources', 'ResourceLibrary', 'WellnessResources', 'WellnessLibrary',
+  'Blog', 'ExpertAdvice', 'ExpertQA', 'FAQ', 'LegalRights', 'LegalPolicyHub',
+  'StateByStateLaws', 'InternationalLaws', 'DisclosureGuide', 'Accommodations',
+  'About', 'PrivacySecurity', 'Roadmap',
+]);
 
 
 // Per-tab scroll-position memory so switching tabs preserves where you were.
@@ -363,6 +372,8 @@ export default function Layout({ children, currentPageName }) {
           </AnimatePresence>
         </main>
       </div>
+
+      {READABLE_PAGES.has(currentPageName) && <ListenButton />}
 
       {/* Bottom Nav (mobile only) */}
       <BottomNav currentPageName={currentPageName} />
