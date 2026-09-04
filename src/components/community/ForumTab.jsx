@@ -33,7 +33,7 @@ function ReplySection({ post, currentUser }) {
   const addReply = useMutation({
     mutationFn: (data) => base44.entities.ForumReply.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['forumReplies', post.id]);
+      queryClient.invalidateQueries({ queryKey: ['forumReplies', post.id] });
       setReplyText('');
       toast.success('Reply posted!');
     }
@@ -97,6 +97,7 @@ export default function ForumTab() {
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['forumPosts', filterTopic],
+    enabled: !isLoadingAuth && !!isAuthenticated,
     queryFn: () => filterTopic === 'all'
       ? base44.entities.ForumPost.list('-created_date', 50)
       : base44.entities.ForumPost.filter({ topic: filterTopic }, '-created_date', 50),
@@ -110,7 +111,7 @@ export default function ForumTab() {
         : [...(post.liked_by || []), currentUser?.email];
       return base44.entities.ForumPost.update(post.id, { liked_by, likes: liked_by.length });
     },
-    onSuccess: () => queryClient.invalidateQueries(['forumPosts'])
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['forumPosts'] })
   });
 
   const topicConfig = Object.fromEntries(TOPICS.map(t => [t.value, t]));

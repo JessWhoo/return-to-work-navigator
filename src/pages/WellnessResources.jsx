@@ -179,6 +179,13 @@ const copingMechanisms = [
   }
 ];
 
+// Static class maps — Tailwind purges dynamically built class names.
+const CAT_BG_SOFT = { blue: 'bg-blue-100', teal: 'bg-teal-100', amber: 'bg-amber-100', rose: 'bg-rose-100', indigo: 'bg-indigo-100', purple: 'bg-purple-100' };
+const CAT_TEXT = { blue: 'text-blue-600', teal: 'text-teal-600', amber: 'text-amber-600', rose: 'text-rose-600', indigo: 'text-indigo-600', purple: 'text-purple-600' };
+const CAT_BORDER_SOFT = { blue: 'border-blue-300', teal: 'border-teal-300', amber: 'border-amber-300', rose: 'border-rose-300', indigo: 'border-indigo-300', purple: 'border-purple-300' };
+const CAT_BG_TINT = { blue: 'bg-blue-50', teal: 'bg-teal-50', amber: 'bg-amber-50', rose: 'bg-rose-50', indigo: 'bg-indigo-50', purple: 'bg-purple-50' };
+const CAT_BG_SOLID = { blue: 'bg-blue-500', teal: 'bg-teal-500', amber: 'bg-amber-500', rose: 'bg-rose-500', indigo: 'bg-indigo-500', purple: 'bg-purple-500' };
+
 const quickExercises = [
   {
     name: 'Mini Breathing Break',
@@ -245,8 +252,8 @@ export default function WellnessResources() {
               return (
                 <Card key={exercise.name} className="bg-slate-800 border-slate-600 hover:shadow-lg transition-all">
                   <CardContent className="pt-6 text-center space-y-3">
-                    <div className={`p-3 rounded-full bg-${exercise.color}-100 w-16 h-16 mx-auto flex items-center justify-center`}>
-                      <Icon className={`h-8 w-8 text-${exercise.color}-600`} />
+                    <div className={`p-3 rounded-full ${CAT_BG_SOFT[exercise.color]} w-16 h-16 mx-auto flex items-center justify-center`}>
+                      <Icon className={`h-8 w-8 ${CAT_TEXT[exercise.color]}`} />
                     </div>
                     <h3 className="font-bold text-slate-100">{exercise.name}</h3>
                     <Badge variant="secondary">{exercise.duration}</Badge>
@@ -267,8 +274,8 @@ export default function WellnessResources() {
             <Card key={category.category} className="bg-slate-800 border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg bg-${category.color}-100`}>
-                    <Icon className={`h-6 w-6 text-${category.color}-600`} />
+                  <div className={`p-2 rounded-lg ${CAT_BG_SOFT[category.color]}`}>
+                    <Icon className={`h-6 w-6 ${CAT_TEXT[category.color]}`} />
                   </div>
                   <span className="text-slate-100">{category.category}</span>
                 </CardTitle>
@@ -278,7 +285,7 @@ export default function WellnessResources() {
                   const isExpanded = expandedTechnique === `${category.category}-${technique.name}`;
                   return (
                     <div key={technique.name} className={`border-2 rounded-lg overflow-hidden transition-all ${
-                      isExpanded ? `border-${category.color}-300 bg-${category.color}-50` : 'border-gray-200 bg-white'
+                      isExpanded ? `${CAT_BORDER_SOFT[category.color]} ${CAT_BG_TINT[category.color]}` : 'border-gray-200 bg-white'
                     }`}>
                       <button
                         onClick={() => toggleTechnique(category.category, technique.name)}
@@ -302,7 +309,7 @@ export default function WellnessResources() {
                           <ol className="space-y-2">
                             {technique.steps.map((step, idx) => (
                               <li key={idx} className="flex items-start space-x-3">
-                                <Badge className={`bg-${category.color}-500 text-white flex-shrink-0`}>
+                                <Badge className={`${CAT_BG_SOLID[category.color]} text-white flex-shrink-0`}>
                                   {idx + 1}
                                 </Badge>
                                 <span className="text-sm text-slate-200 leading-relaxed">{step}</span>

@@ -19,7 +19,7 @@ export default function MessagesTab() {
     enabled: !!currentUser,
   });
 
-  const myPeerProfile = allPeers.find(p => p.created_by === currentUser?.email) || null;
+  const myPeerProfile = allPeers.find(p => p.created_by_id === currentUser?.id) || null;
 
   return (
     <div className="space-y-4 py-4">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOfflineEntity } from '@/lib/useOfflineEntity';
+import { useAuth } from '@/lib/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,18 +16,20 @@ import DraftFromResourcesButton from './DraftFromResourcesButton';
 
 export default function SavedDrafts({ onEdit }) {
   const queryClient = useQueryClient();
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [expandedDraft, setExpandedDraft] = useState(null);
   const draftAPI = useOfflineEntity('CommunicationDraft');
 
   const { data: drafts, isLoading } = useQuery({
     queryKey: ['communication-drafts'],
+    enabled: !isLoadingAuth && !!isAuthenticated,
     queryFn: () => draftAPI.list('-updated_date')
   });
 
   const deleteDraftMutation = useMutation({
     mutationFn: (draftId) => draftAPI.remove(draftId),
     onSuccess: () => {
-      queryClient.invalidateQueries(['communication-drafts']);
+      queryClient.invalidateQueries({ queryKey: ['communication-drafts'] });
       toast.success('Draft deleted');
     }
   });

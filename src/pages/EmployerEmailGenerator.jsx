@@ -14,6 +14,7 @@ import {
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
 
 const EMAIL_SCENARIOS = [
   {
@@ -83,6 +84,7 @@ function extractConversationContext(conversation) {
 }
 
 export default function EmployerEmailGenerator() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [selectedScenario, setSelectedScenario] = useState(null);
   const [selectedConvId, setSelectedConvId] = useState('none');
   const [recipientName, setRecipientName] = useState('');
@@ -100,6 +102,7 @@ export default function EmployerEmailGenerator() {
   // Load coach conversations
   const { data: conversations = [], isLoading: loadingConvs } = useQuery({
     queryKey: ['coach-conversations'],
+    enabled: !isLoadingAuth && !!isAuthenticated,
     queryFn: async () => {
       const convs = await base44.agents.listConversations({ agent_name: 'return_to_work_coach' });
       return convs || [];

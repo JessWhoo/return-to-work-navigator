@@ -11,6 +11,7 @@ import {
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
 
 const REPORT_TYPES = [
   {
@@ -310,12 +311,14 @@ async function buildPDF(type, { meetings, drafts, records, progress }) {
 }
 
 export default function ExportReports() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [generating, setGenerating] = useState(null);
   const [done, setDone] = useState(null);
+  const authed = !isLoadingAuth && !!isAuthenticated;
 
-  const { data: meetings } = useQuery({ queryKey: ['meetingPreps'], queryFn: () => base44.entities.MeetingPrep.list('-meeting_date') });
-  const { data: drafts } = useQuery({ queryKey: ['communicationDrafts'], queryFn: () => base44.entities.CommunicationDraft.list('-updated_date') });
-  const { data: records } = useQuery({ queryKey: ['records'], queryFn: () => base44.entities.Record.list('-date') });
+  const { data: meetings } = useQuery({ queryKey: ['meetingPreps'], enabled: authed, queryFn: () => base44.entities.MeetingPrep.list('-meeting_date') });
+  const { data: drafts } = useQuery({ queryKey: ['communicationDrafts'], enabled: authed, queryFn: () => base44.entities.CommunicationDraft.list('-updated_date') });
+  const { data: records } = useQuery({ queryKey: ['records'], enabled: authed, queryFn: () => base44.entities.Record.list('-date') });
   const { data: progress } = useUserProgress();
 
   const handleExport = async (type) => {

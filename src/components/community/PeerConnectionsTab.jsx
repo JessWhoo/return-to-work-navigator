@@ -229,15 +229,16 @@ export default function PeerConnectionsTab() {
 
   const { data: allPeers = [], isLoading } = useQuery({
     queryKey: ['peerConnections'],
+    enabled: !isLoadingAuth && !!isAuthenticated,
     queryFn: () => base44.entities.PeerConnection.filter({ is_active: true }),
   });
 
-  const myProfile = allPeers.find(p => p.created_by === currentUser?.email);
+  const myProfile = allPeers.find(p => p.created_by_id === currentUser?.id);
 
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.PeerConnection.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['peerConnections']);
+      queryClient.invalidateQueries({ queryKey: ['peerConnections'] });
       setEditing(false);
       toast.success('Your peer profile is live!');
     }
@@ -246,7 +247,7 @@ export default function PeerConnectionsTab() {
   const updateMutation = useMutation({
     mutationFn: (data) => base44.entities.PeerConnection.update(myProfile.id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['peerConnections']);
+      queryClient.invalidateQueries({ queryKey: ['peerConnections'] });
       setEditing(false);
       toast.success('Profile updated!');
     }
@@ -263,7 +264,7 @@ export default function PeerConnectionsTab() {
       ]);
     },
     onSuccess: (_, peer) => {
-      queryClient.invalidateQueries(['peerConnections']);
+      queryClient.invalidateQueries({ queryKey: ['peerConnections'] });
       toast.success(`Connection request sent to ${peer.display_name}! They'll see your interest anonymously.`);
     }
   });
@@ -402,7 +403,7 @@ export default function PeerConnectionsTab() {
           <PeerCard
             key={peer.id}
             peer={peer}
-            isSelf={peer.created_by === currentUser?.email}
+            isSelf={peer.created_by_id === currentUser?.id}
             alreadyConnected={hasRequestedConnection(peer)}
             onConnect={(p) => {
               if (!myProfile) {

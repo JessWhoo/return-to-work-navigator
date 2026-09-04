@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useOfflineEntity } from '@/lib/useOfflineEntity';
+import { useAuth } from '@/lib/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -37,6 +38,7 @@ const MEETING_TYPE_LABELS = {
 
 export default function MeetingPrep() {
   const queryClient = useQueryClient();
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [view, setView] = useState('list'); // 'list' | 'new' | 'detail' | 'templates'
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [activeTab, setActiveTab] = useState('prep');
@@ -46,13 +48,14 @@ export default function MeetingPrep() {
 
   const { data: meetings = [], isLoading } = useQuery({
     queryKey: ['meeting-preps'],
+    enabled: !isLoadingAuth && !!isAuthenticated,
     queryFn: () => meetingAPI.list('-created_date', 50)
   });
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this meeting prep?')) return;
     await meetingAPI.remove(id);
-    queryClient.invalidateQueries(['meeting-preps']);
+    queryClient.invalidateQueries({ queryKey: ['meeting-preps'] });
     if (selectedMeeting?.id === id) { setView('list'); setSelectedMeeting(null); }
   };
 
@@ -64,7 +67,7 @@ export default function MeetingPrep() {
 
   const refreshSelected = async () => {
     const updated = await meetingAPI.list('-created_date', 50);
-    queryClient.setQueryData(['meeting-preps'], updated);
+    queryClient.setQueryData({ queryKey: ['meeting-preps'] }, updated);
     const fresh = updated.find(m => m.id === selectedMeeting?.id);
     if (fresh) setSelectedMeeting(fresh);
   };
