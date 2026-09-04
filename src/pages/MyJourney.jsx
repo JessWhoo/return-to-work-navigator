@@ -5,6 +5,7 @@ import Profile from './Profile';
 import ProgressDashboard from './ProgressDashboard';
 import Checklist from './Checklist';
 import useSEO from '@/hooks/useSEO';
+import DownloadReturnSummaryButton from '@/components/summary/DownloadReturnSummaryButton';
 
 export default function MyJourney() {
   useSEO({
@@ -20,6 +21,8 @@ export default function MyJourney() {
         </h1>
         <p className="text-lg font-medium text-slate-800">Your profile, progress, and checklist all in one place</p>
       </div>
+
+      <DownloadReturnSummaryButton />
 
       <Tabs defaultValue="dashboard" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3 bg-white/90 backdrop-blur-sm border-2 border-slate-300 shadow-sm p-1.5 h-auto">
