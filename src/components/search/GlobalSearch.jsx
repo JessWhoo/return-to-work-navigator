@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { searchSite } from './searchIndex';
+import { track } from '@/lib/analytics';
 
 export default function GlobalSearch() {
   const [query, setQuery] = useState('');
@@ -18,7 +19,19 @@ export default function GlobalSearch() {
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, []);
 
-  const goTo = (path) => {
+  // Track what users search for (debounced) so we can see which sections
+  // people are trying to reach and surface them higher on the Home page.
+  useEffect(() => {
+    const q = query.trim();
+    if (!q) return;
+    const t = setTimeout(() => {
+      track('site_search', { query: q, result_count: searchSite(q).length });
+    }, 600);
+    return () => clearTimeout(t);
+  }, [query]);
+
+  const goTo = (path, title) => {
+    track('site_search_result_selected', { query: query.trim(), title, path });
     setQuery('');
     setOpen(false);
     navigate(path);
@@ -34,7 +47,7 @@ export default function GlobalSearch() {
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && results.length > 0) goTo(results[0].path);
+            if (e.key === 'Enter' && results.length > 0) goTo(results[0].path, results[0].title);
             if (e.key === 'Escape') setOpen(false);
           }}
           placeholder="Search the toolkit… e.g. fatigue, rights"
@@ -60,7 +73,7 @@ export default function GlobalSearch() {
             results.map((r) => (
               <button
                 key={r.path}
-                onClick={() => goTo(r.path)}
+                onClick={() => goTo(r.path, r.title)}
                 className="w-full text-left px-4 py-3 hover:bg-violet-50 transition-colors border-b border-slate-100 last:border-b-0"
               >
                 <p className="text-sm font-bold text-slate-900">{r.title}</p>

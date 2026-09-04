@@ -212,7 +212,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-3xl mb-12"
+        className="relative min-h-[44vh] sm:min-h-[52vh] flex items-center justify-center overflow-hidden rounded-3xl mb-10"
       >
         {/* Animated background — purely decorative */}
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-rose-200 via-sky-200 to-emerald-200">
@@ -244,7 +244,7 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 text-center space-y-8 px-6 py-16">
+        <div className="relative z-10 text-center space-y-5 px-6 py-10 sm:py-14">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -260,7 +260,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
           >
             <span className="bg-gradient-to-r from-rose-600 via-violet-600 to-sky-700 bg-clip-text text-transparent">
               Welcome Back
@@ -273,10 +273,11 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl sm:text-2xl text-slate-800 max-w-3xl mx-auto leading-relaxed font-medium"
+            className="text-lg sm:text-xl text-slate-800 max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Practical guidance, templates, and support to help you
-            transition back with <span className="font-bold text-rose-600">confidence</span>.
+            A free toolkit for cancer survivors returning to work. Track your progress,
+            manage fatigue, understand your rights, and talk to your employer with{' '}
+            <span className="font-bold text-rose-600">confidence</span>.
           </motion.p>
 
           <motion.div
@@ -312,7 +313,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.6 }}
-        className="mb-12 rounded-3xl overflow-hidden shadow-lg border border-white/80"
+        className="mb-10 rounded-3xl overflow-hidden shadow-lg border border-white/80"
       >
         <img
           src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png"
