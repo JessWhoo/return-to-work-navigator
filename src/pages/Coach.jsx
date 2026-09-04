@@ -245,10 +245,10 @@ export default function Coach() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto pb-4 lg:h-[calc(100vh-12rem)]">
-      <div className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-[minmax(0,1fr)] gap-6 lg:h-full lg:min-h-0">
+    <div className="max-w-7xl mx-auto pb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:items-start">
         {/* Sidebar */}
-        <div className="lg:col-span-1 flex flex-col gap-4 lg:h-full lg:min-h-0 lg:overflow-y-auto">
+        <div className="lg:col-span-1 flex flex-col gap-4">
           {/* Conversation History Panel */}
           <Card className="bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md flex flex-col" style={{ maxHeight: '50vh' }}>
             <CardContent className="pt-4 pb-4 flex flex-col flex-1 overflow-hidden">
@@ -299,7 +299,7 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className="lg:col-span-3 flex flex-col h-[75vh] lg:h-full min-h-0">
+        <div className="lg:col-span-3 order-first lg:order-none flex flex-col h-[70vh] min-h-[480px] lg:h-[calc(100vh-9rem)] lg:min-h-[560px] lg:sticky lg:top-24">
           <Card className="flex-1 min-h-0 flex flex-col bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md overflow-hidden">
             <CardHeader className="border-b border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
               <div className="flex items-center justify-between">

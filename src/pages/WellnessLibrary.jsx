@@ -1,9 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, HeartPulse, X } from 'lucide-react';
+import { Search, HeartPulse, X, Loader2 } from 'lucide-react';
 import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
+import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
+import { useWellnessLibrary, useRateResource } from '@/hooks/useWellnessLibrary';
 import { useAuth } from '@/lib/AuthContext';
 
 const TOPICS = [
@@ -17,67 +20,38 @@ const TOPICS = [
 ];
 
 export default function WellnessLibrary() {
-  const { isAuthenticated, isLoadingAuth, user: authUser } = useAuth();
-  const [resources, setResources] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
   const [search, setSearch] = useState('');
   const [topic, setTopic] = useState('all');
 
-  useEffect(() => {
-    // Wait for auth to settle so we never call user-scoped endpoints
-    // while signed out (that produced repeated 401s on page load).
-    if (isLoadingAuth) return;
-    const load = async () => {
-      const [res, rats] = await Promise.all([
-        base44.entities.WellnessResource.list('-created_date', 200),
-        base44.entities.WellnessResourceRating.list(null, 500),
-      ]);
-      setResources(res);
-      setRatings(rats);
-      setUser(isAuthenticated ? authUser : null);
-      setLoading(false);
-    };
-    load();
-  }, [isLoadingAuth, isAuthenticated, authUser]);
+  const {
+    data, isLoading, isError, refetch, isRefetching,
+    fetchNextPage, hasNextPage, isFetchingNextPage,
+  } = useWellnessLibrary(topic);
+  const rateMutation = useRateResource(topic);
 
+  const resources = useMemo(() => data?.pages.flatMap((p) => p.resources) ?? [], [data]);
   const ratingStats = useMemo(() => {
-    const stats = {};
-    ratings.forEach((r) => {
-      if (!stats[r.resource_id]) stats[r.resource_id] = { sum: 0, count: 0, mine: null };
-      stats[r.resource_id].sum += r.rating;
-      stats[r.resource_id].count += 1;
-      if (user && r.created_by_id === user.id) stats[r.resource_id].mine = r;
-    });
-    return stats;
-  }, [ratings, user]);
+    const map = {};
+    data?.pages.forEach((p) => p.ratings.forEach((r) => { map[r.resource_id] = r; }));
+    return map;
+  }, [data]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return resources.filter((r) => {
-      if (topic !== 'all' && r.topic !== topic) return false;
-      if (!q) return true;
-      return [r.title, r.summary, r.source, r.topic].join(' ').toLowerCase().includes(q);
-    });
-  }, [resources, search, topic]);
+    if (!q) return resources;
+    return resources.filter((r) =>
+      [r.title, r.summary, r.source, r.topic].join(' ').toLowerCase().includes(q),
+    );
+  }, [resources, search]);
 
-  const handleRate = async (resource, value) => {
-    if (!user) {
+  const handleRate = (resource, value) => {
+    if (!isAuthenticated) {
       base44.auth.redirectToLogin(window.location.pathname);
       return;
     }
-    const existing = ratingStats[resource.id]?.mine;
-    if (existing) {
-      await base44.entities.WellnessResourceRating.update(existing.id, { rating: value });
-      setRatings((prev) => prev.map((r) => (r.id === existing.id ? { ...r, rating: value } : r)));
-    } else {
-      const created = await base44.entities.WellnessResourceRating.create({
-        resource_id: resource.id,
-        rating: value,
-      });
-      setRatings((prev) => [...prev, { ...created, created_by_id: user.id }]);
-    }
+    const stat = ratingStats[resource.id] || { resource_id: resource.id, average: 0, count: 0, my_rating: 0, my_rating_id: null };
+    rateMutation.mutate({ resourceId: resource.id, value, stat });
   };
 
   return (
@@ -137,17 +111,19 @@ export default function WellnessLibrary() {
       </Card>
 
       {/* Results */}
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center py-16">
           <div className="w-8 h-8 border-4 border-slate-200 border-t-emerald-600 rounded-full animate-spin" />
         </div>
+      ) : isError ? (
+        <LibraryErrorPanel onRetry={() => refetch()} retrying={isRefetching} />
       ) : filtered.length === 0 ? (
         <Card className="bg-white border-2 border-slate-300">
           <CardContent className="p-12 text-center">
             <Search className="h-10 w-10 text-slate-400 mx-auto mb-3" />
             <h3 className="text-lg font-extrabold text-slate-900">No resources found</h3>
             <p className="text-sm font-medium text-slate-700 mt-1">
-              Try a different search term or topic.
+              Try a different search term or topic{hasNextPage ? ', or load more resources below' : ''}.
             </p>
           </CardContent>
         </Card>
@@ -159,13 +135,27 @@ export default function WellnessLibrary() {
               <WellnessResourceCard
                 key={resource.id}
                 resource={resource}
-                avgRating={stats ? stats.sum / stats.count : 0}
+                avgRating={stats?.average || 0}
                 ratingCount={stats?.count || 0}
-                myRating={stats?.mine?.rating || 0}
+                myRating={stats?.my_rating || 0}
                 onRate={(value) => handleRate(resource, value)}
               />
             );
           })}
+        </div>
+      )}
+
+      {!isLoading && !isError && hasNextPage && (
+        <div className="flex justify-center pt-2">
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            variant="outline"
+            className="border-2 border-emerald-500 text-emerald-800 font-bold hover:bg-emerald-50"
+          >
+            {isFetchingNextPage && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            Load more resources
+          </Button>
         </div>
       )}
     </div>
