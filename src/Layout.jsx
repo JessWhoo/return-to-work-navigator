@@ -14,6 +14,7 @@ import GlobalSearch from './components/search/GlobalSearch';
 import AnalyticsTracker from './components/analytics/AnalyticsTracker';
 import { applyAccessibilityMode, isAccessibilityModeOn } from '@/lib/accessibilityMode';
 import ListenButton from './components/a11y/ListenButton';
+import StructuredData from './components/seo/StructuredData';
 
 // Resource / article style pages where listening to the content is useful.
 const READABLE_PAGES = new Set([
@@ -197,6 +198,7 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <div className="relative min-h-screen bg-slate-50 overflow-hidden">
+      <StructuredData />
       <OfflineIndicator />
       <NotificationManager />
       <AnalyticsTracker />

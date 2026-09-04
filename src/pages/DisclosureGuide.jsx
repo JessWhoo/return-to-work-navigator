@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import useSEO from '@/hooks/useSEO';
 import { MessageSquare, Sparkles, ArrowRight, RefreshCw } from 'lucide-react';
 import { DISCLOSURE_STEPS } from '@/components/disclosure/disclosureSteps';
 import StepCard from '@/components/disclosure/StepCard';
@@ -12,6 +13,12 @@ import LegalProtectionsCard from '@/components/disclosure/LegalProtectionsCard';
 const STORAGE_KEY = 'disclosure_checklist_v1';
 
 export default function DisclosureGuide() {
+  useSEO({
+    title: 'Disclosure Guide',
+    description:
+      'Decide whether, when and how to tell your employer about your cancer diagnosis, with step-by-step guidance and your legal protections explained.',
+    path: '/DisclosureGuide',
+  });
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {

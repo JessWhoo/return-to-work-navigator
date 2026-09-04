@@ -14,6 +14,11 @@
     "page": {
       "type": "string",
       "description": "Page the feedback was submitted from"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional description or context for this feedback"
     }
   },
   "required": [

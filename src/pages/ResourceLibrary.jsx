@@ -4,9 +4,16 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search, Library, X } from 'lucide-react';
 import { LIBRARY_ITEMS, LIBRARY_CATEGORIES } from '@/components/library/libraryData';
+import useSEO from '@/hooks/useSEO';
 import LibraryCard from '@/components/library/LibraryCard';
 
 export default function ResourceLibrary() {
+  useSEO({
+    title: 'Resource Library',
+    description:
+      'Browse trusted articles, guides, tools and organizations supporting cancer survivors through the return-to-work journey.',
+    path: '/ResourceLibrary',
+  });
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
 

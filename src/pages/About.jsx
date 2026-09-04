@@ -2,8 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Users, Shield, Zap, BookOpen, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import useSEO from '@/hooks/useSEO';
 
 export default function About() {
+  useSEO({
+    title: 'About Us',
+    description:
+      'Learn why Back to Life, Back to Work exists and how our toolkit helps cancer survivors return to the workplace with confidence and support.',
+    path: '/About',
+  });
+
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 space-y-12">
       {/* Hero */}

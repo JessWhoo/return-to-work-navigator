@@ -8,6 +8,7 @@ import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
 import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
 import { useWellnessLibrary, useRateResource } from '@/hooks/useWellnessLibrary';
 import { useAuth } from '@/lib/AuthContext';
+import useSEO from '@/hooks/useSEO';
 
 const TOPICS = [
   { id: 'all', label: 'All Topics' },
@@ -20,6 +21,12 @@ const TOPICS = [
 ];
 
 export default function WellnessLibrary() {
+  useSEO({
+    title: 'Wellness Resource Library',
+    description:
+      'Trusted wellness resources for cancer survivors returning to work — fatigue management, sleep, nutrition, movement and emotional well-being.',
+    path: '/WellnessLibrary',
+  });
   const { isAuthenticated } = useAuth();
   const [search, setSearch] = useState('');
   const [topic, setTopic] = useState('all');

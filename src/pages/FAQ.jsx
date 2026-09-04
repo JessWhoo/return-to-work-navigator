@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import useSEO from '@/hooks/useSEO';
 import { 
   ChevronDown, ChevronRight, HelpCircle, Search, 
   Briefcase, Shield, Heart, Zap, FileText, Calendar
@@ -157,6 +158,12 @@ const faqData = [
 ];
 
 export default function FAQ() {
+  useSEO({
+    title: 'Frequently Asked Questions',
+    description:
+      'Answers to common questions about returning to work after cancer: disclosure, accommodations, fatigue, legal rights, benefits and more.',
+    path: '/FAQ',
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState([0]);
   const [expandedQuestions, setExpandedQuestions] = useState([]);

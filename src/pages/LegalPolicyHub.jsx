@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight } from 'lucide-react';
 import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
+import useSEO from '@/hooks/useSEO';
 
 // Secondary tabs load on demand so the hub's initial render isn't blocked by
 // five full pages of content that most visitors never open.
@@ -19,6 +20,13 @@ const TabFallback = () => (
 );
 
 export default function LegalPolicyHub() {
+  useSEO({
+    title: 'Legal Rights & Workplace Policy',
+    description:
+      'Understand your workplace rights as a cancer survivor — ADA and FMLA protections, accommodations, disclosure and state-by-state laws.',
+    path: '/LegalPolicyHub',
+  });
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="text-center space-y-2">

@@ -4,9 +4,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { base44 } from '@/api/base44Client';
+import useSEO from '@/hooks/useSEO';
 import { toast } from 'sonner';
 
 export default function Contact() {
+  useSEO({
+    title: 'Contact Us',
+    description:
+      'Get in touch with the Back to Life, Back to Work team with questions, feedback or resource suggestions for cancer survivors returning to work.',
+    path: '/Contact',
+  });
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
