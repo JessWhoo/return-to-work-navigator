@@ -245,9 +245,9 @@ button:focus-visible {
 /* Global text contrast boost - improve readability across the entire app */
 @layer utilities {
   /* All rules below are light-mode readability + surface overrides. They
-     only apply when the :root does NOT have the .dark class, so the dark
-     theme (driven by the .dark CSS variables) is left untouched. */
-  :root:not(.dark) {
+     apply only when the device is NOT in dark mode, so the dark theme
+     (driven by the .dark CSS variables) is left untouched. */
+  @media (prefers-color-scheme: light) {
   /* On light backgrounds: darken light gray text */
   .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; font-weight: 500; }
   .text-slate-600 { color: rgb(15 23 42) !important; }
