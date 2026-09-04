@@ -9,42 +9,21 @@ import { installGlobalErrorLogging } from '@/lib/errorLogger'
 // traces, source location, page URL, plus a session log via window.__errorLog()
 installGlobalErrorLogging();
 
-// Register service worker for offline support
+// The service-worker.js file was removed, but browsers may still have an
+// older worker installed from a prior deployment. That stale worker serves
+// outdated cached assets and is a common cause of the app failing to load
+// after an update. Unregister any existing workers and clear their caches
+// once on load so the page always runs the current bundle.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => {
-        console.log('[SW] registered, scope:', reg.scope);
-        // Force the new service worker to activate immediately
-        if (reg.waiting) {
-          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+    navigator.serviceWorker.getRegistrations()
+      .then((regs) => Promise.all(regs.map((r) => r.unregister())))
+      .then(() => {
+        if (typeof caches !== 'undefined') {
+          return caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
         }
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // Activate the new worker; the controllerchange listener below
-                // performs the single reload once it takes control.
-                newWorker.postMessage({ type: 'SKIP_WAITING' });
-              }
-            });
-          }
-        });
       })
-      .catch(err => console.warn('[SW] registration failed:', err));
-  });
-
-  // If a new SW has taken control after an UPDATE, reload once to get fresh
-  // assets. Skip the very first install (no previous controller) — reloading
-  // then caused every fresh visit to double-load the page.
-  const hadController = !!navigator.serviceWorker.controller;
-  let refreshing = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (hadController && !refreshing) {
-      refreshing = true;
-      window.location.reload();
-    }
+      .catch(() => { /* best-effort cleanup */ });
   });
 }
 
