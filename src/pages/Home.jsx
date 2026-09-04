@@ -313,13 +313,22 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.6 }}
-        className="mb-10 rounded-3xl overflow-hidden shadow-lg border border-white/80"
+        className="relative mb-10"
       >
-        <img
-          src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png"
-          alt="Every Survivor Deserves a Standing Ovation - Celebrating the strength, beauty, and resilience of cancer survivors"
-          className="w-full h-auto block"
+        {/* Glowing halo behind the image — purely decorative */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute -inset-2 rounded-[2rem] bg-gradient-to-r from-rose-400 via-violet-400 to-sky-400 blur-xl"
+          animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: [0.35, 0.7, 0.35] }}
+          transition={prefersReducedMotion ? undefined : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         />
+        <div className="relative rounded-3xl overflow-hidden shadow-lg ring-4 ring-white/90">
+          <img
+            src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png"
+            alt="Every Survivor Deserves a Standing Ovation - Celebrating the strength, beauty, and resilience of cancer survivors"
+            className="w-full h-auto block"
+          />
+        </div>
       </motion.div>
 
       {/* Quick Stats — loading skeleton */}
