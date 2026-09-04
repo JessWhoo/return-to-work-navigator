@@ -26,6 +26,7 @@ import {
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import AccessibilityModeCard from '@/components/settings/AccessibilityModeCard';
 
 export default function Profile() {
   const { isAuthenticated, isLoadingAuth } = useAuth();
@@ -386,6 +387,8 @@ export default function Profile() {
 
         {/* Preferences Tab */}
         <TabsContent value="preferences" className="space-y-6">
+          <AccessibilityModeCard />
+
           <Card className="bg-slate-800/50 border-slate-700">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-slate-200">

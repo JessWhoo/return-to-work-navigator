@@ -12,6 +12,7 @@ import NotificationManager from './components/NotificationManager';
 import ErrorBoundary from './components/ErrorBoundary';
 import GlobalSearch from './components/search/GlobalSearch';
 import AnalyticsTracker from './components/analytics/AnalyticsTracker';
+import { applyAccessibilityMode, isAccessibilityModeOn } from '@/lib/accessibilityMode';
 
 
 // Per-tab scroll-position memory so switching tabs preserves where you were.
@@ -79,6 +80,11 @@ export default function Layout({ children, currentPageName }) {
   // Follow the system color-scheme preference: toggle the 'dark' class so
   // Tailwind's dark: variants and the .dark CSS variables activate when the
   // device prefers dark mode. No class = light mode (the app default).
+  // Restore the saved accessibility mode preference on every load.
+  useEffect(() => {
+    applyAccessibilityMode(isAccessibilityModeOn());
+  }, []);
+
   useEffect(() => {
     const root = document.documentElement;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');

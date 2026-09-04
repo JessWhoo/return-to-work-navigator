@@ -47,6 +47,61 @@ body {
   text-size-adjust: 100%;
 }
 
+/* =========================================================
+   ACCESSIBILITY MODE (toggled from Profile > Preferences)
+   Larger base text, maximum-contrast colors, stronger borders,
+   and reduced motion for visual / cognitive fatigue.
+   ========================================================= */
+html.a11y-mode { font-size: 21px; }
+@media (min-width: 1024px) {
+  html.a11y-mode { font-size: 22px; }
+}
+html.a11y-mode body {
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+html.a11y-mode h1,
+html.a11y-mode h2,
+html.a11y-mode h3,
+html.a11y-mode p,
+html.a11y-mode span,
+html.a11y-mode li,
+html.a11y-mode label,
+html.a11y-mode div {
+  color: #000000 !important;
+}
+/* Keep text on saturated/gradient surfaces white so it stays readable */
+html.a11y-mode [class*="bg-gradient-to"] *,
+html.a11y-mode [class*="bg-gradient-to"] {
+  color: #ffffff !important;
+}
+html.a11y-mode a:not([class*="bg-"]) {
+  color: #1d1073 !important;
+  text-decoration: underline;
+}
+html.a11y-mode * {
+  border-color: #000000 !important;
+}
+html.a11y-mode [class*="bg-white/"],
+html.a11y-mode [class*="bg-slate-"],
+html.a11y-mode [class*="bg-gray-"] {
+  background-color: #ffffff !important;
+}
+html.a11y-mode *:focus-visible {
+  outline: 3px solid #1d1073 !important;
+  outline-offset: 2px;
+}
+html.a11y-mode *,
+html.a11y-mode *::before,
+html.a11y-mode *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
 /* Global hover effects */
 .rounded-xl,
 .rounded-2xl,
