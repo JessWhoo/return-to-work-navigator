@@ -14,6 +14,7 @@ import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import DailyCheckIn from '../components/DailyCheckIn';
+import ResourceFeedbackForm from '@/components/feedback/ResourceFeedbackForm';
 import useSEO from '@/hooks/useSEO';
 import { useAuth } from '@/lib/AuthContext';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -502,6 +503,9 @@ export default function Home() {
           ))}
         </div>
       </motion.div>
+
+      {/* Feedback on the resource sections */}
+      <ResourceFeedbackForm page="Home" />
 
       {/* Supportive Message */}
       <motion.div
