@@ -30,101 +30,16 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
       }));
 
       // Build prompt for AI
-      const prompt = `You are an expert symptom analyst helping cancer survivors manage their return to work. Analyze the symptom patterns below and provide actionable insights.
-
-SYMPTOM LOGS (Last 30):
-${symptomData.map(s => 
-  `${s.date}: ${s.title} - Types: ${s.types.join(', ') || 'N/A'}, Severity: ${s.severity}/10, Duration: ${s.duration || 'N/A'}${s.triggers ? `, Triggers: ${s.triggers}` : ''}${s.relief ? `, Relief: ${s.relief}` : ''}`
-).join('\n')}
-
-RECENT ENERGY & MOOD DATA (Last 14 days):
-${recentEnergyLogs.map(log => 
-  `${log.date}: Energy ${((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1)}/10, Mood: ${log.mood}, Stress: ${log.stress_level}/10`
-).join('\n')}
-
-ANALYSIS TASKS:
-1. Identify recurring symptom patterns (frequency, timing, types)
-2. Detect correlations between symptoms and energy/mood/stress levels
-3. Identify potential symptom triggers (activities, times, conditions)
-4. Spot concerning patterns that may need medical attention
-5. Provide 4-6 personalized tips for managing these specific symptoms
-6. Suggest practical accommodations or adjustments based on symptom patterns
-
-Focus on actionable insights that can help the user manage symptoms while returning to work.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            overall_assessment: {
-              type: 'string',
-              enum: ['stable', 'improving', 'fluctuating', 'concerning'],
-              description: 'Overall symptom trajectory'
-            },
-            summary: {
-              type: 'string',
-              description: '2-3 sentence overview of symptom patterns'
-            },
-            recurring_patterns: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  pattern: { type: 'string' },
-                  frequency: { type: 'string' },
-                  description: { type: 'string' }
-                }
-              },
-              description: 'Identified recurring symptom patterns'
-            },
-            correlations: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  correlation: { type: 'string' },
-                  insight: { type: 'string' }
-                }
-              },
-              description: 'Correlations between symptoms and energy/mood/activities'
-            },
-            identified_triggers: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  trigger: { type: 'string' },
-                  description: { type: 'string' }
-                }
-              },
-              description: 'Potential symptom triggers identified'
-            },
-            concerns: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'Patterns requiring medical attention'
-            },
-            management_tips: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  tip: { type: 'string' },
-                  rationale: { type: 'string' }
-                }
-              },
-              description: 'Personalized tips for managing symptoms'
-            },
-            accommodation_suggestions: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'Workplace adjustments to consider'
-            }
-          },
-          required: ['overall_assessment', 'summary', 'management_tips']
-        }
-      });
+      const symptomLogsText = symptomData.map(s =>
+        `${s.date}: ${s.title} - Types: ${s.types.join(', ') || 'N/A'}, Severity: ${s.severity}/10, Duration: ${s.duration || 'N/A'}${s.triggers ? `, Triggers: ${s.triggers}` : ''}${s.relief ? `, Relief: ${s.relief}` : ''}`
+      ).join('\n');
+      const recentEnergyText = recentEnergyLogs.map(log =>
+        `${log.date}: Energy ${((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1)}/10, Mood: ${log.mood}, Stress: ${log.stress_level}/10`
+      ).join('\n');
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'symptom_insights',
+        data: { symptomLogsText, recentEnergyText },
+      })).data.result;
 
       // Track insights generation (non-blocking)
       try {

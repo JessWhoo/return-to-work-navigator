@@ -81,50 +81,16 @@ export default function DraftEditor({ draft, onClose, onSave }) {
 
   const getAISuggestionsMutation = useMutation({
     mutationFn: async () => {
-      const prompt = `You are an expert workplace communication advisor specializing in helping cancer survivors navigate workplace conversations.
-
-Scenario Type: ${formData.scenario_type}
-Recipient: ${formData.recipient || 'supervisor/HR'}
-Desired Tone: ${formData.tone}
-Subject: ${formData.subject}
-
-Current Draft:
-${formData.content}
-
-Provide 5 specific, actionable suggestions to improve this communication. Focus on:
-1. Clarity and professionalism
-2. Legal language for accommodation requests
-3. Striking the right balance between disclosure and privacy
-4. Tone consistency
-5. Removing apologetic language or over-justification
-
-For each suggestion, provide:
-- type: "strength" (what's working well), "tone" (tone adjustments), "clarity" (unclear parts), "legal" (legal considerations), or "boundary" (privacy/boundaries)
-- suggestion: specific advice with examples`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            suggestions: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  type: {
-                    type: 'string',
-                    enum: ['strength', 'tone', 'clarity', 'legal', 'boundary']
-                  },
-                  suggestion: {
-                    type: 'string'
-                  }
-                }
-              }
-            }
-          }
-        }
-      });
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'improve_draft',
+        data: {
+          scenario_type: formData.scenario_type,
+          recipient: formData.recipient,
+          tone: formData.tone,
+          subject: formData.subject,
+          content: formData.content,
+        },
+      })).data.result;
 
       base44.analytics.track({
         eventName: 'communication_ai_suggestions_generated',

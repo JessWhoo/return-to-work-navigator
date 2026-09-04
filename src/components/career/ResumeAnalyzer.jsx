@@ -28,63 +28,10 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
     setAnalyzing(true);
     setAnalysis(null);
 
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are an expert resume coach and ATS specialist helping a cancer survivor return to work.
-
-Analyze the resume (from the attached file) against the job description below.
-
-JOB DESCRIPTION:
-${jobDescription}
-
-Return a JSON object with this exact structure:
-{
-  "match_score": <number 0-100>,
-  "match_label": <"Poor" | "Fair" | "Good" | "Strong">,
-  "summary": "<2-sentence overview of the match>",
-  "missing_keywords": ["<keyword1>", "<keyword2>", ...],
-  "present_keywords": ["<keyword1>", "<keyword2>", ...],
-  "missing_skills": [
-    { "skill": "<skill name>", "importance": "<High|Medium|Low>", "suggestion": "<how to address this on the resume>" }
-  ],
-  "resume_improvements": [
-    { "section": "<Resume Section e.g. Summary, Experience, Skills>", "suggestion": "<specific actionable suggestion>" }
-  ],
-  "strengths": ["<strength1>", "<strength2>", ...]
-}`,
-      file_urls: [resumeUrl],
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          match_score: { type: 'number' },
-          match_label: { type: 'string' },
-          summary: { type: 'string' },
-          missing_keywords: { type: 'array', items: { type: 'string' } },
-          present_keywords: { type: 'array', items: { type: 'string' } },
-          missing_skills: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                skill: { type: 'string' },
-                importance: { type: 'string' },
-                suggestion: { type: 'string' }
-              }
-            }
-          },
-          resume_improvements: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                section: { type: 'string' },
-                suggestion: { type: 'string' }
-              }
-            }
-          },
-          strengths: { type: 'array', items: { type: 'string' } }
-        }
-      }
-    });
+    const result = (await base44.functions.invoke('aiGateway', {
+      operation: 'resume_analysis',
+      data: { jobDescription, resumeUrl },
+    })).data.result;
 
     setAnalysis(result);
     setAnalyzing(false);

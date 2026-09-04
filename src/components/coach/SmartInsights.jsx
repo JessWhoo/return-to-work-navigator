@@ -126,24 +126,22 @@ export default function SmartInsights({ progress, onAskCoach }) {
       const recentLogs = progress.energy_logs?.slice(-7) || [];
       if (recentLogs?.length >= 5) {
         try {
-          const aiPrompt = `Analyze this cancer survivor's return-to-work data and provide ONE specific, actionable insight:
-
-Journey Stage: ${progress.journey_stage}
-Completed Tasks: ${completedCount}
-Recent Energy Logs: ${JSON.stringify(recentLogs.map(log => ({
-  morning: log.morning_energy,
-  afternoon: log.afternoon_energy,
-  evening: log.evening_energy,
-  stress: log.stress_level,
-  mood: log.mood
-})))}
-Accommodations: ${progress.accommodations_requested?.length || 0}
-
-Provide a SHORT (1-2 sentences), specific insight about their pattern or something they should focus on.`;
-
-          const aiResponse = await base44.integrations.Core.InvokeLLM({
-            prompt: aiPrompt
-          });
+          const recentLogsJson = JSON.stringify(recentLogs.map(log => ({
+            morning: log.morning_energy,
+            afternoon: log.afternoon_energy,
+            evening: log.evening_energy,
+            stress: log.stress_level,
+            mood: log.mood
+          })));
+          const aiResponse = (await base44.functions.invoke('aiGateway', {
+            operation: 'smart_insights',
+            data: {
+              journey_stage: progress.journey_stage,
+              completedCount,
+              recentLogsJson,
+              accommodationsCount: progress.accommodations_requested?.length || 0,
+            },
+          })).data.result;
 
           if (aiResponse) {
             generatedInsights.push({

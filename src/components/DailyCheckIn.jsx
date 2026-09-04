@@ -60,29 +60,11 @@ export default function DailyCheckIn() {
       `${i}: "${r.name}" (${r.category}) — ${r.description.slice(0, 80)}`
     ).join('\n');
 
-    const prompt = `A cancer survivor just logged their daily check-in:
-- Mood: ${mood}
-- Energy level: ${energy}/10
-- Top challenge today: "${challenge}"
-
-Here is a numbered list of resources available (index: name — description):
-${resourceSummaries}
-
-Based ONLY on their mood, energy, and challenge, pick the SINGLE most helpful resource index number. 
-Reply with ONLY a JSON object like: {"index": 12, "reason": "one sentence explaining why this helps them today"}`;
-
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            index: { type: 'number' },
-            reason: { type: 'string' },
-          },
-          required: ['index', 'reason'],
-        },
-      });
+      const result = (await base44.functions.invoke('aiGateway', {
+        operation: 'check_in_recommendation',
+        data: { mood, energy, challenge, resourceSummaries },
+      })).data.result;
 
       const idx = result?.index;
       if (typeof idx === 'number' && flatResources[idx]) {

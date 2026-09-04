@@ -121,25 +121,19 @@ export default function CoachBookingForm({ user, onBooked }) {
       // Send a confirmation email so the user has a written record of the request.
       // Failure here shouldn't block the booking itself — just log it.
       try {
-        await base44.integrations.Core.SendEmail({
-          to: contactEmail.trim(),
-          subject: 'Your coaching session request',
-          body: [
-            `Hi ${contactName.trim() || 'there'},`,
-            '',
-            'Thanks for requesting a session with a return-to-work coach. Here are the details we received:',
-            '',
-            `Date: ${format(selectedDate, 'EEEE, MMMM d, yyyy')}`,
-            `Time: ${selectedTime} (${timezone})`,
-            `Length: ${duration} minutes`,
-            `Format: ${format_ === 'video' ? 'Video call' : 'Phone call'}`,
-            `Topic: ${topicLabel}`,
-            notes.trim() ? `Notes: ${notes.trim()}` : '',
-            '',
-            'A coach will reach out shortly to confirm the time and share meeting details.',
-            '',
-            '— Back to Life, Back to Work Navigator',
-          ].filter(Boolean).join('\n'),
+        await base44.functions.invoke('sendAppEmail', {
+          operation: 'coach_booking_confirmation',
+          data: {
+            to: contactEmail.trim(),
+            dateStr: format(selectedDate, 'EEEE, MMMM d, yyyy'),
+            time: selectedTime,
+            timezone,
+            duration,
+            formatLabel: format_ === 'video' ? 'Video call' : 'Phone call',
+            topicLabel,
+            notes: notes.trim(),
+            contactName: contactName.trim(),
+          },
         });
       } catch (emailErr) {
         console.warn('Confirmation email failed:', emailErr);

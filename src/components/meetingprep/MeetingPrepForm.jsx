@@ -83,30 +83,16 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
   // --- AI Suggestions ---
   const generateAISuggestions = async () => {
     setAiLoading(true);
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are helping a cancer survivor prepare for a workplace meeting. Generate practical, specific suggestions.
-
-Meeting type: ${MEETING_TYPES[form.meeting_type]}
-Attendees: ${form.attendees || 'not specified'}
-Goals: ${form.goals || 'not specified'}
-Existing talking points: ${form.talking_points.filter(Boolean).join('; ') || 'none yet'}
-Requested accommodations: ${form.accommodation_requests.map(a => a.accommodation).join('; ') || 'none yet'}
-
-Generate:
-1. 3-4 specific talking points they should raise
-2. 2-3 potential employer objections they should be ready for
-3. 2-3 documents they should bring
-
-Be concise and practical.`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          talking_points: { type: 'array', items: { type: 'string' } },
-          anticipated_objections: { type: 'array', items: { type: 'string' } },
-          documents_to_bring: { type: 'array', items: { type: 'string' } }
-        }
-      }
-    });
+    const result = (await base44.functions.invoke('aiGateway', {
+      operation: 'meeting_prep_suggestions',
+      data: {
+        meetingTypeLabel: MEETING_TYPES[form.meeting_type],
+        attendees: form.attendees,
+        goals: form.goals,
+        talkingPoints: form.talking_points.filter(Boolean).join('; '),
+        accommodations: form.accommodation_requests.map(a => a.accommodation).join('; '),
+      },
+    })).data.result;
     setForm(prev => ({
       ...prev,
       talking_points: [...prev.talking_points.filter(Boolean), ...(result.talking_points || [])],

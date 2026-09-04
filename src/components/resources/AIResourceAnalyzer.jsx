@@ -78,9 +78,7 @@ export async function generateAIRecommendations(allResources, progress) {
     const usefulTypes = [...new Set(usefulResources.map(r => r.type))];
 
     // Build comprehensive prompt for AI
-    const prompt = `You are an expert return-to-work coach for cancer survivors. Analyze the user's current state and recommend the most relevant resources.
-
-USER PROFILE:
+    const context = `USER PROFILE:
 - Journey Stage: ${progress.journey_stage || 'planning'}
 - Average Energy Level: ${avgEnergy.toFixed(1)}/10 (recent week)
 - Average Stress Level: ${avgStress.toFixed(1)}/10 (recent week)
@@ -98,7 +96,7 @@ USER INTERACTION PATTERNS (explicit feedback):
 - Resources tagged as NOT RELEVANT (MUST exclude from recommendations): ${notRelevantIds.length > 0 ? notRelevantIds.join(', ') : 'none'}
 
 ENGAGEMENT PATTERNS (most clicked/viewed):
-${Object.entries(interactionCounts).slice(0, 10).map(([id, counts]) => 
+${Object.entries(interactionCounts).slice(0, 10).map(([id, counts]) =>
   `- ${id}: ${counts.view || 0} views, ${counts.link_click || 0} link clicks, ${counts.ask_coach || 0} coach asks`
 ).join('\n') || '- No interaction data yet'}
 
@@ -106,7 +104,7 @@ RECENT RECORDS (last 10):
 ${records.map(r => `- ${r.type}: ${r.title} (${r.date})`).join('\n')}
 
 RECENT SYMPTOMS (last 5):
-${recentSymptoms.length > 0 
+${recentSymptoms.length > 0
   ? recentSymptoms.map(s => `- ${s.title} (${s.date}): Severity ${s.severity}/10, Types: ${s.types.join(', ')}`).join('\n')
   : 'No symptoms logged recently'
 }
@@ -116,7 +114,7 @@ ${progress.calendar_events?.slice(0, 3).map(e => `- ${e.title} (${e.date})`).joi
 ${progress.return_date ? `- Return to Work Date: ${progress.return_date}` : ''}
 
 AVAILABLE RESOURCES (${flatResources.length} total):
-${flatResources.slice(0, 50).map(r => 
+${flatResources.slice(0, 50).map(r =>
   `ID: ${r.resource_id} | ${r.name} | ${r.category} | ${r.type} | Topics: ${r.topics?.join(', ')} | Stages: ${r.stages?.join(', ')}`
 ).join('\n')}
 
@@ -127,52 +125,11 @@ ${Object.entries(reviewsByResource).slice(0, 10).map(([id, reviews]) => {
   const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
   const recommendCount = reviews.filter(r => r.would_recommend).length;
   return `- Resource ${id}: ${avg.toFixed(1)} stars, ${reviews.length} reviews, ${recommendCount} recommend`;
-}).join('\n')}
-
-TASK:
-Recommend 5-8 resources that are MOST RELEVANT to this user's current situation. Consider:
-1. Their journey stage and upcoming events
-2. Energy and stress levels - prioritize energy management if levels are low
-3. Recent symptoms - if high severity or frequent, prioritize symptom management resources
-4. Recent records (medical, workplace issues)
-5. Community ratings and feedback - prefer highly-rated resources
-6. Variety across different types of support needed
-7. URGENCY: If symptoms are severe (7+/10) or stress is high (7+/10), mark as high/urgent priority
-8. CRITICAL: NEVER recommend resources tagged as "not_relevant" by the user
-9. STRONGLY PREFER resources matching user's preferred topics/categories/types from useful tags
-10. Boost relevance_score for resources similar to ones the user has engaged with most
-
-For each recommendation, provide:
-- resource_id (MUST match exactly from the list above)
-- priority (urgent/high/medium/low)
-- reason (why this resource is relevant RIGHT NOW for this user - be specific and personal, mention if it matches their stated preferences)
-- relevance_score (1-10, how relevant is this)
-
-Also provide overall_insights (2-3 sentences about the user's current state and general recommendations, mentioning any clear preference patterns observed).`;
-
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          overall_insights: { type: 'string' },
-          recommendations: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                resource_id: { type: 'string' },
-                priority: { type: 'string', enum: ['urgent', 'high', 'medium', 'low'] },
-                reason: { type: 'string' },
-                relevance_score: { type: 'number', minimum: 1, maximum: 10 }
-              },
-              required: ['resource_id', 'priority', 'reason', 'relevance_score']
-            }
-          }
-        },
-        required: ['overall_insights', 'recommendations']
-      }
-    });
+}).join('\n')}`;
+    const response = (await base44.functions.invoke('aiGateway', {
+      operation: 'resource_recommendations',
+      data: { context },
+    })).data.result;
 
     return response;
   } catch (error) {
@@ -193,43 +150,13 @@ Also provide overall_insights (2-3 sentences about the user's current state and 
  */
 export async function autoTagResources(resources) {
   try {
-    const prompt = `Analyze these return-to-work resources and suggest additional relevant tags/keywords that would help users find them.
-
-RESOURCES:
-${resources.slice(0, 20).map((r, i) => 
-  `${i+1}. ${r.name} - ${r.description}`
-).join('\n\n')}
-
-For each resource, suggest 3-5 additional tags that capture:
-- Specific conditions/symptoms addressed
-- Emotional/psychological aspects
-- Practical outcomes
-- Target audience nuances
-
-Return as array of objects with: resource_index (0-based), suggested_tags (array of strings)`;
-
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          tagged_resources: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                resource_index: { type: 'number' },
-                suggested_tags: {
-                  type: 'array',
-                  items: { type: 'string' }
-                }
-              },
-              required: ['resource_index', 'suggested_tags']
-            }
-          }
-        }
-      }
-    });
+    const resourcesText = resources.slice(0, 20).map((r, i) =>
+      `${i+1}. ${r.name} - ${r.description}`
+    ).join('\n\n');
+    const response = (await base44.functions.invoke('aiGateway', {
+      operation: 'auto_tag_resources',
+      data: { resourcesText },
+    })).data.result;
 
     return response.tagged_resources || [];
   } catch (error) {

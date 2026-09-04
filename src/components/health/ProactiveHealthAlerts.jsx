@@ -50,61 +50,18 @@ export default function ProactiveHealthAlerts() {
         types: s.symptom_details?.symptom_type || []
       }));
 
-      const prompt = `You are a health monitoring AI for cancer survivors returning to work. Analyze the data below and generate proactive health alerts.
-
-RECENT ENERGY LOGS (Last 7 days):
-${energyData.map(e => `${e.date}: Energy ${e.avg}/10, Mood: ${e.mood}, Stress: ${e.stress}/10`).join('\n')}
-
-RECENT SYMPTOMS (Last 10):
-${symptomData.map(s => `${s.date}: ${s.title} - Severity: ${s.severity}/10, Types: ${s.types.join(', ')}`).join('\n')}
-
-CURRENT STATUS:
-- Journey Stage: ${progress.journey_stage}
-- Return Date: ${progress.return_date || 'Not set'}
-- Days Tracked: ${progress.energy_logs?.length || 0}
-
-ANALYSIS REQUIREMENTS:
-1. Identify concerning patterns (energy drops, stress spikes, symptom severity)
-2. Detect early warning signs that need attention
-3. Generate 2-4 actionable alerts with specific recommendations
-4. Each alert should have: priority (high/medium/low), type (energy/stress/symptom/general), title, description, and recommended actions
-5. Focus on preventive care and early intervention
-
-Return proactive, supportive alerts that help the user maintain their health.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            alerts: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  id: { type: 'string' },
-                  priority: {
-                    type: 'string',
-                    enum: ['high', 'medium', 'low']
-                  },
-                  type: {
-                    type: 'string',
-                    enum: ['energy', 'stress', 'symptom', 'general']
-                  },
-                  title: { type: 'string' },
-                  description: { type: 'string' },
-                  actions: {
-                    type: 'array',
-                    items: { type: 'string' }
-                  },
-                  contact_provider: { type: 'boolean' }
-                }
-              }
-            }
-          },
-          required: ['alerts']
-        }
-      });
+      const energyDataText = energyData.map(e => `${e.date}: Energy ${e.avg}/10, Mood: ${e.mood}, Stress: ${e.stress}/10`).join('\n');
+      const symptomDataText = symptomData.map(s => `${s.date}: ${s.title} - Severity: ${s.severity}/10, Types: ${s.types.join(', ')}`).join('\n');
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'proactive_alerts',
+        data: {
+          energyDataText,
+          symptomDataText,
+          journeyStage: progress.journey_stage,
+          returnDate: progress.return_date,
+          daysTracked: progress.energy_logs?.length || 0,
+        },
+      })).data.result;
 
       // Track alert generation
       base44.analytics.track({

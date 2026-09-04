@@ -37,62 +37,19 @@ export default function ActionPlanGenerator({ progress, onSendToCoach }) {
         ? recentLogs.reduce((sum, log) => sum + (log.stress_level || 5), 0) / recentLogs.length
         : null;
 
-      const prompt = `You are a supportive return-to-work coach for cancer survivors. Generate a personalized 30-day action plan based on this user's data:
-
-Journey Stage: ${context.journey_stage}
-Checklist Items Completed: ${context.completed_items}
-Energy Tracking: ${context.energy_logs_count} days logged${avgEnergy ? `, avg energy ${avgEnergy.toFixed(1)}/10` : ''}
-Stress Level: ${avgStress ? `${avgStress.toFixed(1)}/10` : 'Not tracked'}
-Accommodations Requested: ${context.accommodations_requested}
-Return Date: ${context.return_date ? new Date(context.return_date).toLocaleDateString() : 'Not set'}
-Has Calendar Events: ${context.has_calendar_events ? 'Yes' : 'No'}
-
-Create a supportive, actionable 30-day plan with:
-1. Week 1-2 Goals (3-4 specific, achievable goals)
-2. Week 3-4 Goals (3-4 specific, achievable goals)
-3. Key Focus Areas (3-4 areas to prioritize)
-4. Daily Practices (3-4 simple daily habits)
-5. Success Metrics (how they'll know they're making progress)
-
-Be encouraging, realistic, and specific to their current stage. Focus on gradual progress and self-care.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            title: { type: 'string' },
-            overview: { type: 'string' },
-            week_1_2_goals: {
-              type: 'array',
-              items: { type: 'string' }
-            },
-            week_3_4_goals: {
-              type: 'array',
-              items: { type: 'string' }
-            },
-            key_focus_areas: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  area: { type: 'string' },
-                  why: { type: 'string' }
-                }
-              }
-            },
-            daily_practices: {
-              type: 'array',
-              items: { type: 'string' }
-            },
-            success_metrics: {
-              type: 'array',
-              items: { type: 'string' }
-            },
-            encouragement: { type: 'string' }
-          }
-        }
-      });
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'action_plan',
+        data: {
+          journey_stage: context.journey_stage,
+          completed_items: context.completed_items,
+          energy_logs_count: context.energy_logs_count,
+          avgEnergy: avgEnergy ? avgEnergy.toFixed(1) : null,
+          avgStress: avgStress ? avgStress.toFixed(1) : null,
+          accommodations_requested: context.accommodations_requested,
+          return_date: context.return_date ? new Date(context.return_date).toLocaleDateString() : 'Not set',
+          has_calendar_events: context.has_calendar_events,
+        },
+      })).data.result;
 
       setActionPlan(response);
       toast.success('Action plan generated!');

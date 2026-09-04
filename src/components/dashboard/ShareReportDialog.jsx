@@ -157,20 +157,9 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
       const reportText = generateReport();
       const user = await base44.auth.me();
       
-      await base44.integrations.Core.SendEmail({
-        to: recipientEmail,
-        subject: `Return-to-Work Progress Report - ${format(new Date(), 'MMM d, yyyy')}`,
-        body: `Dear Healthcare Provider,
-
-Please find attached the return-to-work progress report for ${user.full_name}.
-
-${reportText}
-
-If you have any questions or need additional information, please feel free to reach out.
-
-Best regards,
-${user.full_name}
-Generated via Back to Life, Back to Work Toolkit`
+      await base44.functions.invoke('sendAppEmail', {
+        operation: 'share_report',
+        data: { to: recipientEmail, dateStr: format(new Date(), 'MMM d, yyyy'), reportText },
       });
 
       // Track report share

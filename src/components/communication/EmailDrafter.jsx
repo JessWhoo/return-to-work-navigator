@@ -56,26 +56,10 @@ User context:
 - Return date: ${progress.return_date || 'Not set'}
       ` : '';
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `${template.prompt}
-
-${contextInfo}
-
-Recipient name (if provided): ${recipientName || 'Not specified'}
-Sender should sign as: [Your Name]
-
-Generate a professional, empathetic email that:
-- Uses proper business email format
-- Includes a warm greeting and professional closing
-- Is approximately 150-250 words
-- Uses confident but collaborative language
-- Avoids oversharing medical details
-- Focuses on solutions and capabilities
-- Includes specific, actionable requests
-
-Return only the email body text, starting with the greeting.`,
-        add_context_from_internet: false
-      });
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'draft_email',
+        data: { templatePrompt: template.prompt, contextInfo, recipientName },
+      })).data.result;
 
       setSubject(template.subject);
       setEmailBody(response);

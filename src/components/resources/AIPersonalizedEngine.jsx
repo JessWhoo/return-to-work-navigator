@@ -140,9 +140,7 @@ export default function AIPersonalizedEngine({
         })
       }));
 
-      const prompt = `You are an expert advisor for cancer survivors returning to work. Analyze this user's data and recommend the most relevant resources.
-
-USER DATA:
+      const userDataText = `USER DATA:
 - Journey Stage: ${userData.journey_stage}
 - Average Energy Level (1-10): ${userData.avg_energy_level}
 - Average Stress Level (1-10): ${userData.avg_stress_level}
@@ -154,67 +152,11 @@ USER DATA:
 - Engagement Streak: ${userData.current_streak} days
 - Recent Symptoms Logged: ${userData.symptom_count}
 - Average Symptom Severity (1-10): ${userData.avg_symptom_severity}
-- Symptom Types Reported: ${userData.symptom_types || 'none'}
-
-AVAILABLE RESOURCES WITH COMMUNITY FEEDBACK:
-${JSON.stringify(resourceSummary, null, 2)}
-
-INSTRUCTIONS:
-Provide 5-7 personalized resource recommendations with detailed reasoning. For each recommendation:
-1. Identify the specific user challenge/need it addresses (consider symptoms, energy, stress)
-2. Explain why it's timely and relevant now
-3. Suggest how to use it effectively
-4. Rate priority (high/medium/low) - prioritize HIGH if symptoms severe (7+) or stress high (7+)
-
-IMPORTANT: Prioritize resources with:
-- Higher average ratings (4+ stars are proven effective)
-- More reviews (shows wider user validation)
-- "Helpful for" tags matching the user's current challenges
-- Recent positive feedback from similar users
-
-Avoid recommending resources with:
-- Average rating below 2.5 stars
-- Consistent negative feedback
-- No reviews (unless exceptionally relevant)
-
-Return recommendations sorted by priority (high first).`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            user_insights: {
-              type: "object",
-              properties: {
-                primary_challenges: { type: "array", items: { type: "string" } },
-                key_focus_areas: { type: "array", items: { type: "string" } },
-                readiness_assessment: { type: "string" }
-              }
-            },
-            recommendations: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  resource_name: { type: "string" },
-                  resource_category: { type: "string" },
-                  priority: { type: "string", enum: ["high", "medium", "low"] },
-                  addresses_challenge: { type: "string" },
-                  why_now: { type: "string" },
-                  how_to_use: { type: "string" },
-                  expected_benefit: { type: "string" },
-                  community_validation: { type: "string" }
-                }
-              }
-            },
-            next_steps: {
-              type: "array",
-              items: { type: "string" }
-            }
-          }
-        }
-      });
+- Symptom Types Reported: ${userData.symptom_types || 'none'}`;
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'personalized_recommendations',
+        data: { userDataText, resourcesJson: JSON.stringify(resourceSummary, null, 2) },
+      })).data.result;
 
       setRecommendations(response);
     } catch (err) {

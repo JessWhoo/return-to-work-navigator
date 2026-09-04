@@ -143,25 +143,16 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
 
       const extraInfo = extraContext ? `\nAdditional user-provided context:\n${extraContext}` : '';
 
-      const fullPrompt = `${scenario.prompt}
-
-${progressContext}${coachContext}${extraInfo}
-
-${recipientInfo}
-Sender signs as: [Your Name]
-
-Rules:
-- Proper business email format (greeting → body → closing)
-- 150–250 words
-- Professional, empathetic, solution-focused language
-- Do NOT overshare medical details
-- Use [bracketed placeholders] for any specific details the sender should fill in
-- Return ONLY the email body starting with the greeting (no subject line in the body)`;
-
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: fullPrompt,
-        add_context_from_internet: false,
-      });
+      const result = (await base44.functions.invoke('aiGateway', {
+        operation: 'generate_employer_email',
+        data: {
+          scenarioPrompt: scenario.prompt,
+          progressContext,
+          coachContext,
+          extraInfo,
+          recipientInfo,
+        },
+      })).data.result;
 
       setSubject(scenario.label + (recipientRole ? ` – ${recipientRole}` : ''));
       setEmailBody(typeof result === 'string' ? result : result?.content || '');

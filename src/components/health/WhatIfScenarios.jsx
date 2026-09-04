@@ -37,100 +37,29 @@ export default function WhatIfScenarios({ progress }) {
         ? symptomRecords.reduce((sum, s) => sum + (s.symptom_details?.severity || 0), 0) / symptomRecords.length
         : 0;
 
-      const prompt = `You are a predictive health analytics AI for cancer survivors. Perform a 'what-if' scenario analysis.
-
-CURRENT BASELINE:
-- Average Energy Level: ${avgEnergy.toFixed(1)}/10 (last 30 days)
+      const baselineText = `- Average Energy Level: ${avgEnergy.toFixed(1)}/10 (last 30 days)
 - Average Stress Level: ${avgStress.toFixed(1)}/10
 - Average Symptom Severity: ${avgSymptomSeverity.toFixed(1)}/10
 - Recent Symptom Frequency: ${symptomRecords.length} symptoms in 30 days
-- Journey Stage: ${progress.journey_stage || 'planning'}
-
-RECENT PATTERNS:
-Energy Logs (last 7 days):
-${recentEnergyLogs.slice(-7).map(log => 
+- Journey Stage: ${progress.journey_stage || 'planning'}`;
+      const recentPatternsText = `Energy Logs (last 7 days):
+${recentEnergyLogs.slice(-7).map(log =>
   `${log.date}: Energy ${((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1)}/10, Stress ${log.stress_level}/10, Mood: ${log.mood}`
 ).join('\n')}
 
 Recent Symptoms:
-${symptomRecords.slice(0, 5).map(s => 
+${symptomRecords.slice(0, 5).map(s =>
   `${s.date}: ${s.title} (Severity ${s.symptom_details?.severity}/10)`
-).join('\n')}
-
-PROPOSED SCENARIO:
-${scenarioConfig.type === 'work_hours' ? `Increase work hours by ${scenarioConfig.change_amount} hours per ${scenarioConfig.timeframe}` : ''}
+).join('\n')}`;
+      const scenarioText = `${scenarioConfig.type === 'work_hours' ? `Increase work hours by ${scenarioConfig.change_amount} hours per ${scenarioConfig.timeframe}` : ''}
 ${scenarioConfig.type === 'reduce_hours' ? `Decrease work hours by ${scenarioConfig.change_amount} hours per ${scenarioConfig.timeframe}` : ''}
 ${scenarioConfig.type === 'add_commute' ? `Add ${scenarioConfig.change_amount} hours of commuting per ${scenarioConfig.timeframe}` : ''}
 ${scenarioConfig.type === 'remove_wfh' ? `Remove work-from-home option, return to office ${scenarioConfig.change_amount} days per ${scenarioConfig.timeframe}` : ''}
-${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} hours of additional activity per ${scenarioConfig.timeframe}` : ''}
-
-ANALYSIS TASK:
-Based on the user's current health patterns and the proposed change, predict:
-1. How their energy levels might change (realistic estimate)
-2. How stress levels might be affected
-3. Likelihood of symptom increase or fatigue
-4. Risk level of implementing this change
-5. Specific recommendations to mitigate negative impacts
-6. Gradual implementation strategy if needed
-
-Be realistic and data-driven. Consider the user's current trajectory and symptom patterns.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            overall_risk: {
-              type: 'string',
-              enum: ['low', 'moderate', 'high'],
-              description: 'Overall risk of implementing this change'
-            },
-            feasibility: {
-              type: 'string',
-              enum: ['recommended', 'possible_with_caution', 'not_recommended'],
-              description: 'Whether to proceed with this change'
-            },
-            predicted_impacts: {
-              type: 'object',
-              properties: {
-                energy_change: { 
-                  type: 'string',
-                  description: 'e.g., "Likely to decrease by 1-2 points"'
-                },
-                stress_change: { type: 'string' },
-                symptom_likelihood: { type: 'string' },
-                fatigue_risk: { type: 'string' }
-              }
-            },
-            reasoning: {
-              type: 'string',
-              description: 'Why these predictions are made based on current data'
-            },
-            mitigation_strategies: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'How to reduce negative impacts'
-            },
-            gradual_implementation: {
-              type: 'object',
-              properties: {
-                recommended: { type: 'boolean' },
-                plan: { 
-                  type: 'array',
-                  items: { type: 'string' },
-                  description: 'Step-by-step gradual approach'
-                }
-              }
-            },
-            monitoring_checklist: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'What to monitor if implementing this change'
-            }
-          },
-          required: ['overall_risk', 'feasibility', 'predicted_impacts', 'reasoning']
-        }
-      });
+${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} hours of additional activity per ${scenarioConfig.timeframe}` : ''}`;
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'what_if',
+        data: { baselineText, recentPatternsText, scenarioText },
+      })).data.result;
 
       // Track scenario analysis
       base44.analytics.track({

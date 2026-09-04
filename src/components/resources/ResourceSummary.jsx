@@ -11,19 +11,12 @@ export default function ResourceSummary({ resource }) {
   const handleGenerate = async () => {
     setLoading(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a helpful assistant for cancer survivors returning to work. 
-Generate a concise, plain-language summary (3-5 sentences) of the following resource. 
-Focus on: what it is, who it's for, and how it helps someone returning to work after cancer treatment.
-
-Resource Name: ${resource.name}
+      const resourceText = `Resource Name: ${resource.name}
 Organization: ${resource.org}
 Description: ${resource.description}
 Type: ${resource.type}
-Topics: ${(resource.topics || []).join(', ')}
-
-Write in a warm, supportive tone. Be specific and actionable.`,
-      });
+Topics: ${(resource.topics || []).join(', ')}`;
+      const result = (await base44.functions.invoke('aiGateway', { operation: 'summarize_resource', data: { resourceText } })).data.result;
       setSummary(result);
       setExpanded(true);
       base44.analytics.track({

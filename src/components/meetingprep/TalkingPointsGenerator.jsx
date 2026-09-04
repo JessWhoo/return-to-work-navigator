@@ -38,23 +38,10 @@ export default function TalkingPointsGenerator({ onSaved }) {
     setSaved(false);
     const allConstraints = [...constraints, customConstraints.trim()].filter(Boolean).join('; ');
     const tpl = SCENARIO_TEMPLATES.find((t) => t.id === selectedTemplate);
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are helping a cancer survivor prepare talking points for a meeting with their manager about returning to work.
-
-Scenario focus: ${tpl ? tpl.name : 'General return-to-work discussion'}
-Their work constraints: ${allConstraints || 'None specified'}
-Their current energy level: ${ENERGY_LABELS[energy - 1]} (${energy}/5)
-
-Write 5-7 concise, professional, first-person talking points they can say directly to their manager. Points should:
-- Be confident and collaborative, not apologetic
-- Reflect their stated constraints and energy level realistically (lower energy = more emphasis on pacing, breaks, phased plans)
-- Include at least one concrete, specific proposal (schedule, phasing, or accommodation)
-- Avoid medical jargon and oversharing medical details`,
-      response_json_schema: {
-        type: 'object',
-        properties: { talking_points: { type: 'array', items: { type: 'string' } } },
-      },
-    });
+    const result = (await base44.functions.invoke('aiGateway', {
+      operation: 'talking_points',
+      data: { scenarioName: tpl ? tpl.name : 'General return-to-work discussion', constraints: allConstraints, energyLabel: ENERGY_LABELS[energy - 1], energy },
+    })).data.result;
     setPoints(result.talking_points || []);
     setGenerating(false);
   };

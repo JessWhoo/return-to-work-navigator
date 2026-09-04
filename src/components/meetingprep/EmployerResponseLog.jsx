@@ -52,32 +52,18 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
   const getAIRefinement = async () => {
     setAiLoading(true);
     const responses = meeting.employer_responses || [];
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are an expert coach helping a cancer survivor navigate workplace accommodation negotiations.
-
-Meeting: ${meeting.title} (${meeting.meeting_type})
-Goals: ${meeting.goals || 'Not specified'}
-Talking points used: ${meeting.talking_points?.join('; ') || 'None'}
-Accommodations requested: ${meeting.accommodation_requests?.map(a => a.accommodation).join('; ') || 'None'}
-
-Employer response history:
-${responses.map((r, i) => `${i + 1}. [${r.outcome}] on ${r.date}: "${r.response_text}" Notes: ${r.notes || 'none'}`).join('\n')}
-
-Based on this history, provide:
-1. Analysis of what worked and what didn't
-2. 3 refined follow-up talking points or strategies
-3. Next recommended action step
-
-Be concise, empathetic, and practical.`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          analysis: { type: 'string' },
-          refined_strategies: { type: 'array', items: { type: 'string' } },
-          next_action: { type: 'string' }
-        }
-      }
-    });
+    const responsesText = responses.map((r, i) => `${i + 1}. [${r.outcome}] on ${r.date}: "${r.response_text}" Notes: ${r.notes || 'none'}`).join('\n');
+    const result = (await base44.functions.invoke('aiGateway', {
+      operation: 'analyze_employer_response',
+      data: {
+        title: meeting.title,
+        meetingType: meeting.meeting_type,
+        goals: meeting.goals,
+        talkingPoints: meeting.talking_points?.join('; '),
+        accommodations: meeting.accommodation_requests?.map(a => a.accommodation).join('; '),
+        responsesText,
+      },
+    })).data.result;
     setAiSuggestion(result);
     setAiLoading(false);
   };

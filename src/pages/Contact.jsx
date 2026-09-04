@@ -19,10 +19,9 @@ export default function Contact() {
     }
     setSending(true);
     try {
-      await base44.integrations.Core.SendEmail({
-        to: 'jess@artisanhrai.com',
-        subject: `Contact Form: ${form.name}`,
-        body: `From: ${form.name} <${form.email}>\n\n${form.message}`,
+      await base44.functions.invoke('sendAppEmail', {
+        operation: 'contact_message',
+        data: { name: form.name, email: form.email, message: form.message },
       });
       setSent(true);
     } catch {

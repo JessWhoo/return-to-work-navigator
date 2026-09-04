@@ -57,44 +57,10 @@ ${allResources.map(cat =>
 ).join('\n')}
       `;
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are an expert return-to-work advisor for cancer survivors. Analyze the user's journey data and recommend 3-4 highly relevant resources from the provided list.
-
-${userContext}
-
-Based on their stage, energy levels, and progress, which resources would be MOST helpful RIGHT NOW?
-
-Return your recommendations as a JSON array with this exact structure:
-{
-  "recommendations": [
-    {
-      "resource_name": "exact name from the list",
-      "category": "category name",
-      "priority": "high" or "medium",
-      "reason": "short explanation (1-2 sentences) why this is relevant to their current situation"
-    }
-  ]
-}
-
-IMPORTANT: Only recommend resources from the provided list. Use exact names. Focus on what's most actionable for their current stage.`,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            recommendations: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  resource_name: { type: "string" },
-                  category: { type: "string" },
-                  priority: { type: "string" },
-                  reason: { type: "string" }
-                }
-              }
-            }
-          }
-        }
-      });
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'smart_recommendations',
+        data: { userContextText: userContext },
+      })).data.result;
 
       // Match recommendations with actual resource objects
       const matchedRecommendations = response.recommendations

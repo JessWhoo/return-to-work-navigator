@@ -44,105 +44,23 @@ export default function AIProgressInsights({ progress }) {
         }))
       };
 
-      const prompt = `You are an expert health analytics coach for cancer survivors returning to work. Analyze this user's progress data and provide actionable insights.
-
-USER DATA:
-Journey Stage: ${analysisData.journey_stage}
-Return Date: ${analysisData.return_date || 'Not set'}
-Accommodations Requested: ${analysisData.accommodations}
-Checklist Items Completed: ${analysisData.checklist_progress}
-
-ENERGY & MOOD TRENDS (Last 14 days):
-${analysisData.energy_trends.slice(-14).map(log => 
-  `${log.date}: Energy ${log.avg.toFixed(1)}/10 (Morning: ${log.morning}, Afternoon: ${log.afternoon}, Evening: ${log.evening}), Mood: ${log.mood}, Stress: ${log.stress}/10${log.notes ? `, Notes: ${log.notes}` : ''}`
-).join('\n')}
-
-RECENT SYMPTOMS (Last 5):
-${analysisData.recent_symptoms.map(s => 
-  `${s.date}: ${s.type?.join(', ') || 'N/A'} - Severity ${s.severity}/10${s.triggers ? `, Triggers: ${s.triggers}` : ''}`
-).join('\n')}
-
-ANALYSIS TASKS:
-1. Identify energy level trends (improving, declining, stable)
-2. Detect mood patterns and correlations with energy/stress
-3. Spot potential triggers or patterns in symptoms
-4. Identify concerning patterns requiring attention
-5. Provide 3-5 personalized, actionable tips for managing stress and fatigue
-6. Suggest potential accommodations or adjustments based on data
-
-Be specific, empathetic, and actionable. Focus on patterns over the last 7-14 days.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            overall_status: {
-              type: 'string',
-              enum: ['improving', 'stable', 'declining', 'concerning'],
-              description: 'Overall trajectory'
-            },
-            summary: {
-              type: 'string',
-              description: '2-3 sentence summary of current state'
-            },
-            energy_trend: {
-              type: 'object',
-              properties: {
-                direction: { type: 'string', enum: ['up', 'down', 'stable', 'fluctuating'] },
-                insight: { type: 'string' }
-              }
-            },
-            mood_pattern: {
-              type: 'object',
-              properties: {
-                dominant_mood: { type: 'string' },
-                insight: { type: 'string' }
-              }
-            },
-            stress_analysis: {
-              type: 'object',
-              properties: {
-                average_level: { type: 'number' },
-                insight: { type: 'string' }
-              }
-            },
-            correlations: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  pattern: { type: 'string' },
-                  description: { type: 'string' }
-                }
-              },
-              description: 'Identified correlations or patterns'
-            },
-            concerns: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'Any concerning patterns requiring attention'
-            },
-            personalized_tips: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  tip: { type: 'string' },
-                  rationale: { type: 'string' }
-                }
-              },
-              description: '3-5 actionable tips specific to this user'
-            },
-            recommended_actions: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'Specific next steps or adjustments to consider'
-            }
-          },
-          required: ['overall_status', 'summary', 'personalized_tips']
-        }
-      });
+      const energyTrendsText = analysisData.energy_trends.slice(-14).map(log =>
+        `${log.date}: Energy ${log.avg.toFixed(1)}/10 (Morning: ${log.morning}, Afternoon: ${log.afternoon}, Evening: ${log.evening}), Mood: ${log.mood}, Stress: ${log.stress}/10${log.notes ? `, Notes: ${log.notes}` : ''}`
+      ).join('\n');
+      const recentSymptomsText = analysisData.recent_symptoms.map(s =>
+        `${s.date}: ${s.type?.join(', ') || 'N/A'} - Severity ${s.severity}/10${s.triggers ? `, Triggers: ${s.triggers}` : ''}`
+      ).join('\n');
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'progress_insights',
+        data: {
+          journey_stage: analysisData.journey_stage,
+          return_date: analysisData.return_date,
+          accommodations: analysisData.accommodations,
+          checklist_progress: analysisData.checklist_progress,
+          energyTrendsText,
+          recentSymptomsText,
+        },
+      })).data.result;
 
       // Track insights generation
       base44.analytics.track({

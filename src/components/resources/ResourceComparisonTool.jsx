@@ -156,46 +156,10 @@ export default function ResourceComparisonTool({ progress, allResources }) {
       `Resource ID: ${r.id}\nName: ${r.name}\nOrg: ${r.org}\nType: ${r.type}\nDescription: ${r.description}\nTopics: ${(r.topics || []).join(', ')}`
     ).join('\n\n---\n\n');
 
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are an expert career coach helping cancer survivors return to work. Analyze these ${selected.length} resources and provide a structured comparison.
-
-Resources:
-${resourceDescriptions}
-
-User Journey Stage: ${progress?.journey_stage || 'planning'}
-
-For EACH resource, provide:
-- benefits: array of 3 short specific benefits (each under 10 words)
-- difficulty: "low", "medium", or "high" (how hard it is to use/apply this resource)
-- time_requirement: "quick" (<15min), "short" (15-60min), "long" (1-4 hours), or "ongoing"
-- best_for: one sentence on who benefits most from this resource
-- score: 1-5 overall recommendation score for this user's journey stage
-
-Also identify the single best overall recommendation (winner_id) with a short reason (winner_reason).
-
-Respond ONLY with valid JSON.`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          analyses: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                resource_id: { type: 'string' },
-                benefits: { type: 'array', items: { type: 'string' } },
-                difficulty: { type: 'string' },
-                time_requirement: { type: 'string' },
-                best_for: { type: 'string' },
-                score: { type: 'number' }
-              }
-            }
-          },
-          winner_id: { type: 'string' },
-          winner_reason: { type: 'string' }
-        }
-      }
-    });
+    const result = (await base44.functions.invoke('aiGateway', {
+      operation: 'compare_resources',
+      data: { resourceDescriptionsText: resourceDescriptions, journeyStage: progress?.journey_stage || 'planning', count: selected.length },
+    })).data.result;
 
     const newAnalyses = {};
     (result.analyses || []).forEach(a => { newAnalyses[a.resource_id] = a; });

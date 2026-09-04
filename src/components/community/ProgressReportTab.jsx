@@ -53,14 +53,7 @@ export default function ProgressReportTab() {
     if (!context) { toast.error('Select at least one section'); return; }
     setGenerating(true);
     try {
-      const text = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a compassionate return-to-work coach. Generate a concise, professional progress summary that a cancer survivor can share with their mentor, coach, or support group. Use warm, encouraging language. Include only the data provided below. Format as readable paragraphs (no bullet lists).
-
-Progress Data:
-${context}
-
-Write a 2-3 paragraph shareable progress report. Highlight achievements and frame any challenges positively.`,
-      });
+      const text = (await base44.functions.invoke('aiGateway', { operation: 'progress_report', data: { context } })).data.result;
       setGeneratedReport(text.trim());
     } finally {
       setGenerating(false);

@@ -39,80 +39,14 @@ export default function PredictiveHealthAlerts({ progress }) {
         triggers: s.symptom_details?.triggers
       }));
 
-      const prompt = `You are a health analytics AI specializing in predicting health patterns for cancer survivors returning to work.
-
-HISTORICAL DATA (Last 30 days):
-
-Energy & Stress Logs:
-${energyTrends.map(e => `${e.date}: Energy ${e.avg_energy.toFixed(1)}/10, Stress ${e.stress}/10, Mood: ${e.mood}${e.notes ? `, Notes: ${e.notes}` : ''}`).join('\n')}
-
-Symptom Records:
-${symptomPatterns.map(s => `${s.date}: ${s.title}, Severity ${s.severity}/10, Types: ${s.types.join(', ')}${s.triggers ? `, Triggers: ${s.triggers}` : ''}`).join('\n')}
-
-Upcoming Calendar Events (Next 14 days):
-${upcomingEvents.length > 0 ? upcomingEvents.map(e => `${e.date}: ${e.title} (${e.type})`).join('\n') : 'No upcoming events scheduled'}
-
-Current Journey Stage: ${progress.journey_stage || 'planning'}
-Days to Return: ${progress.return_date ? Math.ceil((new Date(progress.return_date) - new Date()) / (1000 * 60 * 60 * 24)) : 'not set'}
-
-TASK:
-Analyze the historical patterns and predict potential flare-ups or challenging periods in the next 7-14 days. Consider:
-
-1. **Historical Patterns**: Identify recurring patterns (e.g., symptoms spike every X days, energy crashes after certain events)
-2. **Trend Analysis**: Detect if symptoms/energy are trending upward or downward
-3. **Event Triggers**: Correlate past calendar events with energy drops or symptom increases
-4. **Upcoming Risks**: Predict how upcoming events might impact health based on past patterns
-5. **Risk Level**: Assign risk level (low/medium/high) for each predicted period
-
-Provide 3-5 actionable predictions with specific dates/periods, reasoning, and prevention strategies.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            overall_risk_level: {
-              type: 'string',
-              enum: ['low', 'moderate', 'high'],
-              description: 'Overall health risk in next 14 days'
-            },
-            trend_direction: {
-              type: 'string',
-              enum: ['improving', 'stable', 'declining', 'fluctuating'],
-              description: 'Overall health trajectory'
-            },
-            predictions: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  period: { type: 'string', description: 'Time period (e.g., "Feb 15-18", "Next week")' },
-                  risk_level: { type: 'string', enum: ['low', 'moderate', 'high'] },
-                  predicted_issue: { type: 'string', description: 'What might happen' },
-                  confidence: { type: 'string', enum: ['low', 'medium', 'high'] },
-                  reasoning: { type: 'string', description: 'Why this prediction is made' },
-                  triggers: { 
-                    type: 'array', 
-                    items: { type: 'string' },
-                    description: 'Potential triggers identified'
-                  },
-                  prevention_strategies: {
-                    type: 'array',
-                    items: { type: 'string' },
-                    description: 'How to prevent or mitigate'
-                  }
-                }
-              }
-            },
-            recommendations: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'General recommendations for the next 2 weeks'
-            }
-          },
-          required: ['overall_risk_level', 'trend_direction', 'predictions']
-        }
-      });
+      const energyTrendsText = energyTrends.map(e => `${e.date}: Energy ${e.avg_energy.toFixed(1)}/10, Stress ${e.stress}/10, Mood: ${e.mood}${e.notes ? `, Notes: ${e.notes}` : ''}`).join('\n');
+      const symptomPatternsText = symptomPatterns.map(s => `${s.date}: ${s.title}, Severity ${s.severity}/10, Types: ${s.types.join(', ')}${s.triggers ? `, Triggers: ${s.triggers}` : ''}`).join('\n');
+      const upcomingEventsText = upcomingEvents.length > 0 ? upcomingEvents.map(e => `${e.date}: ${e.title} (${e.type})`).join('\n') : 'No upcoming events scheduled';
+      const daysToReturn = progress.return_date ? Math.ceil((new Date(progress.return_date) - new Date()) / (1000 * 60 * 60 * 24)) : 'not set';
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'predictive_alerts',
+        data: { energyTrendsText, symptomPatternsText, upcomingEventsText, journeyStage: progress.journey_stage || 'planning', daysToReturn },
+      })).data.result;
 
       // Track prediction generation
       base44.analytics.track({

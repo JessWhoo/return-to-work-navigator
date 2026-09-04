@@ -39,16 +39,7 @@ export default function DailyAffirmation({ progress }) {
     try {
       const stage = progress?.journey_stage || 'planning';
       const stageLabel = stage.replace('_', ' ');
-      const text = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a compassionate coach for cancer survivors returning to work.
-Generate ONE warm, specific, empowering daily affirmation for a cancer survivor who is in the "${stageLabel}" stage of returning to work.
-The affirmation should:
-- Be 1-2 sentences, personal and direct (use "you" or "I")
-- Acknowledge their unique courage and strength
-- Be practical and grounding, not generic
-- Avoid medical jargon
-Respond with ONLY the affirmation text, no quotes, no extra text.`,
-      });
+      const text = (await base44.functions.invoke('aiGateway', { operation: 'daily_affirmation', data: { stageLabel } })).data.result;
 
       try {
         await createMutation.mutateAsync({ text: text.trim(), date: today, is_saved: false, is_shared: false });

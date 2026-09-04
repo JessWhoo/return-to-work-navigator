@@ -49,86 +49,19 @@ export default function ActivitySymptomCorrelations({ progress }) {
         };
       });
 
-      const prompt = `You are an expert in health pattern analysis for cancer survivors. Analyze the data below to identify correlations between activities, times of day, and symptom patterns.
-
-DAILY DATA (Last 30 days):
-${dailyData.map(d => {
-  const avgEnergy = ((d.morning_energy || 0) + (d.afternoon_energy || 0) + (d.evening_energy || 0)) / 3;
-  return `${d.date}:
+      const dailyDataText = dailyData.map(d => {
+        const avgEnergy = ((d.morning_energy || 0) + (d.afternoon_energy || 0) + (d.evening_energy || 0)) / 3;
+        return `${d.date}:
   Energy: Morning ${d.morning_energy}/10, Afternoon ${d.afternoon_energy}/10, Evening ${d.evening_energy}/10
   Stress: ${d.stress}/10, Mood: ${d.mood}
   Symptoms: ${d.symptoms.length > 0 ? d.symptoms.map(s => `${s.title} (severity ${s.severity}/10)`).join(', ') : 'None'}
   Events: ${d.events.length > 0 ? d.events.map(e => `${e.title} (${e.type})`).join(', ') : 'None'}
   ${d.notes ? `Notes: ${d.notes}` : ''}`;
-}).join('\n\n')}
-
-ANALYSIS TASKS:
-1. **Time-of-Day Patterns**: Identify if symptoms or energy dips occur at specific times (morning/afternoon/evening)
-2. **Activity Correlations**: Find connections between calendar events (meetings, medical appointments) and symptom onset or energy changes
-3. **Multi-Day Patterns**: Detect if symptoms appear X days after certain activities
-4. **Trigger Identification**: Identify specific activities or event types that precede increased symptoms or decreased energy
-5. **Protective Factors**: Find activities or patterns associated with better energy and fewer symptoms
-
-Provide 4-6 actionable correlations with strong evidence from the data.`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            time_of_day_patterns: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  time_period: { type: 'string', enum: ['morning', 'afternoon', 'evening', 'consistent_all_day'] },
-                  pattern: { type: 'string' },
-                  evidence: { type: 'string' },
-                  strength: { type: 'string', enum: ['weak', 'moderate', 'strong'] }
-                }
-              }
-            },
-            activity_correlations: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  activity_type: { type: 'string' },
-                  impact: { type: 'string', description: 'Positive or negative impact description' },
-                  correlation_strength: { type: 'string', enum: ['weak', 'moderate', 'strong'] },
-                  time_lag: { type: 'string', description: 'e.g., "same day", "1-2 days later"' },
-                  evidence: { type: 'string' },
-                  recommendation: { type: 'string' }
-                }
-              }
-            },
-            symptom_triggers: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  trigger: { type: 'string' },
-                  symptoms_affected: { type: 'array', items: { type: 'string' } },
-                  frequency: { type: 'string' },
-                  avoidance_strategy: { type: 'string' }
-                }
-              }
-            },
-            protective_factors: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  factor: { type: 'string' },
-                  benefit: { type: 'string' },
-                  recommendation: { type: 'string' }
-                }
-              }
-            }
-          },
-          required: ['time_of_day_patterns', 'activity_correlations']
-        }
-      });
+      }).join('\n\n');
+      const response = (await base44.functions.invoke('aiGateway', {
+        operation: 'activity_correlations',
+        data: { dailyDataText },
+      })).data.result;
 
       // Track analysis
       base44.analytics.track({

@@ -207,9 +207,7 @@ export default function ConversationSimulator({ meeting }) {
     setPhase('simulating');
     setLoading(true);
     const systemPrompt = buildSystemPrompt(meeting);
-    const opening = await base44.integrations.Core.InvokeLLM({
-      prompt: systemPrompt + '\n\nNow open the meeting. Start speaking as the manager/HR rep.',
-    });
+    const opening = (await base44.functions.invoke('aiGateway', { operation: 'simulate_opening', data: { systemPrompt } })).data.result;
     setMessages([{ role: 'assistant', content: opening }]);
     setLoading(false);
   };
@@ -227,9 +225,7 @@ export default function ConversationSimulator({ meeting }) {
       .map(m => `${m.role === 'user' ? 'Employee' : 'Manager/HR'}: ${m.content}`)
       .join('\n');
 
-    const reply = await base44.integrations.Core.InvokeLLM({
-      prompt: `${systemPrompt}\n\nConversation so far:\n${history}\n\nContinue as the Manager/HR. Respond to the employee's last message:`,
-    });
+    const reply = (await base44.functions.invoke('aiGateway', { operation: 'simulate_reply', data: { systemPrompt, history } })).data.result;
     setMessages([...newMessages, { role: 'assistant', content: reply }]);
     setLoading(false);
   };
@@ -237,19 +233,7 @@ export default function ConversationSimulator({ meeting }) {
   const getFeedback = async () => {
     setLoading(true);
     const feedbackPrompt = buildFeedbackPrompt(meeting, messages);
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: feedbackPrompt,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          scores: { type: 'object' },
-          overall_score: { type: 'number' },
-          strengths: { type: 'array', items: { type: 'string' } },
-          tips: { type: 'array', items: { type: 'string' } },
-          encouragement: { type: 'string' },
-        },
-      },
-    });
+    const result = (await base44.functions.invoke('aiGateway', { operation: 'simulate_feedback', data: { feedbackPrompt } })).data.result;
     setFeedback(result);
     setPhase('feedback');
     setLoading(false);

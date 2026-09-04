@@ -37,23 +37,12 @@ export default function ResourceTagEditor({ resource, progress }) {
   const handleGenerateAITags = async () => {
     setGenerating(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Generate 5-8 concise, relevant tags for this resource that would help a cancer survivor find it via search. Tags should be lowercase, 1-3 words each, covering the main topics, audience, and use case.
-
-Resource: "${resource.name}"
+      const resourceText = `Resource: "${resource.name}"
 Organization: "${resource.org}"
 Description: "${resource.description}"
 Existing topics: ${(resource.topics || []).join(', ')}
-Type: ${resource.type}
-
-Return ONLY a JSON array of tag strings. Example: ["return to work", "fatigue", "workplace accommodations", "legal rights"]`,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            tags: { type: 'array', items: { type: 'string' } }
-          }
-        }
-      });
+Type: ${resource.type}`;
+      const result = (await base44.functions.invoke('aiGateway', { operation: 'suggest_tags', data: { resourceText } })).data.result;
       const tags = result?.tags || [];
       const currentCustom = progress?.resource_custom_tags?.[resource.id] || [];
       await saveTagsMutation.mutateAsync({ ai: tags, custom: currentCustom });

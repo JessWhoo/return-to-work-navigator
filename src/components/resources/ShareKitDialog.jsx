@@ -275,10 +275,9 @@ export default function ShareKitDialog({ resources, bookmarkedIds, notes }) {
         recipientLabel,
         senderNote,
       });
-      await base44.integrations.Core.SendEmail({
-        to: emailTo,
-        subject: emailSubject || 'Sharing my saved resources & notes',
-        body,
+      await base44.functions.invoke('sendAppEmail', {
+        operation: 'share_kit',
+        data: { to: emailTo, subject: emailSubject, body },
       });
       toast.success(`Email sent to ${emailTo}!`);
       base44.analytics.track({
