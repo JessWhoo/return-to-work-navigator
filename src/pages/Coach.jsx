@@ -246,7 +246,7 @@ export default function Coach() {
 
   return (
     <div className="max-w-7xl mx-auto pb-4 lg:h-[calc(100vh-12rem)]">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-[minmax(0,1fr)] gap-6 lg:h-full lg:min-h-0">
         {/* Sidebar */}
         <div className="lg:col-span-1 flex flex-col gap-4 lg:h-full lg:min-h-0 lg:overflow-y-auto">
           {/* Conversation History Panel */}
@@ -446,7 +446,7 @@ export default function Coach() {
                 <Textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyPress}
                   placeholder="Type your message... (Shift+Enter for new line)"
                   className="flex-1 min-h-[60px] max-h-[200px] bg-white border-2 border-purple-200 text-slate-900 placeholder:text-slate-500 focus:border-purple-500 focus:ring-purple-500"
                   disabled={sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
