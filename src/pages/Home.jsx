@@ -33,12 +33,17 @@ export default function Home() {
 
   // Respect users who ask for reduced motion — skip decorative particle animation
   // and heavy transforms in that case.
+  // Also treat touch devices as low-motion: infinite blurred animations keep the
+  // GPU busy on phones/tablets and make taps feel sluggish.
   const prefersReducedMotion = useMemo(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      window.matchMedia('(pointer: coarse)').matches
+    );
   }, []);
 
-  const particles = useMemo(() => Array.from({ length: 6 }, (_, i) => ({
+  const particles = useMemo(() => Array.from({ length: prefersReducedMotion ? 3 : 6 }, (_, i) => ({
     id: i,
     width: Math.random() * 300 + 50,
     height: Math.random() * 300 + 50,
@@ -47,7 +52,7 @@ export default function Home() {
     dx: Math.random() * 100 - 50,
     dy: Math.random() * 100 - 50,
     duration: Math.random() * 10 + 10,
-  })), []);
+  })), [prefersReducedMotion]);
   
   const { data: progress, isLoading: isProgressLoading, isError: isProgressError, refetch: refetchProgress } = useUserProgress({
     completed_checklist_items: [],
