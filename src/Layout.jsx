@@ -13,11 +13,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import GlobalSearch from './components/search/GlobalSearch';
 import AnalyticsTracker from './components/analytics/AnalyticsTracker';
 
-// The app is designed as a light theme — force light mode regardless of the
-// device's system preference (dark mode made cards black with dark text).
-if (typeof window !== 'undefined') {
-  document.documentElement.classList.remove('dark');
-}
 
 // Per-tab scroll-position memory so switching tabs preserves where you were.
 // Tab "stack" key = the bottom-nav root path. Sub-pages reached from a tab keep
@@ -81,9 +76,17 @@ export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [speechEnabled, setSpeechEnabled] = useState(false);
 
-  // Always keep the light theme active — never follow system dark mode.
+  // Follow the system color-scheme preference: toggle the 'dark' class so
+  // Tailwind's dark: variants and the .dark CSS variables activate when the
+  // device prefers dark mode. No class = light mode (the app default).
   useEffect(() => {
-    document.documentElement.classList.remove('dark');
+    const root = document.documentElement;
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const apply = ({ matches }) => root.classList.toggle('dark', matches);
+    apply(mq);
+    const handler = (e) => apply(e);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   // Restore previous scroll position for this path (if any) on navigation,

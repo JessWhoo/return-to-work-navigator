@@ -244,6 +244,10 @@ button:focus-visible {
 
 /* Global text contrast boost - improve readability across the entire app */
 @layer utilities {
+  /* All rules below are light-mode readability + surface overrides. They
+     only apply when the :root does NOT have the .dark class, so the dark
+     theme (driven by the .dark CSS variables) is left untouched. */
+  :root:not(.dark) {
   /* On light backgrounds: darken light gray text */
   .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; font-weight: 500; }
   .text-slate-600 { color: rgb(15 23 42) !important; }
@@ -495,5 +499,6 @@ button:focus-visible {
     .text-amber-50, .text-amber-100, .text-amber-200, .text-amber-300,
     .text-orange-50, .text-orange-100, .text-orange-200, .text-orange-300) {
     color: rgb(255 255 255) !important;
+  }
   }
 }
