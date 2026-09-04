@@ -28,6 +28,7 @@ import AccommodationWorksheet from './pages/AccommodationWorksheet';
 import LegalDirectory from './pages/LegalDirectory';
 import WellnessLibrary from './pages/WellnessLibrary';
 import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
+import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -190,6 +191,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="AccommodationWorksheet">
               <AccommodationWorksheet />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/AccommodationLetterGenerator"
+          element={
+            <LayoutWrapper currentPageName="AccommodationLetterGenerator">
+              <AccommodationLetterGenerator />
             </LayoutWrapper>
           }
         />
