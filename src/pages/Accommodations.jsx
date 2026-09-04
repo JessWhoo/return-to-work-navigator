@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -162,6 +163,13 @@ export default function Accommodations() {
         <p className="text-lg text-slate-700 max-w-2xl mx-auto">
           Select the accommodations you need and generate a formal request letter
         </p>
+        <Link
+          to="/AccommodationLetterGenerator"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-md hover:from-violet-700 hover:to-emerald-700 transition-colors"
+        >
+          <FileText className="h-4 w-4" />
+          Try the guided letter generator
+        </Link>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
