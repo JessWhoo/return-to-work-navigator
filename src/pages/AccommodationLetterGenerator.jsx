@@ -1,0 +1,25 @@
+import React, { useMemo, useState } from 'react';
+import { FilePenLine, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import AccommodationSelector from '@/components/accommodation-letter/AccommodationSelector';
+import LetterDetailsForm from '@/components/accommodation-letter/LetterDetailsForm';
+import LetterPreview from '@/components/accommodation-letter/LetterPreview';
+import { accommodationOptions } from '@/components/accommodation-letter/accommodationOptions';
+import useSEO from '@/hooks/useSEO';
+
+const emptyForm = { name: '', employer: '', recipient: '', role: '', context: '' };
+const formatList = (items) => items.map((item) => `• ${item}`).join('\n');
+
+export default function AccommodationLetterGenerator() {
+  useSEO({ title: 'Accommodation Letter Generator', description: 'Create a professional workplace accommodation request letter.', path: '/AccommodationLetterGenerator' });
+  const [form, setForm] = useState(emptyForm); const [selected, setSelected] = useState([]); const [letter, setLetter] = useState(''); const [error, setError] = useState('');
+  const requests = useMemo(() => accommodationOptions.filter((item) => selected.includes(item.id)).map((item) => item.title.toLowerCase()), [selected]);
+  const update = (key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value }));
+  const toggle = (id) => setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  const generate = () => {
+    if (!form.name.trim() || !form.employer.trim() || !form.recipient.trim() || !requests.length) return setError('Add your name, employer, recipient, and at least 1 accommodation to generate your letter.');
+    const date = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
+    setLetter(`${date}\n\n${form.recipient}\n${form.employer}\n\nSubject: Request for workplace accommodations\n\nDear ${form.recipient},\n\nI am writing to request reasonable workplace accommodations that will help me continue performing the essential responsibilities of my${form.role.trim() ? ` role as ${form.role.trim()}` : ' role'} effectively. I value my work at ${form.employer.trim()} and would welcome the opportunity to discuss an approach that supports both my health needs and the needs of the team.\n\nI would like to discuss the following accommodations:\n\n${formatList(requests)}\n\n${form.context.trim() ? `${form.context.trim()}\n\n` : ''}I am committed to working collaboratively to identify practical arrangements and can provide supporting documentation if needed. Thank you for your consideration. I look forward to discussing next steps with you.\n\nSincerely,\n${form.name.trim()}`); setError('');
+  };
+  return <div className="mx-auto max-w-5xl space-y-6"><style>{`@media print { .no-print { display: none !important; } body { background: white !important; } }`}</style><header className="no-print max-w-3xl"><div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-violet-700"><FilePenLine className="h-4 w-4" />Workplace Communication</div><h1 className="mt-2 text-balance text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Accommodation Letter Generator</h1><p className="mt-3 text-pretty text-base leading-7 text-slate-700">Select the adjustments that would support you at work, then create a respectful, professional request letter to personalize and send.</p></header><div className="no-print grid gap-6 lg:grid-cols-[1.35fr_0.65fr]"><section className="rounded-2xl border-2 border-slate-200 bg-card p-5 shadow-sm sm:p-6"><h2 className="text-xl font-extrabold text-slate-900">1. Choose accommodations</h2><p className="mt-1 text-sm leading-6 text-slate-600">Choose all that apply. You can adapt the letter before sending.</p><div className="mt-5"><AccommodationSelector selected={selected} onToggle={toggle} /></div></section><section className="rounded-2xl border-2 border-slate-200 bg-card p-5 shadow-sm sm:p-6"><h2 className="text-xl font-extrabold text-slate-900">2. Add details</h2><div className="mt-5"><LetterDetailsForm form={form} onChange={update} /></div><Button type="button" onClick={generate} className="mt-6 w-full bg-violet-700 text-white hover:bg-violet-800"><Sparkles className="h-4 w-4" />Generate My Letter</Button>{error && <p role="alert" className="mt-3 rounded-lg bg-rose-50 p-3 text-sm font-semibold text-rose-700">{error}</p>}</section></div>{letter ? <LetterPreview letter={letter} onCopy={() => navigator.clipboard.writeText(letter)} /> : <div className="no-print rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-sm font-medium text-slate-600">Your formatted letter will appear here after you generate it.</div>}<p className="no-print text-xs leading-5 text-slate-600">Educational use only. This tool does not provide legal advice.</p></div>;
+}

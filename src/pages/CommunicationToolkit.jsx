@@ -49,6 +49,22 @@ export default function CommunicationToolkit() {
         </Card>
       </Link>
 
+      <Link to="/AccommodationLetterGenerator" className="block">
+        <Card className="bg-gradient-to-r from-indigo-100 via-violet-100 to-fuchsia-100 border-2 border-indigo-300 hover:border-indigo-500 shadow-md hover:shadow-xl transition-all">
+          <CardContent className="p-5 flex items-center gap-4">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 shadow-lg flex-shrink-0">
+              <FileText className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs font-extrabold uppercase tracking-wider text-indigo-700">New letter tool</p>
+              <h3 className="text-lg font-extrabold text-slate-900">Accommodation Letter Generator</h3>
+              <p className="text-sm font-medium text-slate-700">Select workplace adjustments and create a professional request letter for your employer.</p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-indigo-600 flex-shrink-0" />
+          </CardContent>
+        </Card>
+      </Link>
+
       <Tabs defaultValue="templates" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3 bg-slate-800/50 border border-slate-700">
           <TabsTrigger value="templates" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white text-slate-300">
