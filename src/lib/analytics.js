@@ -14,13 +14,21 @@ function isBurst() {
   return recent.length > BURST_MAX_EVENTS;
 }
 
+// Run off the interaction path so a tap is never delayed by a tracking call.
+const defer =
+  typeof requestIdleCallback === 'function'
+    ? (fn) => requestIdleCallback(fn, { timeout: 2000 })
+    : (fn) => setTimeout(fn, 0);
+
 // Safe wrapper — analytics must never break the app (blocked trackers,
 // offline, etc. all fail silently).
 export function track(eventName, properties = {}) {
   if (isBurst()) return;
-  try {
-    base44.analytics.track({ eventName, properties });
-  } catch {
-    /* ignore */
-  }
+  defer(() => {
+    try {
+      base44.analytics.track({ eventName, properties });
+    } catch {
+      /* ignore */
+    }
+  });
 }
