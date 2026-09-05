@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
@@ -26,6 +26,7 @@ export default function WellnessLibrary() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [topic, setTopic] = useState('all');
+  const pendingRatingsRef = useRef(new Set());
 
   const libraryQuery = useInfiniteQuery({
     queryKey: queryKey(user?.id),
@@ -87,6 +88,9 @@ queryFn: async ({ pageParam }) => {
       if (context?.previous) queryClient.setQueryData(context.key, context.previous);
       toast.error('Your rating could not be saved. Your previous rating has been restored.');
     },
+    onSettled: (_data, _error, variables) => {
+      if (variables?.resourceId) pendingRatingsRef.current.delete(variables.resourceId);
+    },
   });
 
   const filtered = useMemo(() => {
@@ -103,6 +107,8 @@ queryFn: async ({ pageParam }) => {
       base44.auth.redirectToLogin(window.location.pathname);
       return;
     }
+    if (pendingRatingsRef.current.has(resource.id)) return;
+    pendingRatingsRef.current.add(resource.id);
     rateMutation.mutate({ resourceId: resource.id, rating });
   };
 

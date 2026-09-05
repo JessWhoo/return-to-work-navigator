@@ -1,5 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+const MY_RATING_BATCH_SIZE = 100;
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -15,22 +17,30 @@ Deno.serve(async (req) => {
     const resource = await base44.asServiceRole.entities.WellnessResource.get(resourceId).catch(() => null);
     if (!resource) return Response.json({ error: 'Resource not found' }, { status: 404 });
 
-    let mine = await base44.entities.WellnessResourceRating.filter(
-      { resource_id: resourceId, created_by_id: user.id },
-      '-created_date',
-      25,
-    );
+    const mine = [];
+    for (let skip = 0;;) {
+      const batch = await base44.entities.WellnessResourceRating.filter(
+        { resource_id: resourceId, created_by_id: user.id },
+        '-created_date',
+        MY_RATING_BATCH_SIZE,
+        skip,
+      );
+      mine.push(...batch);
+      if (batch.length < MY_RATING_BATCH_SIZE) break;
+      skip += batch.length;
+    }
+
     if (mine.length > 0) {
       await base44.entities.WellnessResourceRating.update(mine[0].id, { rating });
     } else {
       await base44.entities.WellnessResourceRating.create({ resource_id: resourceId, rating });
-      mine = await base44.entities.WellnessResourceRating.filter(
+      const created = await base44.entities.WellnessResourceRating.filter(
         { resource_id: resourceId, created_by_id: user.id },
         '-created_date',
-        25,
+        1,
       );
-      if (mine[0]) {
-        await base44.entities.WellnessResourceRating.update(mine[0].id, { rating });
+      if (created[0]) {
+        await base44.entities.WellnessResourceRating.update(created[0].id, { rating });
       }
     }
     if (mine.length > 1) {
