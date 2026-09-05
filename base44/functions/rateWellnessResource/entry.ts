@@ -1,7 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const BATCH_SIZE = 500;
-
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -17,35 +15,31 @@ Deno.serve(async (req) => {
     const resource = await base44.asServiceRole.entities.WellnessResource.get(resourceId).catch(() => null);
     if (!resource) return Response.json({ error: 'Resource not found' }, { status: 404 });
 
-    const mine = await base44.entities.WellnessResourceRating.filter(
+    let mine = await base44.entities.WellnessResourceRating.filter(
       { resource_id: resourceId, created_by_id: user.id },
       '-created_date',
       25,
     );
     if (mine.length > 0) {
       await base44.entities.WellnessResourceRating.update(mine[0].id, { rating });
-      if (mine.length > 1) {
-        await Promise.all(
-          mine.slice(1).map((row) => base44.entities.WellnessResourceRating.delete(row.id).catch(() => null)),
-        );
-      }
     } else {
       await base44.entities.WellnessResourceRating.create({ resource_id: resourceId, rating });
-    }
-
-    let sum = 0;
-    let count = 0;
-    for (let skip = 0;;) {
-      const batch = await base44.asServiceRole.entities.WellnessResourceRating.filter(
-        { resource_id: resourceId }, 'created_date', BATCH_SIZE, skip, ['rating'],
+      mine = await base44.entities.WellnessResourceRating.filter(
+        { resource_id: resourceId, created_by_id: user.id },
+        '-created_date',
+        25,
       );
-      batch.forEach((row) => { sum += row.rating; });
-      count += batch.length;
-      if (batch.length < BATCH_SIZE) break;
-      skip += batch.length;
+      if (mine[0]) {
+        await base44.entities.WellnessResourceRating.update(mine[0].id, { rating });
+      }
+    }
+    if (mine.length > 1) {
+      await Promise.all(
+        mine.slice(1).map((row) => base44.entities.WellnessResourceRating.delete(row.id).catch(() => null)),
+      );
     }
 
-    return Response.json({ resource_id: resourceId, average: count ? sum / count : 0, count, my_rating: rating });
+    return Response.json({ resource_id: resourceId, my_rating: rating });
   } catch (error) {
     return Response.json({ error: (error as Error).message }, { status: 500 });
   }

@@ -50,10 +50,14 @@ queryFn: async ({ pageParam }) => {
   ), [libraryQuery.data]);
 
   const rateMutation = useMutation({
-    mutationFn: ({ resourceId, rating }) => base44.functions.invoke('rateWellnessResource', {
-      resource_id: resourceId,
-      rating,
-    }),
+    mutationFn: async ({ resourceId, rating }) => {
+      const response = await base44.functions.invoke('rateWellnessResource', {
+        resource_id: resourceId,
+        rating,
+      });
+      if (response?.data?.error) throw new Error(response.data.error);
+      return response.data;
+    },
     onMutate: async ({ resourceId, rating }) => {
       const key = queryKey(user?.id);
       await queryClient.cancelQueries({ queryKey: key });
@@ -76,16 +80,8 @@ queryFn: async ({ pageParam }) => {
       });
       return { previous, key };
     },
-    onSuccess: ({ data }) => {
-      queryClient.setQueryData(queryKey(user?.id), (current) => current && ({
-        ...current,
-        pages: current.pages.map((page) => ({
-          ...page,
-          rating_summaries: page.rating_summaries.map((summary) => (
-            summary.resource_id === data.resource_id ? data : summary
-          )),
-        })),
-      }));
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKey(user?.id) });
     },
     onError: (_error, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(context.key, context.previous);
