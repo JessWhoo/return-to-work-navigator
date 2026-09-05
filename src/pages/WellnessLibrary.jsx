@@ -31,10 +31,11 @@ export default function WellnessLibrary() {
     queryKey: queryKey(user?.id),
     enabled: !isLoadingAuth,
     initialPageParam: 0,
-    queryFn: async ({ pageParam }) => {
-      const response = await base44.functions.invoke('getWellnessLibraryPage', { offset: pageParam });
-      return response.data;
-    },
+queryFn: async ({ pageParam }) => {
+  const response = await base44.functions.invoke('getWellnessLibraryPage', { offset: pageParam });
+  if (response?.data?.error) throw new Error(response.data.error);
+  return response.data;
+},
     getNextPageParam: (lastPage) => lastPage.next_offset ?? undefined,
     retry: 2,
   });
