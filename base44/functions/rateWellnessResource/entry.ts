@@ -17,12 +17,18 @@ Deno.serve(async (req) => {
     const resource = await base44.asServiceRole.entities.WellnessResource.get(resourceId).catch(() => null);
     if (!resource) return Response.json({ error: 'Resource not found' }, { status: 404 });
 
-    const mine = await base44.entities.WellnessResourceRating.filter({
-      resource_id: resourceId,
-      created_by_id: user.id,
-    }, '-created_date', 1);
-    if (mine[0]) {
+    const mine = await base44.entities.WellnessResourceRating.filter(
+      { resource_id: resourceId, created_by_id: user.id },
+      '-created_date',
+      25,
+    );
+    if (mine.length > 0) {
       await base44.entities.WellnessResourceRating.update(mine[0].id, { rating });
+      if (mine.length > 1) {
+        await Promise.all(
+          mine.slice(1).map((row) => base44.entities.WellnessResourceRating.delete(row.id).catch(() => null)),
+        );
+      }
     } else {
       await base44.entities.WellnessResourceRating.create({ resource_id: resourceId, rating });
     }
