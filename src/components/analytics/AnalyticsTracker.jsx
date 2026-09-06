@@ -45,7 +45,15 @@ export default function AnalyticsTracker() {
     const onClick = (e) => {
       const el = e.target?.closest?.('a, button, [role="button"]');
       if (!el) return;
-      const label = (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 60);
+      // Icon-only controls have no text: fall back to title, then the lucide
+      // icon name (svg class "lucide-<name>") so every click stays trackable.
+      const iconName = el.querySelector?.('svg[class*="lucide-"]')?.getAttribute('class')?.match(/lucide-([\w-]+)/)?.[1];
+      const label = (
+        el.getAttribute('aria-label') ||
+        el.getAttribute('title') ||
+        el.textContent ||
+        (iconName ? `icon:${iconName}` : '')
+      ).trim().slice(0, 60);
       if (!label) return;
       track('section_click', { page: pathname, label });
     };
