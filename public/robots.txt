@@ -1,11 +1,8 @@
 User-agent: *
 Allow: /
-
 Disallow: /login
 Disallow: /register
 Disallow: /forgot-password
 Disallow: /reset-password
-Disallow: /Profile
-Disallow: /OAuthConsent
 
 Sitemap: https://return-to-work-navigator-febf891d.base44.app/sitemap.xml

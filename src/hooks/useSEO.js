@@ -41,6 +41,9 @@ export default function useSEO({ title, description, path } = {}) {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', path || window.location.pathname);
+    // Canonical and og:url must be absolute URLs for search engines.
+    const absoluteUrl = new URL(path || window.location.pathname, window.location.origin).href;
+    canonical.setAttribute('href', absoluteUrl);
+    setMeta('meta[property="og:url"]', 'content', absoluteUrl);
   }, [title, description, path]);
 }
