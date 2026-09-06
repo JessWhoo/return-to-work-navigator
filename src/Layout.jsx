@@ -312,7 +312,7 @@ export default function Layout({ children, currentPageName }) {
       <div className="flex max-w-7xl mx-auto">
         {/* Desktop Sidebar */}
         <aside className="hidden lg:block w-64 p-6">
-          <nav className="space-y-5 sticky top-24 overflow-y-auto max-h-[calc(100vh-7rem)] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <nav className="space-y-4">
             {navigationGroups.map((group, gIdx) => (
               <div key={group.label || `group-${gIdx}`} className="space-y-1">
                 {group.label && (
@@ -327,7 +327,7 @@ export default function Layout({ children, currentPageName }) {
                     <Link
                       key={item.name}
                       to={createPageUrl(item.page)}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
+                      className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
                         isActive
                           ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
                           : item.highlight
