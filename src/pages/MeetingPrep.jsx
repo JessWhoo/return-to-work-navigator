@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useOfflineEntity } from '@/lib/useOfflineEntity';
 import { useAuth } from '@/lib/AuthContext';
@@ -37,6 +38,7 @@ const MEETING_TYPE_LABELS = {
 };
 
 export default function MeetingPrep() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const [view, setView] = useState('list'); // 'list' | 'new' | 'detail' | 'templates'
@@ -346,7 +348,7 @@ export default function MeetingPrep() {
               onClick={() => {
                 const summary = `I have a meeting prep for "${selectedMeeting.title}". My goals: ${selectedMeeting.goals || 'not set'}. Talking points: ${selectedMeeting.talking_points?.join('; ')}. Can you help me feel confident going in?`;
                 localStorage.setItem('pendingCoachMessage', summary);
-                window.location.href = '/Coach';
+                navigate('/Coach');
               }}>
               <MessageSquare className="h-4 w-4 mr-2" /> Discuss this meeting with my AI Coach
             </Button>

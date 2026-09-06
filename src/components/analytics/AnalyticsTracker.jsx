@@ -51,6 +51,28 @@ export default function AnalyticsTracker() {
     };
     document.addEventListener('click', onClick, true);
 
+    // ---- Rapid input bursts: autofill, paste, or key-repeat storms ----
+    // Reported once per page view so we can spot UX friction in production.
+    let inputTimes = [];
+    let burstReported = false;
+    const onInput = (e) => {
+      if (burstReported) return;
+      const now = Date.now();
+      inputTimes = inputTimes.filter((t) => now - t < 300);
+      inputTimes.push(now);
+      if (inputTimes.length < 8) return;
+      burstReported = true;
+      const el = e.target;
+      track('rapid_input_burst', {
+        page: pathname,
+        field: el?.getAttribute?.('aria-label') || el?.name || el?.id || el?.tagName || 'unknown',
+        input_type: e.inputType || 'unknown', // e.g. insertFromPaste, insertReplacementText (autofill)
+        events_in_300ms: inputTimes.length,
+        since_load_ms: Math.round(performance.now()),
+      });
+    };
+    document.addEventListener('input', onInput, true);
+
     // ---- Section views: which sections users scroll to ----
     const seenSections = new Set();
     const observer = new IntersectionObserver((entries) => {
@@ -91,6 +113,7 @@ export default function AnalyticsTracker() {
 
     return () => {
       document.removeEventListener('click', onClick, true);
+      document.removeEventListener('input', onInput, true);
       window.removeEventListener('scroll', onScroll);
       clearTimeout(scanId);
       observer.disconnect();

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -252,7 +253,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
               {loadingConvs ? (
                 <div className="flex justify-center py-3"><Loader2 className="h-4 w-4 animate-spin text-slate-400" /></div>
               ) : conversations.length === 0 ? (
-                <p className="text-xs text-slate-500">No coach conversations yet. <a href="/Coach" className="text-purple-400 underline">Start one in Coach</a>.</p>
+                <p className="text-xs text-slate-500">No coach conversations yet. <Link to="/Coach" className="text-purple-400 underline">Start one in Coach</Link>.</p>
               ) : (
                 <div className="space-y-1.5">
                   <button

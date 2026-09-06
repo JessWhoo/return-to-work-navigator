@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,6 +20,7 @@ const OUTCOME_CONFIG = {
 };
 
 export default function EmployerResponseLog({ meeting, onUpdate }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
@@ -148,7 +150,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
                   onClick={() => {
                     const msg = `I just got this advice about my ${meeting.title} meeting: "${aiSuggestion.next_action}". Can you help me figure out my next steps?`;
                     localStorage.setItem('pendingCoachMessage', msg);
-                    window.location.href = '/Coach';
+                    navigate('/Coach');
                   }}>
                   <MessageSquare className="h-3 w-3 mr-1" /> Discuss this with my AI Coach
                 </Button>
