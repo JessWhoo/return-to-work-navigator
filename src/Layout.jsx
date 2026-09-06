@@ -5,7 +5,7 @@ import { createPageUrl } from './utils';
 import {
   Home, Zap, MessageSquare, FileText,
   Shield, Heart, Calendar, BookOpen, Menu, X, Volume2,
-  TrendingUp, ChevronLeft, BarChart2
+  TrendingUp, ChevronLeft, BarChart2, Users
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
@@ -21,7 +21,7 @@ const READABLE_PAGES = new Set([
   'Resources', 'ResourceLibrary', 'WellnessResources', 'WellnessLibrary',
   'Blog', 'ExpertAdvice', 'ExpertQA', 'FAQ', 'LegalRights', 'LegalPolicyHub',
   'StateByStateLaws', 'InternationalLaws', 'DisclosureGuide', 'Accommodations',
-  'About', 'PrivacySecurity', 'Roadmap',
+  'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide',
 ]);
 
 
@@ -153,6 +153,7 @@ export default function Layout({ children, currentPageName }) {
       items: [
         { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
         { name: 'Legal & Policy', icon: Shield, page: 'LegalPolicyHub' },
+        { name: 'For Managers & HR', icon: Users, page: 'ManagerGuide' },
       ],
     },
     {

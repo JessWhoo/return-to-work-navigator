@@ -29,6 +29,7 @@ import LegalDirectory from './pages/LegalDirectory';
 import WellnessLibrary from './pages/WellnessLibrary';
 import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
 import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
+import ManagerGuide from './pages/ManagerGuide';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -124,6 +125,14 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="ExpertAdvice">
             <ExpertAdvice />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/ManagerGuide"
+        element={
+          <LayoutWrapper currentPageName="ManagerGuide">
+            <ManagerGuide />
           </LayoutWrapper>
         }
       />
