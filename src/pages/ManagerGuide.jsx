@@ -5,6 +5,7 @@ import useSEO from '@/hooks/useSEO';
 import { MANAGER_GUIDE_SECTIONS } from '@/components/managerguide/managerGuideData';
 import GuideTableOfContents from '@/components/managerguide/GuideTableOfContents';
 import GuideSection from '@/components/managerguide/GuideSection';
+import SupportTipsSection from '@/components/managerguide/SupportTipsSection';
 
 export default function ManagerGuide() {
   useSEO({
@@ -35,6 +36,8 @@ export default function ManagerGuide() {
           <Printer className="h-4 w-4" /> Print or save as PDF
         </Button>
       </header>
+
+      <SupportTipsSection />
 
       <GuideTableOfContents sections={MANAGER_GUIDE_SECTIONS} />
 
