@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Users, Stethoscope, Brain, HeartCrack, Wallet, Briefcase, ArrowRight, BookOpen, ListChecks, Scale } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import LegalObligationsCard from './LegalObligationsCard';
 
 const CHALLENGES = [
   { icon: Stethoscope, label: 'Medically', text: 'Hours-long appointments, debilitating side effects, surgery, and scans that trigger real fear.' },
@@ -43,6 +44,8 @@ export default function ManagerResourceHub() {
           </div>
         ))}
       </div>
+
+      <LegalObligationsCard />
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-wrap">
         <Button asChild className="bg-gradient-to-r from-violet-600 to-emerald-600 text-white font-bold hover:opacity-90">
