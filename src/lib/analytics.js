@@ -26,7 +26,13 @@ export function track(eventName, properties = {}) {
   if (isBurst()) return;
   defer(() => {
     try {
-      base44.analytics.track({ eventName, properties });
+      // base44.analytics.track() returns a Promise that may reject on network
+      // failure or a blocked endpoint (e.g. status 0). Catching it here keeps
+      // those failures silent instead of surfacing as unhandled rejections.
+      const result = base44.analytics.track({ eventName, properties });
+      if (result && typeof result.catch === 'function') {
+        result.catch(() => { /* analytics is non-fatal */ });
+      }
     } catch {
       /* ignore */
     }

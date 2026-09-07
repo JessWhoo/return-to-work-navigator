@@ -7,6 +7,7 @@ import GuideTableOfContents from '@/components/managerguide/GuideTableOfContents
 import GuideSection from '@/components/managerguide/GuideSection';
 import SupportTipsSection from '@/components/managerguide/SupportTipsSection';
 import ManagerChecklistSection from '@/components/managerguide/ManagerChecklistSection';
+import ManagerEmailTemplates from '@/components/managerguide/ManagerEmailTemplates';
 
 export default function ManagerGuide() {
   useSEO({
@@ -41,6 +42,8 @@ export default function ManagerGuide() {
       <SupportTipsSection />
 
       <ManagerChecklistSection />
+
+      <ManagerEmailTemplates />
 
       <GuideTableOfContents sections={MANAGER_GUIDE_SECTIONS} />
 
