@@ -1,7 +1,9 @@
-import React from 'react';
-import { Users, Printer } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Users, Printer, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import useSEO from '@/hooks/useSEO';
+import { generateManagerGuidePdf } from '@/components/managerguide/generateManagerGuidePdf';
 import { MANAGER_GUIDE_SECTIONS } from '@/components/managerguide/managerGuideData';
 import GuideTableOfContents from '@/components/managerguide/GuideTableOfContents';
 import GuideSection from '@/components/managerguide/GuideSection';
@@ -10,6 +12,22 @@ import ManagerChecklistSection from '@/components/managerguide/ManagerChecklistS
 import ManagerEmailTemplates from '@/components/managerguide/ManagerEmailTemplates';
 
 export default function ManagerGuide() {
+  const guideRef = useRef(null);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    if (!guideRef.current || isExporting) return;
+    setIsExporting(true);
+    try {
+      await generateManagerGuidePdf(guideRef.current);
+      toast.success('Manager Guide PDF downloaded.');
+    } catch {
+      toast.error('Could not generate the PDF. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   useSEO({
     title: 'Manager & HR Guide',
     description: 'How managers and HR can support employees returning to work after cancer: what to say, accommodations, FMLA and ADA basics, talking to the team, and phased returns.',
@@ -17,7 +35,7 @@ export default function ManagerGuide() {
   });
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div ref={guideRef} className="max-w-4xl mx-auto space-y-8">
       <header className="bg-gradient-to-br from-violet-600 via-purple-600 to-emerald-600 rounded-3xl p-8 sm:p-10 text-white shadow-xl">
         <div className="flex items-center gap-3 mb-3">
           <Users className="h-8 w-8" />
@@ -32,10 +50,13 @@ export default function ManagerGuide() {
         </p>
         <Button
           variant="outline"
-          onClick={() => window.print()}
+          onClick={handleExport}
+          disabled={isExporting}
           className="mt-6 bg-white text-violet-800 border-white hover:bg-violet-50"
         >
-          <Printer className="h-4 w-4" /> Print or save as PDF
+          {isExporting
+            ? <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
+            : <><Printer className="h-4 w-4" /> Print or save as PDF</>}
         </Button>
       </header>
 
