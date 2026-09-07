@@ -15,6 +15,7 @@ import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import DailyCheckIn from '../components/DailyCheckIn';
 import ResourceFeedbackForm from '@/components/feedback/ResourceFeedbackForm';
+import ManagerResourceHub from '@/components/managerguide/ManagerResourceHub';
 import useSEO from '@/hooks/useSEO';
 import { useAuth } from '@/lib/AuthContext';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -508,6 +509,11 @@ export default function Home() {
           ))}
         </div>
       </motion.div>
+
+      {/* Manager & HR resource hub */}
+      <div className="mt-16">
+        <ManagerResourceHub />
+      </div>
 
       {/* Feedback on the resource sections */}
       <ResourceFeedbackForm page="Home" />
