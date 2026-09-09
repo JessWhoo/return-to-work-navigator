@@ -1,0 +1,39 @@
+{
+  "name": "Notify users of new library resources",
+  "description": "Emails all users when a new article or legal resource is added to the Resource library, respecting their new_resources notification preference.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "Resource"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "notify_users_of_new_library_resources",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "notifyNewResource",
+            "args": {
+              "automation_secret": "$NOTIFY_NEW_RESOURCE_AUTOMATION_SECRET"
+            }
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "notifyNewResource"
+  }
+}

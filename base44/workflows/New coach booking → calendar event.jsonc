@@ -1,0 +1,39 @@
+{
+  "name": "New coach booking \u2192 calendar event",
+  "description": "Adds every newly-requested coaching session to the coach's Google Calendar. Runs server-side (no user context) so end users cannot invoke calendar creation directly.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "CoachBooking"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "new_coach_booking_calendar_event",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "onCoachBookingCreated",
+            "args": {
+              "automation_secret": "cc_bk_7Qd4tVxR9pLm2NsEfH6uAy3ZbKjW1oGr"
+            }
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "onCoachBookingCreated"
+  }
+}
