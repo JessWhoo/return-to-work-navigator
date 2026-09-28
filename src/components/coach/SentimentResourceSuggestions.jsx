@@ -12,9 +12,9 @@ const SENTIMENT_RULES = [
     color: 'amber',
     icon: AlertTriangle,
     resources: [
-      { name: 'Anxiety Management for Return to Work', org: 'Mental Health America', url: 'https://www.mhanational.org', topic: 'Managing return-to-work anxiety' },
-      { name: 'Guided Meditation for Workplace Stress', org: 'Calm', url: 'https://www.calm.com/blog/meditation-for-stress', topic: 'Quick stress relief' },
-      { name: 'Breathwork for Anxiety Management', org: 'Calm', url: 'https://www.calm.com/blog/breathing-exercises', topic: 'Breathing techniques' }
+      { name: 'Feelings and Cancer', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/coping/feelings', topic: 'Coping with worry and fear' },
+      { name: 'Anxiety Disorders', org: 'National Institute of Mental Health', url: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders', topic: 'Understanding anxiety' },
+      { name: 'Relaxation Techniques', org: 'NIH – NCCIH', url: 'https://www.nccih.nih.gov/health/relaxation-techniques-what-you-need-to-know', topic: 'Breathing & relaxation' }
     ]
   },
   {
@@ -24,9 +24,9 @@ const SENTIMENT_RULES = [
     color: 'orange',
     icon: Zap,
     resources: [
-      { name: 'Managing Fatigue During Cancer Treatment', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/living-cancer/side-effects/fatigue', topic: 'Evidence-based fatigue strategies' },
-      { name: 'Managing Energy and Fatigue at Work', org: 'American Cancer Society', url: 'https://www.cancer.org/treatment/treatments-and-side-effects/physical-side-effects/fatigue.html', topic: 'Pacing techniques' },
-      { name: 'Managing Fatigue at Work Workshop', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/programs-services', topic: 'Practical workshop' }
+      { name: 'Fatigue and Cancer Treatment', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/treatment/side-effects/fatigue', topic: 'Evidence-based fatigue strategies' },
+      { name: 'Cancer-Related Fatigue', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/managing-cancer/side-effects/fatigue.html', topic: 'Pacing techniques' },
+      { name: 'Programs & Support', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Free programs and workshops' }
     ]
   },
   {
@@ -38,7 +38,7 @@ const SENTIMENT_RULES = [
     resources: [
       { name: 'CancerCare Counseling Services', org: 'CancerCare', url: 'https://www.cancercare.org/counseling', topic: 'Free professional counseling' },
       { name: 'Cancer Support Community', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Support groups & community' },
-      { name: 'Loving-Kindness Meditation for Self-Compassion', org: 'Greater Good Science Center', url: 'https://ggsc.berkeley.edu', topic: 'Building self-compassion' }
+      { name: 'Self-Compassion Practices', org: 'Dr. Kristin Neff', url: 'https://self-compassion.org', topic: 'Building self-compassion' }
     ]
   },
   {
@@ -48,8 +48,8 @@ const SENTIMENT_RULES = [
     color: 'purple',
     icon: Brain,
     resources: [
-      { name: 'Managing Cognitive Changes at Work', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org/en/at-work/managing-work/chemo-brain', topic: 'Chemo brain strategies' },
-      { name: 'Cognitive Strategies for Chemo Brain', org: 'American Cancer Society', url: 'https://www.cancer.org/treatment/treatments-and-side-effects/physical-side-effects/changes-in-mood-or-thinking/chemo-brain.html', topic: 'Focus techniques' }
+      { name: 'Memory and Concentration Changes', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/treatment/side-effects/memory', topic: 'Chemo brain strategies' },
+      { name: 'Chemo Brain', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/managing-cancer/side-effects/changes-in-mood-or-thinking/chemo-brain.html', topic: 'Focus techniques' }
     ]
   },
   {
@@ -60,8 +60,8 @@ const SENTIMENT_RULES = [
     icon: Shield,
     resources: [
       { name: 'EEOC: Cancer in the Workplace and the ADA', org: 'EEOC', url: 'https://www.eeoc.gov/laws/guidance/cancer-workplace-and-ada', topic: 'Your ADA rights' },
-      { name: 'Working Through Cancer: Your Legal Rights', org: 'Triage Cancer', url: 'https://triagecancer.org/employmentrights', topic: 'Comprehensive legal guide' },
-      { name: 'Employment Attorney Q&A on Discrimination', org: 'Workplace Fairness', url: 'https://www.workplacefairness.org', topic: 'Discrimination Q&A' }
+      { name: 'Employment Rights & Cancer', org: 'Triage Cancer', url: 'https://triagecancer.org/employment', topic: 'Comprehensive legal guide' },
+      { name: 'Family and Medical Leave Act (FMLA)', org: 'U.S. Department of Labor', url: 'https://www.dol.gov/agencies/whd/fmla', topic: 'Medical leave rights' }
     ]
   },
   {
@@ -72,8 +72,8 @@ const SENTIMENT_RULES = [
     icon: Users,
     resources: [
       { name: 'Job Accommodation Network (JAN)', org: 'JAN', url: 'https://askjan.org', topic: 'Free personalized accommodation guidance' },
-      { name: 'Job Accommodation Network - Sample Letters', org: 'JAN', url: 'https://askjan.org/publications/Sample-Accommodation-Request-Letters.cfm', topic: 'Request letter templates' },
-      { name: 'Understanding Workplace Accommodations', org: 'JAN', url: 'https://askjan.org', topic: 'Video tutorial' }
+      { name: 'Accommodation Ideas for Cancer', org: 'JAN', url: 'https://askjan.org/disabilities/Cancer.cfm', topic: 'Cancer-specific accommodations' },
+      { name: 'Reasonable Accommodation Guidance', org: 'EEOC', url: 'https://www.eeoc.gov/laws/guidance/enforcement-guidance-reasonable-accommodation-and-undue-hardship-under-ada', topic: 'Official ADA guidance' }
     ]
   },
   {
@@ -83,9 +83,9 @@ const SENTIMENT_RULES = [
     color: 'green',
     icon: Sparkles,
     resources: [
-      { name: 'Building Confidence After Cancer', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/living-cancer/emotional-support', topic: 'Rebuilding professional confidence' },
-      { name: 'Coping with Imposter Syndrome After Treatment', org: 'Psychology Today', url: 'https://www.psychologytoday.com', topic: 'Overcoming inadequacy' },
-      { name: 'Career Coach on Rebuilding Professional Identity', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org/en/looking-for-work/career-coaching', topic: 'Career coaching' }
+      { name: 'Life After Cancer Treatment', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/coping/survivorship', topic: 'Rebuilding confidence' },
+      { name: 'Emotional Support Programs', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Support groups & counseling' },
+      { name: 'Work & Career Resources', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org', topic: 'Career coaching & tools' }
     ]
   }
 ];
