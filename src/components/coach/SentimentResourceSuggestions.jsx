@@ -36,7 +36,7 @@ const SENTIMENT_RULES = [
     color: 'blue',
     icon: Heart,
     resources: [
-      { name: 'CancerCare Counseling Services', org: 'CancerCare', url: 'https://www.cancercare.org/counseling', topic: 'Free professional counseling' },
+      { name: 'CancerCare Counseling Services', org: 'CancerCare', url: 'https://www.cancercare.org/counseling', topic: 'Free counseling (NY/NJ) & Hopeline 800-813-4673' },
       { name: 'Cancer Support Community', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Support groups & community' },
       { name: 'Self-Compassion Practices', org: 'Dr. Kristin Neff', url: 'https://self-compassion.org', topic: 'Building self-compassion' }
     ]
