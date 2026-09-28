@@ -25,7 +25,7 @@ const SENTIMENT_RULES = [
     icon: Zap,
     resources: [
       { name: 'Fatigue and Cancer Treatment', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/treatment/side-effects/fatigue', topic: 'Evidence-based fatigue strategies' },
-      { name: 'Cancer-Related Fatigue', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/managing-cancer/side-effects/fatigue.html', topic: 'Pacing techniques' },
+      { name: 'Cancer-Related Fatigue', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/side-effects/fatigue-weakness-sleep/fatigue.html', topic: 'Pacing techniques' },
       { name: 'Programs & Support', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Free programs and workshops' }
     ]
   },
@@ -49,7 +49,7 @@ const SENTIMENT_RULES = [
     icon: Brain,
     resources: [
       { name: 'Memory and Concentration Changes', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/treatment/side-effects/memory', topic: 'Chemo brain strategies' },
-      { name: 'Chemo Brain', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/managing-cancer/side-effects/changes-in-mood-or-thinking/chemo-brain.html', topic: 'Focus techniques' }
+      { name: 'Chemo Brain', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/side-effects/changes-in-mood-or-thinking/chemo-brain.html', topic: 'Focus techniques' }
     ]
   },
   {
