@@ -45,7 +45,17 @@ export const AuthProvider = ({ children }) => {
       });
       
       try {
-        const publicSettings = await appClient.get(`/prod/public-settings/by-id/${appParams.appId}`);
+        const settingsPath = `/prod/public-settings/by-id/${appParams.appId}`;
+        let publicSettings;
+        try {
+          publicSettings = await appClient.get(settingsPath);
+        } catch (firstError) {
+          // Status 0 = the request never reached the server (brief network
+          // drop, page reload mid-request). Retry once before failing.
+          if (firstError?.status !== 0) throw firstError;
+          await new Promise((resolve) => setTimeout(resolve, 800));
+          publicSettings = await appClient.get(settingsPath);
+        }
         setAppPublicSettings(publicSettings);
         
         // If we got the app public settings successfully, check if user is authenticated
@@ -57,7 +67,11 @@ export const AuthProvider = ({ children }) => {
         }
         setIsLoadingPublicSettings(false);
       } catch (appError) {
-        console.error('App state check failed:', appError);
+        if (appError?.status === 0) {
+          console.warn('App settings unreachable (network issue); continuing as a public visitor.');
+        } else {
+          console.error('App state check failed:', appError);
+        }
         
         // Handle app-level errors
         if (appError.status === 403 && appError.data?.extra_data?.reason) {
