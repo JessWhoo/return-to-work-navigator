@@ -101,7 +101,7 @@ export const LIBRARY_ITEMS = [
     category: 'accommodations',
     type: 'External Resource',
     tags: ['EEOC', 'ADA', 'official'],
-    link: 'https://www.eeoc.gov/laws/guidance/questions-answers-about-cancer-workplace-and-americans-disabilities-act-ada',
+    link: 'https://www.eeoc.gov/laws/guidance/cancer-workplace-and-ada',
     external: true,
   },
 
@@ -182,7 +182,7 @@ export const LIBRARY_ITEMS = [
     category: 'leave',
     type: 'External Resource',
     tags: ['finances', 'work', 'education'],
-    link: 'https://triagecancer.org/',
+    link: 'https://triagecancer.org/work-and-cancer',
     external: true,
   },
 ];

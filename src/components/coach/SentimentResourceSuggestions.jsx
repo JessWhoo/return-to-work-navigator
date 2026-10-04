@@ -26,7 +26,7 @@ const SENTIMENT_RULES = [
     resources: [
       { name: 'Fatigue and Cancer Treatment', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/treatment/side-effects/fatigue', topic: 'Evidence-based fatigue strategies' },
       { name: 'Cancer-Related Fatigue', org: 'American Cancer Society', url: 'https://www.cancer.org/cancer/side-effects/fatigue-weakness-sleep/fatigue.html', topic: 'Pacing techniques' },
-      { name: 'Programs & Support', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Free programs and workshops' }
+      { name: 'Programs & Support', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/get-support', topic: 'Free programs and workshops' }
     ]
   },
   {
@@ -37,8 +37,8 @@ const SENTIMENT_RULES = [
     icon: Heart,
     resources: [
       { name: 'CancerCare Counseling Services', org: 'CancerCare', url: 'https://www.cancercare.org/counseling', topic: 'Free counseling (NY/NJ) & Hopeline 800-813-4673' },
-      { name: 'Cancer Support Community', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Support groups & community' },
-      { name: 'Self-Compassion Practices', org: 'Dr. Kristin Neff', url: 'https://self-compassion.org', topic: 'Building self-compassion' }
+      { name: 'Cancer Support Community', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/get-support', topic: 'Support groups & community' },
+      { name: 'Self-Compassion Practices', org: 'Dr. Kristin Neff', url: 'https://self-compassion.org/self-compassion-practices/', topic: 'Building self-compassion' }
     ]
   },
   {
@@ -84,8 +84,8 @@ const SENTIMENT_RULES = [
     icon: Sparkles,
     resources: [
       { name: 'Life After Cancer Treatment', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/coping/survivorship', topic: 'Rebuilding confidence' },
-      { name: 'Emotional Support Programs', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org', topic: 'Support groups & counseling' },
-      { name: 'Work & Career Resources', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org', topic: 'Career coaching & tools' }
+      { name: 'Emotional Support Programs', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/get-support', topic: 'Support groups & counseling' },
+      { name: 'Work & Career Resources', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org/en/looking-for-work/career-coaching', topic: 'Career coaching & tools' }
     ]
   }
 ];

@@ -76,7 +76,7 @@ export const resources = [
         name: 'Triage Cancer - Employment Resources',
         org: 'Triage Cancer',
         description: 'Legal and practical information for cancer survivors navigating employment issues',
-        url: 'https://triagecancer.org',
+        url: 'https://triagecancer.org/employment',
         type: 'WEBSITE',
         topics: ['legal', 'employment', 'practical'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -400,7 +400,7 @@ export const resources = [
       {
         name: 'Returning to Work After Cancer: What to Expect',
         org: 'Cancer and Careers',
-        description: '15-minute webinar covering the emotional and practical aspects of returning to work, featuring survivor stories',
+        description: 'Live and on-demand webinars covering the emotional and practical aspects of returning to work, featuring survivor stories',
         url: 'https://www.cancerandcareers.org/en/community/events-webinars',
         type: 'VIDEO',
         topics: ['return to work', 'expectations', 'stories'],
@@ -409,8 +409,8 @@ export const resources = [
       {
         name: 'Understanding Workplace Accommodations',
         org: 'Job Accommodation Network',
-        description: 'Video tutorial explaining how to request and implement reasonable accommodations under the ADA',
-        url: 'https://askjan.org',
+        description: 'Guidance on requesting and implementing reasonable workplace accommodations under the ADA, with cancer-specific examples',
+        url: 'https://askjan.org/disabilities/Cancer.cfm',
         type: 'VIDEO',
         topics: ['accommodations', 'ADA', 'tutorial'],
         stages: ['planning', 'first_week']
@@ -418,8 +418,8 @@ export const resources = [
       {
         name: 'Managing Energy and Fatigue at Work',
         org: 'American Cancer Society',
-        description: 'Practical video demonstrations of pacing techniques and energy conservation strategies',
-        url: 'https://www.cancer.org/treatment/treatments-and-side-effects/physical-side-effects/fatigue.html',
+        description: 'Practical, evidence-based strategies for managing cancer-related fatigue, including pacing and energy conservation',
+        url: 'https://www.cancer.org/cancer/side-effects/fatigue-weakness-sleep/fatigue.html',
         type: 'VIDEO',
         topics: ['fatigue', 'pacing', 'energy conservation'],
         stages: ['first_week', 'ongoing']
@@ -427,8 +427,8 @@ export const resources = [
       {
         name: 'Disclosure: To Tell or Not to Tell',
         org: 'Triage Cancer',
-        description: 'Expert panel discussion on navigating disclosure decisions with real survivor perspectives',
-        url: 'https://triagecancer.org',
+        description: 'Webinar on navigating disclosure decisions after a cancer diagnosis, with survivor perspectives',
+        url: 'https://triagecancer.org/webinar-disclosure',
         type: 'VIDEO',
         topics: ['disclosure', 'communication', 'panel'],
         stages: ['planning']
@@ -522,7 +522,7 @@ export const resources = [
       {
         name: 'The Work-Life Balance After Cancer',
         org: 'Cancer Support Community',
-        description: 'Podcast interview with occupational therapist specializing in cancer survivorship and workplace wellness',
+        description: 'Articles and stories on work-life balance and cancer survivorship from the Cancer Support Community blog',
         url: 'https://www.cancersupportcommunity.org/blog',
         type: 'PODCAST',
         topics: ['work-life balance', 'occupational therapy', 'wellness'],
@@ -531,8 +531,8 @@ export const resources = [
       {
         name: 'Employment Lawyer Q&A: Your Rights',
         org: 'Triage Cancer',
-        description: 'Expert interview covering ADA, FMLA, discrimination, and your legal protections at work',
-        url: 'https://triagecancer.org',
+        description: 'Legal and practical information covering ADA, FMLA, discrimination, and your employment rights',
+        url: 'https://triagecancer.org/employment',
         type: 'PODCAST',
         topics: ['legal rights', 'employment law', 'ADA', 'FMLA'],
         stages: ['planning']
@@ -549,8 +549,8 @@ export const resources = [
       {
         name: 'The First Day Back: An HR Perspective',
         org: 'NCCS',
-        description: 'Interview with HR professional on what to expect and how employers should support returning employees',
-        url: 'https://www.canceradvocacy.org',
+        description: 'NCCS employment rights guide on what to expect and how to address cancer-related employment issues when returning',
+        url: 'https://canceradvocacy.org/resources/publications/employment-rights/',
         type: 'PODCAST',
         topics: ['first day', 'HR perspective', 'employer support'],
         stages: ['planning', 'first_week']
@@ -558,8 +558,8 @@ export const resources = [
       {
         name: 'Financial Planning for Cancer Survivors',
         org: 'Family Reach',
-        description: 'Financial advisor discusses navigating medical debt, insurance, and workplace benefits',
-        url: 'https://www.familyreach.org',
+        description: 'Financial resource center with guidance on managing medical debt, insurance, and everyday costs during cancer',
+        url: 'https://familyreach.org/get-help/financial-resource-center/',
         type: 'PODCAST',
         topics: ['financial planning', 'medical debt', 'benefits'],
         stages: ['planning', 'ongoing']
@@ -601,8 +601,8 @@ export const resources = [
       {
         name: 'Triage Cancer Legal Resources',
         org: 'Triage Cancer',
-        description: 'Free legal information and resources about cancer-related legal issues, including employment discrimination and workplace rights',
-        url: 'https://triagecancer.org',
+        description: 'Practical guides to cancer rights — free legal information on employment discrimination and workplace rights',
+        url: 'https://triagecancer.org/cancerrightsguides',
         type: 'SERVICE',
         topics: ['legal information', 'discrimination', 'workplace rights'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -636,7 +636,7 @@ export const resources = [
         name: 'Anxiety Management for Return to Work',
         org: 'Mental Health America',
         description: 'Comprehensive guide to managing anxiety related to returning to work after serious illness',
-        url: 'https://www.mhanational.org',
+        url: 'https://mhanational.org/resources/returning-to-work/',
         type: 'ARTICLE',
         topics: ['anxiety', 'mental health', 'return to work'],
         stages: ['planning', 'first_week']
@@ -653,8 +653,8 @@ export const resources = [
       {
         name: 'Building Confidence After Cancer',
         org: 'Cancer Support Community',
-        description: 'Workshop recording on rebuilding professional confidence and self-esteem after treatment',
-        url: 'https://www.cancersupportcommunity.org/taxonomy/term/1766',
+        description: 'Programs and support for rebuilding professional confidence and self-esteem after cancer treatment',
+        url: 'https://www.cancersupportcommunity.org/get-support',
         type: 'VIDEO',
         topics: ['confidence', 'self-esteem', 'workshop'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -662,8 +662,8 @@ export const resources = [
       {
         name: 'Sleep Strategies for Shift Workers',
         org: 'National Sleep Foundation',
-        description: 'Specialized sleep hygiene advice for cancer survivors working non-traditional hours',
-        url: 'https://www.thensf.org',
+        description: 'Sleep tips and hygiene guidance to improve rest, energy, and daytime focus for working survivors',
+        url: 'https://www.thensf.org/sleep-tips/',
         type: 'ARTICLE',
         topics: ['sleep', 'shift work', 'hygiene'],
         stages: ['ongoing']
@@ -689,8 +689,8 @@ export const resources = [
       {
         name: 'Coping with Imposter Syndrome After Treatment',
         org: 'Psychology Today',
-        description: 'Expert strategies for overcoming feelings of inadequacy when returning to work post-treatment',
-        url: 'https://www.psychologytoday.com',
+        description: 'Evidence-based strategies for recognizing and overcoming imposter syndrome when returning to work',
+        url: 'https://www.psychologytoday.com/us/basics/imposter-syndrome',
         type: 'ARTICLE',
         topics: ['imposter syndrome', 'confidence', 'mental health'],
         stages: ['first_week', 'ongoing']
@@ -705,7 +705,7 @@ export const resources = [
       {
         name: 'Return to Work Preparation Workshop',
         org: 'Cancer and Careers',
-        description: 'Interactive 90-minute workshop covering all aspects of planning your return, with Q&A',
+        description: 'Live and on-demand workshops and webinars covering all aspects of planning your return to work, with Q&A',
         url: 'https://www.cancerandcareers.org/en/community/events-webinars',
         type: 'WORKSHOP',
         topics: ['return to work', 'preparation', 'planning'],
@@ -714,8 +714,8 @@ export const resources = [
       {
         name: 'Managing Fatigue at Work Workshop',
         org: 'Cancer Support Community',
-        description: 'Practical workshop teaching pacing strategies and energy conservation techniques',
-        url: 'https://www.cancersupportcommunity.org/programs-services',
+        description: 'Programs and support for managing fatigue, pacing strategies, and energy conservation',
+        url: 'https://www.cancersupportcommunity.org/get-support',
         type: 'WORKSHOP',
         topics: ['managing fatigue', 'energy management', 'pacing'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -724,7 +724,7 @@ export const resources = [
         name: 'Workplace Communication Skills',
         org: 'Triage Cancer',
         description: 'Learn how to effectively communicate with employers, HR, and colleagues about your needs',
-        url: 'https://triagecancer.org',
+        url: 'https://triagecancer.org/employment',
         type: 'WORKSHOP',
         topics: ['communication', 'disclosure', 'advocacy'],
         stages: ['planning', 'first_week']
@@ -732,7 +732,7 @@ export const resources = [
       {
         name: 'Understanding Your Legal Rights',
         org: 'Disability Rights Advocates',
-        description: 'Comprehensive webinar on ADA, FMLA, and discrimination protections for cancer survivors',
+        description: 'Legal advocacy organization fighting for ADA, FMLA, and disability rights protections in the workplace',
         url: 'https://dralegal.org',
         type: 'WORKSHOP',
         topics: ['workplace rights', 'legal', 'ADA', 'FMLA'],
@@ -741,8 +741,8 @@ export const resources = [
       {
         name: 'Building Resilience After Cancer',
         org: 'Mental Health America',
-        description: 'Workshop focused on developing emotional resilience and coping strategies for workplace challenges',
-        url: 'https://www.mhanational.org',
+        description: 'MHA resources on returning to work and building emotional resilience after a serious illness',
+        url: 'https://mhanational.org/resources/returning-to-work/',
         type: 'WORKSHOP',
         topics: ['resilience', 'coping strategies', 'mental health'],
         stages: ['ongoing', 'completed']
@@ -750,8 +750,8 @@ export const resources = [
       {
         name: 'Financial Planning for Survivors',
         org: 'Family Reach',
-        description: 'Webinar covering medical debt management, insurance navigation, and financial wellness',
-        url: 'https://www.familyreach.org',
+        description: 'Financial resource center covering medical debt management, insurance navigation, and financial wellness',
+        url: 'https://familyreach.org/get-help/financial-resource-center/',
         type: 'WORKSHOP',
         topics: ['financial planning', 'insurance', 'debt management'],
         stages: ['planning', 'ongoing']
@@ -760,7 +760,7 @@ export const resources = [
         name: 'Cognitive Strategies for Chemo Brain',
         org: 'American Cancer Society',
         description: 'Learn practical techniques to manage cognitive changes and improve workplace focus',
-        url: 'https://www.cancer.org/treatment/treatments-and-side-effects/physical-side-effects/changes-in-mood-or-thinking/chemo-brain.html',
+        url: 'https://www.cancer.org/cancer/side-effects/changes-in-mood-or-thinking/chemo-brain.html',
         type: 'WORKSHOP',
         topics: ['chemo brain', 'cognitive strategies', 'focus'],
         stages: ['first_week', 'ongoing']
@@ -768,8 +768,8 @@ export const resources = [
       {
         name: 'Self-Advocacy Skills for Survivors',
         org: 'NCCS',
-        description: 'Workshop on speaking up for your needs and navigating workplace accommodations',
-        url: 'https://www.canceradvocacy.org',
+        description: 'NCCS self-advocacy resources on speaking up for your needs and navigating workplace accommodations',
+        url: 'https://canceradvocacy.org/resources/publications/self-advocacy/',
         type: 'WORKSHOP',
         topics: ['self-advocacy', 'accommodations', 'empowerment'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -793,8 +793,8 @@ export const resources = [
       {
         name: 'Progressive Muscle Relaxation for Work',
         org: 'Anxiety and Depression Association',
-        description: 'Audio guide for progressive muscle relaxation technique to manage workplace tension',
-        url: 'https://adaa.org',
+        description: 'ADAA guidance on progressive muscle relaxation and stress-reduction techniques to ease workplace tension',
+        url: 'https://adaa.org/find-help/treatment-help/integrative-behavioral-health-mindfulness-yoga-meditation',
         type: 'MEDITATION',
         topics: ['relaxation', 'stress reduction', 'techniques'],
         stages: ['ongoing']
@@ -819,18 +819,18 @@ export const resources = [
       },
       {
         name: 'Yoga for Cancer Survivors',
-        org: 'Yoga Alliance',
-        description: 'Gentle yoga sequences adapted for cancer survivors to reduce stress and improve energy',
-        url: 'https://www.yogaalliance.org',
+        org: 'Yoga4cancer (Oncology Yoga)',
+        description: 'Free oncology yoga class and gentle sequences adapted for cancer survivors to reduce stress and improve energy',
+        url: 'https://yoga4cancer.com/',
         type: 'VIDEO',
         topics: ['yoga', 'stress reduction', 'energy'],
         stages: ['ongoing', 'completed']
       },
       {
         name: 'Loving-Kindness Meditation for Self-Compassion',
-        org: 'Greater Good Science Center',
+        org: 'Greater Good in Action (UC Berkeley)',
         description: 'Meditation practice to cultivate self-compassion and reduce negative self-talk',
-        url: 'https://ggsc.berkeley.edu',
+        url: 'https://ggia.berkeley.edu/practice/loving_kindness_meditation',
         type: 'MEDITATION',
         topics: ['self-compassion', 'meditation', 'mental health'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -845,7 +845,7 @@ export const resources = [
       {
         name: 'Interview: Oncology Social Worker on Workplace Reentry',
         org: 'Cancer Support Community',
-        description: 'Expert discusses common challenges and proven strategies for successful workplace transitions',
+        description: 'Cancer Support Community support resources for workplace reentry and successful transitions',
         url: 'https://www.cancersupportcommunity.org/get-support',
         type: 'ARTICLE',
         topics: ['expert interview', 'workplace', 'strategies'],
@@ -854,8 +854,8 @@ export const resources = [
       {
         name: 'Managing Fatigue: An Oncologist\'s Perspective',
         org: 'ASCO',
-        description: 'Clinical insights on cancer-related fatigue and evidence-based management approaches',
-        url: 'https://www.cancer.net',
+        description: 'ASCO survivorship resources, including clinical guidance on managing cancer-related fatigue',
+        url: 'https://www.cancer.net/survivorship',
         type: 'ARTICLE',
         topics: ['managing fatigue', 'clinical', 'evidence-based'],
         stages: ['planning', 'ongoing']
@@ -864,7 +864,7 @@ export const resources = [
         name: 'Employment Attorney Q&A on Discrimination',
         org: 'Workplace Fairness',
         description: 'Legal expert answers common questions about workplace discrimination and your rights',
-        url: 'https://www.workplacefairness.org',
+        url: 'https://www.workplacefairness.org/disability-discrimination/',
         type: 'ARTICLE',
         topics: ['discrimination', 'legal', 'workplace rights'],
         stages: ['planning', 'ongoing']
@@ -872,8 +872,8 @@ export const resources = [
       {
         name: 'Occupational Therapist on Workplace Modifications',
         org: 'American Occupational Therapy Association',
-        description: 'Professional guidance on ergonomic adjustments and workplace accommodations',
-        url: 'https://www.aota.org',
+        description: 'AOTA home office ergonomic tips — professional guidance on workstation adjustments and workplace modifications',
+        url: 'https://www.aota.org/-/media/corporate/files/practice/manage/home-office-ergonomics-tips.pdf',
         type: 'ARTICLE',
         topics: ['accommodations', 'ergonomics', 'modifications'],
         stages: ['planning', 'first_week']
@@ -882,7 +882,7 @@ export const resources = [
         name: 'Psychologist Discusses Return-to-Work Anxiety',
         org: 'American Psychological Association',
         description: 'Expert strategies for managing anxiety and building confidence when returning to work',
-        url: 'https://www.apa.org',
+        url: 'https://www.apa.org/topics/anxiety',
         type: 'ARTICLE',
         topics: ['anxiety', 'confidence', 'mental health'],
         stages: ['planning', 'first_week']
@@ -891,7 +891,7 @@ export const resources = [
         name: 'Nutritionist on Energy-Boosting Foods for Work',
         org: 'Academy of Nutrition and Dietetics',
         description: 'Evidence-based nutrition advice for managing energy levels throughout the workday',
-        url: 'https://www.eatright.org',
+        url: 'https://www.eatright.org/health/wellness/healthful-habits/eating-to-boost-energy',
         type: 'ARTICLE',
         topics: ['nutrition', 'energy', 'diet'],
         stages: ['ongoing']
@@ -909,7 +909,7 @@ export const resources = [
         name: 'Sleep Specialist on Improving Work Performance',
         org: 'American Academy of Sleep Medicine',
         description: 'Expert advice on optimizing sleep quality to enhance daytime energy and focus',
-        url: 'https://aasm.org',
+        url: 'https://aasm.org/advocacy/position-statements/insufficient-sleep-work-performance-health-advisory/',
         type: 'ARTICLE',
         topics: ['sleep', 'performance', 'energy'],
         stages: ['ongoing']
