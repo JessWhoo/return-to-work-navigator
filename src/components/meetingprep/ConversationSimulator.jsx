@@ -18,6 +18,14 @@ const MEETING_TYPE_LABELS = {
   other: 'Other'
 };
 
+function meetingContext(m) {
+  return {
+    title: m.title, meeting_type: m.meeting_type, goals: m.goals, attendees: m.attendees,
+    talking_points: m.talking_points, anticipated_objections: m.anticipated_objections,
+    accommodation_requests: m.accommodation_requests,
+  };
+}
+
 function buildSystemPrompt(meeting) {
   const role = ['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type)
     ? 'HR Representative'
@@ -206,8 +214,7 @@ export default function ConversationSimulator({ meeting }) {
   const startSimulation = async () => {
     setPhase('simulating');
     setLoading(true);
-    const systemPrompt = buildSystemPrompt(meeting);
-    const opening = (await base44.functions.invoke('aiGateway', { operation: 'simulate_opening', data: { systemPrompt } })).data.result;
+    const opening = (await base44.functions.invoke('aiGateway', { operation: 'simulate_opening', data: { meeting: meetingContext(meeting) } })).data.result;
     setMessages([{ role: 'assistant', content: opening }]);
     setLoading(false);
   };
@@ -220,20 +227,14 @@ export default function ConversationSimulator({ meeting }) {
     setMessages(newMessages);
     setLoading(true);
 
-    const systemPrompt = buildSystemPrompt(meeting);
-    const history = newMessages
-      .map(m => `${m.role === 'user' ? 'Employee' : 'Manager/HR'}: ${m.content}`)
-      .join('\n');
-
-    const reply = (await base44.functions.invoke('aiGateway', { operation: 'simulate_reply', data: { systemPrompt, history } })).data.result;
+    const reply = (await base44.functions.invoke('aiGateway', { operation: 'simulate_reply', data: { meeting: meetingContext(meeting), messages: newMessages } })).data.result;
     setMessages([...newMessages, { role: 'assistant', content: reply }]);
     setLoading(false);
   };
 
   const getFeedback = async () => {
     setLoading(true);
-    const feedbackPrompt = buildFeedbackPrompt(meeting, messages);
-    const result = (await base44.functions.invoke('aiGateway', { operation: 'simulate_feedback', data: { feedbackPrompt } })).data.result;
+    const result = (await base44.functions.invoke('aiGateway', { operation: 'simulate_feedback', data: { meeting: meetingContext(meeting), messages } })).data.result;
     setFeedback(result);
     setPhase('feedback');
     setLoading(false);

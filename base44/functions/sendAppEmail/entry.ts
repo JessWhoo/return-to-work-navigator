@@ -29,7 +29,7 @@ const HANDLERS = {
       '— Back to Life, Back to Work Navigator',
     ].filter(Boolean);
     return {
-      to: data.to,
+      to: user.email, // always the authenticated user's own address
       subject: 'Your coaching session request',
       body: lines.join('\n'),
     };
@@ -37,6 +37,7 @@ const HANDLERS = {
 
   // Share a generated progress report with a healthcare provider.
   share_report: async (base44, user, data) => {
+    data = { ...data, reportText: cap(data.reportText, 8000), dateStr: cap(data.dateStr, 40) };
     const name = user?.full_name || 'A Navigator user';
     return {
       to: data.to,
@@ -59,8 +60,8 @@ Generated via Back to Life, Back to Work Toolkit`,
   // client-side from the user's own bookmarks/notes (legitimate user content).
   share_kit: async (base44, user, data) => ({
     to: data.to,
-    subject: data.subject || 'Sharing my saved resources & notes',
-    body: data.body,
+    subject: `Shared with you by ${user.full_name || user.email}: ${cap(data.subject || 'saved resources & notes', 120)}`,
+    body: cap(data.body, 8000),
   }),
 
   // Contact form — always to the fixed app inbox, never a caller-chosen recipient.
@@ -70,6 +71,22 @@ Generated via Back to Life, Back to Work Toolkit`,
     body: `From: ${data.name} <${data.email}>\n\n${data.message}`,
   }),
 };
+
+const cap = (v, n) => String(v ?? '').slice(0, n);
+const EMAIL_RE = /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+$/;
+
+// Best-effort per-user rate limit (per function instance).
+const SENDS = new Map();
+const LIMIT = 10;
+const WINDOW_MS = 60 * 60 * 1000;
+function rateLimited(userId) {
+  const now = Date.now();
+  const recent = (SENDS.get(userId) || []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= LIMIT) { SENDS.set(userId, recent); return true; }
+  recent.push(now);
+  SENDS.set(userId, recent);
+  return false;
+}
 
 export default async function(req) {
   try {
@@ -82,15 +99,22 @@ export default async function(req) {
     const handler = HANDLERS[operation];
     if (!handler) return Response.json({ error: 'Unknown operation' }, { status: 400 });
 
+    if (rateLimited(user.id)) return Response.json({ error: 'Too many emails. Please try again later.' }, { status: 429 });
+
     const email = await handler(base44, user, data || {});
     if (!email?.to || !email?.subject || typeof email?.body !== 'string') {
       return Response.json({ error: 'Invalid email payload' }, { status: 400 });
     }
 
+    const to = String(email.to).trim();
+    if (to.length > 254 || !EMAIL_RE.test(to)) {
+      return Response.json({ error: 'Invalid recipient' }, { status: 400 });
+    }
+
     await base44.asServiceRole.integrations.Core.SendEmail({
-      to: email.to,
-      subject: email.subject,
-      body: email.body,
+      to,
+      subject: cap(email.subject, 200).replace(/[\r\n]+/g, ' '),
+      body: email.body.slice(0, 10000),
     });
     return Response.json({ ok: true });
   } catch (error) {
