@@ -279,7 +279,7 @@ export default function ShareKitDialog({ resources, bookmarkedIds, notes }) {
         operation: 'share_kit',
         data: { to: emailTo, subject: emailSubject, body },
       });
-      toast.success(`Email sent to ${emailTo}!`);
+      toast.success('Kit emailed to you. Forward it to ' + emailTo + ' when ready.');
       base44.analytics.track({
         eventName: 'share_kit_email_sent',
         properties: { recipient_type: recipientType, resource_count: bookmarkedResources.length, included_notes: includeNotes },

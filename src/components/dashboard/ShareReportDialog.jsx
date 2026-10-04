@@ -172,7 +172,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
         }
       });
 
-      toast.success('Report sent successfully');
+      toast.success('Report emailed to you. Forward it to your provider when ready.');
       onClose();
     } catch (error) {
       toast.error('Failed to send report: ' + error.message);

@@ -40,9 +40,11 @@ const HANDLERS = {
     data = { ...data, reportText: cap(data.reportText, 8000), dateStr: cap(data.dateStr, 40) };
     const name = user?.full_name || 'A Navigator user';
     return {
-      to: data.to,
+      to: user.email, // sent to the signed-in user only; they forward it themselves
       subject: `Return-to-Work Progress Report - ${data.dateStr}`,
-      body: `Dear Healthcare Provider,
+      body: `Your report is below. Forward this email to your healthcare provider${data.to ? ` (${cap(data.to, 100)})` : ''} when you are ready.
+----------------------------------------
+Dear Healthcare Provider,
 
 Please find attached the return-to-work progress report for ${name}.
 
@@ -59,9 +61,9 @@ Generated via Back to Life, Back to Work Toolkit`,
   // Share a curated kit of saved resources + notes. The body is built
   // client-side from the user's own bookmarks/notes (legitimate user content).
   share_kit: async (base44, user, data) => ({
-    to: data.to,
-    subject: `Shared with you by ${user.full_name || user.email}: ${cap(data.subject || 'saved resources & notes', 120)}`,
-    body: cap(data.body, 8000),
+    to: user.email, // sent to the signed-in user only; they forward it themselves
+    subject: `Your shared kit: ${cap(data.subject || 'saved resources & notes', 120).replace(/[\r\n]+/g, ' ')}`,
+    body: `Your kit is below. Forward this email to ${data.to ? cap(data.to, 100) : 'the person you want to share it with'} when you are ready.\n----------------------------------------\n${cap(data.body, 8000)}`,
   }),
 
   // Contact form — always to the fixed app inbox, never a caller-chosen recipient.
