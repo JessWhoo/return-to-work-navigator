@@ -30,6 +30,7 @@ import WellnessLibrary from './pages/WellnessLibrary';
 import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
 import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
 import ManagerGuide from './pages/ManagerGuide';
+import AccommodationTemplates from './pages/AccommodationTemplates';
 
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -200,6 +201,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="AccommodationWorksheet">
               <AccommodationWorksheet />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/AccommodationTemplates"
+          element={
+            <LayoutWrapper currentPageName="AccommodationTemplates">
+              <AccommodationTemplates />
             </LayoutWrapper>
           }
         />

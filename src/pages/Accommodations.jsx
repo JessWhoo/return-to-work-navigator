@@ -170,6 +170,11 @@ export default function Accommodations() {
           <FileText className="h-4 w-4" />
           Try the guided letter generator
         </Link>
+        <div>
+          <Link to="/AccommodationTemplates" className="text-sm font-bold text-violet-700 underline">
+            Or browse ready-made request templates
+          </Link>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
