@@ -313,7 +313,7 @@ export const resources = [
         name: 'Cancer and Careers Workbook',
         org: 'Cancer and Careers',
         description: 'Practical guidance and worksheets for navigating work during and after cancer treatment',
-        url: 'https://www.cancerandcareers.org/en/resources/publications',
+        url: 'https://www.cancerandcareers.org/en/resource',
         type: 'GUIDE',
         topics: ['worksheets', 'guidance', 'navigation'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -340,7 +340,7 @@ export const resources = [
         name: 'Job Accommodation Network - Sample Letters',
         org: 'Job Accommodation Network',
         description: 'Templates and examples for requesting workplace accommodations under the ADA',
-        url: 'https://askjan.org/publications/Sample-Accommodation-Request-Letters.cfm',
+        url: 'https://askjan.org/articles/Sample-Language-for-Accommodation-Request-Letters.cfm',
         type: 'GUIDE',
         topics: ['accommodations', 'templates', 'requests'],
         stages: ['planning', 'first_week']
@@ -401,7 +401,7 @@ export const resources = [
         name: 'Returning to Work After Cancer: What to Expect',
         org: 'Cancer and Careers',
         description: 'Live and on-demand webinars covering the emotional and practical aspects of returning to work, featuring survivor stories',
-        url: 'https://www.cancerandcareers.org/en/community/events-webinars',
+        url: 'https://www.cancerandcareers.org/en/community/events',
         type: 'VIDEO',
         topics: ['return to work', 'expectations', 'stories'],
         stages: ['planning', 'first_week']
@@ -437,7 +437,7 @@ export const resources = [
         name: 'Cancer Survivor Panel: First Week Back',
         org: 'CancerCare',
         description: 'Candid discussion with multiple survivors about their first week experiences and lessons learned',
-        url: 'https://www.cancercare.org/videos',
+        url: 'https://www.cancercare.org/voice-of-cancercare/library',
         type: 'VIDEO',
         topics: ['first week', 'survivor stories', 'lessons'],
         stages: ['planning', 'first_week']
@@ -496,9 +496,9 @@ export const resources = [
       },
       {
         name: 'Return to Work Support Group',
-        org: 'Cancer and Careers',
-        description: 'Virtual support group specifically for survivors navigating return to work challenges',
-        url: 'https://www.cancerandcareers.org/en/community/support-groups',
+        org: 'Cancer Support Community',
+        description: 'Free virtual and in-person support groups for survivors, including those navigating return to work challenges',
+        url: 'https://www.cancersupportcommunity.org/get-support',
         type: 'SUPPORT_GROUP',
         topics: ['return to work', 'virtual', 'peer support'],
         stages: ['planning', 'first_week', 'ongoing']
@@ -541,7 +541,7 @@ export const resources = [
         name: 'Managing Cognitive Changes at Work',
         org: 'Cancer and Careers',
         description: 'Neuropsychologist discusses "chemo brain" and practical strategies for workplace cognitive challenges',
-        url: 'https://www.cancerandcareers.org/en/at-work/managing-work/chemo-brain',
+        url: 'https://www.cancerandcareers.org/career-coach/can-t-do-my-job-after-chemo',
         type: 'PODCAST',
         topics: ['cognitive changes', 'chemo brain', 'strategies'],
         stages: ['first_week', 'ongoing']
@@ -706,7 +706,7 @@ export const resources = [
         name: 'Return to Work Preparation Workshop',
         org: 'Cancer and Careers',
         description: 'Live and on-demand workshops and webinars covering all aspects of planning your return to work, with Q&A',
-        url: 'https://www.cancerandcareers.org/en/community/events-webinars',
+        url: 'https://www.cancerandcareers.org/en/community/events',
         type: 'WORKSHOP',
         topics: ['return to work', 'preparation', 'planning'],
         stages: ['planning']
@@ -803,7 +803,7 @@ export const resources = [
         name: 'Breathwork for Anxiety Management',
         org: 'Calm',
         description: 'Guided breathwork exercises specifically designed for managing workplace anxiety',
-        url: 'https://www.calm.com/blog/breathing-exercises',
+        url: 'https://www.calm.com/blog/breathing-exercises-for-anxiety',
         type: 'MEDITATION',
         topics: ['anxiety', 'breathwork', 'stress reduction'],
         stages: ['first_week', 'ongoing']
@@ -900,7 +900,7 @@ export const resources = [
         name: 'Career Coach on Rebuilding Professional Identity',
         org: 'Cancer and Careers',
         description: 'Professional guidance on rediscovering your career goals and professional self after cancer',
-        url: 'https://www.cancerandcareers.org/en/looking-for-work/career-coaching',
+        url: 'https://www.cancerandcareers.org/career-coach',
         type: 'ARTICLE',
         topics: ['career', 'identity', 'goals'],
         stages: ['ongoing', 'completed']

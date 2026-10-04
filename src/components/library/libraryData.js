@@ -171,7 +171,7 @@ export const LIBRARY_ITEMS = [
     category: 'leave',
     type: 'External Resource',
     tags: ['legal aid', 'insurance', 'benefits'],
-    link: 'https://thedrlc.org/cancer/',
+    link: 'https://thedrlc.org/cancer-justice/',
     external: true,
   },
   {

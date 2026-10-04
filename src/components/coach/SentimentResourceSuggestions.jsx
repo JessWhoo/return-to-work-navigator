@@ -85,7 +85,7 @@ const SENTIMENT_RULES = [
     resources: [
       { name: 'Life After Cancer Treatment', org: 'National Cancer Institute', url: 'https://www.cancer.gov/about-cancer/coping/survivorship', topic: 'Rebuilding confidence' },
       { name: 'Emotional Support Programs', org: 'Cancer Support Community', url: 'https://www.cancersupportcommunity.org/get-support', topic: 'Support groups & counseling' },
-      { name: 'Work & Career Resources', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org/en/looking-for-work/career-coaching', topic: 'Career coaching & tools' }
+      { name: 'Work & Career Resources', org: 'Cancer and Careers', url: 'https://www.cancerandcareers.org/career-coach', topic: 'Career coaching & tools' }
     ]
   }
 ];
