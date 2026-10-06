@@ -11,6 +11,10 @@
       "maxLength": 1000,
       "description": "Topics the user wants more support or information on"
     },
+    "resource_title": {
+      "type": "string",
+      "description": "Title of the specific resource this feedback is about (optional)"
+    },
     "page": {
       "type": "string",
       "description": "Page the feedback was submitted from"
