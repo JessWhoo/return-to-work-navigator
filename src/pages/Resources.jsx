@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Search, ExternalLink, Star,
-  Bookmark, MessageCircle, BookmarkCheck, TrendingUp, ThumbsUp, ThumbsDown, Sparkles, X, Tag
+  Bookmark, MessageCircle, BookmarkCheck, TrendingUp, ThumbsUp, ThumbsDown, Sparkles, X, Tag,
+  SlidersHorizontal, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources } from '../components/resources/resourcesData';
@@ -22,6 +23,7 @@ import SuggestResourceDialog from '../components/resources/SuggestResourceDialog
 import ResourceExportDialog from '../components/resources/ResourceExportDialog';
 import ShareKitDialog from '../components/resources/ShareKitDialog';
 import ResourceTagEditor from '../components/resources/ResourceTagEditor';
+import CategoryJumpNav, { categorySlug } from '../components/resources/CategoryJumpNav';
 import RecoveryNeedsFilter, { resourceMatchesNeeds } from '../components/resources/RecoveryNeedsFilter';
 import ResourceSummary from '../components/resources/ResourceSummary';
 import ResourceComparisonTool from '../components/resources/ResourceComparisonTool';
@@ -59,6 +61,8 @@ export default function Resources() {
   const [showNotRelevant, setShowNotRelevant] = useState(false);
   const [showTagged, setShowTagged] = useState(false);
   const [sortBy, setSortBy] = useState('recommended');
+  // On phones the filter controls are collapsed so the resource list starts higher up.
+  const [showFilters, setShowFilters] = useState(false);
 
   // Track search queries
   useEffect(() => {
@@ -341,6 +345,21 @@ export default function Resources() {
   const totalResources = resources.reduce((sum, cat) => sum + cat.items.length, 0);
   const totalRated = Object.keys(progress?.resource_ratings || {}).length;
 
+  const activeFilterCount = [
+    selectedCategory !== 'all',
+    selectedType !== 'all',
+    selectedTopic !== 'all',
+    selectedStage !== 'all',
+    selectedQuickTag !== 'all',
+    showBookmarked,
+    showAIRecommended,
+    showUseful,
+    showNotRelevant,
+    showTagged,
+    sortBy !== 'recommended',
+    selectedNeeds.length > 0,
+  ].filter(Boolean).length;
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
@@ -426,6 +445,24 @@ export default function Resources() {
               />
             </div>
 
+            {/* Phones: collapse everything but the search box, with an active-filter count */}
+            <Button
+              variant="outline"
+              onClick={() => setShowFilters((v) => !v)}
+              aria-expanded={showFilters}
+              className="md:hidden justify-between border-slate-600 text-cyan-400 hover:bg-slate-700 hover:text-cyan-300"
+            >
+              <span className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4" />
+                Filters &amp; sort
+                {activeFilterCount > 0 && (
+                  <Badge className="bg-cyan-600 text-white">{activeFilterCount}</Badge>
+                )}
+              </span>
+              {showFilters ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </Button>
+
+            <div className={showFilters ? 'block space-y-4' : 'hidden md:block md:space-y-4'}>
             {/* Advanced Filters */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
               <select
@@ -600,6 +637,7 @@ export default function Resources() {
                 </Button>
               </div>
             </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -656,6 +694,8 @@ export default function Resources() {
         />
       </ErrorBoundary>
 
+      <CategoryJumpNav categories={filteredResources.map((c) => c.category)} />
+
       {/* Resources by Category */}
       <div className="space-y-8">
         {filteredResources.map((category) => {
@@ -664,7 +704,12 @@ export default function Resources() {
           const Icon = category.icon;
           const colors = colorMap[category.color];
           return (
-            <div key={category.category} className="space-y-4">
+            <div
+              key={category.category}
+              id={categorySlug(category.category)}
+              className="space-y-4"
+              style={{ scrollMarginTop: 'var(--cat-scroll-offset, 190px)' }}
+            >
               <div className={`flex items-center space-x-3 p-5 bg-gradient-to-r ${colors.from} ${colors.via} to-white rounded-2xl shadow-md border-2 ${colors.border} hover:shadow-xl transition-all`}>
                 <div className={`p-3 rounded-xl bg-gradient-to-br ${colors.iconFrom} ${colors.iconTo} shadow-lg`}>
                   <Icon className="h-7 w-7 text-white" />
@@ -684,8 +729,8 @@ export default function Resources() {
                       <CardContent className="pt-6 relative">
                         <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${cardColors.iconFrom} ${cardColors.iconTo}`}></div>
                         <div className="pl-3 space-y-3">
-                          <div className="flex items-start justify-between mb-3">
-                          <div className="flex-1">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+                          <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-2 mb-2 flex-wrap">
                             <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
                               {resource.type}
@@ -825,12 +870,13 @@ export default function Resources() {
                                 }
                                 logInteraction(resource.id, 'link_click');
                               }}
-                              className={`ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} hover:${cardColors.iconFrom} hover:${cardColors.iconTo} hover:text-white transition-all duration-300 group-hover:scale-110 shadow-md hover:shadow-xl flex-shrink-0`}
+                              aria-label={`Open ${resource.name} in a new tab`}
+                              className={`self-start sm:ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} text-slate-800 transition-all duration-300 group-hover:scale-105 shadow-md hover:shadow-xl flex-shrink-0`}
                               >
                               <ExternalLink className="h-5 w-5" />
                               </a>
                               </div>
-                              <div className="flex gap-2 pt-2 border-t border-gray-100">
+                              <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
                               <Button
                               variant={bookmarked ? "default" : "outline"}
                               size="sm"
