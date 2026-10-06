@@ -31,12 +31,13 @@ export default function WellnessResourceCard({ resource, avgRating, ratingCount,
         {resource.source && (
           <p className="text-xs font-semibold text-slate-600">Source: {resource.source}</p>
         )}
-        <div className="pt-2 border-t border-slate-200 space-y-2">
-          <div className="flex items-center justify-between gap-2">
+        <div className="pt-2 border-t border-slate-200 space-y-3">
+          <WellnessRatingEditor resourceId={resource.id} resourceTitle={resource.title} myRating={myRating} myNote={myNote} />
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <StarRating value={avgRating} size="h-4 w-4" />
               <span className="text-xs font-bold text-slate-700">
-                {ratingCount > 0 ? `${avgRating.toFixed(1)} (${ratingCount})` : 'No ratings yet'}
+                {ratingCount > 0 ? `Community: ${avgRating.toFixed(1)} (${ratingCount})` : 'No community ratings yet'}
               </span>
             </div>
             {resource.url && (
@@ -50,7 +51,6 @@ export default function WellnessResourceCard({ resource, avgRating, ratingCount,
               </a>
             )}
           </div>
-          <WellnessRatingEditor resourceId={resource.id} myRating={myRating} myNote={myNote} />
           {onFeedback && (
             <button
               type="button"

@@ -12,6 +12,7 @@ export function useWellnessLibrary(topic) {
   return useInfiniteQuery({
     queryKey: queryKey(topic, user?.id),
     enabled: !isLoadingAuth,
+    refetchOnMount: 'always',
     queryFn: async ({ pageParam = 0 }) => {
       const res = await base44.functions.invoke('getWellnessLibrary', {
         skip: pageParam,
@@ -64,7 +65,16 @@ export function useRateResource() {
         ? await base44.entities.WellnessResourceRating.update(items[0].id, payload)
         : await base44.entities.WellnessResourceRating.create({ resource_id: resourceId, ...payload });
       if (!saved?.id) throw new Error('The rating was not saved. Please try again.');
-      return saved;
+      // Confirm through the same account-scoped read used when revisiting the library.
+      const confirmed = await base44.entities.WellnessResourceRating.filter(
+        { id: saved.id, created_by_id: user.id, resource_id: resourceId },
+        { limit: 1 },
+      );
+      const record = confirmed.items[0];
+      if (!record || record.rating !== value || (record.description || '') !== payload.description) {
+        throw new Error('We could not confirm your saved rating. Please try again.');
+      }
+      return record;
     },
     onMutate: () => queryClient.cancelQueries({ queryKey: key }),
     onSuccess: async (saved) => {
@@ -74,9 +84,9 @@ export function useRateResource() {
         ...data,
         pages: data.pages.map((page) => ({ ...page, ratings: page.ratings.map((stat) => {
           if (stat.resource_id !== saved.resource_id) return stat;
-          const count = stat.my_rating ? stat.count : stat.count + 1;
-          const sum = stat.average * stat.count - (stat.my_rating || 0) + saved.rating;
-          return { ...stat, count, average: count ? sum / count : 0,
+          // Personal values come from the confirmed record; community totals
+          // are refreshed from the server rather than calculated in the browser.
+          return { ...stat,
             my_rating: saved.rating, my_rating_id: saved.id, my_note: saved.description || '' };
         }) })),
       }));
