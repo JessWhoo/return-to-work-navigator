@@ -74,6 +74,13 @@ export default function EmergencyContacts() {
               If you or someone you love is in immediate danger, call{' '}
               <a
                 href="tel:911"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'conversion', {
+                      send_to: 'AW-18498327009/QvcyCOOjzJMdEOGj2PRE',
+                    });
+                  }
+                }}
                 className="underline font-extrabold text-white hover:text-rose-100"
               >
                 911

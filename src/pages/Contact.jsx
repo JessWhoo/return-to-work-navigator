@@ -30,6 +30,11 @@ export default function Contact() {
         operation: 'contact_message',
         data: { name: form.name, email: form.email, message: form.message },
       });
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-18498327009/N9fnCJaezJMdEOGj2PRE',
+        });
+      }
       setSent(true);
     } catch {
       toast.error('Could not send your message. Please email us directly.');

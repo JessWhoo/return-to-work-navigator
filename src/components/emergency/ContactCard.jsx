@@ -14,6 +14,13 @@ export default function ContactCard({ contact }) {
           {contact.tel && (
             <a
               href={contact.tel}
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.gtag) {
+                  window.gtag('event', 'conversion', {
+                    send_to: 'AW-18498327009/QvcyCOOjzJMdEOGj2PRE',
+                  });
+                }
+              }}
               className="inline-flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold px-3 py-2 rounded-lg shadow-sm transition-colors"
             >
               <Phone className="h-4 w-4" />

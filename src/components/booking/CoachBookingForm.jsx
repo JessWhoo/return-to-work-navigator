@@ -111,6 +111,12 @@ export default function CoachBookingForm({ user, onBooked }) {
         contact_name: contactName.trim(),
         status: 'requested',
       });
+      // This is a saved session request, not yet a confirmed appointment.
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-18498327009/FLoYCKuhzJMdEOGj2PRE',
+        });
+      }
 
       // The coach's Google Calendar event is created server-side by the
       // "New coach booking → calendar event" entity automation, which fires

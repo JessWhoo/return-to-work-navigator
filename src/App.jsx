@@ -34,7 +34,38 @@ import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
 import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
 import ManagerGuide from './pages/ManagerGuide';
 import AccommodationTemplates from './pages/AccommodationTemplates';
+import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
 
+if (typeof document !== 'undefined' && !window.__gads_loaded) {
+    window.__gads_loaded = true;
+    window.dataLayer = window.dataLayer || [];
+    const inIframe = (() => { try { return window.self !== window.top; } catch { return true; } })();
+    window.gtag = function gtag() {
+        window.dataLayer.push(arguments);
+        if (inIframe) {
+            try {
+                const args = Array.prototype.slice.call(arguments);
+                const cmd = args[0];
+                window.parent.postMessage({
+                    type: 'base44_gtag_event',
+                    event: {
+                        source: 'gtag',
+                        timestamp: new Date().toLocaleTimeString(),
+                        command: cmd,
+                        params: args.slice(1),
+                        type: cmd === 'event' ? (args[1] || 'event') : cmd,
+                    },
+                }, '*');
+            } catch (_e) { /* relay must not break gtag */ }
+        }
+    };
+    const s = document.createElement('script');
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18498327009';
+    s.async = true;
+    document.head.appendChild(s);
+    window.gtag('js', new Date());
+    window.gtag('config', 'AW-18498327009', { send_page_view: false });
+}
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -247,6 +278,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <GoogleAdsSignupTracking />
       <QueryClientProvider client={queryClientInstance}>
         <Router>
           <NavigationTracker />
