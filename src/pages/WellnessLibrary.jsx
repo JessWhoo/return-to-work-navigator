@@ -3,9 +3,10 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, HeartPulse, X, Loader2 } from 'lucide-react';
+import { Search, HeartPulse, X, Loader2, Plus } from 'lucide-react';
 import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
 import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
+import AddWellnessResourceDialog from '@/components/wellness/AddWellnessResourceDialog';
 import { useWellnessLibrary, useRateResource } from '@/hooks/useWellnessLibrary';
 import { useAuth } from '@/lib/AuthContext';
 import useSEO from '@/hooks/useSEO';
@@ -27,9 +28,11 @@ export default function WellnessLibrary() {
       'Trusted wellness resources for cancer survivors returning to work — fatigue management, sleep, nutrition, movement and emotional well-being.',
     path: '/WellnessLibrary',
   });
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const isAdmin = user?.role === 'admin';
   const [search, setSearch] = useState('');
   const [topic, setTopic] = useState('all');
+  const [addOpen, setAddOpen] = useState(false);
 
   const {
     data, isLoading, isError, refetch, isRefetching,
