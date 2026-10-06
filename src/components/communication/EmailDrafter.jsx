@@ -9,6 +9,17 @@ import { Badge } from '@/components/ui/badge';
 import { Mail, Copy, Send, Sparkles, User, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import SaveDraftButton from './SaveDraftButton';
+
+// Draft title and CommunicationDraft scenario type used when an email generated
+// here is saved to My Drafts.
+const DRAFT_META = {
+  accommodation_request: { title: 'Accommodation Request', scenario_type: 'accommodation_request' },
+  return_plan: { title: 'Return-to-Work Plan', scenario_type: 'return_to_work_plan' },
+  accommodation_update: { title: 'Accommodation Update', scenario_type: 'accommodation_request' },
+  medical_documentation: { title: 'Medical Documentation Cover Email', scenario_type: 'other' },
+  first_day_logistics: { title: 'First Day Return Logistics', scenario_type: 'other' },
+};
 
 export default function EmailDrafter() {
   const [recipient, setRecipient] = useState('');
@@ -185,7 +196,7 @@ ${emailBody}`;
                 </p>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   onClick={copyToClipboard}
                   variant="outline"
@@ -194,6 +205,14 @@ ${emailBody}`;
                   <Copy className="h-4 w-4 mr-2" />
                   Copy to Clipboard
                 </Button>
+                <SaveDraftButton
+                  title={DRAFT_META[emailType].title}
+                  scenarioType={DRAFT_META[emailType].scenario_type}
+                  recipient={recipientName || recipient}
+                  subject={subject}
+                  content={emailBody}
+                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                />
                 <Button
                   onClick={sendViaEmail}
                   disabled={!recipient}

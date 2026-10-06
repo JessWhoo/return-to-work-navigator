@@ -72,6 +72,10 @@ export function onUnauthorized(listener) {
 export function reportUnauthorized(error) {
   if (error && !isUnauthorizedError(error)) return;
   if (isSessionExpiredFlag()) return;
+  // A 401 with no stored token at all means the visitor simply is not signed
+  // in (several AI features need an account) — that is not an expired session,
+  // so don't offer to "sign in again".
+  if (!hasSessionToken()) return;
   markSessionExpired();
   clearStoredToken();
   for (const listener of listeners) {

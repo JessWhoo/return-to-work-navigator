@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import SaveDraftButton from '@/components/communication/SaveDraftButton';
 
 const EMAIL_SCENARIOS = [
   {
@@ -74,6 +75,17 @@ Tone: persistent but polite.`,
   },
 ];
 
+// CommunicationDraft scenario type used when a generated email is saved to
+// My Drafts.
+const DRAFT_SCENARIO_TYPES = {
+  return_to_work: 'return_to_work_plan',
+  accommodation_request: 'accommodation_request',
+  health_status_update: 'other',
+  schedule_modification: 'schedule_flexibility',
+  disclosure: 'diagnosis_disclosure',
+  follow_up: 'follow_up_request',
+};
+
 function extractConversationContext(conversation) {
   if (!conversation?.messages?.length) return '';
   const relevant = conversation.messages
@@ -95,6 +107,7 @@ export default function EmployerEmailGenerator() {
   const [emailBody, setEmailBody] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showConvPicker, setShowConvPicker] = useState(false);
+  const draftRef = useRef(null);
 
   // Load user progress for context
   const { data: progress } = useUserProgress();
@@ -157,6 +170,14 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
       setSubject(scenario.label + (recipientRole ? ` – ${recipientRole}` : ''));
       setEmailBody(typeof result === 'string' ? result : result?.content || '');
       toast.success('Email draft generated!');
+
+      // On narrow screens the draft sits below the form, so bring it into view
+      // rather than leaving the result off-screen.
+      if (window.innerWidth < 1024) {
+        requestAnimationFrame(() =>
+          draftRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        );
+      }
     } catch (err) {
       toast.error('Failed to generate: ' + err.message);
     } finally {
@@ -362,7 +383,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
 
         {/* Right column: draft output */}
         <div className="lg:col-span-3">
-          <Card className="bg-slate-800/90 border-2 border-slate-700 h-full flex flex-col">
+          <Card ref={draftRef} className="bg-slate-800/90 border-2 border-slate-700 h-full flex flex-col">
             <CardHeader className="border-b border-slate-700 pb-3">
               <CardTitle className="text-sm text-slate-200 flex items-center gap-2">
                 <Mail className="h-4 w-4 text-indigo-400" />
@@ -422,10 +443,18 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                       <p className="text-[10px] text-slate-500">Fill in any <span className="text-indigo-400">[bracketed placeholders]</span> before sending.</p>
                     </div>
 
-                    <div className="flex gap-2 pt-1">
+                    <div className="flex flex-wrap gap-2 pt-1">
                        <Button onClick={copyToClipboard} variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700">
                          <Copy className="h-4 w-4 mr-2" /> Copy
                        </Button>
+                       <SaveDraftButton
+                         title={EMAIL_SCENARIOS.find(s => s.id === selectedScenario)?.label || 'Workplace Email'}
+                         scenarioType={DRAFT_SCENARIO_TYPES[selectedScenario] || 'other'}
+                         recipient={recipientName || recipientRole || ''}
+                         subject={subject}
+                         content={emailBody}
+                         className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                       />
                        <Button onClick={generateEmail} variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700" title="Regenerate">
                          <RefreshCw className="h-4 w-4" />
                        </Button>
