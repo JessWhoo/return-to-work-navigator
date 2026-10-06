@@ -55,6 +55,12 @@ export default function WellnessLibrary() {
     );
   }, [resources, search]);
 
+  // Keep the newly added resource visible: if the active topic filter excludes
+  // it, fall back to All Topics.
+  const handleResourceAdded = (resource) => {
+    if (topic !== 'all' && resource?.topic !== topic) setTopic('all');
+  };
+
   const handleRate = (resource, value) => {
     if (!isAuthenticated) {
       base44.auth.redirectToLogin(window.location.pathname);
@@ -117,6 +123,17 @@ export default function WellnessLibrary() {
               </button>
             ))}
           </div>
+          {isAdmin && (
+            <div className="mt-4 pt-4 border-t-2 border-slate-200">
+              <Button
+                onClick={() => setAddOpen(true)}
+                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add resource
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -168,6 +185,12 @@ export default function WellnessLibrary() {
           </Button>
         </div>
       )}
+
+      <AddWellnessResourceDialog
+        open={addOpen}
+        onOpenChange={setAddOpen}
+        onCreated={handleResourceAdded}
+      />
     </div>
   );
 }
