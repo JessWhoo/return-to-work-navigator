@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { createPageUrl } from './utils';
 import {
   Home, Zap, MessageSquare, FileText,
   Shield, Heart, Calendar, BookOpen, Menu, X, Volume2,
-  TrendingUp, ChevronLeft, BarChart2, Users
+  TrendingUp, ChevronLeft, BarChart2, Users, ClipboardList
 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
@@ -161,6 +161,7 @@ export default function Layout({ children, currentPageName }) {
       items: [
         { name: 'Community & Resources', icon: BookOpen, page: 'CommunityHub' },
         { name: 'Help & Support', icon: Heart, page: 'HelpSupport' },
+        { name: 'My Feedback', icon: ClipboardList, page: 'MyFeedback' },
       ],
     },
   ];
@@ -360,19 +361,19 @@ export default function Layout({ children, currentPageName }) {
             console.error('[Layout] click-to-speak handler failed:', err);
           }
         }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.12, ease: 'easeOut' }}
-            >
-              <ErrorBoundary>
-                {children}
-              </ErrorBoundary>
-            </motion.div>
-          </AnimatePresence>
+          {/* Plain entrance animation only. The previous wait-mode exit could
+              leave the main area empty when a navigation interrupted the
+              outgoing page, which read as a blank screen. */}
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.12, ease: 'easeOut' }}
+          >
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
+          </motion.div>
         </main>
       </div>
 

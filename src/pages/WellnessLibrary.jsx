@@ -3,10 +3,12 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, HeartPulse, X, Loader2, Plus } from 'lucide-react';
+import { Search, HeartPulse, X, Loader2, Plus, MessageSquare } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
 import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
 import AddWellnessResourceDialog from '@/components/wellness/AddWellnessResourceDialog';
+import WellnessResourceFeedbackDialog from '@/components/wellness/WellnessResourceFeedbackDialog';
 import { useWellnessLibrary, useRateResource } from '@/hooks/useWellnessLibrary';
 import { useAuth } from '@/lib/AuthContext';
 import useSEO from '@/hooks/useSEO';
@@ -33,6 +35,7 @@ export default function WellnessLibrary() {
   const [search, setSearch] = useState('');
   const [topic, setTopic] = useState('all');
   const [addOpen, setAddOpen] = useState(false);
+  const [feedbackResource, setFeedbackResource] = useState(null);
 
   const {
     data, isLoading, isError, refetch, isRefetching,
@@ -59,6 +62,15 @@ export default function WellnessLibrary() {
   // it, fall back to All Topics.
   const handleResourceAdded = (resource) => {
     if (topic !== 'all' && resource?.topic !== topic) setTopic('all');
+  };
+
+  // Feedback is saved to the signed-in account, so visitors sign in first.
+  const openResourceFeedback = (resource) => {
+    if (!isAuthenticated) {
+      base44.auth.redirectToLogin(window.location.pathname);
+      return;
+    }
+    setFeedbackResource(resource);
   };
 
   const handleRate = (resource, value) => {
@@ -123,6 +135,15 @@ export default function WellnessLibrary() {
               </button>
             ))}
           </div>
+          <div className="mt-4">
+            <Link
+              to="/MyFeedback"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-800 hover:text-emerald-900 underline underline-offset-2"
+            >
+              <MessageSquare className="h-4 w-4" />
+              My saved feedback
+            </Link>
+          </div>
           {isAdmin && (
             <div className="mt-4 pt-4 border-t-2 border-slate-200">
               <Button
@@ -166,6 +187,7 @@ export default function WellnessLibrary() {
                 ratingCount={stats?.count || 0}
                 myRating={stats?.my_rating || 0}
                 onRate={(value) => handleRate(resource, value)}
+                onFeedback={openResourceFeedback}
               />
             );
           })}
@@ -191,6 +213,15 @@ export default function WellnessLibrary() {
         onOpenChange={setAddOpen}
         onCreated={handleResourceAdded}
       />
+
+      {feedbackResource && (
+        <WellnessResourceFeedbackDialog
+          key={feedbackResource.id}
+          resource={feedbackResource}
+          open
+          onOpenChange={(open) => { if (!open) setFeedbackResource(null); }}
+        />
+      )}
     </div>
   );
 }

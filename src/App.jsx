@@ -24,6 +24,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
+import MyFeedback from './pages/MyFeedback';
 import EmergencyContacts from './pages/EmergencyContacts';
 import PrivacySecurity from './pages/PrivacySecurity';
 import AccommodationWorksheet from './pages/AccommodationWorksheet';
@@ -158,6 +159,14 @@ const AuthenticatedApp = () => {
             }
           />
         ))}
+        <Route
+          path="/MyFeedback"
+          element={
+            <LayoutWrapper currentPageName="MyFeedback">
+              <MyFeedback />
+            </LayoutWrapper>
+          }
+        />
         <Route
           path="/Roadmap"
           element={
