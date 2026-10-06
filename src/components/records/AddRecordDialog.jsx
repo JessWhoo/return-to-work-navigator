@@ -9,12 +9,17 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Stethoscope, Briefcase, BookOpen, Activity, Tag } from 'lucide-react';
 import { toast } from 'sonner';
+import { format } from 'date-fns';
+
+// Local calendar date — a UTC date rolls a day ahead in the evening for anyone
+// behind UTC, which would file the record under the wrong day.
+const localToday = () => format(new Date(), 'yyyy-MM-dd');
 
 export default function AddRecordDialog({ open, onClose, editRecord }) {
   const queryClient = useQueryClient();
   const [type, setType] = useState('journal');
   const [title, setTitle] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(localToday());
   const [content, setContent] = useState('');
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
@@ -42,7 +47,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
   const resetForm = () => {
     setType('journal');
     setTitle('');
-    setDate(new Date().toISOString().split('T')[0]);
+    setDate(localToday());
     setContent('');
     setTags([]);
     setTagInput('');

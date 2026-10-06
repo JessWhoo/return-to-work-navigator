@@ -6,6 +6,7 @@ import { AlertTriangle, TrendingUp, Calendar, Zap, Activity, Loader2, ChevronDow
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
+import { parseISO } from 'date-fns';
 
 export default function PredictiveHealthAlerts({ progress }) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -18,8 +19,8 @@ export default function PredictiveHealthAlerts({ progress }) {
       const recentEnergyLogs = progress.energy_logs?.slice(-30) || [];
       const symptomRecords = await base44.entities.Record.filter({ type: 'symptom' }, '-date', 30);
       const upcomingEvents = progress.calendar_events?.filter(e => 
-        new Date(e.date) >= new Date() && 
-        new Date(e.date) <= new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
+        parseISO(e.date) >= new Date() && 
+        parseISO(e.date) <= new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
       ) || [];
 
       // Prepare historical data for AI analysis

@@ -11,7 +11,7 @@ import {
   Plus, Calendar, ChevronRight, Loader2, Users, FileText,
   CheckCircle2, Clock, AlertCircle, MessageSquare, Pencil, Trash2, Library, Download, Printer
 } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import MeetingPrepForm from '../components/meetingprep/MeetingPrepForm';
 import EmployerResponseLog from '../components/meetingprep/EmployerResponseLog';
 import ConversationSimulator from '../components/meetingprep/ConversationSimulator';
@@ -143,7 +143,7 @@ export default function MeetingPrep() {
                           {meeting.meeting_date && (
                             <span className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
-                              {format(new Date(meeting.meeting_date), 'MMM d, yyyy')}
+                              {format(parseISO(meeting.meeting_date), 'MMM d, yyyy')}
                             </span>
                           )}
                           <span>{meeting.talking_points?.length || 0} talking points</span>
@@ -218,7 +218,7 @@ export default function MeetingPrep() {
                 </span>
                 {selectedMeeting.meeting_date && (
                   <span className="text-xs text-slate-400">
-                    · {format(new Date(selectedMeeting.meeting_date), 'MMM d, yyyy')}
+                    · {format(parseISO(selectedMeeting.meeting_date), 'MMM d, yyyy')}
                   </span>
                 )}
               </div>

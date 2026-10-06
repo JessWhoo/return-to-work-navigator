@@ -72,7 +72,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
       report.push(`\nDaily Breakdown:`);
       recentLogs.forEach(log => {
         const avg = ((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1);
-        report.push(`  ${format(new Date(log.date), 'MMM d')}: Morning ${log.morning_energy}, Afternoon ${log.afternoon_energy}, Evening ${log.evening_energy} (Avg: ${avg})`);
+        report.push(`  ${format(parseISO(log.date), 'MMM d')}: Morning ${log.morning_energy}, Afternoon ${log.afternoon_energy}, Evening ${log.evening_energy} (Avg: ${avg})`);
       });
       report.push(``);
     }
@@ -103,9 +103,9 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
       report.push(`ACCOMMODATION REQUESTS`);
       progress.accommodations_requested.forEach((acc, idx) => {
         report.push(`${idx + 1}. ${acc.type} - Status: ${acc.status}`);
-        report.push(`   Requested: ${format(new Date(acc.date_requested), 'MMM d, yyyy')}`);
+        report.push(`   Requested: ${format(parseISO(acc.date_requested), 'MMM d, yyyy')}`);
         if (acc.review_date) {
-          report.push(`   Review: ${format(new Date(acc.review_date), 'MMM d, yyyy')}`);
+          report.push(`   Review: ${format(parseISO(acc.review_date), 'MMM d, yyyy')}`);
         }
       });
       report.push(``);

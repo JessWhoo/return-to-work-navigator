@@ -8,6 +8,7 @@ import {
   TrendingUp, Download, Share2
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { parseISO } from 'date-fns';
 
 export default function ActionPlanGenerator({ progress, onSendToCoach }) {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -46,7 +47,7 @@ export default function ActionPlanGenerator({ progress, onSendToCoach }) {
           avgEnergy: avgEnergy ? avgEnergy.toFixed(1) : null,
           avgStress: avgStress ? avgStress.toFixed(1) : null,
           accommodations_requested: context.accommodations_requested,
-          return_date: context.return_date ? new Date(context.return_date).toLocaleDateString() : 'Not set',
+          return_date: context.return_date ? parseISO(context.return_date).toLocaleDateString() : 'Not set',
           has_calendar_events: context.has_calendar_events,
         },
       })).data.result;

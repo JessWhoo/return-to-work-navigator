@@ -263,7 +263,7 @@ function EnergyTab({ progress, queryClient }) {
                     return (
                       <div key={index} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
                         <span className="text-sm font-medium text-slate-200">
-                          {format(new Date(log.date), 'MMM d, yyyy')}
+                          {format(parseISO(log.date), 'MMM d, yyyy')}
                         </span>
                         <div className="flex items-center space-x-3">
                           <span className="text-xs text-slate-400">M:{log.morning_energy} A:{log.afternoon_energy} E:{log.evening_energy}</span>

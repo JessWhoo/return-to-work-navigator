@@ -6,8 +6,11 @@ import { Sparkles, Heart, HeartOff, Share2, RefreshCw, BookOpen, Loader2, Chevro
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { format, parseISO } from 'date-fns';
 
-const today = new Date().toISOString().split('T')[0];
+// Local calendar date — a UTC date rolls over early in the evening for anyone
+// behind UTC, which would save the affirmation under the wrong day.
+const today = format(new Date(), 'yyyy-MM-dd');
 
 export default function DailyAffirmation({ progress }) {
   const queryClient = useQueryClient();
@@ -191,7 +194,7 @@ export default function DailyAffirmation({ progress }) {
                     <Heart className="h-4 w-4 text-pink-400 fill-pink-400 mt-0.5 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-slate-200 italic">"{a.text}"</p>
-                      <p className="text-xs text-purple-400 mt-1">{new Date(a.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                      <p className="text-xs text-purple-400 mt-1">{parseISO(a.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                     </div>
                     <button
                       onClick={() => updateMutation.mutate({ id: a.id, updates: { is_saved: false } })}

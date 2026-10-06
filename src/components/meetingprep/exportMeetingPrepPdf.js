@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 const MEETING_TYPE_LABELS = {
   accommodation_request: 'Accommodation Request',
@@ -89,7 +89,7 @@ export function exportMeetingPrepPdf(meeting) {
   const metaParts = [];
   if (meeting.meeting_type) metaParts.push(MEETING_TYPE_LABELS[meeting.meeting_type] || meeting.meeting_type);
   if (meeting.meeting_date) {
-    try { metaParts.push(format(new Date(meeting.meeting_date), 'MMMM d, yyyy')); } catch { /* ignore invalid date */ }
+    try { metaParts.push(format(parseISO(meeting.meeting_date), 'MMMM d, yyyy')); } catch { /* ignore invalid date */ }
   }
   if (meeting.status) metaParts.push(`Status: ${STATUS_LABELS[meeting.status] || meeting.status}`);
   if (metaParts.length) {
@@ -159,7 +159,7 @@ export function exportMeetingPrepPdf(meeting) {
     meeting.employer_responses.forEach((r, i) => {
       let header = `${i + 1}.`;
       if (r.date) {
-        try { header += `  ${format(new Date(r.date), 'MMM d, yyyy')}`; } catch { /* ignore */ }
+        try { header += `  ${format(parseISO(r.date), 'MMM d, yyyy')}`; } catch { /* ignore */ }
       }
       if (r.outcome) header += `  —  ${OUTCOME_LABELS[r.outcome] || r.outcome}`;
       writeParagraph(header, { style: 'bold' });

@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Loader2, Sparkles, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 const OUTCOME_CONFIG = {
   approved: { label: 'Approved', color: 'bg-green-900/40 text-green-300 border-green-600/40' },
@@ -29,7 +29,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
   const [saving, setSaving] = useState(false);
 
   const [newResponse, setNewResponse] = useState({
-    date: new Date().toISOString().split('T')[0],
+    date: format(new Date(), 'yyyy-MM-dd'),
     response_text: '',
     outcome: 'pending',
     notes: ''
@@ -45,7 +45,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
         : meeting.status
     });
     queryClient.invalidateQueries(['meeting-preps']);
-    setNewResponse({ date: new Date().toISOString().split('T')[0], response_text: '', outcome: 'pending', notes: '' });
+    setNewResponse({ date: format(new Date(), 'yyyy-MM-dd'), response_text: '', outcome: 'pending', notes: '' });
     setShowForm(false);
     setSaving(false);
     onUpdate?.();
@@ -93,7 +93,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
                     <span className="text-slate-300 text-sm truncate max-w-xs">{resp.response_text?.slice(0, 60) || 'No details'}</span>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-xs text-slate-500">{resp.date ? format(new Date(resp.date), 'MMM d, yyyy') : ''}</span>
+                    <span className="text-xs text-slate-500">{resp.date ? format(parseISO(resp.date), 'MMM d, yyyy') : ''}</span>
                     {isOpen ? <ChevronUp className="h-4 w-4 text-slate-400" /> : <ChevronDown className="h-4 w-4 text-slate-400" />}
                   </div>
                 </button>

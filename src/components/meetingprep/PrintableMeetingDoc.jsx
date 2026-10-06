@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Printer, X } from 'lucide-react';
 
@@ -25,7 +25,7 @@ function Section({ title, children }) {
 }
 
 function safeDate(d, fmt) {
-  try { return format(new Date(d), fmt); } catch { return d; }
+  try { return format(parseISO(d), fmt); } catch { return d; }
 }
 
 export default function PrintableMeetingDoc({ meeting, onClose }) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Tag, AlertCircle } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 export default function RecordDetailView({ record }) {
   return (
@@ -33,7 +33,7 @@ export default function RecordDetailView({ record }) {
               <div>
                 <span className="text-slate-400">Next Appointment:</span>
                 <span className="text-slate-200 ml-2">
-                  {format(new Date(record.medical_details.next_appointment), 'MMM d, yyyy')}
+                  {format(parseISO(record.medical_details.next_appointment), 'MMM d, yyyy')}
                 </span>
               </div>
             )}
@@ -66,7 +66,7 @@ export default function RecordDetailView({ record }) {
                 Follow-up needed
                 {record.workplace_details.follow_up_date && (
                   <span className="ml-2">
-                    by {format(new Date(record.workplace_details.follow_up_date), 'MMM d, yyyy')}
+                    by {format(parseISO(record.workplace_details.follow_up_date), 'MMM d, yyyy')}
                   </span>
                 )}
               </div>

@@ -11,7 +11,7 @@ import {
   ChevronDown, Edit, Trash2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import RecordDetailView from '../components/records/RecordDetailView';
 import PullToRefresh from '../components/PullToRefresh';
@@ -180,7 +180,7 @@ export default function RecordKeeping() {
                           <div className="flex items-center space-x-4 text-sm text-slate-400">
                             <span className="flex items-center">
                               <Calendar className="h-3 w-3 mr-1" />
-                              {format(new Date(record.date), 'MMM d, yyyy')}
+                              {format(parseISO(record.date), 'MMM d, yyyy')}
                             </span>
                             {record.tags?.length > 0 && (
                               <span className="flex items-center">
