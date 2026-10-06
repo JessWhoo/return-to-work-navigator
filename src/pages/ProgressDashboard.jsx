@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import PullToRefresh from '../components/PullToRefresh';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,7 @@ import ActivitySymptomCorrelations from '../components/health/ActivitySymptomCor
 import WhatIfScenarios from '../components/health/WhatIfScenarios';
 import ComparativeInsights from '../components/health/ComparativeInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { checklistData, getChecklistTotalItems, getPhaseItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
 
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
@@ -34,56 +35,15 @@ export default function ProgressDashboard() {
 
   const { data: progress } = useUserProgress();
 
-  const { data: checklistData } = useQuery({
-    queryKey: ['checklistData'],
-    queryFn: async () => {
-      // Checklist structure from Checklist page
-      return [
-        {
-          phase: 'Before You Return',
-          sections: [
-            { title: 'Understand Your Rights', items: 6 },
-            { title: 'Document Everything', items: 4 },
-            { title: 'Assess Your Needs', items: 5 }
-          ]
-        },
-        {
-          phase: 'Planning Your Return',
-          sections: [
-            { title: 'Communicate with Your Employer', items: 5 },
-            { title: 'Request Accommodations', items: 4 },
-            { title: 'Prepare Yourself', items: 4 }
-          ]
-        },
-        {
-          phase: 'Your First Week Back',
-          sections: [
-            { title: 'Manage Expectations', items: 4 },
-            { title: 'Practice Self-Care', items: 5 },
-            { title: 'Monitor & Adjust', items: 3 }
-          ]
-        },
-        {
-          phase: 'Ongoing Success',
-          sections: [
-            { title: 'Maintain Your Health', items: 4 },
-            { title: 'Advocate for Yourself', items: 3 },
-            { title: 'Build Support Systems', items: 3 }
-          ]
-        }
-      ];
-    }
-  });
-
   // Calculate metrics
   const getMetrics = () => {
     if (!progress) return null;
 
-    const totalChecklistItems = checklistData?.reduce((sum, phase) => 
-      sum + phase.sections.reduce((s, section) => s + section.items, 0), 0
-    ) || 0;
+    const totalChecklistItems = getChecklistTotalItems();
 
-    const completedItems = progress.completed_checklist_items?.length || 0;
+    // Count only this checklist's ids — the same UserProgress array also holds
+    // Legal Rights and Disclosure Guide items.
+    const completedItems = getCompletedChecklistIds(progress.completed_checklist_items).length;
     const completionRate = totalChecklistItems > 0 
       ? Math.round((completedItems / totalChecklistItems) * 100)
       : 0;
@@ -163,15 +123,16 @@ export default function ProgressDashboard() {
     if (!checklistData || !progress) return [];
 
     return checklistData.map(phase => {
-      const phaseTotal = phase.sections.reduce((sum, section) => sum + section.items, 0);
-      const phaseCompleted = progress.completed_checklist_items?.filter(id => 
-        id.startsWith(phase.phase.toLowerCase().replace(/\s+/g, '-'))
-      ).length || 0;
+      const phaseItems = getPhaseItems(phase);
+      const phaseCompleted = phaseItems.filter(item =>
+        progress.completed_checklist_items?.includes(item.id)
+      ).length;
 
       return {
         phase: phase.phase,
+        shortPhase: phase.phase.split(':')[0],
         completed: phaseCompleted,
-        remaining: phaseTotal - phaseCompleted
+        remaining: phaseItems.length - phaseCompleted
       };
     });
   };
@@ -467,9 +428,9 @@ export default function ProgressDashboard() {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={checklistProgressData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="phase" />
+                <XAxis dataKey="shortPhase" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip labelFormatter={(label) => checklistProgressData.find(d => d.shortPhase === label)?.phase || label} />
                 <Legend />
                 <Bar dataKey="completed" stackId="a" fill="#22c55e" name="Completed" />
                 <Bar dataKey="remaining" stackId="a" fill="#e5e7eb" name="Remaining" />

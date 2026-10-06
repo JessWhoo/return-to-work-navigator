@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Sparkles, TrendingUp, TrendingDown, AlertCircle, CheckCircle, Loader2, RefreshCw, Lightbulb, Activity } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import { getCompletedChecklistIds } from '@/components/checklist/checklistData';
 
 export default function AIProgressInsights({ progress }) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -35,7 +36,8 @@ export default function AIProgressInsights({ progress }) {
         journey_stage: progress.journey_stage,
         return_date: progress.return_date,
         accommodations: progress.accommodations_requested?.length || 0,
-        checklist_progress: progress.completed_checklist_items?.length || 0,
+        // Scoped to this checklist's ids so the number matches the Checklist page.
+        checklist_progress: getCompletedChecklistIds(progress.completed_checklist_items).length,
         recent_symptoms: symptomRecords.slice(0, 5).map(s => ({
           date: s.date,
           type: s.symptom_details?.symptom_type,
