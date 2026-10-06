@@ -45,6 +45,9 @@ Deno.serve(async (req) => {
       ['ForumPost', svc.ForumPost],
       ['ForumReply', svc.ForumReply],
       ['CoachBooking', svc.CoachBooking],
+      ['ExpertQA', svc.ExpertQA],
+      ['ResourceFeedback', svc.ResourceFeedback],
+      ['WellnessResourceRating', svc.WellnessResourceRating],
     ];
 
     const results: Record<string, number> = {};
