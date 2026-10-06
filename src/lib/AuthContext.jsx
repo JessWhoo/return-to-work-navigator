@@ -2,6 +2,12 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { appParams } from '@/lib/app-params';
 import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
+import {
+  isSessionExpiredFlag,
+  markSessionExpired,
+  clearSessionExpiredFlag,
+  onUnauthorized,
+} from '@/lib/sessionGuard';
 
 const AuthContext = createContext();
 
@@ -17,6 +23,10 @@ export const AuthProvider = ({ children }) => {
   const [isLoadingPublicSettings, setIsLoadingPublicSettings] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [appPublicSettings, setAppPublicSettings] = useState(null); // Contains only { id, public_settings }
+  // True when a stored session turned out to be expired. Seeded from a flag
+  // that survives a reload, so the notice still shows after the SDK's sign-out
+  // round trip.
+  const [sessionExpired, setSessionExpired] = useState(() => isSessionExpiredFlag());
 
   const didInit = React.useRef(false);
 
@@ -26,6 +36,17 @@ export const AuthProvider = ({ children }) => {
     if (didInit.current) return;
     didInit.current = true;
     checkAppState();
+  }, []);
+
+  // A 401 from anywhere (React Query, a direct call, an unhandled rejection) is
+  // reported through sessionGuard. Treat it as a signed-out session and offer
+  // to sign in again, instead of leaving pages to fail one request at a time.
+  useEffect(() => {
+    return onUnauthorized(() => {
+      setUser(null);
+      setIsAuthenticated(false);
+      setSessionExpired(true);
+    });
   }, []);
 
   const checkAppState = async () => {
@@ -62,6 +83,11 @@ export const AuthProvider = ({ children }) => {
         if (appParams.token && !rejectedTokens.has(appParams.token)) {
           await checkUserAuth();
         } else {
+          // No stored token. The expired flag is deliberately left alone: it is
+          // what tells the next load — after the SDK has cleared the dead
+          // session — that this visitor was signed out because their session
+          // expired, so the notice can still be offered. It is cleared on a
+          // successful sign-in or when the notice is dismissed.
           setIsLoadingAuth(false);
           setIsAuthenticated(false);
         }
@@ -119,16 +145,21 @@ export const AuthProvider = ({ children }) => {
       const currentUser = await base44.auth.me();
       setUser(currentUser);
       setIsAuthenticated(true);
+      clearSessionExpiredFlag();
+      setSessionExpired(false);
       setIsLoadingAuth(false);
     } catch (error) {
       console.error('User auth check failed:', error);
       setIsLoadingAuth(false);
       setIsAuthenticated(false);
       
-      // Expired/invalid token: clear it so the visitor continues cleanly as
-      // a signed-out user instead of every request failing with 401.
+      // Expired/invalid token: flag it so the app can offer a calm "sign in
+      // again" notice, then clear it so the visitor continues cleanly as a
+      // signed-out user instead of every request failing with 401.
       // (The app is public — no login is required to browse.)
       if (error.status === 401 || error.status === 403) {
+        markSessionExpired();
+        setSessionExpired(true);
         if (appParams.token) rejectedTokens.add(appParams.token);
         try {
           base44.auth.logout(); // removes stale token, no redirect
@@ -137,6 +168,11 @@ export const AuthProvider = ({ children }) => {
         }
       }
     }
+  };
+
+  const dismissSessionExpired = () => {
+    clearSessionExpiredFlag();
+    setSessionExpired(false);
   };
 
   const logout = (shouldRedirect = true) => {
@@ -165,6 +201,8 @@ export const AuthProvider = ({ children }) => {
       isLoadingPublicSettings,
       authError,
       appPublicSettings,
+      sessionExpired,
+      dismissSessionExpired,
       logout,
       navigateToLogin,
       checkAppState

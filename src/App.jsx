@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './App.css'
 import { Toaster } from "@/components/ui/toaster"
 import { Toaster as SonnerToaster } from "@/components/ui/sonner"
@@ -8,6 +9,8 @@ import NavigationTracker from '@/lib/NavigationTracker'
 import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
+import SessionExpiredNotice from '@/components/SessionExpiredNotice';
+import { installUnauthorizedMonitor } from '@/lib/sessionGuard';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Roadmap from './pages/Roadmap';
@@ -228,12 +231,17 @@ const AuthenticatedApp = () => {
 
 
 function App() {
+  // Catch any 401 that no caller handled, wherever it surfaces.
+  useEffect(() => {
+    installUnauthorizedMonitor();
+  }, []);
 
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
           <NavigationTracker />
+          <SessionExpiredNotice />
           <AuthenticatedApp />
         </Router>
         <Toaster />

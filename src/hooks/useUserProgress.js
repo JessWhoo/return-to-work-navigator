@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useAuth } from '@/lib/AuthContext';
+import { hasSessionToken } from '@/lib/sessionGuard';
 
 /**
  * Single source of truth for reading the signed-in user's UserProgress record.
  *
- * The query never fires until auth has fully resolved AND a real user id
- * exists. Firing earlier races the token load and produces the 401 on
+ * The query never fires until auth has fully resolved, a real user id exists,
+ * AND a session token is actually present. Firing earlier races the token load
+ * and produces the 401 on
  * /User/me + 403 on POST /UserProgress cascade (which surfaced as repeating
  * "Script error" unhandled rejections).
  *
@@ -18,7 +20,7 @@ export function useUserProgress(defaults = null) {
 
   return useQuery({
     queryKey: ['userProgress'],
-    enabled: !isLoadingAuth && !!isAuthenticated && !!user?.id,
+    enabled: !isLoadingAuth && !!isAuthenticated && !!user?.id && hasSessionToken(),
     queryFn: async () => {
       const list = await base44.entities.UserProgress.list();
       if (list.length > 0) return list[0];
