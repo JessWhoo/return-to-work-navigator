@@ -237,7 +237,7 @@ export default function FAQ() {
             </CardContent>
           </Card>
         ) : (
-          filteredFAQ.map((category, categoryIndex) => {
+          filteredFAQ.map((category) => {
             const actualIndex = faqData.findIndex(c => c.category === category.category);
             const isExpanded = expandedCategories.includes(actualIndex);
             const Icon = category.icon;

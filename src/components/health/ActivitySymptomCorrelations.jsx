@@ -50,7 +50,6 @@ export default function ActivitySymptomCorrelations({ progress }) {
       });
 
       const dailyDataText = dailyData.map(d => {
-        const avgEnergy = ((d.morning_energy || 0) + (d.afternoon_energy || 0) + (d.evening_energy || 0)) / 3;
         return `${d.date}:
   Energy: Morning ${d.morning_energy}/10, Afternoon ${d.afternoon_energy}/10, Evening ${d.evening_energy}/10
   Stress: ${d.stress}/10, Mood: ${d.mood}

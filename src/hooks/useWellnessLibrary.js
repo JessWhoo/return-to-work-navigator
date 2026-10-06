@@ -48,7 +48,7 @@ export function useRateResource(topic) {
       const created = await base44.entities.WellnessResourceRating.create({ resource_id: resourceId, rating: value });
       return created.id;
     },
-    onMutate: async ({ resourceId, value, stat }) => {
+    onMutate: async ({ resourceId, value }) => {
       await queryClient.cancelQueries({ queryKey: key });
       const previous = queryClient.getQueryData(key);
       queryClient.setQueryData(key, (data) =>

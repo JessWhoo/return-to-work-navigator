@@ -116,7 +116,7 @@ async function exportResourcesToPDF(selectedResources) {
   return doc;
 }
 
-export default function ResourceExportDialog({ resources, bookmarkedIds, progress }) {
+export default function ResourceExportDialog({ resources, bookmarkedIds }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(new Set());
   const [generating, setGenerating] = useState(false);
@@ -168,7 +168,7 @@ export default function ResourceExportDialog({ resources, bookmarkedIds, progres
       doc.save(`my-resources-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
       toast.success('Resource PDF downloaded!');
       setOpen(false);
-    } catch (e) {
+    } catch {
       toast.error('Failed to generate PDF. Please try again.');
     } finally {
       setGenerating(false);

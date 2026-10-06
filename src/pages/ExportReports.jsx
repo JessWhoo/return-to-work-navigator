@@ -221,7 +221,7 @@ function generateSymptomSection(doc, records, y, pageWidth) {
   return y;
 }
 
-function generateProgressSection(doc, progress, y, pageWidth) {
+function generateProgressSection(doc, progress, y, _pageWidth) {
   y = addSectionTitle(doc, 'Progress & Journey Overview', y);
   if (!progress) {
     doc.setFontSize(10); doc.setTextColor(120,120,120);
@@ -295,7 +295,7 @@ async function buildPDF(type, { meetings, drafts, records, progress }) {
   }
   if (type === 'progress' || type === 'full') {
     y = checkPageBreak(doc, y);
-    y = generateProgressSection(doc, progress, y, pageWidth);
+    generateProgressSection(doc, progress, y, pageWidth);
   }
 
   // Footer on each page
@@ -331,7 +331,7 @@ export default function ExportReports() {
       setDone(type);
       toast.success('PDF downloaded successfully!');
       setTimeout(() => setDone(null), 3000);
-    } catch (e) {
+    } catch {
       toast.error('Failed to generate PDF. Please try again.');
     } finally {
       setGenerating(null);

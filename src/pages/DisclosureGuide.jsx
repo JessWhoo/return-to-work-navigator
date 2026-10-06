@@ -25,7 +25,7 @@ export default function DisclosureGuide() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) setCheckedItems(JSON.parse(saved));
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, []);

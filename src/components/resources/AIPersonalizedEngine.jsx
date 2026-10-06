@@ -13,8 +13,7 @@ export default function AIPersonalizedEngine({
   progress, 
   resources, 
   onBookmark, 
-  isBookmarked,
-  onDiscuss 
+  isBookmarked
 }) {
   const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(false);

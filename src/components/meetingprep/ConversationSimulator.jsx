@@ -8,16 +8,6 @@ import {
   User, Bot, ChevronDown, ChevronUp, Lightbulb
 } from 'lucide-react';
 
-const MEETING_TYPE_LABELS = {
-  accommodation_request: 'Accommodation Request',
-  return_to_work_plan: 'Return to Work Plan',
-  performance_review: 'Performance Review',
-  hr_discussion: 'HR Discussion',
-  supervisor_checkin: 'Supervisor Check-in',
-  disclosure: 'Medical Disclosure',
-  other: 'Other'
-};
-
 function meetingContext(m) {
   return {
     title: m.title, meeting_type: m.meeting_type, goals: m.goals, attendees: m.attendees,
@@ -26,75 +16,6 @@ function meetingContext(m) {
   };
 }
 
-function buildSystemPrompt(meeting) {
-  const role = ['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type)
-    ? 'HR Representative'
-    : 'Manager / Direct Supervisor';
-
-  const lines = [
-    `You are roleplaying as a ${role} in a workplace meeting titled "${meeting.title}" (${MEETING_TYPE_LABELS[meeting.meeting_type] || meeting.meeting_type}).`,
-    `Your tone is professional, sometimes skeptical, but ultimately reasonable — push back gently to help the employee practice.`,
-    ``,
-    `Context you know about the meeting:`,
-    meeting.goals ? `- Employee's goals: ${meeting.goals}` : '',
-    meeting.attendees ? `- Attendees: ${meeting.attendees}` : '',
-    meeting.talking_points?.length
-      ? `- Talking points the employee may raise:\n${meeting.talking_points.map((p, i) => `  ${i + 1}. ${p}`).join('\n')}`
-      : '',
-    meeting.anticipated_objections?.length
-      ? `- Anticipated objections to raise naturally:\n${meeting.anticipated_objections.map(o => `  - ${o}`).join('\n')}`
-      : '',
-    meeting.accommodation_requests?.length
-      ? `- Accommodation requests to respond to:\n${meeting.accommodation_requests.map(r => `  - ${r.accommodation}`).join('\n')}`
-      : '',
-    ``,
-    `Instructions:`,
-    `1. Open the meeting naturally as the ${role}.`,
-    `2. Respond realistically to what the employee says. Raise objections or concerns from the anticipated list when appropriate.`,
-    `3. Keep each response concise (2-4 sentences).`,
-    `4. Stay in character throughout the simulation.`,
-    `5. Do NOT give coaching tips during the simulation — save that for after.`,
-  ].filter(Boolean).join('\n');
-
-  return lines;
-}
-
-function buildFeedbackPrompt(meeting, messages) {
-  const transcript = messages
-    .map(m => `${m.role === 'user' ? 'Employee' : 'Manager/HR'}: ${m.content}`)
-    .join('\n');
-
-  return `You are an expert career coach specializing in supporting cancer survivors returning to work.
-
-Below is a transcript of a practice conversation simulation for a meeting titled "${meeting.title}".
-
-Transcript:
-${transcript}
-
-Please provide structured post-simulation feedback. Evaluate the employee's performance (the "Employee" turns only) on:
-1. **Clarity** – Were their points clear and easy to understand?
-2. **Confidence** – Did they sound assertive and self-assured?
-3. **Completeness** – Did they cover their key talking points?
-4. **Handling objections** – Did they respond well when challenged?
-
-For each area, give a score out of 5 and 1-2 specific sentences of feedback.
-
-Then provide 2-3 "What to try next time" tips that are specific to what you saw in this conversation.
-
-Format your response as JSON:
-{
-  "scores": {
-    "clarity": { "score": 4, "feedback": "..." },
-    "confidence": { "score": 3, "feedback": "..." },
-    "completeness": { "score": 4, "feedback": "..." },
-    "objection_handling": { "score": 3, "feedback": "..." }
-  },
-  "overall_score": 3.5,
-  "strengths": ["...", "..."],
-  "tips": ["...", "...", "..."],
-  "encouragement": "A short, warm, personalized closing message for a cancer survivor."
-}`;
-}
 
 function ScoreBar({ score }) {
   const pct = (score / 5) * 100;

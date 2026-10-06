@@ -32,7 +32,7 @@ const CHALLENGES = [
 ];
 
 // Flatten all resources into a single list with IDs
-const flatResources = allResources.flatMap((cat, ci) =>
+const flatResources = allResources.flatMap((cat) =>
   cat.items.map((item, ii) => ({
     ...item,
     id: `${cat.category}-${ii}`,

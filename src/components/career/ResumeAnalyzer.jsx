@@ -37,13 +37,6 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
     setAnalyzing(false);
   };
 
-  const scoreColor = (score) => {
-    if (score >= 80) return 'text-green-400';
-    if (score >= 60) return 'text-yellow-400';
-    if (score >= 40) return 'text-orange-400';
-    return 'text-red-400';
-  };
-
   const scoreBg = (score) => {
     if (score >= 80) return 'from-green-600 to-emerald-600';
     if (score >= 60) return 'from-yellow-600 to-amber-600';

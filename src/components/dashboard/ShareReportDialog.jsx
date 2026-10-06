@@ -155,8 +155,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
     setIsGenerating(true);
     try {
       const reportText = generateReport();
-      const user = await base44.auth.me();
-      
+
       await base44.functions.invoke('sendAppEmail', {
         operation: 'share_report',
         data: { to: recipientEmail, dateStr: format(new Date(), 'MMM d, yyyy'), reportText },

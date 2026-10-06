@@ -13,7 +13,7 @@ export default function TemplateEditor({ template, onBack }) {
 
   useEffect(() => {
     setText(fillTemplate(template.body, values));
-  }, [template]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [template]);
 
   const update = (key, v) => {
     const next = { ...values, [key]: v };

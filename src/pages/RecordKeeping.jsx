@@ -32,7 +32,7 @@ export default function RecordKeeping() {
 
   const recordAPI = useOfflineEntity('Record');
 
-  const { data: records = [], isLoading } = useQuery({
+  const { data: records = [] } = useQuery({
     queryKey: ['records'],
     queryFn: () => recordAPI.list('-date'),
     enabled: !isLoadingAuth && !!isAuthenticated,

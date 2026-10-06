@@ -65,8 +65,6 @@ export default function ProgressReportTab() {
     toast.success('Report copied to clipboard!');
   };
 
-  const stageLabel = progress?.journey_stage?.replace(/_/g, ' ') || 'Not set';
-
   return (
     <div className="space-y-6 mt-4">
       <Card className="bg-slate-800 border-slate-600">

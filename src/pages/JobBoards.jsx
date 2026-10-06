@@ -225,7 +225,6 @@ const colorMap = {
 };
 
 const totalBoards = jobBoards.reduce((sum, c) => sum + c.boards.length, 0);
-const totalFeatured = jobBoards.reduce((sum, c) => sum + c.boards.filter(b => b.featured).length, 0);
 
 export default function JobBoards() {
   const [search, setSearch] = useState('');

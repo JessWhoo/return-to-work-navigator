@@ -21,7 +21,7 @@ export default function RecentlyViewed({ progress, allResources, onBookmark, isB
   if (recentIds.length === 0) return null;
 
   // Flatten all resources for lookup
-  const flatResources = allResources.flatMap((cat, catIdx) =>
+  const flatResources = allResources.flatMap((cat) =>
     cat.items.map((item, idx) => ({
       ...item,
       id: `${cat.category}-${idx}`,

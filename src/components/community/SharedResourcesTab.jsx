@@ -17,7 +17,7 @@ export default function SharedResourcesTab() {
   const bookmarkedIds = progress?.bookmarked_resources || [];
 
   // Resolve bookmarked resources from all categories
-  const bookmarkedResources = allResources.flatMap((cat, catIdx) =>
+  const bookmarkedResources = allResources.flatMap((cat) =>
     cat.items.map((item, idx) => ({
       ...item,
       id: `${cat.category}-${idx}`,

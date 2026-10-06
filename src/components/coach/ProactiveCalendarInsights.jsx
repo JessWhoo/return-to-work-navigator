@@ -66,9 +66,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
   };
 
   const getEventInsights = (event) => {
-    const daysUntil = differenceInDays(event.date, new Date());
-    const isUrgent = daysUntil <= 1;
-
     const insights = {
       return_date: {
         icon: Briefcase,

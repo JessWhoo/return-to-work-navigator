@@ -29,7 +29,7 @@ export default function Home() {
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { isAuthenticated, user, isLoadingAuth } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   // Respect users who ask for reduced motion — skip decorative particle animation

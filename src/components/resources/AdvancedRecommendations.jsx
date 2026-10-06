@@ -13,7 +13,6 @@ export default function AdvancedRecommendations({
   allResources, 
   onBookmark, 
   onDiscussWithCoach,
-  onRate,
   isBookmarked,
   getRating
 }) {
@@ -230,7 +229,7 @@ export default function AdvancedRecommendations({
           const itemId = `${cat.category}-${idx}`;
           return !ratings[itemId] && item.topics && 
                  item.topics.some(topic => highlyRatedTopics.has(topic));
-        }).map((item, idx) => ({
+        }).map((item) => ({
           ...item,
           id: `${cat.category}-${cat.items.indexOf(item)}`,
           category: cat.category,

@@ -5,7 +5,7 @@ import { Flame, Award, TrendingUp, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import LevelDisplay from './LevelDisplay';
 import BadgeDisplay from './BadgeDisplay';
-import { BADGES, calculateLevel } from './GamificationSystem';
+import { BADGES } from './GamificationSystem';
 
 export default function GamificationDashboard({ progress }) {
   const gamification = progress?.gamification || {
@@ -19,9 +19,7 @@ export default function GamificationDashboard({ progress }) {
   const earnedBadges = gamification.badges || [];
   const allBadgeIds = Object.keys(BADGES);
   const lockedBadges = allBadgeIds.filter(id => !earnedBadges.includes(id));
-  
-  const currentLevel = calculateLevel(gamification.total_points);
-  
+
   return (
     <div className="space-y-6">
       {/* Level and Points */}

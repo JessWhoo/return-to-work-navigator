@@ -251,7 +251,7 @@ export default function ShareKitDialog({ resources, bookmarkedIds, notes }) {
         properties: { recipient_type: recipientType, resource_count: bookmarkedResources.length, included_notes: includeNotes },
       });
       setOpen(false);
-    } catch (e) {
+    } catch {
       toast.error('Failed to generate PDF. Please try again.');
     } finally {
       setBusy(false);
@@ -285,7 +285,7 @@ export default function ShareKitDialog({ resources, bookmarkedIds, notes }) {
         properties: { recipient_type: recipientType, resource_count: bookmarkedResources.length, included_notes: includeNotes },
       });
       setOpen(false);
-    } catch (e) {
+    } catch {
       toast.error('Failed to send email. Please try again.');
     } finally {
       setBusy(false);

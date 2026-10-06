@@ -6,13 +6,12 @@ import {
   AlertTriangle, Heart, Activity, Brain, Phone, 
   Coffee, CheckCircle, X, Sparkles, Loader2
 } from 'lucide-react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function ProactiveHealthAlerts() {
-  const queryClient = useQueryClient();
   const [dismissedAlerts, setDismissedAlerts] = useState([]);
 
   const { data: progress } = useUserProgress();

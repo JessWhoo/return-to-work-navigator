@@ -51,7 +51,7 @@ export function useGamification() {
     }
   });
   
-  const trackAction = async (progress, actionType, metadata = {}) => {
+  const trackAction = async (progress, actionType, _metadata = {}) => {
     if (!progress) return;
     
     const pointsMap = {

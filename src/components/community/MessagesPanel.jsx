@@ -154,7 +154,6 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
   }, [myPeerProfile, allPeers]);
 
   // Unread counts per conversation
-  const queryClient = useQueryClient();
   const { data: recentMessages = [] } = useQuery({
     queryKey: ['dmConversations'],
     queryFn: () => base44.entities.DirectMessage.list('-created_date', 100),

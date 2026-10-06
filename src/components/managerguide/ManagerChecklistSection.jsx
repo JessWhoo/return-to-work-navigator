@@ -80,7 +80,6 @@ export default function ManagerChecklistSection() {
         {MANAGER_CHECKLIST.map((section, sIdx) => {
           const sectionKeys = section.items.map((_, iIdx) => `${sIdx}-${iIdx}`);
           const sectionChecked = sectionKeys.filter((k) => checked[k]).length;
-          const sectionPercent = sectionKeys.length ? Math.round((sectionChecked / sectionKeys.length) * 100) : 0;
 
           return (
             <div key={section.phase} className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5">

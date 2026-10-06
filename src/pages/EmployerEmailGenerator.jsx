@@ -90,7 +90,6 @@ export default function EmployerEmailGenerator() {
   const [selectedConvId, setSelectedConvId] = useState('none');
   const [recipientName, setRecipientName] = useState('');
   const [recipientRole, setRecipientRole] = useState('');
-  const [recipientEmail, setRecipientEmail] = useState('');
   const [extraContext, setExtraContext] = useState('');
   const [subject, setSubject] = useState('');
   const [emailBody, setEmailBody] = useState('');
@@ -169,11 +168,6 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
     const full = `Subject: ${subject}\n\n${emailBody}`;
     navigator.clipboard.writeText(full);
     toast.success('Copied to clipboard!');
-  };
-
-  const openInMailClient = () => {
-    const link = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-    window.location.href = link;
   };
 
   return (
