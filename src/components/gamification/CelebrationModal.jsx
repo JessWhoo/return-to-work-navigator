@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { Trophy, Sparkles } from 'lucide-react';
 import BadgeDisplay from './BadgeDisplay';
@@ -154,27 +153,39 @@ export default function CelebrationModal({
     }
   };
   
+  // Rendered as a non-blocking overlay on purpose: as a modal it locked page
+  // scroll (which jumped the page) and its backdrop swallowed the next click,
+  // so people ticking off several checklist items in a row lost a click.
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-gradient-to-br from-slate-900 to-slate-800 border-2 border-purple-600">
-        <div className="py-6">
-          {renderContent()}
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-8"
-          >
-            <Button
-              onClick={onClose}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-            >
-              Continue Journey
-            </Button>
-          </motion.div>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="pointer-events-none fixed inset-0 z-[60] flex items-center justify-center p-4"
+        >
+          <div className="pointer-events-auto w-full max-w-md rounded-xl border-2 border-purple-600 bg-gradient-to-br from-slate-900 to-slate-800 p-6 shadow-2xl">
+            <div className="py-6">
+              {renderContent()}
+              
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mt-8"
+              >
+                <Button
+                  onClick={onClose}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                >
+                  Continue Journey
+                </Button>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

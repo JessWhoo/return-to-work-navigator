@@ -210,9 +210,12 @@ export default function Checklist() {
                               >
                                 {item.text}
                               </label>
-                              {isChecked && (
-                                <CheckCircle2 className={`h-5 w-5 ${phase.checkClass} flex-shrink-0`} />
-                              )}
+                              {/* Fixed-width slot: the icon appearing must not reflow the list below. */}
+                              <span className="w-5 flex-shrink-0">
+                                {isChecked && (
+                                  <CheckCircle2 className={`h-5 w-5 ${phase.checkClass}`} />
+                                )}
+                              </span>
                             </div>
                           );
                         })}
