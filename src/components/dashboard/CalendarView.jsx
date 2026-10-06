@@ -7,7 +7,7 @@ import {
   Plus, Clock, Stethoscope, Star, Bell, MoreHorizontal, X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
+import { format, parseISO, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
 import AddEventDialog from './AddEventDialog';
 
 const eventTypeConfig = {
@@ -33,7 +33,9 @@ export default function CalendarView({ progress, onUpdateProgress }) {
     if (progress?.return_date) {
       events.push({
         id: 'return-date',
-        date: new Date(progress.return_date),
+        // Date-only values must parse as LOCAL midnight: new Date('2026-12-01')
+        // is UTC midnight, which lands on Nov 30 for anyone behind UTC.
+        date: parseISO(progress.return_date),
         title: 'Return to Work',
         type: 'return_date',
         description: 'Your planned return to work date'
@@ -45,7 +47,7 @@ export default function CalendarView({ progress, onUpdateProgress }) {
       if (acc.review_date) {
         events.push({
           id: `acc-review-${idx}`,
-          date: new Date(acc.review_date),
+          date: parseISO(acc.review_date),
           title: `${acc.type} Review`,
           type: 'accommodation_review',
           description: `Review for ${acc.type} accommodation`
@@ -58,7 +60,7 @@ export default function CalendarView({ progress, onUpdateProgress }) {
       if (log.date) {
         events.push({
           id: `energy-${idx}`,
-          date: new Date(log.date),
+          date: parseISO(log.date),
           title: 'Energy Log',
           type: 'energy_log',
           description: `Mood: ${log.mood || 'N/A'}, Stress: ${log.stress_level || 'N/A'}`
@@ -70,7 +72,7 @@ export default function CalendarView({ progress, onUpdateProgress }) {
     progress?.calendar_events?.forEach((event) => {
       events.push({
         ...event,
-        date: new Date(event.date)
+        date: parseISO(event.date)
       });
     });
 

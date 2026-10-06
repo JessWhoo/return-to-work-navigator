@@ -16,7 +16,7 @@ import {
   FileText, Download, Mail, 
   CheckCircle2, Shield, Loader2 
 } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
 
 export default function ShareReportDialog({ open, onClose, progress, metrics }) {
@@ -59,7 +59,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
       report.push(`Journey Stage: ${progress.journey_stage?.replace('_', ' ').toUpperCase()}`);
       report.push(`Checklist Completion: ${metrics.completionRate}% (${metrics.completedItems}/${metrics.totalChecklistItems} items)`);
       if (progress.return_date) {
-        report.push(`Return Date: ${format(new Date(progress.return_date), 'MMMM d, yyyy')}`);
+        report.push(`Return Date: ${format(parseISO(progress.return_date), 'MMMM d, yyyy')}`);
       }
       report.push(`Days Tracked: ${metrics.daysTracked}`);
       report.push(``);

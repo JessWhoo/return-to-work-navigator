@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { parseISO } from 'date-fns';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -269,7 +270,7 @@ export default function Profile() {
                 <div className="flex items-center justify-between">
                   <span className="text-slate-300">Planned Return Date</span>
                   <span className="text-slate-200 font-medium">
-                    {new Date(progress.return_date).toLocaleDateString('en-US', { 
+                    {parseISO(progress.return_date).toLocaleDateString('en-US', { 
                       month: 'short', 
                       day: 'numeric', 
                       year: 'numeric' 

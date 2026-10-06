@@ -7,7 +7,7 @@ import {
   AlertCircle, CheckCircle2, MessageSquare, ChevronRight,
   Lightbulb, ListChecks, FileText
 } from 'lucide-react';
-import { format, differenceInDays, isBefore, isToday, addDays } from 'date-fns';
+import { format, parseISO, differenceInDays, isBefore, isToday, addDays } from 'date-fns';
 import { motion } from 'framer-motion';
 
 export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
@@ -20,7 +20,9 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
 
     // Return date
     if (progress?.return_date) {
-      const returnDate = new Date(progress.return_date);
+      // Date-only values must parse as LOCAL midnight: new Date('2026-12-01')
+      // is UTC midnight, which lands on Nov 30 for anyone behind UTC.
+      const returnDate = parseISO(progress.return_date);
       if (isBefore(today, returnDate) && isBefore(returnDate, nextWeek)) {
         events.push({
           id: 'return-date',
@@ -36,7 +38,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
     // Accommodation reviews
     progress?.accommodations_requested?.forEach((acc, idx) => {
       if (acc.review_date) {
-        const reviewDate = new Date(acc.review_date);
+        const reviewDate = parseISO(acc.review_date);
         if (isBefore(today, reviewDate) && isBefore(reviewDate, nextWeek)) {
           events.push({
             id: `acc-review-${idx}`,
@@ -52,7 +54,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
 
     // Calendar events
     progress?.calendar_events?.forEach((event) => {
-      const eventDate = new Date(event.date);
+      const eventDate = parseISO(event.date);
       if (isBefore(today, eventDate) && isBefore(eventDate, nextWeek)) {
         events.push({
           ...event,

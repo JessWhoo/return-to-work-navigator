@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { 
   Calendar, Clock, Home, Save, CheckCircle2, Download 
 } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -85,7 +85,7 @@ export default function ReturnPlanning() {
 
 Dear [HR/Manager],
 
-I am planning to return to work on ${format(new Date(returnDate), 'MMMM d, yyyy')} following my medical leave. As I transition back, I am requesting the following phased return schedule to ensure a successful reintegration:
+I am planning to return to work on ${format(parseISO(returnDate), 'MMMM d, yyyy')} following my medical leave. As I transition back, I am requesting the following phased return schedule to ensure a successful reintegration:
 
 ${template.phases.map(phase => `Week ${phase.week}:
 • Work schedule: ${phase.hours} hours per week
@@ -136,7 +136,7 @@ Sincerely,
               <div>
                 <p className="text-sm text-slate-700 mb-1 font-semibold">Your planned return date:</p>
                 <p className="text-2xl font-bold text-teal-400">
-                  {format(new Date(progress.return_date), 'EEEE, MMMM d, yyyy')}
+                  {format(parseISO(progress.return_date), 'EEEE, MMMM d, yyyy')}
                 </p>
               </div>
               <Calendar className="h-12 w-12 text-teal-600" />
