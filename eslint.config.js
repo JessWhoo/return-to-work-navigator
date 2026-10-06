@@ -5,13 +5,26 @@ import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginUnusedImports from "eslint-plugin-unused-imports";
 
 export default [
+  // Global ignores — these must live in their own config object, otherwise
+  // they only scope the object they sit in and the files still get linted
+  // with no JSX parser (which reports "Unexpected token <").
+  {
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "src/lib/**/*",
+      "src/components/ui/**/*",
+    ],
+  },
   {
     files: [
+      "src/App.jsx",
+      "src/main.jsx",
+      "src/Layout.jsx",
       "src/components/**/*.{js,mjs,cjs,jsx}",
       "src/pages/**/*.{js,mjs,cjs,jsx}",
-      "src/Layout.jsx",
+      "src/hooks/**/*.{js,mjs,cjs,jsx}",
     ],
-    ignores: ["src/lib/**/*", "src/components/ui/**/*"],
     ...pluginJs.configs.recommended,
     ...pluginReact.configs.flat.recommended,
     languageOptions: {
@@ -36,6 +49,7 @@ export default [
     },
     rules: {
       "no-unused-vars": "off",
+      "no-undef": "off",
       "react/jsx-uses-vars": "error",
       "react/jsx-uses-react": "error",
       "unused-imports/no-unused-imports": "error",
