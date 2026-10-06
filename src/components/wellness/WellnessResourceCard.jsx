@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink, MessageSquare } from 'lucide-react';
 import StarRating from './StarRating';
+import WellnessRatingEditor from '@/components/wellness/WellnessRatingEditor';
 
 const TOPIC_LABELS = {
   fatigue_management: 'Fatigue Management',
@@ -13,7 +14,7 @@ const TOPIC_LABELS = {
   sleep_rest: 'Sleep & Rest',
 };
 
-export default function WellnessResourceCard({ resource, avgRating, ratingCount, myRating, onRate, onFeedback }) {
+export default function WellnessResourceCard({ resource, avgRating, ratingCount, myRating, myNote, onFeedback }) {
   return (
     <Card className="bg-white border-2 border-slate-300 shadow-sm hover:shadow-md transition-shadow h-full">
       <CardContent className="p-5 flex flex-col h-full space-y-3">
@@ -49,10 +50,7 @@ export default function WellnessResourceCard({ resource, avgRating, ratingCount,
               </a>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-600">Was this helpful?</span>
-            <StarRating value={myRating || 0} onRate={onRate} size="h-4 w-4" />
-          </div>
+          <WellnessRatingEditor resourceId={resource.id} myRating={myRating} myNote={myNote} />
           {onFeedback && (
             <button
               type="button"

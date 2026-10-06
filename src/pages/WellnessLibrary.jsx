@@ -9,7 +9,7 @@ import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
 import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
 import AddWellnessResourceDialog from '@/components/wellness/AddWellnessResourceDialog';
 import WellnessResourceFeedbackDialog from '@/components/wellness/WellnessResourceFeedbackDialog';
-import { useWellnessLibrary, useRateResource } from '@/hooks/useWellnessLibrary';
+import { useWellnessLibrary } from '@/hooks/useWellnessLibrary';
 import { useAuth } from '@/lib/AuthContext';
 import useSEO from '@/hooks/useSEO';
 
@@ -41,7 +41,6 @@ export default function WellnessLibrary() {
     data, isLoading, isError, refetch, isRefetching,
     fetchNextPage, hasNextPage, isFetchingNextPage,
   } = useWellnessLibrary(topic);
-  const rateMutation = useRateResource(topic);
 
   const resources = useMemo(() => data?.pages.flatMap((p) => p.resources) ?? [], [data]);
   const ratingStats = useMemo(() => {
@@ -73,14 +72,6 @@ export default function WellnessLibrary() {
     setFeedbackResource(resource);
   };
 
-  const handleRate = (resource, value) => {
-    if (!isAuthenticated) {
-      base44.auth.redirectToLogin(window.location.pathname);
-      return;
-    }
-    const stat = ratingStats[resource.id] || { resource_id: resource.id, average: 0, count: 0, my_rating: 0, my_rating_id: null };
-    rateMutation.mutate({ resourceId: resource.id, value, stat });
-  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -186,7 +177,7 @@ export default function WellnessLibrary() {
                 avgRating={stats?.average || 0}
                 ratingCount={stats?.count || 0}
                 myRating={stats?.my_rating || 0}
-                onRate={(value) => handleRate(resource, value)}
+                myNote={stats?.my_note || ''}
                 onFeedback={openResourceFeedback}
               />
             );
