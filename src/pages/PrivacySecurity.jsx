@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
   Shield, Lock, EyeOff, UserCheck, Database, Trash2, KeyRound, HeartPulse, MessageCircle, FileText, CheckCircle2,
-  AlertTriangle, Mail
+  AlertTriangle, Mail, ExternalLink
 } from 'lucide-react';
 import useSEO from '@/hooks/useSEO';
 
@@ -288,6 +288,31 @@ export default function PrivacySecurity() {
               </div>
             </Link>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Third-party services */}
+      <Card className="bg-white border-2 border-slate-200 shadow-sm">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-slate-900">
+            <ExternalLink className="h-6 w-6 text-violet-700" />
+            <span className="font-extrabold">Third-party services</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-slate-700 leading-relaxed">
+            Some features are supported by outside services, and those services' own terms apply to
+            how they handle your information.
+          </p>
+          <a
+            href="https://conversations.godaddy.com/policies/tos/df004a43-c23b-11f1-8742-3cfdfe75eb81"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-bold text-violet-700 hover:text-violet-800 underline transition-colors"
+          >
+            GoDaddy Conversations Terms of Service
+            <ExternalLink className="h-4 w-4" />
+          </a>
         </CardContent>
       </Card>
 
