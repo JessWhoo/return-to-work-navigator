@@ -325,6 +325,14 @@ export default function PrivacySecurity() {
               text messages from Artisan HR AI LLC. Msg&amp;Data rates may apply. Message frequency
               varies. Text HELP for help. Reply "STOP" at any time to opt out.
             </p>
+            <p className="text-xs text-slate-900 leading-relaxed font-bold">
+              Return Collective does not share mobile numbers, text messaging originator opt-in data,
+              or consent with any third parties or affiliates for marketing or promotional purposes.
+            </p>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              Text messaging originator opt-in data and consent will not be shared with any third
+              parties, excluding aggregators and providers of the Text Message services.
+            </p>
           </div>
         </CardContent>
       </Card>
