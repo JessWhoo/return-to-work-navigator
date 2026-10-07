@@ -313,6 +313,19 @@ export default function PrivacySecurity() {
             GoDaddy Conversations Terms of Service
             <ExternalLink className="h-4 w-4" />
           </a>
+
+          <div className="pt-3 border-t-2 border-slate-200 space-y-2">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5 text-violet-700" />
+              <span className="text-sm font-extrabold text-slate-900">Text message program</span>
+            </div>
+            <p className="text-lg font-extrabold text-slate-900">(575) 221-1160</p>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              By contacting us via SMS with your mobile number, you consent to receive customer care
+              text messages from Artisan HR AI LLC. Msg&amp;Data rates may apply. Message frequency
+              varies. Text HELP for help. Reply "STOP" at any time to opt out.
+            </p>
+          </div>
         </CardContent>
       </Card>
 
