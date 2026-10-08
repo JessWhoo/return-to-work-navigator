@@ -6,6 +6,7 @@ import {
   Shield, Lock, EyeOff, UserCheck, Database, Trash2, KeyRound, HeartPulse, MessageCircle, FileText, CheckCircle2,
   AlertTriangle, Mail, ExternalLink
 } from 'lucide-react';
+import SmsConsentCard from '@/components/sms/SmsConsentCard';
 import useSEO from '@/hooks/useSEO';
 
 const sections = [
@@ -314,28 +315,20 @@ export default function PrivacySecurity() {
             <ExternalLink className="h-4 w-4" />
           </a>
 
-          <div className="pt-3 border-t-2 border-slate-200 space-y-2">
-            <div className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5 text-violet-700" />
-              <span className="text-sm font-extrabold text-slate-900">Text message program</span>
-            </div>
-            <p className="text-lg font-extrabold text-slate-900">(575) 221-1160</p>
-            <p className="text-xs text-slate-700 leading-relaxed">
-              By contacting us via SMS with your mobile number, you consent to receive customer care
-              text messages from Artisan HR AI LLC. Msg&amp;Data rates may apply. Message frequency
-              varies. Text HELP for help. Reply "STOP" at any time to opt out.
-            </p>
-            <p className="text-xs text-slate-900 leading-relaxed font-bold">
-              Return Collective does not share mobile numbers, text messaging originator opt-in data,
-              or consent with any third parties or affiliates for marketing or promotional purposes.
-            </p>
-            <p className="text-xs text-slate-700 leading-relaxed">
-              Text messaging originator opt-in data and consent will not be shared with any third
-              parties, excluding aggregators and providers of the Text Message services.
-            </p>
-          </div>
         </CardContent>
       </Card>
+
+      {/* Text message program */}
+      <SmsConsentCard>
+        <p className="text-xs text-slate-900 leading-relaxed font-bold">
+          Return Collective does not share mobile numbers, text messaging originator opt-in data,
+          or consent with any third parties or affiliates for marketing or promotional purposes.
+        </p>
+        <p className="text-xs text-slate-700 leading-relaxed">
+          Text messaging originator opt-in data and consent will not be shared with any third
+          parties, excluding aggregators and providers of the Text Message services.
+        </p>
+      </SmsConsentCard>
 
       {/* Footer note */}
       <Card className="bg-amber-50 border-2 border-amber-200">

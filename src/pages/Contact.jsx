@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { base44 } from '@/api/base44Client';
 import useSEO from '@/hooks/useSEO';
+import SmsConsentCard from '@/components/sms/SmsConsentCard';
 import { toast } from 'sonner';
 
 export default function Contact() {
@@ -90,6 +91,9 @@ export default function Contact() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Text message program */}
+      <SmsConsentCard />
 
       {/* Contact Form */}
       <Card className="bg-white border-slate-300">
