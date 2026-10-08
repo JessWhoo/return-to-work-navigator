@@ -15,6 +15,7 @@ import CalendarView from '../components/dashboard/CalendarView';
 import OnboardingFlow from '../components/OnboardingFlow';
 import DailyCheckIn from '../components/DailyCheckIn';
 import ResourceFeedbackForm from '@/components/feedback/ResourceFeedbackForm';
+import SmsConsentCard from '@/components/sms/SmsConsentCard';
 import ManagerResourceHub from '@/components/managerguide/ManagerResourceHub';
 import useSEO from '@/hooks/useSEO';
 import { useAuth } from '@/lib/AuthContext';
@@ -546,6 +547,11 @@ export default function Home() {
           </p>
         </div>
       </motion.div>
+
+      {/* Text message program */}
+      <div className="mt-16">
+        <SmsConsentCard />
+      </div>
     </div>
   );
 }
