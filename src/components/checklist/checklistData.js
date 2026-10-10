@@ -11,7 +11,7 @@ export const checklistData = [
   {
     phase: 'Phase 1: Before Returning to Work',
     color: 'rose',
-    checkClass: 'text-rose-600',
+    checkClass: 'text-brand-primary',
     sections: [
       {
         title: 'Medical Considerations',
@@ -54,7 +54,7 @@ export const checklistData = [
   {
     phase: 'Phase 2: First Week Back at Work',
     color: 'teal',
-    checkClass: 'text-teal-600',
+    checkClass: 'text-brand-primary',
     sections: [
       {
         title: 'First Day',
@@ -88,7 +88,7 @@ export const checklistData = [
   {
     phase: 'Phase 3: Ongoing Adjustment (First Month and Beyond)',
     color: 'purple',
-    checkClass: 'text-purple-600',
+    checkClass: 'text-brand-primary',
     sections: [
       {
         title: 'Regular Check-ins',

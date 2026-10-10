@@ -86,8 +86,8 @@ export default function Checklist() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center space-y-3">
-          <div className="animate-spin h-12 w-12 border-4 border-rose-200 border-t-rose-600 rounded-full mx-auto" />
-          <p className="text-gray-600">Loading your checklist...</p>
+          <div className="animate-spin h-12 w-12 border-4 border-brand-border border-t-brand-primary rounded-full mx-auto" />
+          <p className="text-brand-muted-foreground">Loading your checklist...</p>
         </div>
       </div>
     );
@@ -109,27 +109,27 @@ export default function Checklist() {
       />
       
       {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-rose-600 to-teal-600 bg-clip-text text-transparent">
+      <div className="space-y-3 text-center">
+        <h2 className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
           Your Return to Work Checklist
-        </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
+        </h2>
+        <p className="max-w-2xl mx-auto text-brand-muted-foreground">
           Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
         </p>
       </div>
 
       {/* Progress Overview */}
-      <Card className="bg-white border-2 border-rose-200 shadow-sm">
+      <Card>
         <CardContent className="pt-6">
           <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-semibold text-slate-800">Overall Progress</span>
-              <span className="text-sm font-bold text-rose-600">
+            <div className="flex items-center justify-between gap-3">
+              <span className="nv-eyebrow">Overall progress</span>
+              <span className="text-sm font-bold text-brand-primary">
                 {completedItems.length} of {totalItems} completed
               </span>
             </div>
-            <Progress value={progressPercentage} className="h-3" />
-            <p className="text-xs text-slate-700 text-center font-medium">
+            <Progress value={progressPercentage} className="h-2" />
+            <p className="text-center text-xs font-semibold text-brand-muted-foreground">
               {progressPercentage.toFixed(0)}% complete
             </p>
           </div>
@@ -152,25 +152,22 @@ export default function Checklist() {
           const phaseProgress = (phaseCompleted / phaseItems.length) * 100;
 
           return (
-            <Card 
-              key={phaseIndex}
-              className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all"
-            >
+            <Card key={phaseIndex}>
               <CardHeader 
-                className="cursor-pointer hover:bg-slate-50 transition-colors"
+                className="cursor-pointer transition-colors hover:bg-brand-muted"
                 onClick={() => togglePhase(phaseIndex)}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     {isExpanded ? 
-                      <ChevronDown className="h-5 w-5 text-slate-600" /> : 
-                      <ChevronRight className="h-5 w-5 text-slate-600" />
+                      <ChevronDown className="h-5 w-5 text-brand-muted-foreground" /> : 
+                      <ChevronRight className="h-5 w-5 text-brand-muted-foreground" />
                     }
-                    <CardTitle className="text-xl text-slate-900">
+                    <CardTitle className="font-heading text-xl text-brand-text">
                       {phase.phase}
                     </CardTitle>
                   </div>
-                  <Badge variant="secondary" className="bg-slate-100 text-slate-800 font-bold">
+                  <Badge variant="secondary" className="bg-brand-muted font-semibold text-brand-text">
                     {phaseCompleted}/{phaseItems.length}
                   </Badge>
                 </div>
@@ -185,7 +182,7 @@ export default function Checklist() {
                   
                   {phase.sections.map((section, sectionIndex) => (
                     <div key={sectionIndex} className="space-y-3">
-                       <h4 className="font-semibold text-slate-900 text-lg">
+                      <h4 className="font-heading text-lg font-bold text-brand-text">
                         {section.title}
                       </h4>
                       <div className="space-y-3 ml-2">
@@ -194,7 +191,7 @@ export default function Checklist() {
                           return (
                             <div 
                               key={item.id}
-                              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
+                              className="flex items-start space-x-3 rounded-brand p-3 transition-colors hover:bg-brand-muted"
                             >
                               <Checkbox
                                 id={item.id}
@@ -204,8 +201,8 @@ export default function Checklist() {
                               />
                               <label
                                 htmlFor={item.id}
-                                className={`flex-1 text-sm leading-relaxed cursor-pointer ${
-                                     isChecked ? 'line-through text-slate-500' : 'text-slate-800'
+                                className={`flex-1 cursor-pointer text-sm ${
+                                     isChecked ? 'line-through text-brand-muted-foreground' : 'text-brand-text'
                                 }`}
                               >
                                 {item.text}
@@ -231,11 +228,11 @@ export default function Checklist() {
 
       {/* Completion Message */}
       {progressPercentage === 100 && (
-        <Card className="bg-gradient-to-r from-green-50 to-teal-50 border-2 border-green-300">
+        <Card className="nv-card--muted">
           <CardContent className="pt-6 text-center">
-            <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">Congratulations! 🎉</h3>
-            <p className="text-slate-800 font-medium">
+            <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
+            <h3 className="mb-2 font-heading text-2xl font-bold text-brand-text">Congratulations! 🎉</h3>
+            <p className="font-medium text-brand-text">
               You've completed all checklist items. Remember, returning to work is an ongoing journey. 
               Continue to advocate for yourself and adjust as needed.
             </p>

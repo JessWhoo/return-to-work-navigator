@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -142,7 +141,7 @@ export default function Profile() {
   if (userLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-brand-border border-t-brand-primary"></div>
       </div>
     );
   }
@@ -163,113 +162,83 @@ export default function Profile() {
     weekly_summary: true
   };
 
+  const statTiles = [
+    { icon: CheckCircle2, value: stats.completedItems, label: 'Tasks Completed' },
+    { icon: BookmarkCheck, value: stats.savedResources, label: 'Saved Resources' },
+    { icon: TrendingUp, value: stats.energyLogs, label: 'Energy Logs' },
+    { icon: FileText, value: stats.accommodationRequests, label: 'Accommodations' },
+    { icon: Award, value: stats.reviews, label: 'Reviews Written' },
+    { icon: Target, value: stats.suggestions, label: 'Resources Suggested' },
+  ];
+
+  const notificationRows = [
+    { key: 'email_reminders', label: 'Email Reminders', text: 'Receive reminders for appointments and important dates' },
+    { key: 'progress_updates', label: 'Progress Updates', text: 'Get notified about your progress milestones' },
+    { key: 'new_resources', label: 'New Resources', text: 'Be notified when new helpful resources are added' },
+    { key: 'weekly_summary', label: 'Weekly Summary', text: 'Receive a weekly summary of your activity and insights' },
+  ];
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
-      <div className="text-center space-y-4">
-        <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-teal-600 to-cyan-600 flex items-center justify-center">
-          <User className="h-10 w-10 text-white" />
+      <div className="space-y-3 text-center">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-brand-muted">
+          <User className="h-10 w-10 text-brand-primary" />
         </div>
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h2 className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
           My Profile
-        </h1>
-        <p className="text-lg text-slate-300">
+        </h2>
+        <p className="text-brand-muted-foreground">
           Manage your information and track your progress
         </p>
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 bg-slate-800/50">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="personal">Personal Info</TabsTrigger>
-          <TabsTrigger value="preferences">Preferences</TabsTrigger>
+        <TabsList className="nv-tabs h-auto">
+          <TabsTrigger value="overview" className="nv-tab">Overview</TabsTrigger>
+          <TabsTrigger value="personal" className="nv-tab">Personal Info</TabsTrigger>
+          <TabsTrigger value="preferences" className="nv-tab">Preferences</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Card className="bg-gradient-to-br from-teal-900/50 to-teal-800/50 border-teal-700">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <CheckCircle2 className="h-8 w-8 text-teal-400 mx-auto" />
-                  <div className="text-3xl font-bold text-teal-400">{stats.completedItems}</div>
-                  <p className="text-sm text-slate-300">Tasks Completed</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-cyan-900/50 to-cyan-800/50 border-cyan-700">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <BookmarkCheck className="h-8 w-8 text-cyan-400 mx-auto" />
-                  <div className="text-3xl font-bold text-cyan-400">{stats.savedResources}</div>
-                  <p className="text-sm text-slate-300">Saved Resources</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-blue-900/50 to-blue-800/50 border-blue-700">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <TrendingUp className="h-8 w-8 text-blue-400 mx-auto" />
-                  <div className="text-3xl font-bold text-blue-400">{stats.energyLogs}</div>
-                  <p className="text-sm text-slate-300">Energy Logs</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-purple-900/50 to-purple-800/50 border-purple-700">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <FileText className="h-8 w-8 text-purple-400 mx-auto" />
-                  <div className="text-3xl font-bold text-purple-400">{stats.accommodationRequests}</div>
-                  <p className="text-sm text-slate-300">Accommodations</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-amber-900/50 to-amber-800/50 border-amber-700">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <Award className="h-8 w-8 text-amber-400 mx-auto" />
-                  <div className="text-3xl font-bold text-amber-400">{stats.reviews}</div>
-                  <p className="text-sm text-slate-300">Reviews Written</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-pink-900/50 to-pink-800/50 border-pink-700">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <Target className="h-8 w-8 text-pink-400 mx-auto" />
-                  <div className="text-3xl font-bold text-pink-400">{stats.suggestions}</div>
-                  <p className="text-sm text-slate-300">Resources Suggested</p>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+            {statTiles.map(({ icon: Icon, value, label }) => (
+              <Card key={label}>
+                <CardContent className="pt-6">
+                  <div className="space-y-3 text-center">
+                    <span className="inline-flex rounded-pill bg-brand-muted p-3 text-brand-primary">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <div className="font-heading text-3xl font-bold text-brand-text">{value}</div>
+                    <p className="text-sm text-brand-muted-foreground">{label}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           {/* Journey Progress */}
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-slate-200">
-                <TrendingUp className="h-5 w-5 text-teal-400" />
+              <CardTitle className="flex items-center gap-2 font-heading text-brand-text">
+                <TrendingUp className="h-5 w-5 text-brand-primary" />
                 <span>Journey Progress</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-300">Current Stage</span>
-                <Badge className="bg-teal-600 text-white capitalize">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-brand-muted-foreground">Current Stage</span>
+                <span className="nv-chip capitalize">
                   {progress?.journey_stage?.replace('_', ' ') || 'Planning'}
-                </Badge>
+                </span>
               </div>
-              
+
               {progress?.return_date && (
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Planned Return Date</span>
-                  <span className="text-slate-200 font-medium">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-brand-muted-foreground">Planned Return Date</span>
+                  <span className="font-semibold text-brand-text">
                     {parseISO(progress.return_date).toLocaleDateString('en-US', { 
                       month: 'short', 
                       day: 'numeric', 
@@ -279,10 +248,10 @@ export default function Profile() {
                 </div>
               )}
 
-              <div className="pt-4 border-t border-slate-700">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-slate-400">Checklist Progress</span>
-                  <span className="text-sm font-medium text-slate-300">
+              <div className="border-t border-brand-border pt-4">
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <span className="text-sm text-brand-muted-foreground">Checklist Progress</span>
+                  <span className="text-sm font-semibold text-brand-text">
                     {stats.completedItems} items completed
                   </span>
                 </div>
@@ -293,11 +262,11 @@ export default function Profile() {
 
         {/* Personal Info Tab */}
         <TabsContent value="personal" className="space-y-6">
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card>
             <CardHeader>
-              <CardTitle className="flex items-center justify-between text-slate-200">
-                <span className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-teal-400" />
+              <CardTitle className="flex items-center justify-between gap-3 font-heading text-brand-text">
+                <span className="flex items-center gap-2">
+                  <User className="h-5 w-5 text-brand-primary" />
                   <span>Personal Information</span>
                 </span>
                 {!isEditing && (
@@ -305,7 +274,6 @@ export default function Profile() {
                     variant="outline"
                     size="sm"
                     onClick={() => setIsEditing(true)}
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
                   >
                     Edit
                   </Button>
@@ -315,43 +283,43 @@ export default function Profile() {
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-slate-300">Full Name</Label>
+                  <Label htmlFor="name" className="font-semibold text-brand-text">Full Name</Label>
                   {isEditing ? (
                     <Input
                       id="name"
                       value={editedName}
                       onChange={(e) => setEditedName(e.target.value)}
-                      className="bg-slate-900 border-slate-600 text-slate-200"
+                      className="nv-input"
                     />
                   ) : (
-                    <div className="flex items-center space-x-2 p-3 bg-slate-900 rounded-lg">
-                      <User className="h-4 w-4 text-slate-400" />
-                      <span className="text-slate-200">{user?.full_name || 'Not set'}</span>
+                    <div className="flex items-center gap-2 rounded-brand bg-brand-muted p-3">
+                      <User className="h-4 w-4 text-brand-muted-foreground" />
+                      <span className="text-brand-text">{user?.full_name || 'Not set'}</span>
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-slate-300">Email Address</Label>
-                  <div className="flex items-center space-x-2 p-3 bg-slate-900 rounded-lg">
-                    <Mail className="h-4 w-4 text-slate-400" />
-                    <span className="text-slate-200">{user?.email}</span>
+                  <Label className="font-semibold text-brand-text">Email Address</Label>
+                  <div className="flex items-center gap-2 rounded-brand bg-brand-muted p-3">
+                    <Mail className="h-4 w-4 text-brand-muted-foreground" />
+                    <span className="text-brand-text">{user?.email}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-slate-300">Role</Label>
-                  <div className="flex items-center space-x-2 p-3 bg-slate-900 rounded-lg">
-                    <Shield className="h-4 w-4 text-slate-400" />
-                    <Badge className="bg-slate-700 text-slate-300 capitalize">{user?.role || 'user'}</Badge>
+                  <Label className="font-semibold text-brand-text">Role</Label>
+                  <div className="flex items-center gap-2 rounded-brand bg-brand-muted p-3">
+                    <Shield className="h-4 w-4 text-brand-muted-foreground" />
+                    <span className="nv-chip capitalize">{user?.role || 'user'}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-slate-300">Member Since</Label>
-                  <div className="flex items-center space-x-2 p-3 bg-slate-900 rounded-lg">
-                    <Calendar className="h-4 w-4 text-slate-400" />
-                    <span className="text-slate-200">
+                  <Label className="font-semibold text-brand-text">Member Since</Label>
+                  <div className="flex items-center gap-2 rounded-brand bg-brand-muted p-3">
+                    <Calendar className="h-4 w-4 text-brand-muted-foreground" />
+                    <span className="text-brand-text">
                       {new Date(user?.created_date || Date.now()).toLocaleDateString('en-US', {
                         month: 'long',
                         year: 'numeric'
@@ -362,10 +330,10 @@ export default function Profile() {
               </div>
 
               {isEditing && (
-                <div className="flex gap-3 pt-4 border-t border-slate-700">
+                <div className="flex gap-3 border-t border-brand-border pt-4">
                   <Button
                     variant="outline"
-                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
+                    className="flex-1"
                     onClick={() => {
                       setIsEditing(false);
                       setEditedName(user?.full_name || '');
@@ -374,7 +342,7 @@ export default function Profile() {
                     Cancel
                   </Button>
                   <Button
-                    className="flex-1 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700"
+                    className="flex-1"
                     onClick={handleSaveProfile}
                     disabled={updateUserMutation.isPending}
                   >
@@ -390,81 +358,45 @@ export default function Profile() {
         <TabsContent value="preferences" className="space-y-6">
           <AccessibilityModeCard />
 
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-slate-200">
-                <Bell className="h-5 w-5 text-teal-400" />
+              <CardTitle className="flex items-center gap-2 font-heading text-brand-text">
+                <Bell className="h-5 w-5 text-brand-primary" />
                 <span>Notification Preferences</span>
               </CardTitle>
-              <p className="text-sm text-slate-400 mt-2">
+              <p className="mt-2 text-sm text-brand-muted-foreground">
                 Manage how you receive updates and reminders
               </p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-slate-900 rounded-lg">
-                  <div className="space-y-1">
-                    <Label className="text-slate-200">Email Reminders</Label>
-                    <p className="text-sm text-slate-400">
-                      Receive reminders for appointments and important dates
-                    </p>
+                {notificationRows.map(({ key, label, text }) => (
+                  <div key={key} className="flex items-center justify-between gap-4 rounded-brand bg-brand-muted p-4">
+                    <div className="space-y-1">
+                      <Label className="font-semibold text-brand-text">{label}</Label>
+                      <p className="text-sm text-brand-muted-foreground">
+                        {text}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={notificationPrefs[key]}
+                      onCheckedChange={() => handleNotificationToggle(key)}
+                      aria-label={label}
+                    />
                   </div>
-                  <Switch
-                    checked={notificationPrefs.email_reminders}
-                    onCheckedChange={() => handleNotificationToggle('email_reminders')}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-slate-900 rounded-lg">
-                  <div className="space-y-1">
-                    <Label className="text-slate-200">Progress Updates</Label>
-                    <p className="text-sm text-slate-400">
-                      Get notified about your progress milestones
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationPrefs.progress_updates}
-                    onCheckedChange={() => handleNotificationToggle('progress_updates')}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-slate-900 rounded-lg">
-                  <div className="space-y-1">
-                    <Label className="text-slate-200">New Resources</Label>
-                    <p className="text-sm text-slate-400">
-                      Be notified when new helpful resources are added
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationPrefs.new_resources}
-                    onCheckedChange={() => handleNotificationToggle('new_resources')}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-slate-900 rounded-lg">
-                  <div className="space-y-1">
-                    <Label className="text-slate-200">Weekly Summary</Label>
-                    <p className="text-sm text-slate-400">
-                      Receive a weekly summary of your activity and insights
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationPrefs.weekly_summary}
-                    onCheckedChange={() => handleNotificationToggle('weekly_summary')}
-                  />
-                </div>
+                ))}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-slate-200">Account Actions</CardTitle>
+              <CardTitle className="font-heading text-brand-text">Account Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Button
                 variant="outline"
-                className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700"
+                className="w-full justify-start"
                 onClick={() => {
                   base44.auth.logout();
                 }}
@@ -475,37 +407,37 @@ export default function Profile() {
           </Card>
 
           {/* Danger Zone */}
-          <Card className="bg-slate-800/50 border-red-900/60">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-red-400 flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 font-heading text-brand-destructive">
                 <Trash2 className="h-5 w-5" />
                 Danger Zone
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-slate-400 mb-4">
+              <p className="mb-4 text-sm text-brand-muted-foreground">
                 Permanently delete your account and all associated data. This action cannot be undone.
               </p>
               <AlertDialog onOpenChange={(open) => { if (!open) setConfirmText(''); }}>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" className="w-full">
-                    <Trash2 className="h-4 w-4 mr-2" />
+                    <Trash2 className="h-4 w-4" />
                     Delete Account
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-slate-900 border-slate-700">
+                <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle className="text-slate-100 flex items-center gap-2">
-                      <AlertTriangle className="h-5 w-5 text-red-400" />
+                    <AlertDialogTitle className="flex items-center gap-2 font-heading">
+                      <AlertTriangle className="h-5 w-5 text-brand-destructive" />
                       Permanently delete your account?
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="text-slate-400">
+                    <AlertDialogDescription className="text-brand-muted-foreground">
                       This will permanently erase all of your data. This action cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <div className="space-y-3 text-sm">
-                    <p className="text-slate-300 font-medium">This will permanently erase:</p>
-                    <ul className="list-disc list-inside space-y-1 text-slate-400">
+                    <p className="font-semibold text-brand-text">This will permanently erase:</p>
+                    <ul className="list-inside list-disc space-y-1 text-brand-muted-foreground">
                       <li>Your journey progress, checklists, and gamification points</li>
                       <li>All saved records, symptom logs, and energy data</li>
                       <li>Communication drafts and meeting preparation notes</li>
@@ -513,29 +445,29 @@ export default function Profile() {
                       <li>Community profiles, peer connections, and messages</li>
                       <li>All notification preferences</li>
                     </ul>
-                    <p className="text-red-300">
+                    <p className="text-brand-destructive">
                       This action <strong>cannot be undone</strong> — there is no recovery once data is deleted.
                     </p>
                     <div className="pt-2">
-                      <Label className="text-slate-300 block mb-1">
-                        Type <strong className="text-red-400">DELETE</strong> below to confirm:
+                      <Label className="mb-1 block font-semibold text-brand-text">
+                        Type <strong className="text-brand-destructive">DELETE</strong> below to confirm:
                       </Label>
                       <Input
                         value={confirmText}
                         onChange={(e) => setConfirmText(e.target.value)}
                         placeholder="Type DELETE to confirm"
-                        className="bg-slate-800 border-slate-600 text-slate-100"
+                        className="nv-input"
                         disabled={isDeleting}
                       />
                     </div>
                   </div>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting} className="bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700">
+                    <AlertDialogCancel disabled={isDeleting}>
                       Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction
                       disabled={isDeleting || confirmText.trim().toUpperCase() !== 'DELETE'}
-                      className="bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
+                      className="nv-btn nv-btn--destructive"
                       onClick={(e) => {
                         e.preventDefault();
                         handleDeleteAccount();

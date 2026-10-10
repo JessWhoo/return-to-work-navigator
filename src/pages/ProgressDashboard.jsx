@@ -4,7 +4,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import PullToRefresh from '../components/PullToRefresh';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -180,16 +179,16 @@ export default function ProgressDashboard() {
   const moodData = getMoodDistributionData();
   const checklistProgressData = getChecklistProgressData();
 
-  const COLORS = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e'];
+  const COLORS = ['#B5413F', '#E3A9B2', '#C9CCE2', '#8FB79A', '#6B5F7E'];
 
   if (!progress) {
     return (
       <div className="max-w-7xl mx-auto">
-        <Card className="bg-gradient-to-br from-indigo-50 to-purple-50">
+        <Card className="nv-card--muted">
           <CardContent className="pt-16 pb-16 text-center">
-            <Activity className="h-16 w-16 text-indigo-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">No Progress Data Yet</h3>
-            <p className="text-gray-600">Start tracking your energy and completing checklist items to see your progress!</p>
+            <Activity className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
+            <h3 className="mb-2 font-heading text-xl font-bold text-brand-text">No Progress Data Yet</h3>
+            <p className="text-brand-muted-foreground">Start tracking your energy and completing checklist items to see your progress!</p>
           </CardContent>
         </Card>
       </div>
@@ -200,36 +199,30 @@ export default function ProgressDashboard() {
     <PullToRefresh onRefresh={handleRefresh}>
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Progress Dashboard
-          </h1>
-          <p className="text-gray-600 mt-2">Track your return-to-work journey</p>
+          <p className="nv-eyebrow nv-eyebrow--primary">Your journey</p>
+          <h2 className="mt-1 font-heading text-3xl font-bold text-brand-text">Progress Dashboard</h2>
+          <p className="mt-2 text-brand-muted-foreground">Track your return-to-work journey</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="px-4 py-2 border-2 border-indigo-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            aria-label="Date range"
+            className="nv-input px-4 py-2 text-sm"
           >
             <option value="7">Last 7 days</option>
             <option value="14">Last 14 days</option>
             <option value="30">Last 30 days</option>
             <option value="90">Last 90 days</option>
           </select>
-          <Button
-            onClick={handleExport}
-            variant="outline"
-          >
-            <Download className="h-4 w-4 mr-2" />
+          <Button onClick={handleExport} variant="outline">
+            <Download className="h-4 w-4" />
             Export Data
           </Button>
-          <Button
-            onClick={() => setShareDialogOpen(true)}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600"
-          >
-            <Share2 className="h-4 w-4 mr-2" />
+          <Button onClick={() => setShareDialogOpen(true)}>
+            <Share2 className="h-4 w-4" />
             Share Report
           </Button>
         </div>
@@ -250,69 +243,77 @@ export default function ProgressDashboard() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200">
+        <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-2">
-              <CheckCircle2 className="h-8 w-8 text-blue-600" />
+            <div className="mb-3 flex items-center justify-between">
+              <span className="rounded-pill bg-brand-muted p-2 text-brand-primary">
+                <CheckCircle2 className="h-6 w-6" />
+              </span>
               {metrics.completionRate > 50 ? (
-                <TrendingUp className="h-5 w-5 text-green-600" />
+                <TrendingUp className="h-5 w-5 text-brand-muted-foreground" />
               ) : (
-                <TrendingDown className="h-5 w-5 text-orange-600" />
+                <TrendingDown className="h-5 w-5 text-brand-muted-foreground" />
               )}
             </div>
-            <div className="text-3xl font-bold text-blue-600">{metrics.completionRate}%</div>
-            <p className="text-sm text-gray-600 mt-1">Checklist Complete</p>
-            <p className="text-xs text-gray-500 mt-1">
+            <div className="font-heading text-3xl font-bold text-brand-text">{metrics.completionRate}%</div>
+            <p className="mt-1 text-sm text-brand-muted-foreground">Checklist Complete</p>
+            <p className="mt-1 text-xs text-brand-muted-foreground">
               {metrics.completedItems} of {metrics.totalChecklistItems} items
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200">
+        <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-2">
-              <Zap className="h-8 w-8 text-amber-600" />
+            <div className="mb-3 flex items-center justify-between">
+              <span className="rounded-pill bg-brand-muted p-2 text-brand-primary">
+                <Zap className="h-6 w-6" />
+              </span>
               {parseFloat(metrics.avgEnergy) >= 6 ? (
-                <TrendingUp className="h-5 w-5 text-green-600" />
+                <TrendingUp className="h-5 w-5 text-brand-muted-foreground" />
               ) : (
-                <TrendingDown className="h-5 w-5 text-orange-600" />
+                <TrendingDown className="h-5 w-5 text-brand-muted-foreground" />
               )}
             </div>
-            <div className="text-3xl font-bold text-amber-600">{metrics.avgEnergy}/10</div>
-            <p className="text-sm text-gray-600 mt-1">Avg Energy Level</p>
-            <p className="text-xs text-gray-500 mt-1">
+            <div className="font-heading text-3xl font-bold text-brand-text">{metrics.avgEnergy}/10</div>
+            <p className="mt-1 text-sm text-brand-muted-foreground">Avg Energy Level</p>
+            <p className="mt-1 text-xs text-brand-muted-foreground">
               {metrics.daysTracked} days tracked
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-rose-50 to-pink-50 border-2 border-rose-200">
+        <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-2">
-              <Heart className="h-8 w-8 text-rose-600" />
+            <div className="mb-3 flex items-center justify-between">
+              <span className="rounded-pill bg-brand-muted p-2 text-brand-primary">
+                <Heart className="h-6 w-6" />
+              </span>
               {parseFloat(metrics.avgStress) <= 5 ? (
-                <TrendingUp className="h-5 w-5 text-green-600" />
+                <TrendingUp className="h-5 w-5 text-brand-muted-foreground" />
               ) : (
-                <TrendingDown className="h-5 w-5 text-orange-600" />
+                <TrendingDown className="h-5 w-5 text-brand-muted-foreground" />
               )}
             </div>
-            <div className="text-3xl font-bold text-rose-600">{metrics.avgStress}/10</div>
-            <p className="text-sm text-gray-600 mt-1">Avg Stress Level</p>
-            <p className="text-xs text-gray-500 mt-1">
+            <div className="font-heading text-3xl font-bold text-brand-text">{metrics.avgStress}/10</div>
+            <p className="mt-1 text-sm text-brand-muted-foreground">Avg Stress Level</p>
+            <p className="mt-1 text-xs text-brand-muted-foreground">
               Lower is better
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-2 border-purple-200">
+        <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-2">
-              <BookOpen className="h-8 w-8 text-purple-600" />
-              <Sparkles className="h-5 w-5 text-purple-600" />
+            <div className="mb-3 flex items-center justify-between">
+              <span className="rounded-pill bg-brand-muted p-2 text-brand-primary">
+                <BookOpen className="h-6 w-6" />
+              </span>
+              <Sparkles className="h-5 w-5 text-brand-muted-foreground" />
             </div>
-            <div className="text-3xl font-bold text-purple-600">{metrics.bookmarkedCount}</div>
-            <p className="text-sm text-gray-600 mt-1">Resources Saved</p>
-            <p className="text-xs text-gray-500 mt-1">
+            <div className="font-heading text-3xl font-bold text-brand-text">{metrics.bookmarkedCount}</div>
+            <p className="mt-1 text-sm text-brand-muted-foreground">Resources Saved</p>
+            <p className="mt-1 text-xs text-brand-muted-foreground">
               {metrics.ratedCount} rated
             </p>
           </CardContent>
@@ -321,24 +322,24 @@ export default function ProgressDashboard() {
 
       {/* Return Date Countdown */}
       {metrics.daysUntilReturn !== null && (
-        <Card className="bg-gradient-to-r from-teal-50 via-emerald-50 to-green-50 border-2 border-teal-200">
+        <Card className="nv-card--muted">
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Calendar className="h-12 w-12 text-teal-600" />
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
+                <Calendar className="h-10 w-10 text-brand-primary" />
                 <div>
-                  <p className="text-sm text-gray-600">Return to Work In</p>
-                  <p className="text-4xl font-bold text-teal-600">
+                  <p className="nv-eyebrow">Return to work in</p>
+                  <p className="font-heading text-3xl font-bold text-brand-text">
                     {metrics.daysUntilReturn > 0 ? `${metrics.daysUntilReturn} days` : 'Today!'}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="mt-1 text-xs text-brand-muted-foreground">
                     {format(parseISO(progress.return_date), 'MMMM d, yyyy')}
                   </p>
                 </div>
               </div>
-              <Badge className="bg-teal-500 text-white capitalize text-lg px-4 py-2">
+              <span className="nv-chip self-start capitalize sm:self-auto">
                 {progress.journey_stage.replace('_', ' ')}
-              </Badge>
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -350,7 +351,7 @@ export default function ProgressDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Zap className="h-5 w-5 text-amber-600" />
+              <Zap className="h-5 w-5 text-brand-primary" />
               <span>Energy & Stress Trends</span>
             </CardTitle>
           </CardHeader>
@@ -363,14 +364,14 @@ export default function ProgressDashboard() {
                   <YAxis domain={[0, 10]} />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="morning" stroke="#f59e0b" name="Morning" strokeWidth={2} />
-                  <Line type="monotone" dataKey="afternoon" stroke="#3b82f6" name="Afternoon" strokeWidth={2} />
-                  <Line type="monotone" dataKey="evening" stroke="#8b5cf6" name="Evening" strokeWidth={2} />
-                  <Line type="monotone" dataKey="stress" stroke="#ef4444" name="Stress" strokeWidth={2} strokeDasharray="5 5" />
+                  <Line type="monotone" dataKey="morning" stroke="#6B5F7E" name="Morning" strokeWidth={2} />
+                  <Line type="monotone" dataKey="afternoon" stroke="#8FB79A" name="Afternoon" strokeWidth={2} />
+                  <Line type="monotone" dataKey="evening" stroke="#E3A9B2" name="Evening" strokeWidth={2} />
+                  <Line type="monotone" dataKey="stress" stroke="#B5413F" name="Stress" strokeWidth={2} strokeDasharray="5 5" />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-[300px] flex items-center justify-center text-gray-400">
+              <div className="h-[300px] flex items-center justify-center text-brand-muted-foreground">
                 <p>No energy data tracked yet</p>
               </div>
             )}
@@ -381,7 +382,7 @@ export default function ProgressDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Heart className="h-5 w-5 text-rose-600" />
+              <Heart className="h-5 w-5 text-brand-primary" />
               <span>Mood Distribution</span>
             </CardTitle>
           </CardHeader>
@@ -407,7 +408,7 @@ export default function ProgressDashboard() {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-[300px] flex items-center justify-center text-gray-400">
+              <div className="h-[300px] flex items-center justify-center text-brand-muted-foreground">
                 <p>No mood data tracked yet</p>
               </div>
             )}
@@ -419,7 +420,7 @@ export default function ProgressDashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <CheckCircle2 className="h-5 w-5 text-blue-600" />
+            <CheckCircle2 className="h-5 w-5 text-brand-primary" />
             <span>Checklist Progress by Phase</span>
           </CardTitle>
         </CardHeader>
@@ -432,12 +433,12 @@ export default function ProgressDashboard() {
                 <YAxis />
                 <Tooltip labelFormatter={(label) => checklistProgressData.find(d => d.shortPhase === label)?.phase || label} />
                 <Legend />
-                <Bar dataKey="completed" stackId="a" fill="#22c55e" name="Completed" />
-                <Bar dataKey="remaining" stackId="a" fill="#e5e7eb" name="Remaining" />
+                <Bar dataKey="completed" stackId="a" fill="#8FB79A" name="Completed" />
+                <Bar dataKey="remaining" stackId="a" fill="#ECE8F0" name="Remaining" />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-[300px] flex items-center justify-center text-gray-400">
+            <div className="h-[300px] flex items-center justify-center text-brand-muted-foreground">
               <p>No checklist data available</p>
             </div>
           )}
@@ -445,50 +446,50 @@ export default function ProgressDashboard() {
       </Card>
 
       {/* Insights */}
-      <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200">
+      <Card className="nv-card--muted">
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-indigo-600" />
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-brand-primary" />
             <span>Key Insights</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {parseFloat(metrics.avgEnergy) < 5 && (
-            <div className="flex items-start space-x-3 p-3 bg-amber-100 rounded-lg">
-              <TrendingDown className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
+              <TrendingDown className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
               <div>
-                <p className="font-semibold text-amber-900">Low Energy Pattern</p>
-                <p className="text-sm text-amber-700">Your average energy is below 5. Consider workplace accommodations and pacing strategies.</p>
+                <p className="font-heading font-bold text-brand-text">Low Energy Pattern</p>
+                <p className="text-sm text-brand-muted-foreground">Your average energy is below 5. Consider workplace accommodations and pacing strategies.</p>
               </div>
             </div>
           )}
           
           {parseFloat(metrics.avgStress) >= 7 && (
-            <div className="flex items-start space-x-3 p-3 bg-rose-100 rounded-lg">
-              <TrendingDown className="h-5 w-5 text-rose-600 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
+              <TrendingDown className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
               <div>
-                <p className="font-semibold text-rose-900">High Stress Levels</p>
-                <p className="text-sm text-rose-700">Your stress is elevated. Explore stress management techniques in the Wellness Resources section.</p>
+                <p className="font-heading font-bold text-brand-text">High Stress Levels</p>
+                <p className="text-sm text-brand-muted-foreground">Your stress is elevated. Explore stress management techniques in the Wellness Resources section.</p>
               </div>
             </div>
           )}
           
           {metrics.completionRate >= 75 && (
-            <div className="flex items-start space-x-3 p-3 bg-green-100 rounded-lg">
-              <TrendingUp className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
+              <TrendingUp className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
               <div>
-                <p className="font-semibold text-green-900">Great Progress!</p>
-                <p className="text-sm text-green-700">You've completed {metrics.completionRate}% of your checklist. Keep up the excellent work!</p>
+                <p className="font-heading font-bold text-brand-text">Great Progress!</p>
+                <p className="text-sm text-brand-muted-foreground">You've completed {metrics.completionRate}% of your checklist. Keep up the excellent work!</p>
               </div>
             </div>
           )}
           
           {metrics.daysTracked >= 7 && (
-            <div className="flex items-start space-x-3 p-3 bg-blue-100 rounded-lg">
-              <Activity className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
+              <Activity className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
               <div>
-                <p className="font-semibold text-blue-900">Consistent Tracking</p>
-                <p className="text-sm text-blue-700">You've tracked {metrics.daysTracked} days of energy data. This helps identify patterns!</p>
+                <p className="font-heading font-bold text-brand-text">Consistent Tracking</p>
+                <p className="text-sm text-brand-muted-foreground">You've tracked {metrics.daysTracked} days of energy data. This helps identify patterns!</p>
               </div>
             </div>
           )}
