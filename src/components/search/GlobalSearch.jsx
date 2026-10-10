@@ -40,7 +40,7 @@ export default function GlobalSearch() {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 pointer-events-none" />
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted-foreground" />
         <input
           type="search"
           autoComplete="off"
@@ -53,12 +53,12 @@ export default function GlobalSearch() {
           }}
           placeholder="Search the toolkit… e.g. fatigue, rights"
           aria-label="Search the site"
-          className="w-full pl-9 pr-8 py-2 text-sm rounded-full border-2 border-slate-300 bg-white text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition-all"
+          className="nv-input w-full py-2 pl-9 pr-8 text-sm"
         />
         {query && (
           <button
             onClick={() => { setQuery(''); setOpen(false); }}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full text-slate-500 hover:bg-slate-100"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-brand-muted-foreground transition-colors hover:bg-brand-muted"
             aria-label="Clear search"
           >
             <X className="h-4 w-4" />
@@ -67,18 +67,18 @@ export default function GlobalSearch() {
       </div>
 
       {open && query.trim() && (
-        <div className="absolute left-0 right-0 mt-2 bg-white border-2 border-slate-300 rounded-xl shadow-xl overflow-hidden z-50 max-h-80 overflow-y-auto">
+        <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-hidden overflow-y-auto rounded-brand-lg border border-brand-border bg-brand-surface shadow-brand-md">
           {results.length === 0 ? (
-            <p className="px-4 py-3 text-sm text-slate-600">No results for “{query.trim()}”</p>
+            <p className="px-4 py-3 text-sm text-brand-muted-foreground">No results for “{query.trim()}”</p>
           ) : (
             results.map((r) => (
               <button
                 key={r.path}
                 onClick={() => goTo(r.path, r.title)}
-                className="w-full text-left px-4 py-3 hover:bg-violet-50 transition-colors border-b border-slate-100 last:border-b-0"
+                className="w-full border-b border-brand-border px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-brand-muted"
               >
-                <p className="text-sm font-bold text-slate-900">{r.title}</p>
-                <p className="text-xs text-slate-600 font-medium">{r.description}</p>
+                <p className="text-sm font-bold text-brand-text">{r.title}</p>
+                <p className="text-xs font-medium text-brand-muted-foreground">{r.description}</p>
               </button>
             ))
           )}

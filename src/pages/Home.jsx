@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
-  CheckSquare, Zap, MessageSquare, FileText, Shield, 
-  Heart, Calendar, BookOpen, ArrowRight, Sparkles, Star, Search,
-  CalendarClock, Feather
-} from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import CalendarView from '../components/dashboard/CalendarView';
@@ -20,7 +15,118 @@ import ManagerResourceHub from '@/components/managerguide/ManagerResourceHub';
 import useSEO from '@/hooks/useSEO';
 import { useAuth } from '@/lib/AuthContext';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import BrandMark from '@/components/brand/BrandMark';
+import {
+  CompassIcon, JourneyIcon, MessageIcon, ScheduleIcon, StepCompleteIcon,
+  WellbeingIcon, NeedsAttentionIcon, ProfileIcon, AddStepIcon,
+} from '@/components/brand/BrandIcon';
 
+// The four stages of the return-to-work journey (UserProgress.journey_stage).
+const JOURNEY_STAGES = [
+  { value: 'planning', label: 'Planning', blurb: 'Gather your bearings, decide what to share, and set a pace that holds.' },
+  { value: 'first_week', label: 'First week', blurb: 'Half-days and clear check-ins, with room to rest between them.' },
+  { value: 'ongoing', label: 'Ongoing', blurb: 'Settled rhythms, honest reviews of what is working, small adjustments.' },
+  { value: 'completed', label: 'Completed', blurb: 'Back in step, with a plan you can return to whenever you need it.' },
+];
+
+const sectionGroups = [
+  {
+    groupTitle: 'Plan & Track',
+    groupDescription: 'Map out your return and stay on top of it.',
+    items: [
+      {
+        title: 'My Journey Checklist',
+        description: 'Track your progress through each phase of returning to work',
+        icon: StepCompleteIcon,
+        page: 'Checklist',
+      },
+      {
+        title: 'Return Planning',
+        description: 'Create a phased return-to-work schedule',
+        icon: ScheduleIcon,
+        page: 'ReturnPlanning',
+      },
+    ],
+  },
+  {
+    groupTitle: 'Work & Career',
+    groupDescription: 'Conversations, requests, and next opportunities.',
+    items: [
+      {
+        title: 'Communication Tools',
+        description: 'Templates, scripts, and guidance for workplace conversations',
+        icon: MessageIcon,
+        page: 'Communication',
+      },
+      {
+        title: 'Request Accommodations',
+        description: 'Learn about your rights and generate accommodation requests',
+        icon: AddStepIcon,
+        page: 'Accommodations',
+      },
+      {
+        title: 'Job Boards',
+        description: 'Cancer-friendly job boards, returnship programs, and remote opportunities',
+        icon: CompassIcon,
+        page: 'JobBoards',
+      },
+    ],
+  },
+  {
+    groupTitle: 'Health & Support',
+    groupDescription: 'Care for your energy and your emotional well-being.',
+    items: [
+      {
+        title: 'Energy & Fatigue',
+        description: 'Manage fatigue with pacing strategies and energy tracking',
+        icon: WellbeingIcon,
+        page: 'EnergyManagement',
+      },
+      {
+        title: 'Emotional Support',
+        description: 'Resources for managing anxiety and building confidence',
+        icon: ProfileIcon,
+        page: 'EmotionalSupport',
+      },
+    ],
+  },
+  {
+    groupTitle: 'Rights & Legal',
+    groupDescription: 'Know the protections that stand behind you.',
+    items: [
+      {
+        title: 'Legal Rights',
+        description: 'Understand ADA, FMLA, and your workplace protections',
+        icon: NeedsAttentionIcon,
+        page: 'LegalRights',
+      },
+    ],
+  },
+  {
+    groupTitle: 'Learn & Connect',
+    groupDescription: 'Guides, coaching, and stories to walk alongside you.',
+    items: [
+      {
+        title: 'Resource Library',
+        description: 'Access curated guides, organizations, and support services',
+        icon: JourneyIcon,
+        page: 'Resources',
+      },
+      {
+        title: 'Book a Coach',
+        description: 'Schedule a one-on-one session with a return-to-work coach at a time that works for you',
+        icon: ScheduleIcon,
+        page: 'CoachBooking',
+      },
+      {
+        title: 'From the Founder',
+        description: 'Blog posts from Jess — reflections, inspiration, and hope for the road back to work',
+        icon: MessageIcon,
+        page: 'Blog',
+      },
+    ],
+  },
+];
 
 export default function Home() {
   useSEO({
@@ -33,29 +139,6 @@ export default function Home() {
   const { isAuthenticated } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
-  // Respect users who ask for reduced motion — skip decorative particle animation
-  // and heavy transforms in that case.
-  // Also treat touch devices as low-motion: infinite blurred animations keep the
-  // GPU busy on phones/tablets and make taps feel sluggish.
-  const prefersReducedMotion = useMemo(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return false;
-    return (
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      window.matchMedia('(pointer: coarse)').matches
-    );
-  }, []);
-
-  const particles = useMemo(() => Array.from({ length: prefersReducedMotion ? 3 : 6 }, (_, i) => ({
-    id: i,
-    width: Math.random() * 300 + 50,
-    height: Math.random() * 300 + 50,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    dx: Math.random() * 100 - 50,
-    dy: Math.random() * 100 - 50,
-    duration: Math.random() * 10 + 10,
-  })), [prefersReducedMotion]);
-  
   const { data: progress, isLoading: isProgressLoading, isError: isProgressError, refetch: refetchProgress } = useUserProgress({
     completed_checklist_items: [],
     journey_stage: 'planning',
@@ -93,414 +176,241 @@ export default function Home() {
   });
 
   const handleCompleteOnboarding = () => {
-    // Guard against double-clicks: ignore if a completion is already in flight.
     if (completeOnboardingMutation.isPending) return;
     completeOnboardingMutation.mutate();
   };
 
-  const sectionGroups = [
+  const stageIndex = Math.max(
+    0,
+    JOURNEY_STAGES.findIndex(s => s.value === (progress?.journey_stage || 'planning'))
+  );
+  const currentStage = JOURNEY_STAGES[stageIndex];
+  const stagePercent = Math.round(((stageIndex + 1) / JOURNEY_STAGES.length) * 100);
+
+  const stats = [
     {
-      groupTitle: 'Plan & Track',
-      groupDescription: 'Map out your return and stay on top of it.',
-      items: [
-        {
-          title: 'My Journey Checklist',
-          description: 'Track your progress through each phase of returning to work',
-          icon: CheckSquare,
-          page: 'Checklist',
-          color: 'from-rose-400 to-pink-500',
-        },
-        {
-          title: 'Return Planning',
-          description: 'Create a phased return-to-work schedule',
-          icon: Calendar,
-          page: 'ReturnPlanning',
-          color: 'from-teal-400 to-cyan-500',
-        },
-      ],
+      label: 'Checklist items',
+      value: progress?.completed_checklist_items?.length || 0,
+      blurb: 'Steps you have marked off so far.',
     },
     {
-      groupTitle: 'Work & Career',
-      groupDescription: 'Conversations, requests, and next opportunities.',
-      items: [
-        {
-          title: 'Communication Tools',
-          description: 'Templates, scripts, and guidance for workplace conversations',
-          icon: MessageSquare,
-          page: 'Communication',
-          color: 'from-blue-400 to-indigo-500',
-        },
-        {
-          title: 'Request Accommodations',
-          description: 'Learn about your rights and generate accommodation requests',
-          icon: FileText,
-          page: 'Accommodations',
-          color: 'from-purple-400 to-violet-500',
-        },
-        {
-          title: 'Job Boards',
-          description: 'Cancer-friendly job boards, returnship programs, and remote work opportunities',
-          icon: Search,
-          page: 'JobBoards',
-          color: 'from-sky-400 to-blue-500',
-        },
-      ],
+      label: 'Current stage',
+      value: currentStage.label,
+      blurb: 'Where you are on the road back.',
     },
     {
-      groupTitle: 'Health & Support',
-      groupDescription: 'Care for your energy and your emotional well-being.',
-      items: [
-        {
-          title: 'Energy & Fatigue',
-          description: 'Manage fatigue with pacing strategies and energy tracking',
-          icon: Zap,
-          page: 'EnergyManagement',
-          color: 'from-amber-400 to-orange-500',
-        },
-        {
-          title: 'Emotional Support',
-          description: 'Resources for managing anxiety and building confidence',
-          icon: Heart,
-          page: 'EmotionalSupport',
-          color: 'from-pink-400 to-rose-500',
-        },
-      ],
-    },
-    {
-      groupTitle: 'Rights & Legal',
-      groupDescription: 'Know the protections that stand behind you.',
-      items: [
-        {
-          title: 'Legal Rights',
-          description: 'Understand ADA, FMLA, and your workplace protections',
-          icon: Shield,
-          page: 'LegalRights',
-          color: 'from-green-400 to-emerald-500',
-        },
-      ],
-    },
-    {
-      groupTitle: 'Learn & Connect',
-      groupDescription: 'Guides, coaching, and stories to walk alongside you.',
-      items: [
-        {
-          title: 'Resource Library',
-          description: 'Access curated guides, organizations, and support services',
-          icon: BookOpen,
-          page: 'Resources',
-          color: 'from-indigo-400 to-blue-500',
-        },
-        {
-          title: 'Book a Coach',
-          description: 'Schedule a one-on-one session with a return-to-work coach at a time that works for you',
-          icon: CalendarClock,
-          page: 'CoachBooking',
-          color: 'from-violet-400 to-fuchsia-500',
-        },
-        {
-          title: 'From the Founder',
-          description: 'Blog posts from Jess — reflections, inspiration, and hope for the road back to work',
-          icon: Feather,
-          page: 'Blog',
-          color: 'from-rose-400 to-violet-500',
-        },
-      ],
+      label: 'Saved resources',
+      value: progress?.bookmarked_resources?.length || 0,
+      blurb: 'Guides and tools you kept for later.',
     },
   ];
 
   return (
     <div className="max-w-7xl mx-auto">
-      <OnboardingFlow 
-        open={showOnboarding} 
+      <OnboardingFlow
+        open={showOnboarding}
         onComplete={handleCompleteOnboarding}
       />
-      
-      {/* Hero Cover Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+
+      {/* Hero — watercolour landscape band, compass mark, one clear step */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative min-h-[44vh] sm:min-h-[52vh] flex items-center justify-center overflow-hidden rounded-3xl mb-10"
+        transition={{ duration: 0.6 }}
+        className="nv-hero mb-12 px-6 py-12 sm:px-12 sm:py-16"
       >
-        {/* Animated background — purely decorative */}
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-rose-200 via-sky-200 to-emerald-200">
-          <div className="absolute inset-0 opacity-80">
-            {particles.map((p) => (
-              <motion.div
-                key={p.id}
-                className="absolute rounded-full bg-gradient-to-br from-rose-400 to-sky-400 blur-2xl"
-                style={{
-                  width: p.width,
-                  height: p.height,
-                  left: p.left,
-                  top: p.top,
-                }}
-                animate={prefersReducedMotion ? undefined : {
-                  x: [0, p.dx],
-                  y: [0, p.dy],
-                  scale: [1, 1.1, 1],
-                  opacity: [0.2, 0.4, 0.2],
-                }}
-                transition={prefersReducedMotion ? undefined : {
-                  duration: p.duration,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-              />
-            ))}
+        <div className="max-w-2xl flex flex-col gap-5">
+          <BrandMark size="lg" className="flex-col sm:flex-row items-start sm:items-center" />
+          <div className="flex flex-col gap-2">
+            <span className="nv-eyebrow nv-eyebrow--primary">Back to life, back to work</span>
+            <h1 className="font-heading text-3xl font-bold text-brand-text sm:text-5xl">
+              Welcome back to your work, your life
+            </h1>
           </div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 text-center space-y-5 px-6 py-10 sm:py-14">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center space-x-2 bg-white px-6 py-3 rounded-full border-2 border-rose-300 shadow-lg"
-          >
-            <Star className="h-5 w-5 text-rose-500 fill-rose-500" />
-            <span className="text-sm font-bold text-slate-900">Your Journey, Your Pace</span>
-            <Star className="h-5 w-5 text-sky-500 fill-sky-500" />
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
-          >
-            <span className="bg-gradient-to-r from-rose-600 via-violet-600 to-sky-700 bg-clip-text text-transparent">
-              Welcome Back
-            </span>
-            <br />
-            <span className="text-slate-900">to Your Work,<br />Your Life</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-lg sm:text-xl text-slate-800 max-w-2xl mx-auto leading-relaxed font-medium"
-          >
+          <p className="text-base leading-relaxed text-brand-text sm:text-lg">
             A free toolkit for cancer survivors returning to work. Track your progress,
-            manage fatigue, understand your rights, and talk to your employer with{' '}
-            <span className="font-bold text-rose-600">confidence</span>.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
-          >
-            <Button 
+            manage fatigue, understand your rights, and talk to your employer with confidence —
+            one small step at a time.
+          </p>
+          <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
+            <Button
+              variant="onGradient"
               onClick={() => navigate(createPageUrl('Checklist'))}
-              className="bg-gradient-to-r from-rose-500 via-violet-500 to-sky-600 hover:from-rose-600 hover:via-violet-600 hover:to-sky-700 text-white font-bold px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
             >
-              <CheckSquare className="h-5 w-5 mr-2" />
-              View My Checklist
+              <StepCompleteIcon className="h-5 w-5" />
+              View my checklist
             </Button>
             {isAuthenticated && progress && (
               <Button
+                variant="outline"
                 onClick={() => setShowOnboarding(true)}
                 disabled={showOnboarding}
-                variant="outline"
-                className="border-2 border-rose-500 text-rose-700 bg-white hover:bg-rose-50 hover:border-rose-600 font-semibold px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all disabled:opacity-60"
               >
-                <Sparkles className="h-5 w-5 mr-2" />
-                Take the Tour
+                Take the tour
               </Button>
             )}
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </motion.section>
 
-      {/* Standing Ovation Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.6 }}
-        className="relative mb-10"
-      >
-        {/* Glowing halo behind the image — purely decorative */}
-        <motion.div
-          aria-hidden="true"
-          className="absolute -inset-2 rounded-[2rem] bg-gradient-to-r from-rose-400 via-violet-400 to-sky-400 blur-xl"
-          animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: [0.35, 0.7, 0.35] }}
-          transition={prefersReducedMotion ? undefined : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <div className="relative rounded-3xl overflow-hidden shadow-lg ring-4 ring-white/90">
-          <img
-            src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png"
-            alt="Every Survivor Deserves a Standing Ovation - Celebrating the strength, beauty, and resilience of cancer survivors"
-            className="w-full h-auto block"
-          />
-        </div>
-      </motion.div>
-
-      {/* Quick Stats — loading skeleton */}
-      {isProgressLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12" aria-hidden="true">
-          {[0, 1, 2].map((i) => (
-            <Card key={i} className="bg-white border-2 border-slate-200 shadow-md">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-3 animate-pulse">
-                  <div className="h-10 w-16 mx-auto rounded-md bg-slate-200" />
-                  <div className="h-3 w-32 mx-auto rounded bg-slate-200" />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      {/* Quick Stats — error state */}
-      {isProgressError && !isProgressLoading && (
-        <div className="mb-12">
-          <Card className="bg-white border-2 border-rose-300 shadow-md">
-            <CardContent className="p-6 text-center space-y-3">
-              <p className="text-slate-900 font-bold">We couldn't load your progress just now.</p>
-              <p className="text-sm text-slate-700">Please check your connection and try again.</p>
-              <Button
-                onClick={() => refetchProgress()}
-                className="bg-rose-600 hover:bg-rose-700 text-white font-semibold"
-              >
-                Try again
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Quick Stats */}
-      {progress && (
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
-        >
-          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-white border-2 border-rose-200 shadow-md hover:shadow-xl hover:border-rose-400 transition-all">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <div className="text-4xl font-extrabold bg-gradient-to-r from-rose-600 to-violet-600 bg-clip-text text-transparent">
-                    {progress.completed_checklist_items?.length || 0}
-                  </div>
-                  <p className="text-sm font-bold text-slate-800">Checklist Items Completed</p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-white border-2 border-emerald-200 shadow-md hover:shadow-xl hover:border-emerald-400 transition-all">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <div className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-sky-600 bg-clip-text text-transparent capitalize">
-                    {progress.journey_stage?.replace('_', ' ') || 'Planning'}
-                  </div>
-                  <p className="text-sm font-bold text-slate-800">Current Stage</p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="bg-white border-2 border-sky-200 shadow-md hover:shadow-xl hover:border-sky-400 transition-all">
-              <CardContent className="pt-6">
-                <div className="text-center space-y-2">
-                  <div className="text-4xl font-extrabold bg-gradient-to-r from-sky-600 to-violet-600 bg-clip-text text-transparent">
-                    {progress.bookmarked_resources?.length || 0}
-                  </div>
-                  <p className="text-sm font-bold text-slate-800">Saved Resources</p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </motion.div>
-      )}
-
-      {/* Daily Check-In */}
-      <DailyCheckIn />
-
-      {/* Calendar View */}
-      {progress && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <CalendarView 
-            progress={progress} 
-            onUpdateProgress={(updates) => updateProgressMutation.mutate(updates)}
-          />
-        </motion.div>
-      )}
-
-      {/* Main Sections Grid — grouped by theme */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <h2 className="text-3xl font-extrabold text-slate-900 mb-2 text-center">Explore Your Toolkit</h2>
-        <p className="text-center text-slate-700 font-medium mb-10 max-w-xl mx-auto">
-          Everything you need, organized by what you're working on.
+      {/* Your journey — milestone card + compass-point spine + your real numbers */}
+      <section className="mb-12">
+        <span className="nv-eyebrow nv-eyebrow--primary">Your journey</span>
+        <h2 className="mt-2 font-heading text-2xl font-bold text-brand-text sm:text-3xl">
+          Where you are now
+        </h2>
+        <p className="mt-2 max-w-xl text-brand-muted-foreground">
+          {JOURNEY_STAGES.length} stages, taken at your pace. You can step back or forward at any time.
         </p>
 
-        <div className="space-y-12">
-          {sectionGroups.map((group, gIdx) => (
-            <div key={group.groupTitle}>
-              <div className="mb-5 flex items-baseline justify-between gap-4 border-b-2 border-slate-200 pb-3">
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                    {group.groupTitle}
-                  </h3>
-                  <p className="text-sm text-slate-700 font-medium mt-0.5">
-                    {group.groupDescription}
-                  </p>
+        {isProgressLoading && (
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3" aria-hidden="true">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="nv-card p-6">
+                <div className="animate-pulse space-y-3">
+                  <div className="h-3 w-24 rounded-pill bg-brand-muted" />
+                  <div className="h-8 w-16 rounded-brand bg-brand-muted" />
+                  <div className="h-3 w-32 rounded-pill bg-brand-muted" />
                 </div>
-                <span className="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-full whitespace-nowrap">
+              </div>
+            ))}
+          </div>
+        )}
+
+        {isProgressError && !isProgressLoading && (
+          <div className="nv-card mt-6 p-6 text-center">
+            <p className="font-semibold text-brand-text">We couldn't load your progress just now.</p>
+            <p className="mt-1 text-sm text-brand-muted-foreground">Please check your connection and try again.</p>
+            <Button variant="outline" className="mt-4" onClick={() => refetchProgress()}>
+              Try again
+            </Button>
+          </div>
+        )}
+
+        {progress && (
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="nv-milestone lg:col-span-1">
+              <span className="nv-eyebrow">
+                Stage {stageIndex + 1} of {JOURNEY_STAGES.length}
+              </span>
+              <h3>{currentStage.label}</h3>
+              <p>{currentStage.blurb}</p>
+              <div className="nv-bar">
+                <i style={{ width: `${stagePercent}%` }} />
+              </div>
+              <div className="nv-ms-meta">
+                <span className="text-brand-muted-foreground">{stagePercent}% of the way</span>
+                <span className={stageIndex >= JOURNEY_STAGES.length - 1 ? 'nv-chip nv-chip--primary' : 'nv-chip'}>
+                  {stageIndex >= JOURNEY_STAGES.length - 1 ? 'Completed' : 'On track'}
+                </span>
+              </div>
+            </div>
+
+            <ol className="nv-spine lg:col-span-2">
+              {JOURNEY_STAGES.map((stage, i) => {
+                const state = i < stageIndex ? 'done' : i === stageIndex ? 'active' : 'todo';
+                return (
+                  <li key={stage.value} className="nv-spine-step">
+                    <span
+                      className={`nv-spine-dot ${
+                        state === 'done'
+                          ? 'nv-spine-dot--done'
+                          : state === 'active'
+                          ? 'nv-spine-dot--active'
+                          : ''
+                      }`}
+                    >
+                      {state === 'done' ? (
+                        <StepCompleteIcon className="h-4 w-4" />
+                      ) : (
+                        <CompassIcon className="h-4 w-4" />
+                      )}
+                    </span>
+                    <p className="font-heading text-base font-bold text-brand-text">{stage.label}</p>
+                    <p className="text-sm text-brand-muted-foreground">{stage.blurb}</p>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        )}
+
+        {progress && (
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {stats.map((stat) => (
+              <div key={stat.label} className="nv-milestone">
+                <span className="nv-eyebrow">{stat.label}</span>
+                <h3>{stat.value}</h3>
+                <p>{stat.blurb}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Daily check-in prompt */}
+      <DailyCheckIn />
+
+      {/* Your plan */}
+      {progress && (
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-12"
+        >
+          <CalendarView
+            progress={progress}
+            onUpdateProgress={(updates) => updateProgressMutation.mutate(updates)}
+          />
+        </motion.section>
+      )}
+
+      {/* Toolkit — guidance resource cards, grouped in single-column steps */}
+      <section className="mb-12">
+        <span className="nv-eyebrow nv-eyebrow--primary">Your toolkit</span>
+        <h2 className="mt-2 font-heading text-2xl font-bold text-brand-text sm:text-3xl">
+          Everything, organised by what you're working on
+        </h2>
+
+        <div className="mt-8 space-y-10">
+          {sectionGroups.map((group) => (
+            <div key={group.groupTitle}>
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3 border-b border-brand-border pb-3">
+                <div>
+                  <h3 className="font-heading text-xl font-bold text-brand-text">{group.groupTitle}</h3>
+                  <p className="mt-0.5 text-sm text-brand-muted-foreground">{group.groupDescription}</p>
+                </div>
+                <span className="nv-chip nv-chip--muted">
                   {group.items.length} {group.items.length === 1 ? 'tool' : 'tools'}
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {group.items.map((section, index) => {
-                  const Icon = section.icon;
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {group.items.map((item, index) => {
+                  const Icon = item.icon;
                   return (
                     <motion.div
-                      key={section.page}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={item.page}
+                      initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.05 + (gIdx * 0.05) + index * 0.03 }}
-                      whileHover={{ y: -8 }}
+                      transition={{ delay: 0.04 * index }}
+                      className="h-full"
                     >
-                      <Link to={createPageUrl(section.page)}>
-                        <Card className="group hover:shadow-2xl transition-all duration-300 bg-white border-2 border-slate-200 hover:border-rose-400 h-full">
-                          <CardContent className="p-6">
-                            <div className="flex items-start justify-between mb-4">
-                              <motion.div
-                                className={`p-4 rounded-2xl bg-gradient-to-br ${section.color} shadow-lg`}
-                                whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
-                                transition={{ duration: 0.5 }}
-                              >
-                                <Icon className="h-7 w-7 text-white" />
-                              </motion.div>
-                              <ArrowRight className="h-6 w-6 text-slate-400 group-hover:text-rose-600 group-hover:translate-x-2 transition-all" />
-                            </div>
-
-                            <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:from-rose-600 group-hover:to-sky-700 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-                              {section.title}
-                            </h3>
-
-                            <p className="text-slate-700 leading-relaxed text-sm font-medium">
-                              {section.description}
-                            </p>
-                          </CardContent>
-                        </Card>
+                      <Link to={createPageUrl(item.page)} className="block h-full">
+                        <article className="nv-resource h-full">
+                          <div className="nv-media flex items-center justify-center">
+                            <Icon className="h-9 w-9 text-brand-text" />
+                          </div>
+                          <div className="nv-body">
+                            <span className="nv-eyebrow nv-eyebrow--primary">{group.groupTitle}</span>
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                            <span className="nv-meta inline-flex items-center gap-1 text-brand-primary">
+                              Open <ArrowRight className="h-4 w-4" />
+                            </span>
+                          </div>
+                        </article>
                       </Link>
                     </motion.div>
                   );
@@ -509,49 +419,44 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </motion.div>
+      </section>
+
+      {/* Standing ovation */}
+      <figure className="mb-12 overflow-hidden rounded-brand-lg border border-brand-border shadow-brand-sm">
+        <img
+          src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png"
+          alt="Every Survivor Deserves a Standing Ovation - Celebrating the strength, beauty, and resilience of cancer survivors"
+          className="block h-auto w-full"
+        />
+      </figure>
 
       {/* Manager & HR resource hub */}
-      <div className="mt-16">
+      <section className="mb-12">
         <ManagerResourceHub />
-      </div>
+      </section>
 
-      {/* Feedback on the resource sections */}
       <ResourceFeedbackForm page="Home" />
 
-      {/* Supportive Message */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2 }}
-        className="relative overflow-hidden bg-gradient-to-r from-rose-200 via-amber-100 to-sky-200 rounded-3xl p-12 text-center shadow-xl mt-16 border-2 border-rose-300"
+      {/* A note for you */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+        className="nv-hero mb-12 px-6 py-12 text-center sm:px-12"
       >
-        <div aria-hidden="true" className="absolute inset-0 opacity-70">
-          <div className="absolute top-0 left-0 w-40 h-40 bg-rose-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-sky-400 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-emerald-300 rounded-full blur-3xl"></div>
-        </div>
-        <div className="relative z-10">
-          <motion.div
-            aria-hidden="true"
-            animate={prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }}
-            transition={prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          >
-            <Heart className="h-16 w-16 text-rose-600 mx-auto mb-6 fill-rose-500" />
-          </motion.div>
-          <h3 className="text-3xl font-extrabold text-slate-900 mb-4">You're Not Alone</h3>
-          <p className="text-lg text-slate-800 max-w-2xl mx-auto leading-relaxed font-medium">
-            You're navigating something incredibly difficult. This toolkit is here to support you 
-            every step of the way. Take what you need, move at your own pace, and remember—
-            <span className="font-bold text-rose-700"> your well-being comes first</span>.
-          </p>
-        </div>
-      </motion.div>
+        <span className="nv-eyebrow nv-eyebrow--primary">A note for you</span>
+        <h3 className="mt-3 font-heading text-2xl font-bold text-brand-text sm:text-3xl">
+          You're not alone
+        </h3>
+        <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-brand-text">
+          You're navigating something incredibly difficult. This toolkit is here to support you
+          every step of the way. Take what you need, move at your own pace, and remember —
+          your well-being comes first.
+        </p>
+      </motion.section>
 
       {/* Text message program */}
-      <div className="mt-16">
-        <SmsConsentCard />
-      </div>
+      <SmsConsentCard />
     </div>
   );
 }

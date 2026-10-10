@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { createPageUrl } from './utils';
-import {
-  Home, Zap, MessageSquare, FileText,
-  Shield, Heart, Calendar, BookOpen, Menu, X, Volume2,
-  TrendingUp, ChevronLeft, BarChart2, Users, ClipboardList
-} from 'lucide-react';
+import { BookOpen, ChevronLeft, FileText, Heart, Menu, X, Volume2 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
 import NotificationManager from './components/NotificationManager';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -15,6 +11,11 @@ import AnalyticsTracker from './components/analytics/AnalyticsTracker';
 import { applyAccessibilityMode, isAccessibilityModeOn } from '@/lib/accessibilityMode';
 import ListenButton from './components/a11y/ListenButton';
 import StructuredData from './components/seo/StructuredData';
+import BrandMark from '@/components/brand/BrandMark';
+import {
+  CompassIcon, HomeIcon, JourneyIcon, MessageIcon, ScheduleIcon,
+  WellbeingIcon, NeedsAttentionIcon, ProfileIcon, StepCompleteIcon,
+} from '@/components/brand/BrandIcon';
 
 // Resource / article style pages where listening to the content is useful.
 const READABLE_PAGES = new Set([
@@ -24,10 +25,45 @@ const READABLE_PAGES = new Set([
   'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide',
 ]);
 
+// Primary destinations — pill nav items in the header.
+const PRIMARY_NAV = [
+  { name: 'Home', icon: HomeIcon, page: 'Home', path: '/' },
+  { name: 'AI Coach', icon: MessageIcon, page: 'Coach', path: '/Coach', isNew: true },
+  { name: 'My Journey', icon: JourneyIcon, page: 'MyJourney', path: '/MyJourney' },
+  { name: 'Community', icon: CompassIcon, page: 'CommunityHub', path: '/CommunityHub' },
+  { name: 'Help', icon: WellbeingIcon, page: 'HelpSupport', path: '/HelpSupport' },
+];
+
+// Grouped tool links — pill nav items in the sidebar and the mobile panel.
+const NAV_GROUPS = [
+  {
+    label: 'Your Return Journey',
+    items: [
+      { name: 'My Journey', icon: JourneyIcon, page: 'MyJourney' },
+      { name: 'Career & Return', icon: ScheduleIcon, page: 'CareerHub' },
+      { name: 'Health & Well-Being', icon: WellbeingIcon, page: 'WellbeingHub' },
+      { name: 'Wellness Library', icon: BookOpen, page: 'WellnessLibrary' },
+    ],
+  },
+  {
+    label: 'Tools & Rights',
+    items: [
+      { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
+      { name: 'Legal & Policy', icon: NeedsAttentionIcon, page: 'LegalPolicyHub' },
+      { name: 'For Managers & HR', icon: ProfileIcon, page: 'ManagerGuide' },
+    ],
+  },
+  {
+    label: 'Community & Help',
+    items: [
+      { name: 'Community & Resources', icon: CompassIcon, page: 'CommunityHub' },
+      { name: 'Help & Support', icon: Heart, page: 'HelpSupport' },
+      { name: 'My Feedback', icon: StepCompleteIcon, page: 'MyFeedback' },
+    ],
+  },
+];
 
 // Per-tab scroll-position memory so switching tabs preserves where you were.
-// Tab "stack" key = the bottom-nav root path. Sub-pages reached from a tab keep
-// their own scroll under that same root key.
 const TAB_SCROLL_KEY = '__tabScrollPositions__';
 function readScrollMap() {
   try { return JSON.parse(sessionStorage.getItem(TAB_SCROLL_KEY) || '{}'); }
@@ -39,16 +75,8 @@ function writeScrollMap(map) {
 
 function BottomNav({ currentPageName }) {
   const location = useLocation();
-  const items = [
-    { name: 'Home', icon: Home, page: 'Home', path: '/' },
-    { name: 'Coach', icon: MessageSquare, page: 'Coach', path: '/Coach' },
-    { name: 'Journey', icon: BarChart2, page: 'MyJourney', path: '/MyJourney' },
-    { name: 'Community', icon: BookOpen, page: 'CommunityHub', path: '/CommunityHub' },
-    { name: 'Help', icon: Heart, page: 'HelpSupport', path: '/HelpSupport' },
-  ];
 
   const handleTabClick = () => {
-    // Save current scroll for the path being left, so it can be restored on return.
     const map = readScrollMap();
     map[location.pathname] = window.scrollY || document.documentElement.scrollTop || 0;
     writeScrollMap(map);
@@ -56,10 +84,10 @@ function BottomNav({ currentPageName }) {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-slate-300 shadow-lg flex"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-background border-t border-brand-border shadow-brand-sm flex"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      {items.map((item) => {
+      {PRIMARY_NAV.map((item) => {
         const Icon = item.icon;
         const isActive = currentPageName === item.page;
         return (
@@ -67,13 +95,11 @@ function BottomNav({ currentPageName }) {
             key={item.name}
             to={item.path}
             onClick={handleTabClick}
-            className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-all relative ${
-              isActive ? 'text-violet-700' : 'text-slate-700 hover:text-violet-700'
-            }`}
+            aria-current={isActive ? 'page' : undefined}
+            className="nv-navitem nv-navitem--stack flex-1 justify-center"
           >
-            <Icon className={`h-5 w-5 ${isActive ? 'text-violet-700' : ''}`} />
-            <span className="text-[10px] font-bold">{item.name}</span>
-            {isActive && <div className="absolute top-0 w-8 h-1 bg-violet-600 rounded-full" />}
+            <Icon className="h-6 w-6" />
+            <span>{item.name}</span>
           </Link>
         );
       })}
@@ -87,22 +113,9 @@ export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [speechEnabled, setSpeechEnabled] = useState(false);
 
-  // Follow the system color-scheme preference: toggle the 'dark' class so
-  // Tailwind's dark: variants and the .dark CSS variables activate when the
-  // device prefers dark mode. No class = light mode (the app default).
   // Restore the saved accessibility mode preference on every load.
   useEffect(() => {
     applyAccessibilityMode(isAccessibilityModeOn());
-  }, []);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const apply = ({ matches }) => root.classList.toggle('dark', matches);
-    apply(mq);
-    const handler = (e) => apply(e);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
   }, []);
 
   // Restore previous scroll position for this path (if any) on navigation,
@@ -110,7 +123,6 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     const map = readScrollMap();
     const saved = map[location.pathname];
-    // Defer one frame so the new page has rendered.
     const id = requestAnimationFrame(() => {
       window.scrollTo({ top: typeof saved === 'number' ? saved : 0, behavior: 'auto' });
     });
@@ -130,41 +142,6 @@ export default function Layout({ children, currentPageName }) {
   }, [location.pathname]);
 
   const isHomePage = currentPageName === 'Home' || location.pathname === '/';
-
-  const navigationGroups = [
-    {
-      label: null, // top-level, no header
-      items: [
-        { name: 'Home', icon: Home, page: 'Home' },
-        { name: 'AI Coach', icon: MessageSquare, page: 'Coach', highlight: true },
-      ],
-    },
-    {
-      label: 'Your Return Journey',
-      items: [
-        { name: 'My Journey', icon: TrendingUp, page: 'MyJourney' },
-        { name: 'Career & Return', icon: Calendar, page: 'CareerHub' },
-        { name: 'Health & Well-Being', icon: Zap, page: 'WellbeingHub' },
-        { name: 'Wellness Library', icon: BookOpen, page: 'WellnessLibrary' },
-      ],
-    },
-    {
-      label: 'Tools & Rights',
-      items: [
-        { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
-        { name: 'Legal & Policy', icon: Shield, page: 'LegalPolicyHub' },
-        { name: 'For Managers & HR', icon: Users, page: 'ManagerGuide' },
-      ],
-    },
-    {
-      label: 'Community & Help',
-      items: [
-        { name: 'Community & Resources', icon: BookOpen, page: 'CommunityHub' },
-        { name: 'Help & Support', icon: Heart, page: 'HelpSupport' },
-        { name: 'My Feedback', icon: ClipboardList, page: 'MyFeedback' },
-      ],
-    },
-  ];
 
   const toggleSpeech = () => {
     // speechSynthesis is unavailable or throws in some browsers/webviews —
@@ -199,87 +176,112 @@ export default function Layout({ children, currentPageName }) {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-50 overflow-hidden">
+    <div className="relative min-h-screen bg-brand-background text-brand-text">
       <StructuredData />
       <OfflineIndicator />
       <NotificationManager />
       <AnalyticsTracker />
-      {/* Header */}
+
+      {/* Header — light cream bar, compass mark at the left, pill nav items */}
       <header
-        className="relative z-50 bg-white border-b-2 border-slate-300 shadow-sm sticky top-0"
+        className="relative z-50 bg-brand-background border-b border-brand-border sticky top-0"
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-2">
+          <div className="flex justify-between items-center gap-4 py-3">
+            <div className="flex items-center gap-2">
               {!isHomePage && (
                 <button
+                  type="button"
                   onClick={() => navigate(-1)}
-                  className="p-1.5 rounded-lg text-slate-800 hover:bg-slate-100 transition-colors lg:hidden"
+                  className="nv-btn nv-btn--outline nv-btn--icon lg:hidden"
                   aria-label="Go back"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
               )}
-            <Link to={createPageUrl('Home')} className="flex items-center space-x-3">
-              <img 
-                src="https://media.base44.com/images/public/69406c752de234aafebf891d/accf1a360_Gemini_Generated_Image_judm8cjudm8cjudm.png"
-                alt="Back to Life, Back to Work Navigator"
-                className="h-12 w-12 sm:h-14 sm:w-14 object-contain rounded-full drop-shadow-lg"
-              />
-              <div>
-                <h1 className="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-violet-600 via-purple-500 to-emerald-600 bg-clip-text text-transparent">
-                  Navigator
-                </h1>
-                <p className="text-xs text-slate-700 font-semibold hidden sm:block">Your return-to-work compass</p>
+              <Link to={createPageUrl('Home')} aria-label="Navigator home">
+                <BrandMark showTagline className="hidden sm:inline-flex" />
+                <BrandMark className="sm:hidden" />
+              </Link>
+            </div>
+
+            {/* Primary pill nav (desktop) */}
+            <nav className="hidden xl:flex items-center gap-1">
+              {PRIMARY_NAV.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPageName === item.page;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    aria-current={isActive ? 'page' : undefined}
+                    className="nv-navitem"
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{item.name}</span>
+                    {item.isNew && !isActive && <span className="nv-chip !px-2 !py-0.5">New</span>}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <div className="hidden md:block w-56 lg:w-72">
+                <GlobalSearch />
               </div>
-            </Link>
-            </div>
-
-            {/* Global search (desktop) */}
-            <div className="hidden md:block flex-1 max-w-md mx-6">
-              <GlobalSearch />
-            </div>
-
-            <div className="flex items-center space-x-2">
               <button
+                type="button"
                 onClick={toggleSpeech}
-                className={`p-2 rounded-lg transition-all ${
-                  speechEnabled 
-                    ? 'bg-gradient-to-br from-violet-500 to-emerald-600 text-white shadow-md' 
-                    : 'bg-white text-slate-800 hover:bg-slate-100 border-2 border-slate-300'
-                }`}
-                title="Toggle text-to-speech"
+                aria-pressed={speechEnabled}
+                aria-label="Toggle read aloud"
+                className={`nv-btn nv-btn--icon ${speechEnabled ? 'nv-btn--secondary' : 'nv-btn--outline'}`}
               >
                 <Volume2 className="h-5 w-5" />
               </button>
-
               <button
+                type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-800"
+                aria-expanded={mobileMenuOpen}
+                aria-label="Menu"
+                className="nv-btn nv-btn--icon nv-btn--outline xl:hidden"
               >
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
 
-          {/* Global search (mobile) */}
           <div className="md:hidden pb-3">
             <GlobalSearch />
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile / tablet panel */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t-2 border-slate-300 bg-white shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
-            <nav className="px-4 py-3 pb-6 space-y-4">
-              {navigationGroups.map((group, gIdx) => (
-                <div key={group.label || `group-${gIdx}`} className="space-y-1">
-                  {group.label && (
-                    <div className="px-4 pt-2 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
-                      {group.label}
-                    </div>
-                  )}
+          <div className="xl:hidden border-t border-brand-border bg-brand-background max-h-[calc(100vh-5rem)] overflow-y-auto">
+            <nav className="px-4 py-4 pb-8 space-y-5">
+              <div className="space-y-1">
+                {PRIMARY_NAV.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = currentPageName === item.page;
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      aria-current={isActive ? 'page' : undefined}
+                      className="nv-navitem"
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span>{item.name}</span>
+                      {item.isNew && !isActive && <span className="nv-chip ml-auto !px-2 !py-0.5">New</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+              {NAV_GROUPS.map((group) => (
+                <div key={group.label} className="space-y-1">
+                  <div className="nv-eyebrow px-4 pt-2 pb-1">{group.label}</div>
                   {group.items.map((item) => {
                     const Icon = item.icon;
                     const isActive = currentPageName === item.page;
@@ -288,19 +290,11 @@ export default function Layout({ children, currentPageName }) {
                         key={item.name}
                         to={createPageUrl(item.page)}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                          isActive
-                            ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
-                            : item.highlight
-                            ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
-                            : 'text-slate-800 hover:bg-slate-100 font-semibold'
-                        }`}
+                        aria-current={isActive ? 'page' : undefined}
+                        className="nv-navitem"
                       >
                         <Icon className="h-5 w-5" />
                         <span>{item.name}</span>
-                        {item.highlight && !isActive && (
-                          <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
-                        )}
                       </Link>
                     );
                   })}
@@ -312,16 +306,12 @@ export default function Layout({ children, currentPageName }) {
       </header>
 
       <div className="flex max-w-7xl mx-auto">
-        {/* Desktop Sidebar */}
-        <aside className="hidden lg:block w-64 p-6">
-          <nav className="space-y-4">
-            {navigationGroups.map((group, gIdx) => (
-              <div key={group.label || `group-${gIdx}`} className="space-y-1">
-                {group.label && (
-                  <div className="px-4 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
-                    {group.label}
-                  </div>
-                )}
+        {/* Desktop sidebar — grouped tool links as pill items */}
+        <aside className="hidden lg:block w-72 p-6">
+          <nav className="space-y-5">
+            {NAV_GROUPS.map((group) => (
+              <div key={group.label} className="space-y-1">
+                <div className="nv-eyebrow px-4 pb-1">{group.label}</div>
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   const isActive = currentPageName === item.page;
@@ -329,19 +319,11 @@ export default function Layout({ children, currentPageName }) {
                     <Link
                       key={item.name}
                       to={createPageUrl(item.page)}
-                      className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
-                        isActive
-                          ? 'bg-gradient-to-r from-violet-600 to-emerald-600 text-white shadow-md font-bold'
-                          : item.highlight
-                          ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600 font-bold'
-                          : 'text-slate-800 hover:bg-slate-100 font-semibold'
-                      }`}
+                      aria-current={isActive ? 'page' : undefined}
+                      className="nv-navitem"
                     >
                       <Icon className="h-5 w-5" />
-                      <span className="text-sm">{item.name}</span>
-                      {item.highlight && !isActive && (
-                        <span className="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow-lg shadow-emerald-500/50">New</span>
-                      )}
+                      <span>{item.name}</span>
                     </Link>
                   );
                 })}
@@ -351,7 +333,7 @@ export default function Layout({ children, currentPageName }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-24 lg:pb-8" onClick={(e) => {
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-28 lg:pb-8" onClick={(e) => {
           try {
             const target = /** @type {HTMLElement} */ (e.target);
             if (speechEnabled && target?.textContent) {
@@ -361,9 +343,8 @@ export default function Layout({ children, currentPageName }) {
             console.error('[Layout] click-to-speak handler failed:', err);
           }
         }}>
-          {/* Plain entrance animation only. The previous wait-mode exit could
-              leave the main area empty when a navigation interrupted the
-              outgoing page, which read as a blank screen. */}
+          {/* Plain entrance animation only — a wait-mode exit could leave the
+              main area empty when a navigation interrupted the outgoing page. */}
           <motion.div
             key={location.pathname}
             initial={{ opacity: 0, y: 8 }}
@@ -379,24 +360,23 @@ export default function Layout({ children, currentPageName }) {
 
       {READABLE_PAGES.has(currentPageName) && <ListenButton />}
 
-      {/* Bottom Nav (mobile only) */}
       <BottomNav currentPageName={currentPageName} />
 
-      {/* Footer */}
-      <footer className="relative bg-white text-slate-900 mt-16 border-t-2 border-slate-300 mb-16 lg:mb-0">
+      {/* Footer — quiet muted band */}
+      <footer className="nv-footer mt-16 mb-20 lg:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-2">
-            <p className="text-sm font-semibold">© 2026 Back to Life, Back to Work for Cancer Survivors</p>
-            <p className="text-xs text-slate-700 font-medium">Information is for educational purposes only</p>
-            <p className="text-xs text-slate-700 italic font-medium">Not meant to be legal advice. Please consult with legal counsel.</p>
+            <p className="text-sm font-semibold text-brand-text">© 2026 Back to Life, Back to Work for Cancer Survivors</p>
+            <p className="text-xs">Information is for educational purposes only</p>
+            <p className="text-xs italic">Not meant to be legal advice. Please consult with legal counsel.</p>
             <div className="flex justify-center gap-4 pt-1 flex-wrap">
-              <Link to="/About" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">About</Link>
-              <Link to="/Contact" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Contact</Link>
-              <Link to="/PrivacySecurity" className="text-xs text-violet-700 hover:text-violet-800 font-bold underline transition-colors">Privacy & Security</Link>
+              <Link to="/About" className="text-xs font-semibold text-brand-primary underline transition-colors hover:text-brand-text">About</Link>
+              <Link to="/Contact" className="text-xs font-semibold text-brand-primary underline transition-colors hover:text-brand-text">Contact</Link>
+              <Link to="/PrivacySecurity" className="text-xs font-semibold text-brand-primary underline transition-colors hover:text-brand-text">Privacy & Security</Link>
             </div>
           </div>
         </div>
       </footer>
-      </div>
+    </div>
   );
 }

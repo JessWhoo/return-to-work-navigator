@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Stethoscope, Brain, HeartCrack, Wallet, Briefcase, ArrowRight, BookOpen, ListChecks, Scale } from 'lucide-react';
+import { Stethoscope, Brain, HeartCrack, Wallet, Briefcase, ArrowRight, BookOpen, ListChecks, Scale, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LegalObligationsCard from './LegalObligationsCard';
 
@@ -20,39 +20,48 @@ const QUICK_LINKS = [
 
 export default function ManagerResourceHub() {
   return (
-    <section aria-labelledby="manager-hub-heading" className="bg-white border-2 border-slate-300 rounded-3xl p-6 sm:p-8 shadow-lg">
-      <div className="flex items-center gap-3 mb-2">
-        <div className="p-3 rounded-2xl bg-gradient-to-br from-violet-600 to-emerald-600 shadow-md">
-          <Users className="h-6 w-6 text-white" />
+    <section
+      aria-labelledby="manager-hub-heading"
+      className="rounded-brand-lg border border-brand-border bg-brand-surface p-6 shadow-brand-sm sm:p-8"
+    >
+      <div className="mb-2 flex items-center gap-3">
+        <div className="rounded-pill bg-brand-muted p-3 text-brand-primary">
+          <Users className="h-6 w-6" />
         </div>
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-wider text-violet-700">For Managers &amp; HR</p>
-          <h2 id="manager-hub-heading" className="text-2xl sm:text-3xl font-extrabold text-slate-900">Manager Resource Hub</h2>
+          <p className="nv-eyebrow nv-eyebrow--primary">For Managers &amp; HR</p>
+          <h2 id="manager-hub-heading" className="font-heading text-2xl font-bold text-brand-text sm:text-3xl">
+            Manager Resource Hub
+          </h2>
         </div>
       </div>
-      <p className="text-slate-700 font-medium mb-6 max-w-2xl">
+      <p className="mb-6 max-w-2xl text-brand-muted-foreground">
         Before deciding what to do, understand what your employee is navigating. How you respond determines
         whether you throw them a life raft or watch them go under.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {CHALLENGES.map(({ icon: Icon, label, text }) => (
-          <div key={label} className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4">
-            <Icon className="h-6 w-6 text-violet-700 mb-2" />
-            <h3 className="font-extrabold text-slate-900 mb-1">{label}</h3>
-            <p className="text-sm text-slate-700 leading-relaxed">{text}</p>
+          <div key={label} className="rounded-brand border border-brand-border bg-brand-muted p-4">
+            <Icon className="mb-2 h-6 w-6 text-brand-primary" />
+            <h3 className="mb-1 font-heading font-bold text-brand-text">{label}</h3>
+            <p className="text-sm leading-relaxed text-brand-muted-foreground">{text}</p>
           </div>
         ))}
       </div>
 
       <LegalObligationsCard />
 
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-wrap">
-        <Button asChild className="bg-gradient-to-r from-violet-600 to-emerald-600 text-white font-bold hover:opacity-90">
+      <div className="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center">
+        <Button asChild>
           <Link to="/ManagerGuide">Read the full guide <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         {QUICK_LINKS.map(({ icon: Icon, label, to }) => (
-          <Link key={to} to={to} className="inline-flex items-center gap-1.5 text-sm font-bold text-violet-700 hover:text-violet-900 underline">
+          <Link
+            key={to}
+            to={to}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary underline transition-colors hover:text-brand-text"
+          >
             <Icon className="h-4 w-4" /> {label}
           </Link>
         ))}

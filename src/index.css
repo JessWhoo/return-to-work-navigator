@@ -1,17 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global legible, high-contrast typography */
+/* =========================================================================
+   Navigator brand foundation (design system — pasted as-is)
+   ========================================================================= */
+:root{--background:45 31% 95%;--foreground:261 14% 19%;--card:0 0% 100%;--card-foreground:261 14% 19%;--popover:0 0% 100%;--popover-foreground:261 14% 19%;--primary:263 14% 43%;--primary-foreground:0 0% 100%;--secondary:136 22% 64%;--secondary-foreground:0 0% 9%;--accent:351 51% 78%;--accent-foreground:0 0% 9%;--muted:270 21% 93%;--muted-foreground:263 8% 43%;--destructive:1 48% 48%;--destructive-foreground:0 0% 100%;--border:270 16% 85%;--input:270 16% 85%;--ring:263 14% 43%;--radius:12px;--font-heading:'Cinzel', sans-serif;--font-body:'Nunito Sans', sans-serif;--font-heading-line-height:1.2;--font-heading-letter-spacing:0.04em;--font-body-line-height:1.6;}
+:root{--brand-primary:#6B5F7E;--brand-on-primary:#FFFFFF;--brand-secondary:#8FB79A;--brand-accent:#E3A9B2;--brand-sky:#C9CCE2;--brand-compass-cream:#E8E4C8;--brand-background:#F6F4EE;--brand-surface:#FFFFFF;--brand-text:#2F2A38;--brand-muted:#ECE8F0;--brand-muted-foreground:#6C6577;--brand-border:#D9D3DF;--brand-destructive:#B5413F;--brand-font-heading:'Cinzel', sans-serif;--brand-font-body:'Nunito Sans', sans-serif;--brand-font-heading-line-height:1.2;--brand-font-heading-letter-spacing:0.04em;--brand-font-body-line-height:1.6;--brand-font-weight-regular:400;--brand-font-weight-semibold:600;--brand-font-weight-bold:700;--brand-sp-1:4px;--brand-sp-2:8px;--brand-sp-3:12px;--brand-sp-4:16px;--brand-sp-5:24px;--brand-sp-6:32px;--brand-sp-7:48px;--brand-radius-sm:6px;--brand-radius-md:12px;--brand-radius-lg:20px;--brand-radius-full:9999px;--brand-radius:12px;--brand-shadow-none:none;--brand-shadow-sm:0 1px 3px rgba(75,64,94,.08);--brand-shadow-md:0 6px 16px rgba(75,64,94,.12);--brand-shadow-lg:0 14px 32px rgba(75,64,94,.16);--brand-shadow:0 6px 16px rgba(75,64,94,.12);}
+@layer base{h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);line-height:var(--font-heading-line-height);letter-spacing:var(--font-heading-letter-spacing)}body{font-family:var(--font-body);line-height:var(--font-body-line-height)}}
+
+/* =========================================================================
+   Base resets and mobile behaviour
+   ========================================================================= */
 html, body {
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
-  letter-spacing: -0.005em;
 }
 
 * {
@@ -19,11 +25,6 @@ html, body {
   -webkit-touch-callout: none;
 }
 
-/* Site-wide accessible text scaling.
-   Increasing the root font-size proportionally enlarges every rem-based size
-   used by Tailwind (text-xs, text-sm, text-base, text-lg, spacing, etc.),
-   so text is more readable on both mobile and desktop without hand-editing
-   every component. Mobile gets a slightly smaller bump than desktop. */
 html {
   font-size: 17.5px;
 }
@@ -42,16 +43,14 @@ html, body {
 
 body {
   overscroll-behavior-y: none;
-  /* Prevent text size adjustment on orientation change */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
-/* =========================================================
+/* =========================================================================
    ACCESSIBILITY MODE (toggled from Profile > Preferences)
-   Larger base text, maximum-contrast colors, stronger borders,
-   and reduced motion for visual / cognitive fatigue.
-   ========================================================= */
+   Larger base text, maximum-contrast colours, stronger borders, reduced motion.
+   ========================================================================= */
 html.a11y-mode { font-size: 21px; }
 @media (min-width: 1024px) {
   html.a11y-mode { font-size: 22px; }
@@ -66,6 +65,7 @@ html.a11y-mode body {
 html.a11y-mode h1,
 html.a11y-mode h2,
 html.a11y-mode h3,
+html.a11y-mode h4,
 html.a11y-mode p,
 html.a11y-mode span,
 html.a11y-mode li,
@@ -73,25 +73,22 @@ html.a11y-mode label,
 html.a11y-mode div {
   color: #000000 !important;
 }
-/* Keep text on saturated/gradient surfaces white so it stays readable */
-html.a11y-mode [class*="bg-gradient-to"] *,
-html.a11y-mode [class*="bg-gradient-to"] {
-  color: #ffffff !important;
-}
 html.a11y-mode a:not([class*="bg-"]) {
-  color: #1d1073 !important;
+  color: #43394F !important;
   text-decoration: underline;
 }
 html.a11y-mode * {
   border-color: #000000 !important;
 }
-html.a11y-mode [class*="bg-white/"],
-html.a11y-mode [class*="bg-slate-"],
-html.a11y-mode [class*="bg-gray-"] {
+html.a11y-mode .nv-card,
+html.a11y-mode .nv-milestone,
+html.a11y-mode .nv-resource,
+html.a11y-mode .nv-btn--outline,
+html.a11y-mode .nv-input {
   background-color: #ffffff !important;
 }
 html.a11y-mode *:focus-visible {
-  outline: 3px solid #1d1073 !important;
+  outline: 3px solid #43394F !important;
   outline-offset: 2px;
 }
 html.a11y-mode *,
@@ -102,22 +99,6 @@ html.a11y-mode *::after {
   transition-duration: 0.001ms !important;
 }
 
-/* Global hover effects */
-.rounded-xl,
-.rounded-2xl,
-[class*="Card"] {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-button:not([disabled]),
-a {
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-button:not([disabled]):active {
-  transform: scale(0.96);
-}
-
 .mobile-ui-select-none button,
 .mobile-ui-select-none [role="button"],
 .mobile-ui-select-none svg,
@@ -126,77 +107,136 @@ button:not([disabled]):active {
   -webkit-user-select: none;
 }
 
-
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* shadcn token base */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-  a:hover {
-    color: #747bff;
+  body {
+    @apply bg-background text-foreground;
   }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
+}
 
+/* =========================================================================
+   BRAND COMPONENTS — ported 1:1 from the design system's <style> blocks.
+   Written after the Tailwind layers so the brand's resting + interactive
+   states always win over legacy utility classes on existing screens.
+   ========================================================================= */
 
+/* --- Buttons · Primary · Default --- */
+.nv-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--brand-font-body);font-weight:var(--brand-font-weight-semibold);font-size:15px;line-height:1;letter-spacing:0.01em;white-space:nowrap;padding:12px 24px;border-radius:var(--brand-radius-full);border:1px solid var(--brand-primary);background:var(--brand-primary);color:var(--brand-on-primary);box-shadow:var(--brand-shadow-sm);cursor:pointer;transition:background-color .2s ease,box-shadow .2s ease,transform .15s ease}
+.nv-btn:hover:not(:disabled){background:#5E536F;border-color:#5E536F;box-shadow:var(--brand-shadow-md);transform:translateY(-1px)}
+.nv-btn:active:not(:disabled){background:#524862;transform:translateY(0);box-shadow:var(--brand-shadow-sm)}
+.nv-btn:focus-visible{outline:2px solid var(--brand-accent);outline-offset:3px}
+/* --- Buttons · Primary · Disabled --- */
+.nv-btn:disabled,.nv-btn[disabled]{border-color:var(--brand-border);background:var(--brand-muted);color:var(--brand-muted-foreground);box-shadow:var(--brand-shadow-none);cursor:not-allowed;opacity:.8;transform:none}
+/* --- Buttons · Primary · On gradient --- */
+.nv-btn--on-gradient{box-shadow:var(--brand-shadow-md)}
+.nv-btn--on-gradient:hover:not(:disabled){background:#5E536F;transform:translateY(-1px)}
+.nv-btn--on-gradient:active:not(:disabled){background:#524862;transform:translateY(0)}
+/* --- Buttons · Secondary · Sage --- */
+.nv-btn--secondary{border-color:var(--brand-secondary);background:var(--brand-secondary);color:var(--brand-text);box-shadow:var(--brand-shadow-sm)}
+.nv-btn--secondary:hover:not(:disabled){background:#82AC8E;border-color:#82AC8E;box-shadow:var(--brand-shadow-md);transform:translateY(-1px)}
+.nv-btn--secondary:active:not(:disabled){background:#76A083;transform:translateY(0)}
+.nv-btn--secondary:focus-visible{outline:2px solid var(--brand-primary);outline-offset:3px}
+/* --- Buttons · Outline · Default --- */
+.nv-btn--outline{border-color:var(--brand-primary);background:var(--brand-surface);color:var(--brand-primary);box-shadow:var(--brand-shadow-none)}
+.nv-btn--outline:hover:not(:disabled){background:var(--brand-muted);box-shadow:var(--brand-shadow-sm);transform:none}
+.nv-btn--outline:active:not(:disabled){background:var(--brand-sky)}
+.nv-btn--outline:focus-visible{outline:2px solid var(--brand-accent);outline-offset:3px}
+/* --- Buttons · Text · Default --- */
+.nv-btn--text{padding:12px 16px;border-color:transparent;background:transparent;color:var(--brand-primary);box-shadow:var(--brand-shadow-none)}
+.nv-btn--text:hover:not(:disabled){background:var(--brand-muted);color:var(--brand-text);transform:none;box-shadow:var(--brand-shadow-none)}
+.nv-btn--text:active:not(:disabled){background:var(--brand-border)}
+.nv-btn--text:focus-visible{outline:2px solid var(--brand-accent);outline-offset:2px}
+/* --- Buttons · Destructive · Default --- */
+.nv-btn--destructive{border-color:var(--brand-destructive);background:var(--brand-destructive);color:var(--brand-on-primary);box-shadow:var(--brand-shadow-sm)}
+.nv-btn--destructive:hover:not(:disabled){background:#9E3836;border-color:#9E3836;transform:translateY(-1px)}
+.nv-btn--destructive:active:not(:disabled){background:#882F2E;transform:translateY(0)}
+.nv-btn--destructive:focus-visible{outline:2px solid var(--brand-destructive);outline-offset:3px}
+/* --- Buttons · Destructive · Outline --- */
+.nv-btn--destructive-outline{border-color:var(--brand-destructive);background:var(--brand-surface);color:var(--brand-destructive);box-shadow:var(--brand-shadow-none)}
+.nv-btn--destructive-outline:hover:not(:disabled){background:#F7E6E5;transform:none;box-shadow:var(--brand-shadow-none)}
+.nv-btn--destructive-outline:active:not(:disabled){background:#EFD2D1}
+.nv-btn--destructive-outline:focus-visible{outline:2px solid var(--brand-destructive);outline-offset:3px}
+/* --- Buttons · size adaptations (the only dimension we scale) --- */
+.nv-btn--sm{padding:8px 16px;font-size:14px}
+.nv-btn--lg{padding:14px 30px;font-size:16px}
+.nv-btn--icon{padding:10px;width:42px;height:42px}
+
+/* --- Cards · base surface (hairline border + mauve-tinted small shadow) --- */
+.nv-card{background:var(--brand-surface);border:1px solid var(--brand-border);border-radius:var(--brand-radius-lg);box-shadow:var(--brand-shadow-sm);font-family:var(--brand-font-body);color:var(--brand-text);transition:box-shadow .2s,transform .2s}
+.nv-card:hover{box-shadow:var(--brand-shadow-md);transform:translateY(-2px)}
+
+/* --- Cards · Journey milestone --- */
+.nv-milestone{background:var(--brand-surface);border:1px solid var(--brand-border);border-radius:var(--brand-radius-lg);box-shadow:var(--brand-shadow-sm);padding:var(--brand-sp-5);font-family:var(--brand-font-body);color:var(--brand-text);display:flex;flex-direction:column;gap:var(--brand-sp-4);transition:box-shadow .2s,transform .2s}
+.nv-milestone:hover{box-shadow:var(--brand-shadow-md);transform:translateY(-2px)}
+.nv-milestone h3{margin:0;font-family:var(--brand-font-heading);font-size:20px;letter-spacing:var(--brand-font-heading-letter-spacing);line-height:var(--brand-font-heading-line-height);font-weight:var(--brand-font-weight-bold)}
+.nv-milestone p{margin:0;font-size:14px;line-height:1.6;color:var(--brand-muted-foreground)}
+.nv-ms-meta{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.nv-eyebrow{font-size:12px;font-weight:var(--brand-font-weight-semibold);color:var(--brand-muted-foreground);letter-spacing:.08em;text-transform:uppercase}
+.nv-eyebrow--primary{color:var(--brand-primary)}
+.nv-bar{height:8px;border-radius:var(--brand-radius-full);background:var(--brand-muted);overflow:hidden}
+.nv-bar i{display:block;height:100%;background:var(--brand-primary);border-radius:var(--brand-radius-full);transition:width .4s ease}
+.nv-chip{display:inline-flex;align-items:center;gap:6px;background:var(--brand-secondary);color:var(--brand-text);padding:var(--brand-sp-1) var(--brand-sp-3);border-radius:var(--brand-radius-full);font-weight:var(--brand-font-weight-semibold);font-size:12px}
+.nv-chip--muted{background:var(--brand-muted);color:var(--brand-muted-foreground)}
+.nv-chip--primary{background:var(--brand-primary);color:var(--brand-on-primary)}
+
+/* --- Cards · Guidance resource --- */
+.nv-resource{background:var(--brand-surface);border:1px solid var(--brand-border);border-radius:var(--brand-radius-lg);box-shadow:var(--brand-shadow-sm);overflow:hidden;font-family:var(--brand-font-body);color:var(--brand-text);display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.nv-resource:hover{box-shadow:var(--brand-shadow-md);transform:translateY(-2px)}
+.nv-resource .nv-media{height:130px}
+.nv-resource .nv-body{padding:var(--brand-sp-5);display:flex;flex-direction:column;gap:var(--brand-sp-2)}
+.nv-resource h3{margin:0;font-family:var(--brand-font-heading);font-size:18px;letter-spacing:var(--brand-font-heading-letter-spacing);line-height:var(--brand-font-heading-line-height)}
+.nv-resource p{margin:0;font-size:14px;line-height:1.6;color:var(--brand-muted-foreground)}
+.nv-resource .nv-meta{margin-top:var(--brand-sp-2);font-size:13px;color:var(--brand-muted-foreground)}
+
+/* --- Watercolour media band (logo's landscape) --- */
+.nv-media{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--brand-sky) 0%,var(--brand-accent) 45%,var(--brand-secondary) 100%)}
+.nv-media:after{content:'';position:absolute;left:-10%;right:-10%;bottom:-40px;height:80px;background:var(--brand-secondary);border-radius:50%;opacity:.7}
+.nv-hero{position:relative;overflow:hidden;border-radius:var(--brand-radius-lg);border:1px solid var(--brand-border);background:linear-gradient(180deg,var(--brand-sky) 0%,var(--brand-accent) 50%,var(--brand-secondary) 100%)}
+.nv-hero:before{content:'';position:absolute;left:-15%;right:-15%;bottom:38%;height:120px;background:var(--brand-sky);border-radius:50%;opacity:.75}
+.nv-hero:after{content:'';position:absolute;left:-15%;right:-15%;bottom:-56px;height:120px;background:var(--brand-secondary);border-radius:50%;opacity:.8}
+.nv-hero > *{position:relative;z-index:1}
+
+/* --- Cards · Daily check-in · Mauve prompt --- */
+.nv-checkin{background:var(--brand-primary);color:var(--brand-on-primary);border-radius:var(--brand-radius-lg);box-shadow:var(--brand-shadow-md);padding:var(--brand-sp-5);font-family:var(--brand-font-body);display:flex;flex-direction:column;gap:var(--brand-sp-4);transition:box-shadow .2s,transform .2s}
+.nv-checkin:hover{box-shadow:var(--brand-shadow-lg);transform:translateY(-2px)}
+.nv-checkin .e{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-compass-cream);font-weight:var(--brand-font-weight-semibold)}
+.nv-checkin h3{margin:0;font-family:var(--brand-font-heading);font-size:20px;letter-spacing:var(--brand-font-heading-letter-spacing);line-height:var(--brand-font-heading-line-height);color:var(--brand-on-primary)}
+.nv-checkin .lbl{font-size:13px;font-weight:var(--brand-font-weight-semibold);color:var(--brand-compass-cream)}
+.nv-checkin-optrow{display:flex;flex-wrap:wrap;gap:var(--brand-sp-2)}
+.nv-opt{display:inline-flex;align-items:center;justify-content:center;min-width:56px;padding:var(--brand-sp-2) var(--brand-sp-3);border-radius:var(--brand-radius-full);border:1px solid var(--brand-sky);background:transparent;font-family:var(--brand-font-body);font-size:13px;font-weight:var(--brand-font-weight-semibold);color:var(--brand-on-primary);cursor:pointer;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.nv-opt:hover{background:rgba(255,255,255,.14)}
+.nv-opt.on{background:var(--brand-compass-cream);color:var(--brand-text);border-color:var(--brand-compass-cream)}
+.nv-opt:focus-visible{outline:2px solid var(--brand-accent);outline-offset:2px}
+.nv-checkin-btn{align-self:flex-start;background:var(--brand-surface);color:var(--brand-primary);border:0;border-radius:var(--brand-radius-full);padding:var(--brand-sp-2) var(--brand-sp-5);font-family:var(--brand-font-body);font-weight:var(--brand-font-weight-semibold);font-size:14px;cursor:pointer;transition:background-color .2s ease,transform .15s ease,box-shadow .2s ease}
+.nv-checkin-btn:hover:not(:disabled){background:var(--brand-muted);transform:translateY(-1px);box-shadow:var(--brand-shadow-md)}
+.nv-checkin-btn:active:not(:disabled){transform:translateY(0)}
+.nv-checkin-btn:disabled{opacity:.6;cursor:not-allowed}
+
+/* --- Journey spine: dotted line with compass-point milestones --- */
+.nv-spine{position:relative;padding-left:38px}
+.nv-spine:before{content:'';position:absolute;left:11px;top:10px;bottom:10px;border-left:2px dotted var(--brand-border)}
+.nv-spine-step{position:relative;padding-bottom:var(--brand-sp-5)}
+.nv-spine-step:last-child{padding-bottom:0}
+.nv-spine-dot{position:absolute;left:-38px;top:0;width:24px;height:24px;border-radius:var(--brand-radius-full);background:var(--brand-surface);border:1px solid var(--brand-border);display:inline-flex;align-items:center;justify-content:center;color:var(--brand-muted-foreground)}
+.nv-spine-dot--done{background:var(--brand-secondary);border-color:var(--brand-secondary);color:var(--brand-text)}
+.nv-spine-dot--active{background:var(--brand-primary);border-color:var(--brand-primary);color:var(--brand-on-primary);box-shadow:var(--brand-shadow-sm)}
+
+/* --- Nav pill items (header + sidebar + bottom bar) --- */
+.nv-navitem{display:flex;align-items:center;gap:var(--brand-sp-3);padding:10px 16px;border-radius:var(--brand-radius-full);font-family:var(--brand-font-body);font-weight:var(--brand-font-weight-semibold);font-size:15px;color:var(--brand-text);transition:background-color .2s ease,color .2s ease}
+.nv-navitem:hover{background:var(--brand-muted)}
+.nv-navitem[aria-current="page"]{background:var(--brand-muted);color:var(--brand-primary)}
+.nv-navitem--stack{flex-direction:column;gap:2px;padding:8px 10px;font-size:12px;text-align:center}
+
+/* --- Inputs · medium radius --- */
+.nv-input{background:var(--brand-surface);border:1px solid var(--brand-border);border-radius:var(--brand-radius-md);color:var(--brand-text);font-family:var(--brand-font-body);box-shadow:var(--brand-shadow-none);transition:border-color .2s ease,box-shadow .2s ease}
+.nv-input::placeholder{color:var(--brand-muted-foreground)}
+.nv-input:focus-visible,.nv-input:focus{outline:none;border-color:var(--brand-primary);box-shadow:0 0 0 3px rgba(107,95,126,.16)}
+
+/* --- Footer band --- */
+.nv-footer{background:var(--brand-muted);border-top:1px solid var(--brand-border);color:var(--brand-muted-foreground)}
 
 /* When the printable meeting document is open, print ONLY the document —
    hide all app chrome (header, nav, footer, page content behind it). */
@@ -212,348 +252,4 @@ button:focus-visible {
   }
   .printable-doc, .printable-doc * { visibility: visible; }
   .printable-doc { position: absolute !important; inset: 0 !important; }
-}
-
-@layer base {
-  :root {
-    --background: 260 40% 49%;
-    --foreground: 201 49% 44%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 43 90% 44%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Global text contrast boost - improve readability across the entire app */
-@layer utilities {
-  /* All rules below are light-mode readability + surface overrides. They
-     apply only when the device is NOT in dark mode, so the dark theme
-     (driven by the .dark CSS variables) is left untouched. */
-  @media (prefers-color-scheme: light) {
-  /* On light backgrounds: darken light gray text */
-  .text-slate-300, .text-slate-400, .text-slate-500 { color: rgb(30 41 59) !important; font-weight: 500; }
-  .text-slate-600 { color: rgb(15 23 42) !important; }
-  .text-gray-300, .text-gray-400, .text-gray-500 { color: rgb(31 41 55) !important; }
-  .text-gray-600 { color: rgb(17 24 39) !important; }
-  .text-zinc-300, .text-zinc-400, .text-zinc-500 { color: rgb(24 24 27) !important; }
-  .text-neutral-300, .text-neutral-400, .text-neutral-500 { color: rgb(23 23 23) !important; }
-  .text-stone-300, .text-stone-400, .text-stone-500 { color: rgb(28 25 23) !important; }
-
-  /* Translucent sky text used in layout/footer */
-  .text-sky-600\/70, .text-sky-600\/80, .text-sky-700\/60, .text-sky-700\/70, .text-sky-700\/80,
-  .text-sky-800\/60, .text-sky-800\/70, .text-sky-800\/80 { color: rgb(12 74 110) !important; }
-
-  /* Faded accent colors -> stronger shades */
-  .text-rose-400, .text-rose-500 { color: rgb(190 18 60) !important; }
-  .text-cyan-400 { color: rgb(14 116 144) !important; }
-  .text-teal-400 { color: rgb(15 118 110) !important; }
-  .text-purple-400 { color: rgb(126 34 206) !important; }
-  .text-indigo-400 { color: rgb(67 56 202) !important; }
-  .text-emerald-400 { color: rgb(4 120 87) !important; }
-  .text-amber-400, .text-amber-500 { color: rgb(180 83 9) !important; }
-  .text-blue-400, .text-blue-500 { color: rgb(29 78 216) !important; }
-  .text-green-400, .text-green-500 { color: rgb(21 128 61) !important; }
-  .text-yellow-400, .text-yellow-500 { color: rgb(161 98 7) !important; }
-  .text-orange-400, .text-orange-500 { color: rgb(194 65 12) !important; }
-  .text-red-400, .text-red-500 { color: rgb(185 28 28) !important; }
-  .text-pink-400, .text-pink-500 { color: rgb(190 24 93) !important; }
-  .text-violet-400, .text-violet-500 { color: rgb(109 40 217) !important; }
-
-  /* Shadcn muted token */
-  .text-muted-foreground { color: rgb(51 65 85) !important; }
-
-  /* On DARK backgrounds: lighten muted gray text instead of darkening */
-  .bg-slate-900 .text-slate-400, .bg-slate-900 .text-slate-500, .bg-slate-900 .text-slate-600,
-  .bg-slate-800 .text-slate-400, .bg-slate-800 .text-slate-500, .bg-slate-800 .text-slate-600,
-  .bg-slate-900\/50 .text-slate-400, .bg-slate-900\/50 .text-slate-500,
-  .bg-slate-800\/90 .text-slate-400, .bg-slate-800\/90 .text-slate-500,
-  .bg-slate-800\/50 .text-slate-400, .bg-slate-800\/50 .text-slate-500,
-  .bg-gray-900 .text-gray-400, .bg-gray-900 .text-gray-500,
-  .bg-gray-800 .text-gray-400, .bg-gray-800 .text-gray-500 {
-    color: rgb(226 232 240) !important;
-  }
-  .bg-slate-900 .text-muted-foreground, .bg-slate-800 .text-muted-foreground,
-  .bg-slate-900\/50 .text-muted-foreground, .bg-slate-800\/90 .text-muted-foreground {
-    color: rgb(203 213 225) !important;
-  }
-
-  /* Heavier default body weight for legibility */
-  body { font-weight: 500; color: rgb(15 23 42); line-height: 1.55; }
-
-  /* Lift small/fine text — bump size + weight so nothing dips below a
-     comfortably readable minimum on either mobile or desktop. */
-  .text-xs { font-size: 0.8125rem; line-height: 1.15rem; font-weight: 600; }
-  .text-sm { font-size: 0.95rem;   line-height: 1.4rem;  font-weight: 500; }
-
-  /* Global page title readability boost - applies to all h1/h2/h3 headers */
-  h1 {
-    font-weight: 800 !important;
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    color: rgb(15 23 42);
-  }
-  h2 {
-    font-weight: 800 !important;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    color: rgb(15 23 42);
-  }
-  h3 {
-    font-weight: 700 !important;
-    color: rgb(15 23 42);
-  }
-
-  /* Strengthen gradient titles (clip-text) so they remain crisp and dark enough */
-  h1.bg-clip-text, h2.bg-clip-text, h3.bg-clip-text {
-    filter: saturate(1.25) contrast(1.15);
-    color: transparent;
-  }
-
-  /* Boost borders globally - replace faint borders with stronger ones */
-  .border-slate-100, .border-slate-200 { border-color: rgb(203 213 225) !important; }
-  .border-gray-100, .border-gray-200 { border-color: rgb(209 213 219) !important; }
-  .border-white\/60, .border-white\/70, .border-white\/80 { border-color: rgb(203 213 225) !important; }
-
-  /* Translucent white backgrounds → solid white for clarity */
-  .bg-white\/40, .bg-white\/50, .bg-white\/60, .bg-white\/70, .bg-white\/80, .bg-white\/90 {
-    background-color: rgb(255 255 255) !important;
-  }
-
-  /* =========================================================
-     GLOBAL LIGHT-THEME OVERRIDE
-     Force any page still using dark-theme surfaces to match the
-     light Home theme. This flips dark card/panel backgrounds to
-     white, and light-on-dark text to dark-on-light — everywhere.
-     ========================================================= */
-
-  /* Dark surface backgrounds → white */
-  .bg-slate-900, .bg-slate-800, .bg-slate-700,
-  .bg-gray-900, .bg-gray-800, .bg-gray-700,
-  .bg-zinc-900, .bg-zinc-800,
-  .bg-neutral-900, .bg-neutral-800,
-  .bg-stone-900, .bg-stone-800 {
-    background-color: rgb(255 255 255) !important;
-  }
-
-  /* Translucent dark surfaces → white */
-  .bg-slate-900\/50, .bg-slate-900\/40, .bg-slate-900\/30,
-  .bg-slate-800\/90, .bg-slate-800\/80, .bg-slate-800\/70, .bg-slate-800\/60,
-  .bg-slate-800\/50, .bg-slate-800\/40, .bg-slate-800\/30,
-  .bg-slate-700\/50, .bg-slate-700\/40, .bg-slate-700\/30,
-  .bg-gray-900\/50, .bg-gray-800\/50,
-  .bg-black\/40, .bg-black\/50, .bg-black\/60 {
-    background-color: rgb(255 255 255) !important;
-  }
-
-  /* Hover states that revealed dark surfaces */
-  .hover\:bg-slate-800:hover, .hover\:bg-slate-700:hover,
-  .hover\:bg-slate-800\/50:hover, .hover\:bg-slate-700\/50:hover,
-  .hover\:bg-gray-800:hover, .hover\:bg-gray-700:hover {
-    background-color: rgb(241 245 249) !important; /* slate-100 */
-  }
-
-  /* Dark gradient backgrounds → soft light gradient */
-  [class*="from-slate-900"], [class*="from-slate-800"],
-  [class*="to-slate-900"], [class*="to-slate-800"],
-  [class*="via-slate-900"], [class*="via-slate-800"],
-  [class*="from-gray-900"], [class*="from-gray-800"],
-  [class*="to-gray-900"], [class*="to-gray-800"],
-  [class*="from-zinc-900"], [class*="to-zinc-900"] {
-    --tw-gradient-from: rgb(255 255 255) !important;
-    --tw-gradient-to: rgb(248 250 252) !important;
-    --tw-gradient-via: rgb(255 255 255) !important;
-  }
-
-  /* Colored dark-tinted overlays used as card bgs (e.g. rose-900/30) → white */
-  [class*="bg-rose-900"], [class*="bg-pink-900"], [class*="bg-red-900"],
-  [class*="bg-emerald-900"], [class*="bg-green-900"], [class*="bg-teal-900"],
-  [class*="bg-sky-900"], [class*="bg-blue-900"], [class*="bg-indigo-900"],
-  [class*="bg-violet-900"], [class*="bg-purple-900"], [class*="bg-fuchsia-900"],
-  [class*="bg-amber-900"], [class*="bg-orange-900"], [class*="bg-yellow-900"] {
-    background-color: rgb(255 255 255) !important;
-  }
-
-  /* Light-on-dark text → dark-on-light */
-  .text-slate-50, .text-slate-100, .text-slate-200 { color: rgb(15 23 42) !important; }
-  .text-gray-50,  .text-gray-100,  .text-gray-200  { color: rgb(17 24 39) !important; }
-  .text-zinc-50,  .text-zinc-100,  .text-zinc-200  { color: rgb(24 24 27) !important; }
-  .text-neutral-50, .text-neutral-100, .text-neutral-200 { color: rgb(23 23 23) !important; }
-  .text-stone-50, .text-stone-100, .text-stone-200 { color: rgb(28 25 23) !important; }
-  .text-white { color: rgb(15 23 42) !important; }
-
-  /* BUT: keep white text on gradient/solid colored buttons & badges where
-     it's meant to be white on a saturated background. */
-  .bg-gradient-to-r .text-white, .bg-gradient-to-br .text-white,
-  .bg-gradient-to-l .text-white, .bg-gradient-to-bl .text-white,
-  .bg-gradient-to-t .text-white, .bg-gradient-to-b .text-white,
-  [class*="bg-rose-5"] .text-white,   [class*="bg-rose-6"] .text-white,   [class*="bg-rose-7"] .text-white,
-  [class*="bg-pink-5"] .text-white,   [class*="bg-pink-6"] .text-white,   [class*="bg-pink-7"] .text-white,
-  [class*="bg-red-5"] .text-white,    [class*="bg-red-6"] .text-white,    [class*="bg-red-7"] .text-white,
-  [class*="bg-emerald-5"] .text-white,[class*="bg-emerald-6"] .text-white,[class*="bg-emerald-7"] .text-white,
-  [class*="bg-green-5"] .text-white,  [class*="bg-green-6"] .text-white,  [class*="bg-green-7"] .text-white,
-  [class*="bg-teal-5"] .text-white,   [class*="bg-teal-6"] .text-white,   [class*="bg-teal-7"] .text-white,
-  [class*="bg-sky-5"] .text-white,    [class*="bg-sky-6"] .text-white,    [class*="bg-sky-7"] .text-white,
-  [class*="bg-blue-5"] .text-white,   [class*="bg-blue-6"] .text-white,   [class*="bg-blue-7"] .text-white,
-  [class*="bg-indigo-5"] .text-white, [class*="bg-indigo-6"] .text-white, [class*="bg-indigo-7"] .text-white,
-  [class*="bg-violet-5"] .text-white, [class*="bg-violet-6"] .text-white, [class*="bg-violet-7"] .text-white,
-  [class*="bg-purple-5"] .text-white, [class*="bg-purple-6"] .text-white, [class*="bg-purple-7"] .text-white,
-  [class*="bg-fuchsia-5"] .text-white,[class*="bg-fuchsia-6"] .text-white,[class*="bg-fuchsia-7"] .text-white,
-  [class*="bg-amber-5"] .text-white,  [class*="bg-amber-6"] .text-white,
-  [class*="bg-orange-5"] .text-white, [class*="bg-orange-6"] .text-white, [class*="bg-orange-7"] .text-white,
-  button.bg-rose-600 .text-white, button.bg-sky-600 .text-white,
-  .bg-rose-600, .bg-rose-700, .bg-sky-600, .bg-sky-700, .bg-emerald-600, .bg-emerald-700,
-  .bg-teal-600, .bg-teal-700, .bg-violet-600, .bg-violet-700, .bg-indigo-600, .bg-indigo-700,
-  .bg-blue-600, .bg-blue-700, .bg-purple-600, .bg-purple-700, .bg-pink-600, .bg-pink-700 {
-    color: rgb(255 255 255) !important;
-  }
-  /* Restore actual white text sitting directly on any saturated colored bg */
-  [class*="bg-gradient-to"] > .text-white,
-  [class*="bg-gradient-to"] .text-white {
-    color: rgb(255 255 255) !important;
-  }
-
-  /* Dark borders → light borders */
-  .border-slate-600, .border-slate-700, .border-slate-800, .border-slate-900,
-  .border-gray-600, .border-gray-700, .border-gray-800, .border-gray-900,
-  .border-zinc-700, .border-zinc-800 {
-    border-color: rgb(203 213 225) !important; /* slate-300 */
-  }
-
-  /* =========================================================
-     READABILITY: very light colored text (50–300 shades) was
-     designed for dark backgrounds. Since dark surfaces are now
-     flipped to white, darken these shades to their readable
-     700/800 equivalents everywhere by default.
-     ========================================================= */
-  .text-red-50, .text-red-100, .text-red-200, .text-red-300 { color: rgb(185 28 28) !important; }
-  .text-rose-50, .text-rose-100, .text-rose-200, .text-rose-300 { color: rgb(190 18 60) !important; }
-  .text-pink-50, .text-pink-100, .text-pink-200, .text-pink-300 { color: rgb(190 24 93) !important; }
-  .text-fuchsia-50, .text-fuchsia-100, .text-fuchsia-200, .text-fuchsia-300, .text-fuchsia-400 { color: rgb(162 28 175) !important; }
-  .text-purple-50, .text-purple-100, .text-purple-200, .text-purple-300 { color: rgb(126 34 206) !important; }
-  .text-violet-50, .text-violet-100, .text-violet-200, .text-violet-300 { color: rgb(109 40 217) !important; }
-  .text-indigo-50, .text-indigo-100, .text-indigo-200, .text-indigo-300 { color: rgb(67 56 202) !important; }
-  .text-blue-50, .text-blue-100, .text-blue-200, .text-blue-300 { color: rgb(29 78 216) !important; }
-  .text-sky-50, .text-sky-100, .text-sky-200, .text-sky-300, .text-sky-400 { color: rgb(3 105 161) !important; }
-  .text-cyan-50, .text-cyan-100, .text-cyan-200, .text-cyan-300 { color: rgb(14 116 144) !important; }
-  .text-teal-50, .text-teal-100, .text-teal-200, .text-teal-300 { color: rgb(15 118 110) !important; }
-  .text-emerald-50, .text-emerald-100, .text-emerald-200, .text-emerald-300 { color: rgb(4 120 87) !important; }
-  .text-green-50, .text-green-100, .text-green-200, .text-green-300 { color: rgb(21 128 61) !important; }
-  .text-lime-50, .text-lime-100, .text-lime-200, .text-lime-300, .text-lime-400 { color: rgb(77 124 15) !important; }
-  .text-yellow-50, .text-yellow-100, .text-yellow-200, .text-yellow-300 { color: rgb(161 98 7) !important; }
-  .text-amber-50, .text-amber-100, .text-amber-200, .text-amber-300 { color: rgb(146 64 14) !important; }
-  .text-orange-50, .text-orange-100, .text-orange-200, .text-orange-300 { color: rgb(154 52 18) !important; }
-
-  /* EXCEPTION: on genuinely saturated colored backgrounds and colored
-     gradients, light text is intentional — keep it white there. */
-  :is([class*="bg-gradient-to"],
-    .bg-red-500, .bg-red-600, .bg-red-700,
-    .bg-rose-500, .bg-rose-600, .bg-rose-700,
-    .bg-pink-500, .bg-pink-600, .bg-pink-700,
-    .bg-fuchsia-500, .bg-fuchsia-600, .bg-fuchsia-700,
-    .bg-purple-500, .bg-purple-600, .bg-purple-700,
-    .bg-violet-500, .bg-violet-600, .bg-violet-700,
-    .bg-indigo-500, .bg-indigo-600, .bg-indigo-700,
-    .bg-blue-500, .bg-blue-600, .bg-blue-700,
-    .bg-sky-500, .bg-sky-600, .bg-sky-700,
-    .bg-cyan-500, .bg-cyan-600, .bg-cyan-700,
-    .bg-teal-500, .bg-teal-600, .bg-teal-700,
-    .bg-emerald-500, .bg-emerald-600, .bg-emerald-700,
-    .bg-green-500, .bg-green-600, .bg-green-700,
-    .bg-lime-500, .bg-lime-600, .bg-lime-700,
-    .bg-yellow-500, .bg-yellow-600,
-    .bg-amber-500, .bg-amber-600,
-    .bg-orange-500, .bg-orange-600, .bg-orange-700)
-  :is(.text-red-50, .text-red-100, .text-red-200, .text-red-300,
-    .text-rose-50, .text-rose-100, .text-rose-200, .text-rose-300,
-    .text-pink-50, .text-pink-100, .text-pink-200, .text-pink-300,
-    .text-fuchsia-50, .text-fuchsia-100, .text-fuchsia-200, .text-fuchsia-300,
-    .text-purple-50, .text-purple-100, .text-purple-200, .text-purple-300,
-    .text-violet-50, .text-violet-100, .text-violet-200, .text-violet-300,
-    .text-indigo-50, .text-indigo-100, .text-indigo-200, .text-indigo-300,
-    .text-blue-50, .text-blue-100, .text-blue-200, .text-blue-300,
-    .text-sky-50, .text-sky-100, .text-sky-200, .text-sky-300,
-    .text-cyan-50, .text-cyan-100, .text-cyan-200, .text-cyan-300,
-    .text-teal-50, .text-teal-100, .text-teal-200, .text-teal-300,
-    .text-emerald-50, .text-emerald-100, .text-emerald-200, .text-emerald-300,
-    .text-green-50, .text-green-100, .text-green-200, .text-green-300,
-    .text-lime-50, .text-lime-100, .text-lime-200, .text-lime-300,
-    .text-yellow-50, .text-yellow-100, .text-yellow-200, .text-yellow-300,
-    .text-amber-50, .text-amber-100, .text-amber-200, .text-amber-300,
-    .text-orange-50, .text-orange-100, .text-orange-200, .text-orange-300) {
-    color: rgb(255 255 255) !important;
-  }
-  }
 }

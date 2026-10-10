@@ -12,10 +12,8 @@ const CALL_CONVERSION = 'AW-18498327009/QvcyCOOjzJMdEOGj2PRE';
  */
 export default function SmsConsentCard({ className = '', children }) {
   return (
-    <div
-      className={`rounded-xl border-2 border-slate-200 bg-gradient-to-br from-amber-50 via-white to-slate-100 p-6 sm:p-8 shadow-sm ${className}`}
-    >
-      <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
+    <div className={`nv-card p-6 sm:p-8 ${className}`}>
+      <h2 className="font-heading text-xl font-bold leading-tight text-brand-text sm:text-2xl">
         Text Return Collective of Survivors today
       </h2>
 
@@ -26,30 +24,30 @@ export default function SmsConsentCard({ className = '', children }) {
             window.gtag('event', 'conversion', { send_to: CALL_CONVERSION });
           }
         }}
-        className="mt-4 inline-flex items-center gap-3 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight hover:text-violet-700 transition-colors"
+        className="mt-4 inline-flex items-center gap-3 font-heading text-3xl font-bold tracking-tight text-brand-text transition-colors hover:text-brand-primary sm:text-4xl"
       >
-        <Phone className="h-7 w-7 text-violet-700 flex-shrink-0" />
+        <Phone className="h-7 w-7 flex-shrink-0 text-brand-primary" />
         {PHONE_DISPLAY}
       </a>
 
       <div className="mt-4">
         <a
           href={`sms:${PHONE_E164}`}
-          className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl bg-violet-700 hover:bg-violet-800 px-5 py-3 text-sm font-bold text-white shadow-sm transition-colors"
+          className="nv-btn inline-flex sm:w-auto"
         >
           <MessageSquare className="h-4 w-4" />
           Text us
         </a>
       </div>
 
-      <p className="mt-5 text-sm text-slate-700 leading-relaxed max-w-2xl">
+      <p className="mt-5 max-w-2xl text-sm leading-relaxed text-brand-muted-foreground">
         By contacting us via SMS with your mobile number, you consent to receive customer care text
         messages from Return Collective of Survivors. Msg&amp;Data rates may apply. Message frequency
         varies. Text HELP for help. Reply "STOP" at any time to opt out.
       </p>
 
       {children && (
-        <div className="mt-5 pt-4 border-t-2 border-slate-200 space-y-2">{children}</div>
+        <div className="mt-5 space-y-2 border-t border-brand-border pt-4">{children}</div>
       )}
     </div>
   );
