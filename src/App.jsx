@@ -56,7 +56,7 @@ if (typeof document !== 'undefined' && !window.__gads_loaded) {
                         type: cmd === 'event' ? (args[1] || 'event') : cmd,
                     },
                 }, '*');
-            } catch (_e) { /* relay must not break gtag */ }
+            } catch { /* relay must not break gtag */ }
         }
     };
     const s = document.createElement('script');
