@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, FileText, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import useSEO from '@/hooks/useSEO';
+import PageHeader from '@/components/brand/PageHeader';
 import StepIndicator from '@/components/accommodationLetter/StepIndicator';
 import AccommodationSelector from '@/components/accommodationLetter/AccommodationSelector';
 import LetterDetailsForm from '@/components/accommodationLetter/LetterDetailsForm';
@@ -50,13 +51,11 @@ export default function AccommodationLetterGenerator() {
       <style>{`@media print { .no-print { display: none !important; } .print-letter { border: none !important; box-shadow: none !important; } }`}</style>
 
       <div className="no-print mb-8">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-violet-700">
-          <Sparkles className="h-3.5 w-3.5" /> Accommodation Letter Generator
-        </div>
-        <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          {STEP_COPY[step].title}
-        </h1>
-        <p className="mt-2 text-slate-700 font-medium max-w-2xl">{STEP_COPY[step].sub}</p>
+        <PageHeader
+          eyebrow="Accommodation"
+          title={STEP_COPY[step].title}
+          subtitle={STEP_COPY[step].sub}
+        />
         <div className="mt-6"><StepIndicator current={step} /></div>
       </div>
 
@@ -71,7 +70,7 @@ export default function AccommodationLetterGenerator() {
           {step === 3 ? (
             <LetterPreview text={letter} onChange={setLetter} onRegenerate={() => setLetter(buildLetter(selected, details))} />
           ) : (
-            <Card className="border-2 border-slate-200 shadow-sm">
+            <Card>
               <CardContent className="p-5 sm:p-8">
                 {step === 1 ? (
                   <AccommodationSelector selected={selected} onToggle={toggle} onAddCustom={addCustom} onRemoveCustom={removeCustom} />
@@ -85,20 +84,20 @@ export default function AccommodationLetterGenerator() {
       </AnimatePresence>
 
       <div className="no-print mt-6 flex items-center justify-between gap-3">
-        <Button variant="outline" className="font-bold" disabled={step === 1} onClick={() => setStep((s) => s - 1)}>
-          <ArrowLeft className="h-4 w-4 mr-1.5" /> Back
+        <Button variant="outline" disabled={step === 1} onClick={() => setStep((s) => s - 1)}>
+          <ArrowLeft className="h-4 w-4" /> Back
         </Button>
         {step < 3 ? (
           <div className="flex items-center gap-3">
             {step === 1 && (
-              <span className="text-sm font-semibold text-slate-700">{selected.length} selected</span>
+              <span className="text-sm font-semibold text-brand-muted-foreground">{selected.length} selected</span>
             )}
-            <Button onClick={next} className="bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-bold">
-              {step === 2 ? <><FileText className="h-4 w-4 mr-1.5" /> Generate letter</> : <>Continue <ArrowRight className="h-4 w-4 ml-1.5" /></>}
+            <Button onClick={next}>
+              {step === 2 ? <><FileText className="h-4 w-4" /> Generate letter</> : <>Continue <ArrowRight className="h-4 w-4" /></>}
             </Button>
           </div>
         ) : (
-          <p className="text-xs text-slate-600 font-medium text-right">
+          <p className="text-right text-xs text-brand-muted-foreground">
             Educational use only — not legal advice.
           </p>
         )}

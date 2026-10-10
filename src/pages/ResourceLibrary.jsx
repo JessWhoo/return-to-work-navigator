@@ -2,10 +2,11 @@ import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, Library, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { LIBRARY_ITEMS, LIBRARY_CATEGORIES } from '@/components/library/libraryData';
 import useSEO from '@/hooks/useSEO';
 import LibraryCard from '@/components/library/LibraryCard';
+import PageHeader from '@/components/brand/PageHeader';
 
 export default function ResourceLibrary() {
   useSEO({
@@ -47,50 +48,36 @@ export default function ResourceLibrary() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-3"
-      >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 border-2 border-indigo-300">
-          <Library className="h-4 w-4 text-indigo-700" />
-          <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700">
-            Resource Library
-          </span>
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-indigo-700 via-violet-700 to-rose-600 bg-clip-text text-transparent">
-          Legal Rights & Accommodation Resources
-        </h1>
-        <p className="text-lg font-medium text-slate-800 max-w-2xl mx-auto leading-relaxed">
-          Every guide, template, and trusted external resource — searchable and
-          organized in one place.
-        </p>
-      </motion.div>
+      <PageHeader
+        eyebrow="Resource Library"
+        title="Legal Rights & Accommodation Resources"
+        subtitle="Every guide, template, and trusted external resource — searchable and organized in one place."
+      />
 
       {/* Search */}
-      <Card className="bg-white border-2 border-slate-300 shadow-md">
+      <Card>
         <CardContent className="p-5">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by topic, law name, or keyword (e.g. ADA, fatigue, FMLA)..."
-              className="pl-12 pr-12 h-12 text-base border-2 border-slate-300 focus-visible:border-indigo-500"
+              className="nv-input h-12 pl-12 pr-12 text-base"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-slate-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-pill p-1.5 hover:bg-brand-muted"
                 aria-label="Clear search"
               >
-                <X className="h-4 w-4 text-slate-600" />
+                <X className="h-4 w-4 text-brand-muted-foreground" />
               </button>
             )}
           </div>
 
           {/* Category pills */}
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="mt-4 flex flex-wrap gap-2">
             {LIBRARY_CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id;
               const count = categoryCounts[cat.id] || 0;
@@ -98,20 +85,10 @@ export default function ResourceLibrary() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-sm font-bold border-2 transition-all ${
-                    isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white border-transparent shadow-md'
-                      : 'bg-white text-slate-800 border-slate-300 hover:border-indigo-400'
-                  }`}
+                  className={`nv-btn nv-btn--sm ${isActive ? 'nv-btn--secondary' : 'nv-btn--outline'}`}
                 >
                   {cat.label}
-                  <span
-                    className={`ml-2 text-xs ${
-                      isActive ? 'text-white/90' : 'text-slate-600'
-                    }`}
-                  >
-                    {count}
-                  </span>
+                  <span className="text-xs opacity-70">{count}</span>
                 </button>
               );
             })}
@@ -121,24 +98,24 @@ export default function ResourceLibrary() {
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <Card className="bg-white border-2 border-slate-300">
+        <Card>
           <CardContent className="p-12 text-center">
-            <Search className="h-10 w-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-lg font-extrabold text-slate-900">
+            <Search className="mx-auto mb-3 h-10 w-10 text-brand-muted-foreground" />
+            <h3 className="font-heading text-lg font-bold text-brand-text">
               No resources found
             </h3>
-            <p className="text-sm font-medium text-slate-700 mt-1">
+            <p className="mt-1 text-sm text-brand-muted-foreground">
               Try a different search term or category.
             </p>
           </CardContent>
         </Card>
       ) : (
         <>
-          <p className="text-sm font-semibold text-slate-700">
+          <p className="text-sm font-semibold text-brand-muted-foreground">
             {filtered.length} {filtered.length === 1 ? 'resource' : 'resources'}{' '}
             {activeCategory !== 'all' && `in ${LIBRARY_CATEGORIES.find((c) => c.id === activeCategory)?.label}`}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((item, idx) => (
               <motion.div
                 key={item.id}

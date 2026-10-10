@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, HeartPulse, X, Loader2, Plus, MessageSquare } from 'lucide-react';
+import { Search, X, Loader2, Plus, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
 import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
@@ -11,6 +11,7 @@ import AddWellnessResourceDialog from '@/components/wellness/AddWellnessResource
 import WellnessResourceFeedbackDialog from '@/components/wellness/WellnessResourceFeedbackDialog';
 import { useWellnessLibrary } from '@/hooks/useWellnessLibrary';
 import { useAuth } from '@/lib/AuthContext';
+import PageHeader from '@/components/brand/PageHeader';
 import useSEO from '@/hooks/useSEO';
 
 const TOPICS = [
@@ -75,52 +76,39 @@ export default function WellnessLibrary() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 border-2 border-emerald-300">
-          <HeartPulse className="h-4 w-4 text-emerald-700" />
-          <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
-            Wellness Library
-          </span>
-        </div>
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-700 via-teal-600 to-violet-700 bg-clip-text text-transparent">
-          Wellness Resource Library
-        </h1>
-        <p className="text-lg font-medium text-slate-800 max-w-2xl mx-auto">
-          Search trusted wellness resources by topic, and rate how helpful each one was for fellow survivors.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Wellness Library"
+        title="Wellness Resource Library"
+        subtitle="Search trusted wellness resources by topic, and rate how helpful each one was for fellow survivors."
+      />
 
       {/* Search + topic filters */}
-      <Card className="bg-white border-2 border-slate-300 shadow-md">
+      <Card>
         <CardContent className="p-5">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search resources (e.g. fatigue, FMLA, sleep)..."
-              className="pl-12 pr-12 h-12 text-base border-2 border-slate-300 focus-visible:border-emerald-500"
+              className="nv-input h-12 pl-12 pr-12 text-base"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-slate-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-pill p-1.5 hover:bg-brand-muted"
                 aria-label="Clear search"
               >
-                <X className="h-4 w-4 text-slate-600" />
+                <X className="h-4 w-4 text-brand-muted-foreground" />
               </button>
             )}
           </div>
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="mt-4 flex flex-wrap gap-2">
             {TOPICS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setTopic(t.id)}
-                className={`px-3.5 py-1.5 rounded-full text-sm font-bold border-2 transition-all ${
-                  topic === t.id
-                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-transparent shadow-md'
-                    : 'bg-white text-slate-800 border-slate-300 hover:border-emerald-400'
-                }`}
+                className={`nv-btn nv-btn--sm ${topic === t.id ? 'nv-btn--secondary' : 'nv-btn--outline'}`}
               >
                 {t.label}
               </button>
@@ -129,19 +117,16 @@ export default function WellnessLibrary() {
           <div className="mt-4">
             <Link
               to="/MyFeedback"
-              className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-800 hover:text-emerald-900 underline underline-offset-2"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary underline underline-offset-2"
             >
               <MessageSquare className="h-4 w-4" />
               My saved feedback
             </Link>
           </div>
           {isAdmin && (
-            <div className="mt-4 pt-4 border-t-2 border-slate-200">
-              <Button
-                onClick={() => setAddOpen(true)}
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold"
-              >
-                <Plus className="h-4 w-4 mr-2" />
+            <div className="mt-4 border-t border-brand-border pt-4">
+              <Button onClick={() => setAddOpen(true)} className="w-full sm:w-auto">
+                <Plus className="h-4 w-4" />
                 Add resource
               </Button>
             </div>
@@ -152,22 +137,22 @@ export default function WellnessLibrary() {
       {/* Results */}
       {isLoading ? (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-4 border-slate-200 border-t-emerald-600 rounded-full animate-spin" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-border border-t-brand-primary" />
         </div>
       ) : isError ? (
         <LibraryErrorPanel onRetry={() => refetch()} retrying={isRefetching} />
       ) : filtered.length === 0 ? (
-        <Card className="bg-white border-2 border-slate-300">
+        <Card>
           <CardContent className="p-12 text-center">
-            <Search className="h-10 w-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-lg font-extrabold text-slate-900">No resources found</h3>
-            <p className="text-sm font-medium text-slate-700 mt-1">
+            <Search className="mx-auto mb-3 h-10 w-10 text-brand-muted-foreground" />
+            <h3 className="font-heading text-lg font-bold text-brand-text">No resources found</h3>
+            <p className="mt-1 text-sm text-brand-muted-foreground">
               Try a different search term or topic{hasNextPage ? ', or load more resources below' : ''}.
             </p>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((resource) => {
             const stats = ratingStats[resource.id];
             return (
@@ -191,9 +176,8 @@ export default function WellnessLibrary() {
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
             variant="outline"
-            className="border-2 border-emerald-500 text-emerald-800 font-bold hover:bg-emerald-50"
           >
-            {isFetchingNextPage && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {isFetchingNextPage && <Loader2 className="h-4 w-4 animate-spin" />}
             Load more resources
           </Button>
         </div>

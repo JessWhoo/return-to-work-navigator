@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, Loader2 } from 'lucide-react';
 import FeedbackEntryCard from '@/components/feedback/FeedbackEntryCard';
+import PageHeader from '@/components/brand/PageHeader';
 import useSEO from '@/hooks/useSEO';
 
 export default function MyFeedback() {
@@ -28,52 +29,45 @@ export default function MyFeedback() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 border-2 border-violet-300">
-          <MessageSquare className="h-4 w-4 text-violet-700" />
-          <span className="text-xs font-extrabold uppercase tracking-wider text-violet-700">My Feedback</span>
-        </div>
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-violet-700 via-purple-600 to-emerald-700 bg-clip-text text-transparent">
-          My Saved Feedback
-        </h1>
-        <p className="text-lg font-medium text-slate-800 max-w-2xl mx-auto">
-          Everything you've shared about our resources, and the topics you'd like more support on.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Support"
+        title="My Saved Feedback"
+        subtitle="Everything you've shared about our resources, and the topics you'd like more support on."
+      />
 
       {isLoadingAuth || (isAuthenticated && isLoading) ? (
         <div className="flex justify-center py-16">
-          <Loader2 className="h-8 w-8 text-violet-600 animate-spin" />
+          <Loader2 className="h-8 w-8 animate-spin text-brand-primary" />
         </div>
       ) : !isAuthenticated ? (
-        <Card className="bg-white border-2 border-slate-300">
-          <CardContent className="p-10 text-center space-y-4">
-            <MessageSquare className="h-10 w-10 text-violet-500 mx-auto" />
-            <h2 className="text-xl font-extrabold text-slate-900">Sign in to see your feedback</h2>
-            <p className="text-sm font-medium text-slate-700">
+        <Card>
+          <CardContent className="space-y-4 p-10 text-center">
+            <MessageSquare className="mx-auto h-10 w-10 text-brand-primary" />
+            <h2 className="font-heading text-xl font-bold text-brand-text">Sign in to see your feedback</h2>
+            <p className="text-sm text-brand-muted-foreground">
               Your saved feedback is private to your account.
             </p>
-            <Button onClick={navigateToLogin} className="bg-violet-700 hover:bg-violet-800 text-white font-bold rounded-full px-6">
+            <Button onClick={navigateToLogin}>
               Sign In
             </Button>
           </CardContent>
         </Card>
       ) : isError ? (
-        <Card className="bg-white border-2 border-slate-300">
-          <CardContent className="p-10 text-center space-y-4">
-            <h2 className="text-lg font-extrabold text-slate-900">We couldn't load your feedback</h2>
-            <Button onClick={() => refetch()} variant="outline" className="border-2 font-bold">Try again</Button>
+        <Card>
+          <CardContent className="space-y-4 p-10 text-center">
+            <h2 className="font-heading text-lg font-bold text-brand-text">We couldn't load your feedback</h2>
+            <Button onClick={() => refetch()} variant="outline">Try again</Button>
           </CardContent>
         </Card>
       ) : entries.length === 0 ? (
-        <Card className="bg-white border-2 border-slate-300">
-          <CardContent className="p-10 text-center space-y-4">
-            <MessageSquare className="h-10 w-10 text-slate-400 mx-auto" />
-            <h2 className="text-xl font-extrabold text-slate-900">No feedback yet</h2>
-            <p className="text-sm font-medium text-slate-700">
+        <Card>
+          <CardContent className="space-y-4 p-10 text-center">
+            <MessageSquare className="mx-auto h-10 w-10 text-brand-muted-foreground" />
+            <h2 className="font-heading text-xl font-bold text-brand-text">No feedback yet</h2>
+            <p className="text-sm text-brand-muted-foreground">
               Open a resource in the Wellness Library and tap "Share feedback" to tell us what helped and what you need more of.
             </p>
-            <Button asChild className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold">
+            <Button asChild>
               <Link to="/WellnessLibrary">Go to the Wellness Library</Link>
             </Button>
           </CardContent>
