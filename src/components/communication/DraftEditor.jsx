@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { 
   Save, Sparkles, Loader2, Copy, Check, Lightbulb, X, FileText
 } from 'lucide-react';
@@ -118,21 +117,21 @@ export default function DraftEditor({ draft, onClose, onSave }) {
   };
 
   const suggestionTypeColors = {
-    strength: { bg: 'bg-green-50', border: 'border-green-200', icon: 'text-green-600', badge: 'bg-green-100 text-green-800' },
-    tone: { bg: 'bg-blue-50', border: 'border-blue-200', icon: 'text-blue-600', badge: 'bg-blue-100 text-blue-800' },
-    clarity: { bg: 'bg-purple-50', border: 'border-purple-200', icon: 'text-purple-600', badge: 'bg-purple-100 text-purple-800' },
-    legal: { bg: 'bg-amber-50', border: 'border-amber-200', icon: 'text-amber-600', badge: 'bg-amber-100 text-amber-800' },
-    boundary: { bg: 'bg-rose-50', border: 'border-rose-200', icon: 'text-rose-600', badge: 'bg-rose-100 text-rose-800' }
+    strength: 'text-brand-secondary',
+    tone: 'text-primary',
+    clarity: 'text-primary',
+    legal: 'text-brand-accent',
+    boundary: 'text-destructive'
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+      <Card className="nv-card--muted">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center space-x-2">
-              <FileText className="h-5 w-5 text-purple-600" />
+              <FileText className="h-5 w-5 text-primary" />
               <span>{draft?.id ? 'Edit Draft' : 'New Communication Draft'}</span>
             </CardTitle>
             <Button variant="ghost" size="sm" onClick={onClose}>
@@ -143,10 +142,10 @@ export default function DraftEditor({ draft, onClose, onSave }) {
       </Card>
 
       {/* Form */}
-      <Card className="bg-white">
-        <CardContent className="pt-6 space-y-6">
+      <Card>
+        <CardContent className="space-y-6 pt-6">
           {/* Title & Scenario */}
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="title">Draft Title</Label>
               <Input
@@ -162,7 +161,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
                 id="scenario"
                 value={formData.scenario_type}
                 onChange={(e) => setFormData({ ...formData, scenario_type: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="nv-input h-10 w-full px-3"
               >
                 {scenarioTypes.map(type => (
                   <option key={type.value} value={type.value}>{type.label}</option>
@@ -172,7 +171,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
           </div>
 
           {/* Recipient & Tone */}
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="recipient">Recipient</Label>
               <Input
@@ -188,7 +187,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
                 id="tone"
                 value={formData.tone}
                 onChange={(e) => setFormData({ ...formData, tone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="nv-input h-10 w-full px-3"
               >
                 {toneOptions.map(tone => (
                   <option key={tone.value} value={tone.value}>
@@ -223,22 +222,21 @@ export default function DraftEditor({ draft, onClose, onSave }) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-between pt-4 border-t">
+          <div className="flex items-center justify-between border-t border-border pt-4">
             <div className="flex gap-2">
               <Button
                 onClick={() => getAISuggestionsMutation.mutate()}
                 disabled={!formData.content.trim() || getAISuggestionsMutation.isPending}
                 variant="outline"
-                className="border-purple-300 text-purple-700 hover:bg-purple-50"
               >
                 {getAISuggestionsMutation.isPending ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                     Analyzing...
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-4 w-4 mr-2" />
+                    <Sparkles className="h-4 w-4" />
                     Get AI Suggestions
                   </>
                 )}
@@ -250,12 +248,12 @@ export default function DraftEditor({ draft, onClose, onSave }) {
               >
                 {copied ? (
                   <>
-                    <Check className="h-4 w-4 mr-2 text-green-600" />
+                    <Check className="h-4 w-4 text-brand-secondary" />
                     Copied!
                   </>
                 ) : (
                   <>
-                    <Copy className="h-4 w-4 mr-2" />
+                    <Copy className="h-4 w-4" />
                     Copy
                   </>
                 )}
@@ -264,16 +262,15 @@ export default function DraftEditor({ draft, onClose, onSave }) {
             <Button
               onClick={() => saveDraftMutation.mutate()}
               disabled={!formData.title || !formData.content || saveDraftMutation.isPending}
-              className="bg-purple-600 hover:bg-purple-700"
             >
               {saveDraftMutation.isPending ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   Saving...
                 </>
               ) : (
                 <>
-                  <Save className="h-4 w-4 mr-2" />
+                  <Save className="h-4 w-4" />
                   Save Draft
                 </>
               )}
@@ -284,25 +281,25 @@ export default function DraftEditor({ draft, onClose, onSave }) {
 
       {/* AI Suggestions */}
       {aiSuggestions.length > 0 && (
-        <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+        <Card className="nv-card--muted">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-purple-900">
-              <Lightbulb className="h-5 w-5" />
+            <CardTitle className="flex items-center space-x-2">
+              <Lightbulb className="h-5 w-5 text-primary" />
               <span>AI-Powered Suggestions</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {aiSuggestions.map((suggestion, idx) => {
-              const colors = suggestionTypeColors[suggestion.type] || suggestionTypeColors.clarity;
+              const iconColor = suggestionTypeColors[suggestion.type] || suggestionTypeColors.clarity;
               return (
-                <div key={idx} className={`${colors.bg} border ${colors.border} rounded-lg p-4`}>
+                <div key={idx} className="rounded-brand border border-border bg-surface p-4">
                   <div className="flex items-start space-x-3">
-                    <Lightbulb className={`h-5 w-5 ${colors.icon} flex-shrink-0 mt-0.5`} />
+                    <Lightbulb className={`mt-0.5 h-5 w-5 flex-shrink-0 ${iconColor}`} />
                     <div className="flex-1">
-                      <Badge className={`${colors.badge} mb-2 capitalize`}>
+                      <span className="nv-chip nv-chip--muted mb-2 capitalize">
                         {suggestion.type}
-                      </Badge>
-                      <p className="text-sm text-gray-700 leading-relaxed">{suggestion.suggestion}</p>
+                      </span>
+                      <p className="text-sm leading-relaxed text-foreground">{suggestion.suggestion}</p>
                     </div>
                   </div>
                 </div>

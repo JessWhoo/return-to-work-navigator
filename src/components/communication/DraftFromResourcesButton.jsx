@@ -71,23 +71,23 @@ export default function DraftFromResourcesButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-bold shadow-md">
-          <Sparkles className="h-4 w-4 mr-2" />
+        <Button>
+          <Sparkles className="h-4 w-4" />
           Draft from my saved resources
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-slate-900 font-extrabold flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-violet-600" />
+          <DialogTitle className="flex items-center gap-2 font-heading font-bold text-foreground">
+            <Sparkles className="h-5 w-5 text-primary" />
             Generate accommodation email
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 pt-2">
-          <div className="rounded-lg border-2 border-violet-200 bg-violet-50 p-3 flex items-start gap-3">
-            <Bookmark className="h-5 w-5 text-violet-700 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-slate-800">
+          <div className="flex items-start gap-3 rounded-brand border border-primary bg-muted p-3">
+            <Bookmark className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            <div className="text-sm text-foreground">
               {canGenerate ? (
                 <>
                   Using <strong>{bookmarkedResources.length}</strong> bookmarked{' '}
@@ -105,7 +105,7 @@ export default function DraftFromResourcesButton() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-slate-800 font-semibold">Recipient</Label>
+              <Label className="font-semibold text-foreground">Recipient</Label>
               <Select value={recipient} onValueChange={setRecipient}>
                 <SelectTrigger className="mt-1">
                   <SelectValue />
@@ -119,7 +119,7 @@ export default function DraftFromResourcesButton() {
               </Select>
             </div>
             <div>
-              <Label className="text-slate-800 font-semibold">Tone</Label>
+              <Label className="font-semibold text-foreground">Tone</Label>
               <Select value={tone} onValueChange={setTone}>
                 <SelectTrigger className="mt-1">
                   <SelectValue />
@@ -136,8 +136,8 @@ export default function DraftFromResourcesButton() {
           </div>
 
           <div>
-            <Label className="text-slate-800 font-semibold">
-              Anything specific to mention? <span className="font-normal text-slate-500">(optional)</span>
+            <Label className="font-semibold text-foreground">
+              Anything specific to mention? <span className="font-normal text-muted-foreground">(optional)</span>
             </Label>
             <Textarea
               value={notes}
@@ -160,16 +160,15 @@ export default function DraftFromResourcesButton() {
           <Button
             onClick={handleGenerate}
             disabled={!canGenerate || isGenerating}
-            className="bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-bold"
           >
             {isGenerating ? (
               <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
                 Generating…
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4 mr-2" />
+                <Sparkles className="h-4 w-4" />
                 Generate draft
               </>
             )}

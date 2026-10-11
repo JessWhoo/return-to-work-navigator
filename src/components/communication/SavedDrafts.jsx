@@ -62,9 +62,9 @@ export default function SavedDrafts({ onEdit }) {
 
   if (isLoading) {
     return (
-      <Card className="bg-white">
+      <Card>
         <CardContent className="py-12 text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto text-purple-600" />
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
         </CardContent>
       </Card>
     );
@@ -72,11 +72,11 @@ export default function SavedDrafts({ onEdit }) {
 
   if (!drafts || drafts.length === 0) {
     return (
-      <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+      <Card className="nv-card--muted">
         <CardContent className="py-12 text-center">
-          <FileText className="h-12 w-12 text-purple-400 mx-auto mb-3" />
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">No saved drafts yet</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <FileText className="mx-auto mb-3 h-12 w-12 text-muted-foreground" />
+          <h3 className="mb-2 font-heading text-lg font-semibold text-foreground">No saved drafts yet</h3>
+          <p className="mb-4 text-sm text-muted-foreground">
             Start creating and saving your workplace communications
           </p>
           <div className="flex justify-center">
@@ -89,10 +89,10 @@ export default function SavedDrafts({ onEdit }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-semibold text-gray-800">Your Saved Drafts</h3>
-          <Badge className="bg-purple-100 text-purple-700">
+          <h3 className="font-heading text-lg font-semibold text-foreground">Your Saved Drafts</h3>
+          <Badge variant="secondary">
             {drafts.length} {drafts.length === 1 ? 'draft' : 'drafts'}
           </Badge>
         </div>
@@ -102,13 +102,13 @@ export default function SavedDrafts({ onEdit }) {
       {drafts.map((draft) => {
         const isExpanded = expandedDraft === draft.id;
         return (
-          <Card key={draft.id} className="bg-white hover:shadow-lg transition-shadow">
+          <Card key={draft.id}>
             <CardHeader className="cursor-pointer" onClick={() => setExpandedDraft(isExpanded ? null : draft.id)}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <CardTitle className="text-lg text-gray-800 mb-2">{draft.title}</CardTitle>
-                  <div className="flex items-center space-x-2 flex-wrap gap-2">
-                    <Badge className="bg-blue-100 text-blue-800">
+                  <CardTitle className="mb-2 text-lg text-foreground">{draft.title}</CardTitle>
+                  <div className="flex flex-wrap items-center space-x-2 gap-2">
+                    <Badge variant="secondary">
                       {scenarioLabels[draft.scenario_type]}
                     </Badge>
                     {draft.recipient && (
@@ -119,8 +119,8 @@ export default function SavedDrafts({ onEdit }) {
                     <Badge variant="outline" className="text-xs capitalize">
                       {draft.tone} tone
                     </Badge>
-                    <span className="text-xs text-gray-500 flex items-center">
-                      <Calendar className="h-3 w-3 mr-1" />
+                    <span className="flex items-center text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3" />
                       {format(new Date(draft.updated_date), 'MMM d, yyyy')}
                     </span>
                   </div>
@@ -132,17 +132,17 @@ export default function SavedDrafts({ onEdit }) {
             </CardHeader>
 
             {isExpanded && (
-              <CardContent className="space-y-4 border-t pt-4">
+              <CardContent className="space-y-4 border-t border-border pt-4">
                 {draft.subject && (
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Subject:</p>
-                    <p className="text-sm text-gray-700">{draft.subject}</p>
+                    <p className="mb-1 text-xs font-semibold text-muted-foreground">Subject:</p>
+                    <p className="text-sm text-foreground">{draft.subject}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 mb-2">Content:</p>
-                  <div className="bg-gray-50 rounded-lg p-4 max-h-64 overflow-y-auto">
-                    <pre className="whitespace-pre-wrap font-sans text-sm text-gray-700 leading-relaxed">
+                  <p className="mb-2 text-xs font-semibold text-muted-foreground">Content:</p>
+                  <div className="max-h-64 overflow-y-auto rounded-brand bg-muted p-4">
+                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
                       {draft.content}
                     </pre>
                   </div>
@@ -152,9 +152,8 @@ export default function SavedDrafts({ onEdit }) {
                   <Button
                     size="sm"
                     onClick={() => onEdit(draft)}
-                    className="bg-purple-600 hover:bg-purple-700"
                   >
-                    <Edit className="h-4 w-4 mr-2" />
+                    <Edit className="h-4 w-4" />
                     Edit
                   </Button>
                   <Button
@@ -162,16 +161,16 @@ export default function SavedDrafts({ onEdit }) {
                     variant="outline"
                     onClick={() => handleCopy(draft)}
                   >
-                    <Copy className="h-4 w-4 mr-2" />
+                    <Copy className="h-4 w-4" />
                     Copy
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => deleteDraftMutation.mutate(draft.id)}
-                    className="ml-auto text-red-600 hover:bg-red-50"
+                    className="ml-auto text-destructive hover:bg-destructive/10"
                   >
-                    <Trash2 className="h-4 w-4 mr-2" />
+                    <Trash2 className="h-4 w-4" />
                     Delete
                   </Button>
                 </div>
