@@ -24,12 +24,12 @@ export default function MessagesTab() {
   return (
     <div className="space-y-4 py-4">
       <div className="flex items-center gap-3 mb-2">
-        <div className="bg-teal-700/50 rounded-xl p-2.5">
-          <MessageCircle className="h-5 w-5 text-teal-300" />
+        <div className="bg-brand-muted rounded-xl p-2.5">
+          <MessageCircle className="h-5 w-5 text-brand-primary" />
         </div>
         <div>
-          <h2 className="text-white font-bold text-lg">Direct Messages</h2>
-          <p className="text-slate-400 text-sm">Chat privately with your matched peers.</p>
+          <h2 className="text-brand-text font-bold text-lg">Direct Messages</h2>
+          <p className="text-brand-muted-foreground text-sm">Chat privately with your matched peers.</p>
         </div>
       </div>
 

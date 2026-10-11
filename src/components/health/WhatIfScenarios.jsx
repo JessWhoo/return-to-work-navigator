@@ -81,28 +81,28 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
   };
 
   const riskConfig = {
-    low: { color: 'text-green-400', bg: 'bg-green-500/20', border: 'border-green-500' },
-    moderate: { color: 'text-amber-400', bg: 'bg-amber-500/20', border: 'border-amber-500' },
-    high: { color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500' }
+    low: { color: 'text-brand-text', bg: 'bg-brand-secondary/20', border: 'border-brand-secondary' },
+    moderate: { color: 'text-brand-primary', bg: 'bg-brand-compass-cream/40', border: 'border-brand-primary' },
+    high: { color: 'text-destructive', bg: 'bg-destructive/10', border: 'border-destructive' }
   };
 
   const feasibilityConfig = {
-    recommended: { text: 'Recommended', color: 'bg-green-600' },
-    possible_with_caution: { text: 'Possible with Caution', color: 'bg-amber-600' },
-    not_recommended: { text: 'Not Recommended', color: 'bg-red-600' }
+    recommended: { text: 'Recommended', color: 'bg-brand-secondary text-brand-text' },
+    possible_with_caution: { text: 'Possible with Caution', color: 'bg-brand-compass-cream text-brand-text' },
+    not_recommended: { text: 'Not Recommended', color: 'bg-destructive text-destructive-foreground' }
   };
 
   return (
-    <Card className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-2 border-purple-600 shadow-xl">
+    <Card className="nv-card--muted">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <Sparkles className="h-5 w-5 text-purple-400" />
-          <span className="text-slate-200">What-If Scenario Analysis</span>
-          <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+        <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
+          <Sparkles className="h-5 w-5 text-brand-primary" />
+          <span className="text-brand-text">What-If Scenario Analysis</span>
+          <Badge className="bg-brand-primary text-brand-on-primary">
             Predictive
           </Badge>
         </CardTitle>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-brand-muted-foreground mt-1">
           Model potential changes before implementing them
         </p>
       </CardHeader>
@@ -111,9 +111,9 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
         {/* Scenario Configuration */}
         <div className="space-y-3">
           <div>
-            <Label className="text-slate-300 text-sm">What change are you considering?</Label>
+            <Label className="text-brand-text text-sm">What change are you considering?</Label>
             <Select value={scenario.type} onValueChange={(v) => setScenario({ ...scenario, type: v })}>
-              <SelectTrigger className="bg-slate-800 border-slate-600 text-slate-200 mt-1">
+              <SelectTrigger className="nv-input mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -128,19 +128,19 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-slate-300 text-sm">Amount (hours)</Label>
+              <Label className="text-brand-text text-sm">Amount (hours)</Label>
               <Input
                 type="number"
                 value={scenario.change_amount}
                 onChange={(e) => setScenario({ ...scenario, change_amount: e.target.value })}
                 placeholder="e.g., 2"
-                className="bg-slate-800 border-slate-600 text-slate-200 mt-1"
+                className="nv-input mt-1"
               />
             </div>
             <div>
-              <Label className="text-slate-300 text-sm">Per</Label>
+              <Label className="text-brand-text text-sm">Per</Label>
               <Select value={scenario.timeframe} onValueChange={(v) => setScenario({ ...scenario, timeframe: v })}>
-                <SelectTrigger className="bg-slate-800 border-slate-600 text-slate-200 mt-1">
+                <SelectTrigger className="nv-input mt-1">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -155,7 +155,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
           <Button
             onClick={handleAnalyze}
             disabled={!scenario.change_amount || scenarioMutation.isPending}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            className="w-full"
           >
             {scenarioMutation.isPending ? (
               <>
@@ -177,60 +177,60 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-3 pt-4 border-t border-slate-700"
+              className="space-y-3 pt-4 border-t border-brand-border"
             >
               {/* Risk & Feasibility */}
               <div className="grid grid-cols-2 gap-3">
                 <div className={`p-3 rounded-lg border-2 ${riskConfig[scenarioMutation.data.overall_risk].border} ${riskConfig[scenarioMutation.data.overall_risk].bg}`}>
-                  <p className="text-xs text-slate-400 mb-1">Risk Level</p>
+                  <p className="text-xs text-brand-muted-foreground mb-1">Risk Level</p>
                   <p className={`text-lg font-bold ${riskConfig[scenarioMutation.data.overall_risk].color} capitalize`}>
                     {scenarioMutation.data.overall_risk}
                   </p>
                 </div>
-                <div className="p-3 rounded-lg bg-slate-800 border-2 border-slate-600">
-                  <p className="text-xs text-slate-400 mb-1">Recommendation</p>
-                  <Badge className={`${feasibilityConfig[scenarioMutation.data.feasibility].color} text-white text-xs`}>
+                <div className="p-3 rounded-lg bg-brand-surface border-2 border-brand-border">
+                  <p className="text-xs text-brand-muted-foreground mb-1">Recommendation</p>
+                  <Badge className={`${feasibilityConfig[scenarioMutation.data.feasibility].color} text-xs whitespace-normal`}>
                     {feasibilityConfig[scenarioMutation.data.feasibility].text}
                   </Badge>
                 </div>
               </div>
 
               {/* Predicted Impacts */}
-              <div className="bg-slate-800/70 rounded-lg p-3 border border-slate-600">
-                <h4 className="font-semibold text-slate-200 text-sm mb-2 flex items-center">
-                  <TrendingUp className="h-4 w-4 mr-2 text-purple-400" />
+              <div className="bg-brand-surface rounded-lg p-3 border border-brand-border">
+                <h4 className="font-semibold text-brand-text text-sm mb-2 flex items-center">
+                  <TrendingUp className="h-4 w-4 mr-2 text-brand-primary" />
                   Predicted Impacts
                 </h4>
                 <div className="space-y-1 text-sm">
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Energy:</span> {scenarioMutation.data.predicted_impacts.energy_change}
+                  <p className="text-brand-text">
+                    <span className="text-brand-muted-foreground">Energy:</span> {scenarioMutation.data.predicted_impacts.energy_change}
                   </p>
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Stress:</span> {scenarioMutation.data.predicted_impacts.stress_change}
+                  <p className="text-brand-text">
+                    <span className="text-brand-muted-foreground">Stress:</span> {scenarioMutation.data.predicted_impacts.stress_change}
                   </p>
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Symptoms:</span> {scenarioMutation.data.predicted_impacts.symptom_likelihood}
+                  <p className="text-brand-text">
+                    <span className="text-brand-muted-foreground">Symptoms:</span> {scenarioMutation.data.predicted_impacts.symptom_likelihood}
                   </p>
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Fatigue:</span> {scenarioMutation.data.predicted_impacts.fatigue_risk}
+                  <p className="text-brand-text">
+                    <span className="text-brand-muted-foreground">Fatigue:</span> {scenarioMutation.data.predicted_impacts.fatigue_risk}
                   </p>
                 </div>
               </div>
 
               {/* Reasoning */}
-              <div className="bg-blue-900/20 rounded-lg p-3 border border-blue-600">
-                <p className="text-xs font-semibold text-blue-300 mb-1">Analysis Reasoning:</p>
-                <p className="text-xs text-slate-300">{scenarioMutation.data.reasoning}</p>
+              <div className="bg-brand-sky/30 rounded-lg p-3 border border-brand-border">
+                <p className="text-xs font-semibold text-brand-text mb-1">Analysis Reasoning:</p>
+                <p className="text-xs text-brand-text">{scenarioMutation.data.reasoning}</p>
               </div>
 
               {/* Mitigation Strategies */}
               {scenarioMutation.data.mitigation_strategies && scenarioMutation.data.mitigation_strategies.length > 0 && (
-                <div className="bg-green-900/20 rounded-lg p-3 border border-green-600">
-                  <h4 className="font-semibold text-green-300 text-sm mb-2">Mitigation Strategies:</h4>
+                <div className="bg-brand-secondary/20 rounded-lg p-3 border border-brand-secondary">
+                  <h4 className="font-semibold text-brand-text text-sm mb-2">Mitigation Strategies:</h4>
                   <ul className="space-y-1">
                     {scenarioMutation.data.mitigation_strategies.map((strategy, idx) => (
-                      <li key={idx} className="text-xs text-slate-300 flex items-start">
-                        <span className="text-green-400 mr-2">✓</span>
+                      <li key={idx} className="text-xs text-brand-text flex items-start">
+                        <span className="text-brand-primary mr-2">✓</span>
                         {strategy}
                       </li>
                     ))}
@@ -240,14 +240,14 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
 
               {/* Gradual Implementation */}
               {scenarioMutation.data.gradual_implementation?.recommended && (
-                <div className="bg-amber-900/20 rounded-lg p-3 border border-amber-600">
-                  <h4 className="font-semibold text-amber-300 text-sm mb-2 flex items-center">
+                <div className="bg-brand-compass-cream/40 rounded-lg p-3 border border-brand-primary">
+                  <h4 className="font-semibold text-brand-text text-sm mb-2 flex items-center">
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     Gradual Implementation Recommended:
                   </h4>
                   <ol className="space-y-1 ml-4 list-decimal">
                     {scenarioMutation.data.gradual_implementation.plan.map((step, idx) => (
-                      <li key={idx} className="text-xs text-slate-300">{step}</li>
+                      <li key={idx} className="text-xs text-brand-text">{step}</li>
                     ))}
                   </ol>
                 </div>
@@ -255,12 +255,12 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
 
               {/* Monitoring Checklist */}
               {scenarioMutation.data.monitoring_checklist && scenarioMutation.data.monitoring_checklist.length > 0 && (
-                <div className="bg-purple-900/20 rounded-lg p-3 border border-purple-600">
-                  <h4 className="font-semibold text-purple-300 text-sm mb-2">What to Monitor:</h4>
+                <div className="bg-brand-muted rounded-lg p-3 border border-brand-border">
+                  <h4 className="font-semibold text-brand-text text-sm mb-2">What to Monitor:</h4>
                   <ul className="space-y-1">
                     {scenarioMutation.data.monitoring_checklist.map((item, idx) => (
-                      <li key={idx} className="text-xs text-slate-300 flex items-start">
-                        <span className="text-purple-400 mr-2">→</span>
+                      <li key={idx} className="text-xs text-brand-text flex items-start">
+                        <span className="text-brand-primary mr-2">→</span>
                         {item}
                       </li>
                     ))}

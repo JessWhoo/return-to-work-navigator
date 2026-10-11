@@ -7,8 +7,8 @@ import { motion } from 'framer-motion';
 export default function ComparativeInsights({ progress }) {
   if (!progress || !progress.energy_logs || progress.energy_logs.length < 14) {
     return (
-      <Card className="bg-slate-800/90 border-2 border-slate-600">
-        <CardContent className="py-8 text-center text-slate-400 text-sm">
+      <Card className="bg-brand-surface border-2 border-brand-border">
+        <CardContent className="py-8 text-center text-brand-muted-foreground text-sm">
           Log at least 14 days of data to see comparative insights
         </CardContent>
       </Card>
@@ -66,25 +66,25 @@ export default function ComparativeInsights({ progress }) {
     if (isPositive) {
       return {
         icon: TrendingUp,
-        color: 'text-green-400',
-        bg: 'bg-green-500/20',
-        border: 'border-green-500',
+        color: 'text-brand-text',
+        bg: 'bg-brand-secondary/20',
+        border: 'border-brand-secondary',
         text: inverse ? 'Decreased' : 'Improved'
       };
     } else if (isNegative) {
       return {
         icon: TrendingDown,
-        color: 'text-red-400',
-        bg: 'bg-red-500/20',
-        border: 'border-red-500',
+        color: 'text-destructive',
+        bg: 'bg-destructive/10',
+        border: 'border-destructive',
         text: inverse ? 'Increased' : 'Declined'
       };
     } else {
       return {
         icon: Minus,
-        color: 'text-slate-400',
-        bg: 'bg-slate-500/20',
-        border: 'border-slate-500',
+        color: 'text-brand-muted-foreground',
+        bg: 'bg-brand-muted',
+        border: 'border-brand-border',
         text: 'Stable'
       };
     }
@@ -122,16 +122,16 @@ export default function ComparativeInsights({ progress }) {
   ];
 
   return (
-    <Card className="bg-gradient-to-br from-teal-900/40 to-green-900/40 border-2 border-teal-600 shadow-xl">
+    <Card className="nv-card--muted">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <Calendar className="h-5 w-5 text-teal-400" />
-          <span className="text-slate-200">Week-over-Week Comparison</span>
-          <Badge className="bg-gradient-to-r from-teal-600 to-green-600 text-white">
+        <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
+          <Calendar className="h-5 w-5 text-brand-primary" />
+          <span className="text-brand-text">Week-over-Week Comparison</span>
+          <Badge className="bg-brand-primary text-brand-on-primary">
             Trends
           </Badge>
         </CardTitle>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-brand-muted-foreground mt-1">
           This week vs last week performance
         </p>
       </CardHeader>
@@ -150,10 +150,10 @@ export default function ComparativeInsights({ progress }) {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className={`bg-slate-800/70 rounded-lg p-4 border-2 ${metric.indicator.border}`}
+              className={`bg-brand-surface rounded-lg p-4 border-2 ${metric.indicator.border}`}
             >
               <div className="flex items-center justify-between mb-2">
-                <p className="font-semibold text-slate-200 text-sm">{metric.name}</p>
+                <p className="font-semibold text-brand-text text-sm">{metric.name}</p>
                 <Badge className={`${metric.indicator.bg} ${metric.indicator.color} border-0`}>
                   <Icon className="h-3 w-3 mr-1" />
                   {metric.indicator.text}
@@ -162,19 +162,19 @@ export default function ComparativeInsights({ progress }) {
 
               <div className="grid grid-cols-3 gap-3 text-center">
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">Previous Week</p>
-                  <p className="text-lg font-bold text-slate-300">
+                  <p className="text-xs text-brand-muted-foreground mb-1">Previous Week</p>
+                  <p className="text-lg font-bold text-brand-text">
                     {metric.previous}<span className="text-xs">{metric.unit}</span>
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">This Week</p>
-                  <p className="text-lg font-bold text-slate-200">
+                  <p className="text-xs text-brand-muted-foreground mb-1">This Week</p>
+                  <p className="text-lg font-bold text-brand-text">
                     {metric.current}<span className="text-xs">{metric.unit}</span>
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">Change</p>
+                  <p className="text-xs text-brand-muted-foreground mb-1">Change</p>
                   <p className={`text-lg font-bold ${metric.indicator.color}`}>
                     {metric.change > 0 ? '+' : ''}{changeAbs.toFixed(1)}
                     <span className="text-xs ml-1">({changePercent}%)</span>
@@ -186,9 +186,9 @@ export default function ComparativeInsights({ progress }) {
         })}
 
         {/* Overall Summary */}
-        <div className="bg-slate-800/90 rounded-lg p-3 border border-slate-600 mt-4">
-          <p className="text-xs font-semibold text-slate-300 mb-2">Summary:</p>
-          <p className="text-xs text-slate-400 leading-relaxed">
+        <div className="bg-brand-surface rounded-lg p-3 border border-brand-border mt-4">
+          <p className="text-xs font-semibold text-brand-text mb-2">Summary:</p>
+          <p className="text-xs text-brand-muted-foreground">
             {energyIndicator.text === 'Improved' && 'Your energy levels are trending upward. '}
             {energyIndicator.text === 'Declined' && 'Your energy has decreased this week. Consider reviewing your activity levels and rest periods. '}
             {stressIndicator.text === 'Decreased' && 'Great job managing stress! '}

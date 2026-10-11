@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { FileText, Copy, CheckCircle, TrendingUp, Zap, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -67,10 +66,10 @@ export default function ProgressReportTab() {
 
   return (
     <div className="space-y-6 mt-4">
-      <Card className="bg-slate-800 border-slate-600">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-slate-100 text-lg flex items-center gap-2">
-            <FileText className="h-5 w-5 text-teal-400" />
+          <CardTitle className="text-brand-text text-lg flex items-center gap-2">
+            <FileText className="h-5 w-5 text-brand-primary" />
             Choose What to Include
           </CardTitle>
         </CardHeader>
@@ -78,41 +77,34 @@ export default function ProgressReportTab() {
           {SECTIONS.map(({ key, label, icon: Icon }) => {
             const active = selected.has(key);
             return (
-              <button key={key} onClick={() => toggleSection(key)}
-                className={`w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all text-left ${
-                  active ? 'border-teal-500 bg-teal-900/30' : 'border-slate-600 bg-slate-700/40 hover:border-slate-500'
-                }`}>
-                <div className={`p-2 rounded-lg ${active ? 'bg-teal-600' : 'bg-slate-600'}`}>
-                  <Icon className="h-4 w-4 text-white" />
-                </div>
-                <span className={`font-medium ${active ? 'text-teal-200' : 'text-slate-300'}`}>{label}</span>
-                {active && <Badge className="ml-auto bg-teal-600 text-white text-xs">Included</Badge>}
+              <button key={key} onClick={() => toggleSection(key)} aria-pressed={active}
+                className={`nv-btn w-full justify-start text-left !whitespace-normal ${active ? '' : 'nv-btn--outline'}`}>
+                <Icon className="h-4 w-4 shrink-0" />
+                <span className="font-medium">{label}</span>
+                {active && <span className="nv-chip ml-auto">Included</span>}
               </button>
             );
           })}
-          <Button onClick={generateReport} disabled={generating || selected.size === 0}
-            className="w-full bg-teal-600 hover:bg-teal-700 mt-2">
+          <Button onClick={generateReport} disabled={generating || selected.size === 0} className="w-full mt-2 !whitespace-normal">
             {generating ? 'Generating…' : 'Generate Shareable Report'}
           </Button>
         </CardContent>
       </Card>
-
       {generatedReport && (
-        <Card className="bg-slate-800 border-teal-500 border-2">
+        <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-teal-300 text-lg">Your Progress Report</CardTitle>
-              <Button size="sm" variant="outline" onClick={copyReport}
-                className="border-teal-500 text-teal-300 hover:bg-teal-900/30">
+            <div className="flex items-center justify-between gap-2">
+              <CardTitle className="text-brand-text text-lg">Your Progress Report</CardTitle>
+              <Button size="sm" variant="outline" onClick={copyReport}>
                 <Copy className="h-4 w-4 mr-1" /> Copy
               </Button>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="bg-slate-900 rounded-lg p-4 text-slate-200 text-sm leading-relaxed whitespace-pre-wrap border border-slate-700">
+            <div className="bg-brand-muted rounded-lg p-4 text-brand-text text-sm whitespace-pre-wrap break-words border border-brand-border">
               {generatedReport}
             </div>
-            <p className="text-xs text-slate-500 mt-3 italic">
+            <p className="text-xs text-brand-muted-foreground mt-3 italic">
               This report was generated from only the sections you selected. Copy and share it with your mentor or support group.
             </p>
           </CardContent>

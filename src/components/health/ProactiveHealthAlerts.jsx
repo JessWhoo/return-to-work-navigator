@@ -100,11 +100,11 @@ export default function ProactiveHealthAlerts() {
 
   if (isLoading) {
     return (
-      <Card className="bg-gradient-to-br from-purple-900/40 to-indigo-900/40 border-2 border-purple-600">
+      <Card className="nv-card--muted">
         <CardContent className="pt-6">
           <div className="flex items-center justify-center py-4">
-            <Loader2 className="h-6 w-6 animate-spin text-purple-400" />
-            <span className="ml-2 text-slate-300">Analyzing your health data...</span>
+            <Loader2 className="h-6 w-6 animate-spin text-brand-primary" />
+            <span className="ml-2 text-brand-text">Analyzing your health data...</span>
           </div>
         </CardContent>
       </Card>
@@ -113,13 +113,13 @@ export default function ProactiveHealthAlerts() {
 
   if (!alerts || visibleAlerts.length === 0) {
     return (
-      <Card className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 border-2 border-green-600">
+      <Card className="bg-brand-secondary/20 border-brand-secondary">
         <CardContent className="pt-6">
           <div className="flex items-center space-x-3">
-            <CheckCircle className="h-6 w-6 text-green-400" />
+            <CheckCircle className="h-6 w-6 text-brand-text" />
             <div>
-              <h3 className="font-semibold text-green-400">All Systems Good</h3>
-              <p className="text-sm text-slate-300">No health alerts at this time. Keep up the great work!</p>
+              <h3 className="font-semibold text-brand-text">All Systems Good</h3>
+              <p className="text-sm text-brand-text">No health alerts at this time. Keep up the great work!</p>
             </div>
           </div>
         </CardContent>
@@ -130,24 +130,24 @@ export default function ProactiveHealthAlerts() {
   const priorityConfig = {
     high: {
       icon: AlertTriangle,
-      color: 'text-red-400',
-      bg: 'from-red-900/40 to-orange-900/40',
-      border: 'border-red-600',
-      badge: 'bg-red-600'
+      color: 'text-destructive',
+      bg: 'bg-brand-surface',
+      border: 'border-destructive',
+      badge: 'bg-destructive text-destructive-foreground'
     },
     medium: {
       icon: Activity,
-      color: 'text-orange-400',
-      bg: 'from-orange-900/40 to-amber-900/40',
-      border: 'border-orange-600',
-      badge: 'bg-orange-600'
+      color: 'text-brand-primary',
+      bg: 'bg-brand-compass-cream/40',
+      border: 'border-brand-primary',
+      badge: 'bg-brand-primary text-brand-on-primary'
     },
     low: {
       icon: Heart,
-      color: 'text-blue-400',
-      bg: 'from-blue-900/40 to-cyan-900/40',
-      border: 'border-blue-600',
-      badge: 'bg-blue-600'
+      color: 'text-brand-primary',
+      bg: 'bg-brand-muted',
+      border: 'border-brand-border',
+      badge: 'bg-brand-sky text-brand-text'
     }
   };
 
@@ -161,9 +161,9 @@ export default function ProactiveHealthAlerts() {
   return (
     <div className="space-y-3">
       <div className="flex items-center space-x-2">
-        <Sparkles className="h-5 w-5 text-purple-400" />
-        <h3 className="text-lg font-semibold text-slate-200">Health Alerts</h3>
-        <Badge className="bg-purple-600">{visibleAlerts.length}</Badge>
+        <Sparkles className="h-5 w-5 text-brand-primary" />
+        <h3 className="text-lg font-semibold text-brand-text">Health Alerts</h3>
+        <Badge className="bg-brand-primary text-brand-on-primary">{visibleAlerts.length}</Badge>
       </div>
 
       <AnimatePresence>
@@ -180,16 +180,16 @@ export default function ProactiveHealthAlerts() {
               exit={{ opacity: 0, x: 100 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className={`bg-gradient-to-br ${config.bg} border-2 ${config.border}`}>
+              <Card className={`${config.bg} border-2 ${config.border}`}>
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-3 flex-1">
-                      <div className={`p-2 rounded-lg bg-slate-900/50`}>
+                      <div className={`p-2 rounded-lg bg-brand-surface`}>
                         <PriorityIcon className={`h-5 w-5 ${config.color}`} />
                       </div>
                       <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-1">
-                          <CardTitle className="text-slate-200 text-base">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <CardTitle className="text-brand-text text-base">
                             {alert.title}
                           </CardTitle>
                           <Badge className={config.badge}>
@@ -200,15 +200,15 @@ export default function ProactiveHealthAlerts() {
                             {alert.type}
                           </Badge>
                         </div>
-                        <p className="text-sm text-slate-300 mb-3">{alert.description}</p>
+                        <p className="text-sm text-brand-text mb-3">{alert.description}</p>
 
                         {/* Actions */}
                         {alert.actions && alert.actions.length > 0 && (
-                          <div className="bg-slate-900/50 rounded-lg p-3 mb-3">
-                            <p className="text-xs font-semibold text-slate-400 mb-2">Recommended Actions:</p>
+                          <div className="bg-brand-surface rounded-lg p-3 mb-3">
+                            <p className="text-xs font-semibold text-brand-muted-foreground mb-2">Recommended Actions:</p>
                             <ul className="space-y-1">
                               {alert.actions.map((action, idx) => (
-                                <li key={idx} className="text-xs text-slate-300 flex items-start">
+                                <li key={idx} className="text-xs text-brand-text flex items-start">
                                   <span className={`${config.color} mr-2`}>→</span>
                                   {action}
                                 </li>
@@ -219,9 +219,9 @@ export default function ProactiveHealthAlerts() {
 
                         {/* Contact Provider Warning */}
                         {alert.contact_provider && (
-                          <div className="flex items-center space-x-2 bg-red-900/30 rounded-lg p-2 mb-3">
-                            <Phone className="h-4 w-4 text-red-400" />
-                            <p className="text-xs text-red-300 font-medium">
+                          <div className="flex items-center space-x-2 bg-destructive/10 rounded-lg p-2 mb-3">
+                            <Phone className="h-4 w-4 text-destructive" />
+                            <p className="text-xs text-destructive font-medium">
                               Consider contacting your healthcare provider
                             </p>
                           </div>
@@ -232,7 +232,7 @@ export default function ProactiveHealthAlerts() {
                           <Button
                             size="sm"
                             onClick={() => acknowledgeAlert(alert.id)}
-                            className="bg-slate-700 hover:bg-slate-600 text-white"
+                            className=""
                           >
                             <CheckCircle className="h-3 w-3 mr-1" />
                             Got it
@@ -241,7 +241,7 @@ export default function ProactiveHealthAlerts() {
                             size="sm"
                             variant="ghost"
                             onClick={() => dismissAlert(alert.id)}
-                            className="text-slate-400 hover:text-slate-200"
+                            className=""
                           >
                             Dismiss
                           </Button>
@@ -252,7 +252,7 @@ export default function ProactiveHealthAlerts() {
                       variant="ghost"
                       size="sm"
                       onClick={() => dismissAlert(alert.id)}
-                      className="text-slate-500 hover:text-slate-300 ml-2"
+                      className="ml-2"
                     >
                       <X className="h-4 w-4" />
                     </Button>

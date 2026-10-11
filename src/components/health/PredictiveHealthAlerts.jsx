@@ -71,26 +71,26 @@ export default function PredictiveHealthAlerts({ progress }) {
   }
 
   const riskConfig = {
-    low: { color: 'text-green-400', bg: 'bg-green-500/20', border: 'border-green-500', icon: TrendingUp },
-    moderate: { color: 'text-amber-400', bg: 'bg-amber-500/20', border: 'border-amber-500', icon: AlertTriangle },
-    high: { color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500', icon: AlertTriangle }
+    low: { color: 'text-brand-text', bg: 'bg-brand-secondary/20', border: 'border-brand-secondary', icon: TrendingUp },
+    moderate: { color: 'text-brand-primary', bg: 'bg-brand-compass-cream/40', border: 'border-brand-primary', icon: AlertTriangle },
+    high: { color: 'text-destructive', bg: 'bg-destructive/10', border: 'border-destructive', icon: AlertTriangle }
   };
 
   const trendConfig = {
-    improving: { text: 'Improving Trend', color: 'text-green-400' },
-    stable: { text: 'Stable Pattern', color: 'text-blue-400' },
-    declining: { text: 'Declining Trend', color: 'text-red-400' },
-    fluctuating: { text: 'Fluctuating Pattern', color: 'text-amber-400' }
+    improving: { text: 'Improving Trend', color: 'text-brand-text' },
+    stable: { text: 'Stable Pattern', color: 'text-brand-primary' },
+    declining: { text: 'Declining Trend', color: 'text-destructive' },
+    fluctuating: { text: 'Fluctuating Pattern', color: 'text-brand-primary' }
   };
 
   return (
-    <Card className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border-2 border-indigo-600 shadow-xl">
+    <Card className="nv-card--muted">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center space-x-2">
-            <Activity className="h-5 w-5 text-indigo-400" />
-            <span className="text-slate-200">Predictive Health Analytics</span>
-            <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
+            <Activity className="h-5 w-5 text-brand-primary" />
+            <span className="text-brand-text">Predictive Health Analytics</span>
+            <Badge className="bg-brand-primary text-brand-on-primary">
               AI-Powered
             </Badge>
           </CardTitle>
@@ -98,13 +98,13 @@ export default function PredictiveHealthAlerts({ progress }) {
             variant="ghost"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-indigo-400 hover:text-indigo-300"
+            className="shrink-0"
           >
             {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </Button>
         </div>
         {predictions && (
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-brand-muted-foreground mt-1">
             Analyzing patterns to predict potential health challenges in the next 14 days
           </p>
         )}
@@ -121,8 +121,8 @@ export default function PredictiveHealthAlerts({ progress }) {
               {isLoading ? (
                 <div className="flex items-center justify-center py-12">
                   <div className="text-center space-y-3">
-                    <Loader2 className="h-8 w-8 animate-spin text-indigo-400 mx-auto" />
-                    <p className="text-sm text-slate-400">Analyzing health patterns...</p>
+                    <Loader2 className="h-8 w-8 animate-spin text-brand-primary mx-auto" />
+                    <p className="text-sm text-brand-muted-foreground">Analyzing health patterns...</p>
                   </div>
                 </div>
               ) : predictions ? (
@@ -130,13 +130,13 @@ export default function PredictiveHealthAlerts({ progress }) {
                   {/* Overall Status */}
                   <div className="grid grid-cols-2 gap-3">
                     <div className={`p-3 rounded-lg border-2 ${riskConfig[predictions.overall_risk_level].border} ${riskConfig[predictions.overall_risk_level].bg}`}>
-                      <p className="text-xs text-slate-400 mb-1">Risk Level (14 days)</p>
+                      <p className="text-xs text-brand-muted-foreground mb-1">Risk Level (14 days)</p>
                       <p className={`text-lg font-bold ${riskConfig[predictions.overall_risk_level].color} capitalize`}>
                         {predictions.overall_risk_level}
                       </p>
                     </div>
-                    <div className="p-3 rounded-lg border-2 border-slate-600 bg-slate-800/50">
-                      <p className="text-xs text-slate-400 mb-1">Health Trend</p>
+                    <div className="p-3 rounded-lg border-2 border-brand-border bg-brand-surface">
+                      <p className="text-xs text-brand-muted-foreground mb-1">Health Trend</p>
                       <p className={`text-lg font-bold ${trendConfig[predictions.trend_direction].color}`}>
                         {trendConfig[predictions.trend_direction].text}
                       </p>
@@ -145,7 +145,7 @@ export default function PredictiveHealthAlerts({ progress }) {
 
                   {/* Predictions */}
                   <div className="space-y-3">
-                    <h4 className="font-semibold text-indigo-300 text-sm flex items-center">
+                    <h4 className="font-semibold text-brand-text text-sm flex items-center">
                       <Calendar className="h-4 w-4 mr-2" />
                       Predicted Challenges & Prevention
                     </h4>
@@ -158,14 +158,14 @@ export default function PredictiveHealthAlerts({ progress }) {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className={`bg-slate-800/70 rounded-lg p-4 border-2 ${config.border}`}
+                          className={`bg-brand-surface rounded-lg p-4 border-2 ${config.border}`}
                         >
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex items-center space-x-2">
                               <Icon className={`h-5 w-5 ${config.color}`} />
                               <div>
-                                <p className="font-semibold text-slate-200">{pred.period}</p>
-                                <p className="text-xs text-slate-400">{pred.predicted_issue}</p>
+                                <p className="font-semibold text-brand-text">{pred.period}</p>
+                                <p className="text-xs text-brand-muted-foreground">{pred.predicted_issue}</p>
                               </div>
                             </div>
                             <div className="flex flex-col items-end space-y-1">
@@ -180,13 +180,13 @@ export default function PredictiveHealthAlerts({ progress }) {
 
                           <div className="mt-3 space-y-2 text-sm">
                             <div>
-                              <p className="text-xs font-semibold text-slate-400 mb-1">Why this prediction:</p>
-                              <p className="text-slate-300 text-xs">{pred.reasoning}</p>
+                              <p className="text-xs font-semibold text-brand-muted-foreground mb-1">Why this prediction:</p>
+                              <p className="text-brand-text text-xs">{pred.reasoning}</p>
                             </div>
 
                             {pred.triggers && pred.triggers.length > 0 && (
                               <div>
-                                <p className="text-xs font-semibold text-slate-400 mb-1">Potential Triggers:</p>
+                                <p className="text-xs font-semibold text-brand-muted-foreground mb-1">Potential Triggers:</p>
                                 <div className="flex flex-wrap gap-1">
                                   {pred.triggers.map((trigger, tidx) => (
                                     <Badge key={tidx} variant="outline" className="text-xs">
@@ -198,12 +198,12 @@ export default function PredictiveHealthAlerts({ progress }) {
                             )}
 
                             {pred.prevention_strategies && pred.prevention_strategies.length > 0 && (
-                              <div className="bg-green-900/20 rounded-lg p-2 border border-green-600">
-                                <p className="text-xs font-semibold text-green-300 mb-1">Prevention Strategies:</p>
+                              <div className="bg-brand-secondary/20 rounded-lg p-2 border border-brand-secondary">
+                                <p className="text-xs font-semibold text-brand-text mb-1">Prevention Strategies:</p>
                                 <ul className="space-y-1">
                                   {pred.prevention_strategies.map((strategy, sidx) => (
-                                    <li key={sidx} className="text-xs text-slate-300 flex items-start">
-                                      <span className="text-green-400 mr-1">✓</span>
+                                    <li key={sidx} className="text-xs text-brand-text flex items-start">
+                                      <span className="text-brand-primary mr-1">✓</span>
                                       {strategy}
                                     </li>
                                   ))}
@@ -218,12 +218,12 @@ export default function PredictiveHealthAlerts({ progress }) {
 
                   {/* General Recommendations */}
                   {predictions.recommendations && predictions.recommendations.length > 0 && (
-                    <div className="bg-blue-900/20 rounded-lg p-3 border border-blue-600">
-                      <h4 className="font-semibold text-blue-300 text-sm mb-2">General Recommendations:</h4>
+                    <div className="bg-brand-sky/30 rounded-lg p-3 border border-brand-border">
+                      <h4 className="font-semibold text-brand-text text-sm mb-2">General Recommendations:</h4>
                       <ul className="space-y-1">
                         {predictions.recommendations.map((rec, idx) => (
-                          <li key={idx} className="text-xs text-slate-300 flex items-start">
-                            <Zap className="h-3 w-3 text-blue-400 mr-2 mt-0.5 flex-shrink-0" />
+                          <li key={idx} className="text-xs text-brand-text flex items-start">
+                            <Zap className="h-3 w-3 text-brand-primary mr-2 mt-0.5 flex-shrink-0" />
                             {rec}
                           </li>
                         ))}
@@ -232,7 +232,7 @@ export default function PredictiveHealthAlerts({ progress }) {
                   )}
                 </>
               ) : (
-                <p className="text-center text-slate-400 py-8">No predictions available</p>
+                <p className="text-center text-brand-muted-foreground py-8">No predictions available</p>
               )}
             </CardContent>
           </motion.div>

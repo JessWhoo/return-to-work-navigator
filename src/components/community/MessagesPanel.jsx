@@ -15,16 +15,10 @@ function MessageBubble({ msg, myProfileId }) {
   const isMe = msg.sender_profile_id === myProfileId;
   return (
     <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} mb-2`}>
-      <div className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${
-        isMe
-          ? 'bg-teal-600 text-white rounded-br-sm'
-          : 'bg-slate-700 text-slate-200 rounded-bl-sm'
-      }`}>
-        {!isMe && (
-          <p className="text-xs font-semibold text-teal-300 mb-0.5">{msg.sender_display_name}</p>
-        )}
-        <p className="leading-relaxed">{msg.content}</p>
-        <p className={`text-xs mt-1 ${isMe ? 'text-teal-200' : 'text-slate-500'}`}>
+      <div className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm break-words ${isMe ? 'bg-brand-primary text-brand-on-primary rounded-br-sm' : 'bg-brand-muted text-brand-text rounded-bl-sm'}`}>
+        {!isMe && <p className="text-xs font-semibold text-brand-primary mb-0.5">{msg.sender_display_name}</p>}
+        <p>{msg.content}</p>
+        <p className={`text-xs mt-1 ${isMe ? 'text-brand-on-primary' : 'text-brand-muted-foreground'}`}>
           {format(new Date(msg.created_date), 'h:mm a')}
         </p>
       </div>
@@ -79,49 +73,34 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
   };
 
   return (
-    <div className="flex flex-col h-[600px]">
-      {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-700 bg-slate-800 rounded-t-xl">
-        <button onClick={onBack} className="text-slate-400 hover:text-white transition-colors">
+    <div className="nv-card flex flex-col h-[600px] overflow-hidden">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-brand-border bg-brand-surface">
+        <button onClick={onBack} aria-label="Back to conversations" className="nv-btn nv-btn--text nv-btn--icon">
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+        <div className="w-9 h-9 rounded-full bg-brand-secondary flex items-center justify-center text-brand-text font-bold text-sm flex-shrink-0">
           {otherProfile.display_name?.[0]?.toUpperCase()}
         </div>
-        <div>
-          <p className="text-white font-semibold text-sm">{otherProfile.display_name}</p>
-          <p className="text-slate-400 text-xs">{otherProfile.industry}</p>
+        <div className="min-w-0">
+          <p className="text-brand-text font-semibold text-sm break-words">{otherProfile.display_name}</p>
+          <p className="text-brand-muted-foreground text-xs">{otherProfile.industry}</p>
         </div>
       </div>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1 bg-slate-900/60">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1 bg-brand-background">
         {messages.length === 0 && (
-          <div className="text-center py-12 text-slate-500">
+          <div className="text-center py-12 text-brand-muted-foreground">
             <MessageCircle className="h-10 w-10 mx-auto mb-2 opacity-30" />
             <p className="text-sm">Send a message to start the conversation!</p>
           </div>
         )}
-        {messages.map(msg => (
-          <MessageBubble key={msg.id} msg={msg} myProfileId={myProfile.id} />
-        ))}
+        {messages.map(msg => <MessageBubble key={msg.id} msg={msg} myProfileId={myProfile.id} />)}
         <div ref={bottomRef} />
       </div>
-
-      {/* Input */}
-      <div className="px-4 py-3 border-t border-slate-700 bg-slate-800 rounded-b-xl flex gap-2">
-        <Input
-          value={text}
-          onChange={e => setText(e.target.value)}
+      <div className="px-4 py-3 border-t border-brand-border bg-brand-surface flex gap-2">
+        <Input value={text} onChange={e => setText(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
-          placeholder="Type a message…"
-          className="bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500 flex-1"
-        />
-        <Button
-          onClick={handleSend}
-          disabled={!text.trim() || sendMutation.isPending}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-4"
-        >
+          placeholder="Type a message…" className="flex-1 min-w-0" />
+        <Button onClick={handleSend} disabled={!text.trim() || sendMutation.isPending} aria-label="Send message" className="px-4">
           <Send className="h-4 w-4" />
         </Button>
       </div>
@@ -183,7 +162,7 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
 
   if (!myProfile) {
     return (
-      <div className="text-center py-16 text-slate-400">
+      <div className="text-center py-16 text-brand-muted-foreground">
         <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
         <p className="font-medium">No profile yet</p>
         <p className="text-sm mt-1">Join the Peers program to start messaging matched connections.</p>
@@ -193,7 +172,7 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
 
   if (matchedProfiles.length === 0) {
     return (
-      <div className="text-center py-16 text-slate-400">
+      <div className="text-center py-16 text-brand-muted-foreground">
         <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
         <p className="font-medium">No connections yet</p>
         <p className="text-sm mt-1">Send connection requests in the Peers tab to unlock messaging.</p>
@@ -203,28 +182,28 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-slate-400 text-sm">{matchedProfiles.length} connection{matchedProfiles.length !== 1 ? 's' : ''}</p>
+      <p className="text-brand-muted-foreground text-sm">{matchedProfiles.length} connection{matchedProfiles.length !== 1 ? 's' : ''}</p>
       {matchedProfiles.map(({ profile }) => {
         const unread = getUnread(profile);
         return (
           <button
             key={profile.id}
             onClick={() => setOpenConv({ myProfile: myPeerProfile, otherProfile: profile })}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-teal-500 transition-all text-left"
+            className="nv-card w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center text-brand-text font-bold flex-shrink-0">
               {profile.display_name?.[0]?.toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm">{profile.display_name}</p>
-              <p className="text-slate-400 text-xs truncate">{profile.industry} · Peer</p>
+              <p className="text-brand-text font-semibold text-sm">{profile.display_name}</p>
+              <p className="text-brand-muted-foreground text-xs truncate">{profile.industry} · Peer</p>
             </div>
             {unread > 0 && (
-              <span className="bg-teal-500 text-white text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">
+              <span className="bg-brand-primary text-brand-on-primary text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">
                 {unread}
               </span>
             )}
-            <Send className="h-4 w-4 text-slate-500 flex-shrink-0" />
+            <Send className="h-4 w-4 text-brand-muted-foreground flex-shrink-0" />
           </button>
         );
       })}
