@@ -15,10 +15,10 @@ function MessageBubble({ msg, myProfileId }) {
   const isMe = msg.sender_profile_id === myProfileId;
   return (
     <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} mb-2`}>
-      <div className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm break-words ${isMe ? 'bg-brand-primary text-brand-on-primary rounded-br-sm' : 'bg-brand-muted text-brand-text rounded-bl-sm'}`}>
+      <div className={`max-w-[75%] px-4 py-2 rounded-brand-lg text-sm break-words ${isMe ? 'bg-brand-primary text-primary-foreground rounded-br-sm' : 'bg-brand-muted text-brand-text rounded-bl-sm'}`}>
         {!isMe && <p className="text-xs font-semibold text-brand-primary mb-0.5">{msg.sender_display_name}</p>}
         <p>{msg.content}</p>
-        <p className={`text-xs mt-1 ${isMe ? 'text-brand-on-primary' : 'text-brand-muted-foreground'}`}>
+        <p className={`text-xs mt-1 ${isMe ? 'text-primary-foreground' : 'text-brand-muted-foreground'}`}>
           {format(new Date(msg.created_date), 'h:mm a')}
         </p>
       </div>
@@ -73,7 +73,7 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
   };
 
   return (
-    <div className="nv-card flex flex-col h-[600px] overflow-hidden">
+    <div className="nv-card flex flex-col h-[min(600px,75dvh)] overflow-hidden">
       <div className="flex items-center gap-3 px-4 py-3 border-b border-brand-border bg-brand-surface">
         <button onClick={onBack} aria-label="Back to conversations" className="nv-btn nv-btn--text nv-btn--icon">
           <ArrowLeft className="h-5 w-5" />
@@ -99,7 +99,7 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
       <div className="px-4 py-3 border-t border-brand-border bg-brand-surface flex gap-2">
         <Input value={text} onChange={e => setText(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
-          placeholder="Type a message…" className="flex-1 min-w-0" />
+          aria-label="Message" placeholder="Type a message…" className="flex-1 min-w-0" />
         <Button onClick={handleSend} disabled={!text.trim() || sendMutation.isPending} aria-label="Send message" className="px-4">
           <Send className="h-4 w-4" />
         </Button>
@@ -199,7 +199,7 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
               <p className="text-brand-muted-foreground text-xs truncate">{profile.industry} · Peer</p>
             </div>
             {unread > 0 && (
-              <span className="bg-brand-primary text-brand-on-primary text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">
+              <span className="bg-brand-primary text-primary-foreground text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">
                 {unread}
               </span>
             )}

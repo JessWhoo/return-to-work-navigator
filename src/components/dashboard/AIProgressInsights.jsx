@@ -83,10 +83,10 @@ export default function AIProgressInsights({ progress }) {
 
   if (!progress || !progress.energy_logs || progress.energy_logs.length === 0) {
     return (
-      <Card className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-2 border-purple-600">
+      <Card className="nv-card--muted">
         <CardContent className="pt-6 text-center">
-          <Sparkles className="h-12 w-12 text-purple-400 mx-auto mb-3 opacity-50" />
-          <p className="text-slate-300 text-sm">
+          <Sparkles className="h-12 w-12 text-brand-primary mx-auto mb-3 opacity-50" />
+          <p className="text-brand-text text-sm">
             Start logging your energy and mood to receive AI-powered insights
           </p>
         </CardContent>
@@ -95,23 +95,23 @@ export default function AIProgressInsights({ progress }) {
   }
 
   const statusConfig = {
-    improving: { icon: TrendingUp, color: 'text-green-400', bg: 'bg-green-500/20', border: 'border-green-500' },
-    stable: { icon: Activity, color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-blue-500' },
-    declining: { icon: TrendingDown, color: 'text-orange-400', bg: 'bg-orange-500/20', border: 'border-orange-500' },
-    concerning: { icon: AlertCircle, color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500' }
+    improving: { icon: TrendingUp, color: 'text-brand-primary', bg: 'bg-secondary/30', border: 'border-secondary' },
+    stable: { icon: Activity, color: 'text-brand-primary', bg: 'bg-muted', border: 'border-primary' },
+    declining: { icon: TrendingDown, color: 'text-brand-primary', bg: 'bg-accent/30', border: 'border-accent' },
+    concerning: { icon: AlertCircle, color: 'text-destructive', bg: 'bg-destructive/10', border: 'border-destructive' }
   };
 
   const config = statusConfig[insights?.overall_status] || statusConfig.stable;
   const StatusIcon = config.icon;
 
   return (
-    <Card className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-2 border-purple-600 shadow-xl">
+    <Card className="nv-card--muted">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-purple-400" />
-            <span className="text-slate-200">AI Progress Insights</span>
-            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <CardTitle className="flex flex-wrap items-center gap-2">
+            <Sparkles className="h-5 w-5 text-brand-primary" />
+            <span className="text-brand-text">AI Progress Insights</span>
+            <Badge variant="secondary" className="rounded-pill">
               Powered by AI
             </Badge>
           </CardTitle>
@@ -121,7 +121,7 @@ export default function AIProgressInsights({ progress }) {
               size="sm"
               onClick={() => refetch()}
               disabled={isLoading}
-              className="text-purple-400 hover:text-purple-300"
+              aria-label="Refresh progress insights"
             >
               <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             </Button>
@@ -129,7 +129,8 @@ export default function AIProgressInsights({ progress }) {
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-purple-400 hover:text-purple-300"
+              aria-expanded={isExpanded}
+              aria-controls="progress-insights-details"
             >
               {isExpanded ? 'Collapse' : 'Expand'}
             </Button>
@@ -138,25 +139,25 @@ export default function AIProgressInsights({ progress }) {
       </CardHeader>
 
       {isExpanded && (
-        <CardContent className="space-y-4">
+        <CardContent id="progress-insights-details" className="space-y-4">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center space-y-3">
-                <Loader2 className="h-8 w-8 animate-spin text-purple-400 mx-auto" />
-                <p className="text-sm text-slate-400">Analyzing your progress data...</p>
+                <Loader2 className="h-8 w-8 animate-spin text-brand-primary mx-auto" />
+                <p className="text-sm text-brand-muted-foreground">Analyzing your progress data...</p>
               </div>
             </div>
           ) : insights ? (
             <>
               {/* Overall Status */}
-              <div className={`p-4 rounded-lg border-2 ${config.border} ${config.bg}`}>
+              <div className={`p-4 rounded-brand border ${config.border} ${config.bg}`}>
                 <div className="flex items-start space-x-3">
                   <StatusIcon className={`h-6 w-6 ${config.color} mt-0.5`} />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-slate-200 mb-1 capitalize">
+                    <h3 className="font-semibold text-brand-text mb-1 capitalize">
                       {insights.overall_status} Trajectory
                     </h3>
-                    <p className="text-sm text-slate-300">{insights.summary}</p>
+                    <p className="text-sm text-brand-text">{insights.summary}</p>
                   </div>
                 </div>
               </div>
@@ -164,59 +165,59 @@ export default function AIProgressInsights({ progress }) {
               {/* Trends Analysis */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {insights.energy_trend && (
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Activity className="h-4 w-4 text-cyan-400" />
-                      <span className="text-xs font-semibold text-slate-300">Energy Trend</span>
+                  <div className="nv-card p-4">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <Activity className="h-4 w-4 text-brand-primary" />
+                      <span className="text-xs font-semibold text-brand-text">Energy Trend</span>
                       <Badge variant="outline" className="text-xs capitalize">
                         {insights.energy_trend.direction}
                       </Badge>
                     </div>
-                    <p className="text-xs text-slate-400">{insights.energy_trend.insight}</p>
+                    <p className="text-xs text-brand-muted-foreground">{insights.energy_trend.insight}</p>
                   </div>
                 )}
 
                 {insights.mood_pattern && (
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Sparkles className="h-4 w-4 text-purple-400" />
-                      <span className="text-xs font-semibold text-slate-300">Mood Pattern</span>
+                  <div className="nv-card p-4">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <Sparkles className="h-4 w-4 text-brand-primary" />
+                      <span className="text-xs font-semibold text-brand-text">Mood Pattern</span>
                       <Badge variant="outline" className="text-xs capitalize">
                         {insights.mood_pattern.dominant_mood}
                       </Badge>
                     </div>
-                    <p className="text-xs text-slate-400">{insights.mood_pattern.insight}</p>
+                    <p className="text-xs text-brand-muted-foreground">{insights.mood_pattern.insight}</p>
                   </div>
                 )}
 
                 {insights.stress_analysis && (
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <AlertCircle className="h-4 w-4 text-orange-400" />
-                      <span className="text-xs font-semibold text-slate-300">Stress Level</span>
+                  <div className="nv-card p-4">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <AlertCircle className="h-4 w-4 text-brand-primary" />
+                      <span className="text-xs font-semibold text-brand-text">Stress Level</span>
                       <Badge variant="outline" className="text-xs">
                         {insights.stress_analysis.average_level?.toFixed(1)}/10
                       </Badge>
                     </div>
-                    <p className="text-xs text-slate-400">{insights.stress_analysis.insight}</p>
+                    <p className="text-xs text-brand-muted-foreground">{insights.stress_analysis.insight}</p>
                   </div>
                 )}
               </div>
 
               {/* Correlations & Patterns */}
               {insights.correlations && insights.correlations.length > 0 && (
-                <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-600">
-                  <h4 className="font-semibold text-cyan-300 mb-2 flex items-center">
+                <div className="nv-card nv-card--sage p-4">
+                  <h4 className="font-semibold text-brand-primary mb-2 flex items-center">
                     <TrendingUp className="h-4 w-4 mr-2" />
                     Identified Patterns
                   </h4>
                   <div className="space-y-2">
                     {insights.correlations.map((correlation, idx) => (
                       <div key={idx} className="flex items-start space-x-2">
-                        <CheckCircle className="h-4 w-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-brand-primary mt-0.5 flex-shrink-0" />
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{correlation.pattern}</p>
-                          <p className="text-xs text-slate-400">{correlation.description}</p>
+                          <p className="text-sm font-medium text-brand-text">{correlation.pattern}</p>
+                          <p className="text-xs text-brand-muted-foreground">{correlation.description}</p>
                         </div>
                       </div>
                     ))}
@@ -226,15 +227,15 @@ export default function AIProgressInsights({ progress }) {
 
               {/* Concerns */}
               {insights.concerns && insights.concerns.length > 0 && (
-                <div className="bg-orange-900/20 rounded-lg p-4 border border-orange-600">
-                  <h4 className="font-semibold text-orange-300 mb-2 flex items-center">
+                <div className="nv-card nv-card--pink p-4">
+                  <h4 className="font-semibold text-brand-primary mb-2 flex items-center">
                     <AlertCircle className="h-4 w-4 mr-2" />
                     Areas Requiring Attention
                   </h4>
                   <ul className="space-y-1">
                     {insights.concerns.map((concern, idx) => (
-                      <li key={idx} className="text-sm text-slate-300 flex items-start">
-                        <span className="text-orange-400 mr-2">•</span>
+                      <li key={idx} className="text-sm text-brand-text flex items-start">
+                        <span className="text-brand-primary mr-2">•</span>
                         {concern}
                       </li>
                     ))}
@@ -244,16 +245,16 @@ export default function AIProgressInsights({ progress }) {
 
               {/* Personalized Tips */}
               {insights.personalized_tips && insights.personalized_tips.length > 0 && (
-                <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-600">
-                  <h4 className="font-semibold text-purple-300 mb-3 flex items-center">
+                <div className="nv-card nv-card--muted p-4">
+                  <h4 className="font-semibold text-brand-primary mb-3 flex items-center">
                     <Lightbulb className="h-4 w-4 mr-2" />
                     Personalized Tips for You
                   </h4>
                   <div className="space-y-3">
                     {insights.personalized_tips.map((item, idx) => (
-                      <div key={idx} className="bg-slate-800/50 rounded-lg p-3">
-                        <p className="text-sm font-medium text-slate-200 mb-1">{item.tip}</p>
-                        <p className="text-xs text-slate-400">{item.rationale}</p>
+                      <div key={idx} className="nv-card p-4">
+                        <p className="text-sm font-medium text-brand-text mb-1">{item.tip}</p>
+                        <p className="text-xs text-brand-muted-foreground">{item.rationale}</p>
                       </div>
                     ))}
                   </div>
@@ -262,15 +263,15 @@ export default function AIProgressInsights({ progress }) {
 
               {/* Recommended Actions */}
               {insights.recommended_actions && insights.recommended_actions.length > 0 && (
-                <div className="bg-green-900/20 rounded-lg p-4 border border-green-600">
-                  <h4 className="font-semibold text-green-300 mb-2 flex items-center">
+                <div className="nv-card nv-card--sage p-4">
+                  <h4 className="font-semibold text-brand-primary mb-2 flex items-center">
                     <CheckCircle className="h-4 w-4 mr-2" />
                     Recommended Next Steps
                   </h4>
                   <ul className="space-y-1">
                     {insights.recommended_actions.map((action, idx) => (
-                      <li key={idx} className="text-sm text-slate-300 flex items-start">
-                        <span className="text-green-400 mr-2">→</span>
+                      <li key={idx} className="text-sm text-brand-text flex items-start">
+                        <span className="text-brand-primary mr-2">→</span>
                         {action}
                       </li>
                     ))}
@@ -280,7 +281,7 @@ export default function AIProgressInsights({ progress }) {
             </>
           ) : (
             <div className="text-center py-8">
-              <p className="text-slate-400">No insights available. Try refreshing.</p>
+              <p className="text-brand-muted-foreground">No insights available. Try refreshing.</p>
             </div>
           )}
         </CardContent>
