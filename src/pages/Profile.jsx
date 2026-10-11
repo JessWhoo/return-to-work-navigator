@@ -21,8 +21,10 @@ import {
 } from '@/components/ui/alert-dialog';
 import { 
   User, Mail, Calendar, TrendingUp, BookmarkCheck, 
-  FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2, AlertTriangle
+  FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2, AlertTriangle,
+  BarChart3
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
@@ -314,6 +316,22 @@ export default function Profile() {
                     <span className="nv-chip capitalize">{user?.role || 'user'}</span>
                   </div>
                 </div>
+
+                {user?.role === 'admin' && (
+                  <div className="space-y-2">
+                    <Label className="font-semibold text-brand-text">Admin Tools</Label>
+                    <Link
+                      to="/ToolEngagementDashboard"
+                      className="flex items-center gap-3 rounded-brand bg-brand-pink-soft p-3 hover:shadow-brand-sm transition-shadow"
+                    >
+                      <BarChart3 className="h-5 w-5 text-brand-primary" />
+                      <div className="min-w-0">
+                        <div className="font-semibold text-brand-text">Tool Engagement Dashboard</div>
+                        <div className="text-sm text-brand-muted-foreground">View usage metrics across the Navigator tools</div>
+                      </div>
+                    </Link>
+                  </div>
+                )}
 
                 <div className="space-y-2">
                   <Label className="font-semibold text-brand-text">Member Since</Label>
