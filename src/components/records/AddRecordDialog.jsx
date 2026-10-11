@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Stethoscope, Briefcase, BookOpen, Activity, Tag } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 // Local calendar date — a UTC date rolls a day ahead in the evening for anyone
 // behind UTC, which would file the record under the wrong day.
@@ -169,17 +170,19 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
           {type === 'workplace' && (
             <div className="nv-card nv-card--muted space-y-4 p-4">
               <h4 className="font-semibold text-brand-text">Workplace Details</h4>
-              <select
+              <BottomSheetSelect
                 value={workplaceDetails.meeting_type || 'other'}
-                onChange={(e) => setWorkplaceDetails({ ...workplaceDetails, meeting_type: e.target.value })}
-                className="nv-input min-h-11 w-full px-3 py-2"
-              >
-                <option value="supervisor">Supervisor Meeting</option>
-                <option value="hr">HR Meeting</option>
-                <option value="team">Team Meeting</option>
-                <option value="accommodation_review">Accommodation Review</option>
-                <option value="other">Other</option>
-              </select>
+                onValueChange={(v) => setWorkplaceDetails({ ...workplaceDetails, meeting_type: v })}
+                title="Meeting type"
+                className="text-sm"
+                options={[
+                  { value: 'supervisor', label: 'Supervisor Meeting' },
+                  { value: 'hr', label: 'HR Meeting' },
+                  { value: 'team', label: 'Team Meeting' },
+                  { value: 'accommodation_review', label: 'Accommodation Review' },
+                  { value: 'other', label: 'Other' },
+                ]}
+              />
               <Textarea
                 placeholder="Outcomes and action items"
                 value={workplaceDetails.outcomes || ''}

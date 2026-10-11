@@ -11,6 +11,7 @@ import {
   Save, Sparkles, Loader2, Copy, Check, Lightbulb, X, FileText
 } from 'lucide-react';
 import { toast } from 'sonner';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 export default function DraftEditor({ draft, onClose, onSave }) {
   const queryClient = useQueryClient();
@@ -157,16 +158,14 @@ export default function DraftEditor({ draft, onClose, onSave }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="scenario">Scenario Type</Label>
-              <select
+              <BottomSheetSelect
                 id="scenario"
                 value={formData.scenario_type}
-                onChange={(e) => setFormData({ ...formData, scenario_type: e.target.value })}
-                className="nv-input h-11 w-full px-3"
-              >
-                {scenarioTypes.map(type => (
-                  <option key={type.value} value={type.value}>{type.label}</option>
-                ))}
-              </select>
+                onValueChange={(v) => setFormData({ ...formData, scenario_type: v })}
+                title="Scenario type"
+                className="h-11"
+                options={scenarioTypes}
+              />
             </div>
           </div>
 
@@ -183,18 +182,14 @@ export default function DraftEditor({ draft, onClose, onSave }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="tone">Tone</Label>
-              <select
+              <BottomSheetSelect
                 id="tone"
                 value={formData.tone}
-                onChange={(e) => setFormData({ ...formData, tone: e.target.value })}
-                className="nv-input h-11 w-full px-3"
-              >
-                {toneOptions.map(tone => (
-                  <option key={tone.value} value={tone.value}>
-                    {tone.label} - {tone.desc}
-                  </option>
-                ))}
-              </select>
+                onValueChange={(v) => setFormData({ ...formData, tone: v })}
+                title="Tone"
+                className="h-11"
+                options={toneOptions.map(tone => ({ value: tone.value, label: `${tone.label} - ${tone.desc}` }))}
+              />
             </div>
           </div>
 

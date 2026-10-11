@@ -246,6 +246,12 @@ html.a11y-mode *::after {
 .nv-input{background:var(--brand-surface);border:1px solid var(--brand-primary);border-radius:var(--brand-radius-md);color:var(--brand-text);font-family:var(--brand-font-body);box-shadow:var(--brand-shadow-none);transition:border-color .2s ease,box-shadow .2s ease}
 .nv-input::placeholder{color:var(--brand-muted-foreground)}
 .nv-input:focus-visible,.nv-input:focus{outline:none;border-color:var(--brand-primary);box-shadow:0 0 0 3px rgba(128,103,126,.16)}
+/* Global native <select> reset — neutralizes the Android system dropdown so any
+   remaining select renders as a clean branded control (BottomSheetSelect is the
+   primary picker). Forces light rendering even when the device is in dark mode. */
+select{appearance:none;-webkit-appearance:none;-moz-appearance:none;background-color:var(--brand-surface);color:var(--brand-text);border:1px solid var(--brand-primary);border-radius:var(--brand-radius-md);padding:8px 36px 8px 12px;font-family:var(--brand-font-body);font-size:14px;line-height:1.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236C6577' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer}
+select:disabled{opacity:.5;cursor:not-allowed}
+select option,select optgroup{background-color:var(--brand-surface);color:var(--brand-text)}
 
 /* --- Footer band --- */
 .nv-footer{background:var(--brand-muted);border-top:1px solid var(--brand-border);color:var(--brand-muted-foreground)}

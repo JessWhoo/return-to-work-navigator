@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Users, UserPlus, CheckCircle, Edit3, Heart, Briefcase, ArrowRight, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/lib/AuthContext';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 const INDUSTRIES = [
   'Healthcare', 'Education', 'Technology', 'Finance',
@@ -76,14 +77,18 @@ function ProfileForm({ existing, onSave, onCancel }) {
 
         <div>
           <label className="text-brand-text text-sm font-medium block mb-1">Industry *</label>
-          <select
+          <BottomSheetSelect
             value={form.industry}
-            onChange={e => setForm(prev => ({ ...prev, industry: e.target.value }))}
-            aria-label="Industry" className="nv-input min-h-11 w-full px-3 py-2 text-sm"
-          >
-            <option value="">Select your industry…</option>
-            {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
-          </select>
+            onValueChange={v => setForm(prev => ({ ...prev, industry: v }))}
+            ariaLabel="Industry"
+            title="Industry"
+            placeholder="Select your industry…"
+            className="text-sm"
+            options={[
+              { value: '', label: 'Select your industry…' },
+              ...INDUSTRIES.map(i => ({ value: i, label: i })),
+            ]}
+          />
         </div>
 
         <div>
@@ -361,24 +366,30 @@ export default function PeerConnectionsTab() {
       {/* Filters */}
       {allPeers.length > 0 && (
         <div className="flex flex-wrap gap-3">
-          <select
-            aria-label="Filter by industry"
+          <BottomSheetSelect
+            ariaLabel="Filter by industry"
             value={filterIndustry}
-            onChange={e => setFilterIndustry(e.target.value)}
-            className="nv-input min-h-11 w-full min-w-0 px-3 py-2 text-sm sm:w-auto sm:max-w-full"
-          >
-            <option value="all">All Industries</option>
-            {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
-          </select>
-          <select
-            aria-label="Filter by return stage"
+            onValueChange={setFilterIndustry}
+            title="Filter by industry"
+            placeholder="All Industries"
+            className="text-sm sm:w-auto sm:max-w-full"
+            options={[
+              { value: 'all', label: 'All Industries' },
+              ...INDUSTRIES.map(i => ({ value: i, label: i })),
+            ]}
+          />
+          <BottomSheetSelect
+            ariaLabel="Filter by return stage"
             value={filterStage}
-            onChange={e => setFilterStage(e.target.value)}
-            className="nv-input min-h-11 w-full min-w-0 px-3 py-2 text-sm sm:w-auto sm:max-w-full"
-          >
-            <option value="all">All Stages</option>
-            {STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-          </select>
+            onValueChange={setFilterStage}
+            title="Filter by return stage"
+            placeholder="All Stages"
+            className="text-sm sm:w-auto sm:max-w-full"
+            options={[
+              { value: 'all', label: 'All Stages' },
+              ...STAGES.map(s => ({ value: s.value, label: s.label })),
+            ]}
+          />
           <span className="text-brand-muted-foreground text-sm self-center">
             {filteredPeers.length} peer{filteredPeers.length !== 1 ? 's' : ''} found
           </span>

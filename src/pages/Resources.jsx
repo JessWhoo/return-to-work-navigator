@@ -32,6 +32,7 @@ import EmailToHRButton from '../components/resources/EmailToHRButton';
 import useSEO from '@/hooks/useSEO';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 class ErrorBoundary extends Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -452,62 +453,68 @@ export default function Resources() {
             <div className={showFilters ? 'block space-y-4' : 'hidden md:block md:space-y-4'}>
             {/* Advanced Filters */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
-              <select
+              <BottomSheetSelect
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="nv-input px-3 py-2 text-sm cursor-pointer"
-              >
-                <option value="all">All Categories</option>
-                {resources.map(cat => (
-                  <option key={cat.category} value={cat.category}>{cat.category}</option>
-                ))}
-              </select>
+                onValueChange={setSelectedCategory}
+                title="Filter by category"
+                placeholder="All Categories"
+                className="text-sm"
+                options={[
+                  { value: 'all', label: 'All Categories' },
+                  ...resources.map(cat => ({ value: cat.category, label: cat.category })),
+                ]}
+              />
 
-              <select
+              <BottomSheetSelect
                 value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="nv-input px-3 py-2 text-sm cursor-pointer"
-              >
-                <option value="all">All Types</option>
-                {allTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
+                onValueChange={setSelectedType}
+                title="Filter by type"
+                placeholder="All Types"
+                className="text-sm"
+                options={[
+                  { value: 'all', label: 'All Types' },
+                  ...allTypes.map(type => ({ value: type, label: type })),
+                ]}
+              />
 
-              <select
+              <BottomSheetSelect
                 value={selectedTopic}
-                onChange={(e) => setSelectedTopic(e.target.value)}
-                className="nv-input px-3 py-2 text-sm cursor-pointer"
-              >
-                <option value="all">All Topics</option>
-                {allTopics.map(topic => (
-                  <option key={topic} value={topic}>{topic}</option>
-                ))}
-              </select>
+                onValueChange={setSelectedTopic}
+                title="Filter by topic"
+                placeholder="All Topics"
+                className="text-sm"
+                options={[
+                  { value: 'all', label: 'All Topics' },
+                  ...allTopics.map(topic => ({ value: topic, label: topic })),
+                ]}
+              />
 
-              <select
+              <BottomSheetSelect
                 value={selectedStage}
-                onChange={(e) => setSelectedStage(e.target.value)}
-                className="nv-input px-3 py-2 text-sm cursor-pointer"
-              >
-                <option value="all">All Stages</option>
-                {allStages.map(stage => (
-                  <option key={stage.value} value={stage.value}>{stage.label}</option>
-                ))}
-              </select>
+                onValueChange={setSelectedStage}
+                title="Filter by stage"
+                placeholder="All Stages"
+                className="text-sm"
+                options={[
+                  { value: 'all', label: 'All Stages' },
+                  ...allStages.map(stage => ({ value: stage.value, label: stage.label })),
+                ]}
+              />
 
-              <select
+              <BottomSheetSelect
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="nv-input px-3 py-2 text-sm cursor-pointer"
-              >
-                <option value="recommended">Default Order</option>
-                <option value="rating">My Highest Rated</option>
-                <option value="community_rating">Community Rated</option>
-                <option value="most_reviewed">Most Reviewed</option>
-                <option value="most_viewed">Most Viewed by Me</option>
-                <option value="most_recent">Recently Viewed</option>
-              </select>
+                onValueChange={setSortBy}
+                title="Sort resources"
+                className="text-sm"
+                options={[
+                  { value: 'recommended', label: 'Default Order' },
+                  { value: 'rating', label: 'My Highest Rated' },
+                  { value: 'community_rating', label: 'Community Rated' },
+                  { value: 'most_reviewed', label: 'Most Reviewed' },
+                  { value: 'most_viewed', label: 'Most Viewed by Me' },
+                  { value: 'most_recent', label: 'Recently Viewed' },
+                ]}
+              />
             </div>
 
             {/* Quick Tag Chips */}

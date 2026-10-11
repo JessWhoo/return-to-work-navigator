@@ -9,6 +9,7 @@ import { Plus, Sparkles } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 export default function SuggestResourceDialog() {
   const queryClient = useQueryClient();
@@ -157,29 +158,28 @@ export default function SuggestResourceDialog() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Category *</label>
-              <select
+              <BottomSheetSelect
                 value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="nv-input w-full px-3 py-2"
-              >
-                <option value="">Select category...</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
+                onValueChange={(v) => setFormData({ ...formData, category: v })}
+                title="Category"
+                placeholder="Select category..."
+                className="text-sm"
+                options={[
+                  { value: '', label: 'Select category...' },
+                  ...categories.map(cat => ({ value: cat, label: cat })),
+                ]}
+              />
             </div>
 
             <div>
               <label className="text-sm font-medium mb-2 block">Type *</label>
-              <select
+              <BottomSheetSelect
                 value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                className="nv-input w-full px-3 py-2"
-              >
-                {resourceTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
+                onValueChange={(v) => setFormData({ ...formData, type: v })}
+                title="Resource type"
+                className="text-sm"
+                options={resourceTypes.map(type => ({ value: type, label: type }))}
+              />
             </div>
           </div>
 

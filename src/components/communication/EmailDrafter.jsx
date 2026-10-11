@@ -9,6 +9,7 @@ import { Mail, Copy, Send, Sparkles, User, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import SaveDraftButton from './SaveDraftButton';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 // Draft title and CommunicationDraft scenario type used when an email generated
 // here is saved to My Drafts.
@@ -114,18 +115,20 @@ ${emailBody}`;
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label>Email Type</Label>
-            <select
+            <BottomSheetSelect
               value={emailType}
-              onChange={(e) => setEmailType(e.target.value)}
-              aria-label="Email Type"
-              className="nv-input h-11 w-full px-3 text-sm"
-            >
-              <option value="accommodation_request">Accommodation Request</option>
-              <option value="return_plan">Return-to-Work Plan</option>
-              <option value="accommodation_update">Accommodation Update</option>
-              <option value="medical_documentation">Medical Documentation</option>
-              <option value="first_day_logistics">First Day Logistics</option>
-            </select>
+              onValueChange={setEmailType}
+              ariaLabel="Email Type"
+              title="Email Type"
+              className="h-11 text-sm"
+              options={[
+                { value: 'accommodation_request', label: 'Accommodation Request' },
+                { value: 'return_plan', label: 'Return-to-Work Plan' },
+                { value: 'accommodation_update', label: 'Accommodation Update' },
+                { value: 'medical_documentation', label: 'Medical Documentation' },
+                { value: 'first_day_logistics', label: 'First Day Logistics' },
+              ]}
+            />
           </div>
 
           <div className="space-y-2">

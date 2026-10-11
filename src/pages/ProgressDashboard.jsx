@@ -22,6 +22,7 @@ import WhatIfScenarios from '../components/health/WhatIfScenarios';
 import ComparativeInsights from '../components/health/ComparativeInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { checklistData, getChecklistTotalItems, getPhaseItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
 export default function ProgressDashboard() {
   const [dateRange, setDateRange] = useState('7'); // days
@@ -206,17 +207,19 @@ export default function ProgressDashboard() {
           <p className="mt-2 text-brand-muted-foreground">Track your return-to-work journey</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <select
+          <BottomSheetSelect
             value={dateRange}
-            onChange={(e) => setDateRange(e.target.value)}
-            aria-label="Date range"
-            className="nv-input px-4 py-2 text-sm"
-          >
-            <option value="7">Last 7 days</option>
-            <option value="14">Last 14 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
-          </select>
+            onValueChange={setDateRange}
+            ariaLabel="Date range"
+            title="Date range"
+            className="text-sm"
+            options={[
+              { value: '7', label: 'Last 7 days' },
+              { value: '14', label: 'Last 14 days' },
+              { value: '30', label: 'Last 30 days' },
+              { value: '90', label: 'Last 90 days' },
+            ]}
+          />
           <Button onClick={handleExport} variant="outline">
             <Download className="h-4 w-4" />
             Export Data
