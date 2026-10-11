@@ -86,7 +86,6 @@ export default function Home() {
       <DailyCheckIn />
       {progress && <CalendarView progress={progress} onUpdateProgress={updates => updateProgressMutation.mutate(updates)} />}
       <HomeToolkit />
-      <figure className="overflow-hidden rounded-brand-lg border border-brand-border shadow-brand-sm"><img src="https://media.base44.com/images/public/69406c752de234aafebf891d/4835056a4_unnamed.png" alt="Every Survivor Deserves a Standing Ovation - Celebrating the strength, beauty, and resilience of cancer survivors" width="1024" height="572" loading="lazy" decoding="async" className="block h-auto w-full" /></figure>
       <ManagerResourceHub />
       <ResourceFeedbackForm page="Home" />
       <SmsConsentCard />
