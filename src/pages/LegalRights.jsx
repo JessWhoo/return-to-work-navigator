@@ -17,10 +17,6 @@ const laws = [
     year: 'Amended 2008',
     icon: Shield,
     color: 'blue',
-    gradient: 'from-blue-500 to-cyan-500',
-    bg: 'from-blue-50 to-cyan-50',
-    border: 'border-blue-300',
-    iconBg: 'from-blue-600 to-cyan-600',
     summary: 'Protects you from discrimination and requires employers to provide reasonable accommodations',
     sections: [
       {
@@ -46,7 +42,7 @@ const laws = [
         content: [
           'Cancer almost always qualifies as a disability under the 2008 amendments',
           'Substantially limits major life activity (like normal cell growth)',
-          'History of cancer counts, even if in remission',
+          'History of Cancer counts, even if in remission',
           'Being "regarded as" having a disability is enough'
         ]
       },
@@ -70,10 +66,6 @@ const laws = [
     year: 'Enacted 1993',
     icon: Clock,
     color: 'teal',
-    gradient: 'from-emerald-500 to-teal-500',
-    bg: 'from-emerald-50 to-teal-50',
-    border: 'border-emerald-300',
-    iconBg: 'from-emerald-600 to-teal-600',
     summary: 'Guarantees job-protected, unpaid leave for medical reasons',
     sections: [
       {
@@ -119,10 +111,6 @@ const laws = [
     year: 'Enacted 1985',
     icon: FileText,
     color: 'purple',
-    gradient: 'from-purple-500 to-violet-500',
-    bg: 'from-purple-50 to-violet-50',
-    border: 'border-purple-300',
-    iconBg: 'from-purple-600 to-violet-600',
     summary: 'Allows you to continue employer health insurance after leaving employment',
     sections: [
       {
@@ -157,10 +145,6 @@ const laws = [
     year: 'Enacted 2010',
     icon: Building,
     color: 'rose',
-    gradient: 'from-rose-500 to-pink-500',
-    bg: 'from-rose-50 to-pink-50',
-    border: 'border-rose-300',
-    iconBg: 'from-rose-600 to-pink-600',
     summary: 'Critical health insurance protections including pre-existing condition coverage',
     sections: [
       {
@@ -193,11 +177,11 @@ const laws = [
   }
 ];
 
-const iconColorMap = {
-  blue: 'text-blue-700',
-  teal: 'text-teal-700',
-  purple: 'text-purple-700',
-  rose: 'text-rose-700',
+const accentMap = {
+  blue: { iconBg: 'bg-primary', check: 'text-primary' },
+  teal: { iconBg: 'bg-brand-secondary', check: 'text-brand-secondary' },
+  purple: { iconBg: 'bg-primary', check: 'text-primary' },
+  rose: { iconBg: 'bg-destructive', check: 'text-destructive' },
 };
 
 export default function LegalRights() {
@@ -213,30 +197,30 @@ export default function LegalRights() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+      <div className="space-y-4 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           Your Legal Rights
         </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Understanding your workplace protections as a cancer survivor
         </p>
       </div>
 
       {/* Important Notice */}
-      <Alert className="bg-amber-50 border-amber-400">
-        <AlertCircle className="h-5 w-5 text-amber-700" />
-        <AlertDescription className="text-amber-900">
-          <strong>Important Notice:</strong> This information is for educational purposes only and should not be 
-          considered legal advice. For specific guidance about your situation, please consult with a 
+      <Alert className="nv-card--muted border-destructive/30">
+        <AlertCircle className="h-5 w-5 text-destructive" />
+        <AlertDescription className="text-foreground">
+          <strong>Important Notice:</strong> This information is for educational purposes only and should not be
+          considered legal advice. For specific guidance about your situation, please consult with a
           qualified employment attorney or contact the EEOC.
         </AlertDescription>
       </Alert>
 
       {/* Laws Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 bg-white border border-slate-300 p-1">
+        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4">
           {laws.map((law) => {
             const Icon = law.icon;
             return (
@@ -244,9 +228,8 @@ export default function LegalRights() {
                 key={law.id} 
                 value={law.id}
                 onClick={() => handleTabChange(law.id)}
-                className="text-slate-800 data-[state=active]:bg-slate-800 data-[state=active]:text-white"
               >
-                <Icon className="h-4 w-4 mr-2" />
+                <Icon className="h-4 w-4" />
                 <span className="hidden sm:inline">{law.id.toUpperCase()}</span>
               </TabsTrigger>
             );
@@ -255,21 +238,22 @@ export default function LegalRights() {
 
         {laws.map((law) => {
           const Icon = law.icon;
+          const accent = accentMap[law.color] || accentMap.blue;
           return (
             <TabsContent key={law.id} value={law.id} className="space-y-6" style={{outline:'none'}}>
               {/* Law Overview */}
-              <Card className="border-2 border-slate-300 bg-white">
+              <Card>
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${law.iconBg}`}>
+                    <div className={`rounded-brand p-3 ${accent.iconBg}`}>
                       <Icon className="h-8 w-8 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h2 className={`text-2xl font-bold bg-gradient-to-r ${law.gradient} bg-clip-text text-transparent`}>{law.name}</h2>
-                        <Badge className={`bg-gradient-to-r ${law.gradient} text-white`}>{law.year}</Badge>
+                      <div className="mb-2 flex items-center space-x-3">
+                        <h2 className="font-heading text-2xl font-bold text-foreground">{law.name}</h2>
+                        <Badge variant="secondary">{law.year}</Badge>
                       </div>
-                      <p className="text-slate-800 font-medium leading-relaxed">{law.summary}</p>
+                      <p className="font-medium leading-relaxed text-muted-foreground">{law.summary}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -278,19 +262,19 @@ export default function LegalRights() {
               {/* Detailed Sections */}
               <div className="grid gap-6">
                 {law.sections.map((section, index) => (
-                  <Card key={index} className="border-2 border-slate-300 shadow-md bg-white">
+                  <Card key={index}>
                     <CardHeader>
-                      <CardTitle className="text-lg flex items-center space-x-2">
-                        <CheckCircle2 className={`h-5 w-5 ${iconColorMap[law.color] || 'text-cyan-700'}`} />
-                        <span className={`bg-gradient-to-r ${law.gradient} bg-clip-text text-transparent font-bold`}>{section.title}</span>
+                      <CardTitle className="flex items-center space-x-2 text-lg">
+                        <CheckCircle2 className={`h-5 w-5 ${accent.check}`} />
+                        <span className="font-bold text-foreground">{section.title}</span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {section.content.map((item, itemIndex) => (
                           <li key={itemIndex} className="flex items-start space-x-3">
-                            <div className={`h-2 w-2 rounded-full bg-gradient-to-r ${law.gradient} mt-2 flex-shrink-0`} />
-                            <span className="text-slate-800 leading-relaxed">{item}</span>
+                            <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
+                            <span className="leading-relaxed text-foreground">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -307,40 +291,40 @@ export default function LegalRights() {
       <AccommodationRequestGuide />
 
       {/* Resources for Help */}
-      <Card className="bg-white border-green-500">
+      <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <Scale className="h-6 w-6 text-green-700" />
+            <Scale className="h-6 w-6 text-primary" />
             <span>Where to Get Help</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="bg-green-50 p-4 rounded-lg border border-green-300">
-              <h4 className="font-semibold text-green-900 mb-2">EEOC</h4>
-              <p className="text-sm text-green-900 mb-2">Enforces ADA and employment discrimination laws</p>
-              <p className="text-sm text-green-900">📞 1-800-669-4000</p>
-              <a href="https://www.eeoc.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('EEOC', 'https://www.eeoc.gov')} className="text-sm text-green-800 hover:underline font-semibold">🌐 www.eeoc.gov</a>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-brand border border-border bg-muted p-4">
+              <h4 className="mb-2 font-semibold text-foreground">EEOC</h4>
+              <p className="mb-2 text-sm text-muted-foreground">Enforces ADA and employment discrimination laws</p>
+              <p className="text-sm text-muted-foreground">📞 1-800-669-4000</p>
+              <a href="https://www.eeoc.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('EEOC', 'https://www.eeoc.gov')} className="text-sm font-semibold text-primary hover:text-foreground hover:underline">🌐 www.eeoc.gov</a>
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-300">
-              <h4 className="font-semibold text-blue-900 mb-2">Dept. of Labor</h4>
-              <p className="text-sm text-blue-900 mb-2">Enforces FMLA</p>
-              <p className="text-sm text-blue-900">📞 1-866-487-2365</p>
-              <a href="https://www.dol.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Dept. of Labor', 'https://www.dol.gov')} className="text-sm text-blue-800 hover:underline font-semibold">🌐 www.dol.gov</a>
+            <div className="rounded-brand border border-border bg-muted p-4">
+              <h4 className="mb-2 font-semibold text-foreground">Dept. of Labor</h4>
+              <p className="mb-2 text-sm text-muted-foreground">Enforces FMLA</p>
+              <p className="text-sm text-muted-foreground">📞 1-866-487-2365</p>
+              <a href="https://www.dol.gov" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Dept. of Labor', 'https://www.dol.gov')} className="text-sm font-semibold text-primary hover:text-foreground hover:underline">🌐 www.dol.gov</a>
             </div>
 
-            <div className="bg-purple-50 p-4 rounded-lg border border-purple-300">
-              <h4 className="font-semibold text-purple-900 mb-2">Job Accommodation Network</h4>
-              <p className="text-sm text-purple-900 mb-2">Free guidance on accommodations</p>
-              <p className="text-sm text-purple-900">📞 1-800-526-7234</p>
-              <a href="https://askjan.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Job Accommodation Network', 'https://askjan.org')} className="text-sm text-purple-800 hover:underline font-semibold">🌐 askjan.org</a>
+            <div className="rounded-brand border border-border bg-muted p-4">
+              <h4 className="mb-2 font-semibold text-foreground">Job Accommodation Network</h4>
+              <p className="mb-2 text-sm text-muted-foreground">Free guidance on accommodations</p>
+              <p className="text-sm text-muted-foreground">📞 1-800-526-7234</p>
+              <a href="https://askjan.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Job Accommodation Network', 'https://askjan.org')} className="text-sm font-semibold text-primary hover:text-foreground hover:underline">🌐 askjan.org</a>
             </div>
 
-            <div className="bg-rose-50 p-4 rounded-lg border border-rose-300">
-              <h4 className="font-semibold text-rose-900 mb-2">Triage Cancer</h4>
-              <p className="text-sm text-rose-900 mb-2">Legal info for cancer patients</p>
-              <a href="https://triagecancer.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Triage Cancer', 'https://triagecancer.org')} className="text-sm text-rose-800 hover:underline font-semibold">🌐 triagecancer.org</a>
+            <div className="rounded-brand border border-border bg-muted p-4">
+              <h4 className="mb-2 font-semibold text-foreground">Triage Cancer</h4>
+              <p className="mb-2 text-sm text-muted-foreground">Legal info for cancer patients</p>
+              <a href="https://triagecancer.org" target="_blank" rel="noopener noreferrer" onClick={() => handleResourceClick('Triage Cancer', 'https://triagecancer.org')} className="text-sm font-semibold text-primary hover:text-foreground hover:underline">🌐 triagecancer.org</a>
             </div>
           </div>
         </CardContent>

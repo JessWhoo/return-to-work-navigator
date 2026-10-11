@@ -215,13 +215,13 @@ const jobBoards = [
 ];
 
 const colorMap = {
-  rose: { bg: 'bg-rose-900/30', border: 'border-rose-700', icon: 'bg-rose-700', text: 'text-rose-900', badge: 'bg-rose-800 text-rose-100', pill: 'bg-rose-900/50 text-rose-100 border-rose-700' },
-  violet: { bg: 'bg-violet-900/30', border: 'border-violet-700', icon: 'bg-violet-700', text: 'text-violet-900', badge: 'bg-violet-800 text-violet-100', pill: 'bg-violet-900/50 text-violet-100 border-violet-700' },
-  blue: { bg: 'bg-blue-900/30', border: 'border-blue-700', icon: 'bg-blue-700', text: 'text-blue-900', badge: 'bg-blue-800 text-blue-100', pill: 'bg-blue-900/50 text-blue-100 border-blue-700' },
-  teal: { bg: 'bg-teal-900/30', border: 'border-teal-700', icon: 'bg-teal-700', text: 'text-teal-900', badge: 'bg-teal-800 text-teal-100', pill: 'bg-teal-900/50 text-teal-100 border-teal-700' },
-  purple: { bg: 'bg-purple-900/30', border: 'border-purple-700', icon: 'bg-purple-700', text: 'text-purple-900', badge: 'bg-purple-800 text-purple-100', pill: 'bg-purple-900/50 text-purple-100 border-purple-700' },
-  green: { bg: 'bg-green-900/30', border: 'border-green-700', icon: 'bg-green-700', text: 'text-green-900', badge: 'bg-green-800 text-green-100', pill: 'bg-green-900/50 text-green-100 border-green-700' },
-  amber: { bg: 'bg-amber-900/30', border: 'border-amber-700', icon: 'bg-amber-700', text: 'text-amber-100', badge: 'bg-amber-800 text-amber-100', pill: 'bg-amber-900/50 text-amber-100 border-amber-700' },
+  rose: { icon: 'bg-destructive', text: 'text-destructive', border: 'border-destructive', pill: 'bg-destructive text-white' },
+  violet: { icon: 'bg-primary', text: 'text-primary', border: 'border-primary', pill: 'bg-primary text-white' },
+  blue: { icon: 'bg-primary', text: 'text-primary', border: 'border-primary', pill: 'bg-primary text-white' },
+  teal: { icon: 'bg-brand-secondary', text: 'text-brand-secondary', border: 'border-brand-secondary', pill: 'bg-brand-secondary text-brand-text' },
+  purple: { icon: 'bg-primary', text: 'text-primary', border: 'border-primary', pill: 'bg-primary text-white' },
+  green: { icon: 'bg-brand-secondary', text: 'text-brand-secondary', border: 'border-brand-secondary', pill: 'bg-brand-secondary text-brand-text' },
+  amber: { icon: 'bg-primary', text: 'text-primary', border: 'border-primary', pill: 'bg-primary text-white' },
 };
 
 const totalBoards = jobBoards.reduce((sum, c) => sum + c.boards.length, 0);
@@ -280,54 +280,54 @@ export default function JobBoards() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-700 to-blue-800 bg-clip-text text-transparent">
+      <div className="space-y-3 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           Job Boards & Career Resources
         </h1>
-        <p className="text-lg text-slate-800 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Curated job boards for cancer survivors — flexible, remote, and disability-inclusive employers
         </p>
         {/* Stats Bar */}
         <div className="flex justify-center gap-6 pt-2">
           <div className="text-center">
-            <p className="text-2xl font-bold text-cyan-200">{totalBoards}</p>
-            <p className="text-xs text-slate-200">Job Boards</p>
+            <p className="text-2xl font-bold text-primary">{totalBoards}</p>
+            <p className="text-xs text-muted-foreground">Job Boards</p>
           </div>
-          <div className="w-px bg-slate-700" />
+          <div className="w-px bg-border" />
           <div className="text-center">
-            <p className="text-2xl font-bold text-cyan-200">{jobBoards.length}</p>
-            <p className="text-xs text-slate-200">Categories</p>
+            <p className="text-2xl font-bold text-primary">{jobBoards.length}</p>
+            <p className="text-xs text-muted-foreground">Categories</p>
           </div>
-          <div className="w-px bg-slate-700" />
+          <div className="w-px bg-border" />
           <div className="text-center">
-            <p className="text-2xl font-bold text-cyan-200">{bookmarks.length}</p>
-            <p className="text-xs text-slate-200">Bookmarked</p>
+            <p className="text-2xl font-bold text-primary">{bookmarks.length}</p>
+            <p className="text-xs text-muted-foreground">Bookmarked</p>
           </div>
         </div>
       </div>
 
       {/* Tips Card - Collapsible */}
-      <Card className="bg-cyan-900/30 border-cyan-700">
+      <Card className="nv-card--muted">
         <button
           onClick={() => setTipsExpanded(!tipsExpanded)}
-          className="w-full flex items-center justify-between px-6 py-4 text-left"
+          className="flex w-full items-center justify-between px-6 py-4 text-left"
         >
           <div className="flex items-center space-x-3">
-            <Lightbulb className="h-5 w-5 text-cyan-200 flex-shrink-0" />
-            <span className="font-semibold text-cyan-100">Job Search Tips for Cancer Survivors</span>
-            <span className="text-xs bg-cyan-800 text-cyan-100 px-2 py-0.5 rounded-full">{tips.length} tips</span>
+            <Lightbulb className="h-5 w-5 flex-shrink-0 text-primary" />
+            <span className="font-semibold text-foreground">Job Search Tips for Cancer Survivors</span>
+            <span className="rounded-pill bg-primary px-2 py-0.5 text-xs text-white">{tips.length} tips</span>
           </div>
-          {tipsExpanded ? <ChevronUp className="h-4 w-4 text-cyan-200" /> : <ChevronDown className="h-4 w-4 text-cyan-200" />}
+          {tipsExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
         </button>
         {tipsExpanded && (
-          <CardContent className="pt-0 pb-5">
-            <div className="grid sm:grid-cols-2 gap-2">
+          <CardContent className="pb-5 pt-0">
+            <div className="grid gap-2 sm:grid-cols-2">
               {tips.map((tip, i) => (
-                <div key={i} className="flex items-start space-x-2 bg-cyan-900/40 rounded-lg p-3">
-                  <span className="text-lg flex-shrink-0">{tip.icon}</span>
-                  <p className="text-sm text-cyan-50 leading-relaxed">{tip.text}</p>
+                <div key={i} className="flex items-start space-x-2 rounded-brand border border-border bg-surface p-3">
+                  <span className="flex-shrink-0 text-lg">{tip.icon}</span>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{tip.text}</p>
                 </div>
               ))}
             </div>
@@ -338,12 +338,12 @@ export default function JobBoards() {
       {/* Search & Filter */}
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300" />
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search job boards by name, type, or tag..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-slate-800 border-slate-600 text-white placeholder:text-slate-400"
+            className="pl-10"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -351,15 +351,15 @@ export default function JobBoards() {
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+              className={`rounded-pill px-3 py-1.5 text-sm font-medium transition-all ${
                 activeFilter === filter
-                  ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30'
-                  : 'bg-slate-800 text-slate-100 border border-slate-600 hover:border-cyan-500'
+                  ? 'bg-primary text-white'
+                  : 'border border-border bg-surface text-muted-foreground hover:border-primary hover:text-foreground'
               }`}
             >
               {filter}
               {filter === 'Bookmarked' && bookmarks.length > 0 && (
-                <span className="ml-1.5 bg-cyan-500 text-white text-xs rounded-full px-1.5 py-0.5">{bookmarks.length}</span>
+                <span className="ml-1.5 rounded-pill bg-primary px-1.5 py-0.5 text-xs text-white">{bookmarks.length}</span>
               )}
             </button>
           ))}
@@ -368,10 +368,10 @@ export default function JobBoards() {
 
       {/* Job Board Categories */}
       {filteredBoards.length === 0 ? (
-        <Card className="bg-slate-800 border-slate-600">
-          <CardContent className="pt-8 pb-8 text-center">
-            <Search className="h-10 w-10 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-100">No job boards found for "{search || activeFilter}". Try a different search or filter.</p>
+        <Card>
+          <CardContent className="pb-8 pt-8 text-center">
+            <Search className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+            <p className="text-muted-foreground">No job boards found for "{search || activeFilter}". Try a different search or filter.</p>
             <Button variant="outline" size="sm" className="mt-3" onClick={() => { setSearch(''); setActiveFilter('All'); }}>
               Clear Filters
             </Button>
@@ -384,37 +384,37 @@ export default function JobBoards() {
           return (
             <div key={category.category} className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-lg ${colors.icon}`}>
+                <div className={`rounded-brand p-2 ${colors.icon}`}>
                   <Icon className="h-5 w-5 text-white" />
                 </div>
-                <h2 className={`text-2xl font-bold ${colors.text}`}>{category.category}</h2>
-                <span className="text-xs text-slate-200 bg-slate-800 border border-slate-600 px-2 py-0.5 rounded-full">
+                <h2 className={`font-heading text-2xl font-bold ${colors.text}`}>{category.category}</h2>
+                <span className="rounded-pill border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                   {category.boards.length} board{category.boards.length !== 1 ? 's' : ''}
                 </span>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 {category.boards.map((board) => {
                   const isBookmarked = bookmarks.includes(board.name);
                   return (
                     <Card
                       key={board.name}
-                      className={`bg-slate-800 border-slate-600 hover:border-slate-400 transition-all ${board.featured ? `border-l-4 ${colors.border}` : ''}`}
+                      className={`transition-all ${board.featured ? `border-l-4 ${colors.border}` : ''}`}
                     >
-                      <CardContent className="pt-5 space-y-3">
+                      <CardContent className="space-y-3 pt-5">
                         <div className="flex items-start justify-between">
                           <div className="flex-1 pr-2">
-                            <div className="flex items-center space-x-2 mb-1">
-                              <h3 className="font-bold text-white text-base">{board.name}</h3>
+                            <div className="mb-1 flex items-center space-x-2">
+                              <h3 className="text-base font-bold text-foreground">{board.name}</h3>
                               {board.featured && (
-                                <span className={`text-xs px-1.5 py-0.5 rounded-full border ${colors.pill}`}>⭐ Top Pick</span>
+                                <span className={`rounded-pill border px-1.5 py-0.5 text-xs ${colors.pill}`}>⭐ Top Pick</span>
                               )}
                             </div>
-                            <p className="text-sm text-slate-100 leading-relaxed">{board.description}</p>
+                            <p className="text-sm leading-relaxed text-muted-foreground">{board.description}</p>
                           </div>
                           <button
                             onClick={() => toggleBookmark(board.name)}
-                            className={`flex-shrink-0 p-1.5 rounded-lg transition-all ${isBookmarked ? 'text-cyan-300 bg-cyan-900/40' : 'text-slate-300 hover:text-cyan-300 hover:bg-slate-700'}`}
+                            className={`flex-shrink-0 rounded-brand p-1.5 transition-all ${isBookmarked ? 'bg-muted text-primary' : 'text-muted-foreground hover:bg-muted hover:text-primary'}`}
                             title={isBookmarked ? 'Remove bookmark' : 'Bookmark this board'}
                           >
                             {isBookmarked ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
@@ -423,7 +423,7 @@ export default function JobBoards() {
 
                         <div className="flex flex-wrap gap-1.5">
                           {board.tags.map(tag => (
-                            <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-100 border border-slate-600 cursor-pointer hover:border-cyan-500 transition-colors" onClick={() => setActiveFilter(tag)}>
+                            <span key={tag} className="cursor-pointer rounded-pill border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:border-primary" onClick={() => setActiveFilter(tag)}>
                               {tag}
                             </span>
                           ))}
@@ -431,11 +431,11 @@ export default function JobBoards() {
 
                         <Button
                           onClick={() => handleLinkClick(board.name, board.url)}
-                          className="w-full bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-500"
+                          className="w-full"
                           variant="outline"
                           size="sm"
                         >
-                          <ExternalLink className="h-4 w-4 mr-2" />
+                          <ExternalLink className="h-4 w-4" />
                           Visit {board.name}
                         </Button>
                       </CardContent>
@@ -449,12 +449,12 @@ export default function JobBoards() {
       )}
 
       {/* Footer */}
-      <Card className="bg-gradient-to-br from-slate-800 to-slate-900 border-slate-600">
-        <CardContent className="pt-6 text-center space-y-2">
-          <Briefcase className="h-10 w-10 text-slate-200 mx-auto" />
-          <h3 className="font-semibold text-white text-lg">You Deserve Meaningful Work</h3>
-          <p className="text-sm text-slate-100 max-w-xl mx-auto">
-            Finding the right job after cancer treatment takes time. Be patient with yourself, and remember 
+      <Card className="nv-card--muted">
+        <CardContent className="space-y-2 pt-6 text-center">
+          <Briefcase className="mx-auto h-10 w-10 text-primary" />
+          <h3 className="font-heading text-lg font-semibold text-foreground">You Deserve Meaningful Work</h3>
+          <p className="mx-auto max-w-xl text-sm text-muted-foreground">
+            Finding the right job after cancer treatment takes time. Be patient with yourself, and remember
             that your experience, resilience, and perspective are assets — not liabilities.
           </p>
         </CardContent>

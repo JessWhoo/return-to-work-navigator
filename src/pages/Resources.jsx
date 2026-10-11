@@ -212,19 +212,6 @@ export default function Resources() {
     rateResourceMutation.mutate({ resourceId, rating });
   };
 
-  const colorMap = {
-    purple: { from: 'from-purple-100', via: 'via-purple-50', border: 'border-purple-200', iconFrom: 'from-purple-400', iconTo: 'to-purple-600', badge: 'bg-purple-500' },
-    green: { from: 'from-green-100', via: 'via-green-50', border: 'border-green-200', iconFrom: 'from-green-400', iconTo: 'to-green-600', badge: 'bg-green-500' },
-    blue: { from: 'from-blue-100', via: 'via-blue-50', border: 'border-blue-200', iconFrom: 'from-blue-400', iconTo: 'to-blue-600', badge: 'bg-blue-500' },
-    indigo: { from: 'from-indigo-100', via: 'via-indigo-50', border: 'border-indigo-200', iconFrom: 'from-indigo-400', iconTo: 'to-indigo-600', badge: 'bg-indigo-500' },
-    rose: { from: 'from-rose-100', via: 'via-rose-50', border: 'border-rose-200', iconFrom: 'from-rose-400', iconTo: 'to-rose-600', badge: 'bg-rose-500' },
-    amber: { from: 'from-amber-100', via: 'via-amber-50', border: 'border-amber-200', iconFrom: 'from-amber-400', iconTo: 'to-amber-600', badge: 'bg-amber-500' },
-    teal: { from: 'from-teal-100', via: 'via-teal-50', border: 'border-teal-200', iconFrom: 'from-teal-400', iconTo: 'to-teal-600', badge: 'bg-teal-500' },
-    cyan: { from: 'from-cyan-100', via: 'via-cyan-50', border: 'border-cyan-200', iconFrom: 'from-cyan-400', iconTo: 'to-cyan-600', badge: 'bg-cyan-500' },
-    pink: { from: 'from-pink-100', via: 'via-pink-50', border: 'border-pink-200', iconFrom: 'from-pink-400', iconTo: 'to-pink-600', badge: 'bg-pink-500' },
-    emerald: { from: 'from-emerald-100', via: 'via-emerald-50', border: 'border-emerald-200', iconFrom: 'from-emerald-400', iconTo: 'to-emerald-600', badge: 'bg-emerald-500' }
-  };
-
   // Fetch all reviews for rating display
   const { data: allReviews } = useQuery({
     queryKey: ['all-resource-reviews'],
@@ -364,10 +351,10 @@ export default function Resources() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-teal-700 via-cyan-700 to-sky-700 bg-clip-text text-transparent drop-shadow-sm">
+        <h1 className="font-heading text-4xl font-extrabold text-foreground sm:text-5xl">
           Resource Library
         </h1>
-        <p className="text-lg font-medium text-slate-800 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg font-medium text-muted-foreground">
           {totalResources} curated resources • {progress?.bookmarked_resources?.length || 0} saved • {totalRated} rated
         </p>
         <div className="flex flex-wrap justify-center gap-2 pt-2">
@@ -384,8 +371,8 @@ export default function Resources() {
               onClick={() => setSelectedType(selectedType === type ? 'all' : type)}
               className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-pointer ${
                 selectedType === type
-                  ? 'bg-teal-500 text-white border-teal-500'
-                  : 'bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600 hover:text-white'
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-surface text-muted-foreground border-border hover:bg-muted hover:text-foreground'
               }`}
             >
               {label}
@@ -431,17 +418,17 @@ export default function Resources() {
       />
 
       {/* Search and Filter */}
-      <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-teal-600 shadow-lg">
+      <Card>
         <CardContent className="pt-6">
           <div className="flex flex-col gap-4">
             {/* Primary Search */}
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-400 group-hover:text-teal-300 transition-colors" />
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-colors group-hover:text-primary" />
               <Input
                 placeholder="Search by title, topic, tag, organization..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500 focus:border-teal-400 focus:ring-teal-400"
+                className="pl-10"
               />
             </div>
 
@@ -450,13 +437,13 @@ export default function Resources() {
               variant="outline"
               onClick={() => setShowFilters((v) => !v)}
               aria-expanded={showFilters}
-              className="md:hidden justify-between border-slate-600 text-cyan-400 hover:bg-slate-700 hover:text-cyan-300"
+              className="justify-between md:hidden"
             >
               <span className="flex items-center gap-2">
                 <SlidersHorizontal className="h-4 w-4" />
                 Filters &amp; sort
                 {activeFilterCount > 0 && (
-                  <Badge className="bg-cyan-600 text-white">{activeFilterCount}</Badge>
+                  <Badge className="bg-primary text-white">{activeFilterCount}</Badge>
                 )}
               </span>
               {showFilters ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -468,7 +455,7 @@ export default function Resources() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+                className="nv-input px-3 py-2 text-sm cursor-pointer"
               >
                 <option value="all">All Categories</option>
                 {resources.map(cat => (
@@ -479,7 +466,7 @@ export default function Resources() {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+                className="nv-input px-3 py-2 text-sm cursor-pointer"
               >
                 <option value="all">All Types</option>
                 {allTypes.map(type => (
@@ -490,7 +477,7 @@ export default function Resources() {
               <select
                 value={selectedTopic}
                 onChange={(e) => setSelectedTopic(e.target.value)}
-                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+                className="nv-input px-3 py-2 text-sm cursor-pointer"
               >
                 <option value="all">All Topics</option>
                 {allTopics.map(topic => (
@@ -501,7 +488,7 @@ export default function Resources() {
               <select
                 value={selectedStage}
                 onChange={(e) => setSelectedStage(e.target.value)}
-                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+                className="nv-input px-3 py-2 text-sm cursor-pointer"
               >
                 <option value="all">All Stages</option>
                 {allStages.map(stage => (
@@ -512,7 +499,7 @@ export default function Resources() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 text-sm border-2 border-slate-600 rounded-lg bg-slate-900 text-slate-200 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all cursor-pointer"
+                className="nv-input px-3 py-2 text-sm cursor-pointer"
               >
                 <option value="recommended">Default Order</option>
                 <option value="rating">My Highest Rated</option>
@@ -525,18 +512,18 @@ export default function Resources() {
 
             {/* Quick Tag Chips */}
             <div className="flex items-center flex-wrap gap-2 pt-1">
-              <span className="text-xs font-semibold text-slate-400 mr-1 flex items-center">
-                <Tag className="h-3.5 w-3.5 mr-1" />
+              <span className="mr-1 flex items-center text-xs font-semibold text-muted-foreground">
+                <Tag className="h-3.5 w-3.5" />
                 Quick tags:
               </span>
               {['ADA', 'FMLA', 'disclosure', 'flexibility', 'accommodations', 'fatigue', 'mental health', 'remote work', 'return to work'].map(tag => (
                 <button
                   key={tag}
                   onClick={() => setSelectedQuickTag(selectedQuickTag === tag ? 'all' : tag)}
-                  className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border transition-all ${
+                  className={`inline-flex items-center rounded-pill border px-3 py-1 text-xs font-medium transition-all ${
                     selectedQuickTag === tag
-                      ? 'bg-gradient-to-r from-rose-300 to-sky-300 text-white border-transparent shadow-sm'
-                      : 'bg-white/70 text-sky-800/80 border-white/80 hover:bg-white hover:border-rose-200'
+                      ? 'border-transparent bg-primary text-white shadow-sm'
+                      : 'border-border bg-surface text-muted-foreground hover:bg-muted hover:border-primary'
                   }`}
                 >
                   {tag}
@@ -551,7 +538,6 @@ export default function Resources() {
                   variant={showBookmarked ? "default" : "outline"}
                   size="sm"
                   onClick={() => setShowBookmarked(!showBookmarked)}
-                  className={showBookmarked ? "bg-teal-600 hover:bg-teal-700 text-white" : "border-slate-600 text-cyan-400 hover:bg-slate-700 hover:text-cyan-300"}
                 >
                   <Bookmark className="h-4 w-4 mr-2" />
                   Saved ({progress?.bookmarked_resources?.length || 0})
@@ -561,7 +547,6 @@ export default function Resources() {
                   variant={showAIRecommended ? "default" : "outline"}
                   size="sm"
                   onClick={() => setShowAIRecommended(!showAIRecommended)}
-                  className={showAIRecommended ? "bg-purple-600 hover:bg-purple-700 text-white" : "border-slate-600 text-purple-400 hover:bg-slate-700 hover:text-purple-300"}
                 >
                   <Sparkles className="h-4 w-4 mr-2" />
                   AI Recommended
@@ -571,7 +556,6 @@ export default function Resources() {
                   variant={showUseful ? "default" : "outline"}
                   size="sm"
                   onClick={() => { setShowUseful(!showUseful); if (showNotRelevant) setShowNotRelevant(false); }}
-                  className={showUseful ? "bg-green-600 hover:bg-green-700 text-white" : "border-slate-600 text-green-400 hover:bg-slate-700 hover:text-green-300"}
                 >
                   <ThumbsUp className="h-4 w-4 mr-2" />
                   Useful ({Object.values(progress?.resource_tags || {}).filter(t => t === 'useful').length})
@@ -581,7 +565,6 @@ export default function Resources() {
                   variant={showNotRelevant ? "default" : "outline"}
                   size="sm"
                   onClick={() => { setShowNotRelevant(!showNotRelevant); if (showUseful) setShowUseful(false); }}
-                  className={showNotRelevant ? "bg-red-600 hover:bg-red-700 text-white" : "border-slate-600 text-red-400 hover:bg-slate-700 hover:text-red-300"}
                 >
                   <ThumbsDown className="h-4 w-4 mr-2" />
                   Not for Me ({Object.values(progress?.resource_tags || {}).filter(t => t === 'not_relevant').length})
@@ -591,7 +574,6 @@ export default function Resources() {
                   variant={showTagged ? "default" : "outline"}
                   size="sm"
                   onClick={() => setShowTagged(!showTagged)}
-                  className={showTagged ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "border-slate-600 text-indigo-400 hover:bg-slate-700 hover:text-indigo-300"}
                 >
                   <Tag className="h-4 w-4 mr-2" />
                   Tagged Only
@@ -606,8 +588,8 @@ export default function Resources() {
                     variant="outline"
                     size="sm"
                     onClick={() => setSelectedTopic(selectedTopic === topic ? 'all' : topic)}
-                    className={`border-slate-600 text-cyan-400 hover:bg-slate-700 hover:text-cyan-300 ${
-                      selectedTopic === topic ? 'bg-slate-700 border-teal-500 text-cyan-300' : ''
+                    className={`text-muted-foreground ${
+                      selectedTopic === topic ? 'bg-muted border-primary text-primary' : ''
                     }`}
                   >
                     {topic}
@@ -630,7 +612,7 @@ export default function Resources() {
                     setSelectedQuickTag('all');
                     setSelectedNeeds([]);
                   }}
-                  className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+                  className=""
                 >
                   <X className="h-4 w-4 mr-1" />
                   Clear All
@@ -702,7 +684,6 @@ export default function Resources() {
           if (category.items.length === 0) return null;
           
           const Icon = category.icon;
-          const colors = colorMap[category.color];
           return (
             <div
               key={category.category}
@@ -710,70 +691,69 @@ export default function Resources() {
               className="space-y-4"
               style={{ scrollMarginTop: 'var(--cat-scroll-offset, 190px)' }}
             >
-              <div className={`flex items-center space-x-3 p-5 bg-gradient-to-r ${colors.from} ${colors.via} to-white rounded-2xl shadow-md border-2 ${colors.border} hover:shadow-xl transition-all`}>
-                <div className={`p-3 rounded-xl bg-gradient-to-br ${colors.iconFrom} ${colors.iconTo} shadow-lg`}>
+              <div className="flex items-center space-x-3 rounded-brand-lg border border-border bg-muted p-5 transition-all">
+                <div className="rounded-brand bg-primary p-3 shadow-brand-sm">
                   <Icon className="h-7 w-7 text-white" />
                 </div>
-                <h2 className="text-2xl font-extrabold text-slate-900">{category.category}</h2>
-                <Badge className={`ml-auto bg-white text-slate-900 border-2 ${colors.border} font-bold shadow-sm`}>
+                <h2 className="font-heading text-2xl font-extrabold text-foreground">{category.category}</h2>
+                <Badge variant="secondary" className="ml-auto font-bold">
                   {category.items.length} resources
                 </Badge>
               </div>
 
               <div className="grid gap-5">
                 {category.items.map((resource) => {
-                  const cardColors = colorMap[category.color];
                   const bookmarked = isBookmarked(resource.id);
                   return (
-                    <Card key={resource.id} className="bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group border-2 border-gray-100 hover:border-indigo-200 overflow-hidden">
+                    <Card key={resource.id} className="group overflow-hidden">
                       <CardContent className="pt-6 relative">
-                        <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${cardColors.iconFrom} ${cardColors.iconTo}`}></div>
+                        <div className="absolute left-0 top-0 h-full w-1 bg-primary"></div>
                         <div className="pl-3 space-y-3">
                           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
                           <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-2 mb-2 flex-wrap">
-                            <Badge className={`bg-gradient-to-r ${cardColors.iconFrom} ${cardColors.iconTo} text-white shadow-sm`}>
+                            <Badge className="bg-primary text-white shadow-sm">
                               {resource.type}
                             </Badge>
                             {resource.topics?.slice(0, 2).map(topic => (
-                              <Badge key={topic} variant="outline" className="text-xs border-slate-600 text-slate-600">
+                              <Badge key={topic} variant="outline" className="text-xs">
                                 {topic}
                               </Badge>
                             ))}
                             {bookmarked && (
-                              <Badge className="bg-amber-100 text-amber-700">
-                                <BookmarkCheck className="h-3 w-3 mr-1" />
+                              <Badge variant="secondary">
+                                <BookmarkCheck className="h-3 w-3" />
                                 Saved
                               </Badge>
                             )}
                             {resource.communityRating && resource.communityRating.average >= 4 && (
-                              <Badge className="bg-green-100 text-green-800 border border-green-300">
-                                <TrendingUp className="h-3 w-3 mr-1" />
+                              <Badge variant="secondary">
+                                <TrendingUp className="h-3 w-3" />
                                 Highly Rated
                               </Badge>
                             )}
                             {progress?.resource_tags?.[resource.id] === 'useful' && (
-                              <Badge className="bg-green-100 text-green-700 border border-green-300">
-                                <ThumbsUp className="h-3 w-3 mr-1" />
+                              <Badge variant="secondary">
+                                <ThumbsUp className="h-3 w-3" />
                                 Useful
                               </Badge>
                             )}
                             {progress?.resource_tags?.[resource.id] === 'not_relevant' && (
-                              <Badge className="bg-red-100 text-red-700 border border-red-300">
-                                <ThumbsDown className="h-3 w-3 mr-1" />
+                              <Badge variant="outline" className="border-destructive text-destructive">
+                                <ThumbsDown className="h-3 w-3" />
                                 Not for Me
                               </Badge>
                             )}
                             {aiRecommendedIds.has(resource.id) && (
-                              <Badge className="bg-purple-100 text-purple-700 border border-purple-300">
-                                <Sparkles className="h-3 w-3 mr-1" />
+                              <Badge variant="secondary">
+                                <Sparkles className="h-3 w-3" />
                                 AI Pick
                               </Badge>
                             )}
                           </div>
-                              <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">{resource.name}</h3>
-                              <p className="text-sm font-medium text-indigo-600 mb-2">{resource.org}</p>
-                              <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
+                              <h3 className="mb-1 text-xl font-bold text-foreground transition-colors group-hover:text-primary">{resource.name}</h3>
+                              <p className="mb-2 text-sm font-medium text-primary">{resource.org}</p>
+                              <p className="text-sm leading-relaxed text-muted-foreground">{resource.description}</p>
 
                               {/* AI + Custom Tag Display */}
                               {(() => {
@@ -783,12 +763,12 @@ export default function Resources() {
                                 return allT.length > 0 ? (
                                   <div className="flex flex-wrap gap-1 mt-2">
                                     {aiT.map(tag => (
-                                      <Badge key={tag} className="bg-purple-50 text-purple-700 border border-purple-200 text-xs">
-                                        <Sparkles className="h-2.5 w-2.5 mr-1" />{tag}
+                                      <Badge key={tag} className="border-border bg-muted text-xs text-primary">
+                                        <Sparkles className="h-2.5 w-2.5" />{tag}
                                       </Badge>
                                     ))}
                                     {customT.map(tag => (
-                                      <Badge key={tag} className="bg-teal-50 text-teal-700 border border-teal-200 text-xs">
+                                      <Badge key={tag} className="border-border bg-muted text-xs text-brand-secondary">
                                         {tag}
                                       </Badge>
                                     ))}
@@ -815,13 +795,13 @@ export default function Resources() {
                                         className={`h-4 w-4 ${
                                           star <= getRating(resource.id)
                                             ? 'text-amber-500 fill-amber-500'
-                                            : 'text-gray-300 hover:text-amber-400'
+                                            : 'text-muted-foreground hover:text-amber-400'
                                         }`}
                                       />
                                     </button>
                                   ))}
                                   {getRating(resource.id) > 0 && (
-                                    <span className="text-xs text-gray-500 ml-2">
+                                    <span className="ml-2 text-xs text-muted-foreground">
                                       Your rating: {getRating(resource.id)}/5
                                     </span>
                                   )}
@@ -830,11 +810,11 @@ export default function Resources() {
                                 {/* Community Rating */}
                                 {resource.communityRating && (
                                   <div className="flex items-center space-x-1 pl-3 border-l">
-                                    <Star className="h-4 w-4 text-blue-600 fill-blue-600" />
-                                    <span className="text-sm font-semibold text-blue-700">
+                                    <Star className="h-4 w-4 text-primary fill-primary" />
+                                    <span className="text-sm font-semibold text-primary">
                                       {resource.communityRating.average.toFixed(1)}
                                     </span>
-                                    <span className="text-xs text-gray-500">
+                                    <span className="text-xs text-muted-foreground">
                                       ({resource.communityRating.count} {resource.communityRating.count === 1 ? 'review' : 'reviews'})
                                     </span>
                                   </div>
@@ -871,12 +851,12 @@ export default function Resources() {
                                 logInteraction(resource.id, 'link_click');
                               }}
                               aria-label={`Open ${resource.name} in a new tab`}
-                              className={`self-start sm:ml-4 p-4 rounded-xl bg-gradient-to-br ${cardColors.from} ${cardColors.via} text-slate-800 transition-all duration-300 group-hover:scale-105 shadow-md hover:shadow-xl flex-shrink-0`}
+                              className="self-start flex-shrink-0 rounded-brand bg-muted p-4 text-primary shadow-brand-sm transition-all duration-300 group-hover:scale-105 hover:shadow-brand-md sm:ml-4"
                               >
                               <ExternalLink className="h-5 w-5" />
                               </a>
                               </div>
-                              <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
+                              <div className="flex flex-wrap gap-2 border-t border-border pt-2">
                               <Button
                               variant={bookmarked ? "default" : "outline"}
                               size="sm"
@@ -920,13 +900,13 @@ export default function Resources() {
       </div>
 
       {filteredResources.every(cat => cat.items.length === 0) && (
-        <Card className="bg-gradient-to-br from-gray-50 to-gray-100 backdrop-blur-sm border-2 border-gray-200">
-          <CardContent className="pt-16 pb-16 text-center">
-            <div className="bg-gray-200 rounded-full p-6 w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-              <Search className="h-12 w-12 text-gray-400" />
+        <Card>
+          <CardContent className="pb-16 pt-16 text-center">
+            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-pill bg-muted p-6">
+              <Search className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-bold text-gray-700 mb-2">No resources found</h3>
-            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+            <h3 className="mb-2 text-xl font-bold text-foreground">No resources found</h3>
+            <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
           </CardContent>
         </Card>
       )}
