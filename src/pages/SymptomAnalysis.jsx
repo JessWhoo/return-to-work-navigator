@@ -12,6 +12,7 @@ import { format, parseISO } from 'date-fns';
 import AddRecordDialog from '../components/records/AddRecordDialog';
 import AISymptomInsights from '../components/symptoms/AISymptomInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import PageHeader from '@/components/brand/PageHeader';
 
 export default function SymptomAnalysis() {
   const queryClient = useQueryClient();
@@ -64,18 +65,7 @@ export default function SymptomAnalysis() {
   return (
     <div className="mx-auto max-w-7xl space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-heading text-4xl font-bold text-foreground">
-            Symptom Analysis
-          </h1>
-          <p className="mt-2 text-muted-foreground">Track patterns and manage symptoms effectively</p>
-        </div>
-        <Button onClick={() => setShowAddDialog(true)}>
-          <Plus className="h-4 w-4" />
-          Log Symptom
-        </Button>
-      </div>
+      <PageHeader title="Symptom Analysis" subtitle="Track patterns and manage symptoms effectively" actions={<Button onClick={() => setShowAddDialog(true)}><Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />Log Symptom</Button>} />
 
       {/* Quick Stats */}
       {stats && (
@@ -83,8 +73,8 @@ export default function SymptomAnalysis() {
           <Card>
             <CardContent className="pt-6">
               <div className="mb-2 flex items-center justify-between">
-                <Activity className="h-8 w-8 text-destructive" />
-                <TrendingUp className="h-5 w-5 text-destructive" />
+                <Activity className="h-8 w-8 text-primary" />
+                <TrendingUp className="h-5 w-5 text-primary" />
               </div>
               <div className="text-3xl font-bold text-foreground">{stats.totalLogs}</div>
               <p className="mt-1 text-sm text-muted-foreground">Total Symptom Logs</p>
@@ -115,7 +105,7 @@ export default function SymptomAnalysis() {
               </div>
               <p className="mt-1 text-sm text-muted-foreground">Last Logged</p>
               {stats.mostRecent?.symptom_details?.symptom_type && (
-                <p className="mt-1 truncate text-xs text-muted-foreground">
+                <p className="mt-1 break-words text-xs text-muted-foreground">
                   {stats.mostRecent.symptom_details.symptom_type.slice(0, 2).join(', ')}
                 </p>
               )}
@@ -132,8 +122,8 @@ export default function SymptomAnalysis() {
       {/* Recent Symptom Logs */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2 text-foreground">
-            <Activity className="h-5 w-5 text-destructive" />
+          <CardTitle className="flex flex-wrap items-center gap-2 text-lg text-foreground sm:text-xl">
+            <Activity className="h-5 w-5 text-primary" />
             <span>Recent Symptom Logs</span>
             <Badge variant="secondary">{symptomRecords?.length || 0}</Badge>
           </CardTitle>
@@ -158,13 +148,13 @@ export default function SymptomAnalysis() {
               {symptomRecords.slice(0, 10).map((record) => (
                 <div
                   key={record.id}
-                  className="rounded-brand border border-border bg-muted p-4 transition-all hover:border-destructive"
+                  className="nv-card nv-card--muted p-4 [overflow-wrap:anywhere]"
                 >
-                  <div className="mb-2 flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="mb-1 flex items-center space-x-2">
+                  <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
                         <h4 className="font-semibold text-foreground">{record.title}</h4>
-                        <Badge className={`${getSeverityColor(record.symptom_details?.severity)} text-white`}>
+                        <Badge variant="outline" className={`${getSeverityColor(record.symptom_details?.severity)} ${record.symptom_details?.severity >= 6 ? 'text-primary-foreground' : 'text-secondary-foreground'} rounded-pill`}>
                           Severity: {record.symptom_details?.severity}/10
                         </Badge>
                       </div>
@@ -173,10 +163,10 @@ export default function SymptomAnalysis() {
                       </p>
                     </div>
                     <Button
-                      variant="ghost"
+                      variant="destructiveOutline"
                       size="sm"
                       onClick={() => deleteRecordMutation.mutate(record.id)}
-                      className="text-muted-foreground hover:text-destructive"
+                      className="shrink-0"
                     >
                       Delete
                     </Button>
@@ -185,7 +175,7 @@ export default function SymptomAnalysis() {
                   {record.symptom_details?.symptom_type && (
                     <div className="mb-2 flex flex-wrap gap-1">
                       {record.symptom_details.symptom_type.map((type, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
+                        <Badge key={idx} variant="outline" className="rounded-pill text-xs">
                           {type}
                         </Badge>
                       ))}

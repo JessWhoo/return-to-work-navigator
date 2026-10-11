@@ -67,33 +67,34 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
   }
 
   const assessmentConfig = {
-    stable: { icon: Activity, color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-blue-500' },
-    improving: { icon: TrendingUp, color: 'text-green-400', bg: 'bg-green-500/20', border: 'border-green-500' },
-    fluctuating: { icon: Zap, color: 'text-orange-400', bg: 'bg-orange-500/20', border: 'border-orange-500' },
-    concerning: { icon: AlertCircle, color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500' }
+    stable: { icon: Activity, color: 'text-primary', bg: 'nv-card--muted', border: 'border-brand-border' },
+    improving: { icon: TrendingUp, color: 'text-brand-text', bg: 'nv-card--sage', border: 'border-brand-border' },
+    fluctuating: { icon: Zap, color: 'text-primary', bg: 'nv-card--pink', border: 'border-brand-border' },
+    concerning: { icon: AlertCircle, color: 'text-destructive', bg: 'nv-card--pink', border: '!border-destructive' }
   };
 
   const config = assessmentConfig[insights?.overall_assessment] || assessmentConfig.stable;
   const AssessmentIcon = config.icon;
 
   return (
-    <Card className="bg-gradient-to-br from-rose-900/40 to-orange-900/40 border-2 border-rose-600 shadow-xl">
+    <Card className="nv-card--muted">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-rose-400" />
-            <span className="text-slate-200">AI Symptom Pattern Analysis</span>
-            <Badge className="bg-gradient-to-r from-rose-600 to-orange-600 text-white">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <CardTitle className="flex min-w-0 flex-wrap items-center gap-2 text-lg sm:text-xl">
+            <Sparkles className="h-5 w-5 text-primary" />
+            <span className="text-brand-text">AI Symptom Pattern Analysis</span>
+            <Badge variant="secondary" className="rounded-pill">
               Powered by AI
             </Badge>
           </CardTitle>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
+              aria-label="Refresh symptom pattern analysis"
               onClick={() => refetch()}
               disabled={isLoading}
-              className="text-rose-400 hover:text-rose-300"
+              className="shrink-0"
             >
               <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             </Button>
@@ -101,7 +102,8 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-rose-400 hover:text-rose-300"
+              aria-expanded={isExpanded}
+              className="shrink-0"
             >
               {isExpanded ? 'Collapse' : 'Expand'}
             </Button>
@@ -110,46 +112,46 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
       </CardHeader>
 
       {isExpanded && (
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 [overflow-wrap:anywhere]">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center space-y-3">
-                <Loader2 className="h-8 w-8 animate-spin text-rose-400 mx-auto" />
-                <p className="text-sm text-slate-400">Analyzing symptom patterns...</p>
+                <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
+                <p className="text-sm text-brand-muted-foreground">Analyzing symptom patterns...</p>
               </div>
             </div>
           ) : insights ? (
             <>
               {/* Overall Assessment */}
-              <div className={`p-4 rounded-lg border-2 ${config.border} ${config.bg}`}>
+              <div className={`nv-card ${config.bg} ${config.border} p-4`}>
                 <div className="flex items-start space-x-3">
-                  <AssessmentIcon className={`h-6 w-6 ${config.color} mt-0.5`} />
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-slate-200 mb-1 capitalize">
+                  <AssessmentIcon className={`mt-0.5 h-6 w-6 shrink-0 ${config.color}`} strokeWidth={1.75} aria-hidden="true" />
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-brand-text mb-1 capitalize">
                       {insights.overall_assessment} Pattern
                     </h3>
-                    <p className="text-sm text-slate-300">{insights.summary}</p>
+                    <p className="text-sm text-brand-text">{insights.summary}</p>
                   </div>
                 </div>
               </div>
 
               {/* Recurring Patterns */}
               {insights.recurring_patterns && insights.recurring_patterns.length > 0 && (
-                <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-600">
-                  <h4 className="font-semibold text-cyan-300 mb-3 flex items-center">
+                <div className="nv-card p-4">
+                  <h4 className="font-semibold text-primary mb-3 flex items-center">
                     <TrendingUp className="h-4 w-4 mr-2" />
                     Recurring Patterns Detected
                   </h4>
                   <div className="space-y-2">
                     {insights.recurring_patterns.map((pattern, idx) => (
-                      <div key={idx} className="bg-slate-800/50 rounded-lg p-3">
-                        <div className="flex items-center space-x-2 mb-1">
-                          <p className="text-sm font-medium text-slate-200">{pattern.pattern}</p>
-                          <Badge variant="outline" className="text-xs">
+                      <div key={idx} className="nv-card p-3">
+                        <div className="mb-2 flex flex-wrap items-center gap-2">
+                          <p className="text-sm font-medium text-brand-text">{pattern.pattern}</p>
+                          <Badge variant="outline" className="rounded-pill text-xs">
                             {pattern.frequency}
                           </Badge>
                         </div>
-                        <p className="text-xs text-slate-400">{pattern.description}</p>
+                        <p className="text-xs text-brand-muted-foreground">{pattern.description}</p>
                       </div>
                     ))}
                   </div>
@@ -158,18 +160,18 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
 
               {/* Correlations */}
               {insights.correlations && insights.correlations.length > 0 && (
-                <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-600">
-                  <h4 className="font-semibold text-purple-300 mb-3 flex items-center">
+                <div className="nv-card nv-card--muted p-4">
+                  <h4 className="font-semibold text-primary mb-3 flex items-center">
                     <Zap className="h-4 w-4 mr-2" />
                     Energy & Mood Correlations
                   </h4>
                   <div className="space-y-2">
                     {insights.correlations.map((correlation, idx) => (
                       <div key={idx} className="flex items-start space-x-2">
-                        <div className="h-1.5 w-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{correlation.correlation}</p>
-                          <p className="text-xs text-slate-400">{correlation.insight}</p>
+                          <p className="text-sm font-medium text-brand-text">{correlation.correlation}</p>
+                          <p className="text-xs text-brand-muted-foreground">{correlation.insight}</p>
                         </div>
                       </div>
                     ))}
@@ -179,16 +181,16 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
 
               {/* Identified Triggers */}
               {insights.identified_triggers && insights.identified_triggers.length > 0 && (
-                <div className="bg-orange-900/20 rounded-lg p-4 border border-orange-600">
-                  <h4 className="font-semibold text-orange-300 mb-3 flex items-center">
+                <div className="nv-card nv-card--pink p-4">
+                  <h4 className="font-semibold text-brand-text mb-3 flex items-center">
                     <AlertCircle className="h-4 w-4 mr-2" />
                     Potential Triggers
                   </h4>
                   <div className="space-y-2">
                     {insights.identified_triggers.map((trigger, idx) => (
-                      <div key={idx} className="bg-slate-800/50 rounded-lg p-3">
-                        <p className="text-sm font-medium text-slate-200 mb-1">{trigger.trigger}</p>
-                        <p className="text-xs text-slate-400">{trigger.description}</p>
+                      <div key={idx} className="nv-card p-3">
+                        <p className="text-sm font-medium text-brand-text mb-1">{trigger.trigger}</p>
+                        <p className="text-xs text-brand-muted-foreground">{trigger.description}</p>
                       </div>
                     ))}
                   </div>
@@ -197,15 +199,15 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
 
               {/* Concerns */}
               {insights.concerns && insights.concerns.length > 0 && (
-                <div className="bg-red-900/20 rounded-lg p-4 border border-red-600">
-                  <h4 className="font-semibold text-red-300 mb-2 flex items-center">
+                <div className="nv-card nv-card--pink !border-destructive p-4">
+                  <h4 className="font-semibold text-destructive mb-2 flex items-center">
                     <AlertCircle className="h-4 w-4 mr-2" />
                     Patterns Requiring Attention
                   </h4>
                   <ul className="space-y-1">
                     {insights.concerns.map((concern, idx) => (
-                      <li key={idx} className="text-sm text-slate-300 flex items-start">
-                        <span className="text-red-400 mr-2">•</span>
+                      <li key={idx} className="text-sm text-brand-text flex items-start">
+                        <span className="text-destructive mr-2">•</span>
                         {concern}
                       </li>
                     ))}
@@ -215,16 +217,16 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
 
               {/* Management Tips */}
               {insights.management_tips && insights.management_tips.length > 0 && (
-                <div className="bg-green-900/20 rounded-lg p-4 border border-green-600">
-                  <h4 className="font-semibold text-green-300 mb-3 flex items-center">
+                <div className="nv-card nv-card--sage p-4">
+                  <h4 className="font-semibold text-brand-text mb-3 flex items-center">
                     <Lightbulb className="h-4 w-4 mr-2" />
                     Personalized Management Tips
                   </h4>
                   <div className="space-y-3">
                     {insights.management_tips.map((item, idx) => (
-                      <div key={idx} className="bg-slate-800/50 rounded-lg p-3">
-                        <p className="text-sm font-medium text-slate-200 mb-1">{item.tip}</p>
-                        <p className="text-xs text-slate-400">{item.rationale}</p>
+                      <div key={idx} className="nv-card p-3">
+                        <p className="text-sm font-medium text-brand-text mb-1">{item.tip}</p>
+                        <p className="text-xs text-brand-muted-foreground">{item.rationale}</p>
                       </div>
                     ))}
                   </div>
@@ -233,15 +235,15 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
 
               {/* Accommodation Suggestions */}
               {insights.accommodation_suggestions && insights.accommodation_suggestions.length > 0 && (
-                <div className="bg-indigo-900/20 rounded-lg p-4 border border-indigo-600">
-                  <h4 className="font-semibold text-indigo-300 mb-2 flex items-center">
+                <div className="nv-card p-4">
+                  <h4 className="font-semibold text-primary mb-2 flex items-center">
                     <TrendingUp className="h-4 w-4 mr-2" />
                     Suggested Workplace Adjustments
                   </h4>
                   <ul className="space-y-1">
                     {insights.accommodation_suggestions.map((suggestion, idx) => (
-                      <li key={idx} className="text-sm text-slate-300 flex items-start">
-                        <span className="text-indigo-400 mr-2">→</span>
+                      <li key={idx} className="text-sm text-brand-text flex items-start">
+                        <span className="text-primary mr-2">→</span>
                         {suggestion}
                       </li>
                     ))}
@@ -251,7 +253,7 @@ export default function AISymptomInsights({ symptomRecords, progress }) {
             </>
           ) : (
             <div className="text-center py-8">
-              <p className="text-slate-400">No insights available. Try refreshing.</p>
+              <p className="text-brand-muted-foreground">No insights available. Try refreshing.</p>
             </div>
           )}
         </CardContent>

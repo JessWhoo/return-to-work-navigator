@@ -83,25 +83,27 @@ export default function ActivitySymptomCorrelations({ progress }) {
   }
 
   const strengthColors = {
-    weak: 'text-brand-muted-foreground bg-brand-muted border-brand-border',
-    moderate: 'text-brand-primary bg-brand-compass-cream/40 border-brand-primary',
-    strong: 'text-brand-text bg-brand-secondary/20 border-brand-secondary'
+    weak: 'text-brand-muted-foreground !bg-brand-muted !border-brand-border',
+    moderate: 'text-brand-primary !bg-brand-compass-cream/40 !border-brand-primary',
+    strong: 'text-brand-text !bg-brand-secondary/20 !border-brand-secondary'
   };
 
   return (
     <Card className="nv-card--muted">
       <CardHeader>
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
+          <CardTitle className="flex min-w-0 flex-wrap items-center gap-2 text-lg sm:text-xl">
             <TrendingUp className="h-5 w-5 text-brand-primary" />
             <span className="text-brand-text">Activity & Symptom Correlations</span>
-            <Badge className="bg-brand-primary text-brand-on-primary">
+            <Badge variant="secondary" className="rounded-pill">
               Pattern Analysis
             </Badge>
           </CardTitle>
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
+            aria-label={isExpanded ? 'Collapse activity and symptom correlations' : 'Expand activity and symptom correlations'}
+            aria-expanded={isExpanded}
             onClick={() => setIsExpanded(!isExpanded)}
             className="shrink-0"
           >
@@ -120,7 +122,7 @@ export default function ActivitySymptomCorrelations({ progress }) {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
           >
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 [overflow-wrap:anywhere]">
               {isLoading ? (
                 <div className="flex items-center justify-center py-12">
                   <div className="text-center space-y-3">
@@ -138,10 +140,10 @@ export default function ActivitySymptomCorrelations({ progress }) {
                         Time-of-Day Patterns
                       </h4>
                       {correlations.time_of_day_patterns.map((pattern, idx) => (
-                        <div key={idx} className={`bg-brand-surface rounded-lg p-3 border-2 ${strengthColors[pattern.strength]}`}>
-                          <div className="flex items-start justify-between mb-2">
+                        <div key={idx} className={`nv-card p-4 ${strengthColors[pattern.strength]}`}>
+                          <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
                             <p className="font-semibold text-brand-text capitalize">{pattern.time_period.replace('_', ' ')}</p>
-                            <Badge className={strengthColors[pattern.strength]}>
+                            <Badge variant="outline" className={`rounded-pill ${strengthColors[pattern.strength]}`}>
                               {pattern.strength} correlation
                             </Badge>
                           </div>
@@ -165,20 +167,20 @@ export default function ActivitySymptomCorrelations({ progress }) {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className={`bg-brand-surface rounded-lg p-3 border-2 ${strengthColors[corr.correlation_strength]}`}
+                          className={`nv-card p-4 ${strengthColors[corr.correlation_strength]}`}
                         >
-                          <div className="flex items-start justify-between mb-2">
+                          <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
                             <div className="flex-1">
                               <p className="font-semibold text-brand-text">{corr.activity_type}</p>
                               <p className="text-xs text-brand-muted-foreground">{corr.time_lag}</p>
                             </div>
-                            <Badge className={strengthColors[corr.correlation_strength]}>
+                            <Badge variant="outline" className={`rounded-pill ${strengthColors[corr.correlation_strength]}`}>
                               {corr.correlation_strength}
                             </Badge>
                           </div>
                           <p className="text-sm text-brand-text mb-1">{corr.impact}</p>
                           <p className="text-xs text-brand-muted-foreground mb-2 italic">{corr.evidence}</p>
-                          <div className="bg-brand-muted rounded p-2 border border-brand-border">
+                          <div className="rounded-brand border border-brand-border bg-brand-muted p-3">
                             <p className="text-xs text-brand-primary flex items-start">
                               <Lightbulb className="h-3 w-3 mr-1 mt-0.5 flex-shrink-0" />
                               {corr.recommendation}
@@ -191,11 +193,11 @@ export default function ActivitySymptomCorrelations({ progress }) {
 
                   {/* Symptom Triggers */}
                   {correlations.symptom_triggers && correlations.symptom_triggers.length > 0 && (
-                    <div className="bg-destructive/10 rounded-lg p-3 border border-destructive">
+                    <div className="nv-card nv-card--pink !border-destructive p-4">
                       <h4 className="font-semibold text-destructive text-sm mb-2">Identified Triggers</h4>
                       <div className="space-y-2">
                         {correlations.symptom_triggers.map((trigger, idx) => (
-                          <div key={idx} className="bg-brand-surface rounded p-2">
+                          <div key={idx} className="nv-card p-3">
                             <p className="text-sm font-semibold text-brand-text">{trigger.trigger}</p>
                             <p className="text-xs text-brand-muted-foreground mb-1">
                               Affects: {trigger.symptoms_affected.join(', ')} ({trigger.frequency})
@@ -209,11 +211,11 @@ export default function ActivitySymptomCorrelations({ progress }) {
 
                   {/* Protective Factors */}
                   {correlations.protective_factors && correlations.protective_factors.length > 0 && (
-                    <div className="bg-brand-secondary/20 rounded-lg p-3 border border-brand-secondary">
+                    <div className="nv-card nv-card--sage p-4">
                       <h4 className="font-semibold text-brand-text text-sm mb-2">Protective Factors</h4>
                       <div className="space-y-2">
                         {correlations.protective_factors.map((factor, idx) => (
-                          <div key={idx} className="bg-brand-surface rounded p-2">
+                          <div key={idx} className="nv-card p-3">
                             <p className="text-sm font-semibold text-brand-text">{factor.factor}</p>
                             <p className="text-xs text-brand-text mb-1">{factor.benefit}</p>
                             <p className="text-xs text-brand-text">✓ {factor.recommendation}</p>

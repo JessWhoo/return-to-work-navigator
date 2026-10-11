@@ -113,7 +113,7 @@ export default function ProactiveHealthAlerts() {
 
   if (!alerts || visibleAlerts.length === 0) {
     return (
-      <Card className="bg-brand-secondary/20 border-brand-secondary">
+      <Card className="nv-card--sage">
         <CardContent className="pt-6">
           <div className="flex items-center space-x-3">
             <CheckCircle className="h-6 w-6 text-brand-text" />
@@ -131,21 +131,21 @@ export default function ProactiveHealthAlerts() {
     high: {
       icon: AlertTriangle,
       color: 'text-destructive',
-      bg: 'bg-brand-surface',
-      border: 'border-destructive',
+      bg: 'nv-card--pink',
+      border: '!border-destructive',
       badge: 'bg-destructive text-destructive-foreground'
     },
     medium: {
       icon: Activity,
       color: 'text-brand-primary',
-      bg: 'bg-brand-compass-cream/40',
-      border: 'border-brand-primary',
+      bg: 'nv-card--pink',
+      border: 'border-brand-border',
       badge: 'bg-brand-primary text-brand-on-primary'
     },
     low: {
       icon: Heart,
       color: 'text-brand-primary',
-      bg: 'bg-brand-muted',
+      bg: 'nv-card--muted',
       border: 'border-brand-border',
       badge: 'bg-brand-sky text-brand-text'
     }
@@ -160,10 +160,10 @@ export default function ProactiveHealthAlerts() {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center space-x-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Sparkles className="h-5 w-5 text-brand-primary" />
         <h3 className="text-lg font-semibold text-brand-text">Health Alerts</h3>
-        <Badge className="bg-brand-primary text-brand-on-primary">{visibleAlerts.length}</Badge>
+        <Badge variant="secondary" className="rounded-pill">{visibleAlerts.length}</Badge>
       </div>
 
       <AnimatePresence>
@@ -180,22 +180,22 @@ export default function ProactiveHealthAlerts() {
               exit={{ opacity: 0, x: 100 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className={`${config.bg} border-2 ${config.border}`}>
+              <Card className={`${config.bg} ${config.border} [overflow-wrap:anywhere]`}>
                 <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-3 flex-1">
-                      <div className={`p-2 rounded-lg bg-brand-surface`}>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row">
+                      <div className="w-fit shrink-0 rounded-pill bg-brand-surface p-2">
                         <PriorityIcon className={`h-5 w-5 ${config.color}`} />
                       </div>
-                      <div className="flex-1">
+                      <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
                           <CardTitle className="text-brand-text text-base">
                             {alert.title}
                           </CardTitle>
-                          <Badge className={config.badge}>
+                          <Badge variant="outline" className={`rounded-pill ${config.badge}`}>
                             {alert.priority}
                           </Badge>
-                          <Badge variant="outline" className="text-xs">
+                          <Badge variant="outline" className="rounded-pill text-xs">
                             <TypeIcon className="h-3 w-3 mr-1" />
                             {alert.type}
                           </Badge>
@@ -204,7 +204,7 @@ export default function ProactiveHealthAlerts() {
 
                         {/* Actions */}
                         {alert.actions && alert.actions.length > 0 && (
-                          <div className="bg-brand-surface rounded-lg p-3 mb-3">
+                          <div className="nv-card mb-3 p-3">
                             <p className="text-xs font-semibold text-brand-muted-foreground mb-2">Recommended Actions:</p>
                             <ul className="space-y-1">
                               {alert.actions.map((action, idx) => (
@@ -219,8 +219,8 @@ export default function ProactiveHealthAlerts() {
 
                         {/* Contact Provider Warning */}
                         {alert.contact_provider && (
-                          <div className="flex items-center space-x-2 bg-destructive/10 rounded-lg p-2 mb-3">
-                            <Phone className="h-4 w-4 text-destructive" />
+                          <div className="mb-3 flex items-start gap-2 rounded-brand border border-destructive bg-destructive/10 p-3">
+                            <Phone className="h-4 w-4 shrink-0 text-destructive" strokeWidth={1.75} aria-hidden="true" />
                             <p className="text-xs text-destructive font-medium">
                               Consider contacting your healthcare provider
                             </p>
@@ -228,7 +228,7 @@ export default function ProactiveHealthAlerts() {
                         )}
 
                         {/* Action Buttons */}
-                        <div className="flex items-center space-x-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <Button
                             size="sm"
                             onClick={() => acknowledgeAlert(alert.id)}
@@ -250,9 +250,10 @@ export default function ProactiveHealthAlerts() {
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                      size="icon"
+                      aria-label={`Dismiss ${alert.title}`}
                       onClick={() => dismissAlert(alert.id)}
-                      className="ml-2"
+                      className="shrink-0"
                     >
                       <X className="h-4 w-4" />
                     </Button>

@@ -71,9 +71,9 @@ export default function PredictiveHealthAlerts({ progress }) {
   }
 
   const riskConfig = {
-    low: { color: 'text-brand-text', bg: 'bg-brand-secondary/20', border: 'border-brand-secondary', icon: TrendingUp },
-    moderate: { color: 'text-brand-primary', bg: 'bg-brand-compass-cream/40', border: 'border-brand-primary', icon: AlertTriangle },
-    high: { color: 'text-destructive', bg: 'bg-destructive/10', border: 'border-destructive', icon: AlertTriangle }
+    low: { color: 'text-brand-text', bg: 'bg-brand-secondary/20', border: '!border-brand-secondary', icon: TrendingUp },
+    moderate: { color: 'text-brand-primary', bg: 'bg-brand-compass-cream/40', border: '!border-brand-primary', icon: AlertTriangle },
+    high: { color: 'text-destructive', bg: 'bg-destructive/10', border: '!border-destructive', icon: AlertTriangle }
   };
 
   const trendConfig = {
@@ -87,16 +87,18 @@ export default function PredictiveHealthAlerts({ progress }) {
     <Card className="nv-card--muted">
       <CardHeader>
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
+          <CardTitle className="flex min-w-0 flex-wrap items-center gap-2 text-lg sm:text-xl">
             <Activity className="h-5 w-5 text-brand-primary" />
             <span className="text-brand-text">Predictive Health Analytics</span>
-            <Badge className="bg-brand-primary text-brand-on-primary">
+            <Badge variant="secondary" className="rounded-pill">
               AI-Powered
             </Badge>
           </CardTitle>
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
+            aria-label={isExpanded ? 'Collapse predictive health analytics' : 'Expand predictive health analytics'}
+            aria-expanded={isExpanded}
             onClick={() => setIsExpanded(!isExpanded)}
             className="shrink-0"
           >
@@ -117,7 +119,7 @@ export default function PredictiveHealthAlerts({ progress }) {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
           >
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 [overflow-wrap:anywhere]">
               {isLoading ? (
                 <div className="flex items-center justify-center py-12">
                   <div className="text-center space-y-3">
@@ -128,14 +130,14 @@ export default function PredictiveHealthAlerts({ progress }) {
               ) : predictions ? (
                 <>
                   {/* Overall Status */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className={`p-3 rounded-lg border-2 ${riskConfig[predictions.overall_risk_level].border} ${riskConfig[predictions.overall_risk_level].bg}`}>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className={`p-4 rounded-brand-lg border ${riskConfig[predictions.overall_risk_level].border} ${riskConfig[predictions.overall_risk_level].bg}`}>
                       <p className="text-xs text-brand-muted-foreground mb-1">Risk Level (14 days)</p>
                       <p className={`text-lg font-bold ${riskConfig[predictions.overall_risk_level].color} capitalize`}>
                         {predictions.overall_risk_level}
                       </p>
                     </div>
-                    <div className="p-3 rounded-lg border-2 border-brand-border bg-brand-surface">
+                    <div className="p-4 rounded-brand-lg border border-brand-border bg-brand-surface">
                       <p className="text-xs text-brand-muted-foreground mb-1">Health Trend</p>
                       <p className={`text-lg font-bold ${trendConfig[predictions.trend_direction].color}`}>
                         {trendConfig[predictions.trend_direction].text}
@@ -158,10 +160,10 @@ export default function PredictiveHealthAlerts({ progress }) {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className={`bg-brand-surface rounded-lg p-4 border-2 ${config.border}`}
+                          className={`nv-card ${config.border} p-4`}
                         >
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex items-center space-x-2">
+                          <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+                            <div className="flex min-w-0 items-start gap-2">
                               <Icon className={`h-5 w-5 ${config.color}`} />
                               <div>
                                 <p className="font-semibold text-brand-text">{pred.period}</p>
@@ -169,10 +171,10 @@ export default function PredictiveHealthAlerts({ progress }) {
                               </div>
                             </div>
                             <div className="flex flex-col items-end space-y-1">
-                              <Badge className={`${config.bg} ${config.color} border-0 capitalize`}>
+                              <Badge variant="outline" className={`${config.bg} ${config.color} rounded-pill border-0 capitalize`}>
                                 {pred.risk_level} Risk
                               </Badge>
-                              <Badge variant="outline" className="text-xs">
+                              <Badge variant="outline" className="rounded-pill text-xs">
                                 {pred.confidence} confidence
                               </Badge>
                             </div>
@@ -189,7 +191,7 @@ export default function PredictiveHealthAlerts({ progress }) {
                                 <p className="text-xs font-semibold text-brand-muted-foreground mb-1">Potential Triggers:</p>
                                 <div className="flex flex-wrap gap-1">
                                   {pred.triggers.map((trigger, tidx) => (
-                                    <Badge key={tidx} variant="outline" className="text-xs">
+                                    <Badge key={tidx} variant="outline" className="rounded-pill text-xs">
                                       {trigger}
                                     </Badge>
                                   ))}
@@ -198,7 +200,7 @@ export default function PredictiveHealthAlerts({ progress }) {
                             )}
 
                             {pred.prevention_strategies && pred.prevention_strategies.length > 0 && (
-                              <div className="bg-brand-secondary/20 rounded-lg p-2 border border-brand-secondary">
+                              <div className="nv-card nv-card--sage p-3">
                                 <p className="text-xs font-semibold text-brand-text mb-1">Prevention Strategies:</p>
                                 <ul className="space-y-1">
                                   {pred.prevention_strategies.map((strategy, sidx) => (
@@ -218,7 +220,7 @@ export default function PredictiveHealthAlerts({ progress }) {
 
                   {/* General Recommendations */}
                   {predictions.recommendations && predictions.recommendations.length > 0 && (
-                    <div className="bg-brand-sky/30 rounded-lg p-3 border border-brand-border">
+                    <div className="nv-card nv-card--muted p-4">
                       <h4 className="font-semibold text-brand-text text-sm mb-2">General Recommendations:</h4>
                       <ul className="space-y-1">
                         {predictions.recommendations.map((rec, idx) => (

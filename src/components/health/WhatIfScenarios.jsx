@@ -95,10 +95,10 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
   return (
     <Card className="nv-card--muted">
       <CardHeader>
-        <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
+        <CardTitle className="flex min-w-0 flex-wrap items-center gap-2 text-lg sm:text-xl">
           <Sparkles className="h-5 w-5 text-brand-primary" />
           <span className="text-brand-text">What-If Scenario Analysis</span>
-          <Badge className="bg-brand-primary text-brand-on-primary">
+          <Badge variant="secondary" className="rounded-pill">
             Predictive
           </Badge>
         </CardTitle>
@@ -107,13 +107,13 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
         </p>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 [overflow-wrap:anywhere]">
         {/* Scenario Configuration */}
         <div className="space-y-3">
           <div>
             <Label className="text-brand-text text-sm">What change are you considering?</Label>
             <Select value={scenario.type} onValueChange={(v) => setScenario({ ...scenario, type: v })}>
-              <SelectTrigger className="nv-input mt-1">
+              <SelectTrigger aria-label="What change are you considering?" className="nv-input mt-1 min-h-11">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -131,6 +131,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
               <Label className="text-brand-text text-sm">Amount (hours)</Label>
               <Input
                 type="number"
+                aria-label="Amount (hours)"
                 value={scenario.change_amount}
                 onChange={(e) => setScenario({ ...scenario, change_amount: e.target.value })}
                 placeholder="e.g., 2"
@@ -140,7 +141,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
             <div>
               <Label className="text-brand-text text-sm">Per</Label>
               <Select value={scenario.timeframe} onValueChange={(v) => setScenario({ ...scenario, timeframe: v })}>
-                <SelectTrigger className="nv-input mt-1">
+                <SelectTrigger aria-label="Per" className="nv-input mt-1 min-h-11">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -155,7 +156,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
           <Button
             onClick={handleAnalyze}
             disabled={!scenario.change_amount || scenarioMutation.isPending}
-            className="w-full"
+            className="w-full !whitespace-normal"
           >
             {scenarioMutation.isPending ? (
               <>
@@ -180,23 +181,23 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
               className="space-y-3 pt-4 border-t border-brand-border"
             >
               {/* Risk & Feasibility */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className={`p-3 rounded-lg border-2 ${riskConfig[scenarioMutation.data.overall_risk].border} ${riskConfig[scenarioMutation.data.overall_risk].bg}`}>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className={`p-4 rounded-brand-lg border ${riskConfig[scenarioMutation.data.overall_risk].border} ${riskConfig[scenarioMutation.data.overall_risk].bg}`}>
                   <p className="text-xs text-brand-muted-foreground mb-1">Risk Level</p>
                   <p className={`text-lg font-bold ${riskConfig[scenarioMutation.data.overall_risk].color} capitalize`}>
                     {scenarioMutation.data.overall_risk}
                   </p>
                 </div>
-                <div className="p-3 rounded-lg bg-brand-surface border-2 border-brand-border">
+                <div className="nv-card p-4">
                   <p className="text-xs text-brand-muted-foreground mb-1">Recommendation</p>
-                  <Badge className={`${feasibilityConfig[scenarioMutation.data.feasibility].color} text-xs whitespace-normal`}>
+                  <Badge variant="outline" className={`${feasibilityConfig[scenarioMutation.data.feasibility].color} rounded-pill text-xs whitespace-normal`}>
                     {feasibilityConfig[scenarioMutation.data.feasibility].text}
                   </Badge>
                 </div>
               </div>
 
               {/* Predicted Impacts */}
-              <div className="bg-brand-surface rounded-lg p-3 border border-brand-border">
+              <div className="nv-card p-4">
                 <h4 className="font-semibold text-brand-text text-sm mb-2 flex items-center">
                   <TrendingUp className="h-4 w-4 mr-2 text-brand-primary" />
                   Predicted Impacts
@@ -218,14 +219,14 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
               </div>
 
               {/* Reasoning */}
-              <div className="bg-brand-sky/30 rounded-lg p-3 border border-brand-border">
+              <div className="nv-card nv-card--muted p-4">
                 <p className="text-xs font-semibold text-brand-text mb-1">Analysis Reasoning:</p>
                 <p className="text-xs text-brand-text">{scenarioMutation.data.reasoning}</p>
               </div>
 
               {/* Mitigation Strategies */}
               {scenarioMutation.data.mitigation_strategies && scenarioMutation.data.mitigation_strategies.length > 0 && (
-                <div className="bg-brand-secondary/20 rounded-lg p-3 border border-brand-secondary">
+                <div className="nv-card nv-card--sage p-4">
                   <h4 className="font-semibold text-brand-text text-sm mb-2">Mitigation Strategies:</h4>
                   <ul className="space-y-1">
                     {scenarioMutation.data.mitigation_strategies.map((strategy, idx) => (
@@ -240,7 +241,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
 
               {/* Gradual Implementation */}
               {scenarioMutation.data.gradual_implementation?.recommended && (
-                <div className="bg-brand-compass-cream/40 rounded-lg p-3 border border-brand-primary">
+                <div className="nv-card nv-card--pink p-4">
                   <h4 className="font-semibold text-brand-text text-sm mb-2 flex items-center">
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     Gradual Implementation Recommended:
@@ -255,7 +256,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
 
               {/* Monitoring Checklist */}
               {scenarioMutation.data.monitoring_checklist && scenarioMutation.data.monitoring_checklist.length > 0 && (
-                <div className="bg-brand-muted rounded-lg p-3 border border-brand-border">
+                <div className="nv-card nv-card--muted p-4">
                   <h4 className="font-semibold text-brand-text text-sm mb-2">What to Monitor:</h4>
                   <ul className="space-y-1">
                     {scenarioMutation.data.monitoring_checklist.map((item, idx) => (
