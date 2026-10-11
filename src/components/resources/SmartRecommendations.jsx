@@ -94,10 +94,10 @@ ${allResources.map(cat =>
 
   if (loading) {
     return (
-      <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
+      <Card className="nv-card--muted">
         <CardContent className="pt-6 text-center">
-          <Loader2 className="h-8 w-8 text-purple-600 mx-auto mb-3 animate-spin" />
-          <p className="text-sm text-gray-600">Analyzing your journey to find the best resources...</p>
+          <Loader2 className="h-8 w-8 text-brand-primary mx-auto mb-3 animate-spin" />
+          <p className="text-sm text-brand-muted-foreground">Analyzing your journey to find the best resources...</p>
         </CardContent>
       </Card>
     );
@@ -108,114 +108,39 @@ ${allResources.map(cat =>
   }
 
   return (
-    <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 shadow-lg">
-      <CardHeader 
-        className="cursor-pointer hover:bg-purple-50/50 transition-colors"
-        onClick={() => setExpanded(!expanded)}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
-              <Sparkles className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <CardTitle className="text-lg text-gray-800">
-                Recommended for You
-              </CardTitle>
-              <p className="text-xs text-gray-600 mt-0.5">
-                Based on your journey progress
-              </p>
-            </div>
+    <Card className="nv-card--muted">
+      <CardHeader className="cursor-pointer" onClick={() => setExpanded(!expanded)}>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="p-2 rounded-lg bg-brand-primary shrink-0"><Sparkles className="h-5 w-5 text-primary-foreground" /></div>
+            <div><CardTitle className="text-lg text-brand-text">Recommended for You</CardTitle><p className="text-xs text-brand-muted-foreground mt-0.5">Based on your journey progress</p></div>
           </div>
-          <ChevronRight 
-            className={`h-5 w-5 text-gray-400 transition-transform ${
-              expanded ? 'rotate-90' : ''
-            }`}
-          />
+          <ChevronRight className={`h-5 w-5 text-brand-primary shrink-0 transition-transform ${expanded ? 'rotate-90' : ''}`} />
         </div>
       </CardHeader>
-
       {expanded && (
         <CardContent className="space-y-3 pt-0">
           {recommendations.map((resource, idx) => {
             const bookmarked = isBookmarked(resource.id);
-            const colorMap = {
-              purple: 'from-purple-400 to-purple-600',
-              green: 'from-green-400 to-green-600',
-              blue: 'from-blue-400 to-blue-600',
-              indigo: 'from-indigo-400 to-indigo-600',
-              rose: 'from-rose-400 to-rose-600'
-            };
-            const gradient = colorMap[resource.categoryColor] || 'from-gray-400 to-gray-600';
-
             return (
-              <Card 
-                key={idx} 
-                className="bg-white border-2 border-purple-100 hover:border-purple-300 transition-all hover:shadow-md"
-              >
+              <Card key={idx}>
                 <CardContent className="pt-4 space-y-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        {resource.priority === 'high' && (
-                          <Badge className="bg-red-500 text-white text-xs">High Priority</Badge>
-                        )}
-                        <Badge className="bg-purple-100 text-purple-700 text-xs">
-                          {resource.type}
-                        </Badge>
-                      </div>
-                      <h4 className="font-bold text-gray-800 text-sm mb-1">
-                        {resource.name}
-                      </h4>
-                      <p className="text-xs text-gray-500 mb-2">{resource.org}</p>
-                      <p className="text-xs text-purple-700 bg-purple-50 p-2 rounded italic">
-                        💡 {resource.reason}
-                      </p>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-2">{resource.priority === 'high' && <Badge className="text-xs">High Priority</Badge>}<Badge className="bg-brand-sky text-brand-text text-xs">{resource.type}</Badge></div>
+                      <h4 className="font-bold text-brand-text text-sm mb-1">{resource.name}</h4><p className="text-xs text-brand-muted-foreground mb-2">{resource.org}</p><p className="text-xs text-brand-text bg-brand-muted p-2 rounded-brand italic">💡 {resource.reason}</p>
                     </div>
-                    <a
-                      href={resource.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`ml-3 p-3 rounded-lg bg-gradient-to-br ${gradient} hover:opacity-90 transition-all shadow-md flex-shrink-0`}
-                    >
-                      <ExternalLink className="h-4 w-4 text-white" />
-                    </a>
+                    <a href={resource.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${resource.name}`} className="nv-btn nv-btn--outline nv-btn--icon shrink-0"><ExternalLink className="h-4 w-4" /></a>
                   </div>
-                  
-                  <div className="flex gap-2">
-                    <Button
-                      variant={bookmarked ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => onBookmark(resource.id)}
-                      className="flex-1 text-xs h-8"
-                    >
-                      {bookmarked ? <Bookmark className="h-3 w-3 mr-1 fill-current" /> : <Bookmark className="h-3 w-3 mr-1" />}
-                      {bookmarked ? 'Saved' : 'Save'}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDiscussWithCoach(resource)}
-                      className="flex-1 text-xs h-8"
-                    >
-                      <MessageCircle className="h-3 w-3 mr-1" />
-                      Discuss
-                    </Button>
+                  <div className="flex gap-2 flex-wrap">
+                    <Button variant={bookmarked ? 'default' : 'outline'} size="sm" onClick={() => onBookmark(resource.id)} className="flex-1 !whitespace-normal">{bookmarked ? <Bookmark className="h-3 w-3 mr-1 fill-current" /> : <Bookmark className="h-3 w-3 mr-1" />}{bookmarked ? 'Saved' : 'Save'}</Button>
+                    <Button variant="outline" size="sm" onClick={() => onDiscussWithCoach(resource)} className="flex-1 !whitespace-normal"><MessageCircle className="h-3 w-3 mr-1" />Discuss</Button>
                   </div>
                 </CardContent>
               </Card>
             );
           })}
-
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={generateRecommendations}
-            className="w-full text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-          >
-            <Sparkles className="h-4 w-4 mr-2" />
-            Refresh Recommendations
-          </Button>
+          <Button variant="ghost" size="sm" onClick={generateRecommendations} className="w-full !whitespace-normal"><Sparkles className="h-4 w-4 mr-2" />Refresh Recommendations</Button>
         </CardContent>
       )}
     </Card>

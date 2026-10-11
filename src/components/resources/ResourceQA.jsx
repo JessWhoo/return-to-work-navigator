@@ -40,16 +40,16 @@ function QuestionItem({ post, currentUser }) {
   });
 
   return (
-    <div className="border border-gray-200 rounded-lg bg-white overflow-hidden">
+    <div className="nv-card overflow-hidden">
       {/* Question */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
-            <p className="font-semibold text-gray-800 text-sm">{post.title}</p>
-            <p className="text-sm text-gray-600 mt-1">{post.content}</p>
+            <p className="font-semibold text-brand-text text-sm">{post.title}</p>
+            <p className="text-sm text-brand-muted-foreground mt-1">{post.content}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 mt-3 text-xs text-gray-400 flex-wrap">
+        <div className="flex items-center gap-3 mt-3 text-xs text-brand-muted-foreground flex-wrap">
           <span className="flex items-center gap-1">
             <User className="h-3 w-3" />
             {post.author_name || 'Community Member'}
@@ -57,7 +57,7 @@ function QuestionItem({ post, currentUser }) {
           <span>{formatDistanceToNow(new Date(post.created_date), { addSuffix: true })}</span>
           <button
             onClick={() => { setShowReplies(!showReplies); }}
-            className="flex items-center gap-1 text-purple-600 hover:text-purple-800 font-medium ml-auto"
+            className="nv-btn nv-btn--text nv-btn--sm ml-auto"
           >
             <Reply className="h-3 w-3" />
             {post.reply_count || 0} {post.reply_count === 1 ? 'answer' : 'answers'}
@@ -68,20 +68,20 @@ function QuestionItem({ post, currentUser }) {
 
       {/* Replies */}
       {showReplies && (
-        <div className="border-t border-gray-100 bg-purple-50/40">
+        <div className="border-t border-brand-border bg-brand-muted">
           {loadingReplies ? (
             <div className="flex justify-center py-4">
-              <Loader2 className="h-4 w-4 animate-spin text-purple-500" />
+              <Loader2 className="h-4 w-4 animate-spin text-brand-primary" />
             </div>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-brand-border">
               {replies.length === 0 && (
-                <p className="text-xs text-gray-400 px-4 py-3 italic">No answers yet — be the first to help!</p>
+                <p className="text-xs text-brand-muted-foreground px-4 py-3 italic">No answers yet — be the first to help!</p>
               )}
               {replies.map(reply => (
                 <div key={reply.id} className="px-4 py-3">
-                  <p className="text-sm text-gray-700">{reply.content}</p>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+                  <p className="text-sm text-brand-text">{reply.content}</p>
+                  <div className="flex items-center gap-2 mt-1 text-xs text-brand-muted-foreground">
                     <User className="h-3 w-3" />
                     <span>{reply.author_name || 'Community Member'}</span>
                     <span>{formatDistanceToNow(new Date(reply.created_date), { addSuffix: true })}</span>
@@ -93,25 +93,25 @@ function QuestionItem({ post, currentUser }) {
 
           {/* Reply Form */}
           {showReplyForm ? (
-            <div className="px-4 py-3 border-t border-purple-100 space-y-2">
+            <div className="px-4 py-3 border-t border-brand-border space-y-2">
               <Input
                 placeholder="Your name (optional)"
                 value={replyName}
                 onChange={e => setReplyName(e.target.value)}
-                className="h-8 text-xs border-purple-200"
+                className="h-8 text-xs border-brand-border"
               />
               <Textarea
                 placeholder="Share your answer or experience..."
                 value={replyText}
                 onChange={e => setReplyText(e.target.value)}
-                className="text-sm min-h-[70px] border-purple-200"
+                className="text-sm min-h-[70px] border-brand-border"
               />
               <div className="flex gap-2">
                 <Button
                   size="sm"
                   onClick={() => replyMutation.mutate()}
                   disabled={!replyText.trim() || replyMutation.isPending}
-                  className="bg-purple-600 hover:bg-purple-700 text-white text-xs h-7"
+                  className="!whitespace-normal"
                 >
                   {replyMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin" /> : <Send className="h-3 w-3 mr-1" />}
                   Post Answer
@@ -120,10 +120,10 @@ function QuestionItem({ post, currentUser }) {
               </div>
             </div>
           ) : (
-            <div className="px-4 py-2 border-t border-purple-100">
+            <div className="px-4 py-2 border-t border-brand-border">
               <button
                 onClick={() => setShowReplyForm(true)}
-                className="text-xs text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1"
+                className="nv-btn nv-btn--text nv-btn--sm"
               >
                 <Reply className="h-3 w-3" /> Write an answer
               </button>
@@ -170,15 +170,15 @@ export default function ResourceQA({ resourceId, currentUser }) {
   });
 
   return (
-    <div className="mt-3 border-t border-gray-100 pt-3">
+    <div className="mt-3 border-t border-brand-border pt-3">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 text-sm font-semibold text-indigo-700 hover:text-indigo-900 transition-colors"
+        className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal"
       >
         <MessageCircle className="h-4 w-4" />
         Community Q&amp;A
         {posts.length > 0 && (
-          <Badge className="bg-indigo-100 text-indigo-700 text-xs px-1.5 py-0">{posts.length}</Badge>
+          <Badge className="bg-brand-muted text-brand-primary text-xs px-1.5 py-0">{posts.length}</Badge>
         )}
         {isOpen ? <ChevronUp className="h-3.5 w-3.5 ml-auto" /> : <ChevronDown className="h-3.5 w-3.5 ml-auto" />}
       </button>
@@ -187,7 +187,7 @@ export default function ResourceQA({ resourceId, currentUser }) {
         <div className="mt-3 space-y-3">
           {isLoading ? (
             <div className="flex justify-center py-4">
-              <Loader2 className="h-5 w-5 animate-spin text-indigo-500" />
+              <Loader2 className="h-5 w-5 animate-spin text-brand-primary" />
             </div>
           ) : (
             <>
@@ -195,39 +195,39 @@ export default function ResourceQA({ resourceId, currentUser }) {
                 <QuestionItem key={post.id} post={post} currentUser={currentUser} />
               ))}
               {posts.length === 0 && !showForm && (
-                <p className="text-xs text-gray-400 italic">No questions yet. Be the first to ask!</p>
+                <p className="text-xs text-brand-muted-foreground italic">No questions yet. Be the first to ask!</p>
               )}
             </>
           )}
 
           {/* Ask Question Form */}
           {showForm ? (
-            <div className="border-2 border-indigo-200 rounded-lg p-4 bg-indigo-50/40 space-y-3">
-              <p className="text-xs font-semibold text-indigo-700">Ask a Question</p>
+            <div className="nv-card nv-card--muted p-4 space-y-3">
+              <p className="text-xs font-semibold text-brand-primary">Ask a Question</p>
               <Input
                 placeholder="Your name (optional)"
                 value={authorName}
                 onChange={e => setAuthorName(e.target.value)}
-                className="h-8 text-xs border-indigo-200"
+                className="h-8 text-xs border-brand-border"
               />
               <Input
                 placeholder="Question title (e.g. 'How do I access this resource?')"
                 value={questionTitle}
                 onChange={e => setQuestionTitle(e.target.value)}
-                className="text-sm border-indigo-200"
+                className="text-sm border-brand-border"
               />
               <Textarea
                 placeholder="Add more detail about your question..."
                 value={questionContent}
                 onChange={e => setQuestionContent(e.target.value)}
-                className="text-sm min-h-[80px] border-indigo-200"
+                className="text-sm min-h-[80px] border-brand-border"
               />
               <div className="flex gap-2">
                 <Button
                   size="sm"
                   onClick={() => askMutation.mutate()}
                   disabled={!questionTitle.trim() || !questionContent.trim() || askMutation.isPending}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs"
+                  className="!whitespace-normal"
                 >
                   {askMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Send className="h-3 w-3 mr-1" />}
                   Post Question
@@ -240,7 +240,7 @@ export default function ResourceQA({ resourceId, currentUser }) {
               size="sm"
               variant="outline"
               onClick={() => setShowForm(true)}
-              className="border-indigo-300 text-indigo-700 hover:bg-indigo-50 text-xs w-full"
+              className="w-full !whitespace-normal"
             >
               <MessageCircle className="h-3 w-3 mr-1.5" /> Ask a Question
             </Button>

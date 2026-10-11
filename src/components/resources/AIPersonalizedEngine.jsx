@@ -179,76 +179,34 @@ export default function AIPersonalizedEngine({
   };
 
   const priorityConfig = {
-    high: { color: 'bg-red-100 text-red-800 border-red-300', icon: AlertCircle },
-    medium: { color: 'bg-yellow-100 text-yellow-800 border-yellow-300', icon: TrendingUp },
-    low: { color: 'bg-blue-100 text-blue-800 border-blue-300', icon: CheckCircle2 }
+    high: { color: 'bg-brand-primary text-primary-foreground border-brand-primary', icon: AlertCircle },
+    medium: { color: 'bg-brand-cream text-brand-text border-brand-border', icon: TrendingUp },
+    low: { color: 'bg-brand-sky text-brand-text border-brand-border', icon: CheckCircle2 }
   };
 
   if (!recommendations) {
     return (
-      <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
+      <Card className="nv-card--muted">
         <CardHeader>
-          <div className="flex items-center space-x-3">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
-              <Brain className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <CardTitle className="text-xl">AI-Powered Personalized Recommendations</CardTitle>
-              <p className="text-sm text-gray-600 mt-1">
-                Get smart resource suggestions based on your unique journey
-              </p>
-            </div>
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-xl bg-brand-primary shrink-0"><Brain className="h-6 w-6 text-primary-foreground" /></div>
+            <div className="min-w-0"><CardTitle className="text-xl">AI-Powered Personalized Recommendations</CardTitle><p className="text-sm text-brand-muted-foreground mt-1">Get smart resource suggestions based on your unique journey</p></div>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="bg-white rounded-lg p-4 space-y-3">
-            <h4 className="font-semibold text-gray-800 flex items-center space-x-2">
-              <Sparkles className="h-4 w-4 text-purple-600" />
-              <span>What makes this special?</span>
-            </h4>
-            <ul className="text-sm text-gray-600 space-y-2 ml-6">
-              <li className="flex items-start space-x-2">
-                <span className="text-purple-600 font-bold">•</span>
-                <span>Analyzes your journey stage, energy patterns, and stress levels</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <span className="text-purple-600 font-bold">•</span>
-                <span>Considers your upcoming return date and accommodations</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <span className="text-purple-600 font-bold">•</span>
-                <span>Prioritizes resources based on your immediate needs</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <span className="text-purple-600 font-bold">•</span>
-                <span>Provides actionable guidance on how to use each resource</span>
-              </li>
+          <div className="nv-card p-4 space-y-3">
+            <h4 className="font-semibold text-brand-text flex items-center gap-2"><Sparkles className="h-4 w-4 text-brand-primary shrink-0" /><span>What makes this special?</span></h4>
+            <ul className="text-sm text-brand-muted-foreground space-y-2 ml-6">
+              <li className="flex items-start gap-2"><span className="text-brand-primary font-bold">•</span><span>Analyzes your journey stage, energy patterns, and stress levels</span></li>
+              <li className="flex items-start gap-2"><span className="text-brand-primary font-bold">•</span><span>Considers your upcoming return date and accommodations</span></li>
+              <li className="flex items-start gap-2"><span className="text-brand-primary font-bold">•</span><span>Prioritizes resources based on your immediate needs</span></li>
+              <li className="flex items-start gap-2"><span className="text-brand-primary font-bold">•</span><span>Provides actionable guidance on how to use each resource</span></li>
             </ul>
           </div>
-
-          <Button
-            onClick={generateRecommendations}
-            disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Analyzing Your Journey...
-              </>
-            ) : (
-              <>
-                <Brain className="h-4 w-4 mr-2" />
-                Generate Personalized Recommendations
-              </>
-            )}
+          <Button onClick={generateRecommendations} disabled={loading} className="w-full !whitespace-normal">
+            {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Analyzing Your Journey...</> : <><Brain className="h-4 w-4 mr-2" />Generate Personalized Recommendations</>}
           </Button>
-
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-sm text-destructive bg-destructive/10 border border-destructive/30 p-3 rounded-brand">{error}</div>}
         </CardContent>
       </Card>
     );
@@ -256,210 +214,53 @@ export default function AIPersonalizedEngine({
 
   return (
     <div className="space-y-6">
-      {/* User Insights */}
-      <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
+      <Card className="nv-card--muted">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center space-x-2">
-              <Brain className="h-5 w-5 text-purple-600" />
-              <span>Your Journey Insights</span>
-            </CardTitle>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={generateRecommendations}
-              disabled={loading}
-            >
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh'}
-            </Button>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <CardTitle className="flex items-center gap-2"><Brain className="h-5 w-5 text-brand-primary shrink-0" /><span>Your Journey Insights</span></CardTitle>
+            <Button variant="outline" size="sm" onClick={generateRecommendations} disabled={loading}>{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh'}</Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          {recommendations.user_insights?.primary_challenges && recommendations.user_insights.primary_challenges.length > 0 && (
-            <div>
-              <h4 className="font-semibold text-gray-800 mb-2">Primary Challenges Identified:</h4>
-              <div className="flex flex-wrap gap-2">
-                {recommendations.user_insights.primary_challenges.map((challenge, idx) => (
-                  <Badge key={idx} className="bg-orange-100 text-orange-800">
-                    {challenge}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {recommendations.user_insights?.key_focus_areas && recommendations.user_insights.key_focus_areas.length > 0 && (
-            <div>
-              <h4 className="font-semibold text-gray-800 mb-2">Key Focus Areas:</h4>
-              <div className="flex flex-wrap gap-2">
-                {recommendations.user_insights.key_focus_areas.map((area, idx) => (
-                  <Badge key={idx} className="bg-blue-100 text-blue-800">
-                    {area}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {recommendations.user_insights?.readiness_assessment && (
-            <div className="bg-white rounded-lg p-3">
-              <p className="text-sm text-gray-700">
-                <strong>Assessment:</strong> {recommendations.user_insights.readiness_assessment}
-              </p>
-            </div>
-          )}
+          {recommendations.user_insights?.primary_challenges && recommendations.user_insights.primary_challenges.length > 0 && <div><h4 className="font-semibold text-brand-text mb-2">Primary Challenges Identified:</h4><div className="flex flex-wrap gap-2">{recommendations.user_insights.primary_challenges.map((challenge, idx) => <Badge key={idx} className="bg-brand-cream text-brand-text">{challenge}</Badge>)}</div></div>}
+          {recommendations.user_insights?.key_focus_areas && recommendations.user_insights.key_focus_areas.length > 0 && <div><h4 className="font-semibold text-brand-text mb-2">Key Focus Areas:</h4><div className="flex flex-wrap gap-2">{recommendations.user_insights.key_focus_areas.map((area, idx) => <Badge key={idx} className="bg-brand-sky text-brand-text">{area}</Badge>)}</div></div>}
+          {recommendations.user_insights?.readiness_assessment && <div className="nv-card p-3"><p className="text-sm text-brand-text"><strong>Assessment:</strong> {recommendations.user_insights.readiness_assessment}</p></div>}
         </CardContent>
       </Card>
-
-      {/* Recommendations */}
       <div className="space-y-4">
-        <h3 className="text-2xl font-bold text-gray-800 flex items-center space-x-2">
-          <Sparkles className="h-6 w-6 text-purple-600" />
-          <span>Personalized Recommendations</span>
-        </h3>
-
+        <h3 className="text-2xl font-bold text-brand-text flex items-center gap-2"><Sparkles className="h-6 w-6 text-brand-primary shrink-0" /><span>Personalized Recommendations</span></h3>
         {recommendations.recommendations && recommendations.recommendations.length > 0 ? recommendations.recommendations.map((rec, idx) => {
           const resource = findResourceByName(rec.resource_name, rec.resource_category);
           const config = priorityConfig[rec.priority] || priorityConfig.medium;
           const Icon = config.icon;
-
           return (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-            >
-              <Card className="hover:shadow-xl transition-all border-2">
+            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
+              <Card>
                 <CardContent className="pt-6">
                   <div className="space-y-4">
-                    {/* Header */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Badge className={`${config.color} border`}>
-                            <Icon className="h-3 w-3 mr-1" />
-                            {rec.priority.toUpperCase()} PRIORITY
-                          </Badge>
-                          <Badge variant="outline">{rec.resource_category}</Badge>
-                        </div>
-                        <h4 className="text-xl font-bold text-gray-800">
-                          {rec.resource_name}
-                        </h4>
-                      </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap mb-2"><Badge className={`${config.color} border`}><Icon className="h-3 w-3 mr-1" />{rec.priority.toUpperCase()} PRIORITY</Badge><Badge variant="outline">{rec.resource_category}</Badge></div>
+                      <h4 className="text-xl font-bold text-brand-text">{rec.resource_name}</h4>
                     </div>
-
-                    {/* Challenge Addressed */}
-                    <div className="bg-red-50 border-l-4 border-red-400 p-3 rounded">
-                      <p className="text-sm font-semibold text-red-800 mb-1">
-                        Addresses Your Challenge:
-                      </p>
-                      <p className="text-sm text-red-700">{rec.addresses_challenge}</p>
-                    </div>
-
-                    {/* Why Now */}
-                    <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded">
-                      <p className="text-sm font-semibold text-blue-800 mb-1">
-                        Why This Matters Now:
-                      </p>
-                      <p className="text-sm text-blue-700">{rec.why_now}</p>
-                    </div>
-
-                    {/* How to Use */}
-                    <div className="bg-green-50 border-l-4 border-green-400 p-3 rounded">
-                      <p className="text-sm font-semibold text-green-800 mb-1">
-                        How to Use This Resource:
-                      </p>
-                      <p className="text-sm text-green-700">{rec.how_to_use}</p>
-                    </div>
-
-                    {/* Expected Benefit */}
-                    <div className="bg-purple-50 border-l-4 border-purple-400 p-3 rounded">
-                      <p className="text-sm font-semibold text-purple-800 mb-1">
-                        Expected Benefit:
-                      </p>
-                      <p className="text-sm text-purple-700">{rec.expected_benefit}</p>
-                    </div>
-
-                    {/* Community Validation */}
-                    {rec.community_validation && (
-                      <div className="bg-teal-50 border-l-4 border-teal-400 p-3 rounded">
-                        <p className="text-sm font-semibold text-teal-800 mb-1">
-                          Community Feedback:
-                        </p>
-                        <p className="text-sm text-teal-700">{rec.community_validation}</p>
-                      </div>
-                    )}
-
-                    {/* Actions */}
+                    <div className="bg-brand-muted border-l-4 border-brand-accent p-3 rounded-brand"><p className="text-sm font-semibold text-brand-text mb-1">Addresses Your Challenge:</p><p className="text-sm text-brand-text">{rec.addresses_challenge}</p></div>
+                    <div className="bg-brand-muted border-l-4 border-brand-sky p-3 rounded-brand"><p className="text-sm font-semibold text-brand-text mb-1">Why This Matters Now:</p><p className="text-sm text-brand-text">{rec.why_now}</p></div>
+                    <div className="bg-brand-muted border-l-4 border-brand-secondary p-3 rounded-brand"><p className="text-sm font-semibold text-brand-text mb-1">How to Use This Resource:</p><p className="text-sm text-brand-text">{rec.how_to_use}</p></div>
+                    <div className="bg-brand-muted border-l-4 border-brand-primary p-3 rounded-brand"><p className="text-sm font-semibold text-brand-text mb-1">Expected Benefit:</p><p className="text-sm text-brand-text">{rec.expected_benefit}</p></div>
+                    {rec.community_validation && <div className="bg-brand-muted border-l-4 border-brand-secondary p-3 rounded-brand"><p className="text-sm font-semibold text-brand-text mb-1">Community Feedback:</p><p className="text-sm text-brand-text">{rec.community_validation}</p></div>}
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {resource ? (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => onBookmark(resource)}
-                          >
-                            {isBookmarked(resource) ? (
-                              <>
-                                <BookmarkCheck className="h-4 w-4 mr-2" />
-                                Saved
-                              </>
-                            ) : (
-                              <>
-                                <Bookmark className="h-4 w-4 mr-2" />
-                                Save
-                              </>
-                            )}
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            asChild
-                          >
-                            <a href={resource.url} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4 mr-2" />
-                              Open Resource
-                            </a>
-                          </Button>
-                        </>
-                      ) : (
-                        <p className="text-sm text-gray-500 italic">Resource not found in library</p>
-                      )}
+                      {resource ? <><Button variant="outline" size="sm" onClick={() => onBookmark(resource)}>{isBookmarked(resource) ? <><BookmarkCheck className="h-4 w-4 mr-2" />Saved</> : <><Bookmark className="h-4 w-4 mr-2" />Save</>}</Button><Button variant="outline" size="sm" asChild><a href={resource.url} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-4 w-4 mr-2" />Open Resource</a></Button></> : <p className="text-sm text-brand-muted-foreground italic">Resource not found in library</p>}
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
           );
-        }) : (
-          <Card className="border-2 border-dashed border-gray-300">
-            <CardContent className="pt-6 text-center">
-              <p className="text-gray-500">No recommendations available at this time. Try again later.</p>
-            </CardContent>
-          </Card>
-        )}
+        }) : <Card className="border-dashed"><CardContent className="pt-6 text-center"><p className="text-brand-muted-foreground">No recommendations available at this time. Try again later.</p></CardContent></Card>}
       </div>
-
-      {/* Next Steps */}
       {recommendations.next_steps && recommendations.next_steps.length > 0 && (
-        <Card className="bg-gradient-to-br from-teal-50 to-cyan-50 border-2 border-teal-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <CheckCircle2 className="h-5 w-5 text-teal-600" />
-              <span>Recommended Next Steps</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              {recommendations.next_steps.map((step, idx) => (
-                <li key={idx} className="flex items-start space-x-2">
-                  <span className="text-teal-600 font-bold mt-0.5">{idx + 1}.</span>
-                  <span className="text-gray-700">{step}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
+        <Card className="nv-card--muted">
+          <CardHeader><CardTitle className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-brand-primary shrink-0" /><span>Recommended Next Steps</span></CardTitle></CardHeader>
+          <CardContent><ul className="space-y-2">{recommendations.next_steps.map((step, idx) => <li key={idx} className="flex items-start gap-2"><span className="text-brand-primary font-bold mt-0.5">{idx + 1}.</span><span className="text-brand-text">{step}</span></li>)}</ul></CardContent>
         </Card>
       )}
     </div>

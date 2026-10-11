@@ -262,128 +262,44 @@ export default function AdvancedRecommendations({
 
   const recommendations = getRecommendations();
 
-  const colorMap = {
-    purple: { gradient: 'from-purple-500 to-violet-500', bg: 'bg-purple-50', border: 'border-purple-200' },
-    green: { gradient: 'from-green-500 to-emerald-500', bg: 'bg-green-50', border: 'border-green-200' },
-    blue: { gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', border: 'border-blue-200' },
-    indigo: { gradient: 'from-indigo-500 to-purple-500', bg: 'bg-indigo-50', border: 'border-indigo-200' },
-    rose: { gradient: 'from-rose-500 to-pink-500', bg: 'bg-rose-50', border: 'border-rose-200' },
-    amber: { gradient: 'from-amber-500 to-orange-500', bg: 'bg-amber-50', border: 'border-amber-200' },
-    teal: { gradient: 'from-teal-500 to-cyan-500', bg: 'bg-teal-50', border: 'border-teal-200' },
-    cyan: { gradient: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-50', border: 'border-cyan-200' },
-    pink: { gradient: 'from-pink-500 to-rose-500', bg: 'bg-pink-50', border: 'border-pink-200' }
-  };
+
 
   if (recommendations.length === 0) {
     return null;
   }
 
   return (
-    <Card className="bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 border-2 border-purple-200 shadow-lg">
+    <Card className="nv-card--muted">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-purple-600" />
-            <CardTitle className="text-lg">Personalized for You</CardTitle>
-            <Badge className="bg-purple-500">{recommendations.length}</Badge>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </Button>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2 min-w-0"><Sparkles className="h-5 w-5 text-brand-primary shrink-0" /><CardTitle className="text-lg">Personalized for You</CardTitle><Badge>{recommendations.length}</Badge></div>
+          <Button variant="ghost" size="icon" onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={expanded ? 'Collapse recommendations' : 'Expand recommendations'}>{expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</Button>
         </div>
-        <p className="text-sm text-gray-600 mt-2">
-          Based on your journey stage, energy patterns, and upcoming events
-        </p>
+        <p className="text-sm text-brand-muted-foreground mt-2">Based on your journey stage, energy patterns, and upcoming events</p>
       </CardHeader>
-      
       {expanded && (
         <CardContent className="space-y-4">
-          {recommendations.map((resource) => {
-            const colors = colorMap[resource.color] || colorMap.purple;
+          {recommendations.map(resource => {
             const bookmarked = isBookmarked(resource.id);
             const rating = getRating(resource.id);
-            
             return (
-              <div
-                key={resource.id}
-                className={`p-4 rounded-lg ${colors.bg} border-2 ${colors.border} space-y-3 hover:shadow-md transition-all`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center space-x-2 flex-wrap">
-                      <Badge className={`bg-gradient-to-r ${colors.gradient} text-white text-xs`}>
-                        {resource.type}
-                      </Badge>
-                      <Badge variant="outline" className="text-xs">
-                        {resource.category}
-                      </Badge>
-                      {resource.priority === 'high' && (
-                        <Badge className="bg-red-500 text-white text-xs">Recommended</Badge>
-                      )}
-                      {bookmarked && (
-                        <Badge className="bg-amber-100 text-amber-700 text-xs">
-                          <BookmarkCheck className="h-3 w-3 mr-1" />
-                          Saved
-                        </Badge>
-                      )}
+              <div key={resource.id} className="nv-card p-4 space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Badge className="bg-brand-sky text-brand-text text-xs">{resource.type}</Badge><Badge variant="outline" className="text-xs">{resource.category}</Badge>
+                      {resource.priority === 'high' && <Badge className="text-xs">Recommended</Badge>}
+                      {bookmarked && <Badge variant="secondary" className="text-xs"><BookmarkCheck className="h-3 w-3 mr-1" />Saved</Badge>}
                     </div>
-                    
-                    <h4 className="font-bold text-gray-800">{resource.name}</h4>
-                    <p className="text-xs text-gray-600">{resource.org}</p>
-                    <p className="text-sm text-gray-700">{resource.description}</p>
-                    
-                    <div className="flex items-center space-x-2 pt-2 border-t border-gray-200">
-                      <TrendingUp className="h-3 w-3 text-purple-600" />
-                      <p className="text-xs font-medium text-purple-700">{resource.reason}</p>
-                    </div>
-
-                    {rating > 0 && (
-                      <div className="flex items-center space-x-1">
-                        {[1, 2, 3, 4, 5].map(star => (
-                          <Star
-                            key={star}
-                            className={`h-3 w-3 ${
-                              star <= rating ? 'text-amber-500 fill-amber-500' : 'text-gray-300'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    )}
+                    <h4 className="font-bold text-brand-text">{resource.name}</h4><p className="text-xs text-brand-muted-foreground">{resource.org}</p><p className="text-sm text-brand-text">{resource.description}</p>
+                    <div className="flex items-start gap-2 pt-2 border-t border-brand-border"><TrendingUp className="h-3 w-3 text-brand-primary mt-1 shrink-0" /><p className="text-xs font-semibold text-brand-primary">{resource.reason}</p></div>
+                    {rating > 0 && <div className="flex items-center gap-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= rating ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>}
                   </div>
-                  
-                  <a
-                    href={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`ml-4 p-3 rounded-lg bg-gradient-to-br ${colors.gradient} hover:opacity-90 transition-all shadow-md hover:shadow-lg flex-shrink-0`}
-                  >
-                    <ExternalLink className="h-4 w-4 text-white" />
-                  </a>
+                  <a href={resource.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${resource.name}`} className="nv-btn nv-btn--outline nv-btn--icon shrink-0"><ExternalLink className="h-4 w-4" /></a>
                 </div>
-                
-                <div className="flex gap-2">
-                  <Button
-                    variant={bookmarked ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => onBookmark(resource.id)}
-                    className="flex-1 text-xs"
-                  >
-                    {bookmarked ? <BookmarkCheck className="h-3 w-3 mr-1" /> : <Bookmark className="h-3 w-3 mr-1" />}
-                    {bookmarked ? 'Saved' : 'Save'}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onDiscussWithCoach(resource)}
-                    className="flex-1 text-xs"
-                  >
-                    <MessageCircle className="h-3 w-3 mr-1" />
-                    Ask Coach
-                  </Button>
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant={bookmarked ? 'default' : 'outline'} size="sm" onClick={() => onBookmark(resource.id)} className="flex-1 !whitespace-normal">{bookmarked ? <BookmarkCheck className="h-3 w-3 mr-1" /> : <Bookmark className="h-3 w-3 mr-1" />}{bookmarked ? 'Saved' : 'Save'}</Button>
+                  <Button variant="outline" size="sm" onClick={() => onDiscussWithCoach(resource)} className="flex-1 !whitespace-normal"><MessageCircle className="h-3 w-3 mr-1" />Ask Coach</Button>
                 </div>
               </div>
             );
