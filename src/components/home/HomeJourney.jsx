@@ -10,7 +10,7 @@ export default function HomeJourney({ progress, loading, error, onRetry }) {
   return (
     <section className="nv-home-journey space-y-6" aria-labelledby="home-journey-title" aria-busy={loading}>
       <div className="space-y-3 text-center"><h2 id="home-journey-title" className="text-2xl font-bold sm:text-3xl">Your Return Journey</h2><p className="text-brand-muted-foreground">A step-by-step path to guide you through the process.</p></div>
-      <figure className="nv-card mx-auto max-w-[240px] overflow-hidden sm:max-w-xs">
+      <figure className="nv-card mx-auto w-full max-w-full overflow-hidden sm:max-w-xs">
         <img src="https://media.base44.com/images/public/69406c752de234aafebf891d/346c32826_render.png" alt="Wooden signposts against a mountain landscape reading Explore, Plan, Build, Return, and Thrive." width="818" height="1024" loading="lazy" decoding="async" className="block h-auto w-full" />
       </figure>
       {loading && <p role="status" className="text-center text-sm text-brand-muted-foreground">Loading your saved progress…</p>}
