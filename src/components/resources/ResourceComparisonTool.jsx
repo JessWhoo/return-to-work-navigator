@@ -7,16 +7,16 @@ import { GitCompare, X, Sparkles, Loader2, ExternalLink, Clock, Zap, Star, Chevr
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DIFFICULTY_CONFIG = {
-  low: { label: 'Easy', color: 'bg-green-100 text-green-700 border-green-300', bar: 'bg-green-400', width: 'w-1/3' },
-  medium: { label: 'Moderate', color: 'bg-amber-100 text-amber-700 border-amber-300', bar: 'bg-amber-400', width: 'w-2/3' },
-  high: { label: 'Advanced', color: 'bg-red-100 text-red-700 border-red-300', bar: 'bg-red-400', width: 'w-full' },
+  low: { label: 'Easy', color: 'bg-brand-secondary text-brand-text border-brand-secondary', bar: 'bg-brand-secondary', width: 'w-1/3' },
+  medium: { label: 'Moderate', color: 'bg-brand-cream text-brand-text border-brand-border', bar: 'bg-brand-primary', width: 'w-2/3' },
+  high: { label: 'Advanced', color: 'bg-brand-primary text-primary-foreground border-brand-primary', bar: 'bg-brand-primary', width: 'w-full' },
 };
 
 const TIME_CONFIG = {
-  quick: { label: '< 15 min', color: 'text-green-600' },
-  short: { label: '15–60 min', color: 'text-amber-600' },
-  long: { label: '1–4 hours', color: 'text-orange-600' },
-  ongoing: { label: 'Ongoing', color: 'text-purple-600' },
+  quick: { label: '< 15 min', color: 'text-brand-primary' },
+  short: { label: '15–60 min', color: 'text-brand-primary' },
+  long: { label: '1–4 hours', color: 'text-brand-primary' },
+  ongoing: { label: 'Ongoing', color: 'text-brand-primary' },
 };
 
 function ComparisonCard({ resource, analysis, onRemove }) {
