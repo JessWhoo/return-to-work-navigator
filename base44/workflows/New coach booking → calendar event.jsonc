@@ -1,6 +1,4 @@
 {
-  "name": "New coach booking \u2192 calendar event",
-  "description": "Adds every newly-requested coaching session to the coach's Google Calendar. Runs server-side (no user context) so end users cannot invoke calendar creation directly.",
   "trigger": {
     "condition": null,
     "config": {
@@ -11,6 +9,7 @@
       "entity_name": "CoachBooking"
     }
   },
+  "name": "New coach booking \u2192 calendar event",
   "definition": {
     "document": {
       "dsl": "1.0.0",
@@ -25,7 +24,7 @@
           "with": {
             "function_name": "onCoachBookingCreated",
             "args": {
-              "automation_secret": "cc_bk_7Qd4tVxR9pLm2NsEfH6uAy3ZbKjW1oGr"
+              "automation_secret": "$COACH_CALENDAR_AUTOMATION_SECRET"
             }
           },
           "then": "end"
@@ -33,6 +32,7 @@
       }
     ]
   },
+  "description": "Adds every newly-requested coaching session to the coach's Google Calendar. Runs server-side (no user context) so end users cannot invoke calendar creation directly.",
   "x-base44-migrated-from-automation": {
     "legacy_payload_function": "onCoachBookingCreated"
   }
