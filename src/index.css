@@ -285,7 +285,7 @@ html.a11y-mode *::after {
 .nv-home-hero{min-height:390px}
 @media(max-width:639px){
   .nv-home-hero{overflow:visible}
-  .nv-home-hero>video{width:calc(100% + 34px);max-width:none;height:220px;object-fit:cover;margin-left:-17px}
+  .nv-home-hero>video{width:calc(100% + 34px);max-width:none;height:220px;object-fit:contain;background:var(--brand-background);margin-left:-17px}
 }
 .nv-home-hero:before,.nv-home-hero:after{display:none}
 .nv-home-hero>.nv-home-scenery{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:0}
