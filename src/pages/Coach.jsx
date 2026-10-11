@@ -18,7 +18,7 @@ import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceS
 import useSEO from '@/hooks/useSEO';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
-import { track } from '@/lib/analytics';
+import { logToolEngagement } from '@/lib/analytics';
 
 export default function Coach() {
   useSEO({
@@ -237,7 +237,7 @@ export default function Coach() {
     if (firedCoachEngagement.current.has(selectedConversation)) return;
     if (messages.some((m) => m.role === 'assistant')) {
       firedCoachEngagement.current.add(selectedConversation);
-      track('tool_engagement', { tool: 'ai_coach' });
+      logToolEngagement('ai_coach');
     }
   }, [messages, selectedConversation]);
 

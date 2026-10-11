@@ -97,4 +97,15 @@ export function track(eventName, properties = {}) {
   scheduleFlush();
 }
 
+// Record a tool engagement in BOTH platform analytics (for the marketing KPI)
+// and the queryable ToolEngagement entity (for the admin dashboard). Fire the
+// entity write as a non-blocking, swallow-all side effect — it must never block
+// or break the tool's own flow.
+export function logToolEngagement(tool) {
+  track('tool_engagement', { tool });
+  try {
+    base44.functions.invoke('logToolEngagement', { tool }).catch(() => {});
+  } catch { /* analytics must never break the tool flow */ }
+}
+
 export default track;

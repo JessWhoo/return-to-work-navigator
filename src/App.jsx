@@ -32,6 +32,7 @@ import LegalDirectory from './pages/LegalDirectory';
 import WellnessLibrary from './pages/WellnessLibrary';
 import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
 import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
+import ToolEngagementDashboard from './pages/ToolEngagementDashboard';
 import ManagerGuide from './pages/ManagerGuide';
 import AccommodationTemplates from './pages/AccommodationTemplates';
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
@@ -259,6 +260,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="AccommodationLetterGenerator">
               <AccommodationLetterGenerator />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/ToolEngagementDashboard"
+          element={
+            <LayoutWrapper currentPageName="ToolEngagementDashboard">
+              <ToolEngagementDashboard />
             </LayoutWrapper>
           }
         />

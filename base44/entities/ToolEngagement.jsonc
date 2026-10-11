@@ -1,0 +1,41 @@
+{
+  "name": "ToolEngagement",
+  "type": "object",
+  "properties": {
+    "tool": {
+      "type": "string",
+      "enum": [
+        "accommodation_letter_generator",
+        "employer_email_generator",
+        "legal_rights_advisor",
+        "ai_coach"
+      ],
+      "description": "The tool that was engaged with"
+    }
+  },
+  "required": [
+    "tool"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ import LetterDetailsForm from '@/components/accommodationLetter/LetterDetailsFor
 import LetterPreview from '@/components/accommodationLetter/LetterPreview';
 import { buildLetter } from '@/components/accommodationLetter/buildLetter';
 import { EMPTY_DETAILS } from '@/components/accommodationLetter/accommodationOptions';
-import { track } from '@/lib/analytics';
+import { logToolEngagement } from '@/lib/analytics';
 
 const STEP_COPY = {
   1: { title: 'Which accommodations do you need?', sub: 'Select everything that would help you do your job well. You can add your own too.' },
@@ -45,7 +45,7 @@ export default function AccommodationLetterGenerator() {
     }
     if (step === 2) {
       setLetter(buildLetter(selected, details));
-      track('tool_engagement', { tool: 'accommodation_letter_generator' });
+      logToolEngagement('accommodation_letter_generator');
     }
     setStep((s) => s + 1);
   };
