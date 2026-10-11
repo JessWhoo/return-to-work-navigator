@@ -15,7 +15,7 @@ function MessageBubble({ msg, myProfileId }) {
   const isMe = msg.sender_profile_id === myProfileId;
   return (
     <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} mb-2`}>
-      <div className={`max-w-[75%] px-4 py-2 rounded-brand-lg text-sm break-words ${isMe ? 'bg-brand-primary text-primary-foreground rounded-br-sm' : 'bg-brand-muted text-brand-text rounded-bl-sm'}`}>
+      <div className={`max-w-[75%] px-4 py-2 rounded-brand-lg text-sm [overflow-wrap:anywhere] ${isMe ? 'bg-brand-primary text-primary-foreground rounded-br-sm' : 'bg-brand-muted text-brand-text rounded-bl-sm'}`}>
         {!isMe && <p className="text-xs font-semibold text-brand-primary mb-0.5">{msg.sender_display_name}</p>}
         <p>{msg.content}</p>
         <p className={`text-xs mt-1 ${isMe ? 'text-primary-foreground' : 'text-brand-muted-foreground'}`}>
@@ -82,7 +82,7 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
           {otherProfile.display_name?.[0]?.toUpperCase()}
         </div>
         <div className="min-w-0">
-          <p className="text-brand-text font-semibold text-sm break-words">{otherProfile.display_name}</p>
+          <p className="text-brand-text font-semibold text-sm [overflow-wrap:anywhere]">{otherProfile.display_name}</p>
           <p className="text-brand-muted-foreground text-xs">{otherProfile.industry}</p>
         </div>
       </div>
@@ -100,7 +100,7 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
         <Input value={text} onChange={e => setText(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
           aria-label="Message" placeholder="Type a message…" className="flex-1 min-w-0" />
-        <Button onClick={handleSend} disabled={!text.trim() || sendMutation.isPending} aria-label="Send message" className="px-4">
+        <Button onClick={handleSend} disabled={!text.trim() || sendMutation.isPending} aria-label="Send message" size="icon" className="shrink-0">
           <Send className="h-4 w-4" />
         </Button>
       </div>
@@ -195,8 +195,8 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
               {profile.display_name?.[0]?.toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-brand-text font-semibold text-sm">{profile.display_name}</p>
-              <p className="text-brand-muted-foreground text-xs truncate">{profile.industry} · Peer</p>
+              <p className="text-brand-text font-semibold text-sm [overflow-wrap:anywhere]">{profile.display_name}</p>
+              <p className="text-brand-muted-foreground text-xs [overflow-wrap:anywhere]">{profile.industry} · Peer</p>
             </div>
             {unread > 0 && (
               <span className="bg-brand-primary text-primary-foreground text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">

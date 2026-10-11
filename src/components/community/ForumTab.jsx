@@ -3,9 +3,9 @@ import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import ForumReplyComposer from '@/components/community/ForumReplyComposer';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Heart, ChevronDown, ChevronUp, Send, User } from 'lucide-react';
+import { MessageCircle, Heart, ChevronDown, ChevronUp, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '@/lib/AuthContext';
@@ -14,7 +14,7 @@ const TOPICS = [
   { value: 'general', label: 'General', color: 'bg-brand-muted text-brand-text' },
   { value: 'fatigue_management', label: 'Fatigue', color: 'bg-brand-compass-cream text-brand-text' },
   { value: 'workplace_rights', label: 'Workplace Rights', color: 'bg-brand-sky text-brand-text' },
-  { value: 'accommodations', label: 'Accommodations', color: 'bg-brand-primary text-brand-on-primary' },
+  { value: 'accommodations', label: 'Accommodations', color: 'bg-brand-primary text-primary-foreground' },
   { value: 'emotional_support', label: 'Emotional Support', color: 'bg-brand-accent text-brand-text' },
   { value: 'returning_to_work', label: 'Return to Work', color: 'bg-brand-secondary text-brand-text' },
   { value: 'resources', label: 'Resources', color: 'bg-brand-muted text-brand-text' },
@@ -54,31 +54,16 @@ function ReplySection({ post, currentUser }) {
   return (
     <div className="mt-4 space-y-3 border-t border-brand-border pt-4">
       {replies.map(reply => (
-        <div key={reply.id} className="bg-brand-muted rounded-lg p-3 text-sm">
+        <div key={reply.id} className="nv-card nv-card--muted p-4 text-sm">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
             <User className="h-3 w-3 text-brand-muted-foreground" />
             <span className="text-brand-primary font-medium text-xs">{reply.author_name}</span>
             <span className="text-brand-muted-foreground text-xs">{formatDistanceToNow(new Date(reply.created_date), { addSuffix: true })}</span>
           </div>
-          <p className="text-brand-text break-words">{reply.content}</p>
+          <p className="text-brand-text [overflow-wrap:anywhere]">{reply.content}</p>
         </div>
       ))}
-      <div className="flex gap-2">
-        <Input
-          value={replyText}
-          onChange={e => setReplyText(e.target.value)}
-          placeholder="Write a reply..."
-          className="min-w-0 text-sm"
-          onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-        />
-        <label className="flex items-center gap-1 text-xs text-brand-muted-foreground whitespace-nowrap cursor-pointer">
-          <input type="checkbox" checked={isAnon} onChange={e => setIsAnon(e.target.checked)} className="rounded" />
-          Anon
-        </label>
-        <Button size="sm" onClick={handleSubmit} aria-label="Send reply" className="flex-shrink-0">
-          <Send className="h-3 w-3" />
-        </Button>
-      </div>
+      <ForumReplyComposer text={replyText} anonymous={isAnon} onTextChange={setReplyText} onAnonymousChange={setIsAnon} onSubmit={handleSubmit} />
     </div>
   );
 }
@@ -119,11 +104,11 @@ export default function ForumTab() {
   return (
     <div className="space-y-4 mt-4">
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" variant={filterTopic === 'all' ? 'default' : 'outline'} onClick={() => setFilterTopic('all')}>
+        <Button size="sm" aria-pressed={filterTopic === 'all'} variant={filterTopic === 'all' ? 'default' : 'outline'} onClick={() => setFilterTopic('all')}>
           All Topics
         </Button>
         {TOPICS.map(t => (
-          <Button key={t.value} size="sm" variant={filterTopic === t.value ? 'default' : 'outline'} onClick={() => setFilterTopic(t.value)}>
+          <Button key={t.value} size="sm" aria-pressed={filterTopic === t.value} variant={filterTopic === t.value ? 'default' : 'outline'} onClick={() => setFilterTopic(t.value)}>
             {t.label}
           </Button>
         ))}
@@ -145,21 +130,21 @@ export default function ForumTab() {
               <div className="flex items-start gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    {tc && <Badge className={`${tc.color} text-xs`}>{tc.label}</Badge>}
+                    {tc && <Badge variant="outline" className={`${tc.color} rounded-pill text-xs`}>{tc.label}</Badge>}
                     <span className="text-brand-primary text-xs font-medium">{post.author_name}</span>
                     <span className="text-brand-muted-foreground text-xs">{formatDistanceToNow(new Date(post.created_date), { addSuffix: true })}</span>
                   </div>
-                  <h3 className="text-brand-text font-semibold mb-1 break-words">{post.title}</h3>
-                  <p className="text-brand-text text-sm break-words">{post.content}</p>
+                  <h3 className="text-brand-text font-semibold mb-1 [overflow-wrap:anywhere]">{post.title}</h3>
+                  <p className="text-brand-text text-sm [overflow-wrap:anywhere]">{post.content}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 mt-3 pt-3 border-t border-brand-border">
-                <button onClick={() => likePost.mutate(post)}
+                <button aria-label="Like post" aria-pressed={!!liked} onClick={() => likePost.mutate(post)}
                   className={`nv-btn nv-btn--text nv-btn--sm ${liked ? 'text-brand-primary' : ''}`}>
                   <Heart className={`h-4 w-4 ${liked ? 'fill-brand-primary' : ''}`} />
                   {post.likes || 0}
                 </button>
-                <button onClick={() => setExpandedPost(isExpanded ? null : post.id)} className="nv-btn nv-btn--text nv-btn--sm ml-auto">
+                <button aria-expanded={isExpanded} onClick={() => setExpandedPost(isExpanded ? null : post.id)} className="nv-btn nv-btn--text nv-btn--sm ml-auto">
                   <MessageCircle className="h-4 w-4" />
                   Replies
                   {isExpanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}

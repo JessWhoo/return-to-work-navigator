@@ -80,7 +80,7 @@ export default function ProgressReportTab() {
               <button key={key} onClick={() => toggleSection(key)} aria-pressed={active}
                 className={`nv-btn w-full justify-start text-left !whitespace-normal ${active ? '' : 'nv-btn--outline'}`}>
                 <Icon className="h-4 w-4 shrink-0" />
-                <span className="font-medium">{label}</span>
+                <span className="min-w-0 flex-1 font-medium">{label}</span>
                 {active && <span className="nv-chip ml-auto">Included</span>}
               </button>
             );
@@ -93,15 +93,15 @@ export default function ProgressReportTab() {
       {generatedReport && (
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle className="text-brand-text text-lg">Your Progress Report</CardTitle>
               <Button size="sm" variant="outline" onClick={copyReport}>
-                <Copy className="h-4 w-4 mr-1" /> Copy
+                <Copy className="h-4 w-4" /> Copy
               </Button>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="bg-brand-muted rounded-lg p-4 text-brand-text text-sm whitespace-pre-wrap break-words border border-brand-border">
+            <div className="rounded-brand-lg border border-brand-border bg-brand-muted p-4 text-sm text-brand-text whitespace-pre-wrap [overflow-wrap:anywhere]">
               {generatedReport}
             </div>
             <p className="text-xs text-brand-muted-foreground mt-3 italic">

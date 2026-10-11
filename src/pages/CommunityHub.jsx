@@ -58,14 +58,14 @@ export default function CommunityHub() {
       </div>
 
       <Tabs defaultValue="report">
-        <TabsList className="nv-tabs h-auto">
+        <TabsList aria-label="Community tools" className="nv-tabs h-auto">
           <TabsTrigger value="report" className="nv-tab">
             <FileText className="h-4 w-4" />
-            <span className="hidden sm:inline">Progress</span>
+            <span >Progress</span>
           </TabsTrigger>
           <TabsTrigger value="resources" className="nv-tab">
             <Bookmark className="h-4 w-4" />
-            <span className="hidden sm:inline">Resources</span>
+            <span >Resources</span>
           </TabsTrigger>
         </TabsList>
 

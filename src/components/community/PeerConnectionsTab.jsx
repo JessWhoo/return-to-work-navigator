@@ -66,6 +66,7 @@ function ProfileForm({ existing, onSave, onCancel }) {
         <div>
           <label className="text-brand-text text-sm font-medium block mb-1">Anonymous Display Name *</label>
           <Input
+            aria-label="Anonymous Display Name"
             value={form.display_name}
             onChange={e => setForm(prev => ({ ...prev, display_name: e.target.value }))}
             placeholder="e.g. HopefulTeacher, TechSurvivor42"
@@ -78,7 +79,7 @@ function ProfileForm({ existing, onSave, onCancel }) {
           <select
             value={form.industry}
             onChange={e => setForm(prev => ({ ...prev, industry: e.target.value }))}
-            className="nv-input w-full px-3 py-2 text-sm"
+            aria-label="Industry" className="nv-input min-h-11 w-full px-3 py-2 text-sm"
           >
             <option value="">Select your industry…</option>
             {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
@@ -87,11 +88,12 @@ function ProfileForm({ existing, onSave, onCancel }) {
 
         <div>
           <label className="text-brand-text text-sm font-medium block mb-1">Return-to-Work Stage *</label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {STAGES.map(s => (
               <button
                 key={s.value}
                 type="button"
+                aria-pressed={form.return_stage === s.value}
                 onClick={() => setForm(prev => ({ ...prev, return_stage: s.value }))}
                 className={`nv-btn nv-btn--sm !whitespace-normal ${form.return_stage === s.value ? '' : 'nv-btn--outline'}`}
               >
@@ -108,6 +110,7 @@ function ProfileForm({ existing, onSave, onCancel }) {
               <button
                 key={opt}
                 type="button"
+                aria-pressed={form.looking_for.includes(opt)}
                 onClick={() => toggle('looking_for', opt)}
                 className={`nv-btn nv-btn--sm !whitespace-normal ${form.looking_for.includes(opt) ? '' : 'nv-btn--outline'}`}
               >
@@ -120,6 +123,7 @@ function ProfileForm({ existing, onSave, onCancel }) {
         <div>
           <label className="text-brand-text text-sm font-medium block mb-1">Short Bio (optional)</label>
           <textarea
+            aria-label="Short Bio"
             value={form.bio}
             onChange={e => setForm(prev => ({ ...prev, bio: e.target.value }))}
             rows={3}
@@ -128,17 +132,17 @@ function ProfileForm({ existing, onSave, onCancel }) {
           />
         </div>
 
-        <div className="flex gap-2 pt-2">
+        <div className="flex flex-col gap-3 border-t border-brand-border pt-4 sm:flex-row">
           <Button
             onClick={() => onSave(form)}
             disabled={!form.display_name.trim() || !form.industry || !form.return_stage}
-            className=" flex-1"
+            className="flex-1 !whitespace-normal"
           >
-            <CheckCircle className="h-4 w-4 mr-2" />
+            <CheckCircle className="h-4 w-4" />
             {existing ? 'Save Changes' : 'Join Peer Network'}
           </Button>
           {onCancel && (
-            <Button variant="outline" onClick={onCancel} className="border-brand-border text-brand-text">
+            <Button variant="outline" onClick={onCancel} className="!whitespace-normal">
               Cancel
             </Button>
           )}
@@ -154,7 +158,7 @@ function PeerCard({ peer, isSelf, onConnect, alreadyConnected }) {
   return (
     <Card className="">
       <CardContent className="pt-5 space-y-3">
-        <div className="flex items-start justify-between">
+        <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-brand-text font-semibold">{peer.display_name}</span>
@@ -165,7 +169,7 @@ function PeerCard({ peer, isSelf, onConnect, alreadyConnected }) {
               {peer.industry}
             </div>
           </div>
-          <Badge className={`text-xs ${STAGE_COLORS[peer.return_stage] || 'bg-brand-muted text-brand-text'}`}>
+          <Badge variant="outline" className={`rounded-pill text-xs ${STAGE_COLORS[peer.return_stage] || 'bg-brand-muted text-brand-text'}`}>
             {stageLabel}
           </Badge>
         </div>
@@ -189,12 +193,12 @@ function PeerCard({ peer, isSelf, onConnect, alreadyConnected }) {
             size="sm"
             disabled={alreadyConnected}
             onClick={() => onConnect(peer)}
-            className="w-full"
+            className="w-full !whitespace-normal"
           >
             {alreadyConnected ? (
-              <><CheckCircle className="h-4 w-4 mr-2" /> Request Sent</>
+              <><CheckCircle className="h-4 w-4" /> Request Sent</>
             ) : (
-              <><Heart className="h-4 w-4 mr-2" /> Request Connection</>
+              <><Heart className="h-4 w-4" /> Request Connection</>
             )}
           </Button>
         )}
@@ -285,7 +289,7 @@ export default function PeerConnectionsTab() {
   }
 
   return (
-    <div className="space-y-6 py-4">
+    <div className="space-y-6 py-4 [overflow-wrap:anywhere]">
       {/* Header */}
       <div className="nv-card nv-card--muted p-5 flex items-start gap-4">
         <div className="bg-brand-surface rounded-xl p-3 flex-shrink-0">
@@ -302,7 +306,7 @@ export default function PeerConnectionsTab() {
 
       {/* My Profile Section */}
       {!myProfile && !editing && (
-        <Card className="bg-brand-surface border-2 border-dashed border-brand-border hover:border-brand-primary transition-all">
+        <Card className="nv-card--muted">
           <CardContent className="py-10 text-center space-y-4">
             <Sparkles className="h-10 w-10 text-brand-primary mx-auto" />
             <div>
@@ -311,8 +315,8 @@ export default function PeerConnectionsTab() {
                 Create an anonymous profile to connect with survivors in similar industries or stages.
               </p>
             </div>
-            <Button onClick={() => setEditing(true)} className="">
-              <UserPlus className="h-4 w-4 mr-2" />
+            <Button onClick={() => setEditing(true)} className="max-w-full !whitespace-normal">
+              <UserPlus className="h-4 w-4" />
               Create My Anonymous Profile
             </Button>
           </CardContent>
@@ -322,14 +326,14 @@ export default function PeerConnectionsTab() {
       {myProfile && !editing && (
         <Card className="nv-card--muted">
           <CardContent className="pt-5 space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="nv-eyebrow nv-eyebrow--primary">Your Profile</p>
                 <h3 className="text-brand-text font-bold text-lg">{myProfile.display_name}</h3>
                 <p className="text-brand-muted-foreground text-sm">{myProfile.industry} · {STAGES.find(s => s.value === myProfile.return_stage)?.label}</p>
               </div>
               <Button size="sm" variant="outline" onClick={() => setEditing(true)} className="">
-                <Edit3 className="h-4 w-4 mr-1" /> Edit
+                <Edit3 className="h-4 w-4" /> Edit
               </Button>
             </div>
             {myProfile.bio && <p className="text-brand-muted-foreground text-sm">{myProfile.bio}</p>}
@@ -358,17 +362,19 @@ export default function PeerConnectionsTab() {
       {allPeers.length > 0 && (
         <div className="flex flex-wrap gap-3">
           <select
+            aria-label="Filter by industry"
             value={filterIndustry}
             onChange={e => setFilterIndustry(e.target.value)}
-            className="nv-input max-w-full px-3 py-2 text-sm"
+            className="nv-input min-h-11 w-full min-w-0 px-3 py-2 text-sm sm:w-auto sm:max-w-full"
           >
             <option value="all">All Industries</option>
             {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
           </select>
           <select
+            aria-label="Filter by return stage"
             value={filterStage}
             onChange={e => setFilterStage(e.target.value)}
-            className="nv-input max-w-full px-3 py-2 text-sm"
+            className="nv-input min-h-11 w-full min-w-0 px-3 py-2 text-sm sm:w-auto sm:max-w-full"
           >
             <option value="all">All Stages</option>
             {STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}

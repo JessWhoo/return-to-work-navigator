@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Bookmark, Copy, ExternalLink, Share2, Library, ArrowRight } from 'lucide-react';
+import CommunityResourceChoice from '@/components/community/CommunityResourceChoice';
+import { Bookmark, Copy, Share2, Library, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { resources as allResources } from '../resources/resourcesData';
@@ -76,34 +76,10 @@ export default function SharedResourcesTab() {
           ) : (
             <div className="space-y-3">
               <p className="text-brand-muted-foreground text-sm mb-3">Select resources to include in your shareable list:</p>
-              {bookmarkedResources.map(r => {
-                const isSelected = selectedIds.has(r.id);
-                return (
-                  <button key={r.id} onClick={() => toggleSelect(r.id)} aria-pressed={isSelected}
-                    className={`nv-card w-full text-left p-3 cursor-pointer ${isSelected ? 'nv-card--muted border-brand-primary' : ''}`}>
-                    <div className="flex items-start gap-3">
-                      <div className={`w-5 h-5 rounded border flex-shrink-0 mt-0.5 flex items-center justify-center ${isSelected ? 'bg-brand-primary border-brand-primary' : 'border-brand-border'}`}>
-                        {isSelected && <span className="text-brand-on-primary text-xs">✓</span>}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-brand-text font-medium text-sm">{r.name}</p>
-                        <p className="text-brand-muted-foreground text-xs">{r.org}</p>
-                        <div className="flex gap-1 mt-1 flex-wrap">
-                          <Badge variant="secondary" className="text-xs">{r.category}</Badge>
-                          {r.type && <Badge variant="secondary" className="text-xs">{r.type}</Badge>}
-                        </div>
-                      </div>
-                      <a href={r.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                        className="text-brand-primary hover:text-brand-text flex-shrink-0 mt-0.5">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </div>
-                  </button>
-                );
-              })}
+              {bookmarkedResources.map(r => <CommunityResourceChoice key={r.id} resource={r} selected={selectedIds.has(r.id)} onToggle={() => toggleSelect(r.id)} />)}
               <div className="flex gap-2 pt-2">
                 <Button onClick={buildShareText} disabled={selectedIds.size === 0} className="flex-1 !whitespace-normal">
-                  <Share2 className="h-4 w-4 mr-2" />
+                  <Share2 className="h-4 w-4" />
                   Build Share List ({selectedIds.size})
                 </Button>
               </div>
@@ -114,15 +90,15 @@ export default function SharedResourcesTab() {
       {shareText && (
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle className="text-brand-text text-lg">Ready to Share</CardTitle>
               <Button size="sm" variant="outline" onClick={copyShareText}>
-                <Copy className="h-4 w-4 mr-1" /> Copy
+                <Copy className="h-4 w-4" /> Copy
               </Button>
             </div>
           </CardHeader>
           <CardContent>
-            <pre className="bg-brand-muted rounded-lg p-4 text-brand-text text-sm whitespace-pre-wrap break-words border border-brand-border font-body">
+            <pre className="rounded-brand-lg border border-brand-border bg-brand-muted p-4 font-body text-sm text-brand-text whitespace-pre-wrap [overflow-wrap:anywhere]">
               {shareText}
             </pre>
             <p className="text-xs text-brand-muted-foreground mt-3 italic">

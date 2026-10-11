@@ -106,7 +106,7 @@ export default function ExpertQA() {
   const answeredCount = qaList.filter(q => q.status === 'answered' || q.status === 'featured').length;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-6 [overflow-wrap:anywhere]">
       <PageHeader eyebrow="Expert Q&A" title="Ask the Experts" subtitle="Common questions about returning to work — with answers from workplace experts, attorneys, and oncology professionals." actions={<div className="flex gap-3"><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{answeredCount}</div><div className="text-xs font-semibold text-brand-muted-foreground">Answered</div></div><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{qaList.length}</div><div className="text-xs font-semibold text-brand-muted-foreground">Total</div></div></div>} />
 
       {/* Search + Ask */}
@@ -114,6 +114,7 @@ export default function ExpertQA() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-muted-foreground" />
           <Input
+            aria-label="Search questions and answers"
             placeholder="Search questions and answers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -165,7 +166,7 @@ export default function ExpertQA() {
                 : 'Be the first to ask a question — experts will respond soon.'}
             </p>
             <Button className="mt-4" onClick={() => setAskOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" /> Ask a question
+              <Plus className="h-4 w-4" /> Ask a question
             </Button>
           </CardContent>
         </Card>
@@ -195,7 +196,7 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
   return (
     <motion.div layout>
       <Card className="overflow-hidden">
-        <button onClick={onToggle} className="w-full text-left">
+        <button type="button" aria-expanded={isExpanded} onClick={onToggle} className="w-full min-w-0 text-left [overflow-wrap:anywhere]">
           <CardHeader className="pb-3">
             <div className="flex items-start gap-3">
               <div className="p-2 rounded-brand bg-brand-muted flex-shrink-0">
@@ -205,13 +206,13 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <Badge variant="secondary" className="text-xs">{topic.label}</Badge>
                   {item.status === 'featured' && (
-                    <Badge className="bg-brand-cream text-brand-text text-xs">
-                      <Star className="h-3 w-3 mr-1" /> Featured
+                    <Badge className="bg-brand-compass-cream text-brand-text text-xs">
+                      <Star className="h-3 w-3" /> Featured
                     </Badge>
                   )}
                   {hasAnswer ? (
                     <Badge className="bg-brand-secondary text-brand-text text-xs">
-                      <CheckCircle2 className="h-3 w-3 mr-1" /> Answered
+                      <CheckCircle2 className="h-3 w-3" /> Answered
                     </Badge>
                   ) : (
                     <Badge variant="outline" className="text-xs">Awaiting expert</Badge>
@@ -220,7 +221,7 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
                 <CardTitle className="text-base sm:text-lg text-brand-text">
                   {item.question}
                 </CardTitle>
-                <div className="flex items-center gap-3 mt-2 text-xs text-brand-muted-foreground">
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-brand-muted-foreground">
                   <span className="flex items-center gap-1">
                     <User className="h-3 w-3" /> {item.asker_name || 'Anonymous'}
                   </span>
@@ -265,11 +266,12 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
                   <span className="text-xs text-brand-muted-foreground font-medium">Was this helpful?</span>
                   <Button
                     size="sm"
+                    aria-pressed={userMarkedHelpful}
                     variant={userMarkedHelpful ? "default" : "outline"}
                     onClick={(e) => { e.stopPropagation(); onHelpful(); }}
                     className="!whitespace-normal"
                   >
-                    <ThumbsUp className="h-3 w-3 mr-1" />
+                    <ThumbsUp className="h-3 w-3" />
                     {userMarkedHelpful ? 'Helpful' : 'Mark helpful'}
                   </Button>
                 </div>
@@ -354,7 +356,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
         className="!whitespace-normal"
       >
         <Link to="/login">
-          <LogIn className="h-4 w-4 mr-2" /> Sign in to ask
+          <LogIn className="h-4 w-4" /> Sign in to ask
         </Link>
       </Button>
     );
@@ -364,7 +366,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button className="!whitespace-normal">
-          <Plus className="h-4 w-4 mr-2" /> Ask a question
+          <Plus className="h-4 w-4" /> Ask a question
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-lg">
@@ -375,7 +377,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
           <div>
             <label className="text-sm font-bold text-brand-text mb-1 block">Topic</label>
             <Select value={topic} onValueChange={setTopic}>
-              <SelectTrigger>
+              <SelectTrigger aria-label="Topic" className="nv-input min-h-11">
                 <SelectValue placeholder="Choose a topic..." />
               </SelectTrigger>
               <SelectContent>
@@ -388,6 +390,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
           <div>
             <label className="text-sm font-bold text-brand-text mb-1 block">Your question</label>
             <Input
+              aria-label="Your question"
               placeholder="E.g., How do I request reduced hours after treatment?"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
@@ -399,6 +402,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
               More context <span className="text-brand-muted-foreground font-normal">(optional)</span>
             </label>
             <Textarea
+              aria-label="More context (optional)"
               placeholder="Add any details that would help an expert answer..."
               value={details}
               onChange={(e) => setDetails(e.target.value)}
@@ -406,27 +410,27 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
               maxLength={1000}
             />
           </div>
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex min-h-11 cursor-pointer items-center gap-3">
             <input
               type="checkbox"
               checked={anonymous}
               onChange={(e) => setAnonymous(e.target.checked)}
-              className="rounded"
+              className="h-4 w-4 accent-primary"
             />
             <span className="text-sm text-brand-text font-medium">Ask anonymously</span>
           </label>
           <p className="text-xs text-brand-muted-foreground -mt-2">
-            <Shield className="inline h-3 w-3 mr-1 -mt-0.5 text-brand-muted-foreground" />
+            <Shield className="inline h-3 w-3 -mt-0.5 text-brand-muted-foreground" />
             Your name won't be shown publicly when "anonymously" is checked. Your account is still
             linked internally so our moderators can respond and keep this space safe.
           </p>
           {error && (
-            <div className="rounded-brand bg-destructive/10 border border-destructive/30 p-3 text-sm text-destructive font-medium">
+            <div role="alert" className="rounded-brand bg-destructive/10 border border-destructive/30 p-3 text-sm text-destructive font-medium">
               {error}
             </div>
           )}
         </div>
-        <DialogFooter>
+        <DialogFooter className="border-t border-brand-border pt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
           <Button
             onClick={submit}
