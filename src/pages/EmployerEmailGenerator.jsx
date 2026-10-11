@@ -159,7 +159,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
       const result = (await base44.functions.invoke('aiGateway', {
         operation: 'generate_employer_email',
         data: {
-          scenarioPrompt: scenario.prompt,
+          scenarioId: scenario.id,
           progressContext,
           coachContext,
           extraInfo,

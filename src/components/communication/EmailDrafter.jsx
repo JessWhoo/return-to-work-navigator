@@ -68,7 +68,7 @@ User context:
 
       const response = (await base44.functions.invoke('aiGateway', {
         operation: 'draft_email',
-        data: { templatePrompt: template.prompt, contextInfo, recipientName },
+        data: { templateId: emailType, contextInfo, recipientName },
       })).data.result;
 
       setSubject(template.subject);
