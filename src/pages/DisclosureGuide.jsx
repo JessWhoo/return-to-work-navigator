@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useSEO from '@/hooks/useSEO';
+import PageHeader from '@/components/brand/PageHeader';
 import { MessageSquare, Sparkles, ArrowRight, RefreshCw } from 'lucide-react';
 import { DISCLOSURE_STEPS } from '@/components/disclosure/disclosureSteps';
 import StepCard from '@/components/disclosure/StepCard';
@@ -53,33 +53,17 @@ export default function DisclosureGuide() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      {/* Hero */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-3"
-      >
-        <span className="inline-block text-xs font-extrabold uppercase tracking-wider text-rose-600 bg-rose-100 border-2 border-rose-300 px-3 py-1 rounded-full">
-          Step-by-step guide
-        </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-rose-600 via-violet-600 to-sky-700 bg-clip-text text-transparent">
-          Telling Your Employer
-        </h1>
-        <p className="text-lg font-medium text-slate-800 max-w-2xl mx-auto leading-relaxed">
-          A confident, protected path to disclosing a cancer diagnosis at work —
-          with clear steps and a checklist so you never go in unprepared.
-        </p>
-      </motion.div>
+      <PageHeader center eyebrow="Step-by-step guide" title="Telling Your Employer" subtitle="A confident, protected path to disclosing a cancer diagnosis at work — with clear steps and a checklist so you never go in unprepared." />
 
       {/* Progress */}
-      <Card className="bg-white border-2 border-slate-300 shadow-md">
+      <Card className="">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
             <div>
-              <p className="text-xs font-extrabold uppercase tracking-wider text-slate-600">
+              <p className="nv-eyebrow">
                 Your Preparation
               </p>
-              <p className="text-2xl font-extrabold text-slate-900">
+              <p className="text-2xl font-extrabold text-brand-text">
                 {checkedItems.length} of {totalItems} items complete
               </p>
             </div>
@@ -87,14 +71,14 @@ export default function DisclosureGuide() {
               variant="outline"
               size="sm"
               onClick={reset}
-              className="border-2 border-slate-300 font-semibold"
+              className=""
             >
               <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
               Reset
             </Button>
           </div>
           <Progress value={progressPct} className="h-3" />
-          <p className="text-sm font-semibold text-slate-700 mt-2">
+          <p className="text-sm font-semibold text-brand-muted-foreground mt-2">
             {progressPct}% ready
           </p>
         </CardContent>
@@ -117,19 +101,19 @@ export default function DisclosureGuide() {
       </div>
 
       {/* Next actions */}
-      <Card className="bg-gradient-to-br from-rose-100 via-violet-100 to-sky-100 border-2 border-rose-300 shadow-xl">
+      <Card className="nv-card--muted">
         <CardContent className="p-8 text-center space-y-4">
-          <Sparkles className="h-10 w-10 text-rose-600 mx-auto" />
-          <h2 className="text-2xl font-extrabold text-slate-900">
+          <Sparkles className="h-10 w-10 text-brand-primary mx-auto" />
+          <h2 className="text-2xl font-extrabold text-brand-text">
             Ready to draft your message?
           </h2>
-          <p className="text-slate-800 font-medium max-w-xl mx-auto">
+          <p className="text-brand-text font-medium max-w-xl mx-auto">
             Use the Communication Toolkit to turn your plan into a professional
             email — or rehearse with the AI Coach first.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link to="/CommunicationToolkit">
-              <Button className="bg-gradient-to-r from-rose-500 to-violet-600 hover:from-rose-600 hover:to-violet-700 text-white font-bold shadow-lg">
+              <Button className="">
                 Draft an Email
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
@@ -137,7 +121,7 @@ export default function DisclosureGuide() {
             <Link to="/Coach">
               <Button
                 variant="outline"
-                className="border-2 border-sky-600 text-sky-700 hover:bg-sky-50 font-bold"
+                className="!whitespace-normal"
               >
                 <MessageSquare className="h-4 w-4 mr-2" />
                 Practice with AI Coach

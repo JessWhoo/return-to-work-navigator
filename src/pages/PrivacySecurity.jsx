@@ -1,18 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import {
-  Shield, Lock, EyeOff, UserCheck, Database, Trash2, KeyRound, HeartPulse, MessageCircle, FileText, CheckCircle2,
+  Lock, EyeOff, UserCheck, Database, Trash2, KeyRound, HeartPulse, MessageCircle, FileText, CheckCircle2,
   AlertTriangle, Mail, ExternalLink
 } from 'lucide-react';
 import SmsConsentCard from '@/components/sms/SmsConsentCard';
 import useSEO from '@/hooks/useSEO';
+import PageHeader from '@/components/brand/PageHeader';
 
 const sections = [
   {
     icon: HeartPulse,
-    color: 'from-rose-500 to-pink-600',
     title: 'Your health and journey data stays yours',
     body: (
       <>
@@ -31,7 +30,6 @@ const sections = [
   },
   {
     icon: EyeOff,
-    color: 'from-violet-500 to-purple-600',
     title: 'Community features are anonymous by design',
     body: (
       <>
@@ -50,7 +48,6 @@ const sections = [
   },
   {
     icon: Lock,
-    color: 'from-emerald-500 to-teal-600',
     title: 'How your data is protected',
     body: (
       <>
@@ -70,7 +67,6 @@ const sections = [
   },
   {
     icon: UserCheck,
-    color: 'from-sky-500 to-blue-600',
     title: 'Who can see what',
     body: (
       <>
@@ -90,7 +86,6 @@ const sections = [
   },
   {
     icon: MessageCircle,
-    color: 'from-amber-500 to-orange-600',
     title: 'AI Coach and how your prompts are handled',
     body: (
       <>
@@ -109,7 +104,6 @@ const sections = [
   },
   {
     icon: KeyRound,
-    color: 'from-indigo-500 to-violet-600',
     title: 'Your rights and controls',
     body: (
       <>
@@ -127,7 +121,6 @@ const sections = [
   },
   {
     icon: Database,
-    color: 'from-slate-600 to-slate-800',
     title: 'What we never do',
     body: (
       <>
@@ -155,202 +148,45 @@ export default function PrivacySecurity() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-violet-600 to-emerald-600 flex items-center justify-center shadow-lg">
-          <Shield className="h-10 w-10 text-white" />
-        </div>
-        <div className="flex justify-center">
-          <Badge className="bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold">
-            Transparency Page
-          </Badge>
-        </div>
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-violet-700 via-purple-600 to-emerald-700 bg-clip-text text-transparent">
-          Privacy & Security
-        </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto font-medium">
-          What happens to your health logs, journey progress, and personal notes — explained in
-          plain language, no legalese.
-        </p>
-      </div>
-
-      {/* Trust summary */}
-      <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 shadow-md">
-        <CardContent className="pt-6">
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { icon: Lock, text: 'Encrypted in transit & at rest' },
-              { icon: EyeOff, text: 'Anonymous in the community' },
-              { icon: Trash2, text: 'Delete anything, anytime' },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-emerald-200">
-                  <Icon className="h-5 w-5 text-emerald-700" />
-                </div>
-                <span className="text-sm font-bold text-slate-800">{text}</span>
-              </div>
-            ))}
-          </div>
-        </CardContent>
+      <PageHeader center eyebrow="Transparency Page" title="Privacy & Security" subtitle="What happens to your health logs, journey progress, and personal notes — explained in plain language, no legalese." />
+      <Card className="nv-card--muted">
+        <CardContent className="pt-6"><div className="grid md:grid-cols-3 gap-4">
+          {[{ icon: Lock, text: 'Encrypted in transit & at rest' }, { icon: EyeOff, text: 'Anonymous in the community' }, { icon: Trash2, text: 'Delete anything, anytime' }].map(({ icon: Icon, text }) => <div key={text} className="flex items-center gap-3"><div className="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center border border-brand-border shrink-0"><Icon className="h-5 w-5 text-brand-primary" /></div><span className="text-sm font-semibold text-brand-text">{text}</span></div>)}
+        </div></CardContent>
       </Card>
-
-      {/* Detailed sections */}
       <div className="space-y-6">
-        {sections.map((s) => {
+        {sections.map(s => {
           const Icon = s.icon;
           return (
-            <Card key={s.title} className="bg-white border-2 border-slate-200 shadow-sm">
-              <CardHeader>
-                <CardTitle className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-md flex-shrink-0`}>
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
-                  <span className="text-xl font-extrabold text-slate-900 pt-2">{s.title}</span>
-                </CardTitle>
-              </CardHeader>
+            <Card key={s.title}>
+              <CardHeader><CardTitle className="flex items-start gap-4"><div className="w-12 h-12 rounded-brand bg-brand-muted flex items-center justify-center shrink-0"><Icon className="h-6 w-6 text-brand-primary" /></div><span className="text-xl font-bold text-brand-text pt-2">{s.title}</span></CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-slate-700 leading-relaxed">{s.body}</p>
-
-                {s.bullets && (
-                  <ul className="space-y-2 pl-1">
-                    {s.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2 text-slate-700">
-                        <CheckCircle2 className="h-5 w-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm font-medium">{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {s.table && (
-                  <div className="overflow-hidden rounded-lg border-2 border-slate-200">
-                    <table className="w-full text-sm">
-                      <thead className="bg-slate-100">
-                        <tr>
-                          <th className="text-left p-3 font-bold text-slate-800">Data type</th>
-                          <th className="text-left p-3 font-bold text-slate-800">Who can read it</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {s.table.map((row, i) => (
-                          <tr key={row.data} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
-                            <td className="p-3 text-slate-800 font-medium">{row.data}</td>
-                            <td className="p-3 text-slate-700">{row.who}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                <p className="text-brand-text">{s.body}</p>
+                {s.bullets && <ul className="space-y-2 pl-1">{s.bullets.map(b => <li key={b} className="flex items-start gap-2 text-brand-text"><CheckCircle2 className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /><span className="text-sm font-medium">{b}</span></li>)}</ul>}
+                {s.table && <div className="overflow-x-auto rounded-brand border border-brand-border"><table className="w-full text-sm"><thead className="bg-brand-muted"><tr><th className="text-left p-3 font-semibold text-brand-text">Data type</th><th className="text-left p-3 font-semibold text-brand-text">Who can read it</th></tr></thead><tbody>{s.table.map((row, i) => <tr key={row.data} className={i % 2 === 0 ? 'bg-brand-surface' : 'bg-brand-background'}><td className="p-3 text-brand-text font-medium">{row.data}</td><td className="p-3 text-brand-muted-foreground">{row.who}</td></tr>)}</tbody></table></div>}
               </CardContent>
             </Card>
           );
         })}
       </div>
-
-      {/* Your controls quick links */}
-      <Card className="bg-gradient-to-br from-violet-50 to-purple-50 border-2 border-violet-200 shadow-md">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-slate-900">
-            <UserCheck className="h-6 w-6 text-violet-700" />
-            <span className="font-extrabold">Your data controls</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid sm:grid-cols-2 gap-3">
-            <Link
-              to="/Profile"
-              className="flex items-center gap-3 p-4 bg-white rounded-lg border-2 border-slate-200 hover:border-violet-400 hover:shadow-md transition-all"
-            >
-              <FileText className="h-5 w-5 text-violet-700" />
-              <div>
-                <div className="font-bold text-slate-900 text-sm">Edit profile & preferences</div>
-                <div className="text-xs text-slate-600">Notification settings, name, sign out</div>
-              </div>
-            </Link>
-            <Link
-              to="/Profile"
-              className="flex items-center gap-3 p-4 bg-white rounded-lg border-2 border-slate-200 hover:border-red-400 hover:shadow-md transition-all"
-            >
-              <Trash2 className="h-5 w-5 text-red-600" />
-              <div>
-                <div className="font-bold text-slate-900 text-sm">Delete your account</div>
-                <div className="text-xs text-slate-600">Profile → Danger Zone</div>
-              </div>
-            </Link>
-            <Link
-              to="/Contact"
-              className="flex items-center gap-3 p-4 bg-white rounded-lg border-2 border-slate-200 hover:border-sky-400 hover:shadow-md transition-all"
-            >
-              <Mail className="h-5 w-5 text-sky-700" />
-              <div>
-                <div className="font-bold text-slate-900 text-sm">Ask a privacy question</div>
-                <div className="text-xs text-slate-600">Contact our team</div>
-              </div>
-            </Link>
-          </div>
-        </CardContent>
+      <Card className="nv-card--muted">
+        <CardHeader><CardTitle className="flex items-center gap-2 text-brand-text"><UserCheck className="h-6 w-6 text-brand-primary" /><span>Your data controls</span></CardTitle></CardHeader>
+        <CardContent><div className="grid sm:grid-cols-2 gap-3">
+          <Link to="/Profile" className="nv-card flex items-center gap-3 p-4"><FileText className="h-5 w-5 text-brand-primary shrink-0" /><div><div className="font-semibold text-brand-text text-sm">Edit profile & preferences</div><div className="text-xs text-brand-muted-foreground">Notification settings, name, sign out</div></div></Link>
+          <Link to="/Profile" className="nv-card flex items-center gap-3 p-4"><Trash2 className="h-5 w-5 text-destructive shrink-0" /><div><div className="font-semibold text-brand-text text-sm">Delete your account</div><div className="text-xs text-brand-muted-foreground">Profile → Danger Zone</div></div></Link>
+          <Link to="/Contact" className="nv-card flex items-center gap-3 p-4"><Mail className="h-5 w-5 text-brand-primary shrink-0" /><div><div className="font-semibold text-brand-text text-sm">Ask a privacy question</div><div className="text-xs text-brand-muted-foreground">Contact our team</div></div></Link>
+        </div></CardContent>
       </Card>
-
-      {/* Third-party services */}
-      <Card className="bg-white border-2 border-slate-200 shadow-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-slate-900">
-            <ExternalLink className="h-6 w-6 text-violet-700" />
-            <span className="font-extrabold">Third-party services</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <p className="text-sm text-slate-700 leading-relaxed">
-            Some features are supported by outside services, and those services' own terms apply to
-            how they handle your information.
-          </p>
-          <a
-            href="https://conversations.godaddy.com/policies/tos/df004a43-c23b-11f1-8742-3cfdfe75eb81"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-bold text-violet-700 hover:text-violet-800 underline transition-colors"
-          >
-            GoDaddy Conversations Terms of Service
-            <ExternalLink className="h-4 w-4" />
-          </a>
-
-        </CardContent>
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-brand-text"><ExternalLink className="h-6 w-6 text-brand-primary" /><span>Third-party services</span></CardTitle></CardHeader>
+        <CardContent className="space-y-3"><p className="text-sm text-brand-text">Some features are supported by outside services, and those services' own terms apply to how they handle your information.</p><a href="https://conversations.godaddy.com/policies/tos/df004a43-c23b-11f1-8742-3cfdfe75eb81" target="_blank" rel="noopener noreferrer" className="nv-btn nv-btn--text !whitespace-normal underline"><span>GoDaddy Conversations Terms of Service</span><ExternalLink className="h-4 w-4" /></a></CardContent>
       </Card>
-
-      {/* Text message program */}
       <SmsConsentCard>
-        <p className="text-xs text-slate-900 leading-relaxed font-bold">
-          Return Collective does not share mobile numbers, text messaging originator opt-in data,
-          or consent with any third parties or affiliates for marketing or promotional purposes.
-        </p>
-        <p className="text-xs text-slate-700 leading-relaxed">
-          Text messaging originator opt-in data and consent will not be shared with any third
-          parties, excluding aggregators and providers of the Text Message services.
-        </p>
+        <p className="text-xs text-brand-text font-bold">Return Collective does not share mobile numbers, text messaging originator opt-in data, or consent with any third parties or affiliates for marketing or promotional purposes.</p>
+        <p className="text-xs text-brand-muted-foreground">Text messaging originator opt-in data and consent will not be shared with any third parties, excluding aggregators and providers of the Text Message services.</p>
       </SmsConsentCard>
-
-      {/* Footer note */}
-      <Card className="bg-amber-50 border-2 border-amber-200">
-        <CardContent className="pt-6">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-700 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-slate-800 space-y-2">
-              <p className="font-bold">A note about medical information</p>
-              <p className="text-slate-700 leading-relaxed">
-                Navigator is not a medical record system, health-insurance portal, or legal service.
-                It's a personal tool for organizing your return-to-work journey. Please continue to
-                keep official medical records with your care team and consult a licensed attorney
-                for legal decisions.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <p className="text-center text-xs text-slate-600 italic pb-4">
-        Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-      </p>
+      <Card className="nv-card--muted"><CardContent className="pt-6"><div className="flex items-start gap-3"><AlertTriangle className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /><div className="text-sm text-brand-text space-y-2"><p className="font-bold">A note about medical information</p><p>Navigator is not a medical record system, health-insurance portal, or legal service. It's a personal tool for organizing your return-to-work journey. Please continue to keep official medical records with your care team and consult a licensed attorney for legal decisions.</p></div></div></CardContent></Card>
+      <p className="text-center text-xs text-brand-muted-foreground italic pb-4">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
     </div>
   );
 }

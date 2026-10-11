@@ -794,8 +794,8 @@ export default function Resources() {
                                       <Star
                                         className={`h-4 w-4 ${
                                           star <= getRating(resource.id)
-                                            ? 'text-amber-500 fill-amber-500'
-                                            : 'text-muted-foreground hover:text-amber-400'
+                                            ? 'text-brand-primary fill-brand-primary'
+                                            : 'text-brand-muted-foreground hover:text-brand-primary'
                                         }`}
                                       />
                                     </button>

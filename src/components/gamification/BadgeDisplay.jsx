@@ -24,24 +24,22 @@ export default function BadgeDisplay({ badgeId, size = 'md', showName = true, lo
       transition={{ type: 'spring', stiffness: 300 }}
     >
       <div
-        className={`relative ${sizeClasses.container} rounded-2xl bg-gradient-to-br ${badge.color} shadow-lg ${
-          locked ? 'opacity-40 grayscale' : ''
-        }`}
+        className={`relative ${sizeClasses.container} rounded-brand-lg shadow-brand-sm ${locked ? 'bg-brand-muted border border-brand-border' : 'bg-brand-primary'}`}
       >
-        <Icon className={`${sizeClasses.icon} text-white`} />
+        <Icon className={`${sizeClasses.icon} ${locked ? 'text-brand-muted-foreground' : 'text-primary-foreground'}`} />
         {locked && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-white text-2xl font-bold">🔒</div>
+            <div className="text-brand-text text-2xl font-bold">🔒</div>
           </div>
         )}
       </div>
       {showName && (
         <div className="text-center">
-          <p className={`font-semibold ${locked ? 'text-slate-500' : 'text-slate-200'} ${sizeClasses.text}`}>
+          <p className={`font-semibold ${locked ? 'text-brand-muted-foreground' : 'text-brand-text'} ${sizeClasses.text}`}>
             {badge.name}
           </p>
           {size !== 'sm' && (
-            <p className="text-xs text-slate-400 max-w-[120px]">{badge.description}</p>
+            <p className="text-xs text-brand-muted-foreground max-w-[120px]">{badge.description}</p>
           )}
         </div>
       )}

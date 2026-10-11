@@ -4,9 +4,9 @@ import { Phone, MessageSquare, Clock, ExternalLink } from 'lucide-react';
 
 export default function ContactCard({ contact }) {
   return (
-    <Card className="bg-white border-2 border-slate-200 hover:border-rose-400 hover:shadow-lg transition-all h-full">
+    <Card className="h-full">
       <CardContent className="p-5 space-y-3">
-        <h3 className="text-lg font-extrabold text-slate-900 leading-tight">
+        <h3 className="text-lg font-extrabold text-brand-text">
           {contact.name}
         </h3>
 
@@ -21,14 +21,14 @@ export default function ContactCard({ contact }) {
                   });
                 }
               }}
-              className="inline-flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold px-3 py-2 rounded-lg shadow-sm transition-colors"
+              className="nv-btn nv-btn--sm !whitespace-normal"
             >
               <Phone className="h-4 w-4" />
               {contact.phone}
             </a>
           )}
           {!contact.tel && contact.phone && (
-            <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-900 text-sm font-bold px-3 py-2 rounded-lg">
+            <span className="nv-chip nv-chip--muted">
               <Phone className="h-4 w-4" />
               {contact.phone}
             </span>
@@ -36,7 +36,7 @@ export default function ContactCard({ contact }) {
           {contact.sms && (
             <a
               href={contact.sms}
-              className="inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold px-3 py-2 rounded-lg shadow-sm transition-colors"
+              className="nv-btn nv-btn--secondary nv-btn--sm !whitespace-normal"
             >
               <MessageSquare className="h-4 w-4" />
               {contact.text}
@@ -45,13 +45,13 @@ export default function ContactCard({ contact }) {
         </div>
 
         {contact.hours && (
-          <div className="flex items-center gap-1.5 text-xs text-slate-700 font-semibold">
-            <Clock className="h-3.5 w-3.5 text-emerald-600" />
+          <div className="flex items-center gap-1.5 text-xs text-brand-muted-foreground font-semibold">
+            <Clock className="h-3.5 w-3.5 text-brand-primary" />
             <span>{contact.hours}</span>
           </div>
         )}
 
-        <p className="text-sm text-slate-700 leading-relaxed">
+        <p className="text-sm text-brand-muted-foreground">
           {contact.description}
         </p>
 
@@ -60,7 +60,7 @@ export default function ContactCard({ contact }) {
             href={contact.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-sky-700 hover:text-sky-800 hover:underline"
+            className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal"
           >
             Visit website <ExternalLink className="h-3.5 w-3.5" />
           </a>

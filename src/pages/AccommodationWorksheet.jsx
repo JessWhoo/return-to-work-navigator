@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateAccommodationWorksheetPdf } from '@/components/worksheets/generateAccommodationWorksheetPdf';
 import useSEO from '@/hooks/useSEO';
+import PageHeader from '@/components/brand/PageHeader';
 
 const EMPTY_FORM = {
   employeeName: '',
@@ -53,11 +54,11 @@ const EXAMPLE_FORM = {
 function Field({ id, label, children, hint }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id} className="text-sm font-bold text-slate-800">
+      <Label htmlFor={id} className="text-sm font-bold text-brand-text">
         {label}
       </Label>
       {children}
-      {hint && <p className="text-xs text-slate-600 font-medium">{hint}</p>}
+      {hint && <p className="text-xs text-brand-muted-foreground font-medium">{hint}</p>}
     </div>
   );
 }
@@ -65,11 +66,11 @@ function Field({ id, label, children, hint }) {
 function PreviewBlock({ title, children }) {
   return (
     <div>
-      <h3 className="text-xs font-extrabold uppercase tracking-wider text-violet-700 border-b border-slate-200 pb-1 mb-2">
+      <h3 className="text-xs font-bold text-brand-primary border-b border-brand-border pb-1 mb-2">
         {title}
       </h3>
-      <div className="text-sm text-slate-800 font-medium leading-relaxed whitespace-pre-wrap min-h-[1.5rem]">
-        {children || <span className="text-slate-400 italic">—</span>}
+      <div className="text-sm text-brand-text font-medium whitespace-pre-wrap min-h-[1.5rem]">
+        {children || <span className="text-brand-muted-foreground italic">—</span>}
       </div>
     </div>
   );
@@ -113,26 +114,14 @@ export default function AccommodationWorksheet() {
       `}</style>
 
       {/* Header */}
-      <div className="no-print mb-6">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-violet-700">
-          <Sparkles className="h-3.5 w-3.5" />
-          Meeting Prep
-        </div>
-        <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Accommodation Meeting Worksheet
-        </h1>
-        <p className="mt-2 text-slate-700 font-medium max-w-2xl">
-          Fill in a few details, preview your worksheet, then download a clean
-          PDF you can print and bring to your meeting.
-        </p>
-      </div>
+      <PageHeader className="no-print mb-6" eyebrow="Meeting Prep" title="Accommodation Meeting Worksheet" subtitle="Fill in a few details, preview your worksheet, then download a clean PDF you can print and bring to your meeting." />
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Form */}
-        <Card className="no-print border-2 border-slate-200 shadow-sm">
+        <Card className="no-print">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg font-extrabold text-slate-900">
-              <FileText className="h-5 w-5 text-violet-600" />
+            <CardTitle className="flex items-center gap-2 text-lg font-extrabold text-brand-text">
+              <FileText className="h-5 w-5 text-brand-primary" />
               Your details
             </CardTitle>
           </CardHeader>
@@ -273,13 +262,13 @@ export default function AccommodationWorksheet() {
         <div className="space-y-5 print-full">
           <motion.div
             layout
-            className="bg-white border-2 border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8"
+            className="nv-card p-6 sm:p-8"
           >
-            <div className="border-b-2 border-violet-500 pb-4 mb-5">
-              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <div className="border-b border-brand-primary pb-4 mb-5">
+              <h2 className="text-2xl font-extrabold text-brand-text">
                 Accommodation Meeting Worksheet
               </h2>
-              <p className="text-xs text-slate-600 font-medium mt-1">
+              <p className="text-xs text-brand-muted-foreground font-medium mt-1">
                 A simple guide to help you prepare, take notes, and follow up.
               </p>
             </div>
@@ -309,23 +298,23 @@ export default function AccommodationWorksheet() {
               </PreviewBlock>
 
               <div>
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-violet-700 border-b border-slate-200 pb-1 mb-2">
+                <h3 className="text-xs font-bold text-brand-primary border-b border-brand-border pb-1 mb-2">
                   Notes during the meeting
                 </h3>
                 <div className="space-y-3">
                   {[...Array(4)].map((_, i) => (
-                    <div key={i} className="border-b border-dashed border-slate-300 h-5" />
+                    <div key={i} className="border-b border-dashed border-brand-border h-5" />
                   ))}
                 </div>
               </div>
 
               <div>
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-violet-700 border-b border-slate-200 pb-1 mb-2">
+                <h3 className="text-xs font-bold text-brand-primary border-b border-brand-border pb-1 mb-2">
                   Agreed next steps
                 </h3>
                 <div className="space-y-3">
                   {[...Array(3)].map((_, i) => (
-                    <div key={i} className="border-b border-dashed border-slate-300 h-5" />
+                    <div key={i} className="border-b border-dashed border-brand-border h-5" />
                   ))}
                 </div>
               </div>
@@ -336,7 +325,7 @@ export default function AccommodationWorksheet() {
             <Button
               onClick={handleDownload}
               disabled={isDownloading}
-              className="bg-gradient-to-r from-violet-500 via-purple-500 to-emerald-600 hover:from-violet-600 hover:via-purple-600 hover:to-emerald-700 text-white font-bold shadow-md"
+              className="!whitespace-normal"
             >
               <Download className="h-4 w-4 mr-1.5" />
               {isDownloading ? 'Preparing PDF…' : 'Download PDF'}
@@ -347,7 +336,7 @@ export default function AccommodationWorksheet() {
             </Button>
           </div>
 
-          <p className="no-print text-xs text-slate-600 font-medium">
+          <p className="no-print text-xs text-brand-muted-foreground font-medium">
             Educational use only. Not legal advice — consult a qualified
             professional for legal guidance.
           </p>

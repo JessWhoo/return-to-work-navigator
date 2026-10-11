@@ -8,14 +8,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { jsPDF } from 'jspdf';
+import PageHeader from '@/components/brand/PageHeader';
 import { 
   FileText, Download, 
   Clock, Home, Utensils, Briefcase 
 } from 'lucide-react';
 
-// Static class maps — Tailwind purges dynamically built class names.
-const CAT_BG = { blue: 'bg-blue-100', teal: 'bg-teal-100', purple: 'bg-purple-100', rose: 'bg-rose-100' };
-const CAT_TEXT = { blue: 'text-blue-600', teal: 'text-teal-600', purple: 'text-purple-600', rose: 'text-rose-600' };
+const CAT_BG = { blue: 'bg-brand-sky', teal: 'bg-brand-secondary', purple: 'bg-brand-muted', rose: 'bg-brand-accent' };
+const CAT_TEXT = { blue: 'text-brand-text', teal: 'text-brand-text', purple: 'text-brand-primary', rose: 'text-brand-text' };
 
 const commonAccommodations = [
   {
@@ -156,36 +156,17 @@ export default function Accommodations() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-          Workplace Accommodations
-        </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
-          Select the accommodations you need and generate a formal request letter
-        </p>
-        <Link
-          to="/AccommodationLetterGenerator"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-md hover:from-violet-700 hover:to-emerald-700 transition-colors"
-        >
-          <FileText className="h-4 w-4" />
-          Try the guided letter generator
-        </Link>
-        <div>
-          <Link to="/AccommodationTemplates" className="text-sm font-bold text-violet-700 underline">
-            Or browse ready-made request templates
-          </Link>
-        </div>
-      </div>
+      <PageHeader center title="Workplace Accommodations" subtitle="Select the accommodations you need and generate a formal request letter" actions={<div className="flex flex-col items-center gap-3"><Link to="/AccommodationLetterGenerator" className="nv-btn !whitespace-normal"><FileText className="h-4 w-4" />Try the guided letter generator</Link><Link to="/AccommodationTemplates" className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal underline">Or browse ready-made request templates</Link></div>} />
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-white border-slate-300">
+          <Card className="">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <FileText className="h-6 w-6 text-purple-600" />
+                <FileText className="h-6 w-6 text-brand-primary" />
                 <span>Select Your Accommodations</span>
               </CardTitle>
-              <p className="text-sm text-slate-700 mt-2">
+              <p className="text-sm text-brand-muted-foreground mt-2">
                 Choose from common accommodations. You can customize or add more in the form.
               </p>
             </CardHeader>
@@ -198,7 +179,7 @@ export default function Accommodations() {
                       <div className={`p-2 rounded-lg ${CAT_BG[category.color]}`}>
                         <Icon className={`h-5 w-5 ${CAT_TEXT[category.color]}`} />
                       </div>
-                      <h3 className="font-semibold text-slate-900">{category.category}</h3>
+                      <h3 className="font-semibold text-brand-text">{category.category}</h3>
                     </div>
                     <div className="space-y-2 ml-2">
                       {category.items.map((item, index) => (
@@ -211,7 +192,7 @@ export default function Accommodations() {
                           />
                           <label
                             htmlFor={`${category.category}-${index}`}
-                            className="text-sm text-slate-800 cursor-pointer flex-1 leading-relaxed"
+                            className="text-sm text-brand-text cursor-pointer flex-1"
                           >
                             {item}
                           </label>
@@ -226,9 +207,9 @@ export default function Accommodations() {
         </div>
 
         <div className="space-y-6">
-          <Card className="bg-white border-slate-300 sticky top-24">
+          <Card className="lg:sticky lg:top-24">
             <CardHeader>
-              <CardTitle className="text-lg text-slate-900">Your Information</CardTitle>
+              <CardTitle className="text-lg text-brand-text">Your Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -278,14 +259,14 @@ export default function Accommodations() {
                 />
               </div>
               <div className="pt-4 space-y-3">
-                <div className="bg-purple-50 p-3 rounded-lg border border-purple-300">
-                  <p className="text-sm font-medium text-purple-800 mb-1">Selected:</p>
-                  <p className="text-2xl font-bold text-purple-800">{selectedAccommodations.length}</p>
-                  <p className="text-xs text-purple-700">accommodations</p>
+                <div className="nv-card nv-card--muted p-3">
+                  <p className="text-sm font-medium text-brand-text mb-1">Selected:</p>
+                  <p className="text-2xl font-bold text-brand-text">{selectedAccommodations.length}</p>
+                  <p className="text-xs text-brand-muted-foreground">accommodations</p>
                 </div>
                 <Button
                   onClick={generateLetter}
-                  className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
+                  className="w-full !whitespace-normal"
                   size="lg"
                 >
                   <Download className="h-4 w-4 mr-2" />
@@ -297,9 +278,9 @@ export default function Accommodations() {
         </div>
       </div>
 
-      <Card className="bg-white border-teal-500">
+      <Card className="nv-card--muted">
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+          <CardTitle className="flex flex-wrap items-center justify-between gap-3">
             <span>Doctor's Documentation Template</span>
             <Button
               variant="outline"
@@ -340,11 +321,11 @@ Sincerely,
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-700 mb-4">
+          <p className="text-sm text-brand-muted-foreground mb-4">
             Give this template to your doctor to complete on their letterhead. This documentation 
             supports your accommodation request.
           </p>
-          <pre className="whitespace-pre-wrap font-sans text-sm text-slate-800 bg-slate-100 p-4 rounded-lg leading-relaxed border border-slate-300">
+          <pre className="whitespace-pre-wrap break-words font-body text-sm text-brand-text bg-brand-surface p-4 rounded-brand border border-brand-border">
 {`[Date]
 
 To Whom It May Concern:

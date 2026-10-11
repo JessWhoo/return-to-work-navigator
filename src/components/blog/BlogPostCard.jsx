@@ -10,22 +10,22 @@ export default function BlogPostCard({ post }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Card className="bg-white border-2 border-rose-200 hover:border-rose-400 shadow-md hover:shadow-xl transition-all">
+    <Card className="">
       <CardContent className="p-6 sm:p-8 space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <Badge className="bg-gradient-to-r from-rose-500 to-violet-500 text-white">
+          <Badge className="">
             {post.tag}
           </Badge>
-          <span className="text-xs text-slate-700 font-semibold">
+          <span className="text-xs text-brand-muted-foreground font-semibold">
             {format(parseISO(post.date), 'MMMM d, yyyy')}
           </span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-brand-text">
           {post.title}
         </h2>
 
-        <p className="text-base text-slate-700 leading-relaxed italic">
+        <p className="text-base text-brand-muted-foreground italic">
           {post.excerpt}
         </p>
 
@@ -38,14 +38,14 @@ export default function BlogPostCard({ post }) {
               transition={{ duration: 0.25 }}
               className="overflow-hidden"
             >
-              <div className="space-y-4 pt-2 border-t-2 border-rose-100">
+              <div className="space-y-4 pt-2 border-t border-brand-border">
                 {post.content.map((paragraph, i) => (
-                  <p key={i} className="text-slate-800 leading-relaxed">
+                  <p key={i} className="text-brand-text">
                     {paragraph}
                   </p>
                 ))}
-                <div className="flex items-center gap-2 pt-2 text-sm text-rose-700 font-semibold">
-                  <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />
+                <div className="flex items-center gap-2 pt-2 text-sm text-brand-primary font-semibold">
+                  <Heart className="h-4 w-4 fill-brand-primary text-brand-primary" />
                   <span>— Jess</span>
                 </div>
               </div>
@@ -56,7 +56,7 @@ export default function BlogPostCard({ post }) {
         <Button
           variant="outline"
           onClick={() => setExpanded((v) => !v)}
-          className="border-2 border-rose-300 text-rose-700 hover:bg-rose-50 font-semibold"
+          className="!whitespace-normal"
         >
           {expanded ? (
             <>

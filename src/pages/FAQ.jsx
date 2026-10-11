@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import useSEO from '@/hooks/useSEO';
+import PageHeader from '@/components/brand/PageHeader';
 import { 
   ChevronDown, ChevronRight, HelpCircle, Search, 
   Briefcase, Shield, Heart, Zap, FileText, Calendar
@@ -13,7 +14,6 @@ const faqData = [
   {
     category: 'Getting Started',
     icon: HelpCircle,
-    color: 'from-teal-500 to-cyan-500',
     questions: [
       {
         q: 'How do I start planning my return to work?',
@@ -32,7 +32,6 @@ const faqData = [
   {
     category: 'Legal Rights & Accommodations',
     icon: Shield,
-    color: 'from-green-500 to-emerald-500',
     questions: [
       {
         q: 'What is the Americans with Disabilities Act (ADA)?',
@@ -59,7 +58,6 @@ const faqData = [
   {
     category: 'Managing Energy & Fatigue',
     icon: Zap,
-    color: 'from-amber-500 to-orange-500',
     questions: [
       {
         q: 'How do I manage cancer-related fatigue at work?',
@@ -78,7 +76,6 @@ const faqData = [
   {
     category: 'Communication',
     icon: FileText,
-    color: 'from-blue-500 to-indigo-500',
     questions: [
       {
         q: 'How much should I tell my employer about my cancer?',
@@ -97,7 +94,6 @@ const faqData = [
   {
     category: 'Planning & Timeline',
     icon: Calendar,
-    color: 'from-purple-500 to-violet-500',
     questions: [
       {
         q: 'When is the right time to return to work?',
@@ -116,7 +112,6 @@ const faqData = [
   {
     category: 'Emotional & Mental Health',
     icon: Heart,
-    color: 'from-pink-500 to-rose-500',
     questions: [
       {
         q: 'I\'m anxious about returning to work. Is this normal?',
@@ -135,7 +130,6 @@ const faqData = [
   {
     category: 'Using This Toolkit',
     icon: Briefcase,
-    color: 'from-indigo-500 to-blue-500',
     questions: [
       {
         q: 'How do I track my progress?',
@@ -193,156 +187,43 @@ export default function FAQ() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200 }}
-          className="inline-block"
-        >
-          <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center mx-auto shadow-lg">
-            <HelpCircle className="h-10 w-10 text-white" />
-          </div>
-        </motion.div>
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
-          Frequently Asked Questions
-        </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
-          Find answers to common questions about returning to work after cancer treatment
-        </p>
-      </div>
-
-      {/* Search */}
-      <Card className="bg-white border-2 border-teal-300">
-        <CardContent className="pt-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" />
-            <Input
-              placeholder="Search for answers..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-12 text-base"
-            />
-          </div>
-        </CardContent>
+      <PageHeader center title="Frequently Asked Questions" subtitle="Find answers to common questions about returning to work after cancer treatment" />
+      <Card>
+        <CardContent className="pt-6"><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-muted-foreground" /><Input placeholder="Search for answers..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 h-12 text-base" /></div></CardContent>
       </Card>
-
-      {/* FAQ Categories */}
       <div className="space-y-4">
-        {filteredFAQ.length === 0 ? (
-          <Card className="bg-white border-slate-300">
-            <CardContent className="pt-6 text-center">
-              <p className="text-slate-700">No results found for "{searchQuery}"</p>
-            </CardContent>
-          </Card>
-        ) : (
-          filteredFAQ.map((category) => {
-            const actualIndex = faqData.findIndex(c => c.category === category.category);
-            const isExpanded = expandedCategories.includes(actualIndex);
-            const Icon = category.icon;
-
-            return (
-              <Card
-                key={actualIndex}
-                className="bg-white border-2 border-slate-300 hover:border-slate-400 hover:shadow-lg transition-all overflow-hidden"
-              >
-                <CardHeader
-                  className="cursor-pointer hover:bg-slate-50 transition-colors"
-                  onClick={() => toggleCategory(actualIndex)}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      {isExpanded ? (
-                        <ChevronDown className="h-5 w-5 text-slate-600" />
-                      ) : (
-                        <ChevronRight className="h-5 w-5 text-slate-600" />
-                      )}
-                      <div className={`p-2 rounded-lg bg-gradient-to-br ${category.color}`}>
-                        <Icon className="h-5 w-5 text-white" />
-                      </div>
-                      <CardTitle className="text-xl text-slate-900">
-                        {category.category}
-                      </CardTitle>
-                    </div>
-                    <Badge variant="secondary" className="bg-slate-100 text-slate-800">
-                      {category.questions.length}
-                    </Badge>
-                  </div>
-                </CardHeader>
-
-                <AnimatePresence>
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <CardContent className="space-y-3 pt-0">
-                        {category.questions.map((question, questionIndex) => {
-                          const key = `${actualIndex}-${questionIndex}`;
-                          const isQuestionExpanded = expandedQuestions.includes(key);
-
-                          return (
-                            <div
-                              key={questionIndex}
-                              className="border-l-4 border-slate-300 hover:border-teal-500 transition-colors"
-                            >
-                              <button
-                                onClick={() => toggleQuestion(actualIndex, questionIndex)}
-                                className="w-full text-left p-4 hover:bg-slate-50 transition-colors rounded-r-lg"
-                              >
-                                <div className="flex items-start justify-between">
-                                  <h4 className="font-semibold text-slate-900 pr-4">
-                                    {question.q}
-                                  </h4>
-                                  {isQuestionExpanded ? (
-                                    <ChevronDown className="h-5 w-5 text-slate-600 flex-shrink-0 mt-0.5" />
-                                  ) : (
-                                    <ChevronRight className="h-5 w-5 text-slate-600 flex-shrink-0 mt-0.5" />
-                                  )}
-                                </div>
-                              </button>
-
-                              <AnimatePresence>
-                                {isQuestionExpanded && (
-                                  <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: 'auto', opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                  >
-                                    <div className="px-4 pb-4 text-slate-700 leading-relaxed">
-                                      {question.a}
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
-                            </div>
-                          );
-                        })}
-                      </CardContent>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Card>
-            );
-          })
-        )}
+        {filteredFAQ.length === 0 ? <Card><CardContent className="pt-6 text-center"><p className="text-brand-muted-foreground">No results found for "{searchQuery}"</p></CardContent></Card> : filteredFAQ.map(category => {
+          const actualIndex = faqData.findIndex(c => c.category === category.category);
+          const isExpanded = expandedCategories.includes(actualIndex);
+          const Icon = category.icon;
+          return (
+            <Card key={actualIndex} className="overflow-hidden">
+              <CardHeader className="cursor-pointer" onClick={() => toggleCategory(actualIndex)}>
+                <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-3 min-w-0">{isExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0" />}<div className="p-2 rounded-brand bg-brand-muted shrink-0"><Icon className="h-5 w-5 text-brand-primary" /></div><CardTitle className="text-xl text-brand-text">{category.category}</CardTitle></div><Badge variant="secondary">{category.questions.length}</Badge></div>
+              </CardHeader>
+              <AnimatePresence>
+                {isExpanded && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
+                  <CardContent className="space-y-3 pt-0">
+                    {category.questions.map((question, questionIndex) => {
+                      const key = `${actualIndex}-${questionIndex}`;
+                      const isQuestionExpanded = expandedQuestions.includes(key);
+                      return (
+                        <div key={questionIndex} className="border-l-4 border-brand-border">
+                          <button onClick={() => toggleQuestion(actualIndex, questionIndex)} aria-expanded={isQuestionExpanded} className="w-full text-left p-4 text-brand-text rounded-r-brand hover:bg-brand-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+                            <div className="flex items-start justify-between gap-3"><h4 className="font-semibold">{question.q}</h4>{isQuestionExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" />}</div>
+                          </button>
+                          <AnimatePresence>{isQuestionExpanded && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}><div className="px-4 pb-4 text-brand-muted-foreground">{question.a}</div></motion.div>}</AnimatePresence>
+                        </div>
+                      );
+                    })}
+                  </CardContent>
+                </motion.div>}
+              </AnimatePresence>
+            </Card>
+          );
+        })}
       </div>
-
-      {/* Help Section */}
-      <Card className="bg-gradient-to-br from-teal-50 to-cyan-50 border-2 border-teal-300">
-        <CardContent className="pt-6 text-center space-y-3">
-          <Heart className="h-12 w-12 text-teal-600 mx-auto" />
-          <h3 className="text-xl font-bold text-slate-900">Still Have Questions?</h3>
-          <p className="text-slate-700">
-            Can't find what you're looking for? Explore our Resources section for additional support,
-            or consult with your healthcare team and legal counsel for personalized guidance.
-          </p>
-        </CardContent>
-      </Card>
+      <Card className="nv-card--muted"><CardContent className="pt-6 text-center space-y-3"><Heart className="h-12 w-12 text-brand-primary mx-auto" /><h3 className="text-xl font-bold text-brand-text">Still Have Questions?</h3><p className="text-brand-muted-foreground">Can't find what you're looking for? Explore our Resources section for additional support, or consult with your healthcare team and legal counsel for personalized guidance.</p></CardContent></Card>
     </div>
   );
 }

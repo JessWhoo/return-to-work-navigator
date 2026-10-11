@@ -8,30 +8,32 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter
+  Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogFooter
 } from '@/components/ui/dialog';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '@/components/ui/select';
 import {
-  MessageCircleQuestion, Search, Plus, ThumbsUp, Sparkles,
+  MessageCircleQuestion, Search, Plus, ThumbsUp,
   Battery, Scale, Handshake, MessageSquare, Briefcase,
   Heart, Shield, HelpCircle, Star, CheckCircle2, User, LogIn
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
+import PageHeader from '@/components/brand/PageHeader';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 
 const TOPICS = [
-  { id: 'all', label: 'All Topics', icon: MessageCircleQuestion, color: 'from-slate-500 to-slate-600' },
-  { id: 'fatigue', label: 'Fatigue & Energy', icon: Battery, color: 'from-amber-500 to-orange-600' },
-  { id: 'rights', label: 'Workplace Rights', icon: Scale, color: 'from-blue-500 to-indigo-600' },
-  { id: 'accommodations', label: 'Accommodations', icon: Handshake, color: 'from-emerald-500 to-teal-600' },
-  { id: 'disclosure', label: 'Disclosure', icon: Shield, color: 'from-violet-500 to-purple-600' },
-  { id: 'communication', label: 'Communication', icon: MessageSquare, color: 'from-sky-500 to-cyan-600' },
-  { id: 'career_return', label: 'Career & Return', icon: Briefcase, color: 'from-rose-500 to-pink-600' },
-  { id: 'emotional_support', label: 'Emotional Support', icon: Heart, color: 'from-fuchsia-500 to-rose-600' },
-  { id: 'insurance_benefits', label: 'Insurance & Benefits', icon: Star, color: 'from-yellow-500 to-amber-600' },
-  { id: 'general', label: 'General', icon: HelpCircle, color: 'from-slate-500 to-slate-700' },
+  { id: 'all', label: 'All Topics', icon: MessageCircleQuestion },
+  { id: 'fatigue', label: 'Fatigue & Energy', icon: Battery },
+  { id: 'rights', label: 'Workplace Rights', icon: Scale },
+  { id: 'accommodations', label: 'Accommodations', icon: Handshake },
+  { id: 'disclosure', label: 'Disclosure', icon: Shield },
+  { id: 'communication', label: 'Communication', icon: MessageSquare },
+  { id: 'career_return', label: 'Career & Return', icon: Briefcase },
+  { id: 'emotional_support', label: 'Emotional Support', icon: Heart },
+  { id: 'insurance_benefits', label: 'Insurance & Benefits', icon: Star },
+  { id: 'general', label: 'General', icon: HelpCircle },
 ];
 
 const getTopic = (id) => TOPICS.find(t => t.id === id) || TOPICS[0];
@@ -105,41 +107,12 @@ export default function ExpertQA() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-violet-600 via-rose-500 to-amber-500 rounded-2xl p-6 text-white shadow-xl"
-      >
-        <div className="flex items-start justify-between flex-wrap gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="h-5 w-5" />
-              <span className="text-sm font-bold uppercase tracking-wide">Expert Q&A</span>
-            </div>
-            <h1 className="text-3xl font-extrabold mb-2">Ask the Experts</h1>
-            <p className="text-white/90 max-w-2xl">
-              Common questions about returning to work — with answers from workplace experts,
-              attorneys, and oncology professionals.
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <div className="bg-white/20 backdrop-blur rounded-xl px-4 py-3 text-center">
-              <div className="text-2xl font-extrabold">{answeredCount}</div>
-              <div className="text-xs font-semibold">Answered</div>
-            </div>
-            <div className="bg-white/20 backdrop-blur rounded-xl px-4 py-3 text-center">
-              <div className="text-2xl font-extrabold">{qaList.length}</div>
-              <div className="text-xs font-semibold">Total</div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+      <PageHeader eyebrow="Expert Q&A" title="Ask the Experts" subtitle="Common questions about returning to work — with answers from workplace experts, attorneys, and oncology professionals." actions={<div className="flex gap-3"><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{answeredCount}</div><div className="text-xs font-semibold text-brand-muted-foreground">Answered</div></div><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{qaList.length}</div><div className="text-xs font-semibold text-brand-muted-foreground">Total</div></div></div>} />
 
       {/* Search + Ask */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-muted-foreground" />
           <Input
             placeholder="Search questions and answers..."
             value={search}
@@ -165,15 +138,12 @@ export default function ExpertQA() {
             <button
               key={t.id}
               onClick={() => setSelectedTopic(t.id)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-semibold border-2 transition-all ${
-                active
-                  ? `bg-gradient-to-r ${t.color} text-white border-transparent shadow-md`
-                  : 'bg-white text-slate-800 border-slate-300 hover:border-slate-500'
-              }`}
+              aria-pressed={active}
+              className={`nv-btn nv-btn--sm !whitespace-normal ${active ? '' : 'nv-btn--outline'}`}
             >
               <Icon className="h-4 w-4" />
               <span>{t.label}</span>
-              <span className={`text-xs px-1.5 rounded-full ${active ? 'bg-white/25' : 'bg-slate-200'}`}>
+              <span className={`text-xs px-1.5 rounded-full ${active ? 'bg-primary-foreground/20' : 'bg-brand-muted'}`}>
                 {count}
               </span>
             </button>
@@ -183,13 +153,13 @@ export default function ExpertQA() {
 
       {/* Q&A List */}
       {isLoading ? (
-        <div className="text-center py-12 text-slate-600 font-semibold">Loading questions...</div>
+        <div className="text-center py-12 text-brand-muted-foreground font-semibold">Loading questions...</div>
       ) : filtered.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <MessageCircleQuestion className="h-12 w-12 mx-auto text-slate-400 mb-3" />
-            <p className="text-lg font-bold text-slate-800">No questions yet</p>
-            <p className="text-sm text-slate-600 mt-1">
+            <MessageCircleQuestion className="h-12 w-12 mx-auto text-brand-muted-foreground mb-3" />
+            <p className="text-lg font-bold text-brand-text">No questions yet</p>
+            <p className="text-sm text-brand-muted-foreground mt-1">
               {search || selectedTopic !== 'all'
                 ? 'Try a different topic or search term.'
                 : 'Be the first to ask a question — experts will respond soon.'}
@@ -224,33 +194,33 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
 
   return (
     <motion.div layout>
-      <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <Card className="overflow-hidden">
         <button onClick={onToggle} className="w-full text-left">
           <CardHeader className="pb-3">
             <div className="flex items-start gap-3">
-              <div className={`p-2 rounded-lg bg-gradient-to-br ${topic.color} flex-shrink-0`}>
-                <Icon className="h-5 w-5 text-white" />
+              <div className="p-2 rounded-brand bg-brand-muted flex-shrink-0">
+                <Icon className="h-5 w-5 text-brand-primary" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <Badge variant="secondary" className="text-xs">{topic.label}</Badge>
                   {item.status === 'featured' && (
-                    <Badge className="bg-amber-500 hover:bg-amber-600 text-white text-xs">
+                    <Badge className="bg-brand-cream text-brand-text text-xs">
                       <Star className="h-3 w-3 mr-1" /> Featured
                     </Badge>
                   )}
                   {hasAnswer ? (
-                    <Badge className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs">
+                    <Badge className="bg-brand-secondary text-brand-text text-xs">
                       <CheckCircle2 className="h-3 w-3 mr-1" /> Answered
                     </Badge>
                   ) : (
                     <Badge variant="outline" className="text-xs">Awaiting expert</Badge>
                   )}
                 </div>
-                <CardTitle className="text-base sm:text-lg text-slate-900 leading-snug">
+                <CardTitle className="text-base sm:text-lg text-brand-text">
                   {item.question}
                 </CardTitle>
-                <div className="flex items-center gap-3 mt-2 text-xs text-slate-600">
+                <div className="flex items-center gap-3 mt-2 text-xs text-brand-muted-foreground">
                   <span className="flex items-center gap-1">
                     <User className="h-3 w-3" /> {item.asker_name || 'Anonymous'}
                   </span>
@@ -268,36 +238,36 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
         {isExpanded && (
           <CardContent className="pt-0 pb-4 space-y-3">
             {item.question_details && (
-              <div className="pl-14">
-                <p className="text-sm text-slate-700 whitespace-pre-wrap">{item.question_details}</p>
+              <div className="sm:pl-14">
+                <p className="text-sm text-brand-text whitespace-pre-wrap">{item.question_details}</p>
               </div>
             )}
 
             {hasAnswer ? (
-              <div className="ml-14 p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-sky-50 border-2 border-emerald-200">
+              <div className="sm:ml-14 nv-card nv-card--muted p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-sky-600 flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center text-primary-foreground text-xs font-bold shrink-0">
                     {item.expert_name?.[0]?.toUpperCase() || 'E'}
                   </div>
                   <div>
-                    <p className="font-bold text-sm text-slate-900">
+                    <p className="font-bold text-sm text-brand-text">
                       {item.expert_name || 'Workplace Expert'}
                     </p>
                     {item.expert_title && (
-                      <p className="text-xs text-slate-700 font-medium">{item.expert_title}</p>
+                      <p className="text-xs text-brand-text font-medium">{item.expert_title}</p>
                     )}
                   </div>
                 </div>
-                <p className="text-sm text-slate-800 whitespace-pre-wrap leading-relaxed">
+                <p className="text-sm text-brand-text whitespace-pre-wrap">
                   {item.answer}
                 </p>
-                <div className="mt-3 pt-3 border-t border-emerald-200 flex items-center justify-between">
-                  <span className="text-xs text-slate-600 font-medium">Was this helpful?</span>
+                <div className="mt-3 pt-3 border-t border-brand-border flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs text-brand-muted-foreground font-medium">Was this helpful?</span>
                   <Button
                     size="sm"
                     variant={userMarkedHelpful ? "default" : "outline"}
                     onClick={(e) => { e.stopPropagation(); onHelpful(); }}
-                    className={userMarkedHelpful ? "bg-emerald-600 hover:bg-emerald-700" : ""}
+                    className="!whitespace-normal"
                   >
                     <ThumbsUp className="h-3 w-3 mr-1" />
                     {userMarkedHelpful ? 'Helpful' : 'Mark helpful'}
@@ -305,8 +275,8 @@ function QACard({ item, isExpanded, onToggle, onHelpful, userMarkedHelpful }) {
                 </div>
               </div>
             ) : (
-              <div className="ml-14 p-4 rounded-xl bg-slate-100 border border-slate-300">
-                <p className="text-sm text-slate-700 italic">
+              <div className="sm:ml-14 nv-card nv-card--muted p-4">
+                <p className="text-sm text-brand-text italic">
                   This question is awaiting an expert response. Check back soon.
                 </p>
               </div>
@@ -381,7 +351,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
     return (
       <Button
         asChild
-        className="bg-gradient-to-r from-rose-500 to-violet-600 hover:from-rose-600 hover:to-violet-700"
+        className="!whitespace-normal"
       >
         <Link to="/login">
           <LogIn className="h-4 w-4 mr-2" /> Sign in to ask
@@ -393,7 +363,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-rose-500 to-violet-600 hover:from-rose-600 hover:to-violet-700">
+        <Button className="!whitespace-normal">
           <Plus className="h-4 w-4 mr-2" /> Ask a question
         </Button>
       </DialogTrigger>
@@ -403,7 +373,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
         </DialogHeader>
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-bold text-slate-800 mb-1 block">Topic</label>
+            <label className="text-sm font-bold text-brand-text mb-1 block">Topic</label>
             <Select value={topic} onValueChange={setTopic}>
               <SelectTrigger>
                 <SelectValue placeholder="Choose a topic..." />
@@ -416,7 +386,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
             </Select>
           </div>
           <div>
-            <label className="text-sm font-bold text-slate-800 mb-1 block">Your question</label>
+            <label className="text-sm font-bold text-brand-text mb-1 block">Your question</label>
             <Input
               placeholder="E.g., How do I request reduced hours after treatment?"
               value={question}
@@ -425,8 +395,8 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
             />
           </div>
           <div>
-            <label className="text-sm font-bold text-slate-800 mb-1 block">
-              More context <span className="text-slate-500 font-normal">(optional)</span>
+            <label className="text-sm font-bold text-brand-text mb-1 block">
+              More context <span className="text-brand-muted-foreground font-normal">(optional)</span>
             </label>
             <Textarea
               placeholder="Add any details that would help an expert answer..."
@@ -443,15 +413,15 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
               onChange={(e) => setAnonymous(e.target.checked)}
               className="rounded"
             />
-            <span className="text-sm text-slate-800 font-medium">Ask anonymously</span>
+            <span className="text-sm text-brand-text font-medium">Ask anonymously</span>
           </label>
-          <p className="text-xs text-slate-600 leading-relaxed -mt-2">
-            <Shield className="inline h-3 w-3 mr-1 -mt-0.5 text-slate-500" />
+          <p className="text-xs text-brand-muted-foreground -mt-2">
+            <Shield className="inline h-3 w-3 mr-1 -mt-0.5 text-brand-muted-foreground" />
             Your name won't be shown publicly when "anonymously" is checked. Your account is still
             linked internally so our moderators can respond and keep this space safe.
           </p>
           {error && (
-            <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-sm text-rose-700 font-medium">
+            <div className="rounded-brand bg-destructive/10 border border-destructive/30 p-3 text-sm text-destructive font-medium">
               {error}
             </div>
           )}
@@ -461,7 +431,7 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
           <Button
             onClick={submit}
             disabled={!question.trim() || !topic || submitting}
-            className="bg-gradient-to-r from-rose-500 to-violet-600"
+            className="!whitespace-normal"
           >
             {submitting ? 'Submitting...' : 'Submit question'}
           </Button>
