@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import BrandChoice from '@/components/brand/BrandChoice';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -67,29 +68,7 @@ export default function AddEventDialog({ open, onClose, onAddEvent }) {
           <div>
             <Label>Event Type *</Label>
             <div className="grid grid-cols-2 gap-3 mt-2">
-              {eventTypes.map((type) => {
-                const Icon = type.icon;
-                const isSelected = formData.type === type.value;
-                return (
-                  <button
-                    key={type.value}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, type: type.value })}
-                    className={`
-                      flex items-center space-x-2 p-3 rounded-lg border-2 transition-all
-                      ${isSelected 
-                        ? 'border-indigo-500 bg-indigo-50' 
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
-                      }
-                    `}
-                  >
-                    <Icon className={`h-5 w-5 ${isSelected ? 'text-indigo-600' : 'text-gray-500'}`} />
-                    <span className={`text-sm font-medium ${isSelected ? 'text-indigo-700' : 'text-gray-700'}`}>
-                      {type.label}
-                    </span>
-                  </button>
-                );
-              })}
+              {eventTypes.map(type => <BrandChoice key={type.value} selected={formData.type === type.value} icon={type.icon} onClick={() => setFormData({ ...formData, type: type.value })}>{type.label}</BrandChoice>)}
             </div>
           </div>
 
@@ -104,13 +83,13 @@ export default function AddEventDialog({ open, onClose, onAddEvent }) {
             />
           </div>
 
-          <div className="flex justify-end space-x-3 pt-4">
+          <div className="flex flex-col-reverse gap-3 border-t border-brand-border pt-4 sm:flex-row sm:justify-end">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
             <Button 
               type="submit" 
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+              className="!whitespace-normal"
             >
               Add Event
             </Button>

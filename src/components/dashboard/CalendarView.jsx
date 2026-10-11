@@ -8,17 +8,17 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format, parseISO, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
-import AddEventDialog from './AddEventDialog';
+import AddEventDialog from '@/components/dashboard/AddEventDialog';
 
 const eventTypeConfig = {
-  return_date: { icon: Star, color: 'bg-teal-500', label: 'Return Date' },
-  accommodation_review: { icon: Clock, color: 'bg-amber-500', label: 'Accommodation Review' },
-  energy_log: { icon: Bell, color: 'bg-blue-500', label: 'Energy Log' },
-  meeting: { icon: CalendarIcon, color: 'bg-purple-500', label: 'Meeting' },
-  medical: { icon: Stethoscope, color: 'bg-rose-500', label: 'Medical' },
-  milestone: { icon: Star, color: 'bg-indigo-500', label: 'Milestone' },
-  reminder: { icon: Bell, color: 'bg-orange-500', label: 'Reminder' },
-  other: { icon: MoreHorizontal, color: 'bg-gray-500', label: 'Other' }
+  return_date: { icon: Star, color: 'bg-secondary', label: 'Return Date' },
+  accommodation_review: { icon: Clock, color: 'bg-accent', label: 'Accommodation Review' },
+  energy_log: { icon: Bell, color: 'bg-muted', label: 'Energy Log' },
+  meeting: { icon: CalendarIcon, color: 'bg-muted', label: 'Meeting' },
+  medical: { icon: Stethoscope, color: 'bg-accent', label: 'Medical' },
+  milestone: { icon: Star, color: 'bg-secondary', label: 'Milestone' },
+  reminder: { icon: Bell, color: 'bg-brand-cream', label: 'Reminder' },
+  other: { icon: MoreHorizontal, color: 'bg-brand-border', label: 'Other' }
 };
 
 export default function CalendarView({ progress, onUpdateProgress }) {
@@ -101,45 +101,45 @@ export default function CalendarView({ progress, onUpdateProgress }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white/90 backdrop-blur-sm border-2 border-indigo-200 shadow-lg">
+      <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <CardTitle className="flex items-center space-x-2">
-              <CalendarIcon className="h-6 w-6 text-indigo-600" />
-              <span className="text-2xl">Return-to-Work Calendar</span>
+              <CalendarIcon className="h-6 w-6 text-brand-primary" />
+              <span className="text-xl sm:text-2xl">Return-to-Work Calendar</span>
             </CardTitle>
             <Button
               onClick={() => setShowAddEvent(true)}
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+              className="!whitespace-normal"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Event
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-4 sm:px-6">
           {/* Calendar Controls */}
-          <div className="flex items-center justify-between mb-6">
-            <Button variant="outline" onClick={handlePrevMonth}>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+            <Button variant="outline" size="icon" aria-label="Previous month" onClick={handlePrevMonth}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <div className="flex items-center space-x-3">
-              <h3 className="text-xl font-bold text-gray-800">
+            <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-3">
+              <h3 className="text-base font-bold text-brand-text sm:text-xl">
                 {format(currentMonth, 'MMMM yyyy')}
               </h3>
               <Button variant="ghost" size="sm" onClick={handleToday}>
                 Today
               </Button>
             </div>
-            <Button variant="outline" onClick={handleNextMonth}>
+            <Button variant="outline" size="icon" aria-label="Next month" onClick={handleNextMonth}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
 
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <div key={day} className="text-center text-sm font-semibold text-gray-600 py-2">
+              <div key={day} className="text-center text-sm font-semibold text-brand-muted-foreground py-2">
                 {day}
               </div>
             ))}
@@ -155,16 +155,14 @@ export default function CalendarView({ progress, onUpdateProgress }) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedDate(day)}
-                  className={`
-                    relative min-h-[80px] p-2 rounded-lg border-2 transition-all
-                    ${!isSameMonth(day, currentMonth) ? 'opacity-30' : ''}
-                    ${isSelected ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-gray-300'}
-                    ${isCurrentDay ? 'bg-gradient-to-br from-teal-50 to-emerald-50' : 'bg-white'}
-                  `}
+                  aria-label={`${format(day, 'MMMM d, yyyy')}, ${dayEvents.length} events`}
+                  aria-pressed={!!isSelected}
+                  aria-current={isCurrentDay ? 'date' : undefined}
+                  className={`relative min-h-[64px] rounded-brand border p-1 transition-colors sm:min-h-[80px] sm:p-2 ${!isSameMonth(day, currentMonth) ? 'opacity-30' : ''} ${isSelected ? 'border-primary bg-muted' : isCurrentDay ? 'border-secondary bg-secondary/30' : 'border-border bg-card hover:bg-muted'}`}
                 >
                   <div className={`
                     text-sm font-semibold mb-1
-                    ${isCurrentDay ? 'text-teal-700' : 'text-gray-700'}
+                    ${isCurrentDay ? 'text-brand-primary' : 'text-brand-text'}
                   `}>
                     {format(day, 'd')}
                   </div>
@@ -177,18 +175,18 @@ export default function CalendarView({ progress, onUpdateProgress }) {
                         <div
                           key={eventIdx}
                           className={`
-                            ${config?.color || 'bg-gray-500'} 
-                            text-white text-xs px-1 py-0.5 rounded flex items-center space-x-1 truncate
+                            ${config?.color || 'bg-muted'} 
+                            text-brand-text text-xs px-1 py-0.5 rounded-pill flex items-center justify-center gap-1 sm:justify-start truncate
                           `}
                           title={event.title}
                         >
                           <Icon className="h-2.5 w-2.5 flex-shrink-0" />
-                          <span className="truncate">{event.title}</span>
+                          <span className="hidden truncate sm:inline">{event.title}</span>
                         </div>
                       );
                     })}
                     {dayEvents.length > 2 && (
-                      <div className="text-xs text-gray-500 font-medium">
+                      <div className="text-xs text-brand-muted-foreground font-medium">
                         +{dayEvents.length - 2} more
                       </div>
                     )}
@@ -208,13 +206,13 @@ export default function CalendarView({ progress, onUpdateProgress }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
           >
-            <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200">
+            <Card className="nv-card--muted">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <CardTitle className="text-lg">
                     Events on {format(selectedDate, 'MMMM d, yyyy')}
                   </CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedDate(null)}>
+                  <Button variant="ghost" size="icon" aria-label="Close selected date events" onClick={() => setSelectedDate(null)}>
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -231,29 +229,30 @@ export default function CalendarView({ progress, onUpdateProgress }) {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="bg-white rounded-lg p-4 border-2 border-gray-200 hover:border-indigo-300 transition-all"
+                      className="nv-card p-4"
                     >
                       <div className="flex items-start justify-between">
-                        <div className="flex items-start space-x-3">
-                          <div className={`${config?.color || 'bg-gray-500'} p-2 rounded-lg`}>
-                            <Icon className="h-5 w-5 text-white" />
+                        <div className="flex min-w-0 flex-1 items-start gap-3">
+                          <div className={`${config?.color || 'bg-muted'} shrink-0 p-2 rounded-pill`}>
+                            <Icon className="h-5 w-5 text-brand-text" strokeWidth={1.75} aria-hidden="true" />
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-gray-800">{event.title}</h4>
+                          <div className="min-w-0 flex-1 break-words">
+                            <h4 className="font-semibold text-brand-text">{event.title}</h4>
                             <Badge variant="outline" className="mt-1">
                               {config?.label || 'Event'}
                             </Badge>
                             {event.description && (
-                              <p className="text-sm text-gray-600 mt-2">{event.description}</p>
+                              <p className="text-sm text-brand-muted-foreground mt-2">{event.description}</p>
                             )}
                           </div>
                         </div>
                         {isCustomEvent && (
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon"
+                            aria-label={`Delete event: ${event.title}`}
                             onClick={() => handleDeleteEvent(event.id)}
-                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
                             <X className="h-4 w-4" />
                           </Button>

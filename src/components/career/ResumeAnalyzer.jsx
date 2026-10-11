@@ -38,62 +38,62 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
   };
 
   const scoreBg = (score) => {
-    if (score >= 80) return 'from-green-600 to-emerald-600';
-    if (score >= 60) return 'from-yellow-600 to-amber-600';
-    if (score >= 40) return 'from-orange-600 to-amber-700';
-    return 'from-red-600 to-rose-700';
+    if (score >= 80) return 'nv-card--sage';
+    if (score >= 60) return 'nv-card--muted';
+    if (score >= 40) return 'nv-card--pink';
+    return 'nv-card--pink !border-destructive';
   };
 
   const importanceColor = (imp) => {
-    if (imp === 'High') return 'bg-red-500/20 text-red-300 border-red-500/40';
-    if (imp === 'Medium') return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40';
-    return 'bg-slate-600/40 text-slate-300 border-slate-500/40';
+    if (imp === 'High') return 'bg-destructive/10 text-destructive border-destructive/30';
+    if (imp === 'Medium') return 'bg-brand-muted text-brand-primary border-brand-border';
+    return 'bg-brand-background text-brand-muted-foreground border-brand-border';
   };
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
-      <div className="rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 p-6 text-white shadow-xl">
+      <div className="nv-card nv-card--muted p-5 sm:p-6">
         <div className="flex items-center gap-3 mb-2">
-          <ClipboardList className="h-7 w-7 text-white" />
+          <ClipboardList className="h-7 w-7 text-brand-text" />
           <h2 className="text-2xl font-bold">Resume Analyzer</h2>
         </div>
-        <p className="text-emerald-100 text-sm leading-relaxed">
+        <p className="text-brand-muted-foreground text-sm ">
           Paste a job description and our AI will compare it to your resume — highlighting missing keywords, skills gaps, and exactly how to improve your application.
         </p>
       </div>
 
       {/* Resume Upload */}
-      <Card className="bg-slate-800/60 border-slate-700">
+      <Card className="">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white flex items-center gap-2 text-base">
-            <FileText className="h-5 w-5 text-emerald-400" />
+          <CardTitle className="text-brand-text flex items-center gap-2 text-base">
+            <FileText className="h-5 w-5 text-brand-primary" />
             Your Resume
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-600 rounded-xl p-6 cursor-pointer hover:border-emerald-400 transition-colors bg-slate-900/40">
+          <label className="flex min-h-36 flex-col items-center justify-center gap-1 rounded-brand border border-dashed border-brand-primary bg-brand-background p-6 text-center cursor-pointer hover:bg-brand-muted transition-colors">
             <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleResumeUpload} />
             {uploading ? (
-              <Loader2 className="h-7 w-7 text-emerald-400 animate-spin mb-2" />
+              <Loader2 className="h-7 w-7 text-brand-primary animate-spin mb-2" />
             ) : resumeFile ? (
-              <CheckCircle2 className="h-7 w-7 text-green-400 mb-2" />
+              <CheckCircle2 className="h-7 w-7 text-brand-primary mb-2" />
             ) : (
-              <Upload className="h-7 w-7 text-slate-400 mb-2" />
+              <Upload className="h-7 w-7 text-brand-muted-foreground mb-2" />
             )}
-            <span className="text-sm text-slate-300 font-medium">
+            <span className="text-sm text-brand-text font-medium">
               {uploading ? 'Uploading...' : resumeFile ? resumeFile.name : 'Click to upload your resume'}
             </span>
-            {!resumeFile && <span className="text-xs text-slate-500 mt-1">PDF, DOC, DOCX supported</span>}
+            {!resumeFile && <span className="text-xs text-brand-muted-foreground mt-1">PDF, DOC, DOCX supported</span>}
           </label>
         </CardContent>
       </Card>
 
       {/* Job Description */}
-      <Card className="bg-slate-800/60 border-slate-700">
+      <Card className="">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white flex items-center gap-2 text-base">
-            <ClipboardList className="h-5 w-5 text-cyan-400" />
+          <CardTitle className="text-brand-text flex items-center gap-2 text-base">
+            <ClipboardList className="h-5 w-5 text-brand-primary" />
             Job Description
           </CardTitle>
         </CardHeader>
@@ -103,16 +103,16 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
             onChange={e => setJobDescription(e.target.value)}
             placeholder="Paste the full job description here (requirements, responsibilities, qualifications)..."
             rows={8}
-            className="w-full bg-slate-900/60 border border-slate-600 rounded-lg p-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-400 resize-none"
+            className="nv-input w-full resize-y p-3 text-sm"
           />
-          <p className="text-xs text-slate-500 mt-1">Include the full posting for best results</p>
+          <p className="text-xs text-brand-muted-foreground mt-1">Include the full posting for best results</p>
         </CardContent>
       </Card>
 
       <Button
         onClick={handleAnalyze}
         disabled={!resumeUrl || !jobDescription.trim() || analyzing}
-        className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold py-6 text-base rounded-xl shadow-lg"
+        className="min-h-12 w-full !whitespace-normal"
       >
         {analyzing ? (
           <><Loader2 className="h-5 w-5 animate-spin mr-2" /> Analyzing your resume...</>
@@ -125,7 +125,7 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
       {analysis && (
         <div className="space-y-5">
           {/* Score Banner */}
-          <div className={`rounded-2xl bg-gradient-to-r ${scoreBg(analysis.match_score)} p-6 text-white shadow-xl`}>
+          <div className={`nv-card ${scoreBg(analysis.match_score)} p-5 text-brand-text sm:p-6`}>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-80 mb-1">Overall Match Score</p>
@@ -133,29 +133,29 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
                 <p className="text-lg font-semibold mt-1 opacity-90">{analysis.match_label} Match</p>
               </div>
               <div className="text-right">
-                <div className="w-24 h-24 rounded-full border-4 border-white/30 flex items-center justify-center">
-                  <TrendingUp className="h-10 w-10 text-white/80" />
+                <div className="w-24 h-24 rounded-full border-4 border-brand-border flex items-center justify-center">
+                  <TrendingUp className="h-10 w-10 text-brand-text/80" />
                 </div>
               </div>
             </div>
             {analysis.summary && (
-              <p className="text-sm mt-4 opacity-90 leading-relaxed border-t border-white/20 pt-4">{analysis.summary}</p>
+              <p className="text-sm mt-4 opacity-90  border-t border-brand-border pt-4">{analysis.summary}</p>
             )}
           </div>
 
           {/* Strengths */}
           {analysis.strengths?.length > 0 && (
-            <Card className="bg-slate-800/60 border-green-700/50">
+            <Card className="nv-card--sage">
               <CardHeader className="pb-2">
-                <CardTitle className="text-green-400 flex items-center gap-2 text-base">
+                <CardTitle className="text-brand-primary flex items-center gap-2 text-base">
                   <CheckCircle2 className="h-5 w-5" /> Your Strengths
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
                   {analysis.strengths.map((s, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                      <CheckCircle2 className="h-4 w-4 text-green-400 mt-0.5 shrink-0" />
+                    <li key={i} className="flex items-start gap-2 text-sm text-brand-text">
+                      <CheckCircle2 className="h-4 w-4 text-brand-primary mt-0.5 shrink-0" />
                       {s}
                     </li>
                   ))}
@@ -166,16 +166,16 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
 
           {/* Present Keywords */}
           {analysis.present_keywords?.length > 0 && (
-            <Card className="bg-slate-800/60 border-slate-700">
+            <Card className="">
               <CardHeader className="pb-2">
-                <CardTitle className="text-teal-400 flex items-center gap-2 text-base">
+                <CardTitle className="text-brand-primary flex items-center gap-2 text-base">
                   <CheckCircle2 className="h-5 w-5" /> Keywords Already in Your Resume
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {analysis.present_keywords.map((kw, i) => (
-                    <span key={i} className="px-2.5 py-1 bg-teal-600/20 text-teal-300 border border-teal-600/40 rounded-full text-xs font-medium">
+                    <span key={i} className="px-2.5 py-1 bg-secondary text-secondary-foreground border border-brand-border rounded-full text-xs font-medium">
                       ✓ {kw}
                     </span>
                   ))}
@@ -186,17 +186,17 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
 
           {/* Missing Keywords */}
           {analysis.missing_keywords?.length > 0 && (
-            <Card className="bg-slate-800/60 border-red-700/50">
+            <Card className="nv-card--pink">
               <CardHeader className="pb-2">
-                <CardTitle className="text-red-400 flex items-center gap-2 text-base">
+                <CardTitle className="text-destructive flex items-center gap-2 text-base">
                   <XCircle className="h-5 w-5" /> Missing Keywords
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xs text-slate-400 mb-3">These keywords appear in the job description but not your resume. Add them where relevant.</p>
+                <p className="text-xs text-brand-muted-foreground mb-3">These keywords appear in the job description but not your resume. Add them where relevant.</p>
                 <div className="flex flex-wrap gap-2">
                   {analysis.missing_keywords.map((kw, i) => (
-                    <span key={i} className="px-2.5 py-1 bg-red-500/20 text-red-300 border border-red-500/40 rounded-full text-xs font-medium">
+                    <span key={i} className="px-2.5 py-1 bg-destructive/10 text-destructive border border-destructive/30 rounded-full text-xs font-medium">
                       ✕ {kw}
                     </span>
                   ))}
@@ -207,22 +207,22 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
 
           {/* Missing Skills */}
           {analysis.missing_skills?.length > 0 && (
-            <Card className="bg-slate-800/60 border-orange-700/50">
+            <Card className="nv-card--pink">
               <CardHeader className="pb-2">
-                <CardTitle className="text-orange-400 flex items-center gap-2 text-base">
+                <CardTitle className="text-brand-primary flex items-center gap-2 text-base">
                   <AlertTriangle className="h-5 w-5" /> Skills Gaps
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {analysis.missing_skills.map((item, i) => (
-                  <div key={i} className="bg-slate-900/40 rounded-lg p-3 border border-slate-700">
+                  <div key={i} className="bg-brand-surface rounded-brand p-4 border border-brand-border">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-white">{item.skill}</span>
+                      <span className="text-sm font-medium text-brand-text">{item.skill}</span>
                       <span className={`px-2 py-0.5 rounded-full text-xs border ${importanceColor(item.importance)}`}>
                         {item.importance}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400">{item.suggestion}</p>
+                    <p className="text-xs text-brand-muted-foreground">{item.suggestion}</p>
                   </div>
                 ))}
               </CardContent>
@@ -231,19 +231,19 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
 
           {/* Resume Improvements */}
           {analysis.resume_improvements?.length > 0 && (
-            <Card className="bg-slate-800/60 border-violet-700/50">
+            <Card className="nv-card--muted">
               <CardHeader className="pb-2">
-                <CardTitle className="text-violet-400 flex items-center gap-2 text-base">
+                <CardTitle className="text-brand-primary flex items-center gap-2 text-base">
                   <Lightbulb className="h-5 w-5" /> How to Improve Your Resume
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {analysis.resume_improvements.map((item, i) => (
-                  <div key={i} className="flex items-start gap-3 bg-slate-900/40 rounded-lg p-3 border border-slate-700">
-                    <div className="px-2 py-0.5 bg-violet-600/30 text-violet-300 rounded text-xs font-semibold whitespace-nowrap mt-0.5">
+                  <div key={i} className="flex items-start gap-3 bg-brand-surface rounded-brand p-4 border border-brand-border">
+                    <div className="px-2 py-0.5 bg-brand-muted text-brand-primary rounded-pill text-xs font-semibold whitespace-nowrap mt-0.5">
                       {item.section}
                     </div>
-                    <p className="text-xs text-slate-300 leading-relaxed">{item.suggestion}</p>
+                    <p className="text-xs text-brand-text ">{item.suggestion}</p>
                   </div>
                 ))}
               </CardContent>
@@ -253,7 +253,7 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
           <Button
             variant="outline"
             onClick={() => { setAnalysis(null); setJobDescription(''); }}
-            className="w-full border-slate-600 text-slate-300"
+            className="w-full !whitespace-normal"
           >
             Analyze Another Job
           </Button>

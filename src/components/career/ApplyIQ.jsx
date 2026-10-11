@@ -9,7 +9,8 @@ import {
   Upload, Sparkles, Briefcase, MapPin, DollarSign,
   CheckCircle2, FileText, Loader2, ClipboardList
 } from 'lucide-react';
-import ResumeAnalyzer from './ResumeAnalyzer';
+import ResumeAnalyzer from '@/components/career/ResumeAnalyzer';
+import BrandChoice from '@/components/brand/BrandChoice';
 
 const MOCK_JOBS = [
   { id: 1, title: 'HR Coordinator', company: 'HealthFirst', location: 'Remote', salary: '$55k–$70k', match: 94, tags: ['Part-Time', 'Flexible', 'Healthcare'] },
@@ -75,106 +76,94 @@ export default function ApplyIQ() {
   };
 
   const statusIcon = (status) => {
-    if (status === 'applying') return <Loader2 className="h-4 w-4 animate-spin text-cyan-400" />;
-    if (status === 'applied') return <CheckCircle2 className="h-4 w-4 text-green-400" />;
+    if (status === 'applying') return <Loader2 className="h-4 w-4 animate-spin text-brand-primary" />;
+    if (status === 'applied') return <CheckCircle2 className="h-4 w-4 text-brand-primary" />;
     return null;
   };
 
   const agentContent = step === 'setup' ? (
       <div className="space-y-6 max-w-2xl mx-auto">
         {/* Hero Banner */}
-        <div className="rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 text-white shadow-xl">
+        <div className="nv-card nv-card--muted p-5 sm:p-6">
           <div className="flex items-center gap-3 mb-2">
-            <Sparkles className="h-7 w-7 text-yellow-300" />
+            <Sparkles className="h-7 w-7 text-brand-primary" />
             <h2 className="text-2xl font-bold">ApplyIQ</h2>
-            <Badge className="bg-yellow-400 text-yellow-900 text-xs font-bold">FREE</Badge>
+            <Badge variant="secondary" className="rounded-pill text-xs font-bold">FREE</Badge>
           </div>
-          <p className="text-purple-100 text-sm leading-relaxed">
+          <p className="text-brand-muted-foreground text-sm">
             Your personal AI job application agent. Upload your resume, tell us what you're looking for,
             and our smart AI will match you to the best jobs.
           </p>
         </div>
 
         {/* Resume Upload */}
-        <Card className="bg-slate-800/60 border-slate-700">
+        <Card className="">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white flex items-center gap-2 text-base">
-              <FileText className="h-5 w-5 text-violet-400" />
+            <CardTitle className="text-brand-text flex items-center gap-2 text-base">
+              <FileText className="h-5 w-5 text-brand-primary" />
               Step 1: Upload Your Resume
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-600 rounded-xl p-8 cursor-pointer hover:border-violet-400 transition-colors bg-slate-900/40">
+            <label className="flex min-h-36 flex-col items-center justify-center gap-1 rounded-brand border border-dashed border-brand-primary bg-brand-background p-6 text-center cursor-pointer hover:bg-brand-muted transition-colors">
               <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleResumeUpload} />
               {uploading ? (
-                <Loader2 className="h-8 w-8 text-violet-400 animate-spin mb-2" />
+                <Loader2 className="h-8 w-8 text-brand-primary animate-spin mb-2" />
               ) : resumeFile ? (
-                <CheckCircle2 className="h-8 w-8 text-green-400 mb-2" />
+                <CheckCircle2 className="h-8 w-8 text-brand-primary mb-2" />
               ) : (
-                <Upload className="h-8 w-8 text-slate-400 mb-2" />
+                <Upload className="h-8 w-8 text-brand-muted-foreground mb-2" />
               )}
-              <span className="text-sm text-slate-300 font-medium">
+              <span className="text-sm text-brand-text font-medium">
                 {uploading ? 'Uploading...' : resumeFile ? resumeFile.name : 'Click to upload PDF or Word doc'}
               </span>
-              {!resumeFile && <span className="text-xs text-slate-500 mt-1">PDF, DOC, DOCX supported</span>}
+              {!resumeFile && <span className="text-xs text-brand-muted-foreground mt-1">PDF, DOC, DOCX supported</span>}
             </label>
           </CardContent>
         </Card>
 
         {/* Preferences */}
-        <Card className="bg-slate-800/60 border-slate-700">
+        <Card className="">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white flex items-center gap-2 text-base">
-              <Briefcase className="h-5 w-5 text-cyan-400" />
+            <CardTitle className="text-brand-text flex items-center gap-2 text-base">
+              <Briefcase className="h-5 w-5 text-brand-primary" />
               Step 2: Job Preferences
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-slate-400 mb-1 block">Job Title / Role</label>
+                <label className="text-xs text-brand-muted-foreground mb-1 block">Job Title / Role</label>
                 <Input
                   placeholder="e.g. HR Coordinator, Nurse"
                   value={preferences.jobTitle}
                   onChange={e => setPreferences(p => ({ ...p, jobTitle: e.target.value }))}
-                  className="bg-slate-900/60 border-slate-600 text-white placeholder:text-slate-500"
+                  className="h-11"
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-400 mb-1 block">Location</label>
+                <label className="text-xs text-brand-muted-foreground mb-1 block">Location</label>
                 <Input
                   placeholder="City, State or Remote"
                   value={preferences.location}
                   onChange={e => setPreferences(p => ({ ...p, location: e.target.value }))}
-                  className="bg-slate-900/60 border-slate-600 text-white placeholder:text-slate-500"
+                  className="h-11"
                 />
               </div>
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-2 block">Work Style (select all that apply)</label>
+              <label className="text-xs text-brand-muted-foreground mb-2 block">Work Style (select all that apply)</label>
               <div className="flex flex-wrap gap-2">
-                {jobTypes.map(type => (
-                  <button
-                    key={type}
-                    onClick={() => toggleJobType(type)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all border ${
-                      preferences.jobType.includes(type)
-                        ? 'bg-violet-600 border-violet-500 text-white'
-                        : 'bg-slate-900/40 border-slate-600 text-slate-300 hover:border-violet-500'
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
+                {jobTypes.map(type => <BrandChoice key={type} selected={preferences.jobType.includes(type)} onClick={() => toggleJobType(type)}>{type}</BrandChoice>)}
               </div>
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1 block">Target Salary (optional)</label>
+              <label className="text-xs text-brand-muted-foreground mb-1 block">Target Salary (optional)</label>
               <Input
                 placeholder="e.g. $50,000 – $70,000"
                 value={preferences.salary}
                 onChange={e => setPreferences(p => ({ ...p, salary: e.target.value }))}
-                className="bg-slate-900/60 border-slate-600 text-white placeholder:text-slate-500"
+                className="h-11"
               />
             </div>
           </CardContent>
@@ -183,7 +172,7 @@ export default function ApplyIQ() {
         <Button
           onClick={handleFindJobs}
           disabled={!resumeUrl || !preferences.jobTitle || generating}
-          className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold py-6 text-base rounded-xl shadow-lg"
+          className="min-h-12 w-full !whitespace-normal"
         >
           {generating ? (
             <><Loader2 className="h-5 w-5 animate-spin mr-2" /> Finding your best matches...</>
@@ -194,39 +183,39 @@ export default function ApplyIQ() {
       </div>
   ) : (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-yellow-400" />
+          <h2 className="text-xl font-bold text-brand-text flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-brand-primary" />
             Your AI-Matched Jobs
           </h2>
-          <p className="text-sm text-slate-400">{matchedJobs.length} jobs matched to your profile</p>
+          <p className="text-sm text-brand-muted-foreground">{matchedJobs.length} jobs matched to your profile</p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => setStep('setup')} className="border-slate-600 text-slate-300">
+        <Button variant="outline" size="sm" onClick={() => setStep('setup')} className="!whitespace-normal">
           Edit Preferences
         </Button>
       </div>
 
       <div className="space-y-4">
         {matchedJobs.map(job => (
-          <Card key={job.id} className="bg-slate-800/60 border-slate-700 hover:border-violet-500 transition-colors">
+          <Card key={job.id} className="">
             <CardContent className="p-4">
-              <div className="flex items-start justify-between gap-3">
+              <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <h3 className="font-semibold text-white">{job.title}</h3>
-                    <Badge className="bg-violet-600/30 text-violet-300 border-violet-500/50 text-xs">
+                    <h3 className="font-semibold text-brand-text">{job.title}</h3>
+                    <Badge variant="secondary" className="rounded-pill text-xs">
                       {job.match}% match
                     </Badge>
                   </div>
-                  <p className="text-sm text-slate-300 mb-2">{job.company}</p>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400 mb-3">
+                  <p className="text-sm text-brand-text mb-2">{job.company}</p>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-brand-muted-foreground mb-3">
                     <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{job.location}</span>
                     <span className="flex items-center gap-1"><DollarSign className="h-3 w-3" />{job.salary}</span>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {job.tags.map(tag => (
-                      <span key={tag} className="px-2 py-0.5 bg-slate-700 text-slate-300 rounded-full text-xs">{tag}</span>
+                      <span key={tag} className="nv-chip nv-chip--muted">{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -234,11 +223,8 @@ export default function ApplyIQ() {
                   size="sm"
                   onClick={() => handleApply(job)}
                   disabled={!!applications[job.id]}
-                  className={`shrink-0 ${
-                    applications[job.id] === 'applied'
-                      ? 'bg-green-600 hover:bg-green-600'
-                      : 'bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500'
-                  } text-white`}
+                  variant={applications[job.id] === 'applied' ? 'secondary' : 'default'}
+                  className="shrink-0 !whitespace-normal"
                 >
                   {statusIcon(applications[job.id])}
                   {!applications[job.id] && 'Apply'}
@@ -252,7 +238,7 @@ export default function ApplyIQ() {
       </div>
 
       <div className="text-center">
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-brand-muted-foreground">
           Applied to {Object.values(applications).filter(s => s === 'applied').length} of {matchedJobs.length} jobs
         </p>
       </div>
@@ -262,17 +248,17 @@ export default function ApplyIQ() {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2 bg-slate-800/50 border border-slate-700 max-w-md">
+        <TabsList className="nv-tabs h-auto">
           <TabsTrigger
             value="agent"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white text-slate-300"
+            className="nv-tab !whitespace-normal"
           >
             <Sparkles className="h-4 w-4 mr-2" />
             Job Agent
           </TabsTrigger>
           <TabsTrigger
             value="analyzer"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white text-slate-300"
+            className="nv-tab !whitespace-normal"
           >
             <ClipboardList className="h-4 w-4 mr-2" />
             Resume Analyzer

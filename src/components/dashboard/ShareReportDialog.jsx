@@ -185,7 +185,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
-            <FileText className="h-5 w-5 text-indigo-600" />
+            <FileText className="h-5 w-5 text-brand-primary" />
             <span>Share Progress Report</span>
           </DialogTitle>
           <DialogDescription>
@@ -195,10 +195,10 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
 
         <div className="space-y-6">
           {/* Privacy Notice */}
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+          <div className="nv-card nv-card--sage p-4">
             <div className="flex items-start space-x-3">
-              <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-blue-900">
+              <Shield className="h-5 w-5 text-brand-primary flex-shrink-0 mt-0.5" />
+              <div className="text-sm text-brand-text">
                 <p className="font-semibold mb-1">Privacy & Security</p>
                 <p>This report will only include the sections you select below. Your data remains secure and is only shared when you explicitly choose to send it.</p>
               </div>
@@ -213,10 +213,10 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
               return (
                 <div
                   key={section.id}
-                  className={`flex items-center space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer ${
+                  className={`flex items-center gap-3 rounded-brand border p-4 transition-colors cursor-pointer ${
                     selectedSections[section.id]
-                      ? 'bg-indigo-50 border-indigo-300'
-                      : 'bg-gray-50 border-gray-200 hover:border-gray-300'
+                      ? 'bg-brand-muted border-brand-primary'
+                      : 'bg-brand-surface border-brand-border hover:border-brand-primary'
                   }`}
                   onClick={() => toggleSection(section.id)}
                 >
@@ -224,8 +224,8 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
                     checked={selectedSections[section.id]}
                     onCheckedChange={() => toggleSection(section.id)}
                   />
-                  <Icon className="h-4 w-4 text-gray-600" />
-                  <span className="flex-1 text-sm font-medium">{section.label}</span>
+                  <Icon className="h-4 w-4 text-brand-muted-foreground" />
+                  <span className="min-w-0 flex-1 text-sm font-semibold text-brand-text">{section.label}</span>
                   {section.recommended && (
                     <Badge variant="secondary" className="text-xs">
                       Recommended
@@ -248,17 +248,17 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
               value={recipientEmail}
               onChange={(e) => setRecipientEmail(e.target.value)}
             />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-brand-muted-foreground">
               Leave blank to only download the report
             </p>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex flex-col gap-3 border-t border-brand-border pt-4 sm:flex-row">
             <Button
               onClick={handleDownload}
               variant="outline"
-              className="flex-1"
+              className="flex-1 !whitespace-normal"
             >
               <Download className="h-4 w-4 mr-2" />
               Download Report
@@ -266,7 +266,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
             <Button
               onClick={handleEmailReport}
               disabled={isGenerating || !recipientEmail}
-              className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600"
+              className="flex-1 !whitespace-normal"
             >
               {isGenerating ? (
                 <>
