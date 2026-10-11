@@ -187,10 +187,10 @@ const countries = [
 ];
 
 const ratingConfig = {
-  strongest: { label: 'Strongest Protections', color: 'bg-emerald-700 text-white', border: 'border-emerald-400', icon: Star },
-  strong: { label: 'Strong Protections', color: 'bg-teal-700 text-white', border: 'border-teal-400', icon: CheckCircle2 },
-  moderate: { label: 'Moderate Protections', color: 'bg-amber-700 text-white', border: 'border-amber-400', icon: Info },
-  basic: { label: 'Basic Protections', color: 'bg-slate-700 text-white', border: 'border-slate-400', icon: AlertTriangle },
+  strongest: { label: 'Strongest Protections', color: 'bg-brand-secondary text-brand-text', border: 'border-brand-secondary', icon: Star },
+  strong: { label: 'Strong Protections', color: 'bg-primary text-white', border: 'border-primary', icon: CheckCircle2 },
+  moderate: { label: 'Moderate Protections', color: 'bg-brand-accent text-foreground', border: 'border-brand-accent', icon: Info },
+  basic: { label: 'Basic Protections', color: 'bg-muted text-muted-foreground', border: 'border-border', icon: AlertTriangle },
 };
 
 function CountryCard({ data }) {
@@ -199,54 +199,54 @@ function CountryCard({ data }) {
   const RatingIcon = cfg.icon;
 
   return (
-    <Card className="bg-white border-slate-300 hover:border-slate-500 transition-all">
+    <Card className="transition-all">
       <button onClick={() => setExpanded(!expanded)} className="w-full text-left">
         <div className="p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-300 flex items-center justify-center flex-shrink-0 text-2xl">
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-brand border border-border bg-muted text-2xl">
                 {data.flag}
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">{data.country}</h3>
-                <p className="text-sm text-slate-700 leading-snug">{data.summary}</p>
+                <h3 className="font-heading text-lg font-bold text-foreground">{data.country}</h3>
+                <p className="text-sm leading-snug text-muted-foreground">{data.summary}</p>
               </div>
             </div>
-            <div className="flex flex-col items-end gap-2 flex-shrink-0">
-              <span className={`text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1 ${cfg.color}`}>
+            <div className="flex flex-shrink-0 flex-col items-end gap-2">
+              <span className={`flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
                 <RatingIcon className="h-3 w-3" />
                 {cfg.label}
               </span>
-              {expanded ? <ChevronUp className="h-4 w-4 text-slate-700" /> : <ChevronDown className="h-4 w-4 text-slate-700" />}
+              {expanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
             </div>
           </div>
         </div>
       </button>
 
       {expanded && (
-        <div className="px-5 pb-5 space-y-4 border-t border-slate-300 pt-4">
-          <div className={`p-3 rounded-lg border ${cfg.border} bg-slate-50`}>
-            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1">Key Points</p>
-            <p className="text-sm text-slate-900">{data.keyPoints}</p>
+        <div className="space-y-4 border-t border-border px-5 pb-5 pt-4">
+          <div className={`rounded-brand border bg-muted p-3 ${cfg.border}`}>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Key Points</p>
+            <p className="text-sm text-foreground">{data.keyPoints}</p>
           </div>
 
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Laws & Protections</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Laws & Protections</p>
             {data.highlights.map((h, i) => (
-              <div key={i} className="bg-slate-50 border border-slate-200 rounded-lg p-3">
+              <div key={i} className="rounded-brand border border-border bg-muted p-3">
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-bold bg-slate-800 text-white px-2 py-0.5 rounded flex-shrink-0 mt-0.5">{h.label}</span>
-                  <p className="text-sm text-slate-800 leading-relaxed">{h.detail}</p>
+                  <span className="mt-0.5 flex-shrink-0 rounded bg-primary px-2 py-0.5 text-xs font-bold text-white">{h.label}</span>
+                  <p className="text-sm leading-relaxed text-foreground">{h.detail}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {data.resources?.length > 0 && (
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex flex-wrap gap-3">
               {data.resources.map(r => (
                 <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer"
-                  className="text-xs text-cyan-700 hover:text-cyan-800 underline underline-offset-2 font-semibold">
+                  className="text-xs font-semibold text-primary underline underline-offset-2 hover:text-foreground">
                   → {r.name}
                 </a>
               ))}
@@ -281,48 +281,48 @@ export default function InternationalLaws() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-700 to-blue-800 bg-clip-text text-transparent">
+    <div className="mx-auto max-w-4xl space-y-8">
+      <div className="space-y-3 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           International Employment Laws
         </h1>
-        <p className="text-lg text-slate-800 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Cancer survivor employment rights and protections across {countries.length} countries worldwide
         </p>
       </div>
 
       {/* Global Note */}
-      <Card className="bg-indigo-50 border-2 border-indigo-300">
+      <Card className="nv-card--muted">
         <div className="p-5">
           <div className="flex items-start gap-3">
-            <Globe className="h-6 w-6 text-indigo-700 flex-shrink-0 mt-0.5" />
+            <Globe className="mt-0.5 h-6 w-6 flex-shrink-0 text-primary" />
             <div className="space-y-2">
-              <h3 className="text-lg font-bold text-indigo-900">Universal Principles</h3>
-              <div className="grid sm:grid-cols-2 gap-2 text-sm text-slate-900 leading-relaxed">
-                <div><strong className="text-indigo-900">Anti-discrimination:</strong> Most countries prohibit cancer discrimination in employment through disability or health laws.</div>
-                <div><strong className="text-indigo-900">Reasonable adjustments:</strong> Employers globally are increasingly required to accommodate cancer patients returning to work.</div>
-                <div><strong className="text-indigo-900">Income replacement:</strong> Most developed nations offer some form of sickness benefit ranging from 50–100% of wages.</div>
-                <div><strong className="text-indigo-900">Dismissal protection:</strong> Many countries restrict or prohibit dismissal during active illness or treatment.</div>
+              <h3 className="font-heading text-lg font-bold text-foreground">Universal Principles</h3>
+              <div className="grid gap-2 text-sm leading-relaxed text-foreground sm:grid-cols-2">
+                <div><strong className="text-foreground">Anti-discrimination:</strong> Most countries prohibit cancer discrimination in employment through disability or health laws.</div>
+                <div><strong className="text-foreground">Reasonable adjustments:</strong> Employers globally are increasingly required to accommodate cancer patients returning to work.</div>
+                <div><strong className="text-foreground">Income replacement:</strong> Most developed nations offer some form of sickness benefit ranging from 50–100% of wages.</div>
+                <div><strong className="text-foreground">Dismissal protection:</strong> Many countries restrict or prohibit dismissal during active illness or treatment.</div>
               </div>
-              <p className="text-xs text-slate-700 mt-2 italic">Laws vary significantly between countries and can change. Always verify current rules with local legal counsel or government resources.</p>
+              <p className="mt-2 text-xs italic text-muted-foreground">Laws vary significantly between countries and can change. Always verify current rules with local legal counsel or government resources.</p>
             </div>
           </div>
         </div>
       </Card>
 
       {/* Rating summary */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {['strongest', 'strong', 'moderate', 'basic'].map(key => {
           const cfg = ratingConfig[key];
           const Icon = cfg.icon;
           return (
-            <div key={key} className="bg-white border border-slate-300 rounded-lg p-3 text-center">
-              <span className={`text-xs px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 ${cfg.color}`}>
+            <div key={key} className="rounded-brand border border-border bg-surface p-3 text-center">
+              <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
                 <Icon className="h-3 w-3" />
                 {cfg.label}
               </span>
-              <p className="text-lg font-bold text-slate-900 mt-2">{counts[key] || 0}</p>
-              <p className="text-xs text-slate-700">countries</p>
+              <p className="mt-2 text-lg font-bold text-foreground">{counts[key] || 0}</p>
+              <p className="text-xs text-muted-foreground">countries</p>
             </div>
           );
         })}
@@ -331,12 +331,12 @@ export default function InternationalLaws() {
       {/* Search & Filter */}
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search by country, law name, or topic..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-white border-slate-300 text-slate-900 placeholder:text-slate-500"
+            className="pl-10"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -344,10 +344,10 @@ export default function InternationalLaws() {
             <button
               key={f}
               onClick={() => setRatingFilter(f)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+              className={`rounded-pill px-3 py-1.5 text-sm font-medium transition-all ${
                 ratingFilter === f
-                  ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30'
-                  : 'bg-white text-slate-800 border border-slate-300 hover:border-cyan-500'
+                  ? 'bg-primary text-white'
+                  : 'border border-border bg-surface text-muted-foreground hover:border-primary hover:text-foreground'
               }`}
             >
               {f} {f !== 'All' && <span className="ml-1 opacity-70">({counts[f.toLowerCase()] ?? 0})</span>}
@@ -357,10 +357,10 @@ export default function InternationalLaws() {
       </div>
 
       {filtered.length === 0 ? (
-        <Card className="bg-white border-slate-300">
+        <Card>
           <div className="py-8 text-center">
-            <Search className="h-10 w-10 text-slate-500 mx-auto mb-3" />
-            <p className="text-slate-700">No countries found for "{search}". Try a broader search.</p>
+            <Search className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+            <p className="text-muted-foreground">No countries found for "{search}". Try a broader search.</p>
           </div>
         </Card>
       ) : (
@@ -369,13 +369,13 @@ export default function InternationalLaws() {
         </div>
       )}
 
-      <Card className="bg-amber-50 border-2 border-amber-400">
+      <Card className="nv-card--muted">
         <div className="p-5">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-700 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive" />
             <div>
-              <p className="text-base font-bold text-amber-900 mb-1">Important Disclaimer</p>
-              <p className="text-sm text-slate-900 leading-relaxed">
+              <p className="mb-1 text-base font-bold text-foreground">Important Disclaimer</p>
+              <p className="text-sm leading-relaxed text-foreground">
                 This information is for educational purposes only and provides general summaries. Employment laws change frequently and vary by employer size, industry, and individual circumstances. <strong>Please consult a qualified local employment attorney or HR professional</strong> for advice specific to your country and situation.
               </p>
             </div>

@@ -166,10 +166,10 @@ const stateLaws = [
 ];
 
 const ratingConfig = {
-  strongest: { label: 'Strongest Protections', color: 'bg-emerald-700 text-white', border: 'border-emerald-400', icon: Star },
-  strong: { label: 'Strong Protections', color: 'bg-teal-700 text-white', border: 'border-teal-400', icon: CheckCircle2 },
-  moderate: { label: 'Moderate Protections', color: 'bg-amber-700 text-white', border: 'border-amber-400', icon: Info },
-  basic: { label: 'Basic (Federal Only)', color: 'bg-slate-700 text-white', border: 'border-slate-400', icon: AlertTriangle },
+  strongest: { label: 'Strongest Protections', color: 'bg-brand-secondary text-brand-text', border: 'border-brand-secondary', icon: Star },
+  strong: { label: 'Strong Protections', color: 'bg-primary text-white', border: 'border-primary', icon: CheckCircle2 },
+  moderate: { label: 'Moderate Protections', color: 'bg-brand-accent text-foreground', border: 'border-brand-accent', icon: Info },
+  basic: { label: 'Basic (Federal Only)', color: 'bg-muted text-muted-foreground', border: 'border-border', icon: AlertTriangle },
 };
 
 function StateCard({ data }) {
@@ -178,7 +178,7 @@ function StateCard({ data }) {
   const RatingIcon = cfg.icon;
 
   return (
-    <Card className={`bg-white border-slate-300 hover:border-slate-500 transition-all`}>
+    <Card className="transition-all">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full text-left"
@@ -186,41 +186,41 @@ function StateCard({ data }) {
         <CardContent className="pt-5 pb-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 border border-slate-300">
-                <span className="text-sm font-bold text-slate-900">{data.abbr}</span>
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-brand border border-border bg-muted">
+                <span className="text-sm font-bold text-foreground">{data.abbr}</span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">{data.state}</h3>
-                <p className="text-sm text-slate-700 leading-snug">{data.summary}</p>
+                <h3 className="font-heading text-lg font-bold text-foreground">{data.state}</h3>
+                <p className="text-sm leading-snug text-muted-foreground">{data.summary}</p>
               </div>
             </div>
-            <div className="flex flex-col items-end gap-2 flex-shrink-0">
-              <span className={`text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1 ${cfg.color}`}>
+            <div className="flex flex-shrink-0 flex-col items-end gap-2">
+              <span className={`flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
                 <RatingIcon className="h-3 w-3" />
                 {cfg.label}
               </span>
-              {expanded ? <ChevronUp className="h-4 w-4 text-slate-700" /> : <ChevronDown className="h-4 w-4 text-slate-700" />}
+              {expanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
             </div>
           </div>
         </CardContent>
       </button>
 
       {expanded && (
-        <CardContent className="pt-0 pb-5 space-y-4 border-t border-slate-300">
+        <CardContent className="space-y-4 border-t border-border pt-0 pb-5">
           {/* Key Differences */}
-          <div className={`p-3 rounded-lg border ${cfg.border} bg-slate-50`}>
-            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1">Key Difference from Federal Law</p>
-            <p className="text-sm text-slate-900">{data.keyDifferences}</p>
+          <div className={`rounded-brand border bg-muted p-3 ${cfg.border}`}>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Key Difference from Federal Law</p>
+            <p className="text-sm text-foreground">{data.keyDifferences}</p>
           </div>
 
           {/* Laws */}
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Applicable Laws & Protections</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Applicable Laws & Protections</p>
             {data.highlights.map((h, i) => (
-              <div key={i} className="bg-slate-50 border border-slate-200 rounded-lg p-3">
+              <div key={i} className="rounded-brand border border-border bg-muted p-3">
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-bold bg-slate-800 text-white px-2 py-0.5 rounded flex-shrink-0 mt-0.5">{h.label}</span>
-                  <p className="text-sm text-slate-800 leading-relaxed">{h.detail}</p>
+                  <span className="mt-0.5 flex-shrink-0 rounded bg-primary px-2 py-0.5 text-xs font-bold text-white">{h.label}</span>
+                  <p className="text-sm leading-relaxed text-foreground">{h.detail}</p>
                 </div>
               </div>
             ))}
@@ -228,14 +228,14 @@ function StateCard({ data }) {
 
           {/* Resources */}
           {data.resources?.length > 0 && (
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex flex-wrap gap-2">
               {data.resources.map(r => (
                 <a
                   key={r.name}
                   href={r.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-cyan-700 hover:text-cyan-800 underline underline-offset-2 font-semibold"
+                  className="text-xs font-semibold text-primary underline underline-offset-2 hover:text-foreground"
                 >
                   → {r.name}
                 </a>
@@ -272,48 +272,48 @@ export default function StateByStateLaws() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8">
       {/* Header */}
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
+      <div className="space-y-3 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           State-by-State Laws
         </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           How your state's laws affect your return to work after cancer treatment — and where they differ from federal law
         </p>
       </div>
 
       {/* Federal Baseline Card */}
-      <Card className="bg-indigo-50 border-indigo-300">
+      <Card className="nv-card--muted">
         <CardContent className="pt-5 pb-5">
           <div className="flex items-start gap-3">
-            <Shield className="h-6 w-6 text-indigo-700 flex-shrink-0 mt-0.5" />
+            <Shield className="mt-0.5 h-6 w-6 flex-shrink-0 text-primary" />
             <div className="space-y-2">
-              <h3 className="font-semibold text-indigo-900">Federal Baseline (Applies to All States)</h3>
-              <div className="grid sm:grid-cols-2 gap-2 text-sm text-slate-900">
+              <h3 className="font-semibold text-foreground">Federal Baseline (Applies to All States)</h3>
+              <div className="grid gap-2 text-sm text-foreground sm:grid-cols-2">
                 <div><strong>ADA:</strong> Disability discrimination ban, employers 15+, requires reasonable accommodations</div>
                 <div><strong>FMLA:</strong> 12 weeks unpaid job-protected leave, employers 50+, employee 12-month tenure</div>
                 <div><strong>HIPAA:</strong> Protects your medical information from being shared with employers</div>
                 <div><strong>COBRA:</strong> Continue health insurance for up to 18 months after job loss or leave</div>
               </div>
-              <p className="text-xs text-slate-700 mt-2">State laws can only <strong>expand</strong> these rights — never reduce them. The best protection is whichever is more generous: state or federal.</p>
+              <p className="mt-2 text-xs text-muted-foreground">State laws can only <strong>expand</strong> these rights — never reduce them. The best protection is whichever is more generous: state or federal.</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Rating Legend */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {Object.entries(ratingConfig).map(([key, cfg]) => {
           const Icon = cfg.icon;
           return (
-            <div key={key} className="bg-white border border-slate-300 rounded-lg p-3 text-center">
-              <span className={`text-xs px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 ${cfg.color}`}>
+            <div key={key} className="rounded-brand border border-border bg-surface p-3 text-center">
+              <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
                 <Icon className="h-3 w-3" />
                 {cfg.label}
               </span>
-              <p className="text-lg font-bold text-slate-900 mt-2">{counts[key]}</p>
-              <p className="text-xs text-slate-700">states</p>
+              <p className="mt-2 text-lg font-bold text-foreground">{counts[key]}</p>
+              <p className="text-xs text-muted-foreground">states</p>
             </div>
           );
         })}
@@ -322,12 +322,12 @@ export default function StateByStateLaws() {
       {/* Search & Filter */}
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search by state, law name, or topic..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-white border-slate-300 text-slate-900 placeholder:text-slate-500"
+            className="pl-10"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -335,10 +335,10 @@ export default function StateByStateLaws() {
             <button
               key={f}
               onClick={() => setRatingFilter(f)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+              className={`rounded-pill px-3 py-1.5 text-sm font-medium transition-all ${
                 ratingFilter === f
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
-                  : 'bg-white text-slate-800 border border-slate-300 hover:border-indigo-500'
+                  ? 'bg-primary text-white'
+                  : 'border border-border bg-surface text-muted-foreground hover:border-primary hover:text-foreground'
               }`}
             >
               {f} {f !== 'All' && <span className="ml-1 opacity-70">({counts[f.toLowerCase()] ?? 0})</span>}
@@ -349,10 +349,10 @@ export default function StateByStateLaws() {
 
       {/* State Cards */}
       {filtered.length === 0 ? (
-        <Card className="bg-white border-slate-300">
+        <Card>
           <CardContent className="pt-8 pb-8 text-center">
-            <Search className="h-10 w-10 text-slate-500 mx-auto mb-3" />
-            <p className="text-slate-700">No states found for "{search}". Try a broader search.</p>
+            <Search className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+            <p className="text-muted-foreground">No states found for "{search}". Try a broader search.</p>
           </CardContent>
         </Card>
       ) : (
@@ -362,13 +362,13 @@ export default function StateByStateLaws() {
       )}
 
       {/* Disclaimer */}
-      <Card className="bg-amber-50 border-amber-400">
+      <Card className="nv-card--muted">
         <CardContent className="pt-5 pb-5">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-700 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive" />
             <div>
-              <p className="text-sm font-semibold text-amber-900 mb-1">Important Disclaimer</p>
-              <p className="text-sm text-slate-900">
+              <p className="mb-1 text-sm font-semibold text-foreground">Important Disclaimer</p>
+              <p className="text-sm text-foreground">
                 This information is for educational purposes only and reflects general state law summaries. Laws change frequently and vary by employer size, local ordinances, and individual circumstances. <strong>Please consult a qualified employment attorney</strong> for advice specific to your situation before taking any action.
               </p>
             </div>
