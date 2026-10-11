@@ -46,11 +46,11 @@ export default function RecordKeeping() {
   });
 
   const recordTypes = [
-    { value: 'all', label: 'All Records', icon: FileText, color: 'from-gray-500 to-slate-500' },
-    { value: 'medical', label: 'Medical', icon: Stethoscope, color: 'from-rose-500 to-pink-500' },
-    { value: 'workplace', label: 'Workplace', icon: Briefcase, color: 'from-blue-500 to-cyan-500' },
-    { value: 'journal', label: 'Journal', icon: BookOpen, color: 'from-purple-500 to-violet-500' },
-    { value: 'symptom', label: 'Symptoms', icon: Activity, color: 'from-amber-500 to-orange-500' }
+    { value: 'all', label: 'All Records', icon: FileText },
+    { value: 'medical', label: 'Medical', icon: Stethoscope },
+    { value: 'workplace', label: 'Workplace', icon: Briefcase },
+    { value: 'journal', label: 'Journal', icon: BookOpen },
+    { value: 'symptom', label: 'Symptoms', icon: Activity }
   ];
 
   const filteredRecords = records.filter(record => {
@@ -66,46 +66,38 @@ export default function RecordKeeping() {
     return config?.icon || FileText;
   };
 
-  const getRecordColor = (type) => {
-    const config = recordTypes.find(t => t.value === type);
-    return config?.color || 'from-gray-500 to-slate-500';
-  };
-
   return (
     <PullToRefresh onRefresh={handleRefresh}>
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-200">Record Keeping</h1>
-          <p className="text-slate-400 mt-1">
+          <h1 className="font-heading text-3xl font-bold text-foreground">Record Keeping</h1>
+          <p className="mt-1 text-muted-foreground">
             Document your journey, track progress, and maintain important records
           </p>
         </div>
-        <Button
-          onClick={() => setShowAddDialog(true)}
-          className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700"
-        >
-          <Plus className="h-5 w-5 mr-2" />
+        <Button onClick={() => setShowAddDialog(true)}>
+          <Plus className="h-5 w-5" />
           New Record
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {recordTypes.slice(1).map((type) => {
           const Icon = type.icon;
           const count = records.filter(r => r.type === type.value).length;
           return (
-            <Card key={type.value} className="bg-slate-800/50 border-slate-700">
+            <Card key={type.value}>
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-2xl font-bold text-slate-200">{count}</p>
-                    <p className="text-xs text-slate-400">{type.label}</p>
+                    <p className="text-2xl font-bold text-foreground">{count}</p>
+                    <p className="text-xs text-muted-foreground">{type.label}</p>
                   </div>
-                  <div className={`p-3 rounded-lg bg-gradient-to-br ${type.color}`}>
-                    <Icon className="h-5 w-5 text-white" />
+                  <div className="rounded-brand bg-muted p-3">
+                    <Icon className="h-5 w-5 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -115,16 +107,16 @@ export default function RecordKeeping() {
       </div>
 
       {/* Filters */}
-      <Card className="bg-slate-800/50 border-slate-700">
+      <Card>
         <CardContent className="pt-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search records..."
-                className="pl-10 bg-slate-900/50 border-slate-600 text-slate-200"
+                className="pl-10"
               />
             </div>
             <div className="flex gap-2 overflow-x-auto">
@@ -135,9 +127,8 @@ export default function RecordKeeping() {
                     key={type.value}
                     variant={typeFilter === type.value ? 'default' : 'outline'}
                     onClick={() => setTypeFilter(type.value)}
-                    className={typeFilter === type.value ? `bg-gradient-to-r ${type.color}` : 'border-slate-600 text-slate-300'}
                   >
-                    <Icon className="h-4 w-4 mr-2" />
+                    <Icon className="h-4 w-4" />
                     {type.label}
                   </Button>
                 );
@@ -152,7 +143,6 @@ export default function RecordKeeping() {
         <AnimatePresence>
           {filteredRecords.map((record, idx) => {
             const Icon = getRecordIcon(record.type);
-            const color = getRecordColor(record.type);
             const isExpanded = expandedRecord === record.id;
 
             return (
@@ -163,43 +153,43 @@ export default function RecordKeeping() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ delay: idx * 0.05 }}
               >
-                <Card className="bg-slate-800/50 border-slate-700 hover:border-slate-600 transition-all">
+                <Card className="transition-all">
                   <CardHeader>
                     <div className="flex items-start justify-between">
-                      <div className="flex items-start space-x-4 flex-1">
-                        <div className={`p-3 rounded-lg bg-gradient-to-br ${color} flex-shrink-0`}>
-                          <Icon className="h-5 w-5 text-white" />
+                      <div className="flex flex-1 items-start space-x-4">
+                        <div className="flex-shrink-0 rounded-brand bg-muted p-3">
+                          <Icon className="h-5 w-5 text-primary" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <CardTitle className="text-lg text-slate-200">{record.title}</CardTitle>
-                            <Badge variant="outline" className="border-slate-600 text-slate-400 capitalize">
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-2 flex items-center space-x-2">
+                            <CardTitle className="text-lg text-foreground">{record.title}</CardTitle>
+                            <Badge variant="outline" className="capitalize">
                               {record.type}
                             </Badge>
                           </div>
-                          <div className="flex items-center space-x-4 text-sm text-slate-400">
+                          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <span className="flex items-center">
-                              <Calendar className="h-3 w-3 mr-1" />
+                              <Calendar className="h-3 w-3" />
                               {format(parseISO(record.date), 'MMM d, yyyy')}
                             </span>
                             {record.tags?.length > 0 && (
                               <span className="flex items-center">
-                                <Tag className="h-3 w-3 mr-1" />
+                                <Tag className="h-3 w-3" />
                                 {record.tags.length} tags
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-slate-300 mt-2 line-clamp-2">
+                          <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
                             {record.content}
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2 ml-4">
+                      <div className="ml-4 flex items-center space-x-2">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => setExpandedRecord(isExpanded ? null : record.id)}
-                          className="text-slate-400 hover:text-slate-200"
+                          className="text-muted-foreground hover:text-foreground"
                         >
                           <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                         </Button>
@@ -207,7 +197,7 @@ export default function RecordKeeping() {
                           variant="ghost"
                           size="icon"
                           onClick={() => setSelectedRecord(record)}
-                          className="text-slate-400 hover:text-slate-200"
+                          className="text-muted-foreground hover:text-foreground"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -215,7 +205,7 @@ export default function RecordKeeping() {
                           variant="ghost"
                           size="icon"
                           onClick={() => deleteRecordMutation.mutate(record.id)}
-                          className="text-slate-400 hover:text-red-400"
+                          className="text-muted-foreground hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -224,7 +214,7 @@ export default function RecordKeeping() {
                   </CardHeader>
 
                   {isExpanded && (
-                    <CardContent className="border-t border-slate-700 pt-4">
+                    <CardContent className="border-t border-border pt-4">
                       <RecordDetailView record={record} />
                     </CardContent>
                   )}
@@ -235,11 +225,11 @@ export default function RecordKeeping() {
         </AnimatePresence>
 
         {filteredRecords.length === 0 && (
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card>
             <CardContent className="py-12 text-center">
-              <FileText className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-              <p className="text-slate-400">No records found</p>
-              <p className="text-sm text-slate-500 mt-1">
+              <FileText className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+              <p className="text-muted-foreground">No records found</p>
+              <p className="mt-1 text-sm text-muted-foreground">
                 {searchQuery || typeFilter !== 'all' 
                   ? 'Try adjusting your filters' 
                   : 'Start by creating your first record'}

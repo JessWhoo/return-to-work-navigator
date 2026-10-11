@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { 
   Heart, Brain, Users, Sparkles, 
-  MessageCircle, Phone, Video, Book 
+  MessageCircle, Phone, Video, Book
 } from 'lucide-react';
 
 const supportResources = [
@@ -143,24 +143,24 @@ const copingStrategies = [
 ];
 
 const COLOR_MAP = {
-  purple: { bg: 'bg-purple-900/40', icon: 'text-purple-300', border: 'border-purple-400', heading: 'text-purple-200' },
-  amber:  { bg: 'bg-amber-900/40',  icon: 'text-amber-300',  border: 'border-amber-400',  heading: 'text-amber-200' },
-  teal:   { bg: 'bg-teal-900/40',   icon: 'text-teal-300',   border: 'border-teal-400',   heading: 'text-teal-200' },
-  blue:   { bg: 'bg-blue-900/40',   icon: 'text-blue-300',   border: 'border-blue-400',   heading: 'text-blue-200' },
-  rose:   { bg: 'bg-rose-900/40',   icon: 'text-rose-300',   border: 'border-rose-400',   heading: 'text-rose-200' },
-  green:  { bg: 'bg-green-900/40',  icon: 'text-green-300',  border: 'border-green-400',  heading: 'text-green-200' },
+  purple: { bg: 'bg-muted', icon: 'text-primary', border: 'border-primary' },
+  amber:  { bg: 'bg-muted', icon: 'text-primary', border: 'border-primary' },
+  teal:   { bg: 'bg-muted', icon: 'text-brand-secondary', border: 'border-brand-secondary' },
+  blue:   { bg: 'bg-muted', icon: 'text-primary', border: 'border-primary' },
+  rose:   { bg: 'bg-muted', icon: 'text-destructive', border: 'border-destructive' },
+  green:  { bg: 'bg-muted', icon: 'text-brand-secondary', border: 'border-brand-secondary' },
 };
 
 export default function EmotionalSupport() {
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+      <div className="space-y-4 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           Emotional Support & Well-Being
         </h1>
-        <p className="text-lg text-slate-100 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Resources for managing anxiety, building confidence, and finding support
         </p>
       </div>
@@ -170,20 +170,20 @@ export default function EmotionalSupport() {
         {supportResources.map((resource) => {
           const Icon = resource.icon;
           return (
-            <Card key={resource.title} className="bg-slate-800 border-slate-600">
+            <Card key={resource.title}>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg ${COLOR_MAP[resource.color]?.bg || 'bg-slate-700'}`}>
-                    <Icon className={`h-6 w-6 ${COLOR_MAP[resource.color]?.icon || 'text-slate-300'}`} />
+                  <div className={`rounded-brand p-2 ${COLOR_MAP[resource.color]?.bg || 'bg-muted'}`}>
+                    <Icon className={`h-6 w-6 ${COLOR_MAP[resource.color]?.icon || 'text-primary'}`} />
                   </div>
-                  <span className="text-slate-100">{resource.title}</span>
+                  <span className="text-foreground">{resource.title}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {resource.strategies.map((item, index) => (
-                  <div key={index} className={`p-4 bg-slate-900/60 rounded-lg border-l-4 ${COLOR_MAP[resource.color]?.border || 'border-slate-400'}`}>
-                    <h4 className={`font-semibold mb-2 ${COLOR_MAP[resource.color]?.heading || 'text-slate-200'}`}>{item.strategy}</h4>
-                    <p className="text-sm text-slate-100 leading-relaxed">{item.description}</p>
+                  <div key={index} className={`rounded-brand border-l-4 bg-muted p-4 ${COLOR_MAP[resource.color]?.border || 'border-border'}`}>
+                    <h4 className="mb-2 font-semibold text-foreground">{item.strategy}</h4>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                   </div>
                 ))}
               </CardContent>
@@ -194,25 +194,25 @@ export default function EmotionalSupport() {
 
       {/* Peer Support */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-slate-100 flex items-center space-x-2">
-          <Users className="h-7 w-7 text-teal-600" />
+        <h2 className="flex items-center space-x-2 font-heading text-2xl font-bold text-foreground">
+          <Users className="h-7 w-7 text-brand-secondary" />
           <span>Peer Support Networks</span>
         </h2>
         
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
           {peerSupport.map((org) => {
             const Icon = org.icon;
             return (
-              <Card key={org.name} className="bg-slate-800 border-slate-600 hover:shadow-lg transition-all">
+              <Card key={org.name}>
                 <CardContent className="pt-6">
-                  <div className="flex items-start space-x-3 mb-3">
-                    <div className={`p-2 rounded-lg ${COLOR_MAP[org.color]?.bg || 'bg-slate-700'}`}>
-                      <Icon className={`h-5 w-5 ${COLOR_MAP[org.color]?.icon || 'text-slate-300'}`} />
+                  <div className="mb-3 flex items-start space-x-3">
+                    <div className={`rounded-brand p-2 ${COLOR_MAP[org.color]?.bg || 'bg-muted'}`}>
+                      <Icon className={`h-5 w-5 ${COLOR_MAP[org.color]?.icon || 'text-primary'}`} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-slate-100 mb-1">{org.name}</h3>
-                      <p className="text-sm text-slate-100 leading-relaxed mb-2">{org.description}</p>
-                      <p className="text-xs text-slate-200">{org.contact}</p>
+                      <h3 className="mb-1 font-bold text-foreground">{org.name}</h3>
+                      <p className="mb-2 text-sm leading-relaxed text-muted-foreground">{org.description}</p>
+                      <p className="text-xs text-muted-foreground">{org.contact}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -224,25 +224,25 @@ export default function EmotionalSupport() {
 
       {/* Coping Strategies */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-slate-100 flex items-center space-x-2">
-          <Book className="h-7 w-7 text-rose-600" />
+        <h2 className="flex items-center space-x-2 font-heading text-2xl font-bold text-foreground">
+          <Book className="h-7 w-7 text-destructive" />
           <span>Practical Coping Strategies</span>
         </h2>
 
         <div className="grid gap-6">
           {copingStrategies.map((strategy, index) => (
-            <Card key={index} className="bg-slate-800 border-slate-600">
+            <Card key={index}>
               <CardHeader>
-                <CardTitle className="text-lg text-rose-400">{strategy.title}</CardTitle>
+                <CardTitle className="text-lg text-foreground">{strategy.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ol className="space-y-3">
                   {strategy.steps.map((step, stepIndex) => (
                     <li key={stepIndex} className="flex items-start space-x-3">
-                      <Badge className="bg-rose-100 text-rose-700 flex-shrink-0">
+                      <Badge variant="secondary" className="flex-shrink-0">
                         {stepIndex + 1}
                       </Badge>
-                      <span className="text-slate-200 leading-relaxed">{step}</span>
+                      <span className="leading-relaxed text-foreground">{step}</span>
                     </li>
                   ))}
                 </ol>
@@ -253,15 +253,15 @@ export default function EmotionalSupport() {
       </div>
 
       {/* Supportive Message */}
-      <Card className="bg-gradient-to-r from-pink-900/40 via-rose-900/40 to-teal-900/40 border-rose-700">
+      <Card className="nv-card--muted">
         <CardContent className="pt-6 text-center">
-          <Heart className="h-12 w-12 text-rose-500 mx-auto mb-4" />
-          <h3 className="text-2xl font-bold text-slate-100 mb-3">You're Doing Great</h3>
-          <p className="text-slate-100 max-w-2xl mx-auto leading-relaxed mb-4">
+          <Heart className="mx-auto mb-4 h-12 w-12 text-destructive" />
+          <h3 className="mb-3 font-heading text-2xl font-bold text-foreground">You're Doing Great</h3>
+          <p className="mx-auto mb-4 max-w-2xl leading-relaxed text-muted-foreground">
             Some days will be harder than others. That's not weakness—that's being human. 
             Be patient with yourself. You've already proven how strong you are.
           </p>
-          <p className="text-sm text-slate-200 italic">
+          <p className="text-sm italic text-muted-foreground">
             If you're struggling, please reach out to a mental health professional. 
             There's no shame in needing support.
           </p>
