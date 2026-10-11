@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Users, Shield, Zap, BookOpen, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import PageHeader from '@/components/brand/PageHeader';
 import useSEO from '@/hooks/useSEO';
 
@@ -23,23 +24,28 @@ export default function About() {
   });
 
   return (
-    <div className="mx-auto max-w-4xl space-y-12 px-4 py-12">
+    <div className="mx-auto max-w-4xl space-y-8">
       {/* Hero */}
       <PageHeader
         center
         eyebrow="Our story"
         title="About Back to Life, Back to Work Navigator"
         subtitle="A compassionate, comprehensive toolkit built for cancer survivors navigating the journey back to the workplace."
+        className="nv-card nv-card--muted p-5 sm:p-8"
       />
 
       {/* Founder */}
       <Card>
-        <CardContent className="p-8">
-          <h2 className="mb-6 text-center font-heading text-3xl font-bold text-brand-text sm:text-left">Meet the Founder</h2>
+        <CardContent className="p-5 sm:p-8">
+          <h2 className="mb-6 text-center font-heading text-2xl font-bold sm:text-3xl text-brand-text sm:text-left">Meet the Founder</h2>
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             <img
               src="https://media.base44.com/images/public/69406c752de234aafebf891d/c66b3b480_IMG_1779.jpg"
-              alt="Founder & Creator"
+              alt="Jess Whorton, Founder & Creator"
+              width="192"
+              height="192"
+              loading="lazy"
+              decoding="async"
               className="h-40 w-40 flex-shrink-0 rounded-brand-lg border-4 border-brand-accent object-cover shadow-brand-md sm:h-48 sm:w-48"
             />
             <div className="flex-1 space-y-3">
@@ -47,13 +53,13 @@ export default function About() {
                 <p className="font-heading text-2xl font-bold text-brand-text">Jess Whorton</p>
                 <p className="text-base font-semibold text-brand-primary">Founder &amp; Creator — Back to Life, Back to Work Navigator</p>
               </div>
-              <p className="text-base leading-relaxed text-brand-text">
+              <p className="text-base text-brand-text">
                 As a cancer survivor herself, our founder knows firsthand how isolating and overwhelming the return-to-work
                 journey can feel. After navigating her own diagnosis, treatment, and the difficult conversations that
                 followed with employers, HR, and coworkers, she realized how little practical support existed for people
                 trying to rebuild their careers while healing.
               </p>
-              <p className="text-base leading-relaxed text-brand-text">
+              <p className="text-base text-brand-text">
                 She founded the Navigator to be the resource she wished she'd had — a warm, judgment-free companion that
                 combines legal guidance, communication tools, emotional support, and community into one accessible place.
                 Her mission is to make sure no survivor ever has to figure this out alone.
@@ -69,21 +75,21 @@ export default function About() {
 
       {/* What the app does */}
       <Card>
-        <CardContent className="space-y-4 p-8">
-          <h2 className="font-heading text-3xl font-bold text-brand-text">What We Do</h2>
-          <p className="text-base leading-relaxed text-brand-text">
+        <CardContent className="space-y-4 p-5 sm:p-8">
+          <h2 className="font-heading text-2xl font-bold sm:text-3xl text-brand-text">What We Do</h2>
+          <p className="text-base text-brand-text">
             The Back to Life, Back to Work Navigator is a free, all-in-one digital companion designed to guide cancer
             survivors through every phase of returning to employment after treatment. Returning to work after a cancer
             diagnosis is rarely straightforward — physical fatigue, cognitive changes, emotional anxiety, legal
             questions, and workplace communication challenges can all feel overwhelming at once.
           </p>
-          <p className="text-base leading-relaxed text-brand-text">
+          <p className="text-base text-brand-text">
             Our platform brings together evidence-based tools, curated resource libraries, AI-powered coaching, and
             community support in one accessible place. Users can track their daily energy and mood, generate
             accommodation request letters, prepare for difficult workplace conversations, understand their rights under
             the ADA and FMLA, and connect with peers who truly understand their experience.
           </p>
-          <p className="text-base leading-relaxed text-brand-text">
+          <p className="text-base text-brand-text">
             Whether you are in the early planning stages before returning, navigating your first week back, or
             managing ongoing challenges months into your return, the Navigator meets you where you are and adapts to
             your needs.
@@ -92,17 +98,17 @@ export default function About() {
       </Card>
 
       {/* Who it's for */}
-      <Card className="nv-card--muted">
-        <CardContent className="space-y-4 p-8">
-          <h2 className="font-heading text-3xl font-bold text-brand-text">Who It's For</h2>
-          <p className="text-base leading-relaxed text-brand-text">
+      <Card className="nv-card--sage">
+        <CardContent className="space-y-4 p-5 sm:p-8">
+          <h2 className="font-heading text-2xl font-bold sm:text-3xl text-brand-text">Who It's For</h2>
+          <p className="text-base text-brand-text">
             This platform is built for cancer survivors and patients at any stage of treatment or recovery who are
             thinking about, preparing for, or actively navigating a return to work. It is also a valuable resource
             for caregivers supporting a loved one through workplace reintegration, as well as HR professionals and
             occupational health practitioners seeking to better understand the needs of employees returning after
             serious illness.
           </p>
-          <p className="text-base leading-relaxed text-brand-text">
+          <p className="text-base text-brand-text">
             The Navigator is designed to be accessible, supportive, and non-judgmental — recognizing that every
             survivor's journey is unique and that there is no single "right" timeline or approach.
           </p>
@@ -111,13 +117,13 @@ export default function About() {
 
       {/* Feature highlights */}
       <div>
-        <h2 className="mb-6 text-center font-heading text-3xl font-bold text-brand-text">Key Features</h2>
+        <h2 className="mb-6 text-center font-heading text-2xl font-bold sm:text-3xl text-brand-text">Key Features</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {FEATURES.map(({ icon: Icon, title, desc }) => (
             <Card key={title}>
               <CardContent className="flex items-start gap-3 p-4">
                 <span className="mt-0.5 flex-shrink-0 rounded-pill bg-brand-muted p-2 text-brand-primary">
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
                 </span>
                 <div>
                   <p className="text-base font-bold text-brand-text">{title}</p>
@@ -130,9 +136,7 @@ export default function About() {
       </div>
 
       <div className="text-center">
-        <Link to="/Contact" className="inline-flex items-center gap-2 text-base font-semibold text-brand-primary underline transition-colors hover:text-brand-text">
-          Get in touch with us <ArrowRight className="h-5 w-5" />
-        </Link>
+        <Button asChild variant="outline" className="!whitespace-normal"><Link to="/Contact">Get in touch with us <ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
       </div>
     </div>
   );

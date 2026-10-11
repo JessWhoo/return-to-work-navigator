@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import FAQCategoryHeader from '@/components/support/FAQCategoryHeader';
 import useSEO from '@/hooks/useSEO';
 import PageHeader from '@/components/brand/PageHeader';
 import { 
@@ -7,7 +8,6 @@ import {
   Briefcase, Shield, Heart, Zap, FileText, Calendar
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const faqData = [
@@ -151,7 +151,7 @@ const faqData = [
   }
 ];
 
-export default function FAQ() {
+export default function FAQ({ embedded = false }) {
   useSEO({
     title: 'Frequently Asked Questions',
     description:
@@ -187,30 +187,27 @@ export default function FAQ() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <PageHeader center title="Frequently Asked Questions" subtitle="Find answers to common questions about returning to work after cancer treatment" />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Frequently Asked Questions" subtitle="Find answers to common questions about returning to work after cancer treatment" />
       <Card>
-        <CardContent className="pt-6"><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-muted-foreground" /><Input placeholder="Search for answers..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 h-12 text-base" /></div></CardContent>
+        <CardContent className="pt-6"><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-muted-foreground" aria-hidden="true" /><Input aria-label="Search frequently asked questions" placeholder="Search for answers..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 h-12 text-base" /></div></CardContent>
       </Card>
       <div className="space-y-4">
         {filteredFAQ.length === 0 ? <Card><CardContent className="pt-6 text-center"><p className="text-brand-muted-foreground">No results found for "{searchQuery}"</p></CardContent></Card> : filteredFAQ.map(category => {
           const actualIndex = faqData.findIndex(c => c.category === category.category);
           const isExpanded = expandedCategories.includes(actualIndex);
-          const Icon = category.icon;
           return (
             <Card key={actualIndex} className="overflow-hidden">
-              <CardHeader className="cursor-pointer" onClick={() => toggleCategory(actualIndex)}>
-                <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-3 min-w-0">{isExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0" />}<div className="p-2 rounded-brand bg-brand-muted shrink-0"><Icon className="h-5 w-5 text-brand-primary" /></div><CardTitle className="text-xl text-brand-text">{category.category}</CardTitle></div><Badge variant="secondary">{category.questions.length}</Badge></div>
-              </CardHeader>
+              <FAQCategoryHeader category={category} expanded={isExpanded} onToggle={() => toggleCategory(actualIndex)} contentId={`faq-category-${actualIndex}`} />
               <AnimatePresence>
                 {isExpanded && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
-                  <CardContent className="space-y-3 pt-0">
+                  <CardContent id={`faq-category-${actualIndex}`} className="space-y-3 px-5 pb-5 pt-0 sm:px-6 sm:pb-6">
                     {category.questions.map((question, questionIndex) => {
                       const key = `${actualIndex}-${questionIndex}`;
                       const isQuestionExpanded = expandedQuestions.includes(key);
                       return (
                         <div key={questionIndex} className="border-l-4 border-brand-border">
                           <button onClick={() => toggleQuestion(actualIndex, questionIndex)} aria-expanded={isQuestionExpanded} className="w-full text-left p-4 text-brand-text rounded-r-brand hover:bg-brand-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
-                            <div className="flex items-start justify-between gap-3"><h4 className="font-semibold">{question.q}</h4>{isQuestionExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" />}</div>
+                            <div className="flex items-start justify-between gap-3"><span className="font-body font-semibold">{question.q}</span>{isQuestionExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" />}</div>
                           </button>
                           <AnimatePresence>{isQuestionExpanded && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}><div className="px-4 pb-4 text-brand-muted-foreground">{question.a}</div></motion.div>}</AnimatePresence>
                         </div>
@@ -223,7 +220,7 @@ export default function FAQ() {
           );
         })}
       </div>
-      <Card className="nv-card--muted"><CardContent className="pt-6 text-center space-y-3"><Heart className="h-12 w-12 text-brand-primary mx-auto" /><h3 className="text-xl font-bold text-brand-text">Still Have Questions?</h3><p className="text-brand-muted-foreground">Can't find what you're looking for? Explore our Resources section for additional support, or consult with your healthcare team and legal counsel for personalized guidance.</p></CardContent></Card>
+      <Card className="nv-card--sage"><CardContent className="pt-6 text-center space-y-3"><Heart className="h-12 w-12 text-brand-primary mx-auto" /><h3 className="text-xl font-bold text-brand-text">Still Have Questions?</h3><p className="text-brand-muted-foreground">Can't find what you're looking for? Explore our Resources section for additional support, or consult with your healthcare team and legal counsel for personalized guidance.</p></CardContent></Card>
     </div>
   );
 }

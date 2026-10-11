@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
+import PageHeader from '@/components/brand/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -301,7 +302,7 @@ async function buildPDF(type, { meetings, drafts, records, progress }) {
   return doc;
 }
 
-export default function ExportReports() {
+export default function ExportReports({ embedded = false }) {
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const [generating, setGenerating] = useState(null);
   const [done, setDone] = useState(null);
@@ -331,15 +332,7 @@ export default function ExportReports() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-      <div className="space-y-3 text-center">
-        <div className="mb-2 inline-flex h-16 w-16 items-center justify-center rounded-brand-lg bg-primary shadow-brand-md">
-          <FileDown className="h-8 w-8 text-brand-onPrimary" />
-        </div>
-        <h1 className="font-heading text-3xl font-bold text-foreground">Export & Download Reports</h1>
-        <p className="mx-auto max-w-xl text-muted-foreground">
-          Generate professional PDF summaries of your data to share with healthcare providers, HR teams, or for your own records.
-        </p>
-      </div>
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Export & Download Reports" subtitle="Generate professional PDF summaries of your data to share with healthcare providers, HR teams, or for your own records." />
 
       <div className="grid gap-5">
         {REPORT_TYPES.map((report) => {
@@ -350,10 +343,10 @@ export default function ExportReports() {
           return (
             <Card key={report.id}>
               <CardContent className="p-6">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex flex-1 items-center gap-4">
-                    <div className="flex-shrink-0 rounded-brand bg-muted p-3 shadow-brand-sm">
-                      <Icon className="h-6 w-6 text-primary" />
+                <div className="flex flex-col items-stretch gap-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 flex-1 items-start gap-3 sm:gap-4">
+                    <div className="shrink-0 rounded-pill bg-brand-muted p-3">
+                      <Icon className="h-6 w-6 text-brand-primary" strokeWidth={1.75} aria-hidden="true" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -367,7 +360,7 @@ export default function ExportReports() {
                     onClick={() => handleExport(report.id)}
                     disabled={!!generating}
                     variant={isDone ? 'secondary' : 'default'}
-                    className="min-w-[130px] flex-shrink-0"
+                    className="w-full shrink-0 !whitespace-normal sm:w-auto sm:min-w-[130px]"
                   >
                     {isGenerating ? (
                       <><Loader2 className="h-4 w-4 animate-spin" />Generating…</>
