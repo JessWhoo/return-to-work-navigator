@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import {
   Mail, Sparkles, Copy, ChevronDown, ChevronUp,
   MessageSquare, User, Loader2, CheckCircle2, RefreshCw, Info
@@ -192,25 +191,23 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6">
       {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex items-center justify-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
-            <Mail className="h-6 w-6 text-white" />
-          </div>
-          <div className="text-left">
-            <h1 className="text-2xl font-bold text-slate-100">Employer Email Generator</h1>
-            <p className="text-sm text-slate-400">AI-drafted emails grounded in your coaching conversations</p>
-          </div>
+      <div className="flex items-center gap-3">
+        <span className="rounded-pill bg-muted p-2.5 text-primary">
+          <Mail className="h-5 w-5" />
+        </span>
+        <div>
+          <h2 className="font-heading text-xl font-bold text-foreground">Employer Email Generator</h2>
+          <p className="text-sm text-muted-foreground">AI-drafted emails grounded in your coaching conversations</p>
         </div>
       </div>
 
       {/* Tip banner */}
-      <Card className="bg-indigo-950/60 border border-indigo-700/50">
+      <Card className="nv-card--muted">
         <CardContent className="pt-4 pb-4">
-          <div className="flex gap-2 text-xs text-indigo-300">
-            <Info className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
+          <div className="flex gap-2 text-xs text-muted-foreground">
+            <Info className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-primary" />
             <p>
               Select a <strong>coaching conversation</strong> below to personalize the draft with your own situation —
               the AI will use what you've discussed with your coach as context.
@@ -219,15 +216,15 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
         </CardContent>
       </Card>
 
-      <div className="grid lg:grid-cols-5 gap-6">
+      <div className="grid gap-6 lg:grid-cols-5">
         {/* Left column: config */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="space-y-5 lg:col-span-2">
 
           {/* Step 1: Pick scenario */}
-          <Card className="bg-slate-800/90 border-2 border-slate-700">
+          <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm text-slate-200 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center font-bold">1</span>
+              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+                <span className="flex h-5 w-5 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground">1</span>
                 Choose Email Type
               </CardTitle>
             </CardHeader>
@@ -236,19 +233,19 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                 <button
                   key={s.id}
                   onClick={() => setSelectedScenario(s.id)}
-                  className={`w-full text-left p-3 rounded-xl transition-all border ${
+                  className={`w-full rounded-brand border p-3 text-left transition-all ${
                     selectedScenario === s.id
-                      ? 'bg-indigo-700/60 border-indigo-500 text-white'
-                      : 'bg-slate-700/40 border-slate-600/50 text-slate-300 hover:bg-slate-700/70 hover:border-slate-500'
+                      ? 'border-primary bg-muted text-foreground'
+                      : 'border-border bg-surface text-muted-foreground hover:bg-muted'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-base">{s.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold truncate">{s.label}</p>
-                      <p className="text-[10px] text-slate-400 truncate">{s.description}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-semibold">{s.label}</p>
+                      <p className="truncate text-[10px] text-muted-foreground">{s.description}</p>
                     </div>
-                    {selectedScenario === s.id && <CheckCircle2 className="h-3.5 w-3.5 text-indigo-300 flex-shrink-0" />}
+                    {selectedScenario === s.id && <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0 text-primary" />}
                   </div>
                 </button>
               ))}
@@ -256,31 +253,32 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           </Card>
 
           {/* Step 2: Link coaching conversation */}
-          <Card className="bg-slate-800/90 border-2 border-slate-700">
+          <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm text-slate-200 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-xs flex items-center justify-center font-bold">2</span>
+              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+                <span className="flex h-5 w-5 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground">2</span>
                 Link Coaching Conversation
-                <Badge className="bg-purple-700/50 text-purple-200 text-[10px] px-1.5 py-0 ml-auto">Optional</Badge>
+                <span className="nv-chip nv-chip--muted ml-auto">Optional</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {loadingConvs ? (
-                <div className="flex justify-center py-3"><Loader2 className="h-4 w-4 animate-spin text-slate-400" /></div>
+                <div className="flex justify-center py-3"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
               ) : conversations.length === 0 ? (
-                <p className="text-xs text-slate-500">No coach conversations yet. <Link to="/Coach" className="text-purple-400 underline">Start one in Coach</Link>.</p>
+                <p className="text-xs text-muted-foreground">No coach conversations yet. <Link to="/Coach" className="text-primary underline">Start one in Coach</Link>.</p>
               ) : (
                 <div className="space-y-1.5">
                   <button
                     onClick={() => setShowConvPicker(!showConvPicker)}
-                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 text-xs text-slate-200 hover:bg-slate-700 transition-colors"
+                    className="flex w-full items-center justify-between rounded-brand border border-border bg-surface p-2.5 text-xs text-foreground transition-colors hover:bg-muted"
                   >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <MessageSquare className="h-3.5 w-3.5 text-purple-400 flex-shrink-0" />
+                    <div className="flex min-w-0 items-center gap-2">
+                      <MessageSquare className="h-3.5 w-3.5 flex-shrink-0 text-primary" />
                       <span className="truncate">
                         {selectedConvId === 'none'
                           ? 'No conversation selected'
-                          : (selectedConversation?.messages?.find(m => m.role === 'user')?.content?.slice(0, 50) || 'Conversation')}
+                          : (selectedConversation?.messages?.find(m => m.role === 'user')?.content?.slice(0, 50) || 'Conversation')
+                        }
                       </span>
                     </div>
                     {showConvPicker ? <ChevronUp className="h-3.5 w-3.5 flex-shrink-0" /> : <ChevronDown className="h-3.5 w-3.5 flex-shrink-0" />}
@@ -296,7 +294,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                       >
                         <button
                           onClick={() => { setSelectedConvId('none'); setShowConvPicker(false); }}
-                          className={`w-full text-left p-2 rounded-lg text-xs transition-colors ${selectedConvId === 'none' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:bg-slate-700 hover:text-slate-200'}`}
+                          className={`w-full rounded-brand p-2 text-left text-xs transition-colors ${selectedConvId === 'none' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
                         >
                           — None (generic email)
                         </button>
@@ -306,10 +304,10 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                             <button
                               key={c.id}
                               onClick={() => { setSelectedConvId(c.id); setShowConvPicker(false); }}
-                              className={`w-full text-left p-2 rounded-lg text-xs transition-colors ${selectedConvId === c.id ? 'bg-purple-700/50 text-white' : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'}`}
+                              className={`w-full rounded-brand p-2 text-left text-xs transition-colors ${selectedConvId === c.id ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
                             >
                               <p className="truncate font-medium">{firstMsg?.content?.slice(0, 60) || 'Conversation'}</p>
-                              <p className="text-[10px] text-slate-500">{c.messages?.length || 0} messages</p>
+                              <p className="text-[10px] text-muted-foreground">{c.messages?.length || 0} messages</p>
                             </button>
                           );
                         })}
@@ -318,7 +316,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                   </AnimatePresence>
 
                   {selectedConvId !== 'none' && (
-                    <p className="text-[10px] text-green-400 flex items-center gap-1">
+                    <p className="flex items-center gap-1 text-[10px] text-brand-secondary">
                       <CheckCircle2 className="h-3 w-3" />
                       Conversation context will be used to personalize your draft
                     </p>
@@ -329,40 +327,40 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           </Card>
 
           {/* Step 3: Recipient & extra context */}
-          <Card className="bg-slate-800/90 border-2 border-slate-700">
+          <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm text-slate-200 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-teal-600 text-white text-xs flex items-center justify-center font-bold">3</span>
+              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+                <span className="flex h-5 w-5 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground">3</span>
                 Recipient & Extra Details
-                <Badge className="bg-teal-700/40 text-teal-300 text-[10px] px-1.5 py-0 ml-auto">Optional</Badge>
+                <span className="nv-chip nv-chip--muted ml-auto">Optional</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-1.5">
-                <Label className="text-xs text-slate-300 flex items-center gap-1"><User className="h-3 w-3" /> Recipient Name</Label>
+                <Label className="flex items-center gap-1 text-xs text-foreground"><User className="h-3 w-3" /> Recipient Name</Label>
                 <Input
                   placeholder="e.g. Sarah Johnson"
                   value={recipientName}
                   onChange={e => setRecipientName(e.target.value)}
-                  className="h-8 text-xs bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500"
+                  className="h-8 text-xs"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-slate-300">Recipient Role</Label>
+                <Label className="text-xs text-foreground">Recipient Role</Label>
                 <Input
                   placeholder="e.g. HR Manager, Supervisor"
                   value={recipientRole}
                   onChange={e => setRecipientRole(e.target.value)}
-                  className="h-8 text-xs bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500"
+                  className="h-8 text-xs"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-slate-300">Additional Context (optional)</Label>
+                <Label className="text-xs text-foreground">Additional Context (optional)</Label>
                 <Textarea
                   placeholder="e.g. I need 2 days WFH per week and a later start time on Tuesdays..."
                   value={extraContext}
                   onChange={e => setExtraContext(e.target.value)}
-                  className="text-xs bg-slate-900 border-slate-600 text-slate-200 placeholder:text-slate-500 min-h-[70px]"
+                  className="min-h-[70px] text-xs"
                 />
               </div>
             </CardContent>
@@ -371,48 +369,48 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           <Button
             onClick={generateEmail}
             disabled={isGenerating || !selectedScenario}
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 h-11"
+            className="h-11 w-full"
           >
             {isGenerating ? (
-              <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Generating…</>
+              <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
             ) : (
-              <><Sparkles className="h-4 w-4 mr-2" /> Generate Email Draft</>
+              <><Sparkles className="h-4 w-4" /> Generate Email Draft</>
             )}
           </Button>
         </div>
 
         {/* Right column: draft output */}
         <div className="lg:col-span-3">
-          <Card ref={draftRef} className="bg-slate-800/90 border-2 border-slate-700 h-full flex flex-col">
-            <CardHeader className="border-b border-slate-700 pb-3">
-              <CardTitle className="text-sm text-slate-200 flex items-center gap-2">
-                <Mail className="h-4 w-4 text-indigo-400" />
+          <Card ref={draftRef} className="flex h-full flex-col">
+            <CardHeader className="border-b border-border pb-3">
+              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+                <Mail className="h-4 w-4 text-primary" />
                 Email Draft
                 {emailBody && (
-                  <Badge className="bg-green-700/50 text-green-300 text-[10px] px-1.5 py-0 ml-auto">
-                    <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                  <span className="nv-chip ml-auto">
+                    <CheckCircle2 className="h-3 w-3" />
                     Ready
-                  </Badge>
+                  </span>
                 )}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 pt-4 space-y-4">
+            <CardContent className="flex-1 space-y-4 pt-4">
               {!emailBody && !isGenerating ? (
-                <div className="flex flex-col items-center justify-center h-64 text-center space-y-3">
-                  <div className="w-16 h-16 rounded-full bg-slate-700/50 flex items-center justify-center">
-                    <Mail className="h-8 w-8 text-slate-500" />
+                <div className="flex h-64 flex-col items-center justify-center space-y-3 text-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-pill bg-muted">
+                    <Mail className="h-8 w-8 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="text-slate-400 text-sm font-medium">No draft yet</p>
-                    <p className="text-slate-600 text-xs mt-1">Select a scenario and click Generate</p>
+                    <p className="text-sm font-medium text-muted-foreground">No draft yet</p>
+                    <p className="mt-1 text-xs text-muted-foreground">Select a scenario and click Generate</p>
                   </div>
                 </div>
               ) : isGenerating ? (
-                <div className="flex flex-col items-center justify-center h-64 space-y-4">
-                  <Loader2 className="h-8 w-8 animate-spin text-indigo-400" />
+                <div className="flex h-64 flex-col items-center justify-center space-y-4">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                   <div className="text-center">
-                    <p className="text-slate-300 text-sm font-medium">Generating your draft…</p>
-                    <p className="text-slate-500 text-xs mt-1">
+                    <p className="text-sm font-medium text-foreground">Generating your draft…</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
                       {selectedConvId !== 'none' ? 'Using your coaching conversation for context' : 'Using your journey data'}
                     </p>
                   </div>
@@ -425,27 +423,27 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                     className="space-y-4"
                   >
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-slate-300">Subject</Label>
+                      <Label className="text-xs text-foreground">Subject</Label>
                       <Input
                         value={subject}
                         onChange={e => setSubject(e.target.value)}
-                        className="text-sm bg-slate-900 border-slate-600 text-slate-200"
+                        className="text-sm"
                       />
                     </div>
 
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-slate-300">Body — edit freely</Label>
+                      <Label className="text-xs text-foreground">Body — edit freely</Label>
                       <Textarea
                         value={emailBody}
                         onChange={e => setEmailBody(e.target.value)}
-                        className="text-sm bg-slate-900 border-slate-600 text-slate-200 font-mono min-h-[320px] leading-relaxed"
+                        className="min-h-[320px] font-mono text-sm leading-relaxed"
                       />
-                      <p className="text-[10px] text-slate-500">Fill in any <span className="text-indigo-400">[bracketed placeholders]</span> before sending.</p>
+                      <p className="text-[10px] text-muted-foreground">Fill in any <span className="text-primary">[bracketed placeholders]</span> before sending.</p>
                     </div>
 
                     <div className="flex flex-wrap gap-2 pt-1">
-                       <Button onClick={copyToClipboard} variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700">
-                         <Copy className="h-4 w-4 mr-2" /> Copy
+                       <Button onClick={copyToClipboard} variant="outline" className="flex-1">
+                         <Copy className="h-4 w-4" /> Copy
                        </Button>
                        <SaveDraftButton
                          title={EMAIL_SCENARIOS.find(s => s.id === selectedScenario)?.label || 'Workplace Email'}
@@ -453,9 +451,9 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                          recipient={recipientName || recipientRole || ''}
                          subject={subject}
                          content={emailBody}
-                         className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                         className="flex-1"
                        />
-                       <Button onClick={generateEmail} variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700" title="Regenerate">
+                       <Button onClick={generateEmail} variant="outline" title="Regenerate">
                          <RefreshCw className="h-4 w-4" />
                        </Button>
                      </div>

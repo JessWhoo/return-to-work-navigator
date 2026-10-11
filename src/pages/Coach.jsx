@@ -235,23 +235,23 @@ export default function Coach() {
 
   if (loadingConversations) {
     return (
-      <div className="max-w-7xl mx-auto flex items-center justify-center h-64">
-        <div className="text-center space-y-3">
-          <Loader2 className="h-10 w-10 animate-spin text-purple-600 mx-auto" />
-          <p className="text-slate-900 text-sm font-semibold">Loading your coach...</p>
+      <div className="mx-auto flex h-64 max-w-7xl items-center justify-center">
+        <div className="space-y-3 text-center">
+          <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
+          <p className="text-sm font-semibold text-foreground">Loading your coach...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto pb-4">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:items-start">
+    <div className="mx-auto max-w-7xl pb-4">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:items-start">
         {/* Sidebar */}
-        <div className="lg:col-span-1 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 lg:col-span-1">
           {/* Conversation History Panel */}
-          <Card className="bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md flex flex-col" style={{ maxHeight: '50vh' }}>
-            <CardContent className="pt-4 pb-4 flex flex-col flex-1 overflow-hidden">
+          <Card className="flex flex-col" style={{ maxHeight: '50vh' }}>
+            <CardContent className="flex flex-1 flex-col overflow-hidden pt-4 pb-4">
               <ConversationHistory
                 conversations={conversations}
                 selectedConversation={selectedConversation}
@@ -266,15 +266,15 @@ export default function Coach() {
           </Card>
 
           {/* Coach Avatar */}
-          <Card className="bg-gradient-to-br from-purple-100 to-pink-100 border-2 border-purple-300 shadow-md">
+          <Card className="nv-card--muted">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-                  <Bot className="h-5 w-5 text-white" />
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-pill bg-primary text-primary-foreground">
+                  <Bot className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">AI Return-to-Work Coach</h3>
-                  <p className="text-xs text-slate-800 font-medium">Your 24/7 return-to-work guide</p>
+                  <h3 className="text-sm font-bold text-foreground">AI Return-to-Work Coach</h3>
+                  <p className="text-xs font-medium text-muted-foreground">Your 24/7 return-to-work guide</p>
                 </div>
               </div>
             </CardContent>
@@ -299,12 +299,12 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className="lg:col-span-3 order-first lg:order-none flex flex-col h-[70vh] min-h-[480px] lg:h-[calc(100vh-9rem)] lg:min-h-[560px] lg:sticky lg:top-24">
-          <Card className="flex-1 min-h-0 flex flex-col bg-white/95 backdrop-blur-sm border-2 border-purple-300 shadow-md overflow-hidden">
-            <CardHeader className="border-b border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div className="order-first flex h-[70vh] min-h-[480px] flex-col lg:order-none lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px]">
+          <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            <CardHeader className="border-b border-border">
               <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center space-x-2 text-slate-900">
-                  <Sparkles className="h-5 w-5 text-purple-600" />
+                <CardTitle className="flex items-center space-x-2">
+                  <Sparkles className="h-5 w-5 text-primary" />
                   <span>Chat with Your Coach</span>
                 </CardTitle>
                 {currentConversation && (
@@ -312,7 +312,6 @@ export default function Coach() {
                     variant="ghost"
                     size="sm"
                     onClick={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
-                    className="text-slate-700 hover:text-slate-900 hover:bg-purple-100"
                   >
                     <RefreshCw className="h-4 w-4" />
                   </Button>
@@ -321,41 +320,38 @@ export default function Coach() {
             </CardHeader>
 
             {/* Messages */}
-            <CardContent className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-slate-50">
+            <CardContent className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-6">
               {!isLoadingAuth && !isAuthenticated ? (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center space-y-4 max-w-md">
-                    <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                      <MessageSquare className="h-10 w-10 text-white" />
+                <div className="flex h-full items-center justify-center">
+                  <div className="max-w-md space-y-4 text-center">
+                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
+                      <MessageSquare className="h-10 w-10" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-900">Sign in to chat with your coach</h3>
-                    <p className="text-slate-800 leading-relaxed">
+                    <h3 className="text-2xl font-bold text-foreground">Sign in to chat with your coach</h3>
+                    <p className="leading-relaxed text-muted-foreground">
                       Your coaching conversations are private and saved to your account. Please sign in to start chatting.
                     </p>
-                    <Button
-                      onClick={() => base44.auth.redirectToLogin()}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                    >
+                    <Button onClick={() => base44.auth.redirectToLogin()}>
                       Sign in
                     </Button>
                   </div>
                 </div>
               ) : !selectedConversation ? (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center space-y-4 max-w-md">
-                    <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                      <MessageSquare className="h-10 w-10 text-white" />
+                <div className="flex h-full items-center justify-center">
+                  <div className="max-w-md space-y-4 text-center">
+                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
+                      <MessageSquare className="h-10 w-10" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                      <h3 className="mb-2 text-2xl font-bold text-foreground">
                         Welcome to Your AI Coach
                       </h3>
-                      <p className="text-slate-800 mb-4 leading-relaxed">
+                      <p className="mb-4 leading-relaxed text-muted-foreground">
                         Get personalized guidance for your return-to-work journey. Ask questions, share concerns, and receive tailored advice based on your progress data, symptoms, and current challenges.
                       </p>
-                      <div className="space-y-2 mb-4 text-left max-w-sm mx-auto bg-white border border-purple-200 rounded-lg p-3">
-                        <p className="text-sm text-slate-900 font-bold">I can help you with:</p>
-                        <ul className="text-sm text-slate-800 space-y-1 ml-4">
+                      <div className="mx-auto max-w-sm space-y-2 rounded-brand border border-border bg-surface p-3 text-left">
+                        <p className="text-sm font-bold text-foreground">I can help you with:</p>
+                        <ul className="ml-4 space-y-1 text-sm text-muted-foreground">
                           <li>• Answering questions about your rights and accommodations</li>
                           <li>• Providing emotional support and encouragement</li>
                           <li>• Offering advice based on your energy, symptoms, and progress</li>
@@ -365,28 +361,27 @@ export default function Coach() {
                       </div>
                       <Button
                         onClick={() => createConversationMutation.mutate()}
-                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                       >
-                        <Plus className="h-4 w-4 mr-2" />
+                        <Plus className="h-4 w-4" />
                         Start New Conversation
                       </Button>
                     </div>
                   </div>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center space-y-4 max-w-md">
-                    <Bot className="h-16 w-16 text-purple-600 mx-auto" />
+                <div className="flex h-full items-center justify-center">
+                  <div className="max-w-md space-y-4 text-center">
+                    <Bot className="mx-auto h-16 w-16 text-primary" />
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      <h3 className="mb-2 text-xl font-bold text-foreground">
                         Ready to Talk?
                       </h3>
-                      <p className="text-slate-800 text-sm mb-3 leading-relaxed">
+                      <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
                         I have access to your journey stage, energy patterns, symptom logs, and progress data to provide personalized guidance.
                       </p>
-                      <div className="text-left max-w-sm mx-auto bg-white border-2 border-purple-200 rounded-lg p-3 text-sm text-slate-800">
-                        <p className="font-bold mb-2 text-slate-900">Try asking about:</p>
-                        <ul className="space-y-1 ml-4">
+                      <div className="mx-auto max-w-sm space-y-1 rounded-brand border border-border bg-surface p-3 text-left text-sm text-muted-foreground">
+                        <p className="mb-2 font-bold text-foreground">Try asking about:</p>
+                        <ul className="ml-4 space-y-1">
                           <li>• "What accommodations should I request?"</li>
                           <li>• "How do I talk to my employer about my cancer?"</li>
                           <li>• "I'm struggling with fatigue - what can help?"</li>
@@ -427,7 +422,7 @@ export default function Coach() {
 
             {/* Sentiment-based resource suggestions */}
             {lastUserMessage && selectedConversation && (
-              <div className="px-4 pb-2 bg-slate-50">
+              <div className="bg-muted px-4 pb-2">
                 <SentimentResourceSuggestions lastUserMessage={lastUserMessage} />
               </div>
             )}
@@ -438,9 +433,9 @@ export default function Coach() {
             )}
 
             {/* Input Area */}
-            <div className="border-t border-purple-200 p-4 bg-white">
+            <div className="border-t border-border bg-surface p-4">
               {chatError && (
-                <p className="text-sm text-red-700 font-semibold mb-2" role="alert">{chatError}</p>
+                <p className="mb-2 text-sm font-semibold text-destructive" role="alert">{chatError}</p>
               )}
               <div className="flex gap-3">
                 <Textarea
@@ -448,13 +443,13 @@ export default function Coach() {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder="Type your message... (Shift+Enter for new line)"
-                  className="flex-1 min-h-[60px] max-h-[200px] bg-white border-2 border-purple-200 text-slate-900 placeholder:text-slate-500 focus:border-purple-500 focus:ring-purple-500"
+                  className="min-h-[60px] max-h-[200px] flex-1"
                   disabled={sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
                 />
                 <Button
                   onClick={handleSend}
                   disabled={!message.trim() || sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 self-end"
+                  className="self-end"
                 >
                   {sendMessageMutation.isPending ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -464,7 +459,7 @@ export default function Coach() {
                 </Button>
               </div>
               {selectedConversation && (
-                <p className="text-xs text-slate-700 mt-2 font-medium">
+                <p className="mt-2 text-xs font-medium text-muted-foreground">
                   Press Enter to send • Shift+Enter for new line
                 </p>
               )}

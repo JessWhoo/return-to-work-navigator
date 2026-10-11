@@ -238,25 +238,19 @@ export default function Communication() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          Communication Tools
-        </h1>
-        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-          Templates and scripts to help you navigate workplace conversations with confidence
-        </p>
-      </div>
+    <div className="mx-auto max-w-5xl space-y-8">
+      <p className="text-lg text-muted-foreground">
+        Templates and scripts to help you navigate workplace conversations with confidence.
+      </p>
 
       {/* Info Card */}
-      <Card className="bg-slate-800 border-blue-500">
+      <Card className="nv-card--muted">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-3">
-            <AlertCircle className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+            <AlertCircle className="mt-1 h-6 w-6 flex-shrink-0 text-primary" />
             <div className="space-y-2">
-              <h3 className="font-semibold text-blue-300">Pro Tips for Using These Templates</h3>
-              <ul className="text-sm text-blue-200 space-y-1">
+              <h3 className="font-heading font-semibold text-foreground">Pro Tips for Using These Templates</h3>
+              <ul className="space-y-1 text-sm text-muted-foreground">
                 <li>• BCC your personal email on everything</li>
                 <li>• Send during business hours (schedule emails if needed)</li>
                 <li>• Follow up if you don't hear back within 5 business days</li>
@@ -271,21 +265,21 @@ export default function Communication() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 bg-slate-800 border border-slate-600 p-1">
-          <TabsTrigger value="drafter" className="text-slate-100 data-[state=active]:bg-purple-700 data-[state=active]:text-white">
-            <Sparkles className="h-4 w-4 mr-2" />
+        <TabsList className="nv-tabs h-auto">
+          <TabsTrigger value="drafter" className="nv-tab">
+            <Sparkles className="h-4 w-4" />
             AI Email Drafter
           </TabsTrigger>
-          <TabsTrigger value="my-drafts" className="text-slate-100 data-[state=active]:bg-teal-700 data-[state=active]:text-white">
-            <FileEdit className="h-4 w-4 mr-2" />
+          <TabsTrigger value="my-drafts" className="nv-tab">
+            <FileEdit className="h-4 w-4" />
             My Drafts
           </TabsTrigger>
-          <TabsTrigger value="templates" className="text-slate-100 data-[state=active]:bg-rose-700 data-[state=active]:text-white">
-            <Mail className="h-4 w-4 mr-2" />
+          <TabsTrigger value="templates" className="nv-tab">
+            <Mail className="h-4 w-4" />
             Templates
           </TabsTrigger>
-          <TabsTrigger value="scripts" className="text-slate-100 data-[state=active]:bg-blue-700 data-[state=active]:text-white">
-            <MessageSquare className="h-4 w-4 mr-2" />
+          <TabsTrigger value="scripts" className="nv-tab">
+            <MessageSquare className="h-4 w-4" />
             Scripts
           </TabsTrigger>
         </TabsList>
@@ -300,11 +294,8 @@ export default function Communication() {
           {!showDraftEditor ? (
             <>
               <div className="flex justify-end">
-                <Button
-                  onClick={() => setShowDraftEditor(true)}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
+                <Button onClick={() => setShowDraftEditor(true)}>
+                  <Plus className="h-4 w-4" />
                   New Draft
                 </Button>
               </div>
@@ -323,12 +314,12 @@ export default function Communication() {
         <TabsContent value="templates" className="space-y-6">
           <div className="grid gap-6">
             {emailTemplates.map((template) => (
-              <Card key={template.id} className="bg-slate-800 border-slate-600 hover:shadow-lg hover:border-slate-500 transition-all">
+              <Card key={template.id}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-xl text-slate-100">{template.title}</CardTitle>
-                      <p className="text-sm text-slate-400 mt-1">Subject: {template.subject}</p>
+                      <CardTitle className="text-xl text-foreground">{template.title}</CardTitle>
+                      <p className="mt-1 text-sm text-muted-foreground">Subject: {template.subject}</p>
                     </div>
                     <Button
                       variant="outline"
@@ -342,7 +333,7 @@ export default function Communication() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <pre className="whitespace-pre-wrap font-sans text-sm text-slate-200 bg-slate-900 p-4 rounded-lg leading-relaxed">
+                  <pre className="whitespace-pre-wrap rounded-brand bg-muted p-4 font-sans text-sm leading-relaxed text-foreground">
                     {template.body}
                   </pre>
                 </CardContent>
@@ -355,12 +346,12 @@ export default function Communication() {
         <TabsContent value="scripts" className="space-y-6">
           <div className="grid gap-6">
             {conversationScripts.map((script, index) => (
-              <Card key={index} className="bg-slate-800 border-slate-600 hover:shadow-lg hover:border-slate-500 transition-all">
+              <Card key={index}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-xl text-slate-100 mb-2">{script.title}</CardTitle>
-                      <Badge variant="secondary" className="bg-indigo-100 text-indigo-700">
+                      <CardTitle className="mb-2 text-xl text-foreground">{script.title}</CardTitle>
+                      <Badge variant="secondary">
                         {script.scenario}
                       </Badge>
                     </div>
@@ -376,16 +367,16 @@ export default function Communication() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="bg-blue-900/40 p-4 rounded-lg border-l-4 border-blue-400">
-                    <p className="text-slate-100 font-medium leading-relaxed">{script.script}</p>
+                  <div className="rounded-brand border-l-4 border-primary bg-muted p-4">
+                    <p className="font-medium leading-relaxed text-foreground">{script.script}</p>
                   </div>
                   
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-slate-300 text-sm">Tips:</h4>
+                    <h4 className="text-sm font-semibold text-muted-foreground">Tips:</h4>
                     <ul className="space-y-1">
                       {script.tips.map((tip, tipIndex) => (
-                        <li key={tipIndex} className="text-sm text-slate-300 flex items-start">
-                          <span className="text-teal-500 mr-2">•</span>
+                        <li key={tipIndex} className="flex items-start text-sm text-foreground">
+                          <span className="mr-2 text-brand-secondary">•</span>
                           <span>{tip}</span>
                         </li>
                       ))}
@@ -397,43 +388,43 @@ export default function Communication() {
           </div>
 
           {/* Disclosure Decision Guide */}
-          <Card className="bg-slate-800 border-purple-600">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Users className="h-6 w-6 text-purple-600" />
+                <Users className="h-6 w-6 text-primary" />
                 <span>What to Tell Coworkers?</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-green-900/30 p-4 rounded-lg border border-green-700">
-                  <h4 className="font-semibold text-green-300 mb-2">Option 1: Tell Everyone</h4>
-                  <p className="text-sm text-green-300 mb-2">✓ No secrets, might get support</p>
-                  <p className="text-sm text-red-400">✗ Become the office cancer patient</p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-brand border border-border bg-muted p-4">
+                  <h4 className="mb-2 font-semibold text-foreground">Option 1: Tell Everyone</h4>
+                  <p className="mb-2 text-sm text-brand-secondary">✓ No secrets, might get support</p>
+                  <p className="text-sm text-brand-destructive">✗ Become the office cancer patient</p>
                 </div>
 
-                <div className="bg-amber-900/30 p-4 rounded-lg border border-amber-700">
-                  <h4 className="font-semibold text-amber-300 mb-2">Option 2: Tell No One</h4>
-                  <p className="text-sm text-green-300 mb-2">✓ Privacy maintained</p>
-                  <p className="text-sm text-red-400">✗ Exhausting, no support</p>
+                <div className="rounded-brand border border-border bg-muted p-4">
+                  <h4 className="mb-2 font-semibold text-foreground">Option 2: Tell No One</h4>
+                  <p className="mb-2 text-sm text-brand-secondary">✓ Privacy maintained</p>
+                  <p className="text-sm text-brand-destructive">✗ Exhausting, no support</p>
                 </div>
 
-                <div className="bg-purple-900/30 p-4 rounded-lg border border-purple-700">
-                  <h4 className="font-semibold text-purple-300 mb-2">Option 3: Tell Select People</h4>
-                  <p className="text-sm text-green-300 mb-2">✓ Controlled info, chosen support</p>
-                  <p className="text-sm text-red-400">✗ Requires active management</p>
+                <div className="rounded-brand border border-border bg-muted p-4">
+                  <h4 className="mb-2 font-semibold text-foreground">Option 3: Tell Select People</h4>
+                  <p className="mb-2 text-sm text-brand-secondary">✓ Controlled info, chosen support</p>
+                  <p className="text-sm text-brand-destructive">✗ Requires active management</p>
                 </div>
 
-                <div className="bg-blue-900/30 p-4 rounded-lg border border-blue-700">
-                  <h4 className="font-semibold text-blue-300 mb-2">Option 4: Brief & Professional (Recommended)</h4>
-                  <p className="text-sm text-green-300 mb-2">✓ Honest without oversharing</p>
-                  <p className="text-sm text-red-400">✗ Some will push for details</p>
+                <div className="rounded-brand border border-primary bg-surface p-4">
+                  <h4 className="mb-2 font-semibold text-foreground">Option 4: Brief & Professional (Recommended)</h4>
+                  <p className="mb-2 text-sm text-brand-secondary">✓ Honest without oversharing</p>
+                  <p className="text-sm text-brand-destructive">✗ Some will push for details</p>
                 </div>
               </div>
 
-              <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-700">
-                <p className="text-sm font-medium text-blue-300 mb-2">Recommended Script:</p>
-                <p className="text-sm text-blue-200 italic">
+              <div className="rounded-brand border border-primary bg-muted p-4">
+                <p className="mb-2 text-sm font-medium text-primary">Recommended Script:</p>
+                <p className="text-sm italic text-foreground">
                   "I'm dealing with a health issue that requires some treatment. I'll need some flexibility with my schedule but I'm managing it."
                 </p>
               </div>
@@ -442,18 +433,17 @@ export default function Communication() {
         </TabsContent>
       </Tabs>
 
-      {/* Remember Section */}
-      <Card className="bg-gradient-to-r from-rose-900/50 to-teal-900/50 border-rose-700">
-        <CardContent className="pt-6 text-center">
-          <MessageSquare className="h-12 w-12 text-rose-600 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-slate-100 mb-3">Remember</h3>
-          <p className="text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Your boss is not your therapist or best friend. They're your boss. Keep it professional, 
-            keep it factual, and keep your expectations appropriate. These are your RIGHTS, 
-            not favors you're asking for.
-          </p>
-        </CardContent>
-      </Card>
+      {/* Remember Section — mauve prompt card */}
+      <div className="nv-checkin items-center text-center">
+        <span className="e">A reminder</span>
+        <MessageSquare className="mx-auto h-10 w-10" />
+        <h3>Remember</h3>
+        <p>
+          Your boss is not your therapist or best friend. They're your boss. Keep it professional, 
+          keep it factual, and keep your expectations appropriate. These are your RIGHTS, 
+          not favors you're asking for.
+        </p>
+      </div>
     </div>
   );
 }
