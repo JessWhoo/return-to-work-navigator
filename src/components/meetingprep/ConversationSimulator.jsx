@@ -69,7 +69,7 @@ function FeedbackPanel({ feedback, onReset }) {
         </CardContent>
       </Card>
       {feedback.strengths?.length > 0 && (
-        <Card className="bg-brand-secondary/20 border-brand-secondary">
+        <Card className="nv-card--sage">
           <CardContent className="p-4">
             <p className="text-brand-text font-semibold text-sm mb-2">✓ What you did well</p>
             <ul className="space-y-1">{feedback.strengths.map((s, i) => (
@@ -79,7 +79,7 @@ function FeedbackPanel({ feedback, onReset }) {
         </Card>
       )}
       {feedback.tips?.length > 0 && (
-        <Card className="bg-brand-cream">
+        <Card className="bg-brand-compass-cream">
           <CardContent className="p-4">
             <p className="text-brand-text font-semibold text-sm mb-2 flex items-center gap-1"><Lightbulb className="h-4 w-4" /> Try next time</p>
             <ul className="space-y-1">{feedback.tips.map((t, i) => (
@@ -172,12 +172,12 @@ export default function ConversationSimulator({ meeting }) {
                 <div className="flex flex-wrap gap-2">
                   {meeting.goals && <Badge className="bg-brand-sky text-brand-text border-brand-border text-xs">Goals</Badge>}
                   {meeting.talking_points?.length > 0 && <Badge className="bg-brand-secondary/20 text-brand-text border-brand-secondary text-xs">{meeting.talking_points.length} talking points</Badge>}
-                  {meeting.anticipated_objections?.length > 0 && <Badge className="bg-brand-cream text-brand-text border-brand-border text-xs">{meeting.anticipated_objections.length} objections to raise</Badge>}
+                  {meeting.anticipated_objections?.length > 0 && <Badge className="bg-brand-compass-cream text-brand-text border-brand-border text-xs">{meeting.anticipated_objections.length} objections to raise</Badge>}
                   {meeting.accommodation_requests?.length > 0 && <Badge className="bg-brand-muted text-brand-primary border-brand-border text-xs">{meeting.accommodation_requests.length} accommodation requests</Badge>}
                 </div>
               </div>
             )}
-            {!hasContent && <p className="text-brand-text text-xs bg-brand-cream border border-brand-border rounded-lg px-3 py-2">Tip: Add talking points and goals in the "Edit" tab to get a more realistic simulation.</p>}
+            {!hasContent && <p className="text-brand-text text-xs bg-brand-compass-cream border border-brand-border rounded-lg px-3 py-2">Tip: Add talking points and goals in the "Edit" tab to get a more realistic simulation.</p>}
             <Button onClick={startSimulation} className="w-full !whitespace-normal py-5 text-base">
               <MessageSquare className="h-5 w-5 mr-2" /> Start Practice Session
             </Button>
@@ -205,7 +205,7 @@ export default function ConversationSimulator({ meeting }) {
             {msg.role === 'assistant' && (
               <div className="w-7 h-7 rounded-full bg-brand-muted border border-brand-border flex items-center justify-center flex-shrink-0 mt-0.5"><Bot className="h-3.5 w-3.5 text-brand-primary" /></div>
             )}
-            <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm break-words ${msg.role === 'user' ? 'bg-brand-primary border border-brand-primary text-primary-foreground' : 'bg-brand-surface border border-brand-border text-brand-text'}`}>
+            <div className={`min-w-0 max-w-[80%] rounded-brand-lg px-4 py-2.5 text-sm [overflow-wrap:anywhere] ${msg.role === 'user' ? 'bg-brand-primary border border-brand-primary text-primary-foreground' : 'bg-brand-surface border border-brand-border text-brand-text'}`}>
               {msg.role === 'assistant' && <p className="text-xs text-brand-primary font-semibold mb-1">{['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type) ? 'HR Representative' : 'Manager'}</p>}
               {msg.content}
             </div>
@@ -226,7 +226,7 @@ export default function ConversationSimulator({ meeting }) {
         <textarea rows={2} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
           placeholder="Type your response as you would say it in the real meeting… (Enter to send)" disabled={loading}
           className="nv-input flex-1 min-w-0 px-3 py-2 text-sm resize-none disabled:opacity-50" />
-        <Button onClick={sendMessage} disabled={loading || !input.trim()} aria-label="Send response" className="self-end px-3 py-2 h-auto"><Send className="h-4 w-4" /></Button>
+        <Button onClick={sendMessage} disabled={loading || !input.trim()} aria-label="Send response" size="icon" className="self-end"><Send className="h-4 w-4" /></Button>
       </div>
       {messages.length >= 4 && (
         <Button onClick={getFeedback} disabled={loading} variant="secondary" className="w-full !whitespace-normal">

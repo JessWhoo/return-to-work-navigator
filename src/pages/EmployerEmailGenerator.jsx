@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 import SaveDraftButton from '@/components/communication/SaveDraftButton';
+import EmailScenarioChoice from '@/components/communication/EmailScenarioChoice';
 
 const EMAIL_SCENARIOS = [
   {
@@ -223,39 +224,20 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           {/* Step 1: Pick scenario */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+              <CardTitle className="flex flex-wrap items-center gap-2 text-sm text-foreground">
                 <span className="flex h-5 w-5 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground">1</span>
                 Choose Email Type
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              {EMAIL_SCENARIOS.map(s => (
-                <button
-                  key={s.id}
-                  onClick={() => setSelectedScenario(s.id)}
-                  className={`w-full rounded-brand border p-3 text-left transition-all ${
-                    selectedScenario === s.id
-                      ? 'border-primary bg-muted text-foreground'
-                      : 'border-border bg-surface text-muted-foreground hover:bg-muted'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">{s.icon}</span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-xs font-semibold">{s.label}</p>
-                      <p className="truncate text-[10px] text-muted-foreground">{s.description}</p>
-                    </div>
-                    {selectedScenario === s.id && <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0 text-primary" />}
-                  </div>
-                </button>
-              ))}
+              {EMAIL_SCENARIOS.map(s => <EmailScenarioChoice key={s.id} scenario={s} selected={selectedScenario === s.id} onClick={() => setSelectedScenario(s.id)} />)}
             </CardContent>
           </Card>
 
           {/* Step 2: Link coaching conversation */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+              <CardTitle className="flex flex-wrap items-center gap-2 text-sm text-foreground">
                 <span className="flex h-5 w-5 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground">2</span>
                 Link Coaching Conversation
                 <span className="nv-chip nv-chip--muted ml-auto">Optional</span>
@@ -270,7 +252,8 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                 <div className="space-y-1.5">
                   <button
                     onClick={() => setShowConvPicker(!showConvPicker)}
-                    className="flex w-full items-center justify-between rounded-brand border border-border bg-surface p-2.5 text-xs text-foreground transition-colors hover:bg-muted"
+                    aria-expanded={showConvPicker}
+                    className="nv-btn nv-btn--outline h-auto w-full justify-between !whitespace-normal text-left text-xs"
                   >
                     <div className="flex min-w-0 items-center gap-2">
                       <MessageSquare className="h-3.5 w-3.5 flex-shrink-0 text-primary" />
@@ -294,7 +277,8 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                       >
                         <button
                           onClick={() => { setSelectedConvId('none'); setShowConvPicker(false); }}
-                          className={`w-full rounded-brand p-2 text-left text-xs transition-colors ${selectedConvId === 'none' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
+                          aria-pressed={selectedConvId === 'none'}
+                          className={`nv-btn nv-btn--sm h-auto w-full justify-start !whitespace-normal text-left ${selectedConvId === 'none' ? '' : 'nv-btn--outline'}`}
                         >
                           — None (generic email)
                         </button>
@@ -304,10 +288,11 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                             <button
                               key={c.id}
                               onClick={() => { setSelectedConvId(c.id); setShowConvPicker(false); }}
-                              className={`w-full rounded-brand p-2 text-left text-xs transition-colors ${selectedConvId === c.id ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
+                              aria-pressed={selectedConvId === c.id}
+                              className={`nv-btn nv-btn--sm h-auto w-full flex-col items-start !whitespace-normal text-left ${selectedConvId === c.id ? '' : 'nv-btn--outline'}`}
                             >
                               <p className="truncate font-medium">{firstMsg?.content?.slice(0, 60) || 'Conversation'}</p>
-                              <p className="text-[10px] text-muted-foreground">{c.messages?.length || 0} messages</p>
+                              <p className={`text-xs ${selectedConvId === c.id ? 'text-primary-foreground' : 'text-muted-foreground'}`}>{c.messages?.length || 0} messages</p>
                             </button>
                           );
                         })}
@@ -316,7 +301,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                   </AnimatePresence>
 
                   {selectedConvId !== 'none' && (
-                    <p className="flex items-center gap-1 text-[10px] text-brand-secondary">
+                    <p className="flex items-center gap-1 text-xs text-foreground">
                       <CheckCircle2 className="h-3 w-3" />
                       Conversation context will be used to personalize your draft
                     </p>
@@ -329,7 +314,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           {/* Step 3: Recipient & extra context */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+              <CardTitle className="flex flex-wrap items-center gap-2 text-sm text-foreground">
                 <span className="flex h-5 w-5 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground">3</span>
                 Recipient & Extra Details
                 <span className="nv-chip nv-chip--muted ml-auto">Optional</span>
@@ -342,7 +327,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                   placeholder="e.g. Sarah Johnson"
                   value={recipientName}
                   onChange={e => setRecipientName(e.target.value)}
-                  className="h-8 text-xs"
+                  className="h-11 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
@@ -351,7 +336,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                   placeholder="e.g. HR Manager, Supervisor"
                   value={recipientRole}
                   onChange={e => setRecipientRole(e.target.value)}
-                  className="h-8 text-xs"
+                  className="h-11 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
@@ -383,7 +368,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
         <div className="lg:col-span-3">
           <Card ref={draftRef} className="flex h-full flex-col">
             <CardHeader className="border-b border-border pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm text-foreground">
+              <CardTitle className="flex flex-wrap items-center gap-2 text-sm text-foreground">
                 <Mail className="h-4 w-4 text-primary" />
                 Email Draft
                 {emailBody && (
@@ -436,13 +421,13 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                       <Textarea
                         value={emailBody}
                         onChange={e => setEmailBody(e.target.value)}
-                        className="min-h-[320px] font-mono text-sm leading-relaxed"
+                        className="min-h-[320px] font-body text-sm"
                       />
                       <p className="text-[10px] text-muted-foreground">Fill in any <span className="text-primary">[bracketed placeholders]</span> before sending.</p>
                     </div>
 
-                    <div className="flex flex-wrap gap-2 pt-1">
-                       <Button onClick={copyToClipboard} variant="outline" className="flex-1">
+                    <div className="grid grid-cols-1 gap-3 pt-1 sm:grid-cols-3">
+                       <Button onClick={copyToClipboard} variant="outline" className="min-w-0 !whitespace-normal">
                          <Copy className="h-4 w-4" /> Copy
                        </Button>
                        <SaveDraftButton
@@ -451,9 +436,9 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                          recipient={recipientName || recipientRole || ''}
                          subject={subject}
                          content={emailBody}
-                         className="flex-1"
+                         className="min-w-0 !whitespace-normal"
                        />
-                       <Button onClick={generateEmail} variant="outline" title="Regenerate">
+                       <Button onClick={generateEmail} variant="outline" title="Regenerate" aria-label="Regenerate email draft">
                          <RefreshCw className="h-4 w-4" />
                        </Button>
                      </div>

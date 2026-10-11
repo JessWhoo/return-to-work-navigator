@@ -105,9 +105,9 @@ export default function SavedDrafts({ onEdit }) {
           <Card key={draft.id}>
             <CardHeader className="cursor-pointer" onClick={() => setExpandedDraft(isExpanded ? null : draft.id)}>
               <div className="flex items-start justify-between">
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
                   <CardTitle className="mb-2 text-lg text-foreground">{draft.title}</CardTitle>
-                  <div className="flex flex-wrap items-center space-x-2 gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <Badge variant="secondary">
                       {scenarioLabels[draft.scenario_type]}
                     </Badge>
@@ -125,7 +125,7 @@ export default function SavedDrafts({ onEdit }) {
                     </span>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="icon" aria-expanded={isExpanded} aria-label={isExpanded ? 'Collapse draft' : 'Expand draft'}>
                   {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                 </Button>
               </div>
@@ -142,13 +142,13 @@ export default function SavedDrafts({ onEdit }) {
                 <div>
                   <p className="mb-2 text-xs font-semibold text-muted-foreground">Content:</p>
                   <div className="max-h-64 overflow-y-auto rounded-brand bg-muted p-4">
-                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
+                    <pre className="whitespace-pre-wrap font-body text-sm [overflow-wrap:anywhere] text-foreground">
                       {draft.content}
                     </pre>
                   </div>
                 </div>
 
-                <div className="flex gap-2 pt-2">
+                <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
                   <Button
                     size="sm"
                     onClick={() => onEdit(draft)}
@@ -166,9 +166,9 @@ export default function SavedDrafts({ onEdit }) {
                   </Button>
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="destructiveOutline"
                     onClick={() => deleteDraftMutation.mutate(draft.id)}
-                    className="ml-auto text-destructive hover:bg-destructive/10"
+                    className="!whitespace-normal"
                   >
                     <Trash2 className="h-4 w-4" />
                     Delete

@@ -54,20 +54,20 @@ export default function SaveDraftButton({ title, scenarioType, recipient, subjec
   };
 
   return (
-    <Button onClick={handleSave} disabled={status === 'saving'} className={className}>
+    <Button onClick={handleSave} disabled={status === 'saving'} className={`!whitespace-normal ${className || ''}`}>
       {status === 'saving' ? (
         <>
-          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin" />
           Saving…
         </>
       ) : status === 'saved' ? (
         <>
-          <Check className="h-4 w-4 mr-2" />
+          <Check className="h-4 w-4" />
           Saved to My Drafts
         </>
       ) : (
         <>
-          <Save className="h-4 w-4 mr-2" />
+          <Save className="h-4 w-4" />
           Save to My Drafts
         </>
       )}

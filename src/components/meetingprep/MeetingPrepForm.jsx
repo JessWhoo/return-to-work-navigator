@@ -142,7 +142,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Meeting Type</label>
               <Select value={form.meeting_type} onValueChange={v => update('meeting_type', v)}>
-                <SelectTrigger className="nv-input">
+                <SelectTrigger aria-label="Meeting Type" className="nv-input min-h-11">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -193,7 +193,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
               <span className="text-brand-muted-foreground text-sm pt-2 w-5 flex-shrink-0">{idx + 1}.</span>
               <Input value={pt} onChange={e => updatePoint(idx, e.target.value)}
                 placeholder="Enter a talking point..."
-                className="nv-input flex-1" />
+                className="nv-input min-w-0 flex-1" />
               <Button size="icon" variant="ghost" onClick={() => removePoint(idx)}
                 className="text-destructive flex-shrink-0">
                 <Trash2 className="h-4 w-4" />
@@ -231,9 +231,9 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
           </div>
 
           {form.accommodation_requests.map((req, idx) => (
-            <div key={idx} className="bg-brand-muted rounded-lg p-3 space-y-2">
+            <div key={idx} className="nv-card nv-card--muted space-y-3 p-4">
               <div className="flex gap-2 items-start">
-                <div className="flex-1 space-y-2">
+                <div className="min-w-0 flex-1 space-y-2">
                   <Input value={req.accommodation} onChange={e => updateAccommodation(idx, 'accommodation', e.target.value)}
                     placeholder="Accommodation being requested..."
                     className="nv-input" />
@@ -261,7 +261,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
           <CardContent className="space-y-2">
             {form.anticipated_objections.map((obj, idx) => (
               <div key={idx} className="flex gap-2 items-start">
-                <Badge className="bg-brand-cream text-brand-text border-brand-border mt-0.5 flex-shrink-0">?</Badge>
+                <Badge className="bg-brand-compass-cream text-brand-text border-brand-border mt-0.5 flex-shrink-0">?</Badge>
                 <p className="text-sm text-brand-text flex-1">{obj}</p>
                 <Button size="icon" variant="ghost"
                   onClick={() => update('anticipated_objections', form.anticipated_objections.filter((_, i) => i !== idx))}
@@ -289,7 +289,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
             <div key={idx} className="flex gap-2">
               <Input value={doc} onChange={e => updateDocument(idx, e.target.value)}
                 placeholder="e.g., Doctor's note, ADA accommodation letter..."
-                className="nv-input flex-1" />
+                className="nv-input min-w-0 flex-1" />
               <Button size="icon" variant="ghost" onClick={() => removeDocument(idx)}
                 className="text-destructive flex-shrink-0">
                 <Trash2 className="h-4 w-4" />
@@ -303,7 +303,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
       </Card>
 
       {/* Actions */}
-      <div className="flex gap-3 justify-end">
+      <div className="flex flex-col-reverse gap-3 border-t border-brand-border pt-4 sm:flex-row sm:justify-end">
         {onCancel && (
           <Button variant="ghost" onClick={onCancel} className="">
             Cancel

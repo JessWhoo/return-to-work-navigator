@@ -71,7 +71,7 @@ export default function DraftFromResourcesButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="max-w-full !whitespace-normal">
           <Sparkles className="h-4 w-4" />
           Draft from my saved resources
         </Button>
@@ -103,11 +103,11 @@ export default function DraftFromResourcesButton() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <Label className="font-semibold text-foreground">Recipient</Label>
               <Select value={recipient} onValueChange={setRecipient}>
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="nv-input mt-1 min-h-11">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -121,7 +121,7 @@ export default function DraftFromResourcesButton() {
             <div>
               <Label className="font-semibold text-foreground">Tone</Label>
               <Select value={tone} onValueChange={setTone}>
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="nv-input mt-1 min-h-11">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -149,7 +149,7 @@ export default function DraftFromResourcesButton() {
           </div>
         </div>
 
-        <DialogFooter className="pt-4">
+        <DialogFooter className="border-t border-brand-border pt-4">
           <Button
             variant="outline"
             onClick={() => setOpen(false)}

@@ -267,7 +267,7 @@ Sincerely,
 const COLOR_MAP = {
   teal: { badge: 'bg-brand-secondary/20 text-brand-text border-brand-secondary', border: 'border-brand-border', header: 'text-brand-text' },
   purple: { badge: 'bg-brand-muted text-brand-primary border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
-  amber: { badge: 'bg-brand-cream text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
+  amber: { badge: 'bg-brand-compass-cream text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
   blue: { badge: 'bg-brand-sky text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
   green: { badge: 'bg-brand-secondary/20 text-brand-text border-brand-secondary', border: 'border-brand-border', header: 'text-brand-text' },
   cyan: { badge: 'bg-brand-sky text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
@@ -314,7 +314,7 @@ function TemplateCard({ template }) {
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <Badge className={`text-xs border ${colors.badge}`}>
+              <Badge variant="outline" className={`rounded-pill text-xs ${colors.badge}`}>
                 {template.category === 'Email' ? <Mail className="h-3 w-3 mr-1" /> : <FileText className="h-3 w-3 mr-1" />}
                 {template.category}
               </Badge>
@@ -322,14 +322,14 @@ function TemplateCard({ template }) {
             <CardTitle className={`text-base ${colors.header}`}>{template.title}</CardTitle>
             <p className="text-brand-muted-foreground text-xs mt-1">{template.description}</p>
           </div>
-          <button className="nv-btn nv-btn--text nv-btn--icon flex-shrink-0" aria-label={expanded ? 'Collapse template' : 'Expand template'}>
+          <button className="nv-btn nv-btn--text nv-btn--icon flex-shrink-0" aria-label={expanded ? 'Collapse template' : 'Expand template'} aria-expanded={expanded}>
             {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </button>
         </div>
       </CardHeader>
       {expanded && (
         <CardContent className="pt-0 space-y-3">
-          <div className="bg-brand-muted rounded-lg p-1">
+          <div className="rounded-brand bg-brand-muted p-2">
             <Textarea value={edited} onChange={e => setEdited(e.target.value)} className="text-xs font-body min-h-[320px] resize-y" />
           </div>
           <p className="text-xs text-brand-muted-foreground italic">Edit the template above, then copy or print. Replace all [bracketed] placeholders with your details.</p>

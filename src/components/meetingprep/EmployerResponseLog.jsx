@@ -14,7 +14,7 @@ import { format, parseISO } from 'date-fns';
 const OUTCOME_CONFIG = {
   approved: { label: 'Approved', color: 'bg-brand-secondary/20 text-brand-text border-brand-secondary' },
   denied: { label: 'Denied', color: 'bg-destructive/10 text-destructive border-destructive' },
-  pending: { label: 'Pending', color: 'bg-brand-cream text-brand-text border-brand-border' },
+  pending: { label: 'Pending', color: 'bg-brand-compass-cream text-brand-text border-brand-border' },
   partial: { label: 'Partial', color: 'bg-brand-sky text-brand-text border-brand-border' },
   follow_up_needed: { label: 'Follow-up Needed', color: 'bg-brand-muted text-brand-primary border-brand-border' }
 };
@@ -86,11 +86,12 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
             const isOpen = expanded === idx;
             return (
               <div key={idx} className="nv-card nv-card--muted overflow-hidden">
-                <button className="w-full flex items-center justify-between p-3 text-left"
+                <button aria-expanded={isOpen}
+                  className="flex min-h-11 w-full flex-wrap items-start justify-between gap-3 p-4 text-left"
                   onClick={() => setExpanded(isOpen ? null : idx)}>
-                  <div className="flex items-center gap-3">
-                    <Badge className={`${cfg.color} text-xs`}>{cfg.label}</Badge>
-                    <span className="text-brand-text text-sm truncate max-w-xs">{resp.response_text?.slice(0, 60) || 'No details'}</span>
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
+                    <Badge variant="outline" className={`${cfg.color} rounded-pill text-xs`}>{cfg.label}</Badge>
+                    <span className="min-w-0 text-sm text-brand-text [overflow-wrap:anywhere]">{resp.response_text?.slice(0, 60) || 'No details'}</span>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-xs text-brand-muted-foreground">{resp.date ? format(parseISO(resp.date), 'MMM d, yyyy') : ''}</span>
@@ -146,7 +147,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
                   <p className="text-xs text-brand-muted-foreground font-semibold uppercase mb-1">Next Action</p>
                   <p className="text-brand-primary font-medium">{aiSuggestion.next_action}</p>
                 </div>
-                <Button size="sm" variant="ghost" className="text-brand-muted-foreground text-xs w-full"
+                <Button size="sm" variant="ghost" className="text-brand-muted-foreground text-xs w-full !whitespace-normal"
                   onClick={() => {
                     const msg = `I just got this advice about my ${meeting.title} meeting: "${aiSuggestion.next_action}". Can you help me figure out my next steps?`;
                     localStorage.setItem('pendingCoachMessage', msg);
@@ -165,7 +166,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
         <Card className="">
           <CardHeader><CardTitle className="text-brand-text text-sm">Log Employer Response</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label className="text-xs text-brand-muted-foreground mb-1 block">Date</label>
                 <Input type="date" value={newResponse.date}
@@ -175,7 +176,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
               <div>
                 <label className="text-xs text-brand-muted-foreground mb-1 block">Outcome</label>
                 <Select value={newResponse.outcome} onValueChange={v => setNewResponse(p => ({ ...p, outcome: v }))}>
-                  <SelectTrigger className="nv-input">
+                  <SelectTrigger aria-label="Outcome" className="nv-input min-h-11">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -211,7 +212,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
         </Card>
       ) : (
         <Button onClick={() => setShowForm(true)} variant="outline"
-          className="w-full">
+          className="w-full !whitespace-normal">
           <Plus className="h-4 w-4 mr-2" /> Log Employer Response
         </Button>
       )}

@@ -117,10 +117,10 @@ export default function DraftEditor({ draft, onClose, onSave }) {
   };
 
   const suggestionTypeColors = {
-    strength: 'text-brand-secondary',
+    strength: 'text-primary',
     tone: 'text-primary',
     clarity: 'text-primary',
-    legal: 'text-brand-accent',
+    legal: 'text-primary',
     boundary: 'text-destructive'
   };
 
@@ -129,12 +129,12 @@ export default function DraftEditor({ draft, onClose, onSave }) {
       {/* Header */}
       <Card className="nv-card--muted">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center space-x-2">
+          <div className="flex items-start justify-between gap-3">
+            <CardTitle className="flex min-w-0 flex-wrap items-center gap-2 text-lg sm:text-xl">
               <FileText className="h-5 w-5 text-primary" />
               <span>{draft?.id ? 'Edit Draft' : 'New Communication Draft'}</span>
             </CardTitle>
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button variant="ghost" size="icon" aria-label="Close draft editor" onClick={onClose}>
               <X className="h-4 w-4" />
             </Button>
           </div>
@@ -161,7 +161,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
                 id="scenario"
                 value={formData.scenario_type}
                 onChange={(e) => setFormData({ ...formData, scenario_type: e.target.value })}
-                className="nv-input h-10 w-full px-3"
+                className="nv-input h-11 w-full px-3"
               >
                 {scenarioTypes.map(type => (
                   <option key={type.value} value={type.value}>{type.label}</option>
@@ -187,7 +187,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
                 id="tone"
                 value={formData.tone}
                 onChange={(e) => setFormData({ ...formData, tone: e.target.value })}
-                className="nv-input h-10 w-full px-3"
+                className="nv-input h-11 w-full px-3"
               >
                 {toneOptions.map(tone => (
                   <option key={tone.value} value={tone.value}>
@@ -217,13 +217,13 @@ export default function DraftEditor({ draft, onClose, onSave }) {
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               placeholder="Write your message here..."
-              className="min-h-[300px] font-sans"
+              className="min-h-[300px] font-body"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-between border-t border-border pt-4">
-            <div className="flex gap-2">
+          <div className="flex flex-col gap-3 border-t border-brand-border pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button
                 onClick={() => getAISuggestionsMutation.mutate()}
                 disabled={!formData.content.trim() || getAISuggestionsMutation.isPending}
@@ -283,7 +283,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
       {aiSuggestions.length > 0 && (
         <Card className="nv-card--muted">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
+            <CardTitle className="flex min-w-0 flex-wrap items-center gap-2 text-lg sm:text-xl">
               <Lightbulb className="h-5 w-5 text-primary" />
               <span>AI-Powered Suggestions</span>
             </CardTitle>
@@ -292,14 +292,14 @@ export default function DraftEditor({ draft, onClose, onSave }) {
             {aiSuggestions.map((suggestion, idx) => {
               const iconColor = suggestionTypeColors[suggestion.type] || suggestionTypeColors.clarity;
               return (
-                <div key={idx} className="rounded-brand border border-border bg-surface p-4">
+                <div key={idx} className="nv-card p-4 [overflow-wrap:anywhere]">
                   <div className="flex items-start space-x-3">
                     <Lightbulb className={`mt-0.5 h-5 w-5 flex-shrink-0 ${iconColor}`} />
                     <div className="flex-1">
                       <span className="nv-chip nv-chip--muted mb-2 capitalize">
                         {suggestion.type}
                       </span>
-                      <p className="text-sm leading-relaxed text-foreground">{suggestion.suggestion}</p>
+                      <p className="text-sm text-foreground">{suggestion.suggestion}</p>
                     </div>
                   </div>
                 </div>

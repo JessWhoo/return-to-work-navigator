@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
+import PageHeader from '@/components/brand/PageHeader';
+import ReturnPlanChoice from '@/components/planner/ReturnPlanChoice';
 import { toast } from 'sonner';
 import { 
-  Calendar, Clock, Home, Save, CheckCircle2, Download 
+  Calendar, Clock, Home, Save, Download 
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -119,20 +120,13 @@ Sincerely,
   return (
     <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
-      <div className="space-y-4 text-center">
-        <h1 className="font-heading text-4xl font-bold text-foreground">
-          Plan Your Return
-        </h1>
-        <p className="mx-auto max-w-2xl text-lg font-medium text-muted-foreground">
-          Create a phased return-to-work schedule that supports your recovery
-        </p>
-      </div>
+      <PageHeader center title="Plan Your Return" subtitle="Create a phased return-to-work schedule that supports your recovery" />
 
       {/* Current Return Date */}
       {progress?.return_date && (
         <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="mb-1 text-sm font-semibold text-muted-foreground">Your planned return date:</p>
                 <p className="text-2xl font-bold text-primary">
@@ -156,38 +150,7 @@ Sincerely,
               </p>
             </CardHeader>
             <CardContent className="space-y-4">
-              {phasedReturnTemplates.map((template) => (
-                <div
-                  key={template.name}
-                  onClick={() => setSelectedTemplate(template.name)}
-                  className={`cursor-pointer rounded-brand border-2 p-4 transition-all ${
-                    selectedTemplate === template.name
-                      ? 'border-primary bg-muted'
-                      : 'border-border bg-surface hover:border-primary'
-                  }`}
-                >
-                  <div className="mb-3 flex items-start justify-between">
-                    <div>
-                      <h3 className="font-bold text-foreground">{template.name}</h3>
-                      <p className="text-sm font-medium text-muted-foreground">{template.description}</p>
-                    </div>
-                    {selectedTemplate === template.name && (
-                      <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-brand-secondary" />
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    {template.phases.map((phase, index) => (
-                      <div key={index} className="flex items-center space-x-2 text-sm">
-                        <Badge variant="secondary">Week {phase.week}</Badge>
-                        <span className="text-foreground">
-                         {phase.hours}hrs/week, {phase.remote} remote
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              {phasedReturnTemplates.map(template => <ReturnPlanChoice key={template.name} template={template} selected={selectedTemplate === template.name} onClick={() => setSelectedTemplate(template.name)} />)}
             </CardContent>
           </Card>
 
@@ -202,7 +165,7 @@ Sincerely,
                   .find(t => t.name === selectedTemplate)
                   ?.phases.map((phase, index) => (
                     <div key={index} className="rounded-brand bg-muted p-4">
-                      <div className="mb-2 flex items-center justify-between">
+                      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                         <h4 className="font-semibold text-foreground">Week {phase.week}</h4>
                         <div className="flex items-center space-x-2">
                           <Clock className="h-4 w-4 text-primary" />
@@ -225,7 +188,7 @@ Sincerely,
 
         {/* Form */}
         <div className="space-y-6">
-          <Card className="sticky top-24">
+          <Card className="lg:sticky lg:top-24">
             <CardHeader>
               <CardTitle className="text-lg">Plan Details</CardTitle>
             </CardHeader>
@@ -256,7 +219,7 @@ Sincerely,
                 <Button
                   onClick={() => saveReturnDateMutation.mutate(returnDate)}
                   variant="outline"
-                  className="w-full"
+                  className="w-full !whitespace-normal"
                   disabled={!returnDate}
                 >
                   <Save className="h-4 w-4" />
@@ -265,7 +228,7 @@ Sincerely,
 
                 <Button
                   onClick={generateReturnPlan}
-                  className="w-full"
+                  className="w-full !whitespace-normal"
                   disabled={!selectedTemplate || !returnDate}
                 >
                   <Download className="h-4 w-4" />

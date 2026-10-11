@@ -79,13 +79,13 @@ export default function TalkingPointsGenerator({ onSaved }) {
           Get custom talking points for your manager meeting based on your constraints and energy level.
         </p>
       </CardHeader>
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-5 [overflow-wrap:anywhere]">
         <div>
           <p className="nv-eyebrow mb-2">Start from a template</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {SCENARIO_TEMPLATES.map((tpl) => (
               <button key={tpl.id} onClick={() => applyTemplate(tpl)} aria-pressed={selectedTemplate === tpl.id}
-                className={`nv-card text-left p-3 cursor-pointer ${selectedTemplate === tpl.id ? 'nv-card--muted border-brand-primary' : ''}`}>
+                className={`nv-card p-4 text-left ${selectedTemplate === tpl.id ? 'nv-card--muted !border-brand-primary' : ''}`}>
                 <p className="text-sm font-bold text-brand-text">{tpl.name}</p>
                 <p className="text-xs text-brand-muted-foreground mt-1">{tpl.description}</p>
               </button>
@@ -110,7 +110,7 @@ export default function TalkingPointsGenerator({ onSaved }) {
             <p className="nv-eyebrow">Current energy level</p>
             <span className="text-sm font-bold text-brand-primary">{ENERGY_LABELS[energy - 1]}</span>
           </div>
-          <Slider value={[energy]} onValueChange={([v]) => setEnergy(v)} min={1} max={5} step={1} />
+          <Slider aria-label="Current energy level" value={[energy]} onValueChange={([v]) => setEnergy(v)} min={1} max={5} step={1} />
         </div>
         <Button onClick={generate} disabled={generating} className="w-full !whitespace-normal">
           {generating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}

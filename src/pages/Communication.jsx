@@ -316,7 +316,7 @@ export default function Communication() {
             {emailTemplates.map((template) => (
               <Card key={template.id}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <CardTitle className="text-xl text-foreground">{template.title}</CardTitle>
                       <p className="mt-1 text-sm text-muted-foreground">Subject: {template.subject}</p>
@@ -333,7 +333,7 @@ export default function Communication() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <pre className="whitespace-pre-wrap rounded-brand bg-muted p-4 font-sans text-sm leading-relaxed text-foreground">
+                  <pre className="whitespace-pre-wrap rounded-brand bg-muted p-4 font-body text-sm [overflow-wrap:anywhere] text-foreground">
                     {template.body}
                   </pre>
                 </CardContent>
@@ -348,7 +348,7 @@ export default function Communication() {
             {conversationScripts.map((script, index) => (
               <Card key={index}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex-1">
                       <CardTitle className="mb-2 text-xl text-foreground">{script.title}</CardTitle>
                       <Badge variant="secondary">
@@ -368,7 +368,7 @@ export default function Communication() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="rounded-brand border-l-4 border-primary bg-muted p-4">
-                    <p className="font-medium leading-relaxed text-foreground">{script.script}</p>
+                    <p className="font-medium text-foreground">{script.script}</p>
                   </div>
                   
                   <div className="space-y-2">
@@ -399,25 +399,25 @@ export default function Communication() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-brand border border-border bg-muted p-4">
                   <h4 className="mb-2 font-semibold text-foreground">Option 1: Tell Everyone</h4>
-                  <p className="mb-2 text-sm text-brand-secondary">✓ No secrets, might get support</p>
+                  <p className="mb-2 text-sm text-brand-text">✓ No secrets, might get support</p>
                   <p className="text-sm text-brand-destructive">✗ Become the office cancer patient</p>
                 </div>
 
                 <div className="rounded-brand border border-border bg-muted p-4">
                   <h4 className="mb-2 font-semibold text-foreground">Option 2: Tell No One</h4>
-                  <p className="mb-2 text-sm text-brand-secondary">✓ Privacy maintained</p>
+                  <p className="mb-2 text-sm text-brand-text">✓ Privacy maintained</p>
                   <p className="text-sm text-brand-destructive">✗ Exhausting, no support</p>
                 </div>
 
                 <div className="rounded-brand border border-border bg-muted p-4">
                   <h4 className="mb-2 font-semibold text-foreground">Option 3: Tell Select People</h4>
-                  <p className="mb-2 text-sm text-brand-secondary">✓ Controlled info, chosen support</p>
+                  <p className="mb-2 text-sm text-brand-text">✓ Controlled info, chosen support</p>
                   <p className="text-sm text-brand-destructive">✗ Requires active management</p>
                 </div>
 
-                <div className="rounded-brand border border-primary bg-surface p-4">
+                <div className="rounded-brand border border-primary bg-brand-surface p-4">
                   <h4 className="mb-2 font-semibold text-foreground">Option 4: Brief & Professional (Recommended)</h4>
-                  <p className="mb-2 text-sm text-brand-secondary">✓ Honest without oversharing</p>
+                  <p className="mb-2 text-sm text-brand-text">✓ Honest without oversharing</p>
                   <p className="text-sm text-brand-destructive">✗ Some will push for details</p>
                 </div>
               </div>

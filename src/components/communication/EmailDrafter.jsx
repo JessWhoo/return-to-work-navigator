@@ -98,7 +98,7 @@ ${emailBody}`;
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
+        <CardTitle className="flex flex-wrap items-center gap-2 text-lg sm:text-xl">
           <Mail className="h-5 w-5 text-primary" />
           <span>AI Email Drafter</span>
           <span className="nv-chip">
@@ -117,7 +117,8 @@ ${emailBody}`;
             <select
               value={emailType}
               onChange={(e) => setEmailType(e.target.value)}
-              className="nv-input h-10 w-full px-3 text-sm"
+              aria-label="Email Type"
+              className="nv-input h-11 w-full px-3 text-sm"
             >
               <option value="accommodation_request">Accommodation Request</option>
               <option value="return_plan">Return-to-Work Plan</option>
@@ -188,18 +189,18 @@ ${emailBody}`;
                   value={emailBody}
                   onChange={(e) => setEmailBody(e.target.value)}
                   rows={12}
-                  className="font-mono text-sm"
+                  className="font-body text-sm"
                 />
                 <p className="text-xs text-muted-foreground">
                   Feel free to edit the draft above to personalize it
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <Button
                   onClick={copyToClipboard}
                   variant="outline"
-                  className="flex-1"
+                  className="min-w-0 !whitespace-normal"
                 >
                   <Copy className="h-4 w-4" />
                   Copy to Clipboard
@@ -210,12 +211,12 @@ ${emailBody}`;
                   recipient={recipientName || recipient}
                   subject={subject}
                   content={emailBody}
-                  className="flex-1"
+                  className="min-w-0 !whitespace-normal"
                 />
                 <Button
                   onClick={sendViaEmail}
                   disabled={!recipient}
-                  className="flex-1"
+                  className="min-w-0 !whitespace-normal"
                 >
                   <Send className="h-4 w-4" />
                   Open in Email Client

@@ -27,12 +27,12 @@ export default function DownloadPlannerButton({ weeks = 1, className = '' }) {
     <Button
       onClick={handleDownload}
       disabled={loading}
-      className={`bg-gradient-to-r from-violet-600 to-sky-600 text-white hover:from-violet-700 hover:to-sky-700 ${className}`}
+      className={`!whitespace-normal ${className}`}
     >
       {loading ? (
-        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+        <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        <Printer className="h-4 w-4 mr-2" />
+        <Printer className="h-4 w-4" />
       )}
       <span className="hidden sm:inline">Download Printable Planner</span>
       <span className="sm:hidden">Printable Planner</span>

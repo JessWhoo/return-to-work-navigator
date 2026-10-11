@@ -150,10 +150,11 @@ export default function MeetingPrep() {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-shrink-0 items-center gap-1">
+                      <div className="flex shrink-0 flex-wrap items-center gap-2">
                         <Button size="icon" variant="ghost"
                           onClick={e => { e.stopPropagation(); handleDelete(meeting.id); }}
-                          className="h-7 w-7 text-muted-foreground hover:text-destructive opacity-0 transition-opacity group-hover:opacity-100">
+                          aria-label="Delete meeting prep"
+                          className="shrink-0">
                           <Trash2 className="h-3.5 w-3.5" />
                         </Button>
                         <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
@@ -172,7 +173,7 @@ export default function MeetingPrep() {
   // NEW MEETING VIEW
   if (view === 'new') {
     return (
-      <div className="mx-auto max-w-3xl space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4 [overflow-wrap:anywhere]">
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={() => setView('list')}>← Back</Button>
           <h1 className="font-heading text-2xl font-bold text-foreground">New Meeting Prep</h1>
@@ -191,16 +192,16 @@ export default function MeetingPrep() {
     const StatusIcon = statusCfg.icon;
 
     return (
-      <div className="mx-auto max-w-3xl space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4 [overflow-wrap:anywhere]">
         {showPrintDoc && (
           <PrintableMeetingDoc meeting={selectedMeeting} onClose={() => setShowPrintDoc(false)} />
         )}
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-3">
             <Button variant="ghost" onClick={() => setView('list')}>← Back</Button>
             <div>
               <h1 className="font-heading text-xl font-bold text-foreground">{selectedMeeting.title}</h1>
-              <div className="mt-1 flex items-center gap-2">
+              <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Badge variant={statusCfg.variant} className="text-xs">
                   <StatusIcon className="h-3 w-3" /> {statusCfg.label}
                 </Badge>
@@ -215,7 +216,7 @@ export default function MeetingPrep() {
               </div>
             </div>
           </div>
-          <div className="flex flex-shrink-0 items-center gap-1">
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
             <Button size="sm" variant="ghost"
               onClick={() => setShowPrintDoc(true)}>
               <Printer className="h-4 w-4" /> Print Document
@@ -232,19 +233,19 @@ export default function MeetingPrep() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="prep">Meeting Prep</TabsTrigger>
-            <TabsTrigger value="practice">Practice</TabsTrigger>
-            <TabsTrigger value="responses">
+          <TabsList className="nv-tabs h-auto">
+            <TabsTrigger className="nv-tab" value="prep">Meeting Prep</TabsTrigger>
+            <TabsTrigger className="nv-tab" value="practice">Practice</TabsTrigger>
+            <TabsTrigger className="nv-tab" value="responses">
               Responses
               {(selectedMeeting.employer_responses?.length || 0) > 0 && (
-                <span className="ml-1.5 rounded-full bg-primary px-1.5 py-0.5 text-xs text-brand-onPrimary">
+                <span className="ml-1.5 rounded-full bg-primary px-1.5 py-0.5 text-xs text-primary-foreground">
                   {selectedMeeting.employer_responses.length}
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="templates">Templates</TabsTrigger>
-            <TabsTrigger value="edit">Edit</TabsTrigger>
+            <TabsTrigger className="nv-tab" value="templates">Templates</TabsTrigger>
+            <TabsTrigger className="nv-tab" value="edit">Edit</TabsTrigger>
           </TabsList>
 
           {/* PREP TAB - read-only summary */}
@@ -324,7 +325,7 @@ export default function MeetingPrep() {
               </Card>
             )}
 
-            <Button variant="outline" className="w-full"
+            <Button variant="outline" className="w-full !whitespace-normal"
               onClick={() => {
                 const summary = `I have a meeting prep for "${selectedMeeting.title}". My goals: ${selectedMeeting.goals || 'not set'}. Talking points: ${selectedMeeting.talking_points?.join('; ')}. Can you help me feel confident going in?`;
                 localStorage.setItem('pendingCoachMessage', summary);
@@ -365,7 +366,7 @@ export default function MeetingPrep() {
   // TEMPLATES VIEW
   if (view === 'templates') {
     return (
-      <div className="mx-auto max-w-3xl space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4 [overflow-wrap:anywhere]">
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={() => setView('list')}>← Back</Button>
           <div>
