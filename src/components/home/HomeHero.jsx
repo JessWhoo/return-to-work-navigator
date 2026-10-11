@@ -7,7 +7,7 @@ import BrandMark from '@/components/brand/BrandMark';
 export default function HomeHero({ canTour, onTour, tourOpen }) {
   return (
     <section className="nv-hero nv-home-hero" aria-labelledby="home-title">
-      <video controls autoPlay muted loop playsInline preload="metadata" aria-label="Return to Work Navigator homepage hero video" className="block h-auto w-full">
+      <video autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="nv-home-scenery">
         <source src="https://media.base44.com/videos/public/69406c752de234aafebf891d/e6ff51187_128375816_1791718492796861.mp4" type="video/mp4" />
         Your browser does not support video playback. <a href="https://media.base44.com/videos/public/69406c752de234aafebf891d/e6ff51187_128375816_1791718492796861.mp4">Open the video</a>.
       </video>
