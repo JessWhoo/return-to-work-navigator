@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   Calendar, Clock, Stethoscope, Briefcase, Star, 
   AlertCircle, CheckCircle2, MessageSquare, ChevronRight,
@@ -71,9 +70,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
     const insights = {
       return_date: {
         icon: Briefcase,
-        color: 'from-purple-500 to-violet-500',
-        bgColor: 'bg-purple-50',
-        borderColor: 'border-purple-200',
         tips: [
           'Review your completed checklist items and note any gaps',
           'Confirm all accommodation requests are in place',
@@ -94,9 +90,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       },
       medical: {
         icon: Stethoscope,
-        color: 'from-rose-500 to-pink-500',
-        bgColor: 'bg-rose-50',
-        borderColor: 'border-rose-200',
         tips: [
           'List symptoms or concerns you\'ve experienced since last visit',
           'Note how your energy levels affect work capability',
@@ -117,9 +110,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       },
       meeting: {
         icon: Briefcase,
-        color: 'from-blue-500 to-cyan-500',
-        bgColor: 'bg-blue-50',
-        borderColor: 'border-blue-200',
         tips: [
           'Schedule meeting during your peak energy time if possible',
           'Prepare key points in writing beforehand',
@@ -140,9 +130,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       },
       accommodation_review: {
         icon: FileText,
-        color: 'from-amber-500 to-orange-500',
-        bgColor: 'bg-amber-50',
-        borderColor: 'border-amber-200',
         tips: [
           'Document what\'s working well (with specific examples)',
           'Identify what needs adjustment',
@@ -163,9 +150,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       },
       milestone: {
         icon: Star,
-        color: 'from-teal-500 to-emerald-500',
-        bgColor: 'bg-teal-50',
-        borderColor: 'border-teal-200',
         tips: [
           'Take time to reflect on your progress',
           'Identify what strategies have been most helpful',
@@ -186,9 +170,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       },
       reminder: {
         icon: Clock,
-        color: 'from-indigo-500 to-blue-500',
-        bgColor: 'bg-indigo-50',
-        borderColor: 'border-indigo-200',
         tips: [
           'Set up advance reminders to avoid last-minute stress',
           'Plan your energy around this task',
@@ -207,9 +188,6 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       },
       other: {
         icon: Calendar,
-        color: 'from-gray-500 to-slate-500',
-        bgColor: 'bg-gray-50',
-        borderColor: 'border-gray-200',
         tips: [
           'Consider how this event fits into your energy management',
           'Plan rest periods before and after if needed',
@@ -238,13 +216,13 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold text-slate-200 flex items-center space-x-2">
-          <Lightbulb className="h-5 w-5 text-yellow-400" />
+        <h3 className="flex items-center space-x-2 font-heading text-lg font-bold text-foreground">
+          <Lightbulb className="h-5 w-5 text-primary" />
           <span>Proactive Insights for Upcoming Events</span>
         </h3>
-        <Badge variant="outline" className="border-slate-600 text-slate-300">
+        <span className="nv-chip nv-chip--muted">
           {upcomingEvents.length} upcoming
-        </Badge>
+        </span>
       </div>
 
       <div className="space-y-3">
@@ -262,52 +240,50 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Card className={`border-2 ${insights.borderColor} hover:shadow-lg transition-all overflow-hidden`}>
+              <Card className="overflow-hidden">
                 <CardHeader 
-                  className={`${insights.bgColor} cursor-pointer`}
+                  className="cursor-pointer bg-muted"
                   onClick={() => setExpandedEvent(isExpanded ? null : event.id)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className={`p-2 rounded-lg bg-gradient-to-br ${insights.color}`}>
-                        <Icon className="h-5 w-5 text-white" />
+                      <div className="rounded-brand bg-primary p-2 text-primary-foreground">
+                        <Icon className="h-5 w-5" />
                       </div>
                       <div>
-                        <CardTitle className="text-base text-gray-800">{event.title}</CardTitle>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <span className="text-sm text-gray-600">
+                        <CardTitle className="text-base text-foreground">{event.title}</CardTitle>
+                        <div className="mt-1 flex items-center space-x-2">
+                          <span className="text-sm text-muted-foreground">
                             {isToday(event.date) ? 'Today' : format(event.date, 'MMM d, yyyy')}
                           </span>
                           {isUrgent && (
-                            <Badge className="bg-red-100 text-red-800 text-xs">
-                              <AlertCircle className="h-3 w-3 mr-1" />
+                            <span className="nv-chip bg-brand-destructive text-brand-on-primary">
+                              <AlertCircle className="h-3 w-3" />
                               {daysUntil === 0 ? 'Today' : 'Tomorrow'}
-                            </Badge>
+                            </span>
                           )}
                           {event.priority === 'high' && (
-                            <Badge className="bg-orange-100 text-orange-800 text-xs">
-                              High Priority
-                            </Badge>
+                            <span className="nv-chip">High Priority</span>
                           )}
                         </div>
                       </div>
                     </div>
-                    <ChevronRight className={`h-5 w-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                    <ChevronRight className={`h-5 w-5 text-muted-foreground transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                   </div>
                 </CardHeader>
 
                 {isExpanded && (
-                  <CardContent className="pt-6 space-y-4">
+                  <CardContent className="space-y-4 pt-6">
                     {/* Preparation Tips */}
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-2 flex items-center space-x-2">
-                        <ListChecks className="h-4 w-4 text-blue-600" />
+                      <h4 className="mb-2 flex items-center space-x-2 font-semibold text-foreground">
+                        <ListChecks className="h-4 w-4 text-primary" />
                         <span>Preparation Tips</span>
                       </h4>
                       <ul className="space-y-2">
                         {insights.tips.map((tip, tipIdx) => (
-                          <li key={tipIdx} className="flex items-start space-x-2 text-sm text-gray-700">
-                            <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                          <li key={tipIdx} className="flex items-start space-x-2 text-sm text-foreground">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-secondary" />
                             <span>{tip}</span>
                           </li>
                         ))}
@@ -316,13 +292,13 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
 
                     {/* Relevant Resources */}
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-2 flex items-center space-x-2">
-                        <FileText className="h-4 w-4 text-purple-600" />
+                      <h4 className="mb-2 flex items-center space-x-2 font-semibold text-foreground">
+                        <FileText className="h-4 w-4 text-primary" />
                         <span>Relevant Resources</span>
                       </h4>
                       <ul className="space-y-1">
                         {insights.resources.map((resource, resIdx) => (
-                          <li key={resIdx} className="text-sm text-purple-700 ml-4">
+                          <li key={resIdx} className="ml-4 text-sm text-primary">
                             • {resource}
                           </li>
                         ))}
@@ -331,8 +307,8 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
 
                     {/* Questions to Discuss */}
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-2 flex items-center space-x-2">
-                        <MessageSquare className="h-4 w-4 text-teal-600" />
+                      <h4 className="mb-2 flex items-center space-x-2 font-semibold text-foreground">
+                        <MessageSquare className="h-4 w-4 text-primary" />
                         <span>Questions You Might Have</span>
                       </h4>
                       <div className="space-y-2">
@@ -341,10 +317,10 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
                             key={qIdx}
                             variant="outline"
                             size="sm"
-                            className="w-full text-left justify-start text-sm"
+                            className="w-full justify-start text-left text-sm"
                             onClick={() => onSendMessage && onSendMessage(question)}
                           >
-                            <MessageSquare className="h-3 w-3 mr-2 flex-shrink-0" />
+                            <MessageSquare className="h-3 w-3 flex-shrink-0" />
                             <span className="text-left">{question}</span>
                           </Button>
                         ))}
@@ -352,14 +328,14 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-2 pt-2 border-t">
+                    <div className="flex gap-2 border-t border-border pt-2">
                       <Button
                         variant="default"
                         size="sm"
                         onClick={() => onSendMessage && onSendMessage(`I have my ${event.title} coming up on ${format(event.date, 'MMM d')}. Can you help me prepare?`)}
-                        className={`flex-1 bg-gradient-to-r ${insights.color} hover:opacity-90`}
+                        className="flex-1"
                       >
-                        <MessageSquare className="h-4 w-4 mr-2" />
+                        <MessageSquare className="h-4 w-4" />
                         Discuss with Coach
                       </Button>
                     </div>

@@ -15,65 +15,57 @@ export default function AppFeatureGuide() {
       name: 'Energy & Fatigue Tracking',
       icon: Zap,
       page: 'EnergyManagement',
-      description: 'Track daily energy levels and identify patterns',
-      color: 'from-amber-500 to-orange-500'
+      description: 'Track daily energy levels and identify patterns'
     },
     {
       name: 'Symptom Analysis',
       icon: Activity,
       page: 'SymptomAnalysis',
-      description: 'Log symptoms and get AI-powered pattern insights',
-      color: 'from-rose-500 to-pink-500'
+      description: 'Log symptoms and get AI-powered pattern insights'
     },
     {
       name: 'Accommodations',
       icon: Shield,
       page: 'Accommodations',
-      description: 'Request and manage workplace accommodations',
-      color: 'from-blue-500 to-cyan-500'
+      description: 'Request and manage workplace accommodations'
     },
     {
       name: 'Communication Tools',
       icon: FileText,
       page: 'Communication',
-      description: 'Templates for talking with employers and colleagues',
-      color: 'from-purple-500 to-pink-500'
+      description: 'Templates for talking with employers and colleagues'
     },
     {
       name: 'Emotional Support',
       icon: Heart,
       page: 'EmotionalSupport',
-      description: 'Coping strategies and wellness resources',
-      color: 'from-rose-500 to-red-500'
+      description: 'Coping strategies and wellness resources'
     },
     {
       name: 'Return Planning',
       icon: Calendar,
       page: 'ReturnPlanning',
-      description: 'Plan your timeline and track important dates',
-      color: 'from-green-500 to-emerald-500'
+      description: 'Plan your timeline and track important dates'
     },
     {
       name: 'Resources Library',
       icon: BookOpen,
       page: 'Resources',
-      description: 'Articles, videos, and support services',
-      color: 'from-indigo-500 to-purple-500'
+      description: 'Articles, videos, and support services'
     },
     {
       name: 'Progress Dashboard',
       icon: TrendingUp,
       page: 'ProgressDashboard',
-      description: 'Visualize trends and track your journey',
-      color: 'from-teal-500 to-cyan-500'
+      description: 'Visualize trends and track your journey'
     }
   ];
 
   return (
-    <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-teal-600">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-slate-200">Explore App Features</CardTitle>
-        <p className="text-xs text-slate-400 mt-1">
+        <CardTitle className="text-foreground">Explore App Features</CardTitle>
+        <p className="mt-1 text-xs text-muted-foreground">
           Navigate to different sections for specialized tools and resources
         </p>
       </CardHeader>
@@ -88,17 +80,17 @@ export default function AppFeatureGuide() {
             >
               <Button
                 variant="outline"
-                className="w-full justify-start text-left h-auto p-3 bg-slate-700 hover:bg-slate-600 border-slate-600 text-slate-200 transition-all group"
+                className="group h-auto w-full justify-start p-3 text-left"
               >
-                <div className="flex items-center space-x-3 w-full">
-                  <div className={`p-2 rounded-lg bg-gradient-to-br ${feature.color} flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                    <Icon className="h-4 w-4 text-white" />
+                <div className="flex w-full items-center space-x-3">
+                  <div className="flex-shrink-0 rounded-brand bg-muted p-2 text-primary transition-transform group-hover:scale-110">
+                    <Icon className="h-4 w-4" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold mb-0.5">{feature.name}</p>
-                    <p className="text-xs text-slate-400">{feature.description}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="mb-0.5 text-sm font-semibold text-foreground">{feature.name}</p>
+                    <p className="text-xs text-muted-foreground">{feature.description}</p>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-slate-500 group-hover:text-slate-300 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-primary" />
                 </div>
               </Button>
             </Link>

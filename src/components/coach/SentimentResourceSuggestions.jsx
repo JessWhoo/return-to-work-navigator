@@ -101,13 +101,13 @@ const SENTIMENT_EMPATHY = {
 };
 
 const colorMap = {
-  amber: { bg: 'bg-amber-900/30', border: 'border-amber-600/40', badge: 'bg-amber-600', text: 'text-amber-300', dot: 'bg-amber-400' },
-  orange: { bg: 'bg-orange-900/30', border: 'border-orange-600/40', badge: 'bg-orange-600', text: 'text-orange-300', dot: 'bg-orange-400' },
-  blue: { bg: 'bg-blue-900/30', border: 'border-blue-600/40', badge: 'bg-blue-600', text: 'text-blue-300', dot: 'bg-blue-400' },
-  red: { bg: 'bg-red-900/30', border: 'border-red-600/40', badge: 'bg-red-600', text: 'text-red-300', dot: 'bg-red-400' },
-  teal: { bg: 'bg-teal-900/30', border: 'border-teal-600/40', badge: 'bg-teal-600', text: 'text-teal-300', dot: 'bg-teal-400' },
-  green: { bg: 'bg-green-900/30', border: 'border-green-600/40', badge: 'bg-green-600', text: 'text-green-300', dot: 'bg-green-400' },
-  purple: { bg: 'bg-purple-900/30', border: 'border-purple-600/40', badge: 'bg-purple-600', text: 'text-purple-300', dot: 'bg-purple-400' }
+  amber: { text: 'text-primary', dot: 'bg-primary' },
+  orange: { text: 'text-brand-accent', dot: 'bg-brand-accent' },
+  blue: { text: 'text-primary', dot: 'bg-brand-sky' },
+  red: { text: 'text-destructive', dot: 'bg-destructive' },
+  teal: { text: 'text-brand-secondary', dot: 'bg-brand-secondary' },
+  green: { text: 'text-brand-secondary', dot: 'bg-brand-secondary' },
+  purple: { text: 'text-primary', dot: 'bg-primary' }
 };
 
 export function detectSentimentAndResources(text) {
@@ -141,36 +141,36 @@ export default function SentimentResourceSuggestions({ lastUserMessage }) {
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.3 }}
       >
-        <Card className={`${colors.bg} border ${colors.border} mt-2`}>
-          <CardContent className="pt-4 pb-4 space-y-3">
+        <Card className="nv-card--muted mt-2">
+          <CardContent className="space-y-3 pt-4 pb-4">
             {/* Sentiment header */}
             <div className="flex items-start gap-2">
-              <div className={`mt-0.5 h-2 w-2 rounded-full ${colors.dot} flex-shrink-0 mt-1.5`} />
+              <div className={`mt-1.5 h-2 w-2 flex-shrink-0 rounded-full ${colors.dot}`} />
               <div>
-                <p className={`text-xs font-semibold ${colors.text} mb-0.5`}>
-                  <Icon className="inline h-3 w-3 mr-1" />
+                <p className={`mb-0.5 text-xs font-semibold ${colors.text}`}>
+                  <Icon className="mr-1 inline h-3 w-3" />
                   {match.label} Detected
                 </p>
-                <p className="text-xs text-slate-400 italic">{empathy.message}</p>
+                <p className="text-xs italic text-muted-foreground">{empathy.message}</p>
               </div>
             </div>
 
             {/* Resources */}
             <div className="space-y-1.5">
-              <p className="text-xs font-medium text-slate-300">Proactively suggested resources:</p>
+              <p className="text-xs font-medium text-foreground">Proactively suggested resources:</p>
               {match.resources.map((resource, idx) => (
                 <a
                   key={idx}
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start justify-between gap-2 p-2 rounded-lg bg-slate-800/60 hover:bg-slate-700/60 transition-colors group"
+                  className="group flex items-start justify-between gap-2 rounded-brand border border-border bg-surface p-2 transition-colors hover:bg-muted"
                 >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-slate-200 group-hover:text-white truncate">{resource.name}</p>
-                    <p className="text-xs text-slate-500">{resource.org} · {resource.topic}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-foreground">{resource.name}</p>
+                    <p className="text-xs text-muted-foreground">{resource.org} · {resource.topic}</p>
                   </div>
-                  <ExternalLink className="h-3 w-3 text-slate-500 group-hover:text-slate-300 flex-shrink-0 mt-0.5" />
+                  <ExternalLink className="mt-0.5 h-3 w-3 flex-shrink-0 text-muted-foreground group-hover:text-primary" />
                 </a>
               ))}
             </div>

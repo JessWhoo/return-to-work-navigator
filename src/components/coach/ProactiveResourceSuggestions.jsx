@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { ExternalLink, BookOpen, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { resources as allResourceCategories } from '../resources/resourcesData';
@@ -75,15 +74,15 @@ export default function ProactiveResourceSuggestions({ messages }) {
         transition={{ duration: 0.3 }}
         className="px-4 pb-3"
       >
-        <Card className="bg-indigo-950/60 border border-indigo-700/50">
+        <Card className="nv-card--muted">
           <CardContent className="pt-3 pb-3">
-            <div className="flex items-center gap-2 mb-2.5">
-              <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-              <p className="text-xs font-semibold text-indigo-300">Relevant Library Resources</p>
-              <Badge className="bg-indigo-700/50 text-indigo-200 text-[10px] px-1.5 py-0 ml-auto">
-                <BookOpen className="h-2.5 w-2.5 mr-1 inline" />
+            <div className="mb-2.5 flex items-center gap-2">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              <p className="text-xs font-semibold text-foreground">Relevant Library Resources</p>
+              <span className="nv-chip nv-chip--muted ml-auto">
+                <BookOpen className="h-2.5 w-2.5" />
                 From your library
-              </Badge>
+              </span>
             </div>
             <div className="space-y-1.5">
               {suggestions.map((resource, idx) => (
@@ -92,13 +91,13 @@ export default function ProactiveResourceSuggestions({ messages }) {
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start justify-between gap-2 p-2 rounded-lg bg-slate-800/60 hover:bg-slate-700/70 transition-colors group"
+                  className="group flex items-start justify-between gap-2 rounded-brand border border-border bg-surface p-2 transition-colors hover:bg-muted"
                 >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-slate-200 group-hover:text-white truncate">{resource.name}</p>
-                    <p className="text-[10px] text-slate-500 truncate">{resource.org} · {resource.category}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-foreground">{resource.name}</p>
+                    <p className="truncate text-[10px] text-muted-foreground">{resource.org} · {resource.category}</p>
                   </div>
-                  <ExternalLink className="h-3 w-3 text-slate-500 group-hover:text-indigo-300 flex-shrink-0 mt-0.5" />
+                  <ExternalLink className="mt-0.5 h-3 w-3 flex-shrink-0 text-muted-foreground group-hover:text-primary" />
                 </a>
               ))}
             </div>

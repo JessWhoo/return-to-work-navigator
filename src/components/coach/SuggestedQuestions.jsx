@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   Sparkles, MessageCircle, Zap, Shield, 
   Calendar, Heart, FileText, TrendingUp 
@@ -20,14 +19,12 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
       suggestions.push({
         question: "What accommodations should I request for my return to work?",
         icon: Shield,
-        category: "Accommodations",
-        color: "blue"
+        category: "Accommodations"
       });
       suggestions.push({
         question: "How do I talk to my employer about my cancer history?",
         icon: MessageCircle,
-        category: "Communication",
-        color: "purple"
+        category: "Communication"
       });
     }
 
@@ -35,14 +32,12 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
       suggestions.push({
         question: "I'm exhausted on my first week back. What should I do?",
         icon: Zap,
-        category: "Energy",
-        color: "amber"
+        category: "Energy"
       });
       suggestions.push({
         question: "How can I handle questions from coworkers about my absence?",
         icon: MessageCircle,
-        category: "Communication",
-        color: "purple"
+        category: "Communication"
       });
     }
 
@@ -50,8 +45,7 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
       suggestions.push({
         question: "My current accommodations aren't working. How can I request changes?",
         icon: Shield,
-        category: "Accommodations",
-        color: "blue"
+        category: "Accommodations"
       });
     }
 
@@ -69,7 +63,6 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
         question: "I'm struggling with low energy. What pacing strategies can help?",
         icon: Zap,
         category: "Energy",
-        color: "amber",
         priority: true
       });
     }
@@ -84,7 +77,6 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
         question: "I'm feeling overwhelmed and stressed. Can you help me cope?",
         icon: Heart,
         category: "Emotional Support",
-        color: "rose",
         priority: true
       });
     }
@@ -97,7 +89,6 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
           question: "My return date is coming up. How can I prepare?",
           icon: Calendar,
           category: "Preparation",
-          color: "green",
           priority: true
         });
       }
@@ -109,8 +100,7 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
       suggestions.push({
         question: "Where should I start with my return-to-work preparation?",
         icon: FileText,
-        category: "Getting Started",
-        color: "indigo"
+        category: "Getting Started"
       });
     }
 
@@ -118,15 +108,13 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
     suggestions.push({
       question: "What are my legal rights as a cancer survivor returning to work?",
       icon: Shield,
-      category: "Legal Rights",
-      color: "blue"
+      category: "Legal Rights"
     });
 
     suggestions.push({
       question: "Show me resources relevant to my current situation",
       icon: TrendingUp,
-      category: "Resources",
-      color: "teal"
+      category: "Resources"
     });
 
     // Limit to 6 suggestions, prioritize urgent ones
@@ -136,24 +124,14 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
 
   const suggestions = generateSuggestions();
 
-  const colorMap = {
-    blue: 'from-blue-500 to-cyan-500',
-    purple: 'from-purple-500 to-pink-500',
-    amber: 'from-amber-500 to-orange-500',
-    rose: 'from-rose-500 to-pink-500',
-    green: 'from-green-500 to-emerald-500',
-    indigo: 'from-indigo-500 to-purple-500',
-    teal: 'from-teal-500 to-cyan-500'
-  };
-
   return (
-    <Card className="bg-slate-800/90 backdrop-blur-sm border-2 border-cyan-600">
+    <Card>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-slate-200">
-          <Sparkles className="h-5 w-5 text-cyan-400" />
+        <CardTitle className="flex items-center space-x-2">
+          <Sparkles className="h-5 w-5 text-primary" />
           <span>Suggested Questions</span>
         </CardTitle>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="mt-1 text-xs text-muted-foreground">
           Click a question to start the conversation
         </p>
       </CardHeader>
@@ -169,22 +147,22 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
             >
               <Button
                 variant="outline"
-                className="w-full justify-start text-left h-auto p-3 bg-slate-700 hover:bg-slate-600 border-slate-600 text-slate-200 transition-all group"
+                className="group h-auto w-full justify-start p-3 text-left"
                 onClick={() => onSendMessage(suggestion.question)}
               >
-                <div className="flex items-start space-x-3 w-full">
-                  <div className={`p-2 rounded-lg bg-gradient-to-br ${colorMap[suggestion.color]} flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                    <Icon className="h-4 w-4 text-white" />
+                <div className="flex w-full items-start space-x-3">
+                  <div className="flex-shrink-0 rounded-brand bg-muted p-2 text-primary transition-transform group-hover:scale-110">
+                    <Icon className="h-4 w-4" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Badge variant="outline" className="text-xs text-slate-400 border-slate-600">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 flex items-center space-x-2">
+                      <span className="nv-chip nv-chip--muted">
                         {suggestion.category}
-                      </Badge>
+                      </span>
                       {suggestion.priority && (
-                        <Badge className="text-xs bg-red-500 text-white">
+                        <span className="nv-chip bg-brand-destructive text-brand-on-primary">
                           Priority
-                        </Badge>
+                        </span>
                       )}
                     </div>
                     <p className="text-sm leading-tight">{suggestion.question}</p>

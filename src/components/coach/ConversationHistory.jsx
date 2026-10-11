@@ -28,13 +28,13 @@ export default function ConversationHistory({
   error,
 }) {
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-3">
+    <div className="flex h-full flex-col">
+      <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <MessageSquare className="h-4 w-4 text-purple-400" />
-          <span className="text-sm font-semibold text-slate-200">Conversations</span>
+          <MessageSquare className="h-4 w-4 text-primary" />
+          <span className="text-sm font-semibold text-foreground">Conversations</span>
           {conversations.length > 0 && (
-            <Badge className="bg-purple-700 text-purple-100 text-xs px-1.5 py-0">
+            <Badge variant="secondary" className="px-1.5 py-0 text-xs">
               {conversations.length}
             </Badge>
           )}
@@ -45,7 +45,7 @@ export default function ConversationHistory({
               size="sm"
               variant="ghost"
               onClick={onRefresh}
-              className="h-7 w-7 p-0 text-slate-400 hover:text-slate-200"
+              className="h-7 w-7 p-0"
               title="Refresh"
             >
               <RefreshCw className="h-3.5 w-3.5" />
@@ -54,28 +54,28 @@ export default function ConversationHistory({
           <Button
             size="sm"
             onClick={onNew}
-            className="h-7 px-2 bg-purple-600 hover:bg-purple-700 text-xs"
+            className="h-7 px-2 text-xs"
           >
-            <Plus className="h-3.5 w-3.5 mr-1" />
+            <Plus className="h-3.5 w-3.5" />
             New
           </Button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
+      <div className="flex-1 space-y-1.5 overflow-y-auto pr-1">
         {loading ? (
           <div className="flex justify-center py-8">
-            <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
         ) : error ? (
-          <div className="text-center py-6 text-red-400 text-xs space-y-2">
+          <div className="space-y-2 py-6 text-center text-xs text-destructive">
             <p>Failed to load conversations</p>
-            <Button size="sm" onClick={onRefresh} className="bg-slate-600 hover:bg-slate-500 text-xs h-7">
-              <RefreshCw className="h-3 w-3 mr-1" /> Retry
+            <Button size="sm" onClick={onRefresh} className="h-7 text-xs">
+              <RefreshCw className="h-3 w-3" /> Retry
             </Button>
           </div>
         ) : conversations.length === 0 ? (
-          <div className="text-center py-8 text-slate-500 text-xs">
+          <div className="py-8 text-center text-xs text-muted-foreground">
             No conversations yet.<br />Start one below!
           </div>
         ) : (
@@ -89,28 +89,28 @@ export default function ConversationHistory({
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && onSelect(conv.id)}
-                className={`w-full text-left p-3 rounded-xl transition-all group relative cursor-pointer ${
+                className={`group relative w-full cursor-pointer rounded-brand p-3 text-left transition-all ${
                   isActive
-                    ? 'bg-purple-700/80 border border-purple-500 shadow-lg shadow-purple-900/30'
-                    : 'bg-slate-800/60 border border-slate-700/50 hover:bg-slate-700/60 hover:border-slate-600'
+                    ? 'border border-primary bg-muted'
+                    : 'border border-border bg-surface hover:bg-muted'
                 }`}
               >
                 <div className="flex items-start justify-between gap-1.5">
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-xs font-semibold truncate leading-snug ${isActive ? 'text-white' : 'text-slate-200'}`}>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-semibold leading-snug text-foreground">
                       {title.length > 48 ? title.slice(0, 48) + '\u2026' : title}
                     </p>
-                    <p className={`text-xs mt-0.5 truncate leading-snug ${isActive ? 'text-purple-200/70' : 'text-slate-500'}`}>
+                    <p className="mt-0.5 truncate text-xs leading-snug text-muted-foreground">
                       {preview.length > 65 ? preview.slice(0, 65) + '\u2026' : preview}
                     </p>
-                    <div className="flex items-center gap-2 mt-1.5">
+                    <div className="mt-1.5 flex items-center gap-2">
                       {lastActivity && (
-                        <span className={`text-[10px] flex items-center gap-0.5 ${isActive ? 'text-purple-300/60' : 'text-slate-600'}`}>
+                        <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
                           <Clock className="h-2.5 w-2.5" />
                           {formatDistanceToNow(new Date(lastActivity), { addSuffix: true })}
                         </span>
                       )}
-                      <span className={`text-[10px] ${isActive ? 'text-purple-300/60' : 'text-slate-600'}`}>
+                      <span className="text-[10px] text-muted-foreground">
                         {msgCount} msg{msgCount !== 1 ? 's' : ''}
                       </span>
                     </div>
@@ -118,7 +118,7 @@ export default function ConversationHistory({
                   {isActive && onDelete && (
                     <button
                       onClick={(e) => { e.stopPropagation(); onDelete(conv.id); }}
-                      className="flex-shrink-0 p-1 rounded hover:bg-red-700/60 text-purple-300 hover:text-red-300 transition-colors opacity-0 group-hover:opacity-100"
+                      className="flex-shrink-0 rounded p-1 text-muted-foreground opacity-0 transition-colors hover:bg-destructive/15 hover:text-destructive group-hover:opacity-100"
                       title="Delete conversation"
                     >
                       <Trash2 className="h-3 w-3" />
