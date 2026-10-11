@@ -8,7 +8,7 @@ module.exports = {
   			sans: ['Nunito Sans', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
   			heading: ['var(--font-heading)'],
   			body: ['var(--font-body)'],
-  			display: ['Cinzel', 'Georgia', 'serif'],
+  			display: ['var(--font-display)'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
