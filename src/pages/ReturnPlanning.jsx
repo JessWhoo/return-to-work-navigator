@@ -117,41 +117,41 @@ Sincerely,
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+      <div className="space-y-4 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           Plan Your Return
         </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto font-medium">
+        <p className="mx-auto max-w-2xl text-lg font-medium text-muted-foreground">
           Create a phased return-to-work schedule that supports your recovery
         </p>
       </div>
 
       {/* Current Return Date */}
       {progress?.return_date && (
-        <Card className="bg-slate-800 border-teal-700">
+        <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-700 mb-1 font-semibold">Your planned return date:</p>
-                <p className="text-2xl font-bold text-teal-400">
+                <p className="mb-1 text-sm font-semibold text-muted-foreground">Your planned return date:</p>
+                <p className="text-2xl font-bold text-primary">
                   {format(parseISO(progress.return_date), 'EEEE, MMMM d, yyyy')}
                 </p>
               </div>
-              <Calendar className="h-12 w-12 text-teal-600" />
+              <Calendar className="h-12 w-12 text-primary" />
             </div>
           </CardContent>
         </Card>
       )}
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid gap-8 lg:grid-cols-3">
         {/* Template Selection */}
-        <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-slate-800 border-slate-600">
+        <div className="space-y-6 lg:col-span-2">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-slate-100">Choose a Phased Return Template</CardTitle>
-              <p className="text-sm text-slate-700 mt-2 font-medium">
+              <CardTitle>Choose a Phased Return Template</CardTitle>
+              <p className="mt-2 text-sm font-medium text-muted-foreground">
                 Select a template that matches your needs. You can customize it further below.
               </p>
             </CardHeader>
@@ -160,27 +160,27 @@ Sincerely,
                 <div
                   key={template.name}
                   onClick={() => setSelectedTemplate(template.name)}
-                  className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  className={`cursor-pointer rounded-brand border-2 p-4 transition-all ${
                     selectedTemplate === template.name
-                      ? 'border-teal-500 bg-teal-900/30'
-                      : 'border-slate-600 hover:border-teal-500 bg-slate-700'
+                      ? 'border-primary bg-muted'
+                      : 'border-border bg-surface hover:border-primary'
                   }`}
                 >
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="mb-3 flex items-start justify-between">
                     <div>
-                      <h3 className="font-bold text-slate-100">{template.name}</h3>
-                      <p className="text-sm text-slate-700 font-medium">{template.description}</p>
+                      <h3 className="font-bold text-foreground">{template.name}</h3>
+                      <p className="text-sm font-medium text-muted-foreground">{template.description}</p>
                     </div>
                     {selectedTemplate === template.name && (
-                      <CheckCircle2 className="h-6 w-6 text-teal-600 flex-shrink-0" />
+                      <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-brand-secondary" />
                     )}
                   </div>
 
                   <div className="space-y-2">
                     {template.phases.map((phase, index) => (
                       <div key={index} className="flex items-center space-x-2 text-sm">
-                        <Badge variant="outline" className="bg-white">Week {phase.week}</Badge>
-                        <span className="text-slate-200">
+                        <Badge variant="secondary">Week {phase.week}</Badge>
+                        <span className="text-foreground">
                          {phase.hours}hrs/week, {phase.remote} remote
                         </span>
                       </div>
@@ -193,29 +193,29 @@ Sincerely,
 
           {/* Selected Template Details */}
           {selectedTemplate && (
-            <Card className="bg-slate-800 border-teal-700">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-slate-100">Your Selected Plan: {selectedTemplate}</CardTitle>
+                <CardTitle>Your Selected Plan: {selectedTemplate}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {phasedReturnTemplates
                   .find(t => t.name === selectedTemplate)
                   ?.phases.map((phase, index) => (
-                    <div key={index} className="bg-slate-700 p-4 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-slate-100">Week {phase.week}</h4>
+                    <div key={index} className="rounded-brand bg-muted p-4">
+                      <div className="mb-2 flex items-center justify-between">
+                        <h4 className="font-semibold text-foreground">Week {phase.week}</h4>
                         <div className="flex items-center space-x-2">
-                          <Clock className="h-4 w-4 text-teal-600" />
-                          <span className="text-sm font-medium text-slate-200">{phase.hours} hours/week</span>
+                          <Clock className="h-4 w-4 text-primary" />
+                          <span className="text-sm font-medium text-foreground">{phase.hours} hours/week</span>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Home className="h-4 w-4 text-teal-600" />
-                        <span className="text-sm text-slate-300">
+                      <div className="mb-2 flex items-center space-x-2">
+                        <Home className="h-4 w-4 text-primary" />
+                        <span className="text-sm text-muted-foreground">
                           Remote: {phase.remote} {typeof phase.remote === 'number' ? 'days/week' : ''}
                         </span>
                       </div>
-                      <p className="text-sm text-slate-700">{phase.notes}</p>
+                      <p className="text-sm text-muted-foreground">{phase.notes}</p>
                     </div>
                   ))}
               </CardContent>
@@ -225,9 +225,9 @@ Sincerely,
 
         {/* Form */}
         <div className="space-y-6">
-          <Card className="bg-slate-800 border-slate-600 sticky top-24">
+          <Card className="sticky top-24">
             <CardHeader>
-              <CardTitle className="text-lg text-slate-100">Plan Details</CardTitle>
+              <CardTitle className="text-lg">Plan Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -259,16 +259,16 @@ Sincerely,
                   className="w-full"
                   disabled={!returnDate}
                 >
-                  <Save className="h-4 w-4 mr-2" />
+                  <Save className="h-4 w-4" />
                   Save Return Date
                 </Button>
 
                 <Button
                   onClick={generateReturnPlan}
-                  className="w-full bg-gradient-to-r from-teal-600 to-cyan-600"
+                  className="w-full"
                   disabled={!selectedTemplate || !returnDate}
                 >
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="h-4 w-4" />
                   Generate & Download Letter
                 </Button>
               </div>
@@ -276,10 +276,10 @@ Sincerely,
           </Card>
 
           {/* Tips Card */}
-          <Card className="bg-amber-50 border-amber-300">
+          <Card className="nv-card--muted">
             <CardContent className="pt-6">
-              <h4 className="font-semibold text-amber-800 mb-3">💡 Planning Tips</h4>
-              <ul className="space-y-2 text-sm text-amber-900">
+              <h4 className="mb-3 font-semibold text-foreground">💡 Planning Tips</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>• Start slower than you think you need to</li>
                 <li>• Build in review points to adjust the plan</li>
                 <li>• Communicate your plan clearly in writing</li>

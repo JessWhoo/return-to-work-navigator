@@ -23,8 +23,8 @@ import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 
 // Static class maps — Tailwind purges dynamically built class names.
-const TIP_BG = { amber: 'bg-amber-100', blue: 'bg-blue-100', teal: 'bg-teal-100', rose: 'bg-rose-100' };
-const TIP_TEXT = { amber: 'text-amber-600', blue: 'text-blue-600', teal: 'text-teal-600', rose: 'text-rose-600' };
+const TIP_BG = { amber: 'bg-muted', blue: 'bg-muted', teal: 'bg-muted', rose: 'bg-muted' };
+const TIP_TEXT = { amber: 'text-primary', blue: 'text-primary', teal: 'text-brand-secondary', rose: 'text-brand-destructive' };
 
 const energyTips = [
   {
@@ -133,9 +133,9 @@ function EnergyTab({ progress, queryClient }) {
   });
 
   const getEnergyColor = (level) => {
-    if (level <= 3) return 'text-red-400';
-    if (level <= 6) return 'text-amber-400';
-    return 'text-green-400';
+    if (level <= 3) return 'text-brand-destructive';
+    if (level <= 6) return 'text-primary';
+    return 'text-brand-secondary';
   };
   const getEnergyLabel = (level) => {
     if (level <= 3) return 'Low';
@@ -144,13 +144,13 @@ function EnergyTab({ progress, queryClient }) {
   };
 
   return (
-    <div className="grid lg:grid-cols-3 gap-8">
+    <div className="grid gap-8 lg:grid-cols-3">
       {/* Daily Log */}
       <div className="lg:col-span-1">
-        <Card className="bg-slate-800 border-slate-600 sticky top-24">
+        <Card className="sticky top-24">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-amber-600" />
+              <Calendar className="h-5 w-5 text-primary" />
               <span>Daily Wellness Log</span>
             </CardTitle>
           </CardHeader>
@@ -161,9 +161,9 @@ function EnergyTab({ progress, queryClient }) {
             </div>
 
             {[
-              { key: 'morning', icon: Sun, iconColor: 'text-amber-500', label: 'Morning' },
-              { key: 'afternoon', icon: Sunset, iconColor: 'text-orange-500', label: 'Afternoon' },
-              { key: 'evening', icon: Moon, iconColor: 'text-indigo-500', label: 'Evening' },
+              { key: 'morning', icon: Sun, iconColor: 'text-primary', label: 'Morning' },
+              { key: 'afternoon', icon: Sunset, iconColor: 'text-primary', label: 'Afternoon' },
+              { key: 'evening', icon: Moon, iconColor: 'text-primary', label: 'Evening' },
             ].map(({ key, icon: Icon, iconColor, label }) => (
               <div key={key} className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -198,7 +198,7 @@ function EnergyTab({ progress, queryClient }) {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label>Stress Level</Label>
-                <span className={`text-sm font-bold ${stressLevel >= 7 ? 'text-red-400' : stressLevel >= 4 ? 'text-amber-400' : 'text-green-400'}`}>
+                <span className={`text-sm font-bold ${stressLevel >= 7 ? 'text-brand-destructive' : stressLevel >= 4 ? 'text-primary' : 'text-brand-secondary'}`}>
                   {stressLevel >= 7 ? 'High' : stressLevel >= 4 ? 'Moderate' : 'Low'} ({stressLevel}/10)
                 </span>
               </div>
@@ -212,7 +212,7 @@ function EnergyTab({ progress, queryClient }) {
             </div>
 
             <Button onClick={() => saveEnergyLogMutation.mutate()}
-              className="w-full bg-gradient-to-r from-amber-600 to-orange-600"
+              className="w-full"
               disabled={saveEnergyLogMutation.isPending || !progress?.id}>
               {saveEnergyLogMutation.isPending ? 'Saving...' : 'Save Wellness Log'}
             </Button>
@@ -221,25 +221,25 @@ function EnergyTab({ progress, queryClient }) {
       </div>
 
       {/* Tips + History */}
-      <div className="lg:col-span-2 space-y-6">
+      <div className="space-y-6 lg:col-span-2">
         {energyTips.map((category) => {
           const Icon = category.icon;
           return (
-            <Card key={category.title} className="bg-slate-800 border-slate-600">
+            <Card key={category.title}>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg ${TIP_BG[category.color]}`}>
+                  <div className={`rounded-brand p-2 ${TIP_BG[category.color]}`}>
                     <Icon className={`h-6 w-6 ${TIP_TEXT[category.color]}`} />
                   </div>
-                  <span className="text-slate-100">{category.title}</span>
+                  <span className="text-foreground">{category.title}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   {category.tips.map((tip, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <CheckCircle2 className={`h-5 w-5 ${TIP_TEXT[category.color]} flex-shrink-0 mt-0.5`} />
-                      <span className="text-slate-200 leading-relaxed">{tip}</span>
+                      <CheckCircle2 className={`mt-0.5 h-5 w-5 flex-shrink-0 ${TIP_TEXT[category.color]}`} />
+                      <span className="leading-relaxed text-foreground">{tip}</span>
                     </li>
                   ))}
                 </ul>
@@ -249,9 +249,9 @@ function EnergyTab({ progress, queryClient }) {
         })}
 
         {progress?.energy_logs && progress.energy_logs.length > 0 && (
-          <Card className="bg-slate-800 border-slate-600">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-slate-100">Recent Energy Patterns</CardTitle>
+              <CardTitle className="text-foreground">Recent Energy Patterns</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -261,12 +261,12 @@ function EnergyTab({ progress, queryClient }) {
                   .map((log, index) => {
                     const avg = ((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1);
                     return (
-                      <div key={index} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                        <span className="text-sm font-medium text-slate-200">
+                      <div key={index} className="flex items-center justify-between rounded-brand bg-muted p-3">
+                        <span className="text-sm font-medium text-foreground">
                           {format(parseISO(log.date), 'MMM d, yyyy')}
                         </span>
                         <div className="flex items-center space-x-3">
-                          <span className="text-xs text-slate-400">M:{log.morning_energy} A:{log.afternoon_energy} E:{log.evening_energy}</span>
+                          <span className="text-xs text-muted-foreground">M:{log.morning_energy} A:{log.afternoon_energy} E:{log.evening_energy}</span>
                           <span className={`text-sm font-bold ${getEnergyColor(parseFloat(avg))}`}>Avg: {avg}</span>
                         </div>
                       </div>
@@ -298,10 +298,10 @@ function SymptomTab({ progress }) {
   });
 
   const getSeverityColor = (severity) => {
-    if (severity >= 8) return 'bg-red-500';
-    if (severity >= 6) return 'bg-orange-500';
-    if (severity >= 4) return 'bg-yellow-500';
-    return 'bg-green-500';
+    if (severity >= 8) return 'bg-destructive';
+    if (severity >= 6) return 'bg-brand-accent';
+    if (severity >= 4) return 'bg-primary';
+    return 'bg-brand-secondary';
   };
 
   const stats = (() => {
@@ -315,48 +315,47 @@ function SymptomTab({ progress }) {
   return (
     <div className="space-y-6">
       <div className="flex justify-end">
-        <Button onClick={() => setShowAddDialog(true)}
-          className="bg-gradient-to-r from-rose-600 to-orange-600 hover:from-rose-700 hover:to-orange-700">
-          <Plus className="h-4 w-4 mr-2" />
+        <Button onClick={() => setShowAddDialog(true)}>
+          <Plus className="h-4 w-4" />
           Log Symptom
         </Button>
       </div>
 
       {stats && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="bg-gradient-to-br from-rose-900/40 to-pink-900/40 border-2 border-rose-600">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Card>
             <CardContent className="pt-6">
-              <div className="flex items-center justify-between mb-2">
-                <Activity className="h-8 w-8 text-rose-400" />
-                <TrendingUp className="h-5 w-5 text-rose-400" />
+              <div className="mb-2 flex items-center justify-between">
+                <Activity className="h-8 w-8 text-brand-destructive" />
+                <TrendingUp className="h-5 w-5 text-brand-destructive" />
               </div>
-              <div className="text-3xl font-bold text-rose-400">{stats.totalLogs}</div>
-              <p className="text-sm text-slate-300 mt-1">Total Symptom Logs</p>
-              <p className="text-xs text-slate-500 mt-1">{stats.uniqueSymptoms} unique types</p>
+              <div className="text-3xl font-bold text-foreground">{stats.totalLogs}</div>
+              <p className="mt-1 text-sm text-muted-foreground">Total Symptom Logs</p>
+              <p className="mt-1 text-xs text-muted-foreground">{stats.uniqueSymptoms} unique types</p>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-orange-900/40 to-amber-900/40 border-2 border-orange-600">
+          <Card>
             <CardContent className="pt-6">
-              <div className="flex items-center justify-between mb-2">
-                <Thermometer className="h-8 w-8 text-orange-400" />
+              <div className="mb-2 flex items-center justify-between">
+                <Thermometer className="h-8 w-8 text-primary" />
                 <div className={`h-3 w-3 rounded-full ${getSeverityColor(parseFloat(stats.recentAvgSeverity))}`} />
               </div>
-              <div className="text-3xl font-bold text-orange-400">{stats.recentAvgSeverity}/10</div>
-              <p className="text-sm text-slate-300 mt-1">Avg Severity (7 days)</p>
+              <div className="text-3xl font-bold text-foreground">{stats.recentAvgSeverity}/10</div>
+              <p className="mt-1 text-sm text-muted-foreground">Avg Severity (7 days)</p>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-purple-900/40 to-violet-900/40 border-2 border-purple-600">
+          <Card>
             <CardContent className="pt-6">
-              <div className="flex items-center justify-between mb-2">
-                <Calendar className="h-8 w-8 text-purple-400" />
-                <Clock className="h-5 w-5 text-purple-400" />
+              <div className="mb-2 flex items-center justify-between">
+                <Calendar className="h-8 w-8 text-primary" />
+                <Clock className="h-5 w-5 text-primary" />
               </div>
-              <div className="text-lg font-bold text-purple-400">
+              <div className="text-lg font-bold text-foreground">
                 {stats.mostRecent ? format(parseISO(stats.mostRecent.date), 'MMM d') : 'N/A'}
               </div>
-              <p className="text-sm text-slate-300 mt-1">Last Logged</p>
+              <p className="mt-1 text-sm text-muted-foreground">Last Logged</p>
               {stats.mostRecent?.symptom_details?.symptom_type && (
-                <p className="text-xs text-slate-500 mt-1 truncate">
+                <p className="mt-1 truncate text-xs text-muted-foreground">
                   {stats.mostRecent.symptom_details.symptom_type.slice(0, 2).join(', ')}
                 </p>
               )}
@@ -369,64 +368,64 @@ function SymptomTab({ progress }) {
         <AISymptomInsights symptomRecords={symptomRecords} progress={progress} />
       )}
 
-      <Card className="bg-slate-800/90 border-2 border-rose-600">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-slate-200 flex items-center space-x-2">
-            <Activity className="h-5 w-5 text-rose-400" />
+          <CardTitle className="flex items-center space-x-2 text-foreground">
+            <Activity className="h-5 w-5 text-brand-destructive" />
             <span>Recent Symptom Logs</span>
-            <Badge className="bg-rose-600">{symptomRecords?.length || 0}</Badge>
+            <Badge variant="secondary">{symptomRecords?.length || 0}</Badge>
           </CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="text-center py-12 text-slate-400">Loading...</div>
+            <div className="py-12 text-center text-muted-foreground">Loading...</div>
           ) : !symptomRecords || symptomRecords.length === 0 ? (
-            <div className="text-center py-12 space-y-4">
-              <AlertCircle className="h-16 w-16 text-slate-600 mx-auto" />
+            <div className="space-y-4 py-12 text-center">
+              <AlertCircle className="mx-auto h-16 w-16 text-muted-foreground" />
               <div>
-                <h3 className="text-lg font-semibold text-slate-300 mb-2">No Symptoms Logged Yet</h3>
-                <p className="text-slate-400 mb-4">Start tracking to receive AI-powered insights</p>
-                <Button onClick={() => setShowAddDialog(true)} className="bg-gradient-to-r from-rose-600 to-orange-600">
-                  <Plus className="h-4 w-4 mr-2" /> Log Your First Symptom
+                <h3 className="mb-2 font-heading text-lg font-semibold text-foreground">No Symptoms Logged Yet</h3>
+                <p className="mb-4 text-muted-foreground">Start tracking to receive AI-powered insights</p>
+                <Button onClick={() => setShowAddDialog(true)}>
+                  <Plus className="h-4 w-4" /> Log Your First Symptom
                 </Button>
               </div>
             </div>
           ) : (
             <div className="space-y-3">
               {symptomRecords.slice(0, 10).map((record) => (
-                <div key={record.id} className="bg-slate-900/50 rounded-lg p-4 border border-slate-700 hover:border-rose-500 transition-all">
-                  <div className="flex items-start justify-between mb-2">
+                <div key={record.id} className="rounded-brand border border-border bg-muted p-4 transition-all hover:border-brand-destructive">
+                  <div className="mb-2 flex items-start justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-1">
-                        <h4 className="font-semibold text-slate-200">{record.title}</h4>
-                        <Badge className={`${getSeverityColor(record.symptom_details?.severity)} text-white`}>
+                      <div className="mb-1 flex items-center space-x-2">
+                        <h4 className="font-semibold text-foreground">{record.title}</h4>
+                        <Badge className={`${getSeverityColor(record.symptom_details?.severity)} text-foreground`}>
                           Severity: {record.symptom_details?.severity}/10
                         </Badge>
                       </div>
-                      <p className="text-xs text-slate-400">{format(parseISO(record.date), 'MMM d, yyyy')}</p>
+                      <p className="text-xs text-muted-foreground">{format(parseISO(record.date), 'MMM d, yyyy')}</p>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => deleteRecordMutation.mutate(record.id)} className="text-slate-500 hover:text-red-400">
+                    <Button variant="ghost" size="sm" onClick={() => deleteRecordMutation.mutate(record.id)} className="text-muted-foreground hover:text-destructive">
                       Delete
                     </Button>
                   </div>
                   {record.symptom_details?.symptom_type && (
-                    <div className="flex flex-wrap gap-1 mb-2">
+                    <div className="mb-2 flex flex-wrap gap-1">
                       {record.symptom_details.symptom_type.map((type, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs border-rose-600 text-rose-400">{type}</Badge>
+                        <Badge key={idx} variant="outline" className="text-xs">{type}</Badge>
                       ))}
                     </div>
                   )}
                   {record.symptom_details?.triggers && (
-                    <div className="text-sm text-slate-400 mb-1"><span className="text-orange-400">Triggers:</span> {record.symptom_details.triggers}</div>
+                    <div className="mb-1 text-sm text-muted-foreground"><span className="font-medium text-foreground">Triggers:</span> {record.symptom_details.triggers}</div>
                   )}
                   {record.symptom_details?.duration && (
-                    <div className="text-sm text-slate-400 mb-1"><span className="text-cyan-400">Duration:</span> {record.symptom_details.duration}</div>
+                    <div className="mb-1 text-sm text-muted-foreground"><span className="font-medium text-foreground">Duration:</span> {record.symptom_details.duration}</div>
                   )}
                   {record.symptom_details?.relief_measures && (
-                    <div className="text-sm text-slate-400"><span className="text-green-400">Relief:</span> {record.symptom_details.relief_measures}</div>
+                    <div className="text-sm text-muted-foreground"><span className="font-medium text-foreground">Relief:</span> {record.symptom_details.relief_measures}</div>
                   )}
                   {record.content && (
-                    <p className="text-sm text-slate-300 mt-2 pt-2 border-t border-slate-700">{record.content}</p>
+                    <p className="mt-2 border-t border-border pt-2 text-sm text-foreground">{record.content}</p>
                   )}
                 </div>
               ))}
@@ -447,12 +446,12 @@ export default function EnergyManagement() {
   const { data: progress } = useUserProgress({ energy_logs: [] });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-500 to-rose-500 bg-clip-text text-transparent">
+    <div className="mx-auto max-w-6xl space-y-8">
+      <div className="space-y-4 text-center">
+        <h1 className="font-heading text-4xl font-bold text-foreground">
           Energy, Fatigue & Symptoms
         </h1>
-        <p className="text-lg text-slate-700 max-w-2xl mx-auto font-medium">
+        <p className="mx-auto max-w-2xl text-lg font-medium text-muted-foreground">
           Track your daily energy levels, mood, and symptoms to identify patterns and manage your well-being
         </p>
         <div className="flex justify-center pt-2">
@@ -461,21 +460,21 @@ export default function EnergyManagement() {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-1 bg-slate-800 p-1 rounded-xl border border-slate-600">
+      <div className="nv-tabs">
         <button
+          type="button"
           onClick={() => setActiveTab('energy')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
-            activeTab === 'energy' ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
-          }`}
+          data-state={activeTab === 'energy' ? 'active' : 'inactive'}
+          className="nv-tab"
         >
           <Zap className="h-4 w-4" />
           Energy & Fatigue
         </button>
         <button
+          type="button"
           onClick={() => setActiveTab('symptoms')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
-            activeTab === 'symptoms' ? 'bg-gradient-to-r from-rose-600 to-orange-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
-          }`}
+          data-state={activeTab === 'symptoms' ? 'active' : 'inactive'}
+          className="nv-tab"
         >
           <Activity className="h-4 w-4" />
           Symptom Tracking

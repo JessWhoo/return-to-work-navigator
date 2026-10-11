@@ -21,10 +21,10 @@ import { exportMeetingPrepPdf } from '../components/meetingprep/exportMeetingPre
 import PrintableMeetingDoc from '../components/meetingprep/PrintableMeetingDoc';
 
 const STATUS_CONFIG = {
-  drafting: { label: 'Drafting', color: 'bg-slate-700 text-slate-300', icon: Clock },
-  ready: { label: 'Ready', color: 'bg-blue-900/40 text-blue-300 border-blue-600/40', icon: CheckCircle2 },
-  completed: { label: 'Completed', color: 'bg-green-900/40 text-green-300 border-green-600/40', icon: CheckCircle2 },
-  follow_up: { label: 'Follow-up Needed', color: 'bg-orange-900/40 text-orange-300 border-orange-600/40', icon: AlertCircle }
+  drafting: { label: 'Drafting', variant: 'outline', icon: Clock },
+  ready: { label: 'Ready', variant: 'secondary', icon: CheckCircle2 },
+  completed: { label: 'Completed', variant: 'secondary', icon: CheckCircle2 },
+  follow_up: { label: 'Follow-up Needed', variant: 'destructive', icon: AlertCircle }
 };
 
 const MEETING_TYPE_LABELS = {
@@ -77,20 +77,18 @@ export default function MeetingPrep() {
   // LIST VIEW
   if (view === 'list') {
     return (
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="mx-auto max-w-4xl space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-bold text-white">Meeting Prep</h1>
-            <p className="text-slate-400 mt-1">Prepare talking points, track employer responses, get AI coaching.</p>
+            <h1 className="font-heading text-3xl font-bold text-foreground">Meeting Prep</h1>
+            <p className="mt-1 text-muted-foreground">Prepare talking points, track employer responses, get AI coaching.</p>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            <Button variant="outline" onClick={() => setView('templates')}
-              className="border-slate-600 text-slate-300 hover:text-white hover:border-purple-500">
-              <Library className="h-4 w-4 mr-2" /> Templates
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => setView('templates')}>
+              <Library className="h-4 w-4" /> Templates
             </Button>
-            <Button onClick={() => setView('new')}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-              <Plus className="h-4 w-4 mr-2" /> New Meeting Prep
+            <Button onClick={() => setView('new')}>
+              <Plus className="h-4 w-4" /> New Meeting Prep
             </Button>
           </div>
         </div>
@@ -99,19 +97,18 @@ export default function MeetingPrep() {
 
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : meetings.length === 0 ? (
-          <Card className="bg-slate-800/80 border-purple-600/40">
-            <CardContent className="py-16 text-center space-y-4">
-              <Users className="h-16 w-16 text-slate-600 mx-auto" />
+          <Card className="nv-card--muted">
+            <CardContent className="space-y-4 py-16 text-center">
+              <Users className="mx-auto h-16 w-16 text-muted-foreground" />
               <div>
-                <h3 className="text-lg font-semibold text-slate-300">No meeting preps yet</h3>
-                <p className="text-slate-500 text-sm mt-1">Create one to organize your talking points and track employer responses.</p>
+                <h3 className="font-heading text-lg font-semibold text-foreground">No meeting preps yet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">Create one to organize your talking points and track employer responses.</p>
               </div>
-              <Button onClick={() => setView('new')}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-                <Plus className="h-4 w-4 mr-2" /> Create Your First Meeting Prep
+              <Button onClick={() => setView('new')}>
+                <Plus className="h-4 w-4" /> Create Your First Meeting Prep
               </Button>
             </CardContent>
           </Card>
@@ -122,20 +119,18 @@ export default function MeetingPrep() {
               const StatusIcon = statusCfg.icon;
               const responseCount = meeting.employer_responses?.length || 0;
               return (
-                <Card key={meeting.id}
-                  className="bg-slate-800/80 border-slate-700 hover:border-purple-500/50 transition-all cursor-pointer group"
-                  onClick={() => openDetail(meeting)}>
+                <Card key={meeting.id} className="group cursor-pointer" onClick={() => openDetail(meeting)}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 className="font-semibold text-slate-200 truncate">{meeting.title}</h3>
-                          <Badge className={`text-xs ${statusCfg.color}`}>
-                            <StatusIcon className="h-3 w-3 mr-1" />
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-1 flex flex-wrap items-center gap-2">
+                          <h3 className="truncate font-semibold text-foreground">{meeting.title}</h3>
+                          <Badge variant={statusCfg.variant} className="text-xs">
+                            <StatusIcon className="h-3 w-3" />
                             {statusCfg.label}
                           </Badge>
                         </div>
-                        <div className="flex items-center gap-4 text-xs text-slate-400 flex-wrap">
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <FileText className="h-3 w-3" />
                             {MEETING_TYPE_LABELS[meeting.meeting_type] || meeting.meeting_type}
@@ -148,20 +143,20 @@ export default function MeetingPrep() {
                           )}
                           <span>{meeting.talking_points?.length || 0} talking points</span>
                           {responseCount > 0 && (
-                            <span className="flex items-center gap-1 text-purple-400">
+                            <span className="flex items-center gap-1 text-primary">
                               <MessageSquare className="h-3 w-3" />
                               {responseCount} employer response{responseCount > 1 ? 's' : ''}
                             </span>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-1 flex-shrink-0">
+                      <div className="flex flex-shrink-0 items-center gap-1">
                         <Button size="icon" variant="ghost"
                           onClick={e => { e.stopPropagation(); handleDelete(meeting.id); }}
-                          className="text-slate-600 hover:text-red-400 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity">
+                          className="h-7 w-7 text-muted-foreground hover:text-destructive opacity-0 transition-opacity group-hover:opacity-100">
                           <Trash2 className="h-3.5 w-3.5" />
                         </Button>
-                        <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-slate-300" />
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
                       </div>
                     </div>
                   </CardContent>
@@ -177,12 +172,10 @@ export default function MeetingPrep() {
   // NEW MEETING VIEW
   if (view === 'new') {
     return (
-      <div className="max-w-3xl mx-auto space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" onClick={() => setView('list')} className="text-slate-400 hover:text-slate-200">
-            ← Back
-          </Button>
-          <h1 className="text-2xl font-bold text-white">New Meeting Prep</h1>
+          <Button variant="ghost" onClick={() => setView('list')}>← Back</Button>
+          <h1 className="font-heading text-2xl font-bold text-foreground">New Meeting Prep</h1>
         </div>
         <MeetingPrepForm
           onSave={() => setView('list')}
@@ -198,96 +191,83 @@ export default function MeetingPrep() {
     const StatusIcon = statusCfg.icon;
 
     return (
-      <div className="max-w-3xl mx-auto space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4">
         {showPrintDoc && (
           <PrintableMeetingDoc meeting={selectedMeeting} onClose={() => setShowPrintDoc(false)} />
         )}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" onClick={() => setView('list')} className="text-slate-400 hover:text-slate-200">
-              ← Back
-            </Button>
+            <Button variant="ghost" onClick={() => setView('list')}>← Back</Button>
             <div>
-              <h1 className="text-xl font-bold text-white">{selectedMeeting.title}</h1>
-              <div className="flex items-center gap-2 mt-1">
-                <Badge className={`text-xs ${statusCfg.color}`}>
-                  <StatusIcon className="h-3 w-3 mr-1" /> {statusCfg.label}
+              <h1 className="font-heading text-xl font-bold text-foreground">{selectedMeeting.title}</h1>
+              <div className="mt-1 flex items-center gap-2">
+                <Badge variant={statusCfg.variant} className="text-xs">
+                  <StatusIcon className="h-3 w-3" /> {statusCfg.label}
                 </Badge>
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-muted-foreground">
                   {MEETING_TYPE_LABELS[selectedMeeting.meeting_type]}
                 </span>
                 {selectedMeeting.meeting_date && (
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-muted-foreground">
                     · {format(parseISO(selectedMeeting.meeting_date), 'MMM d, yyyy')}
                   </span>
                 )}
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="flex flex-shrink-0 items-center gap-1">
             <Button size="sm" variant="ghost"
-              onClick={() => setShowPrintDoc(true)}
-              className="text-slate-400 hover:text-slate-200">
-              <Printer className="h-4 w-4 mr-1" /> Print Document
+              onClick={() => setShowPrintDoc(true)}>
+              <Printer className="h-4 w-4" /> Print Document
             </Button>
             <Button size="sm" variant="ghost"
-              onClick={() => exportMeetingPrepPdf(selectedMeeting)}
-              className="text-slate-400 hover:text-slate-200">
-              <Download className="h-4 w-4 mr-1" /> Export PDF
+              onClick={() => exportMeetingPrepPdf(selectedMeeting)}>
+              <Download className="h-4 w-4" /> Export PDF
             </Button>
             <Button size="sm" variant="ghost"
-              onClick={() => { setActiveTab('edit'); }}
-              className="text-slate-400 hover:text-slate-200">
-              <Pencil className="h-4 w-4 mr-1" /> Edit
+              onClick={() => { setActiveTab('edit'); }}>
+              <Pencil className="h-4 w-4" /> Edit
             </Button>
           </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="bg-slate-800 border border-slate-700">
-            <TabsTrigger value="prep" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
-              Meeting Prep
-            </TabsTrigger>
-            <TabsTrigger value="practice" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
-              Practice
-            </TabsTrigger>
-            <TabsTrigger value="responses" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
+          <TabsList>
+            <TabsTrigger value="prep">Meeting Prep</TabsTrigger>
+            <TabsTrigger value="practice">Practice</TabsTrigger>
+            <TabsTrigger value="responses">
               Responses
               {(selectedMeeting.employer_responses?.length || 0) > 0 && (
-                <span className="ml-1.5 bg-purple-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                <span className="ml-1.5 rounded-full bg-primary px-1.5 py-0.5 text-xs text-brand-onPrimary">
                   {selectedMeeting.employer_responses.length}
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="templates" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
-              Templates
-            </TabsTrigger>
-            <TabsTrigger value="edit" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-400">
-              Edit
-            </TabsTrigger>
+            <TabsTrigger value="templates">Templates</TabsTrigger>
+            <TabsTrigger value="edit">Edit</TabsTrigger>
           </TabsList>
 
           {/* PREP TAB - read-only summary */}
-          <TabsContent value="prep" className="space-y-4 mt-4">
+          <TabsContent value="prep" className="mt-4 space-y-4">
             {selectedMeeting.goals && (
-              <Card className="bg-slate-800/80 border-slate-700">
+              <Card>
                 <CardContent className="pt-4">
-                  <p className="text-xs text-slate-400 font-semibold uppercase mb-1">Goals</p>
-                  <p className="text-slate-300 text-sm">{selectedMeeting.goals}</p>
+                  <p className="mb-1 text-xs font-semibold uppercase text-muted-foreground">Goals</p>
+                  <p className="text-sm text-foreground">{selectedMeeting.goals}</p>
                 </CardContent>
               </Card>
             )}
 
             {selectedMeeting.talking_points?.length > 0 && (
-              <Card className="bg-slate-800/80 border-slate-700">
+              <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-slate-200 text-sm">Talking Points</CardTitle>
+                  <CardTitle className="text-sm">Talking Points</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ol className="space-y-2">
                     {selectedMeeting.talking_points.map((pt, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-slate-300">
-                        <span className="text-purple-400 font-semibold flex-shrink-0">{i + 1}.</span> {pt}
+                      <li key={i} className="flex gap-2 text-sm text-foreground">
+                        <span className="flex-shrink-0 font-semibold text-primary">{i + 1}.</span> {pt}
                       </li>
                     ))}
                   </ol>
@@ -296,15 +276,15 @@ export default function MeetingPrep() {
             )}
 
             {selectedMeeting.accommodation_requests?.length > 0 && (
-              <Card className="bg-slate-800/80 border-slate-700">
+              <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-slate-200 text-sm">Accommodation Requests</CardTitle>
+                  <CardTitle className="text-sm">Accommodation Requests</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {selectedMeeting.accommodation_requests.map((req, i) => (
-                    <div key={i} className="bg-slate-900/60 rounded-lg p-3">
-                      <p className="text-sm font-medium text-slate-200">{req.accommodation}</p>
-                      {req.reason && <p className="text-xs text-slate-400 mt-1">{req.reason}</p>}
+                    <div key={i} className="rounded-brand bg-muted p-3">
+                      <p className="text-sm font-medium text-foreground">{req.accommodation}</p>
+                      {req.reason && <p className="mt-1 text-xs text-muted-foreground">{req.reason}</p>}
                     </div>
                   ))}
                 </CardContent>
@@ -312,15 +292,15 @@ export default function MeetingPrep() {
             )}
 
             {selectedMeeting.anticipated_objections?.length > 0 && (
-              <Card className="bg-slate-800/80 border-amber-600/30">
+              <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-slate-200 text-sm">Anticipated Objections</CardTitle>
+                  <CardTitle className="text-sm">Anticipated Objections</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {selectedMeeting.anticipated_objections.map((obj, i) => (
-                    <div key={i} className="flex gap-2 items-start">
-                      <Badge className="bg-amber-900/40 text-amber-300 border-amber-600/40 mt-0.5 flex-shrink-0 text-xs">?</Badge>
-                      <p className="text-sm text-slate-300">{obj}</p>
+                    <div key={i} className="flex items-start gap-2">
+                      <Badge variant="outline" className="mt-0.5 flex-shrink-0 text-xs">?</Badge>
+                      <p className="text-sm text-foreground">{obj}</p>
                     </div>
                   ))}
                 </CardContent>
@@ -328,15 +308,15 @@ export default function MeetingPrep() {
             )}
 
             {selectedMeeting.documents_to_bring?.length > 0 && (
-              <Card className="bg-slate-800/80 border-slate-700">
+              <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-slate-200 text-sm">Documents to Bring</CardTitle>
+                  <CardTitle className="text-sm">Documents to Bring</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-1">
                     {selectedMeeting.documents_to_bring.map((doc, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-slate-300">
-                        <CheckCircle2 className="h-4 w-4 text-green-400 flex-shrink-0 mt-0.5" /> {doc}
+                      <li key={i} className="flex gap-2 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-secondary" /> {doc}
                       </li>
                     ))}
                   </ul>
@@ -344,13 +324,13 @@ export default function MeetingPrep() {
               </Card>
             )}
 
-            <Button className="w-full bg-slate-700 hover:bg-slate-600 text-slate-200"
+            <Button variant="outline" className="w-full"
               onClick={() => {
                 const summary = `I have a meeting prep for "${selectedMeeting.title}". My goals: ${selectedMeeting.goals || 'not set'}. Talking points: ${selectedMeeting.talking_points?.join('; ')}. Can you help me feel confident going in?`;
                 localStorage.setItem('pendingCoachMessage', summary);
                 navigate('/Coach');
               }}>
-              <MessageSquare className="h-4 w-4 mr-2" /> Discuss this meeting with my AI Coach
+              <MessageSquare className="h-4 w-4" /> Discuss this meeting with my AI Coach
             </Button>
           </TabsContent>
 
@@ -385,14 +365,12 @@ export default function MeetingPrep() {
   // TEMPLATES VIEW
   if (view === 'templates') {
     return (
-      <div className="max-w-3xl mx-auto space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" onClick={() => setView('list')} className="text-slate-400 hover:text-slate-200">
-            ← Back
-          </Button>
+          <Button variant="ghost" onClick={() => setView('list')}>← Back</Button>
           <div>
-            <h1 className="text-2xl font-bold text-white">Template Library</h1>
-            <p className="text-slate-400 text-sm mt-0.5">Customizable email and agenda templates for common workplace scenarios.</p>
+            <h1 className="font-heading text-2xl font-bold text-foreground">Template Library</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">Customizable email and agenda templates for common workplace scenarios.</p>
           </div>
         </div>
         <TemplateLibrary />

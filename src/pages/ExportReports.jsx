@@ -3,6 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { 
   FileDown, Loader2, CheckCircle, Users, MessageSquare, 
   TrendingUp, FileText, Activity, Stethoscope
@@ -19,45 +20,35 @@ const REPORT_TYPES = [
     title: 'Meeting Preparation Summary',
     description: 'All meeting preps with talking points, accommodation requests, and employer responses.',
     icon: Users,
-    color: 'from-purple-500 to-indigo-500',
-    badge: 'For HR / Supervisors',
-    badgeColor: 'bg-purple-900 text-purple-200'
+    badge: 'For HR / Supervisors'
   },
   {
     id: 'communication',
     title: 'Communication Drafts Report',
     description: 'Saved communication drafts including accommodation requests and disclosure letters.',
     icon: MessageSquare,
-    color: 'from-blue-500 to-cyan-500',
-    badge: 'For Professional Records',
-    badgeColor: 'bg-blue-900 text-blue-200'
+    badge: 'For Professional Records'
   },
   {
     id: 'symptom_log',
     title: 'Symptom & Health Log',
     description: 'Chronological log of symptom entries for sharing with healthcare providers.',
     icon: Activity,
-    color: 'from-rose-500 to-pink-500',
-    badge: 'For Healthcare Providers',
-    badgeColor: 'bg-rose-900 text-rose-200'
+    badge: 'For Healthcare Providers'
   },
   {
     id: 'progress',
     title: 'Progress & Journey Report',
     description: 'Journey stage, energy logs, checklist progress, and accommodation statuses.',
     icon: TrendingUp,
-    color: 'from-teal-500 to-emerald-500',
-    badge: 'Comprehensive Overview',
-    badgeColor: 'bg-teal-900 text-teal-200'
+    badge: 'Comprehensive Overview'
   },
   {
     id: 'full',
     title: 'Full Professional Summary',
     description: 'Complete report combining all sections — ideal for care team meetings.',
     icon: Stethoscope,
-    color: 'from-amber-500 to-orange-500',
-    badge: 'All-in-One',
-    badgeColor: 'bg-amber-900 text-amber-200'
+    badge: 'All-in-One'
   }
 ];
 
@@ -339,13 +330,13 @@ export default function ExportReports() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl shadow-lg mb-2">
-          <FileDown className="h-8 w-8 text-white" />
+    <div className="mx-auto max-w-4xl space-y-8">
+      <div className="space-y-3 text-center">
+        <div className="mb-2 inline-flex h-16 w-16 items-center justify-center rounded-brand-lg bg-primary shadow-brand-md">
+          <FileDown className="h-8 w-8 text-brand-onPrimary" />
         </div>
-        <h1 className="text-3xl font-bold text-slate-100">Export & Download Reports</h1>
-        <p className="text-slate-400 max-w-xl mx-auto">
+        <h1 className="font-heading text-3xl font-bold text-foreground">Export & Download Reports</h1>
+        <p className="mx-auto max-w-xl text-muted-foreground">
           Generate professional PDF summaries of your data to share with healthcare providers, HR teams, or for your own records.
         </p>
       </div>
@@ -357,32 +348,33 @@ export default function ExportReports() {
           const isDone = done === report.id;
 
           return (
-            <Card key={report.id} className="bg-slate-800/80 border border-slate-700 hover:border-teal-500 transition-all">
+            <Card key={report.id}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${report.color} shadow-md flex-shrink-0`}>
-                      <Icon className="h-6 w-6 text-white" />
+                  <div className="flex flex-1 items-center gap-4">
+                    <div className="flex-shrink-0 rounded-brand bg-muted p-3 shadow-brand-sm">
+                      <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="text-base font-bold text-slate-100">{report.title}</h3>
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${report.badgeColor}`}>{report.badge}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex flex-wrap items-center gap-2">
+                        <h3 className="text-base font-bold text-foreground">{report.title}</h3>
+                        <Badge variant="secondary">{report.badge}</Badge>
                       </div>
-                      <p className="text-sm text-slate-400">{report.description}</p>
+                      <p className="text-sm text-muted-foreground">{report.description}</p>
                     </div>
                   </div>
                   <Button
                     onClick={() => handleExport(report.id)}
                     disabled={!!generating}
-                    className={`flex-shrink-0 ${isDone ? 'bg-green-600 hover:bg-green-700' : 'bg-teal-600 hover:bg-teal-700'} text-white min-w-[130px]`}
+                    variant={isDone ? 'secondary' : 'default'}
+                    className="min-w-[130px] flex-shrink-0"
                   >
                     {isGenerating ? (
-                      <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Generating…</>
+                      <><Loader2 className="h-4 w-4 animate-spin" />Generating…</>
                     ) : isDone ? (
-                      <><CheckCircle className="h-4 w-4 mr-2" />Downloaded!</>
+                      <><CheckCircle className="h-4 w-4" />Downloaded!</>
                     ) : (
-                      <><FileDown className="h-4 w-4 mr-2" />Export PDF</>
+                      <><FileDown className="h-4 w-4" />Export PDF</>
                     )}
                   </Button>
                 </div>
@@ -392,12 +384,12 @@ export default function ExportReports() {
         })}
       </div>
 
-      <Card className="bg-slate-800/60 border border-slate-700">
+      <Card className="nv-card--muted">
         <CardContent className="p-5">
           <div className="flex items-start gap-3">
-            <FileText className="h-5 w-5 text-teal-400 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-slate-400 space-y-1">
-              <p className="font-medium text-slate-300">About these reports</p>
+            <FileText className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            <div className="space-y-1 text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">About these reports</p>
               <p>All reports are generated locally in your browser — your data never leaves your device during this process. PDFs are marked confidential and include the generation date for professional use.</p>
             </div>
           </div>
