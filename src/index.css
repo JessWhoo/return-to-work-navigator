@@ -265,3 +265,11 @@ html.a11y-mode *::after {
   .printable-doc, .printable-doc * { visibility: visible; }
   .printable-doc { position: absolute !important; inset: 0 !important; }
 }
+
+/* Resource dialogs share the Navigator heading metrics and light surface. */
+.nv-resource-dialog h2 {
+  font-family: var(--brand-font-heading);
+  line-height: var(--brand-font-heading-line-height);
+  letter-spacing: var(--brand-font-heading-letter-spacing);
+  padding-right: var(--brand-sp-5);
+}

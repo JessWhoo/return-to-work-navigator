@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { Star, MessageSquare, ThumbsUp } from 'lucide-react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -95,116 +95,45 @@ export default function ResourceReviewDialog({ resourceId, resourceName, trigger
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button variant="outline" size="sm" className="gap-2">
-            <MessageSquare className="h-4 w-4" />
-            {existingReview ? 'Edit Review' : 'Write Review'}
-          </Button>
-        )}
+        {trigger || <Button variant="outline" size="sm" className="gap-2"><MessageSquare className="h-4 w-4" />{existingReview ? 'Edit Review' : 'Write Review'}</Button>}
       </DialogTrigger>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>{existingReview ? 'Edit Your Review' : 'Review Resource'}</DialogTitle>
-          <p className="text-sm text-gray-600 mt-2">{resourceName}</p>
+          <p className="text-sm text-brand-muted-foreground mt-2">{resourceName}</p>
         </DialogHeader>
-
         <div className="space-y-6 py-4">
-          {/* Star Rating */}
           <div>
-            <label className="text-sm font-medium mb-2 block">Your Rating *</label>
-            <div className="flex items-center space-x-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onMouseEnter={() => setHoveredRating(star)}
-                  onMouseLeave={() => setHoveredRating(0)}
-                  onClick={() => setRating(star)}
-                  className="transition-transform hover:scale-110"
-                >
-                  <Star
-                    className={`h-8 w-8 ${
-                      star <= (hoveredRating || rating)
-                        ? 'text-amber-500 fill-amber-500'
-                        : 'text-gray-300'
-                    }`}
-                  />
-                </button>
+            <label className="text-sm font-semibold mb-2 block">Your Rating *</label>
+            <div className="flex items-center gap-1 flex-wrap">
+              {[1, 2, 3, 4, 5].map(star => (
+                <Button key={star} type="button" variant="ghost" size="icon" aria-label={`Rate ${star} out of 5`} aria-pressed={rating === star}
+                  onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => setRating(star)}>
+                  <Star className={`h-7 w-7 ${star <= (hoveredRating || rating) ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />
+                </Button>
               ))}
-              {rating > 0 && (
-                <span className="text-sm text-gray-600 ml-2">
-                  {rating === 1 ? 'Not helpful' : rating === 2 ? 'Somewhat helpful' : rating === 3 ? 'Helpful' : rating === 4 ? 'Very helpful' : 'Extremely helpful'}
-                </span>
-              )}
+              {rating > 0 && <span className="text-sm text-brand-muted-foreground w-full mt-2">{rating === 1 ? 'Not helpful' : rating === 2 ? 'Somewhat helpful' : rating === 3 ? 'Helpful' : rating === 4 ? 'Very helpful' : 'Extremely helpful'}</span>}
             </div>
           </div>
-
-          {/* Written Review */}
           <div>
-            <label className="text-sm font-medium mb-2 block">Your Review (Optional)</label>
-            <Textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              placeholder="Share your experience with this resource..."
-              className="min-h-[100px]"
-            />
+            <label className="text-sm font-semibold mb-2 block">Your Review (Optional)</label>
+            <Textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience with this resource..." className="min-h-[100px]" />
           </div>
-
-          {/* Helpful For */}
           <div>
-            <label className="text-sm font-medium mb-2 block">What was this most helpful for?</label>
+            <label className="text-sm font-semibold mb-2 block">What was this most helpful for?</label>
             <div className="flex flex-wrap gap-2">
-              {helpfulOptions.map((option) => (
-                <Badge
-                  key={option}
-                  variant={helpfulFor.includes(option) ? "default" : "outline"}
-                  className={`cursor-pointer transition-all ${
-                    helpfulFor.includes(option)
-                      ? 'bg-teal-600 hover:bg-teal-700'
-                      : 'hover:bg-gray-100'
-                  }`}
-                  onClick={() => toggleHelpfulFor(option)}
-                >
-                  {option}
-                </Badge>
-              ))}
+              {helpfulOptions.map(option => <Button key={option} type="button" size="sm" variant={helpfulFor.includes(option) ? 'default' : 'outline'} aria-pressed={helpfulFor.includes(option)} className="!whitespace-normal" onClick={() => toggleHelpfulFor(option)}>{option}</Button>)}
             </div>
           </div>
-
-          {/* Would Recommend */}
-          <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
-            <button
-              type="button"
-              onClick={() => setWouldRecommend(!wouldRecommend)}
-              className={`p-2 rounded-lg transition-all ${
-                wouldRecommend
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-gray-200 text-gray-500'
-              }`}
-            >
+          <div className="nv-card nv-card--muted flex items-center gap-3 p-4">
+            <Button type="button" size="icon" variant={wouldRecommend ? 'secondary' : 'ghost'} onClick={() => setWouldRecommend(!wouldRecommend)} aria-label="Recommend this resource" aria-pressed={wouldRecommend}>
               <ThumbsUp className={`h-5 w-5 ${wouldRecommend ? 'fill-current' : ''}`} />
-            </button>
-            <label className="text-sm font-medium cursor-pointer flex-1" onClick={() => setWouldRecommend(!wouldRecommend)}>
-              I would recommend this resource to others
-            </label>
+            </Button>
+            <label className="text-sm font-semibold cursor-pointer flex-1" onClick={() => setWouldRecommend(!wouldRecommend)}>I would recommend this resource to others</label>
           </div>
-
-          {/* Submit Button */}
-          <div className="flex gap-3 pt-2">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="flex-1 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700"
-              onClick={handleSubmit}
-              disabled={submitReviewMutation.isPending}
-            >
-              {submitReviewMutation.isPending ? 'Submitting...' : existingReview ? 'Update Review' : 'Submit Review'}
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <Button variant="outline" className="flex-1" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button className="flex-1" onClick={handleSubmit} disabled={submitReviewMutation.isPending}>{submitReviewMutation.isPending ? 'Submitting...' : existingReview ? 'Update Review' : 'Submit Review'}</Button>
           </div>
         </div>
       </DialogContent>

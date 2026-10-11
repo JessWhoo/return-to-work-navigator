@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter,
+  Dialog, DialogDescription, DialogFooter,
   DialogHeader, DialogTitle, DialogTrigger
 } from '@/components/ui/dialog';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -107,7 +108,7 @@ export default function EmailToHRButton({
       >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Mail className="h-5 w-5 text-rose-600" />
+            <Mail className="h-5 w-5 text-brand-primary" />
             Share this resource
           </DialogTitle>
           <DialogDescription>
@@ -129,11 +130,8 @@ export default function EmailToHRButton({
                   key={opt.value}
                   type="button"
                   onClick={() => handleRecipientPreset(opt.value)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition-all ${
-                    recipient === opt.value
-                      ? 'bg-rose-500 text-white border-rose-500'
-                      : 'bg-white text-slate-700 border-slate-300 hover:border-rose-400'
-                  }`}
+                  aria-pressed={recipient === opt.value}
+                  className={`nv-btn nv-btn--sm !whitespace-normal ${recipient === opt.value ? '' : 'nv-btn--outline'}`}
                 >
                   {opt.label}
                 </button>
@@ -170,9 +168,9 @@ export default function EmailToHRButton({
               rows={8}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="text-sm font-mono"
+              className="text-sm font-body"
             />
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-brand-muted-foreground">
               You can edit this message before sending. Gmail will let you review it before it goes out.
             </p>
           </div>
@@ -184,7 +182,7 @@ export default function EmailToHRButton({
           </Button>
           <Button
             onClick={handleSend}
-            className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white"
+            className="gap-2"
           >
             <Send className="h-4 w-4 mr-2" />
             Open in Gmail

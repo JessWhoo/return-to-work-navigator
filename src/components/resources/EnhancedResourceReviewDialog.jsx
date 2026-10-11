@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
@@ -100,211 +101,64 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="flex-1">
-          <Star className="h-4 w-4 mr-2" />
-          Review
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Review: {resourceName}</DialogTitle>
-        </DialogHeader>
-
+      <DialogTrigger asChild><Button variant="outline" size="sm" className="flex-1"><Star className="h-4 w-4 mr-2" />Review</Button></DialogTrigger>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader><DialogTitle>Review: {resourceName}</DialogTitle></DialogHeader>
         <div className="space-y-6">
-          {/* Community Stats */}
           {existingReviews && existingReviews.length > 0 && (
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-4 border-2 border-blue-200">
-              <div className="flex items-center justify-between">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-700">{avgRating}</div>
-                  <div className="text-xs text-gray-600">Average Rating</div>
-                  <div className="flex items-center justify-center mt-1">
-                    {[1, 2, 3, 4, 5].map(star => (
-                      <Star
-                        key={star}
-                        className={`h-3 w-3 ${
-                          star <= Math.round(avgRating)
-                            ? 'text-amber-500 fill-amber-500'
-                            : 'text-gray-300'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-700">{existingReviews.length}</div>
-                  <div className="text-xs text-gray-600">Reviews</div>
-                </div>
-                {recommendPercent !== null && (
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-green-700">{recommendPercent}%</div>
-                    <div className="text-xs text-gray-600">Would Recommend</div>
-                  </div>
-                )}
+            <div className="nv-card nv-card--muted grid grid-cols-3 gap-3 p-4 text-center">
+              <div>
+                <div className="text-3xl font-bold text-brand-primary">{avgRating}</div>
+                <div className="text-xs text-brand-muted-foreground">Average Rating</div>
+                <div className="flex items-center justify-center mt-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= Math.round(avgRating) ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>
               </div>
+              <div><div className="text-3xl font-bold text-brand-primary">{existingReviews.length}</div><div className="text-xs text-brand-muted-foreground">Reviews</div></div>
+              {recommendPercent !== null && <div><div className="text-3xl font-bold text-brand-text">{recommendPercent}%</div><div className="text-xs text-brand-muted-foreground">Would Recommend</div></div>}
             </div>
           )}
-
-          {/* Rating */}
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">
-              Your Rating *
-            </label>
-            <div className="flex items-center space-x-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  onClick={() => setRating(star)}
-                  className="transition-transform hover:scale-110"
-                >
-                  <Star
-                    className={`h-8 w-8 ${
-                      star <= rating
-                        ? 'text-amber-500 fill-amber-500'
-                        : 'text-gray-300 hover:text-amber-400'
-                    }`}
-                  />
-                </button>
-              ))}
-              {rating > 0 && (
-                <span className="text-sm text-gray-600 ml-2">
-                  ({rating === 5 ? 'Excellent' : rating === 4 ? 'Good' : rating === 3 ? 'Average' : rating === 2 ? 'Below Average' : 'Poor'})
-                </span>
-              )}
+            <label className="block text-sm font-semibold mb-2">Your Rating *</label>
+            <div className="flex items-center gap-1 flex-wrap">
+              {[1, 2, 3, 4, 5].map(star => <Button key={star} variant="ghost" size="icon" aria-label={`Rate ${star} out of 5`} aria-pressed={rating === star} onClick={() => setRating(star)}><Star className={`h-7 w-7 ${star <= rating ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} /></Button>)}
+              {rating > 0 && <span className="text-sm text-brand-muted-foreground w-full mt-2">({rating === 5 ? 'Excellent' : rating === 4 ? 'Good' : rating === 3 ? 'Average' : rating === 2 ? 'Below Average' : 'Poor'})</span>}
             </div>
           </div>
-
-          {/* Review Text */}
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">
-              Your Experience (Optional)
-            </label>
-            <Textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              placeholder="Share your experience with this resource. What was helpful? What could be improved?"
-              className="min-h-[100px]"
-              maxLength={500}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              {reviewText.length}/500 characters
-            </p>
+            <label className="block text-sm font-semibold mb-2">Your Experience (Optional)</label>
+            <Textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience with this resource. What was helpful? What could be improved?" className="min-h-[100px]" maxLength={500} />
+            <p className="text-xs text-brand-muted-foreground mt-1">{reviewText.length}/500 characters</p>
           </div>
-
-          {/* Helpful For */}
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">
-              This resource was helpful for: (Select all that apply)
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {helpfulOptions.map((option) => (
-                <button
-                  key={option}
-                  onClick={() => toggleHelpfulFor(option)}
-                  className={`px-3 py-1 rounded-full text-sm transition-all ${
-                    helpfulFor.includes(option)
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {option}
-                </button>
-              ))}
+            <label className="block text-sm font-semibold mb-2">This resource was helpful for: (Select all that apply)</label>
+            <div className="flex flex-wrap gap-2">{helpfulOptions.map(option => <Button key={option} size="sm" variant={helpfulFor.includes(option) ? 'default' : 'outline'} aria-pressed={helpfulFor.includes(option)} className="!whitespace-normal" onClick={() => toggleHelpfulFor(option)}>{option}</Button>)}</div>
+          </div>
+          <div className="nv-card nv-card--muted p-4 flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex-1 min-w-0"><span className="block text-sm font-semibold">Would you recommend this resource to others?</span><span className="text-xs text-brand-muted-foreground">Help the community by sharing your recommendation</span></div>
+            <div className="flex gap-2">
+              <Button size="icon" variant={!wouldRecommend ? 'default' : 'ghost'} onClick={() => setWouldRecommend(false)} aria-label="Would not recommend" aria-pressed={!wouldRecommend}><ThumbsDown className="h-5 w-5" /></Button>
+              <Button size="icon" variant={wouldRecommend ? 'secondary' : 'ghost'} onClick={() => setWouldRecommend(true)} aria-label="Would recommend" aria-pressed={wouldRecommend}><ThumbsUp className="h-5 w-5" /></Button>
             </div>
           </div>
-
-          {/* Would Recommend */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <label className="flex items-center justify-between cursor-pointer">
-              <div>
-                <span className="block text-sm font-semibold text-gray-800">
-                  Would you recommend this resource to others?
-                </span>
-                <span className="text-xs text-gray-600">
-                  Help the community by sharing your recommendation
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={() => setWouldRecommend(false)}
-                  className={`p-2 rounded-lg transition-all ${
-                    !wouldRecommend ? 'bg-red-100 text-red-700' : 'text-gray-400 hover:bg-gray-100'
-                  }`}
-                >
-                  <ThumbsDown className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={() => setWouldRecommend(true)}
-                  className={`p-2 rounded-lg transition-all ${
-                    wouldRecommend ? 'bg-green-100 text-green-700' : 'text-gray-400 hover:bg-gray-100'
-                  }`}
-                >
-                  <ThumbsUp className="h-5 w-5" />
-                </button>
-              </div>
-            </label>
-          </div>
-
-          {/* Recent Reviews */}
           {existingReviews && existingReviews.length > 0 && (
             <div>
-              <h4 className="font-semibold text-gray-800 mb-3 flex items-center space-x-2">
-                <MessageSquare className="h-4 w-4 text-blue-600" />
-                <span>Recent Community Reviews</span>
-              </h4>
+              <h4 className="font-semibold mb-3 flex items-center gap-2"><MessageSquare className="h-4 w-4 text-brand-primary" /><span>Recent Community Reviews</span></h4>
               <div className="space-y-3 max-h-[200px] overflow-y-auto">
                 {existingReviews.slice(-5).reverse().map((review, idx) => (
-                  <div key={idx} className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-2">
-                        {[1, 2, 3, 4, 5].map(star => (
-                          <Star
-                            key={star}
-                            className={`h-3 w-3 ${
-                              star <= review.rating
-                                ? 'text-amber-500 fill-amber-500'
-                                : 'text-gray-300'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      {review.would_recommend && (
-                        <Badge className="bg-green-100 text-green-800 text-xs">
-                          Recommended
-                        </Badge>
-                      )}
+                  <div key={idx} className="nv-card nv-card--muted p-3">
+                    <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
+                      <div className="flex items-center gap-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= review.rating ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>
+                      {review.would_recommend && <Badge variant="secondary" className="text-xs">Recommended</Badge>}
                     </div>
-                    {review.review_text && (
-                      <p className="text-sm text-gray-700 mb-2">{review.review_text}</p>
-                    )}
-                    {review.helpful_for && review.helpful_for.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {review.helpful_for.slice(0, 3).map((tag, tagIdx) => (
-                          <Badge key={tagIdx} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
+                    {review.review_text && <p className="text-sm text-brand-text mb-2 break-words">{review.review_text}</p>}
+                    {review.helpful_for && review.helpful_for.length > 0 && <div className="flex flex-wrap gap-1">{review.helpful_for.slice(0, 3).map((tag, tagIdx) => <Badge key={tagIdx} variant="outline" className="text-xs">{tag}</Badge>)}</div>}
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          {/* Submit */}
-          <div className="flex justify-end space-x-3 pt-4 border-t">
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              disabled={rating === 0 || submitReviewMutation.isPending}
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
-            >
-              {submitReviewMutation.isPending ? 'Submitting...' : myReview ? 'Update Review' : 'Submit Review'}
-            </Button>
+          <div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-brand-border">
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={handleSubmit} disabled={rating === 0 || submitReviewMutation.isPending}>{submitReviewMutation.isPending ? 'Submitting...' : myReview ? 'Update Review' : 'Submit Review'}</Button>
           </div>
         </div>
       </DialogContent>

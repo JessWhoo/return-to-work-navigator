@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -96,7 +97,7 @@ export default function SuggestResourceDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+        <Button className="!whitespace-normal">
           <Plus className="h-4 w-4 mr-2" />
           Suggest a Resource
         </Button>
@@ -104,10 +105,10 @@ export default function SuggestResourceDialog() {
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-purple-600" />
+            <Sparkles className="h-5 w-5 text-brand-primary" />
             <span>Suggest a New Resource</span>
           </DialogTitle>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-brand-muted-foreground mt-2">
             Help others by suggesting valuable resources. Your submission will be reviewed before being added to the library.
           </p>
         </DialogHeader>
@@ -159,7 +160,7 @@ export default function SuggestResourceDialog() {
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="nv-input w-full px-3 py-2"
               >
                 <option value="">Select category...</option>
                 {categories.map(cat => (
@@ -173,7 +174,7 @@ export default function SuggestResourceDialog() {
               <select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="nv-input w-full px-3 py-2"
               >
                 {resourceTypes.map(type => (
                   <option key={type} value={type}>{type}</option>
@@ -200,7 +201,7 @@ export default function SuggestResourceDialog() {
                 <Badge
                   key={topic}
                   variant="secondary"
-                  className="cursor-pointer hover:bg-red-100"
+                  className="cursor-pointer hover:bg-destructive/10"
                   onClick={() => removeTopic(topic)}
                 >
                   {topic} ×
@@ -219,7 +220,7 @@ export default function SuggestResourceDialog() {
             />
           </div>
 
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-brand-border">
             <Button
               variant="outline"
               className="flex-1"
@@ -228,7 +229,7 @@ export default function SuggestResourceDialog() {
               Cancel
             </Button>
             <Button
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="flex-1 !whitespace-normal"
               onClick={handleSubmit}
               disabled={submitSuggestionMutation.isPending}
             >

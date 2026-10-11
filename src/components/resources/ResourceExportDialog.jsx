@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger
+  Dialog, DialogHeader, DialogTitle, DialogTrigger
 } from '@/components/ui/dialog';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FileDown, Loader2, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
@@ -177,100 +178,40 @@ export default function ResourceExportDialog({ resources, bookmarkedIds }) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpen}>
-      <DialogTrigger asChild>
-        <Button className="bg-teal-600 hover:bg-teal-700 text-white gap-2">
-          <FileDown className="h-4 w-4" />
-          Export Resources to PDF
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="bg-slate-800 border border-slate-700 text-slate-100 max-w-2xl max-h-[85vh] flex flex-col">
+      <DialogTrigger asChild><Button className="gap-2 !whitespace-normal"><FileDown className="h-4 w-4" />Export Resources to PDF</Button></DialogTrigger>
+      <DialogContent className="max-w-2xl flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-slate-100 flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-teal-400" />
-            Export Resources to PDF
-          </DialogTitle>
-          <p className="text-sm text-slate-400">Select resources to compile into a printer-friendly document.</p>
+          <DialogTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-brand-primary shrink-0" />Export Resources to PDF</DialogTitle>
+          <p className="text-sm text-brand-muted-foreground">Select resources to compile into a printer-friendly document.</p>
         </DialogHeader>
-
-        {/* Filter tabs */}
-        <div className="flex gap-2 pt-1">
-          <Button
-            size="sm"
-            variant={filter === 'bookmarked' ? 'default' : 'outline'}
-            onClick={() => setFilter('bookmarked')}
-            className={filter === 'bookmarked' ? 'bg-teal-600 hover:bg-teal-700' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}
-          >
-            Saved ({bookmarkedIds.length})
-          </Button>
-          <Button
-            size="sm"
-            variant={filter === 'all' ? 'default' : 'outline'}
-            onClick={() => setFilter('all')}
-            className={filter === 'all' ? 'bg-teal-600 hover:bg-teal-700' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}
-          >
-            All Resources ({allFlat.length})
-          </Button>
-          <div className="ml-auto flex gap-2">
-            <button onClick={selectAll} className="text-xs text-teal-400 hover:text-teal-300 underline">Select All</button>
-            <button onClick={clearAll} className="text-xs text-slate-400 hover:text-slate-300 underline">Clear</button>
+        <div className="space-y-2 pt-1">
+          <div className="nv-tabs">
+            <button className="nv-tab !whitespace-normal" data-state={filter === 'bookmarked' ? 'active' : 'inactive'} onClick={() => setFilter('bookmarked')}>Saved ({bookmarkedIds.length})</button>
+            <button className="nv-tab !whitespace-normal" data-state={filter === 'all' ? 'active' : 'inactive'} onClick={() => setFilter('all')}>All Resources ({allFlat.length})</button>
           </div>
+          <div className="flex justify-end gap-2"><button onClick={selectAll} className="nv-btn nv-btn--text nv-btn--sm">Select All</button><button onClick={clearAll} className="nv-btn nv-btn--text nv-btn--sm">Clear</button></div>
         </div>
-
-        {/* Resource list */}
         <div className="flex-1 overflow-y-auto space-y-2 pr-1 min-h-0">
           {displayList.length === 0 ? (
-            <div className="text-center py-10 text-slate-400">
-              <BookOpen className="h-10 w-10 mx-auto mb-3 opacity-40" />
-              <p>No saved resources yet. Bookmark some first, or switch to "All Resources".</p>
-            </div>
-          ) : (
-            displayList.map(resource => (
-              <label
-                key={resource.id}
-                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                  selected.has(resource.id)
-                    ? 'border-teal-500 bg-teal-900/30'
-                    : 'border-slate-700 bg-slate-800/50 hover:border-slate-600'
-                }`}
-              >
-                <Checkbox
-                  checked={selected.has(resource.id)}
-                  onCheckedChange={() => toggleItem(resource.id)}
-                  className="mt-0.5 border-slate-500 data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600"
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-slate-100 leading-tight">{resource.name}</p>
-                  <p className="text-xs text-teal-400 mt-0.5">{resource.org}</p>
-                  <p className="text-xs text-slate-400 mt-1 line-clamp-2">{resource.description}</p>
-                  <div className="flex gap-1.5 mt-1.5 flex-wrap">
-                    <Badge className="text-[10px] px-1.5 py-0 bg-slate-700 text-slate-300">{resource.type}</Badge>
-                    <Badge className="text-[10px] px-1.5 py-0 bg-slate-700 text-slate-300">{resource.category}</Badge>
-                  </div>
-                </div>
-              </label>
-            ))
-          )}
+            <div className="text-center py-10 text-brand-muted-foreground"><BookOpen className="h-10 w-10 mx-auto mb-3 opacity-40" /><p>No saved resources yet. Bookmark some first, or switch to "All Resources".</p></div>
+          ) : displayList.map(resource => (
+            <label key={resource.id} className={`nv-card flex items-start gap-3 p-3 cursor-pointer ${selected.has(resource.id) ? 'nv-card--muted ring-1 ring-primary' : ''}`}>
+              <Checkbox checked={selected.has(resource.id)} onCheckedChange={() => toggleItem(resource.id)} className="mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-brand-text">{resource.name}</p>
+                <p className="text-xs text-brand-primary mt-0.5">{resource.org}</p>
+                <p className="text-xs text-brand-muted-foreground mt-1 line-clamp-2">{resource.description}</p>
+                <div className="flex gap-1.5 mt-1.5 flex-wrap"><Badge variant="secondary" className="text-xs">{resource.type}</Badge><Badge variant="outline" className="text-xs">{resource.category}</Badge></div>
+              </div>
+            </label>
+          ))}
         </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between pt-3 border-t border-slate-700 flex-shrink-0">
-          <span className="text-sm text-slate-400">
-            {selected.size} resource{selected.size !== 1 ? 's' : ''} selected
-          </span>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setOpen(false)} className="border-slate-600 text-slate-300 hover:bg-slate-700">
-              Cancel
-            </Button>
-            <Button
-              onClick={handleExport}
-              disabled={generating || selected.size === 0}
-              className="bg-teal-600 hover:bg-teal-700 text-white gap-2"
-            >
-              {generating ? (
-                <><Loader2 className="h-4 w-4 animate-spin" />Generating…</>
-              ) : (
-                <><FileDown className="h-4 w-4" />Export {selected.size > 0 ? `(${selected.size})` : ''}</>
-              )}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-brand-border shrink-0">
+          <span className="text-sm text-brand-muted-foreground">{selected.size} resource{selected.size !== 1 ? 's' : ''} selected</span>
+          <div className="flex gap-2 flex-wrap">
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={handleExport} disabled={generating || selected.size === 0} className="gap-2">
+              {generating ? <><Loader2 className="h-4 w-4 animate-spin" />Generating…</> : <><FileDown className="h-4 w-4" />Export {selected.size > 0 ? `(${selected.size})` : ''}</>}
             </Button>
           </div>
         </div>

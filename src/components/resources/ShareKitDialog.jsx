@@ -5,8 +5,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger
+  Dialog, DialogHeader, DialogTitle, DialogTrigger
 } from '@/components/ui/dialog';
+import DialogContent from '@/components/resources/ResourceDialogContent';
 import { Share2, FileDown, Mail, Loader2, BookOpen, StickyNote, Stethoscope, Briefcase } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -294,189 +295,60 @@ export default function ShareKitDialog({ resources, bookmarkedIds, notes }) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpen}>
-      <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white gap-2">
-          <Share2 className="h-4 w-4" />
-          Share Kit (PDF / Email)
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="bg-slate-800 border border-slate-700 text-slate-100 max-w-2xl max-h-[90vh] flex flex-col">
+      <DialogTrigger asChild><Button className="gap-2 !whitespace-normal"><Share2 className="h-4 w-4" />Share Kit (PDF / Email)</Button></DialogTrigger>
+      <DialogContent className="max-w-2xl flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-slate-100 flex items-center gap-2">
-            <Share2 className="h-5 w-5 text-indigo-400" />
-            Share Your Saved Resources & Notes
-          </DialogTitle>
-          <p className="text-sm text-slate-400">
-            Compile your bookmarked resources and personal notes into a polished PDF or send them by email.
-          </p>
+          <DialogTitle className="flex items-center gap-2"><Share2 className="h-5 w-5 text-brand-primary shrink-0" />Share Your Saved Resources & Notes</DialogTitle>
+          <p className="text-sm text-brand-muted-foreground">Compile your bookmarked resources and personal notes into a polished PDF or send them by email.</p>
         </DialogHeader>
-
         <div className="flex-1 overflow-y-auto space-y-5 pr-1 min-h-0">
-          {/* Recipient preset */}
           <div>
-            <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide mb-2">Sharing with</p>
-            <div className="grid grid-cols-2 gap-2">
+            <p className="nv-eyebrow mb-2">Sharing with</p>
+            <div className="flex flex-wrap gap-2">
               {RECIPIENT_PRESETS.map(p => {
                 const Icon = p.icon;
                 const active = recipientType === p.id;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => setRecipientType(p.id)}
-                    className={`flex items-center gap-2 p-3 rounded-lg border text-left transition-all ${
-                      active
-                        ? 'border-indigo-500 bg-indigo-900/30 text-slate-100'
-                        : 'border-slate-700 bg-slate-800/50 text-slate-300 hover:border-slate-600'
-                    }`}
-                  >
-                    <Icon className={`h-4 w-4 ${active ? 'text-indigo-400' : 'text-slate-400'}`} />
-                    <span className="text-sm font-medium">{p.label}</span>
-                  </button>
-                );
+                return <Button key={p.id} variant={active ? 'default' : 'outline'} aria-pressed={active} onClick={() => setRecipientType(p.id)} className="flex-1 !whitespace-normal"><Icon className="h-4 w-4" /><span>{p.label}</span></Button>;
               })}
             </div>
           </div>
-
-          {/* Sections to include */}
           <div>
-            <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide mb-2">Include</p>
+            <p className="nv-eyebrow mb-2">Include</p>
             <div className="space-y-2">
-              <label className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                includeResources ? 'border-teal-500 bg-teal-900/20' : 'border-slate-700 bg-slate-800/50'
-              }`}>
-                <Checkbox
-                  checked={includeResources}
-                  onCheckedChange={(v) => setIncludeResources(!!v)}
-                  className="mt-0.5 border-slate-500 data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-teal-400" />
-                    <span className="text-sm font-semibold text-slate-100">Saved Resources</span>
-                    <Badge className="bg-slate-700 text-slate-300 text-xs">{bookmarkedResources.length}</Badge>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {bookmarkedResources.length === 0
-                      ? 'No bookmarks yet. Save resources from the library first.'
-                      : `${bookmarkedResources.length} bookmarked resource${bookmarkedResources.length !== 1 ? 's' : ''} will be included.`}
-                  </p>
+              <label className={`nv-card flex items-start gap-3 p-3 cursor-pointer ${includeResources ? 'nv-card--muted ring-1 ring-primary' : ''}`}>
+                <Checkbox checked={includeResources} onCheckedChange={v => setIncludeResources(!!v)} className="mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2"><BookOpen className="h-4 w-4 text-brand-primary" /><span className="text-sm font-semibold">Saved Resources</span><Badge variant="secondary" className="text-xs">{bookmarkedResources.length}</Badge></div>
+                  <p className="text-xs text-brand-muted-foreground mt-1">{bookmarkedResources.length === 0 ? 'No bookmarks yet. Save resources from the library first.' : `${bookmarkedResources.length} bookmarked resource${bookmarkedResources.length !== 1 ? 's' : ''} will be included.`}</p>
                 </div>
               </label>
-
-              <label className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                includeNotes ? 'border-amber-500 bg-amber-900/20' : 'border-slate-700 bg-slate-800/50'
-              }`}>
-                <Checkbox
-                  checked={includeNotes}
-                  onCheckedChange={(v) => setIncludeNotes(!!v)}
-                  disabled={!hasNotes}
-                  className="mt-0.5 border-slate-500 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <StickyNote className="h-4 w-4 text-amber-400" />
-                    <span className="text-sm font-semibold text-slate-100">Personal Notes</span>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {hasNotes
-                      ? `${notes.length} characters from your journey notes will be included.`
-                      : 'No personal notes saved yet. Add notes from your Journey page.'}
-                  </p>
+              <label className={`nv-card flex items-start gap-3 p-3 cursor-pointer ${includeNotes ? 'nv-card--muted ring-1 ring-primary' : ''}`}>
+                <Checkbox checked={includeNotes} onCheckedChange={v => setIncludeNotes(!!v)} disabled={!hasNotes} className="mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2"><StickyNote className="h-4 w-4 text-brand-primary" /><span className="text-sm font-semibold">Personal Notes</span></div>
+                  <p className="text-xs text-brand-muted-foreground mt-1">{hasNotes ? `${notes.length} characters from your journey notes will be included.` : 'No personal notes saved yet. Add notes from your Journey page.'}</p>
                 </div>
               </label>
             </div>
           </div>
-
-          {/* Mode tabs */}
           <div>
-            <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide mb-2">Delivery</p>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => setMode('pdf')}
-                className={`flex items-center justify-center gap-2 p-3 rounded-lg border transition-all ${
-                  mode === 'pdf'
-                    ? 'border-teal-500 bg-teal-900/30 text-slate-100'
-                    : 'border-slate-700 bg-slate-800/50 text-slate-300'
-                }`}
-              >
-                <FileDown className="h-4 w-4" />
-                <span className="text-sm font-medium">Download PDF</span>
-              </button>
-              <button
-                onClick={() => setMode('email')}
-                className={`flex items-center justify-center gap-2 p-3 rounded-lg border transition-all ${
-                  mode === 'email'
-                    ? 'border-indigo-500 bg-indigo-900/30 text-slate-100'
-                    : 'border-slate-700 bg-slate-800/50 text-slate-300'
-                }`}
-              >
-                <Mail className="h-4 w-4" />
-                <span className="text-sm font-medium">Send Email</span>
-              </button>
+            <p className="nv-eyebrow mb-2">Delivery</p>
+            <div className="nv-tabs">
+              <button onClick={() => setMode('pdf')} data-state={mode === 'pdf' ? 'active' : 'inactive'} className="nv-tab !whitespace-normal"><FileDown className="h-4 w-4 shrink-0" />Download PDF</button>
+              <button onClick={() => setMode('email')} data-state={mode === 'email' ? 'active' : 'inactive'} className="nv-tab !whitespace-normal"><Mail className="h-4 w-4 shrink-0" />Send Email</button>
             </div>
           </div>
-
-          {/* Email fields */}
           {mode === 'email' && (
             <div className="space-y-3 pt-1">
-              <div>
-                <label className="text-xs font-semibold text-slate-300 mb-1 block">Recipient email</label>
-                <Input
-                  type="email"
-                  placeholder={recipientType === 'healthcare' ? 'doctor@clinic.com' : 'hr@company.com'}
-                  value={emailTo}
-                  onChange={(e) => setEmailTo(e.target.value)}
-                  className="bg-slate-900 border-slate-600 text-slate-100"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-semibold text-slate-300 mb-1 block">Subject</label>
-                <Input
-                  value={emailSubject}
-                  onChange={(e) => setEmailSubject(e.target.value)}
-                  className="bg-slate-900 border-slate-600 text-slate-100"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-semibold text-slate-300 mb-1 block">Optional personal message</label>
-                <Textarea
-                  rows={3}
-                  placeholder="Add a short note to your recipient…"
-                  value={senderNote}
-                  onChange={(e) => setSenderNote(e.target.value)}
-                  className="bg-slate-900 border-slate-600 text-slate-100"
-                />
-              </div>
+              <div><label className="text-sm font-semibold mb-1 block">Recipient email</label><Input type="email" placeholder={recipientType === 'healthcare' ? 'doctor@clinic.com' : 'hr@company.com'} value={emailTo} onChange={e => setEmailTo(e.target.value)} /></div>
+              <div><label className="text-sm font-semibold mb-1 block">Subject</label><Input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} /></div>
+              <div><label className="text-sm font-semibold mb-1 block">Optional personal message</label><Textarea rows={3} placeholder="Add a short note to your recipient…" value={senderNote} onChange={e => setSenderNote(e.target.value)} /></div>
             </div>
           )}
         </div>
-
-        {/* Footer actions */}
-        <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-700 flex-shrink-0">
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-            className="border-slate-600 text-slate-300 hover:bg-slate-700"
-          >
-            Cancel
-          </Button>
-          {mode === 'pdf' ? (
-            <Button
-              onClick={handleDownloadPDF}
-              disabled={busy}
-              className="bg-teal-600 hover:bg-teal-700 text-white gap-2"
-            >
-              {busy ? <><Loader2 className="h-4 w-4 animate-spin" />Generating…</> : <><FileDown className="h-4 w-4" />Download PDF</>}
-            </Button>
-          ) : (
-            <Button
-              onClick={handleSendEmail}
-              disabled={busy}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
-            >
-              {busy ? <><Loader2 className="h-4 w-4 animate-spin" />Sending…</> : <><Mail className="h-4 w-4" />Send Email</>}
-            </Button>
-          )}
+        <div className="flex flex-col sm:flex-row sm:justify-end gap-2 pt-3 border-t border-brand-border shrink-0">
+          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+          {mode === 'pdf' ? <Button onClick={handleDownloadPDF} disabled={busy} className="gap-2">{busy ? <><Loader2 className="h-4 w-4 animate-spin" />Generating…</> : <><FileDown className="h-4 w-4" />Download PDF</>}</Button> : <Button onClick={handleSendEmail} disabled={busy} className="gap-2">{busy ? <><Loader2 className="h-4 w-4 animate-spin" />Sending…</> : <><Mail className="h-4 w-4" />Send Email</>}</Button>}
         </div>
       </DialogContent>
     </Dialog>
