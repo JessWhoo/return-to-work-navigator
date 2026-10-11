@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 import { createPageUrl } from './utils';
 import { BookOpen, ChevronLeft, FileText, Heart, Menu, X, Volume2 } from 'lucide-react';
 import OfflineIndicator from './components/OfflineIndicator';
@@ -12,6 +12,7 @@ import { applyAccessibilityMode, isAccessibilityModeOn } from '@/lib/accessibili
 import ListenButton from './components/a11y/ListenButton';
 import StructuredData from './components/seo/StructuredData';
 import BrandMark from '@/components/brand/BrandMark';
+import NavigatorFooter from '@/components/brand/NavigatorFooter';
 import {
   CompassIcon, HomeIcon, JourneyIcon, MessageIcon, ScheduleIcon,
   WellbeingIcon, NeedsAttentionIcon, ProfileIcon, StepCompleteIcon,
@@ -84,6 +85,7 @@ function BottomNav({ currentPageName }) {
 
   return (
     <nav
+      aria-label="Mobile primary navigation"
       className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-background border-t border-brand-border shadow-brand-sm flex"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
@@ -112,6 +114,19 @@ export default function Layout({ children, currentPageName }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [speechEnabled, setSpeechEnabled] = useState(false);
+  const menuButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const closeOnEscape = event => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [mobileMenuOpen]);
 
   // Restore the saved accessibility mode preference on every load.
   useEffect(() => {
@@ -176,7 +191,9 @@ export default function Layout({ children, currentPageName }) {
   };
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="relative min-h-screen bg-brand-background text-brand-text">
+      <a href="#main-content" className="nv-skip-link">Skip to main content</a>
       <StructuredData />
       <OfflineIndicator />
       <NotificationManager />
@@ -207,7 +224,7 @@ export default function Layout({ children, currentPageName }) {
             </div>
 
             {/* Primary pill nav (desktop) */}
-            <nav className="hidden xl:flex items-center gap-1">
+            <nav aria-label="Primary navigation" className="hidden xl:flex items-center gap-1">
               {PRIMARY_NAV.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPageName === item.page;
@@ -227,7 +244,7 @@ export default function Layout({ children, currentPageName }) {
             </nav>
 
             <div className="flex items-center gap-2">
-              <div className="hidden md:block w-56 lg:w-72">
+              <div className="hidden md:block w-44 xl:w-48">
                 <GlobalSearch />
               </div>
               <button
@@ -243,8 +260,10 @@ export default function Layout({ children, currentPageName }) {
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-expanded={mobileMenuOpen}
-                aria-label="Menu"
-                className="nv-btn nv-btn--icon nv-btn--outline xl:hidden"
+                aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-controls="navigator-menu"
+                ref={menuButtonRef}
+                className="nv-btn nv-btn--icon nv-btn--outline"
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
@@ -258,8 +277,8 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Mobile / tablet panel */}
         {mobileMenuOpen && (
-          <div className="xl:hidden border-t border-brand-border bg-brand-background max-h-[calc(100vh-5rem)] overflow-y-auto">
-            <nav className="px-4 py-4 pb-8 space-y-5">
+          <div id="navigator-menu" className="border-t border-brand-border bg-brand-background max-h-[calc(100dvh-9rem)] overflow-y-auto">
+            <nav aria-label="All Navigator destinations" className="px-4 py-4 pb-8 space-y-5 xl:grid xl:grid-cols-4 xl:gap-6 xl:space-y-0">
               <div className="space-y-1">
                 {PRIMARY_NAV.map((item) => {
                   const Icon = item.icon;
@@ -307,7 +326,7 @@ export default function Layout({ children, currentPageName }) {
 
       <div className="flex max-w-7xl mx-auto">
         {/* Desktop sidebar — grouped tool links as pill items */}
-        <aside className="hidden lg:block w-72 p-6">
+        <aside className={isHomePage ? 'hidden' : 'hidden lg:block w-72 shrink-0 p-6'}>
           <nav className="space-y-5">
             {NAV_GROUPS.map((group) => (
               <div key={group.label} className="space-y-1">
@@ -333,7 +352,7 @@ export default function Layout({ children, currentPageName }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-28 lg:pb-8" onClick={(e) => {
+        <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8 pb-28 lg:pb-8" onClick={(e) => {
           try {
             const target = /** @type {HTMLElement} */ (e.target);
             if (speechEnabled && target?.textContent) {
@@ -362,21 +381,8 @@ export default function Layout({ children, currentPageName }) {
 
       <BottomNav currentPageName={currentPageName} />
 
-      {/* Footer — quiet muted band */}
-      <footer className="nv-footer mt-16 mb-20 lg:mb-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center space-y-2">
-            <p className="text-sm font-semibold text-brand-text">© 2026 Back to Life, Back to Work for Cancer Survivors</p>
-            <p className="text-xs">Information is for educational purposes only</p>
-            <p className="text-xs italic">Not meant to be legal advice. Please consult with legal counsel.</p>
-            <div className="flex justify-center gap-4 pt-1 flex-wrap">
-              <Link to="/About" className="text-xs font-semibold text-brand-primary underline transition-colors hover:text-brand-text">About</Link>
-              <Link to="/Contact" className="text-xs font-semibold text-brand-primary underline transition-colors hover:text-brand-text">Contact</Link>
-              <Link to="/PrivacySecurity" className="text-xs font-semibold text-brand-primary underline transition-colors hover:text-brand-text">Privacy & Security</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <NavigatorFooter navigation={PRIMARY_NAV} />
     </div>
+    </MotionConfig>
   );
 }

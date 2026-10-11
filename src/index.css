@@ -273,3 +273,33 @@ html.a11y-mode *::after {
   letter-spacing: var(--brand-font-heading-letter-spacing);
   padding-right: var(--brand-sp-5);
 }
+
+/* Redesigned Navigator surfaces, built on the shared brand components. */
+.nv-card--sage{background:var(--brand-sage-soft)}
+.nv-card--pink{background:var(--brand-pink-soft)}
+.nv-btn,.nv-navitem,.nv-tab,.nv-checkin-btn{min-height:44px}
+.nv-opt{min-height:44px}
+:where(a,button,input,select,textarea):focus-visible{outline:2px solid var(--brand-primary-hover);outline-offset:4px}
+.nv-skip-link{position:fixed;left:16px;top:8px;z-index:100;background:var(--brand-surface);color:var(--brand-text);padding:12px 24px;border:2px solid var(--brand-primary);border-radius:var(--brand-radius-full);transform:translateY(-200%)}
+.nv-skip-link:focus{transform:translateY(0)}
+.nv-home-hero{min-height:390px}
+.nv-home-hero:before,.nv-home-hero:after{display:none}
+.nv-home-hero>.nv-home-scenery{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:0}
+.nv-home-hero>.nv-home-hero-content{position:relative;padding:36px 24px;background:linear-gradient(90deg,var(--brand-background) 0%,rgba(248,245,240,.96) 40%,rgba(248,245,240,.35) 100%)}
+.nv-home-nav-icon{transition:box-shadow .2s ease,transform .2s ease}
+.nv-quick-link{border-radius:var(--brand-radius-md)}
+.nv-quick-link:hover .nv-home-nav-icon{box-shadow:var(--brand-shadow-sm);transform:translateY(-2px)}
+.nv-quick-link:active .nv-home-nav-icon{transform:translateY(0)}
+.nv-quick-link[aria-current="page"] .nv-home-nav-icon{background:var(--brand-primary);color:var(--brand-on-primary)}
+.nv-home-tool:active{transform:translateY(0);box-shadow:var(--brand-shadow-sm)}
+.nv-home-timeline{position:relative;display:grid;gap:20px;padding:0;margin:0;list-style:none}
+.nv-home-timeline:before{content:'';position:absolute;left:23px;top:24px;bottom:60px;border-left:2px dotted var(--brand-border)}
+.nv-home-timeline-step{position:relative;min-width:0}
+.nv-home-milestone-link{display:flex;gap:20px;align-items:flex-start;min-height:80px;padding:4px 0;border-radius:var(--brand-radius-md);color:var(--brand-text)}
+.nv-spine-dot.nv-home-journey-marker{position:relative;left:auto;top:auto;flex-shrink:0;width:48px;height:48px}
+.nv-home-completed-check{position:absolute;right:-2px;bottom:-2px;background:var(--brand-secondary);color:var(--brand-text);border-radius:var(--brand-radius-full)}
+.nv-home-quote>img{opacity:.65}
+.nv-home-quote>div{background:rgba(248,245,240,.82);border-radius:var(--brand-radius-lg);padding:16px}
+@media(min-width:768px){.nv-home-hero>.nv-home-hero-content{padding:60px 48px;min-height:430px}.nv-home-timeline{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.nv-home-timeline:before{left:10%;right:10%;top:28px;bottom:auto;border-left:0;border-top:2px dotted var(--brand-border)}.nv-home-milestone-link{flex-direction:column;align-items:center;gap:20px;text-align:center;padding:4px 6px}}
+@media(prefers-reduced-motion:reduce),(hover:none) and (pointer:coarse){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.nv-card:hover,.nv-resource:hover,.nv-milestone:hover,.nv-checkin:hover,.nv-btn:hover,.nv-quick-link:hover .nv-home-nav-icon{transform:none!important}}
+html.a11y-mode .nv-home-hero-content,html.a11y-mode .nv-home-quote>div{background:var(--brand-surface)!important}
