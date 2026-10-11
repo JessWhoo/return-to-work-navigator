@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { Mail, Copy, Send, Sparkles, User, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -97,28 +96,28 @@ ${emailBody}`;
   };
 
   return (
-    <Card className="bg-slate-800 border-slate-600">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
-          <Mail className="h-5 w-5 text-indigo-600" />
+          <Mail className="h-5 w-5 text-primary" />
           <span>AI Email Drafter</span>
-          <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-            <Sparkles className="h-3 w-3 mr-1" />
+          <span className="nv-chip">
+            <Sparkles className="h-3 w-3" />
             AI-Powered
-          </Badge>
+          </span>
         </CardTitle>
-        <p className="text-sm text-slate-400 mt-2">
+        <p className="mt-2 text-sm text-muted-foreground">
           Generate professional emails to your employer or HR team
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label>Email Type</Label>
             <select
               value={emailType}
               onChange={(e) => setEmailType(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="nv-input h-10 w-full px-3 text-sm"
             >
               <option value="accommodation_request">Accommodation Request</option>
               <option value="return_plan">Return-to-Work Plan</option>
@@ -144,16 +143,16 @@ ${emailBody}`;
         <Button
           onClick={generateEmail}
           disabled={isGenerating}
-          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600"
+          className="w-full"
         >
           {isGenerating ? (
             <>
-              <Sparkles className="h-4 w-4 mr-2 animate-spin" />
+              <Sparkles className="h-4 w-4 animate-spin" />
               Generating Email...
             </>
           ) : (
             <>
-              <Sparkles className="h-4 w-4 mr-2" />
+              <Sparkles className="h-4 w-4" />
               Generate Email Draft
             </>
           )}
@@ -161,7 +160,7 @@ ${emailBody}`;
 
         {emailBody && (
           <>
-            <div className="border-t pt-4 space-y-4">
+            <div className="space-y-4 border-t border-border pt-4">
               <div className="space-y-2">
                 <Label className="flex items-center space-x-1">
                   <Building2 className="h-4 w-4" />
@@ -191,7 +190,7 @@ ${emailBody}`;
                   rows={12}
                   className="font-mono text-sm"
                 />
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-muted-foreground">
                   Feel free to edit the draft above to personalize it
                 </p>
               </div>
@@ -202,7 +201,7 @@ ${emailBody}`;
                   variant="outline"
                   className="flex-1"
                 >
-                  <Copy className="h-4 w-4 mr-2" />
+                  <Copy className="h-4 w-4" />
                   Copy to Clipboard
                 </Button>
                 <SaveDraftButton
@@ -211,14 +210,14 @@ ${emailBody}`;
                   recipient={recipientName || recipient}
                   subject={subject}
                   content={emailBody}
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                  className="flex-1"
                 />
                 <Button
                   onClick={sendViaEmail}
                   disabled={!recipient}
-                  className="flex-1 bg-indigo-600"
+                  className="flex-1"
                 >
-                  <Send className="h-4 w-4 mr-2" />
+                  <Send className="h-4 w-4" />
                   Open in Email Client
                 </Button>
               </div>

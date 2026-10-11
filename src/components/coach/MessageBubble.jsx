@@ -27,16 +27,16 @@ const FunctionDisplay = ({ toolCall }) => {
     );
     
     const statusConfig = {
-        pending: { icon: Clock, color: 'text-slate-400', text: 'Pending' },
-        running: { icon: Loader2, color: 'text-slate-500', text: 'Running...', spin: true },
-        in_progress: { icon: Loader2, color: 'text-slate-500', text: 'Running...', spin: true },
+        pending: { icon: Clock, color: 'text-muted-foreground', text: 'Pending' },
+        running: { icon: Loader2, color: 'text-muted-foreground', text: 'Running...', spin: true },
+        in_progress: { icon: Loader2, color: 'text-muted-foreground', text: 'Running...', spin: true },
         completed: isError ? 
-            { icon: AlertCircle, color: 'text-red-500', text: 'Failed' } : 
-            { icon: CheckCircle2, color: 'text-green-600', text: 'Success' },
-        success: { icon: CheckCircle2, color: 'text-green-600', text: 'Success' },
-        failed: { icon: AlertCircle, color: 'text-red-500', text: 'Failed' },
-        error: { icon: AlertCircle, color: 'text-red-500', text: 'Failed' }
-    }[status] || { icon: Zap, color: 'text-slate-500', text: '' };
+            { icon: AlertCircle, color: 'text-destructive', text: 'Failed' } : 
+            { icon: CheckCircle2, color: 'text-brand-secondary', text: 'Success' },
+        success: { icon: CheckCircle2, color: 'text-brand-secondary', text: 'Success' },
+        failed: { icon: AlertCircle, color: 'text-destructive', text: 'Failed' },
+        error: { icon: AlertCircle, color: 'text-destructive', text: 'Failed' }
+    }[status] || { icon: Zap, color: 'text-muted-foreground', text: '' };
     
     const Icon = statusConfig.icon;
     const formattedName = name.split('.').reverse().join(' ').toLowerCase();
@@ -46,30 +46,30 @@ const FunctionDisplay = ({ toolCall }) => {
             <button
                 onClick={() => setExpanded(!expanded)}
                 className={cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all",
-                    "hover:bg-slate-700",
-                    expanded ? "bg-slate-700 border-slate-500" : "bg-slate-800 border-slate-600"
+                    "flex items-center gap-2 rounded-brand border px-3 py-1.5 transition-all",
+                    "hover:bg-muted",
+                    expanded ? "border-primary bg-muted" : "border-border bg-surface"
                 )}
             >
                 <Icon className={cn("h-3 w-3", statusConfig.color, statusConfig.spin && "animate-spin")} />
-                <span className="text-slate-200">{formattedName}</span>
+                <span className="text-foreground">{formattedName}</span>
                 {statusConfig.text && (
-                    <span className={cn("text-slate-500", isError && "text-red-600")}>
+                    <span className={cn("text-muted-foreground", isError && "text-destructive")}>
                         • {statusConfig.text}
                     </span>
                 )}
                 {!statusConfig.spin && (toolCall.arguments_string || results) && (
-                    <ChevronRight className={cn("h-3 w-3 text-slate-400 transition-transform ml-auto", 
+                    <ChevronRight className={cn("ml-auto h-3 w-3 text-muted-foreground transition-transform", 
                         expanded && "rotate-90")} />
                 )}
             </button>
             
             {expanded && !statusConfig.spin && (
-                <div className="mt-1.5 ml-3 pl-3 border-l-2 border-slate-200 space-y-2">
+                <div className="mt-1.5 ml-3 space-y-2 border-l-2 border-border pl-3">
                     {toolCall.arguments_string && (
                         <div>
-                            <div className="text-xs text-slate-500 mb-1">Parameters:</div>
-                            <pre className="bg-slate-900 rounded-md p-2 text-xs text-slate-300 whitespace-pre-wrap">
+                            <div className="mb-1 text-xs text-muted-foreground">Parameters:</div>
+                            <pre className="whitespace-pre-wrap rounded-brand bg-muted p-2 text-xs text-foreground">
                                 {(() => {
                                     try {
                                         return JSON.stringify(JSON.parse(toolCall.arguments_string), null, 2);
@@ -82,8 +82,8 @@ const FunctionDisplay = ({ toolCall }) => {
                     )}
                     {parsedResults && (
                         <div>
-                            <div className="text-xs text-slate-500 mb-1">Result:</div>
-                            <pre className="bg-slate-900 rounded-md p-2 text-xs text-slate-300 whitespace-pre-wrap max-h-48 overflow-auto">
+                            <div className="mb-1 text-xs text-muted-foreground">Result:</div>
+                            <pre className="max-h-48 overflow-auto whitespace-pre-wrap rounded-brand bg-muted p-2 text-xs text-foreground">
                                 {typeof parsedResults === 'object' ? 
                                     JSON.stringify(parsedResults, null, 2) : parsedResults}
                             </pre>
@@ -101,21 +101,21 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
     return (
         <div className={cn("flex gap-3", isUser ? "justify-end" : "justify-start")}>
             {!isUser && (
-                <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-                    <div className="h-1.5 w-1.5 rounded-full bg-purple-500" />
+                <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-brand bg-muted">
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                 </div>
             )}
             <div className={cn("max-w-[85%]", isUser && "flex flex-col items-end")}>
                 {message.content && (
                     <div className={cn(
-                        "rounded-2xl px-4 py-2.5",
-                        isUser ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white" : "bg-slate-700 border border-slate-600 text-slate-100"
+                        "rounded-brand-lg px-4 py-2.5",
+                        isUser ? "bg-primary text-primary-foreground" : "border border-border bg-surface text-foreground"
                     )}>
                         {isUser ? (
                             <p className="text-sm leading-relaxed">{message.content}</p>
                         ) : (
                             <ReactMarkdown 
-                                className="text-sm prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                                className="max-w-none text-sm prose prose-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                                 components={{
                                     code: (props) => {
                                         // @ts-ignore
@@ -123,24 +123,24 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                                         const { className, children, ...restProps } = props;
                                         const match = /language-(\w+)/.exec(className || '');
                                         return !inline && match ? (
-                                            <div className="relative group/code">
-                                                <pre className="bg-slate-900 text-slate-100 rounded-lg p-3 overflow-x-auto my-2">
+                                            <div className="group/code relative">
+                                                <pre className="my-2 overflow-x-auto rounded-brand bg-muted p-3 text-foreground">
                                                     <code className={className} {...restProps}>{children}</code>
                                                 </pre>
                                                 <Button
                                                     size="icon"
                                                     variant="ghost"
-                                                    className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover/code:opacity-100 bg-slate-800 hover:bg-slate-700"
+                                                    className="absolute right-2 top-2 h-6 w-6 opacity-0 group-hover/code:opacity-100"
                                                     onClick={() => {
                                                         navigator.clipboard.writeText(String(children).replace(/\n$/, ''));
                                                         toast.success('Code copied');
                                                     }}
                                                 >
-                                                    <Copy className="h-3 w-3 text-slate-400" />
+                                                    <Copy className="h-3 w-3 text-muted-foreground" />
                                                 </Button>
                                             </div>
                                         ) : (
-                                            <code className="px-1 py-0.5 rounded bg-slate-100 text-slate-700 text-xs">
+                                            <code className="rounded bg-muted px-1 py-0.5 text-xs text-foreground">
                                                 {children}
                                             </code>
                                         );
@@ -156,7 +156,7 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                                     h2: ({ children }) => <h2 className="text-base font-semibold my-2">{children}</h2>,
                                     h3: ({ children }) => <h3 className="text-sm font-semibold my-2">{children}</h3>,
                                     blockquote: ({ children }) => (
-                                        <blockquote className="border-l-2 border-slate-300 pl-3 my-2 text-slate-600">
+                                        <blockquote className="border-l-2 border-border pl-3 my-2 text-muted-foreground">
                                             {children}
                                         </blockquote>
                                     ),
