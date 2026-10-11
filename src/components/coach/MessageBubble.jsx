@@ -46,9 +46,9 @@ const FunctionDisplay = ({ toolCall }) => {
             <button
                 onClick={() => setExpanded(!expanded)}
                 className={cn(
-                    "flex items-center gap-2 rounded-brand border px-3 py-1.5 transition-all",
+                    "flex min-h-11 flex-wrap items-center gap-2 rounded-brand border px-3 py-2 transition-colors",
                     "hover:bg-muted",
-                    expanded ? "border-primary bg-muted" : "border-border bg-surface"
+                    expanded ? "border-primary bg-muted" : "border-border bg-brand-surface"
                 )}
             >
                 <Icon className={cn("h-3 w-3", statusConfig.color, statusConfig.spin && "animate-spin")} />
@@ -105,14 +105,14 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                     <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                 </div>
             )}
-            <div className={cn("max-w-[85%]", isUser && "flex flex-col items-end")}>
+            <div className={cn("min-w-0 max-w-[85%] [overflow-wrap:anywhere]", isUser && "flex flex-col items-end")}>
                 {message.content && (
                     <div className={cn(
                         "rounded-brand-lg px-4 py-2.5",
-                        isUser ? "bg-primary text-primary-foreground" : "border border-border bg-surface text-foreground"
+                        isUser ? "bg-primary text-primary-foreground" : "border border-border bg-brand-surface text-foreground"
                     )}>
                         {isUser ? (
-                            <p className="text-sm leading-relaxed">{message.content}</p>
+                            <p className="text-sm">{message.content}</p>
                         ) : (
                             <ReactMarkdown 
                                 className="max-w-none text-sm prose prose-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
@@ -148,7 +148,7 @@ export default function MessageBubble({ message, messageIndex, conversationId, d
                                     a: ({ children, ...props }) => (
                                         <a {...props} target="_blank" rel="noopener noreferrer">{children}</a>
                                     ),
-                                    p: ({ children }) => <p className="my-1 leading-relaxed">{children}</p>,
+                                    p: ({ children }) => <p className="my-1">{children}</p>,
                                     ul: ({ children }) => <ul className="my-1 ml-4 list-disc">{children}</ul>,
                                     ol: ({ children }) => <ol className="my-1 ml-4 list-decimal">{children}</ol>,
                                     li: ({ children }) => <li className="my-0.5">{children}</li>,

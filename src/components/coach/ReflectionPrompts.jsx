@@ -125,18 +125,18 @@ export default function ReflectionPrompts({ onSendToCoach }) {
     const Icon = category.icon;
     
     return (
-      <Card className="bg-white/80 backdrop-blur-sm border-2 border-purple-200">
+      <Card className="nv-card--muted">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <div className={`p-2 rounded-lg bg-gradient-to-br ${category.gradient}`}>
-                <Icon className="h-5 w-5 text-white" />
+              <div className="shrink-0 rounded-pill bg-primary p-2">
+                <Icon className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
-                <Badge className={`bg-${category.color}-100 text-${category.color}-700 mb-1`}>
+                <Badge variant="secondary" className="mb-2 rounded-pill">
                   {category.category}
                 </Badge>
-                <CardTitle className="text-lg text-gray-800">
+                <CardTitle className="text-lg text-foreground">
                   {selectedPrompt}
                 </CardTitle>
               </div>
@@ -161,25 +161,25 @@ export default function ReflectionPrompts({ onSendToCoach }) {
             className="min-h-[150px] text-sm"
           />
           
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Button
               onClick={handleSaveReflection}
               variant="outline"
-              className="flex-1"
+              className="flex-1 !whitespace-normal"
             >
               <Save className="h-4 w-4 mr-2" />
               Save Privately
             </Button>
             <Button
               onClick={handleSendToCoach}
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="flex-1 !whitespace-normal"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               Share with Coach
             </Button>
           </div>
           
-          <p className="text-xs text-gray-500 text-center">
+          <p className="text-xs text-muted-foreground text-center">
             Reflections are private unless you choose to share with the coach
           </p>
         </CardContent>
@@ -190,8 +190,8 @@ export default function ReflectionPrompts({ onSendToCoach }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-2">
-        <Heart className="h-5 w-5 text-purple-600" />
-        <h3 className="font-bold text-gray-800">Guided Reflections</h3>
+        <Heart className="h-5 w-5 text-primary" />
+        <h3 className="font-bold text-foreground">Guided Reflections</h3>
       </div>
       
       <div className="grid gap-3">
@@ -202,39 +202,24 @@ export default function ReflectionPrompts({ onSendToCoach }) {
           return (
             <Card 
               key={idx}
-              className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all cursor-pointer"
+              className=""
             >
-              <CardHeader 
-                className="pb-3"
-                onClick={() => setSelectedCategory(isExpanded ? null : category.category)}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg bg-gradient-to-br ${category.gradient}`}>
-                      <Icon className="h-5 w-5 text-white" />
-                    </div>
-                    <CardTitle className="text-base font-bold text-gray-800">
-                      {category.category}
-                    </CardTitle>
+              <CardHeader className="pb-3">
+                <Button type="button" variant="outline" aria-expanded={isExpanded} className="h-auto w-full justify-between !whitespace-normal p-3 text-left" onClick={() => setSelectedCategory(isExpanded ? null : category.category)}>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="shrink-0 rounded-pill bg-primary p-2 text-primary-foreground"><Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" /></div>
+                    <CardTitle className="text-base font-bold">{category.category}</CardTitle>
                   </div>
-                  <ChevronRight 
-                    className={`h-5 w-5 text-gray-400 transition-transform ${
-                      isExpanded ? 'rotate-90' : ''
-                    }`}
-                  />
-                </div>
+                  <ChevronRight className={`h-5 w-5 shrink-0 transition-transform ${isExpanded ? 'rotate-90' : ''}`} aria-hidden="true" />
+                </Button>
               </CardHeader>
               
               {isExpanded && (
                 <CardContent className="space-y-2 pt-0">
                   {category.prompts.map((prompt, pIdx) => (
-                    <button
-                      key={pIdx}
-                      onClick={() => setSelectedPrompt(prompt)}
-                      className="w-full text-left p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-sm text-gray-700 border border-gray-200"
-                    >
+                    <Button key={pIdx} type="button" variant="outline" onClick={() => setSelectedPrompt(prompt)} className="h-auto w-full justify-start !whitespace-normal p-3 text-left text-sm">
                       {prompt}
-                    </button>
+                    </Button>
                   ))}
                 </CardContent>
               )}

@@ -17,7 +17,7 @@ export default function WellnessRatingEditor({ resourceId, resourceTitle, myRati
     if (!mutation.isPending) mutation.mutate({ resourceId, value, note });
   };
   return (
-    <fieldset aria-label={`Rating and optional note for ${resourceTitle}`} className="min-w-0 space-y-2 rounded-lg border border-border bg-card p-3">
+    <fieldset aria-label={`Rating and optional note for ${resourceTitle}`} className="min-w-0 space-y-2 rounded-brand border border-brand-border bg-brand-background p-4">
       <legend className="px-1 text-sm font-semibold text-foreground">Your rating and note</legend>
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-xs font-semibold text-foreground">Your rating</span>

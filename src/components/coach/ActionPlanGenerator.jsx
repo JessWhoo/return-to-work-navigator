@@ -108,23 +108,23 @@ Generated on ${new Date().toLocaleDateString()}`;
   };
 
   return (
-    <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
+    <Card className="nv-card--muted">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2 text-lg">
-          <Target className="h-5 w-5 text-purple-600" />
+          <Target className="h-5 w-5 text-primary" />
           <span>Personalized Action Plan</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {!actionPlan ? (
           <div className="text-center space-y-4">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-muted-foreground">
               Generate a custom 30-day action plan based on your progress, energy levels, and goals.
             </p>
             <Button
               onClick={generateActionPlan}
               disabled={isGenerating}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="!whitespace-normal"
             >
               {isGenerating ? (
                 <>
@@ -143,78 +143,78 @@ Generated on ${new Date().toLocaleDateString()}`;
           <div className="space-y-6">
             {/* Overview */}
             <div>
-              <h3 className="text-xl font-bold text-purple-900 mb-2">{actionPlan.title}</h3>
-              <p className="text-sm text-gray-700">{actionPlan.overview}</p>
+              <h3 className="text-xl font-bold text-foreground mb-2">{actionPlan.title}</h3>
+              <p className="text-sm text-muted-foreground">{actionPlan.overview}</p>
             </div>
 
             {/* Weeks 1-2 Goals */}
-            <div className="bg-white/60 rounded-lg p-4 space-y-2">
+            <div className="nv-card p-4 space-y-2">
               <div className="flex items-center space-x-2 mb-3">
-                <Calendar className="h-4 w-4 text-purple-600" />
-                <h4 className="font-semibold text-purple-900">Weeks 1-2 Goals</h4>
+                <Calendar className="h-4 w-4 text-primary" />
+                <h4 className="font-semibold text-foreground">Weeks 1-2 Goals</h4>
               </div>
               {actionPlan.week_1_2_goals.map((goal, index) => (
                 <div key={index} className="flex items-start space-x-2">
-                  <CheckCircle2 className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-800">{goal}</span>
+                  <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-foreground">{goal}</span>
                 </div>
               ))}
             </div>
 
             {/* Weeks 3-4 Goals */}
-            <div className="bg-white/60 rounded-lg p-4 space-y-2">
+            <div className="nv-card p-4 space-y-2">
               <div className="flex items-center space-x-2 mb-3">
-                <Calendar className="h-4 w-4 text-pink-600" />
-                <h4 className="font-semibold text-pink-900">Weeks 3-4 Goals</h4>
+                <Calendar className="h-4 w-4 text-primary" />
+                <h4 className="font-semibold text-foreground">Weeks 3-4 Goals</h4>
               </div>
               {actionPlan.week_3_4_goals.map((goal, index) => (
                 <div key={index} className="flex items-start space-x-2">
-                  <CheckCircle2 className="h-4 w-4 text-pink-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-800">{goal}</span>
+                  <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-foreground">{goal}</span>
                 </div>
               ))}
             </div>
 
             {/* Key Focus Areas */}
-            <div className="bg-white/60 rounded-lg p-4 space-y-3">
+            <div className="nv-card p-4 space-y-3">
               <div className="flex items-center space-x-2 mb-3">
-                <Target className="h-4 w-4 text-purple-600" />
-                <h4 className="font-semibold text-purple-900">Key Focus Areas</h4>
+                <Target className="h-4 w-4 text-primary" />
+                <h4 className="font-semibold text-foreground">Key Focus Areas</h4>
               </div>
               {actionPlan.key_focus_areas.map((area, index) => (
                 <div key={index}>
-                  <p className="font-medium text-sm text-gray-900">{area.area}</p>
-                  <p className="text-xs text-gray-600 ml-4">{area.why}</p>
+                  <p className="font-medium text-sm text-foreground">{area.area}</p>
+                  <p className="text-xs text-muted-foreground ml-4">{area.why}</p>
                 </div>
               ))}
             </div>
 
             {/* Daily Practices */}
-            <div className="bg-white/60 rounded-lg p-4 space-y-2">
+            <div className="nv-card p-4 space-y-2">
               <div className="flex items-center space-x-2 mb-3">
-                <TrendingUp className="h-4 w-4 text-pink-600" />
-                <h4 className="font-semibold text-pink-900">Daily Practices</h4>
+                <TrendingUp className="h-4 w-4 text-primary" />
+                <h4 className="font-semibold text-foreground">Daily Practices</h4>
               </div>
               {actionPlan.daily_practices.map((practice, index) => (
                 <div key={index} className="flex items-start space-x-2">
-                  <Badge variant="outline" className="bg-white text-xs">{index + 1}</Badge>
-                  <span className="text-sm text-gray-800">{practice}</span>
+                  <Badge variant="outline" className="rounded-pill bg-brand-surface text-xs">{index + 1}</Badge>
+                  <span className="text-sm text-foreground">{practice}</span>
                 </div>
               ))}
             </div>
 
             {/* Encouragement */}
-            <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg p-4 border-2 border-purple-200">
-              <p className="text-sm text-purple-900 font-medium">{actionPlan.encouragement}</p>
+            <div className="nv-card nv-card--pink p-4">
+              <p className="text-sm text-foreground font-medium">{actionPlan.encouragement}</p>
             </div>
 
             {/* Actions */}
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               <Button
                 onClick={downloadPlan}
                 variant="outline"
                 size="sm"
-                className="flex-1"
+                className="flex-1 !whitespace-normal"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Download
@@ -223,7 +223,7 @@ Generated on ${new Date().toLocaleDateString()}`;
                 onClick={discussWithCoach}
                 variant="outline"
                 size="sm"
-                className="flex-1"
+                className="flex-1 !whitespace-normal"
               >
                 <Share2 className="h-4 w-4 mr-2" />
                 Discuss
@@ -232,7 +232,7 @@ Generated on ${new Date().toLocaleDateString()}`;
                 onClick={generateActionPlan}
                 variant="outline"
                 size="sm"
-                className="flex-1"
+                className="flex-1 !whitespace-normal"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
                 Regenerate

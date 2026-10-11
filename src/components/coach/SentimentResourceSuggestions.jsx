@@ -164,7 +164,7 @@ export default function SentimentResourceSuggestions({ lastUserMessage }) {
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start justify-between gap-2 rounded-brand border border-border bg-surface p-2 transition-colors hover:bg-muted"
+                  className="group flex items-start justify-between gap-2 rounded-brand border border-border bg-brand-surface p-2 transition-colors hover:bg-muted"
                 >
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-medium text-foreground">{resource.name}</p>

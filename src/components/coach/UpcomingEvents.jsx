@@ -9,55 +9,13 @@ import {
 import { format, differenceInDays, isSameDay, parseISO, isAfter, isBefore, addDays } from 'date-fns';
 
 const eventTypeConfig = {
-  meeting: { 
-    icon: Users, 
-    color: 'blue',
-    gradient: 'from-blue-500 to-cyan-500',
-    bg: 'bg-blue-50',
-    border: 'border-blue-200'
-  },
-  medical: { 
-    icon: Stethoscope, 
-    color: 'green',
-    gradient: 'from-green-500 to-emerald-500',
-    bg: 'bg-green-50',
-    border: 'border-green-200'
-  },
-  milestone: { 
-    icon: Target, 
-    color: 'purple',
-    gradient: 'from-purple-500 to-pink-500',
-    bg: 'bg-purple-50',
-    border: 'border-purple-200'
-  },
-  reminder: { 
-    icon: Bell, 
-    color: 'amber',
-    gradient: 'from-amber-500 to-orange-500',
-    bg: 'bg-amber-50',
-    border: 'border-amber-200'
-  },
-  other: { 
-    icon: Calendar, 
-    color: 'gray',
-    gradient: 'from-gray-500 to-slate-500',
-    bg: 'bg-gray-50',
-    border: 'border-gray-200'
-  },
-  return_date: {
-    icon: CheckCircle2,
-    color: 'rose',
-    gradient: 'from-rose-500 to-pink-500',
-    bg: 'bg-rose-50',
-    border: 'border-rose-200'
-  },
-  accommodation_review: {
-    icon: AlertCircle,
-    color: 'indigo',
-    gradient: 'from-indigo-500 to-purple-500',
-    bg: 'bg-indigo-50',
-    border: 'border-indigo-200'
-  }
+  meeting: { icon: Users, surface: 'nv-card--muted' },
+  medical: { icon: Stethoscope, surface: 'nv-card--sage' },
+  milestone: { icon: Target, surface: 'nv-card--muted' },
+  reminder: { icon: Bell, surface: 'nv-card--pink' },
+  other: { icon: Calendar, surface: 'nv-card--muted' },
+  return_date: { icon: CheckCircle2, surface: 'nv-card--sage' },
+  accommodation_review: { icon: AlertCircle, surface: 'nv-card--pink' }
 };
 
 export default function UpcomingEvents({ progress, onAskCoach }) {
@@ -152,12 +110,12 @@ export default function UpcomingEvents({ progress, onAskCoach }) {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200">
+    <Card className="nv-card--muted">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2 text-lg">
-          <Clock className="h-5 w-5 text-indigo-600" />
+          <Clock className="h-5 w-5 text-primary" />
           <span>Upcoming Events</span>
-          <Badge className="ml-auto bg-indigo-500">{upcomingEvents.length}</Badge>
+          <Badge variant="secondary" className="ml-auto rounded-pill">{upcomingEvents.length}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -168,23 +126,23 @@ export default function UpcomingEvents({ progress, onAskCoach }) {
           return (
             <div
               key={event.id}
-              className={`p-3 rounded-lg ${config.bg} border ${config.border} space-y-2`}
+              className={`nv-card ${config.surface} space-y-3 p-4`}
             >
-              <div className="flex items-start justify-between">
+              <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="flex items-start space-x-2 flex-1">
-                  <div className={`p-1.5 rounded-md bg-gradient-to-br ${config.gradient} mt-0.5`}>
-                    <Icon className="h-4 w-4 text-white" />
+                  <div className="mt-0.5 shrink-0 rounded-pill bg-primary p-2">
+                    <Icon className="h-4 w-4 text-primary-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-800 text-sm">{event.title}</h4>
+                    <h4 className="font-semibold text-foreground text-sm">{event.title}</h4>
                     {event.description && (
-                      <p className="text-xs text-gray-600 mt-0.5">{event.description}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{event.description}</p>
                     )}
-                    <div className="flex items-center space-x-2 mt-1">
-                      <span className="text-xs text-gray-500">
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      <span className="text-xs text-muted-foreground">
                         {format(parseISO(event.date), 'MMM d, yyyy')}
                       </span>
-                      <span className="text-xs font-medium text-gray-700">
+                      <span className="text-xs font-medium text-foreground">
                         {event.daysUntil === 0 ? '• Today' : 
                          event.daysUntil === 1 ? '• Tomorrow' : 
                          `• In ${event.daysUntil} days`}
@@ -193,7 +151,7 @@ export default function UpcomingEvents({ progress, onAskCoach }) {
                   </div>
                 </div>
                 {event.urgency === 'high' && (
-                  <Badge className="bg-red-500 text-white text-xs">Urgent</Badge>
+                  <Badge variant="destructive" className="shrink-0 rounded-pill text-xs">Urgent</Badge>
                 )}
               </div>
               
@@ -201,7 +159,7 @@ export default function UpcomingEvents({ progress, onAskCoach }) {
                 onClick={() => handleAskCoach(event)}
                 size="sm"
                 variant="outline"
-                className="w-full text-xs"
+                className="w-full !whitespace-normal text-xs"
               >
                 Ask Coach for Help
               </Button>

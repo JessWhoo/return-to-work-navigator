@@ -257,7 +257,7 @@ export default function WellnessResources() {
                     </div>
                     <h3 className="font-bold text-foreground">{exercise.name}</h3>
                     <Badge variant="secondary">{exercise.duration}</Badge>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{exercise.instructions}</p>
+                    <p className="text-sm text-muted-foreground">{exercise.instructions}</p>
                   </CardContent>
                 </Card>
               );
@@ -285,11 +285,12 @@ export default function WellnessResources() {
                   const isExpanded = expandedTechnique === `${category.category}-${technique.name}`;
                   return (
                     <div key={technique.name} className={`overflow-hidden rounded-brand border-2 transition-all ${
-                      isExpanded ? `${CAT_BORDER_SOFT[category.color]} ${CAT_BG_TINT[category.color]}` : 'border-border bg-surface'
+                      isExpanded ? `${CAT_BORDER_SOFT[category.color]} ${CAT_BG_TINT[category.color]}` : 'border-border bg-brand-surface'
                     }`}>
                       <button
                         onClick={() => toggleTechnique(category.category, technique.name)}
-                        className="w-full p-4 text-left transition-colors hover:bg-muted"
+                        aria-expanded={isExpanded}
+                        className="min-h-11 w-full p-4 text-left transition-colors hover:bg-muted"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -309,10 +310,10 @@ export default function WellnessResources() {
                           <ol className="space-y-2">
                             {technique.steps.map((step, idx) => (
                               <li key={idx} className="flex items-start space-x-3">
-                                <Badge className={`${CAT_BG_SOLID[category.color]} text-white flex-shrink-0`}>
+                                <Badge className={`${CAT_BG_SOLID[category.color]} ${category.color === 'teal' ? 'text-secondary-foreground' : 'text-primary-foreground'} shrink-0 rounded-pill`}>
                                   {idx + 1}
                                 </Badge>
-                                <span className="text-sm leading-relaxed text-foreground">{step}</span>
+                                <span className="text-sm text-foreground">{step}</span>
                               </li>
                             ))}
                           </ol>
@@ -334,7 +335,7 @@ export default function WellnessResources() {
             <Heart className="mt-1 h-6 w-6 flex-shrink-0 text-primary" />
             <div className="space-y-2">
               <h3 className="font-semibold text-foreground">These Techniques Take Practice</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Don't expect instant results. Like any skill, these techniques become more effective with regular practice. 
                 Start with one technique and practice it daily for a week. If you're struggling with severe anxiety or depression, 
                 please reach out to a mental health professional - these tools complement but don't replace professional care.

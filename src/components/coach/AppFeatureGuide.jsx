@@ -73,27 +73,18 @@ export default function AppFeatureGuide() {
         {features.map((feature, idx) => {
           const Icon = feature.icon;
           return (
-            <Link
-              key={idx}
-              to={createPageUrl(feature.page)}
-              className="block"
-            >
-              <Button
-                variant="outline"
-                className="group h-auto w-full justify-start p-3 text-left"
-              >
-                <div className="flex w-full items-center space-x-3">
-                  <div className="flex-shrink-0 rounded-brand bg-muted p-2 text-primary transition-transform group-hover:scale-110">
-                    <Icon className="h-4 w-4" />
-                  </div>
+            <Button key={idx} asChild variant="outline" className="h-auto w-full justify-start !whitespace-normal p-3 text-left">
+              <Link to={createPageUrl(feature.page)}>
+                <div className="flex w-full items-center gap-3">
+                  <div className="shrink-0 rounded-pill bg-muted p-2 text-primary"><Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" /></div>
                   <div className="min-w-0 flex-1">
-                    <p className="mb-0.5 text-sm font-semibold text-foreground">{feature.name}</p>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{feature.name}</p>
                     <p className="text-xs text-muted-foreground">{feature.description}</p>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-primary" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                 </div>
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           );
         })}
       </CardContent>

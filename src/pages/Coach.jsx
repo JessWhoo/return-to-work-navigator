@@ -302,15 +302,16 @@ export default function Coach() {
         <div className="order-first flex h-[70vh] min-h-[480px] flex-col lg:order-none lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px]">
           <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
             <CardHeader className="border-b border-border">
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center space-x-2">
+              <div className="flex items-center justify-between gap-3">
+                <CardTitle className="flex min-w-0 items-center gap-2 text-lg sm:text-xl">
                   <Sparkles className="h-5 w-5 text-primary" />
                   <span>Chat with Your Coach</span>
                 </CardTitle>
                 {currentConversation && (
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="icon"
+                    aria-label="Refresh coaching conversation"
                     onClick={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
                   >
                     <RefreshCw className="h-4 w-4" />
@@ -320,15 +321,15 @@ export default function Coach() {
             </CardHeader>
 
             {/* Messages */}
-            <CardContent className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-6">
+            <CardContent className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6">
               {!isLoadingAuth && !isAuthenticated ? (
-                <div className="flex h-full items-center justify-center">
+                <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-md space-y-4 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
                       <MessageSquare className="h-10 w-10" />
                     </div>
                     <h3 className="text-2xl font-bold text-foreground">Sign in to chat with your coach</h3>
-                    <p className="leading-relaxed text-muted-foreground">
+                    <p className="text-muted-foreground">
                       Your coaching conversations are private and saved to your account. Please sign in to start chatting.
                     </p>
                     <Button onClick={() => base44.auth.redirectToLogin()}>
@@ -337,7 +338,7 @@ export default function Coach() {
                   </div>
                 </div>
               ) : !selectedConversation ? (
-                <div className="flex h-full items-center justify-center">
+                <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-md space-y-4 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
                       <MessageSquare className="h-10 w-10" />
@@ -346,10 +347,10 @@ export default function Coach() {
                       <h3 className="mb-2 text-2xl font-bold text-foreground">
                         Welcome to Your AI Coach
                       </h3>
-                      <p className="mb-4 leading-relaxed text-muted-foreground">
+                      <p className="mb-4 text-muted-foreground">
                         Get personalized guidance for your return-to-work journey. Ask questions, share concerns, and receive tailored advice based on your progress data, symptoms, and current challenges.
                       </p>
-                      <div className="mx-auto max-w-sm space-y-2 rounded-brand border border-border bg-surface p-3 text-left">
+                      <div className="mx-auto max-w-sm space-y-2 rounded-brand border border-border bg-brand-surface p-3 text-left">
                         <p className="text-sm font-bold text-foreground">I can help you with:</p>
                         <ul className="ml-4 space-y-1 text-sm text-muted-foreground">
                           <li>• Answering questions about your rights and accommodations</li>
@@ -369,17 +370,17 @@ export default function Coach() {
                   </div>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="flex h-full items-center justify-center">
+                <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-md space-y-4 text-center">
                     <Bot className="mx-auto h-16 w-16 text-primary" />
                     <div>
                       <h3 className="mb-2 text-xl font-bold text-foreground">
                         Ready to Talk?
                       </h3>
-                      <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+                      <p className="mb-3 text-sm text-muted-foreground">
                         I have access to your journey stage, energy patterns, symptom logs, and progress data to provide personalized guidance.
                       </p>
-                      <div className="mx-auto max-w-sm space-y-1 rounded-brand border border-border bg-surface p-3 text-left text-sm text-muted-foreground">
+                      <div className="mx-auto max-w-sm space-y-1 rounded-brand border border-border bg-brand-surface p-3 text-left text-sm text-muted-foreground">
                         <p className="mb-2 font-bold text-foreground">Try asking about:</p>
                         <ul className="ml-4 space-y-1">
                           <li>• "What accommodations should I request?"</li>
@@ -433,7 +434,7 @@ export default function Coach() {
             )}
 
             {/* Input Area */}
-            <div className="border-t border-border bg-surface p-4">
+            <div className="border-t border-border bg-brand-surface p-4">
               {chatError && (
                 <p className="mb-2 text-sm font-semibold text-destructive" role="alert">{chatError}</p>
               )}
@@ -443,12 +444,15 @@ export default function Coach() {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder="Type your message... (Shift+Enter for new line)"
-                  className="min-h-[60px] max-h-[200px] flex-1"
+                  aria-label="Message to your coach"
+                  className="min-h-[60px] max-h-[200px] min-w-0 flex-1"
                   disabled={sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
                 />
                 <Button
                   onClick={handleSend}
                   disabled={!message.trim() || sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
+                  size="icon"
+                  aria-label="Send message to your coach"
                   className="self-end"
                 >
                   {sendMessageMutation.isPending ? (

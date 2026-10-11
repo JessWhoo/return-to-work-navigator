@@ -215,7 +215,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="flex items-center space-x-2 font-heading text-lg font-bold text-foreground">
           <Lightbulb className="h-5 w-5 text-primary" />
           <span>Proactive Insights for Upcoming Events</span>
@@ -245,19 +245,19 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
                   className="cursor-pointer bg-muted"
                   onClick={() => setExpandedEvent(isExpanded ? null : event.id)}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center space-x-3">
                       <div className="rounded-brand bg-primary p-2 text-primary-foreground">
                         <Icon className="h-5 w-5" />
                       </div>
                       <div>
                         <CardTitle className="text-base text-foreground">{event.title}</CardTitle>
-                        <div className="mt-1 flex items-center space-x-2">
+                        <div className="mt-2 flex flex-wrap items-center gap-2">
                           <span className="text-sm text-muted-foreground">
                             {isToday(event.date) ? 'Today' : format(event.date, 'MMM d, yyyy')}
                           </span>
                           {isUrgent && (
-                            <span className="nv-chip bg-brand-destructive text-brand-on-primary">
+                            <span className="nv-chip !bg-destructive !text-destructive-foreground">
                               <AlertCircle className="h-3 w-3" />
                               {daysUntil === 0 ? 'Today' : 'Tomorrow'}
                             </span>
@@ -317,7 +317,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
                             key={qIdx}
                             variant="outline"
                             size="sm"
-                            className="w-full justify-start text-left text-sm"
+                            className="h-auto w-full justify-start !whitespace-normal text-left text-sm"
                             onClick={() => onSendMessage && onSendMessage(question)}
                           >
                             <MessageSquare className="h-3 w-3 flex-shrink-0" />
@@ -333,7 +333,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
                         variant="default"
                         size="sm"
                         onClick={() => onSendMessage && onSendMessage(`I have my ${event.title} coming up on ${format(event.date, 'MMM d')}. Can you help me prepare?`)}
-                        className="flex-1"
+                        className="flex-1 !whitespace-normal"
                       >
                         <MessageSquare className="h-4 w-4" />
                         Discuss with Coach

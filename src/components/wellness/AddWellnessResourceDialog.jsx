@@ -67,12 +67,12 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto bg-white">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl font-extrabold text-slate-900">
+          <DialogTitle className="text-xl font-bold text-brand-text">
             Add a wellness resource
           </DialogTitle>
-          <DialogDescription className="text-sm font-medium text-slate-700">
+          <DialogDescription className="text-sm text-brand-muted-foreground">
             It appears in the Wellness Resource Library right away, for everyone who visits.
           </DialogDescription>
         </DialogHeader>
@@ -85,7 +85,7 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
               value={form.title}
               onChange={(e) => setField('title', e.target.value)}
               placeholder="e.g. Managing Cancer-Related Fatigue at Work"
-              className="border-2 border-slate-300"
+              className="nv-input min-h-11"
             />
           </div>
 
@@ -93,7 +93,7 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
             <div className="space-y-1.5">
               <Label htmlFor="wellness-topic">Topic *</Label>
               <Select value={form.topic} onValueChange={(value) => setField('topic', value)}>
-                <SelectTrigger id="wellness-topic" className="border-2 border-slate-300">
+                <SelectTrigger id="wellness-topic" className="nv-input min-h-11">
                   <SelectValue placeholder="Choose a topic" />
                 </SelectTrigger>
                 <SelectContent>
@@ -107,7 +107,7 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
             <div className="space-y-1.5">
               <Label htmlFor="wellness-type">Type</Label>
               <Select value={form.type} onValueChange={(value) => setField('type', value)}>
-                <SelectTrigger id="wellness-type" className="border-2 border-slate-300">
+                <SelectTrigger id="wellness-type" className="nv-input min-h-11">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -126,7 +126,7 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
               value={form.url}
               onChange={(e) => setField('url', e.target.value)}
               placeholder="https://..."
-              className="border-2 border-slate-300"
+              className="nv-input min-h-11"
             />
           </div>
 
@@ -137,7 +137,7 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
               value={form.source}
               onChange={(e) => setField('source', e.target.value)}
               placeholder="e.g. American Cancer Society"
-              className="border-2 border-slate-300"
+              className="nv-input min-h-11"
             />
           </div>
 
@@ -149,23 +149,23 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
               onChange={(e) => setField('summary', e.target.value)}
               placeholder="One or two sentences on what this covers"
               rows={3}
-              className="border-2 border-slate-300"
+              className="nv-input min-h-11"
             />
           </div>
         </div>
 
-        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2">
+        <div className="flex flex-col-reverse gap-3 border-t border-brand-border pt-4 sm:flex-row sm:justify-end">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="border-2 font-bold"
+            className="!whitespace-normal"
           >
             Cancel
           </Button>
           <Button
             onClick={handleSubmit}
             disabled={createMutation.isPending}
-            className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold"
+            className="!whitespace-normal"
           >
             {createMutation.isPending ? (
               <>

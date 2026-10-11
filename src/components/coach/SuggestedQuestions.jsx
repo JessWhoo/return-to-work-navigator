@@ -147,25 +147,25 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
             >
               <Button
                 variant="outline"
-                className="group h-auto w-full justify-start p-3 text-left"
+                className="h-auto w-full justify-start !whitespace-normal p-3 text-left"
                 onClick={() => onSendMessage(suggestion.question)}
               >
                 <div className="flex w-full items-start space-x-3">
-                  <div className="flex-shrink-0 rounded-brand bg-muted p-2 text-primary transition-transform group-hover:scale-110">
+                  <div className="shrink-0 rounded-pill bg-muted p-2 text-primary">
                     <Icon className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="mb-1 flex items-center space-x-2">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
                       <span className="nv-chip nv-chip--muted">
                         {suggestion.category}
                       </span>
                       {suggestion.priority && (
-                        <span className="nv-chip bg-brand-destructive text-brand-on-primary">
+                        <span className="nv-chip !bg-destructive !text-destructive-foreground">
                           Priority
                         </span>
                       )}
                     </div>
-                    <p className="text-sm leading-tight">{suggestion.question}</p>
+                    <p className="text-sm">{suggestion.question}</p>
                   </div>
                 </div>
               </Button>

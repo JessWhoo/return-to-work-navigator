@@ -92,15 +92,15 @@ export default function ConversationHistory({
                 className={`group relative w-full cursor-pointer rounded-brand p-3 text-left transition-all ${
                   isActive
                     ? 'border border-primary bg-muted'
-                    : 'border border-border bg-surface hover:bg-muted'
+                    : 'border border-border bg-brand-surface hover:bg-muted'
                 }`}
               >
                 <div className="flex items-start justify-between gap-1.5">
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-semibold leading-snug text-foreground">
+                    <p className="truncate text-xs font-semibold text-foreground">
                       {title.length > 48 ? title.slice(0, 48) + '\u2026' : title}
                     </p>
-                    <p className="mt-0.5 truncate text-xs leading-snug text-muted-foreground">
+                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
                       {preview.length > 65 ? preview.slice(0, 65) + '\u2026' : preview}
                     </p>
                     <div className="mt-1.5 flex items-center gap-2">
@@ -118,8 +118,9 @@ export default function ConversationHistory({
                   {isActive && onDelete && (
                     <button
                       onClick={(e) => { e.stopPropagation(); onDelete(conv.id); }}
-                      className="flex-shrink-0 rounded p-1 text-muted-foreground opacity-0 transition-colors hover:bg-destructive/15 hover:text-destructive group-hover:opacity-100"
+                      className="nv-btn nv-btn--text nv-btn--icon shrink-0 text-destructive"
                       title="Delete conversation"
+                      aria-label="Delete conversation"
                     >
                       <Trash2 className="h-3 w-3" />
                     </button>

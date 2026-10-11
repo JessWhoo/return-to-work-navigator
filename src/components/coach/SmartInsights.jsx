@@ -173,20 +173,20 @@ export default function SmartInsights({ progress, onAskCoach }) {
   };
 
   const colorMap = {
-    amber: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-800', iconBg: 'bg-amber-500' },
-    green: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-800', iconBg: 'bg-green-500' },
-    red: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', iconBg: 'bg-red-500' },
-    blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-800', iconBg: 'bg-blue-500' },
-    purple: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-800', iconBg: 'bg-purple-500' },
-    orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-800', iconBg: 'bg-orange-500' }
+    amber: { bg: 'nv-card--pink', border: 'border-brand-border', text: 'text-brand-text', iconBg: 'bg-accent text-accent-foreground' },
+    green: { bg: 'nv-card--sage', border: 'border-brand-border', text: 'text-brand-text', iconBg: 'bg-secondary text-secondary-foreground' },
+    red: { bg: 'nv-card--pink', border: '!border-destructive', text: 'text-destructive', iconBg: 'bg-destructive text-destructive-foreground' },
+    blue: { bg: 'nv-card--muted', border: 'border-brand-border', text: 'text-brand-text', iconBg: 'bg-primary text-primary-foreground' },
+    purple: { bg: 'nv-card--muted', border: 'border-brand-border', text: 'text-brand-text', iconBg: 'bg-primary text-primary-foreground' },
+    orange: { bg: 'nv-card--pink', border: 'border-brand-border', text: 'text-brand-text', iconBg: 'bg-accent text-accent-foreground' }
   };
 
   if (isGenerating) {
     return (
-      <Card className="bg-white/80 backdrop-blur-sm">
+      <Card className="">
         <CardContent className="pt-6 flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
-          <span className="ml-2 text-sm text-gray-600">Analyzing your data...</span>
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <span className="ml-2 text-sm text-muted-foreground">Analyzing your data...</span>
         </CardContent>
       </Card>
     );
@@ -197,14 +197,14 @@ export default function SmartInsights({ progress, onAskCoach }) {
   }
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm">
+    <Card className="">
       <CardHeader>
         <CardTitle className="text-sm flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="h-4 w-4 text-purple-600" />
+            <Brain className="h-4 w-4 text-primary" />
             <span>Smart Insights</span>
           </div>
-          <Badge className="bg-purple-500 text-white text-xs">{insights.length}</Badge>
+          <Badge variant="secondary" className="rounded-pill text-xs">{insights.length}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -215,22 +215,22 @@ export default function SmartInsights({ progress, onAskCoach }) {
           return (
             <div
               key={index}
-              className={`${colors.bg} ${colors.border} border-2 rounded-lg p-3 space-y-2`}
+              className={`nv-card ${colors.bg} ${colors.border} space-y-3 p-4`}
             >
               <div className="flex items-start space-x-3">
-                <div className={`${colors.iconBg} p-2 rounded-lg flex-shrink-0`}>
-                  <Icon className="h-4 w-4 text-white" />
+                <div className={`${colors.iconBg} shrink-0 rounded-pill p-2`}>
+                  <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className={`font-semibold text-sm ${colors.text}`}>{insight.title}</h4>
-                  <p className="text-xs text-gray-700 mt-1">{insight.message}</p>
+                  <p className="text-xs text-foreground mt-1">{insight.message}</p>
                 </div>
               </div>
               <Button
                 onClick={() => handleAction(insight)}
                 variant="outline"
                 size="sm"
-                className="w-full text-xs"
+                className="h-auto w-full !whitespace-normal text-xs"
               >
                 {insight.action}
               </Button>

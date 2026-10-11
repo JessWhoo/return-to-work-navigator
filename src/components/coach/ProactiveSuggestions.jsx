@@ -9,82 +9,46 @@ import {
 
 const ProactiveSuggestion = ({ suggestion, onApply }) => {
   const typeConfig = {
-    energy: { 
-      icon: TrendingDown, 
-      color: 'amber',
-      gradient: 'from-amber-500 to-orange-500',
-      bg: 'bg-amber-50',
-      border: 'border-amber-200'
-    },
-    checklist: { 
-      icon: CheckCircle2, 
-      color: 'green',
-      gradient: 'from-green-500 to-emerald-500',
-      bg: 'bg-green-50',
-      border: 'border-green-200'
-    },
-    emotional: { 
-      icon: Heart, 
-      color: 'rose',
-      gradient: 'from-rose-500 to-pink-500',
-      bg: 'bg-rose-50',
-      border: 'border-rose-200'
-    },
-    wellness: { 
-      icon: Sparkles, 
-      color: 'purple',
-      gradient: 'from-purple-500 to-pink-500',
-      bg: 'bg-purple-50',
-      border: 'border-purple-200'
-    },
-    stage: { 
-      icon: Calendar, 
-      color: 'blue',
-      gradient: 'from-blue-500 to-indigo-500',
-      bg: 'bg-blue-50',
-      border: 'border-blue-200'
-    },
-    insight: { 
-      icon: Lightbulb, 
-      color: 'purple',
-      gradient: 'from-purple-500 to-violet-500',
-      bg: 'bg-purple-50',
-      border: 'border-purple-200'
-    }
+    energy: { icon: TrendingDown, surface: 'nv-card--pink' },
+    checklist: { icon: CheckCircle2, surface: 'nv-card--sage' },
+    emotional: { icon: Heart, surface: 'nv-card--pink' },
+    wellness: { icon: Sparkles, surface: 'nv-card--muted' },
+    stage: { icon: Calendar, surface: 'nv-card--muted' },
+    insight: { icon: Lightbulb, surface: 'nv-card--muted' }
   };
 
   const config = typeConfig[suggestion.type] || typeConfig.insight;
   const Icon = config.icon;
 
   return (
-    <Card className={`${config.bg} border-2 ${config.border} hover:shadow-lg transition-all`}>
+    <Card className={config.surface}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
-            <div className={`p-2 rounded-lg bg-gradient-to-br ${config.gradient}`}>
-              <Icon className="h-5 w-5 text-white" />
+            <div className="shrink-0 rounded-pill bg-primary p-2">
+              <Icon className="h-5 w-5 text-primary-foreground" />
             </div>
             <div>
-              <CardTitle className="text-base font-bold text-gray-800">
+              <CardTitle className="text-base font-bold text-foreground">
                 {suggestion.title}
               </CardTitle>
               {suggestion.priority === 'high' && (
-                <Badge className="mt-1 bg-red-500 text-white text-xs">Needs Attention</Badge>
+                <Badge variant="destructive" className="mt-2 rounded-pill text-xs">Needs Attention</Badge>
               )}
             </div>
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm text-gray-700 leading-relaxed">{suggestion.insight}</p>
+        <p className="text-sm text-foreground">{suggestion.insight}</p>
         
         {suggestion.actions && suggestion.actions.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-gray-600 uppercase">Suggested Actions:</p>
+            <p className="text-xs font-semibold text-muted-foreground uppercase">Suggested Actions:</p>
             <ul className="space-y-1">
               {suggestion.actions.map((action, idx) => (
-                <li key={idx} className="flex items-start space-x-2 text-sm text-gray-700">
-                  <ArrowRight className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                <li key={idx} className="flex items-start space-x-2 text-sm text-foreground">
+                  <ArrowRight className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   <span>{action}</span>
                 </li>
               ))}
@@ -93,8 +57,8 @@ const ProactiveSuggestion = ({ suggestion, onApply }) => {
         )}
 
         {suggestion.resources && suggestion.resources.length > 0 && (
-          <div className="pt-2 border-t border-gray-200">
-            <p className="text-xs font-semibold text-gray-600 uppercase mb-2">Helpful Resources:</p>
+          <div className="pt-2 border-t border-brand-border">
+            <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Helpful Resources:</p>
             <div className="flex flex-wrap gap-2">
               {suggestion.resources.map((resource, idx) => (
                 <Badge key={idx} variant="outline" className="text-xs">
@@ -109,7 +73,7 @@ const ProactiveSuggestion = ({ suggestion, onApply }) => {
           <Button
             onClick={() => onApply(suggestion)}
             size="sm"
-            className={`w-full bg-gradient-to-r ${config.gradient} hover:opacity-90 text-white`}
+            className="w-full !whitespace-normal"
           >
             Ask Coach About This
           </Button>
@@ -286,11 +250,11 @@ export default function ProactiveSuggestions({ progress, onSelectSuggestion }) {
 
   if (suggestions.length === 0) {
     return (
-      <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+      <Card className="nv-card--sage">
         <CardContent className="pt-6 text-center">
-          <Sparkles className="h-12 w-12 text-green-500 mx-auto mb-3" />
-          <h3 className="font-bold text-gray-800 mb-1">You're Doing Great!</h3>
-          <p className="text-sm text-gray-600">
+          <Sparkles className="h-12 w-12 text-primary mx-auto mb-3" />
+          <h3 className="font-bold text-foreground mb-1">You're Doing Great!</h3>
+          <p className="text-sm text-muted-foreground">
             No urgent suggestions right now. Keep up the good work!
           </p>
         </CardContent>
@@ -301,8 +265,8 @@ export default function ProactiveSuggestions({ progress, onSelectSuggestion }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-2">
-        <Lightbulb className="h-5 w-5 text-purple-600" />
-        <h3 className="font-bold text-gray-800">Insights & Suggestions</h3>
+        <Lightbulb className="h-5 w-5 text-primary" />
+        <h3 className="font-bold text-foreground">Insights & Suggestions</h3>
         <Badge variant="secondary" className="ml-auto">{suggestions.length}</Badge>
       </div>
       

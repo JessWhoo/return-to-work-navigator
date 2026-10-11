@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { ThumbsUp, ThumbsDown, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import BrandChoice from '@/components/brand/BrandChoice';
+import { Button } from '@/components/ui/button';
 
 const FEEDBACK_TAGS_HELPFUL = ['Empathetic', 'Actionable', 'Informative', 'Encouraging'];
 const FEEDBACK_TAGS_NOT_HELPFUL = ['Too generic', 'Not relevant', 'Needs more detail', 'Missed the point'];
@@ -55,7 +56,7 @@ export default function ResponseRating({ conversationId, messageIndex, messageSn
   if (submitted) {
     return (
       <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-        <Check className="h-3 w-3 text-brand-secondary" />
+        <Check className="h-3 w-3 text-primary" />
         <span>Thanks for the feedback!</span>
       </div>
     );
@@ -64,57 +65,16 @@ export default function ResponseRating({ conversationId, messageIndex, messageSn
   const tags = rating === 'helpful' ? FEEDBACK_TAGS_HELPFUL : FEEDBACK_TAGS_NOT_HELPFUL;
 
   return (
-    <div className="mt-2 space-y-2">
-      {/* Rating buttons */}
-      <div className="flex items-center gap-2">
+    <div className="mt-3 space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
         <span className="text-xs text-muted-foreground">Was this helpful?</span>
-        <button
-          onClick={() => handleRate('helpful')}
-          className={cn(
-            'rounded p-1 transition-all',
-            rating === 'helpful'
-              ? 'text-brand-secondary bg-brand-secondary/15'
-              : 'text-muted-foreground hover:text-brand-secondary hover:bg-brand-secondary/10'
-          )}
-        >
-          <ThumbsUp className="h-3.5 w-3.5" />
-        </button>
-        <button
-          onClick={() => handleRate('not_helpful')}
-          className={cn(
-            'rounded p-1 transition-all',
-            rating === 'not_helpful'
-              ? 'text-destructive bg-destructive/10'
-              : 'text-muted-foreground hover:text-destructive hover:bg-destructive/10'
-          )}
-        >
-          <ThumbsDown className="h-3.5 w-3.5" />
-        </button>
+        <BrandChoice selected={rating === 'helpful'} icon={ThumbsUp} onClick={() => handleRate('helpful')} className="nv-btn--icon"><span className="sr-only">Helpful</span></BrandChoice>
+        <BrandChoice selected={rating === 'not_helpful'} icon={ThumbsDown} onClick={() => handleRate('not_helpful')} className="nv-btn--icon"><span className="sr-only">Not helpful</span></BrandChoice>
       </div>
-
-      {/* Quick tags */}
       {rating && (
-        <div className="flex flex-wrap gap-1.5">
-          {tags.map(tag => (
-            <button
-              key={tag}
-              onClick={() => toggleTag(tag)}
-              className={cn(
-                'rounded-pill border px-2 py-0.5 text-xs transition-all',
-                selectedTags.includes(tag)
-                  ? 'border-primary bg-primary text-primary-foreground'
-                  : 'border-border text-muted-foreground hover:border-primary hover:text-foreground'
-              )}
-            >
-              {tag}
-            </button>
-          ))}
-          <button
-            onClick={handleSubmit}
-            className="rounded-pill border border-primary bg-primary px-2 py-0.5 text-xs text-primary-foreground transition-all hover:opacity-90"
-          >
-            Submit
-          </button>
+        <div className="flex flex-wrap gap-2">
+          {tags.map(tag => <BrandChoice key={tag} selected={selectedTags.includes(tag)} onClick={() => toggleTag(tag)}>{tag}</BrandChoice>)}
+          <Button type="button" size="sm" onClick={handleSubmit}>Submit</Button>
         </div>
       )}
     </div>
