@@ -12,6 +12,7 @@ import LetterDetailsForm from '@/components/accommodationLetter/LetterDetailsFor
 import LetterPreview from '@/components/accommodationLetter/LetterPreview';
 import { buildLetter } from '@/components/accommodationLetter/buildLetter';
 import { EMPTY_DETAILS } from '@/components/accommodationLetter/accommodationOptions';
+import { track } from '@/lib/analytics';
 
 const STEP_COPY = {
   1: { title: 'Which accommodations do you need?', sub: 'Select everything that would help you do your job well. You can add your own too.' },
@@ -42,7 +43,10 @@ export default function AccommodationLetterGenerator() {
       toast.error('Select at least one accommodation to continue');
       return;
     }
-    if (step === 2) setLetter(buildLetter(selected, details));
+    if (step === 2) {
+      setLetter(buildLetter(selected, details));
+      track('tool_engagement', { tool: 'accommodation_letter_generator' });
+    }
     setStep((s) => s + 1);
   };
 

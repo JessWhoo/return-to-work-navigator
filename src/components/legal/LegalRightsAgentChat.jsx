@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Send, Loader2 } from 'lucide-react';
 import AgentMessageBubble from './AgentMessageBubble';
+import { track } from '@/lib/analytics';
 
 const STARTERS = [
   'Does cancer count as a disability under the ADA?',
@@ -35,6 +36,15 @@ export default function LegalRightsAgentChat() {
     });
     return () => unsubscribe();
   }, [conversation?.id]);
+
+  const firedEngagement = useRef(false);
+  useEffect(() => {
+    if (firedEngagement.current) return;
+    if (messages.some((m) => m.role === 'assistant')) {
+      firedEngagement.current = true;
+      track('tool_engagement', { tool: 'legal_rights_advisor' });
+    }
+  }, [messages]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });

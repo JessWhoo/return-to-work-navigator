@@ -17,6 +17,7 @@ import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 import SaveDraftButton from '@/components/communication/SaveDraftButton';
 import EmailScenarioChoice from '@/components/communication/EmailScenarioChoice';
+import { track } from '@/lib/analytics';
 
 const EMAIL_SCENARIOS = [
   {
@@ -170,6 +171,7 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
       setSubject(scenario.label + (recipientRole ? ` – ${recipientRole}` : ''));
       setEmailBody(typeof result === 'string' ? result : result?.content || '');
       toast.success('Email draft generated!');
+      track('tool_engagement', { tool: 'employer_email_generator' });
 
       // On narrow screens the draft sits below the form, so bring it into view
       // rather than leaving the result off-screen.
