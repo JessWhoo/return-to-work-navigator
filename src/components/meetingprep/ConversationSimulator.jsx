@@ -19,13 +19,13 @@ function meetingContext(m) {
 
 function ScoreBar({ score }) {
   const pct = (score / 5) * 100;
-  const color = score >= 4 ? 'bg-green-500' : score >= 3 ? 'bg-amber-500' : 'bg-red-500';
+  const color = score >= 4 ? 'bg-brand-secondary' : score >= 3 ? 'bg-brand-primary' : 'bg-destructive';
   return (
     <div className="flex items-center gap-2">
-      <div className="flex-1 bg-slate-700 rounded-full h-2">
+      <div className="flex-1 bg-brand-muted rounded-full h-2">
         <div className={`h-2 rounded-full transition-all duration-500 ${color}`} style={{ width: `${pct}%` }} />
       </div>
-      <span className="text-xs font-bold text-slate-300 w-6 text-right">{score}/5</span>
+      <span className="text-xs font-bold text-brand-text w-6 text-right">{score}/5</span>
     </div>
   );
 }
@@ -41,81 +41,54 @@ function FeedbackPanel({ feedback, onReset }) {
 
   return (
     <div className="space-y-4">
-      {/* Overall score */}
-      <div className="text-center py-4 bg-slate-900/60 rounded-xl border border-purple-600/40">
-        <p className="text-slate-400 text-sm mb-1">Overall Score</p>
+      <div className="nv-card nv-card--muted text-center py-4">
+        <p className="text-brand-muted-foreground text-sm mb-1">Overall Score</p>
         <div className="flex items-center justify-center gap-1">
           {[1, 2, 3, 4, 5].map(s => (
-            <Star key={s}
-              className={`h-6 w-6 ${s <= Math.round(feedback.overall_score) ? 'text-amber-400 fill-amber-400' : 'text-slate-600'}`}
-            />
+            <Star key={s} className={`h-6 w-6 ${s <= Math.round(feedback.overall_score) ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />
           ))}
-          <span className="ml-2 text-2xl font-bold text-white">{feedback.overall_score.toFixed(1)}</span>
+          <span className="ml-2 text-2xl font-bold text-brand-text">{feedback.overall_score.toFixed(1)}</span>
         </div>
-        <p className="text-slate-300 text-sm mt-3 px-6 italic">"{feedback.encouragement}"</p>
+        <p className="text-brand-text text-sm mt-3 px-6 italic">"{feedback.encouragement}"</p>
       </div>
-
-      {/* Category scores */}
-      <Card className="bg-slate-800/80 border-slate-700">
+      <Card>
         <CardContent className="p-4 space-y-4">
-          <button
-            onClick={() => setExpanded(e => !e)}
-            className="flex items-center justify-between w-full text-slate-200 font-semibold text-sm"
-          >
+          <button onClick={() => setExpanded(e => !e)} className="nv-btn nv-btn--text w-full justify-between">
             Detailed Scores {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </button>
           {expanded && categories.map(({ key, label }) => {
             const cat = feedback.scores[key];
             return (
               <div key={key} className="space-y-1">
-                <div className="flex justify-between text-xs text-slate-400">
-                  <span className="font-medium">{label}</span>
-                </div>
+                <div className="flex justify-between text-xs text-brand-muted-foreground"><span className="font-medium">{label}</span></div>
                 <ScoreBar score={cat.score} />
-                <p className="text-xs text-slate-400">{cat.feedback}</p>
+                <p className="text-xs text-brand-muted-foreground">{cat.feedback}</p>
               </div>
             );
           })}
         </CardContent>
       </Card>
-
-      {/* Strengths */}
       {feedback.strengths?.length > 0 && (
-        <Card className="bg-green-900/20 border-green-700/40">
+        <Card className="bg-brand-secondary/20 border-brand-secondary">
           <CardContent className="p-4">
-            <p className="text-green-300 font-semibold text-sm mb-2">✓ What you did well</p>
-            <ul className="space-y-1">
-              {feedback.strengths.map((s, i) => (
-                <li key={i} className="text-sm text-slate-300 flex gap-2">
-                  <span className="text-green-400 flex-shrink-0">·</span> {s}
-                </li>
-              ))}
-            </ul>
+            <p className="text-brand-text font-semibold text-sm mb-2">✓ What you did well</p>
+            <ul className="space-y-1">{feedback.strengths.map((s, i) => (
+              <li key={i} className="text-sm text-brand-text flex gap-2"><span className="text-brand-primary flex-shrink-0">·</span> {s}</li>
+            ))}</ul>
           </CardContent>
         </Card>
       )}
-
-      {/* Tips */}
       {feedback.tips?.length > 0 && (
-        <Card className="bg-amber-900/20 border-amber-700/40">
+        <Card className="bg-brand-cream">
           <CardContent className="p-4">
-            <p className="text-amber-300 font-semibold text-sm mb-2 flex items-center gap-1">
-              <Lightbulb className="h-4 w-4" /> Try next time
-            </p>
-            <ul className="space-y-1">
-              {feedback.tips.map((t, i) => (
-                <li key={i} className="text-sm text-slate-300 flex gap-2">
-                  <span className="text-amber-400 flex-shrink-0">{i + 1}.</span> {t}
-                </li>
-              ))}
-            </ul>
+            <p className="text-brand-text font-semibold text-sm mb-2 flex items-center gap-1"><Lightbulb className="h-4 w-4" /> Try next time</p>
+            <ul className="space-y-1">{feedback.tips.map((t, i) => (
+              <li key={i} className="text-sm text-brand-text flex gap-2"><span className="text-brand-primary flex-shrink-0">{i + 1}.</span> {t}</li>
+            ))}</ul>
           </CardContent>
         </Card>
       )}
-
-      <Button onClick={onReset} className="w-full bg-purple-700 hover:bg-purple-600">
-        <RotateCcw className="h-4 w-4 mr-2" /> Practice Again
-      </Button>
+      <Button onClick={onReset} className="w-full"><RotateCcw className="h-4 w-4 mr-2" /> Practice Again</Button>
     </div>
   );
 }
@@ -180,48 +153,32 @@ export default function ConversationSimulator({ meeting }) {
     const hasContent = (meeting.talking_points?.length || 0) + (meeting.goals ? 1 : 0) > 0;
     return (
       <div className="space-y-5">
-        <Card className="bg-slate-800/80 border-purple-600/40">
+        <Card>
           <CardContent className="p-6 space-y-4">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-purple-900/60 rounded-xl border border-purple-600/40 flex-shrink-0">
-                <MessageSquare className="h-5 w-5 text-purple-400" />
-              </div>
+              <div className="p-2 bg-brand-muted rounded-xl border border-brand-border flex-shrink-0"><MessageSquare className="h-5 w-5 text-brand-primary" /></div>
               <div>
-                <h3 className="text-slate-100 font-semibold">Practice Your Conversation</h3>
-                <p className="text-slate-400 text-sm mt-1">
+                <h3 className="text-brand-text font-semibold">Practice Your Conversation</h3>
+                <p className="text-brand-muted-foreground text-sm mt-1">
                   The AI will roleplay as your{' '}
-                  <span className="text-purple-300">
-                    {['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type)
-                      ? 'HR Representative'
-                      : 'Manager'}
-                  </span>{' '}
+                  <span className="text-brand-primary">{['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type) ? 'HR Representative' : 'Manager'}</span>{' '}
                   using your saved talking points and anticipated objections. After the practice, you'll receive detailed feedback.
                 </p>
               </div>
             </div>
-
             {hasContent && (
-              <div className="bg-slate-900/60 rounded-lg p-3 space-y-2">
-                <p className="text-xs text-slate-500 font-semibold uppercase">The AI will use your:</p>
+              <div className="bg-brand-muted rounded-lg p-3 space-y-2">
+                <p className="nv-eyebrow">The AI will use your:</p>
                 <div className="flex flex-wrap gap-2">
-                  {meeting.goals && <Badge className="bg-blue-900/40 text-blue-300 border-blue-600/40 text-xs">Goals</Badge>}
-                  {meeting.talking_points?.length > 0 && <Badge className="bg-teal-900/40 text-teal-300 border-teal-600/40 text-xs">{meeting.talking_points.length} talking points</Badge>}
-                  {meeting.anticipated_objections?.length > 0 && <Badge className="bg-amber-900/40 text-amber-300 border-amber-600/40 text-xs">{meeting.anticipated_objections.length} objections to raise</Badge>}
-                  {meeting.accommodation_requests?.length > 0 && <Badge className="bg-purple-900/40 text-purple-300 border-purple-600/40 text-xs">{meeting.accommodation_requests.length} accommodation requests</Badge>}
+                  {meeting.goals && <Badge className="bg-brand-sky text-brand-text border-brand-border text-xs">Goals</Badge>}
+                  {meeting.talking_points?.length > 0 && <Badge className="bg-brand-secondary/20 text-brand-text border-brand-secondary text-xs">{meeting.talking_points.length} talking points</Badge>}
+                  {meeting.anticipated_objections?.length > 0 && <Badge className="bg-brand-cream text-brand-text border-brand-border text-xs">{meeting.anticipated_objections.length} objections to raise</Badge>}
+                  {meeting.accommodation_requests?.length > 0 && <Badge className="bg-brand-muted text-brand-primary border-brand-border text-xs">{meeting.accommodation_requests.length} accommodation requests</Badge>}
                 </div>
               </div>
             )}
-
-            {!hasContent && (
-              <p className="text-amber-400 text-xs bg-amber-900/20 border border-amber-700/40 rounded-lg px-3 py-2">
-                Tip: Add talking points and goals in the "Edit" tab to get a more realistic simulation.
-              </p>
-            )}
-
-            <Button
-              onClick={startSimulation}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 py-5 text-base font-semibold"
-            >
+            {!hasContent && <p className="text-brand-text text-xs bg-brand-cream border border-brand-border rounded-lg px-3 py-2">Tip: Add talking points and goals in the "Edit" tab to get a more realistic simulation.</p>}
+            <Button onClick={startSimulation} className="w-full !whitespace-normal py-5 text-base">
               <MessageSquare className="h-5 w-5 mr-2" /> Start Practice Session
             </Button>
           </CardContent>
@@ -238,85 +195,41 @@ export default function ConversationSimulator({ meeting }) {
   // SIMULATION CHAT
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <Badge className="bg-purple-900/40 text-purple-300 border-purple-600/40 text-xs">
-          Live Practice Session
-        </Badge>
-        <Button size="sm" variant="ghost" onClick={reset} className="text-slate-500 hover:text-slate-300 text-xs">
-          <RotateCcw className="h-3 w-3 mr-1" /> Start Over
-        </Button>
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <Badge className="bg-brand-muted text-brand-primary border-brand-border text-xs">Live Practice Session</Badge>
+        <Button size="sm" variant="ghost" onClick={reset}><RotateCcw className="h-3 w-3 mr-1" /> Start Over</Button>
       </div>
-
-      {/* Message thread */}
-      <div className="bg-slate-900/80 rounded-xl border border-slate-700 p-4 space-y-4 min-h-[320px] max-h-[420px] overflow-y-auto">
+      <div className="bg-brand-background rounded-xl border border-brand-border p-4 space-y-4 min-h-[320px] max-h-[420px] overflow-y-auto">
         {messages.map((msg, i) => (
           <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.role === 'assistant' && (
-              <div className="w-7 h-7 rounded-full bg-purple-800 border border-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Bot className="h-3.5 w-3.5 text-purple-300" />
-              </div>
+              <div className="w-7 h-7 rounded-full bg-brand-muted border border-brand-border flex items-center justify-center flex-shrink-0 mt-0.5"><Bot className="h-3.5 w-3.5 text-brand-primary" /></div>
             )}
-            <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
-              msg.role === 'user'
-                ? 'bg-cyan-800/60 border border-cyan-700/60 text-slate-100'
-                : 'bg-slate-800 border border-slate-700 text-slate-200'
-            }`}>
-              {msg.role === 'assistant' && (
-                <p className="text-xs text-purple-400 font-semibold mb-1">
-                  {['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type)
-                    ? 'HR Representative'
-                    : 'Manager'}
-                </p>
-              )}
+            <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm break-words ${msg.role === 'user' ? 'bg-brand-primary border border-brand-primary text-primary-foreground' : 'bg-brand-surface border border-brand-border text-brand-text'}`}>
+              {msg.role === 'assistant' && <p className="text-xs text-brand-primary font-semibold mb-1">{['hr_discussion', 'accommodation_request', 'return_to_work_plan'].includes(meeting.meeting_type) ? 'HR Representative' : 'Manager'}</p>}
               {msg.content}
             </div>
             {msg.role === 'user' && (
-              <div className="w-7 h-7 rounded-full bg-cyan-800 border border-cyan-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <User className="h-3.5 w-3.5 text-cyan-300" />
-              </div>
+              <div className="w-7 h-7 rounded-full bg-brand-secondary border border-brand-secondary flex items-center justify-center flex-shrink-0 mt-0.5"><User className="h-3.5 w-3.5 text-brand-text" /></div>
             )}
           </div>
         ))}
         {loading && (
           <div className="flex gap-3 justify-start">
-            <div className="w-7 h-7 rounded-full bg-purple-800 border border-purple-600 flex items-center justify-center flex-shrink-0">
-              <Bot className="h-3.5 w-3.5 text-purple-300" />
-            </div>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl px-4 py-2.5">
-              <Loader2 className="h-4 w-4 animate-spin text-purple-400" />
-            </div>
+            <div className="w-7 h-7 rounded-full bg-brand-muted border border-brand-border flex items-center justify-center flex-shrink-0"><Bot className="h-3.5 w-3.5 text-brand-primary" /></div>
+            <div className="bg-brand-surface border border-brand-border rounded-2xl px-4 py-2.5"><Loader2 className="h-4 w-4 animate-spin text-brand-primary" /></div>
           </div>
         )}
         <div ref={bottomRef} />
       </div>
-
-      {/* Input */}
       <div className="flex gap-2">
-        <textarea
-          rows={2}
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type your response as you would say it in the real meeting… (Enter to send)"
-          disabled={loading}
-          className="flex-1 bg-slate-800 border border-slate-600 rounded-xl px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none disabled:opacity-50"
-        />
-        <Button
-          onClick={sendMessage}
-          disabled={loading || !input.trim()}
-          className="bg-cyan-700 hover:bg-cyan-600 self-end px-3 py-2 h-auto"
-        >
-          <Send className="h-4 w-4" />
-        </Button>
+        <textarea rows={2} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
+          placeholder="Type your response as you would say it in the real meeting… (Enter to send)" disabled={loading}
+          className="nv-input flex-1 min-w-0 px-3 py-2 text-sm resize-none disabled:opacity-50" />
+        <Button onClick={sendMessage} disabled={loading || !input.trim()} aria-label="Send response" className="self-end px-3 py-2 h-auto"><Send className="h-4 w-4" /></Button>
       </div>
-
-      {/* End & get feedback */}
       {messages.length >= 4 && (
-        <Button
-          onClick={getFeedback}
-          disabled={loading}
-          className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 font-semibold"
-        >
+        <Button onClick={getFeedback} disabled={loading} variant="secondary" className="w-full !whitespace-normal">
           {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Star className="h-4 w-4 mr-2" />}
           End Session & Get Feedback
         </Button>

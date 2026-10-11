@@ -76,7 +76,7 @@ Type: ${resource.type}`;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="inline-flex items-center gap-1 text-xs text-teal-600 hover:text-teal-700 transition-colors">
+        <button className="nv-btn nv-btn--text nv-btn--sm">
           <Tag className="h-3 w-3" />
           {allTags.length > 0 ? `${allTags.length} tags` : 'Add tags'}
         </button>
@@ -91,7 +91,7 @@ Type: ${resource.type}`;
             onClick={handleGenerateAITags}
             disabled={generating}
             size="sm"
-            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+            className="w-full"
           >
             {generating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
             {generating ? 'Generating...' : 'Auto-generate AI Tags'}
@@ -100,14 +100,14 @@ Type: ${resource.type}`;
           {/* AI Tags */}
           {aiTags.length > 0 && (
             <div>
-              <p className="text-xs text-gray-500 mb-2 flex items-center gap-1">
-                <Sparkles className="h-3 w-3 text-purple-500" /> AI-generated tags
+              <p className="text-xs text-brand-muted-foreground mb-2 flex items-center gap-1">
+                <Sparkles className="h-3 w-3 text-brand-primary" /> AI-generated tags
               </p>
               <div className="flex flex-wrap gap-2">
                 {aiTags.map(tag => (
-                  <Badge key={tag} className="bg-purple-100 text-purple-800 border border-purple-300 flex items-center gap-1 pr-1">
+                  <Badge key={tag} className="bg-brand-muted text-brand-primary border border-brand-border flex items-center gap-1 pr-1">
                     {tag}
-                    <button onClick={() => handleRemoveTag(tag, true)} className="hover:text-red-600 transition-colors">
+                    <button onClick={() => handleRemoveTag(tag, true)} className="hover:text-destructive transition-colors">
                       <X className="h-3 w-3" />
                     </button>
                   </Badge>
@@ -119,12 +119,12 @@ Type: ${resource.type}`;
           {/* Custom Tags */}
           {customTags.length > 0 && (
             <div>
-              <p className="text-xs text-gray-500 mb-2">Your custom tags</p>
+              <p className="text-xs text-brand-muted-foreground mb-2">Your custom tags</p>
               <div className="flex flex-wrap gap-2">
                 {customTags.map(tag => (
-                  <Badge key={tag} className="bg-teal-100 text-teal-800 border border-teal-300 flex items-center gap-1 pr-1">
+                  <Badge key={tag} className="bg-brand-secondary/20 text-brand-text border border-brand-secondary flex items-center gap-1 pr-1">
                     {tag}
-                    <button onClick={() => handleRemoveTag(tag, false)} className="hover:text-red-600 transition-colors">
+                    <button onClick={() => handleRemoveTag(tag, false)} className="hover:text-destructive transition-colors">
                       <X className="h-3 w-3" />
                     </button>
                   </Badge>
@@ -147,7 +147,7 @@ Type: ${resource.type}`;
             </Button>
           </div>
 
-          <p className="text-xs text-gray-400">Tags help you search and filter resources more effectively.</p>
+          <p className="text-xs text-brand-muted-foreground">Tags help you search and filter resources more effectively.</p>
         </div>
       </DialogContent>
     </Dialog>

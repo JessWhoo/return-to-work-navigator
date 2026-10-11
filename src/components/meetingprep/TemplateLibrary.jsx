@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Copy, Printer, ChevronDown, ChevronUp, Mail, FileText, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import getNavigatorPrintTheme from '@/components/brand/getNavigatorPrintTheme';
 
 const TEMPLATES = [
   {
@@ -264,14 +265,14 @@ Sincerely,
 ];
 
 const COLOR_MAP = {
-  teal: { badge: 'bg-teal-900/50 text-teal-300 border-teal-700/50', border: 'border-teal-700/40', header: 'text-teal-300' },
-  purple: { badge: 'bg-purple-900/50 text-purple-300 border-purple-700/50', border: 'border-purple-700/40', header: 'text-purple-300' },
-  amber: { badge: 'bg-amber-900/50 text-amber-300 border-amber-700/50', border: 'border-amber-700/40', header: 'text-amber-300' },
-  blue: { badge: 'bg-blue-900/50 text-blue-300 border-blue-700/50', border: 'border-blue-700/40', header: 'text-blue-300' },
-  green: { badge: 'bg-green-900/50 text-green-300 border-green-700/50', border: 'border-green-700/40', header: 'text-green-300' },
-  cyan: { badge: 'bg-cyan-900/50 text-cyan-300 border-cyan-700/50', border: 'border-cyan-700/40', header: 'text-cyan-300' },
-  rose: { badge: 'bg-rose-900/50 text-rose-300 border-rose-700/50', border: 'border-rose-700/40', header: 'text-rose-300' },
-  indigo: { badge: 'bg-indigo-900/50 text-indigo-300 border-indigo-700/50', border: 'border-indigo-700/40', header: 'text-indigo-300' },
+  teal: { badge: 'bg-brand-secondary/20 text-brand-text border-brand-secondary', border: 'border-brand-border', header: 'text-brand-text' },
+  purple: { badge: 'bg-brand-muted text-brand-primary border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
+  amber: { badge: 'bg-brand-cream text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
+  blue: { badge: 'bg-brand-sky text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
+  green: { badge: 'bg-brand-secondary/20 text-brand-text border-brand-secondary', border: 'border-brand-border', header: 'text-brand-text' },
+  cyan: { badge: 'bg-brand-sky text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
+  rose: { badge: 'bg-brand-accent/30 text-brand-text border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
+  indigo: { badge: 'bg-brand-muted text-brand-primary border-brand-border', border: 'border-brand-border', header: 'text-brand-text' },
 };
 
 function TemplateCard({ template }) {
@@ -293,13 +294,7 @@ function TemplateCard({ template }) {
       <html>
         <head>
           <title>${template.title}</title>
-          <style>
-            body { font-family: Georgia, serif; max-width: 700px; margin: 40px auto; color: #1a1a2e; line-height: 1.7; }
-            h1 { font-size: 1.4rem; color: #2d3a8c; margin-bottom: 4px; }
-            .meta { color: #6b7280; font-size: 0.85rem; margin-bottom: 24px; }
-            pre { font-family: Georgia, serif; white-space: pre-wrap; font-size: 0.95rem; background: #f9fafb; border-left: 4px solid #6366f1; padding: 16px 20px; border-radius: 4px; }
-            .footer { margin-top: 32px; font-size: 0.75rem; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 10px; }
-          </style>
+          <style>${getNavigatorPrintTheme()}</style>
         </head>
         <body>
           <h1>${template.title}</h1>
@@ -314,7 +309,7 @@ function TemplateCard({ template }) {
   };
 
   return (
-    <Card className={`bg-slate-800/80 border ${colors.border} transition-all`}>
+    <Card className={colors.border}>
       <CardHeader className="pb-3 cursor-pointer" onClick={() => setExpanded(e => !e)}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
@@ -325,39 +320,28 @@ function TemplateCard({ template }) {
               </Badge>
             </div>
             <CardTitle className={`text-base ${colors.header}`}>{template.title}</CardTitle>
-            <p className="text-slate-400 text-xs mt-1">{template.description}</p>
+            <p className="text-brand-muted-foreground text-xs mt-1">{template.description}</p>
           </div>
-          <button className="text-slate-400 hover:text-slate-200 flex-shrink-0 mt-1">
+          <button className="nv-btn nv-btn--text nv-btn--icon flex-shrink-0" aria-label={expanded ? 'Collapse template' : 'Expand template'}>
             {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </button>
         </div>
       </CardHeader>
-
       {expanded && (
         <CardContent className="pt-0 space-y-3">
-          <div className="bg-slate-900/60 rounded-lg p-1">
-            <Textarea
-              value={edited}
-              onChange={e => setEdited(e.target.value)}
-              className="bg-transparent border-none text-slate-300 text-xs font-mono leading-relaxed min-h-[320px] resize-y focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-            />
+          <div className="bg-brand-muted rounded-lg p-1">
+            <Textarea value={edited} onChange={e => setEdited(e.target.value)} className="text-xs font-body min-h-[320px] resize-y" />
           </div>
-          <p className="text-xs text-slate-500 italic">Edit the template above, then copy or print. Replace all [bracketed] placeholders with your details.</p>
+          <p className="text-xs text-brand-muted-foreground italic">Edit the template above, then copy or print. Replace all [bracketed] placeholders with your details.</p>
           <div className="flex gap-2 flex-wrap">
-            <Button size="sm" onClick={handleCopy}
-              className="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs">
-              {copied ? <Check className="h-3.5 w-3.5 mr-1.5 text-green-400" /> : <Copy className="h-3.5 w-3.5 mr-1.5" />}
+            <Button size="sm" onClick={handleCopy}>
+              {copied ? <Check className="h-3.5 w-3.5 mr-1.5" /> : <Copy className="h-3.5 w-3.5 mr-1.5" />}
               {copied ? 'Copied!' : 'Copy to Clipboard'}
             </Button>
-            <Button size="sm" variant="outline" onClick={handlePrint}
-              className="border-slate-600 text-slate-300 hover:text-white text-xs">
-              <Printer className="h-3.5 w-3.5 mr-1.5" />
-              Print / Save as PDF
+            <Button size="sm" variant="outline" onClick={handlePrint}>
+              <Printer className="h-3.5 w-3.5 mr-1.5" /> Print / Save as PDF
             </Button>
-            <Button size="sm" variant="ghost" onClick={() => setEdited(template.body)}
-              className="text-slate-500 hover:text-slate-300 text-xs">
-              Reset
-            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setEdited(template.body)}>Reset</Button>
           </div>
         </CardContent>
       )}
@@ -375,30 +359,22 @@ export default function TemplateLibrary() {
     <div className="space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <p className="text-slate-300 text-sm">
+          <p className="text-brand-muted-foreground text-sm">
             Ready-to-use templates for common workplace scenarios. Click any template to expand, customize, and copy or print.
           </p>
         </div>
         <div className="flex gap-2">
           {categories.map(cat => (
-            <button key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                filter === cat
-                  ? 'bg-purple-600 border-purple-500 text-white'
-                  : 'bg-slate-800 border-slate-600 text-slate-300 hover:border-purple-500 hover:text-purple-300'
-              }`}>
-              {cat === 'Email' && <Mail className="h-3 w-3 inline mr-1" />}
-              {cat === 'Agenda' && <FileText className="h-3 w-3 inline mr-1" />}
+            <button key={cat} onClick={() => setFilter(cat)} aria-pressed={filter === cat}
+              className={`nv-btn nv-btn--sm ${filter === cat ? '' : 'nv-btn--outline'}`}>
+              {cat === 'Email' && <Mail className="h-3 w-3" />}
+              {cat === 'Agenda' && <FileText className="h-3 w-3" />}
               {cat}
             </button>
           ))}
         </div>
       </div>
-
-      <div className="space-y-3">
-        {filtered.map(t => <TemplateCard key={t.id} template={t} />)}
-      </div>
+      <div className="space-y-3">{filtered.map(t => <TemplateCard key={t.id} template={t} />)}</div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import getNavigatorPrintTheme from '@/components/brand/getNavigatorPrintTheme';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Printer, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
@@ -38,14 +39,7 @@ Topics: ${(resource.topics || []).join(', ')}`;
       <html>
         <head>
           <title>Resource Summary – ${resource.name}</title>
-          <style>
-            body { font-family: Georgia, serif; max-width: 700px; margin: 40px auto; color: #1a1a2e; line-height: 1.7; }
-            h1 { font-size: 1.5rem; color: #2d3a8c; margin-bottom: 4px; }
-            .meta { color: #6b7280; font-size: 0.9rem; margin-bottom: 24px; }
-            .summary { font-size: 1rem; background: #f0f4ff; border-left: 4px solid #6366f1; padding: 16px 20px; border-radius: 4px; }
-            .footer { margin-top: 32px; font-size: 0.8rem; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 12px; }
-            a { color: #6366f1; }
-          </style>
+          <style>${getNavigatorPrintTheme()}</style>
         </head>
         <body>
           <h1>${resource.name}</h1>
@@ -69,44 +63,22 @@ Topics: ${(resource.topics || []).join(', ')}`;
   return (
     <div className="mt-2">
       {!summary ? (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleGenerate}
-          disabled={loading}
-          className="bg-purple-100 border-purple-400 text-purple-800 hover:bg-purple-200 hover:text-purple-900 font-semibold text-xs h-8 px-3 shadow-sm"
-        >
-          {loading ? (
-            <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
-          ) : (
-            <Sparkles className="h-3 w-3 mr-1.5" />
-          )}
+        <Button variant="outline" size="sm" onClick={handleGenerate} disabled={loading}>
+          {loading ? <Loader2 className="h-3 w-3 mr-1.5 animate-spin" /> : <Sparkles className="h-3 w-3 mr-1.5" />}
           {loading ? 'Generating summary…' : 'AI Summary'}
         </Button>
       ) : (
-        <div className="border border-purple-200 rounded-lg bg-purple-50/60 p-3 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-purple-700 flex items-center gap-1">
-              <Sparkles className="h-3 w-3" /> AI Summary
-            </span>
+        <div className="nv-card nv-card--muted p-3 space-y-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <span className="text-xs font-semibold text-brand-primary flex items-center gap-1"><Sparkles className="h-3 w-3" /> AI Summary</span>
             <div className="flex gap-1.5">
-              <button
-                onClick={handlePrint}
-                className="text-xs text-purple-600 hover:text-purple-800 flex items-center gap-1 px-2 py-0.5 rounded hover:bg-purple-100 transition-colors"
-              >
-                <Printer className="h-3 w-3" /> Print PDF
-              </button>
-              <button
-                onClick={() => setExpanded(!expanded)}
-                className="text-xs text-purple-500 hover:text-purple-700 flex items-center gap-0.5"
-              >
+              <button onClick={handlePrint} className="nv-btn nv-btn--text nv-btn--sm"><Printer className="h-3 w-3" /> Print PDF</button>
+              <button onClick={() => setExpanded(!expanded)} aria-label={expanded ? 'Collapse summary' : 'Expand summary'} aria-expanded={expanded} className="nv-btn nv-btn--text nv-btn--icon">
                 {expanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
               </button>
             </div>
           </div>
-          {expanded && (
-            <p className="text-xs text-gray-700 leading-relaxed">{summary}</p>
-          )}
+          {expanded && <p className="text-xs text-brand-text">{summary}</p>}
         </div>
       )}
     </div>

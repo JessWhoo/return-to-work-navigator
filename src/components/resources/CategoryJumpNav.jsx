@@ -42,22 +42,22 @@ export default function CategoryJumpNav({ categories }) {
     <nav
       ref={navRef}
       aria-label="Jump to a resource category"
-      className="sticky z-30 bg-white/95 backdrop-blur border-2 border-slate-300 rounded-2xl shadow-sm px-3 py-2.5"
+      className="sticky z-30 bg-brand-surface border border-brand-border rounded-brand-lg shadow-brand-sm px-3 py-2.5"
       style={{ top: `${headerH + 6}px` }}
     >
       <div className="flex items-center gap-2 mb-2">
-        <List className="h-4 w-4 text-violet-700" />
-        <span className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
+        <List className="h-4 w-4 text-brand-primary" />
+        <span className="nv-eyebrow">
           Jump to category
         </span>
-        <span className="ml-auto text-xs font-bold text-slate-600">{categories.length}</span>
+        <span className="ml-auto text-xs font-bold text-brand-muted-foreground">{categories.length}</span>
       </div>
       <div className="flex gap-2 overflow-x-auto pb-1">
         {categories.map((name) => (
           <a
             key={name}
             href={`#${categorySlug(name)}`}
-            className="shrink-0 whitespace-nowrap rounded-full border-2 border-slate-300 bg-white px-3 py-1 text-xs font-bold text-slate-800 hover:border-violet-500 hover:text-violet-700 transition-colors"
+            className="nv-btn nv-btn--outline nv-btn--sm shrink-0"
           >
             {name}
           </a>

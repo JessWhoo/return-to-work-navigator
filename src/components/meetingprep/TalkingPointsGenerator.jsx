@@ -69,100 +69,68 @@ export default function TalkingPointsGenerator({ onSaved }) {
   };
 
   return (
-    <Card className="bg-white border-2 border-violet-200 shadow-md">
+    <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-lg text-slate-900">
-          <Sparkles className="h-5 w-5 text-violet-600" />
+        <CardTitle className="flex items-center gap-2 text-lg text-brand-text">
+          <Sparkles className="h-5 w-5 text-brand-primary shrink-0" />
           Talking Points Generator
         </CardTitle>
-        <p className="text-sm text-slate-600 font-medium">
+        <p className="text-sm text-brand-muted-foreground font-medium">
           Get custom talking points for your manager meeting based on your constraints and energy level.
         </p>
       </CardHeader>
       <CardContent className="space-y-5">
-        {/* Templates */}
         <div>
-          <p className="text-xs font-bold uppercase text-slate-600 mb-2">Start from a template</p>
+          <p className="nv-eyebrow mb-2">Start from a template</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {SCENARIO_TEMPLATES.map((tpl) => (
-              <button
-                key={tpl.id}
-                onClick={() => applyTemplate(tpl)}
-                className={`text-left p-3 rounded-xl border-2 transition-all ${
-                  selectedTemplate === tpl.id
-                    ? 'border-violet-500 bg-violet-50 shadow-sm'
-                    : 'border-slate-200 bg-white hover:border-violet-300'
-                }`}
-              >
-                <p className="text-sm font-bold text-slate-900">{tpl.name}</p>
-                <p className="text-xs text-slate-600 mt-1">{tpl.description}</p>
+              <button key={tpl.id} onClick={() => applyTemplate(tpl)} aria-pressed={selectedTemplate === tpl.id}
+                className={`nv-card text-left p-3 cursor-pointer ${selectedTemplate === tpl.id ? 'nv-card--muted border-brand-primary' : ''}`}>
+                <p className="text-sm font-bold text-brand-text">{tpl.name}</p>
+                <p className="text-xs text-brand-muted-foreground mt-1">{tpl.description}</p>
               </button>
             ))}
           </div>
         </div>
-
-        {/* Constraints */}
         <div>
-          <p className="text-xs font-bold uppercase text-slate-600 mb-2">Your work constraints</p>
+          <p className="nv-eyebrow mb-2">Your work constraints</p>
           <div className="flex flex-wrap gap-2">
             {CONSTRAINT_OPTIONS.map((c) => (
-              <button
-                key={c}
-                onClick={() => toggleConstraint(c)}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all ${
-                  constraints.includes(c)
-                    ? 'bg-violet-600 text-white border-transparent'
-                    : 'bg-white text-slate-700 border-slate-300 hover:border-violet-400'
-                }`}
-              >
+              <button key={c} onClick={() => toggleConstraint(c)} aria-pressed={constraints.includes(c)}
+                className={`nv-btn nv-btn--sm !whitespace-normal ${constraints.includes(c) ? '' : 'nv-btn--outline'}`}>
                 {c}
               </button>
             ))}
           </div>
-          <Textarea
-            value={customConstraints}
-            onChange={(e) => setCustomConstraints(e.target.value)}
-            placeholder="Anything else? (e.g. 'I commute 90 minutes each way')"
-            className="mt-2 bg-white border-slate-300 text-sm"
-            rows={2}
-          />
+          <Textarea value={customConstraints} onChange={(e) => setCustomConstraints(e.target.value)}
+            placeholder="Anything else? (e.g. 'I commute 90 minutes each way')" className="mt-2 text-sm" rows={2} />
         </div>
-
-        {/* Energy level */}
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold uppercase text-slate-600">Current energy level</p>
-            <span className="text-sm font-bold text-violet-700">{ENERGY_LABELS[energy - 1]}</span>
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <p className="nv-eyebrow">Current energy level</p>
+            <span className="text-sm font-bold text-brand-primary">{ENERGY_LABELS[energy - 1]}</span>
           </div>
           <Slider value={[energy]} onValueChange={([v]) => setEnergy(v)} min={1} max={5} step={1} />
         </div>
-
-        <Button
-          onClick={generate}
-          disabled={generating}
-          className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-bold"
-        >
+        <Button onClick={generate} disabled={generating} className="w-full !whitespace-normal">
           {generating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
           {generating ? 'Generating…' : 'Generate Custom Talking Points'}
         </Button>
-
-        {/* Results */}
         {points.length > 0 && (
-          <div className="bg-violet-50 border-2 border-violet-200 rounded-xl p-4 space-y-3">
+          <div className="nv-card nv-card--muted p-4 space-y-3">
             <ol className="space-y-2">
               {points.map((pt, i) => (
-                <li key={i} className="flex gap-2 text-sm text-slate-800">
-                  <span className="text-violet-700 font-bold flex-shrink-0">{i + 1}.</span> {pt}
+                <li key={i} className="flex gap-2 text-sm text-brand-text">
+                  <span className="text-brand-primary font-bold flex-shrink-0">{i + 1}.</span> {pt}
                 </li>
               ))}
             </ol>
             <div className="flex gap-2 flex-wrap pt-1">
-              <Button size="sm" variant="outline" onClick={copyAll} className="border-slate-300">
-                {copied ? <Check className="h-4 w-4 mr-1 text-green-600" /> : <Copy className="h-4 w-4 mr-1" />}
+              <Button size="sm" variant="outline" onClick={copyAll}>
+                {copied ? <Check className="h-4 w-4 mr-1" /> : <Copy className="h-4 w-4 mr-1" />}
                 {copied ? 'Copied' : 'Copy All'}
               </Button>
-              <Button size="sm" onClick={saveAsPrep} disabled={saving || saved}
-                className="bg-violet-600 hover:bg-violet-700 text-white">
+              <Button size="sm" onClick={saveAsPrep} disabled={saving || saved} className="!whitespace-normal">
                 {saving ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : saved ? <Check className="h-4 w-4 mr-1" /> : <Save className="h-4 w-4 mr-1" />}
                 {saved ? 'Saved to Meeting Preps' : 'Save as Meeting Prep'}
               </Button>
