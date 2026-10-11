@@ -7,7 +7,7 @@ import BrandMark from '@/components/brand/BrandMark';
 export default function HomeHero({ canTour, onTour, tourOpen }) {
   return (
     <section className="nv-hero nv-home-hero" aria-labelledby="home-title">
-      <img src="https://media.base44.com/images/public/69406c752de234aafebf891d/d8416b83c_generated_image.png" alt="" width="1536" height="1024" fetchPriority="high" decoding="async" className="nv-home-scenery" />
+      <img src="https://media.base44.com/images/public/69406c752de234aafebf891d/d8416b83c_generated_image.png" alt="" width="1024" height="1024" fetchPriority="high" decoding="async" className="nv-home-scenery" />
       <div className="nv-home-hero-content grid gap-8 lg:grid-cols-[3fr_1fr] lg:items-center">
         <div className="space-y-6">
           <BrandMark size="lg" showName={false} className="lg:hidden" />

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import BrandMark from '@/components/brand/BrandMark';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import {
@@ -119,18 +120,18 @@ export default function OnboardingFlow({ open, onComplete }) {
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleSkip()}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden">
+      <DialogContent aria-describedby="onboarding-description" className="max-w-2xl p-0 max-h-[90dvh] overflow-y-auto">
         {/* Progress Bar */}
         <div className="px-6 pt-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-brand-muted-foreground">
               Step {currentStep + 1} of {onboardingSteps.length}
             </span>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleSkip}
-              className="text-gray-500 hover:text-gray-700"
+              className="mr-9"
             >
               Skip Tour
             </Button>
@@ -139,20 +140,16 @@ export default function OnboardingFlow({ open, onComplete }) {
         </div>
 
         {/* Content */}
-        <div className={`bg-gradient-to-br ${step.bg} p-8`}>
+        <div className="bg-brand-muted p-5 sm:p-8">
           <div className="flex flex-col items-center text-center space-y-6">
             {/* Icon */}
-            <div className={`p-6 rounded-2xl bg-gradient-to-br ${step.color} shadow-lg`}>
-              <Icon className="h-16 w-16 text-white" />
-            </div>
+            {step.id === 'welcome' ? <BrandMark size="hero" showName={false} /> : <div className="p-6 rounded-brand-lg bg-brand-surface shadow-brand-sm"><Icon className="h-12 w-12 text-brand-primary" strokeWidth={1.75} aria-hidden="true" /></div>}
 
             {/* Title */}
-            <h2 className={`text-3xl font-bold bg-gradient-to-r ${step.color} bg-clip-text text-transparent`}>
-              {step.title}
-            </h2>
+            <DialogTitle className="text-2xl sm:text-3xl font-bold text-brand-text">{step.title}</DialogTitle>
 
             {/* Description */}
-            <p className="text-lg text-gray-700 leading-relaxed max-w-lg">
+            <p id="onboarding-description" className="text-base text-brand-text max-w-lg">
               {step.description}
             </p>
 
@@ -171,7 +168,7 @@ export default function OnboardingFlow({ open, onComplete }) {
         </div>
 
         {/* Navigation */}
-        <div className="px-6 py-4 bg-white flex items-center justify-between border-t">
+        <div className="px-5 py-4 bg-brand-surface grid grid-cols-2 gap-3 border-t border-brand-border">
           <Button
             onClick={handleBack}
             variant="ghost"
@@ -181,25 +178,13 @@ export default function OnboardingFlow({ open, onComplete }) {
             Back
           </Button>
 
-          <div className="flex space-x-1">
-            {onboardingSteps.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentStep(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentStep
-                    ? 'w-8 bg-teal-600'
-                    : index < currentStep
-                    ? 'w-2 bg-teal-300'
-                    : 'w-2 bg-gray-300'
-                }`}
-              />
-            ))}
+          <div className="col-span-2 order-first flex flex-wrap justify-center" aria-label="Tour steps">
+            {onboardingSteps.map((tourStep, index) => <button key={tourStep.id} type="button" onClick={() => setCurrentStep(index)} aria-label={`Go to step ${index + 1}: ${tourStep.title}`} aria-current={index === currentStep ? 'step' : undefined} className="flex h-11 w-11 items-center justify-center rounded-pill"><span aria-hidden="true" className={`h-2 rounded-pill ${index === currentStep ? 'w-8 bg-primary' : index < currentStep ? 'w-2 bg-secondary' : 'w-2 bg-brand-border'}`} /></button>)}
           </div>
 
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700"
+            className="!whitespace-normal"
           >
             {currentStep === onboardingSteps.length - 1 ? (
               <>
