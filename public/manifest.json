@@ -6,22 +6,16 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#80677E",
+  "theme_color": "#F8F5F0",
   "background_color": "#F8F5F0",
   "lang": "en",
   "categories": ["health", "medical", "productivity"],
   "icons": [
     {
       "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "screenshots": [],
@@ -34,7 +28,8 @@
       "icons": [
         {
           "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
-          "sizes": "96x96"
+          "sizes": "512x512",
+          "type": "image/png"
         }
       ]
     },
@@ -46,7 +41,8 @@
       "icons": [
         {
           "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
-          "sizes": "96x96"
+          "sizes": "512x512",
+          "type": "image/png"
         }
       ]
     }
