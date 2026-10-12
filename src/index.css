@@ -7,8 +7,52 @@
 /* =========================================================================
    Navigator brand foundation (design system — pasted as-is)
    ========================================================================= */
-:root,.dark{color-scheme:light;--background:37.5 36.4% 95.7%;--foreground:300 8.2% 19.2%;--card:0 0% 100%;--card-foreground:300 8.2% 19.2%;--popover:0 0% 100%;--popover-foreground:300 8.2% 19.2%;--primary:304.8 10.8% 45.3%;--primary-foreground:0 0% 100%;--secondary:92.5 13.6% 65.5%;--secondary-foreground:300 8.2% 19.2%;--accent:350.3 42.5% 85.7%;--accent-foreground:300 8.2% 19.2%;--muted:290 17.6% 93.3%;--muted-foreground:263.3 8.2% 43.1%;--destructive:1 48% 48%;--destructive-foreground:0 0% 100%;--border:324 17.2% 88.6%;--input:304.8 10.8% 45.3%;--ring:304.8 10.8% 45.3%;--radius:14px;--font-heading:'Cinzel', Georgia, serif;--font-body:'Nunito Sans', sans-serif;--font-display:'Cinzel', Georgia, serif;--font-heading-line-height:1.2;--font-heading-letter-spacing:0.04em;--font-body-line-height:1.6;}
-:root,.dark{--brand-primary:#80677E;--brand-primary-hover:#695268;--brand-primary-active:#594558;--brand-on-primary:#FFFFFF;--brand-secondary:#A6B39B;--brand-secondary-hover:#94A487;--brand-secondary-active:#839576;--brand-accent:#EACBD0;--brand-sky:#D9CEDF;--brand-compass-cream:#F1E9D9;--brand-background:#F8F5F0;--brand-background-rgb:248 245 240;--brand-surface:#FFFFFF;--brand-text:#352D35;--brand-muted:#F0EBF1;--brand-muted-foreground:#6C6577;--brand-border:#E7DDE3;--brand-destructive:#B5413F;--brand-sage-soft:#E9EEE5;--brand-pink-soft:#F7EBED;--brand-font-heading:'Cinzel', Georgia, serif;--brand-font-body:'Nunito Sans', sans-serif;--brand-font-heading-line-height:1.2;--brand-font-heading-letter-spacing:0.04em;--brand-font-body-line-height:1.6;--brand-font-weight-regular:400;--brand-font-weight-semibold:600;--brand-font-weight-bold:700;--brand-sp-1:4px;--brand-sp-2:8px;--brand-sp-3:12px;--brand-sp-4:16px;--brand-sp-5:24px;--brand-sp-6:32px;--brand-sp-7:48px;--brand-radius-sm:8px;--brand-radius-md:14px;--brand-radius-lg:24px;--brand-radius-full:9999px;--brand-radius:14px;--brand-shadow-none:none;--brand-shadow-sm:0 2px 6px rgba(128,103,126,.07);--brand-shadow-md:0 8px 22px rgba(128,103,126,.1);--brand-shadow-lg:0 12px 28px rgba(128,103,126,.13);--brand-shadow:0 8px 22px rgba(128,103,126,.1);}
+:root{color-scheme:light;--background:37.5 36.4% 95.7%;--foreground:300 8.2% 19.2%;--card:0 0% 100%;--card-foreground:300 8.2% 19.2%;--popover:0 0% 100%;--popover-foreground:300 8.2% 19.2%;--primary:304.8 10.8% 45.3%;--primary-foreground:0 0% 100%;--secondary:92.5 13.6% 65.5%;--secondary-foreground:300 8.2% 19.2%;--accent:350.3 42.5% 85.7%;--accent-foreground:300 8.2% 19.2%;--muted:290 17.6% 93.3%;--muted-foreground:263.3 8.2% 43.1%;--destructive:1 48% 48%;--destructive-foreground:0 0% 100%;--border:324 17.2% 88.6%;--input:304.8 10.8% 45.3%;--ring:304.8 10.8% 45.3%;--radius:14px;--font-heading:'Cinzel', Georgia, serif;--font-body:'Nunito Sans', sans-serif;--font-display:'Cinzel', Georgia, serif;--font-heading-line-height:1.2;--font-heading-letter-spacing:0.04em;--font-body-line-height:1.6;}
+:root{--brand-primary:#80677E;--brand-primary-hover:#695268;--brand-primary-active:#594558;--brand-on-primary:#FFFFFF;--brand-secondary:#A6B39B;--brand-secondary-hover:#94A487;--brand-secondary-active:#839576;--brand-accent:#EACBD0;--brand-sky:#D9CEDF;--brand-compass-cream:#F1E9D9;--brand-background:#F8F5F0;--brand-background-rgb:248 245 240;--brand-surface:#FFFFFF;--brand-text:#352D35;--brand-muted:#F0EBF1;--brand-muted-foreground:#6C6577;--brand-border:#E7DDE3;--brand-destructive:#B5413F;--brand-sage-soft:#E9EEE5;--brand-pink-soft:#F7EBED;--brand-font-heading:'Cinzel', Georgia, serif;--brand-font-body:'Nunito Sans', sans-serif;--brand-font-heading-line-height:1.2;--brand-font-heading-letter-spacing:0.04em;--brand-font-body-line-height:1.6;--brand-font-weight-regular:400;--brand-font-weight-semibold:600;--brand-font-weight-bold:700;--brand-sp-1:4px;--brand-sp-2:8px;--brand-sp-3:12px;--brand-sp-4:16px;--brand-sp-5:24px;--brand-sp-6:32px;--brand-sp-7:48px;--brand-radius-sm:8px;--brand-radius-md:14px;--brand-radius-lg:24px;--brand-radius-full:9999px;--brand-radius:14px;--brand-shadow-none:none;--brand-shadow-sm:0 2px 6px rgba(128,103,126,.07);--brand-shadow-md:0 8px 22px rgba(128,103,126,.1);--brand-shadow-lg:0 12px 28px rgba(128,103,126,.13);--brand-shadow:0 8px 22px rgba(128,103,126,.1);}
+/* Opt-in dark theme; the default web theme remains unchanged. */
+.dark {
+  color-scheme: dark;
+  --background: 0 0% 7.1%;
+  --foreground: 0 0% 94.1%;
+  --card: 0 0% 11.8%;
+  --card-foreground: 0 0% 94.1%;
+  --popover: 0 0% 11.8%;
+  --popover-foreground: 0 0% 94.1%;
+  --primary: 305 18% 72%;
+  --primary-foreground: 300 9% 11%;
+  --secondary: 102 14% 28%;
+  --secondary-foreground: 0 0% 94.1%;
+  --accent: 350 18% 28%;
+  --accent-foreground: 0 0% 94.1%;
+  --muted: 300 5% 17%;
+  --muted-foreground: 0 0% 75%;
+  --destructive: 1 68% 72%;
+  --destructive-foreground: 0 0% 7.1%;
+  --border: 0 0% 65%;
+  --input: 0 0% 65%;
+  --ring: 305 18% 72%;
+  --brand-background: #121212;
+  --brand-background-rgb: 18 18 18;
+  --brand-surface: #1E1E1E;
+  --brand-text: #F0F0F0;
+  --brand-muted: #2D292D;
+  --brand-muted-foreground: #BFBFBF;
+  --brand-border: #A6A6A6;
+  --brand-primary: #C4AAC2;
+  --brand-primary-hover: #D4BDD2;
+  --brand-primary-active: #E0CDDF;
+  --brand-on-primary: #1F1A1F;
+  --brand-secondary: #43513D;
+  --brand-secondary-hover: #506248;
+  --brand-secondary-active: #5D7154;
+  --brand-accent: #543B3F;
+  --brand-sky: #413847;
+  --brand-compass-cream: #494337;
+  --brand-sage-soft: #252E23;
+  --brand-pink-soft: #342730;
+  --brand-destructive: #E88B89;
+}
+
 @layer base{h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);line-height:var(--font-heading-line-height);letter-spacing:var(--font-heading-letter-spacing)}body{font-family:var(--font-body);line-height:var(--font-body-line-height)}}
 
 /* =========================================================================
@@ -101,6 +145,8 @@ html.a11y-mode *::after {
 
 .mobile-ui-select-none button,
 .mobile-ui-select-none [role="button"],
+.mobile-ui-select-none [role="tab"],
+.mobile-ui-select-none .nv-navitem,
 .mobile-ui-select-none svg,
 .mobile-ui-select-none [data-badge] {
   user-select: none;

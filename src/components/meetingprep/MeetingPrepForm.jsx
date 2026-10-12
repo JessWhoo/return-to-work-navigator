@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Loader2, Sparkles, X } from 'lucide-react';
@@ -151,16 +151,9 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Meeting Type</label>
-              <Select value={form.meeting_type} onValueChange={v => update('meeting_type', v)}>
-                <SelectTrigger aria-label="Meeting Type" className="nv-input min-h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(MEETING_TYPES).map(([k, v]) => (
-                    <SelectItem key={k} value={k}>{v}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <BottomSheetSelect value={form.meeting_type} onValueChange={v => update('meeting_type', v)}
+                title="Meeting Type" className="min-h-11"
+                options={Object.entries(MEETING_TYPES).map(([value, label]) => ({ value, label }))} />
             </div>
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Attendees</label>

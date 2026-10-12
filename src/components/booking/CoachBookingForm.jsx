@@ -6,9 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import { toast } from '@/components/ui/use-toast';
 import { CheckCircle2, Calendar as CalendarIcon, Clock, Video, Phone } from 'lucide-react';
 
@@ -254,16 +252,9 @@ export default function CoachBookingForm({ user, onBooked }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <Label className="text-slate-900 font-bold text-base mb-2 block">Session length</Label>
-          <Select value={duration} onValueChange={setDuration}>
-            <SelectTrigger className="bg-white border-2 border-slate-300">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="30">30 minutes</SelectItem>
-              <SelectItem value="45">45 minutes</SelectItem>
-              <SelectItem value="60">60 minutes</SelectItem>
-            </SelectContent>
-          </Select>
+          <BottomSheetSelect value={duration} onValueChange={setDuration}
+            title="Session length" className="min-h-11"
+            options={['30', '45', '60'].map(value => ({ value, label: `${value} minutes` }))} />
         </div>
 
         <div>
@@ -300,16 +291,9 @@ export default function CoachBookingForm({ user, onBooked }) {
         <Label className="text-slate-900 font-bold text-base mb-2 block">
           What would you like to focus on?
         </Label>
-        <Select value={topic} onValueChange={setTopic}>
-          <SelectTrigger className="bg-white border-2 border-slate-300">
-            <SelectValue placeholder="Choose a topic" />
-          </SelectTrigger>
-          <SelectContent>
-            {TOPICS.map((t) => (
-              <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <BottomSheetSelect value={topic} onValueChange={setTopic}
+          title="What would you like to focus on?" placeholder="Choose a topic"
+          className="min-h-11" options={TOPICS} />
       </div>
 
       {/* Contact details */}

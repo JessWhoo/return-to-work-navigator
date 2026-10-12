@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import { Sparkles, Play, AlertTriangle, TrendingUp, Loader2 } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -112,18 +112,15 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
         <div className="space-y-3">
           <div>
             <Label className="text-brand-text text-sm">What change are you considering?</Label>
-            <Select value={scenario.type} onValueChange={(v) => setScenario({ ...scenario, type: v })}>
-              <SelectTrigger aria-label="What change are you considering?" className="nv-input mt-1 min-h-11">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="work_hours">Increase work hours</SelectItem>
-                <SelectItem value="reduce_hours">Reduce work hours</SelectItem>
-                <SelectItem value="add_commute">Add commute time</SelectItem>
-                <SelectItem value="remove_wfh">Return to office (remove WFH)</SelectItem>
-                <SelectItem value="add_activity">Add additional activity</SelectItem>
-              </SelectContent>
-            </Select>
+            <BottomSheetSelect value={scenario.type} onValueChange={(v) => setScenario({ ...scenario, type: v })}
+              title="What change are you considering?" className="mt-1 min-h-11"
+              options={[
+                { value: 'work_hours', label: 'Increase work hours' },
+                { value: 'reduce_hours', label: 'Reduce work hours' },
+                { value: 'add_commute', label: 'Add commute time' },
+                { value: 'remove_wfh', label: 'Return to office (remove WFH)' },
+                { value: 'add_activity', label: 'Add additional activity' },
+              ]} />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -140,16 +137,9 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
             </div>
             <div>
               <Label className="text-brand-text text-sm">Per</Label>
-              <Select value={scenario.timeframe} onValueChange={(v) => setScenario({ ...scenario, timeframe: v })}>
-                <SelectTrigger aria-label="Per" className="nv-input mt-1 min-h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="day">Day</SelectItem>
-                  <SelectItem value="week">Week</SelectItem>
-                  <SelectItem value="month">Month</SelectItem>
-                </SelectContent>
-              </Select>
+              <BottomSheetSelect value={scenario.timeframe} onValueChange={(v) => setScenario({ ...scenario, timeframe: v })}
+                title="Per" className="mt-1 min-h-11"
+                options={['day', 'week', 'month'].map(value => ({ value, label: value.charAt(0).toUpperCase() + value.slice(1) }))} />
             </div>
           </div>
 

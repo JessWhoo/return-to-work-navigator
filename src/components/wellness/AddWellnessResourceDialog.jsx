@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import { Plus, Loader2 } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -92,30 +92,16 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label htmlFor="wellness-topic">Topic *</Label>
-              <Select value={form.topic} onValueChange={(value) => setField('topic', value)}>
-                <SelectTrigger id="wellness-topic" className="nv-input min-h-11">
-                  <SelectValue placeholder="Choose a topic" />
-                </SelectTrigger>
-                <SelectContent>
-                  {TOPIC_OPTIONS.map((topic) => (
-                    <SelectItem key={topic.id} value={topic.id}>{topic.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <BottomSheetSelect value={form.topic} onValueChange={(value) => setField('topic', value)}
+                id="wellness-topic" title="Topic" placeholder="Choose a topic" className="min-h-11"
+                options={TOPIC_OPTIONS.map(topic => ({ value: topic.id, label: topic.label }))} />
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="wellness-type">Type</Label>
-              <Select value={form.type} onValueChange={(value) => setField('type', value)}>
-                <SelectTrigger id="wellness-type" className="nv-input min-h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {TYPE_OPTIONS.map((type) => (
-                    <SelectItem key={type} value={type} className="capitalize">{type}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <BottomSheetSelect value={form.type} onValueChange={(value) => setField('type', value)}
+                id="wellness-type" title="Type" className="min-h-11"
+                options={TYPE_OPTIONS.map(value => ({ value, label: value.charAt(0).toUpperCase() + value.slice(1) }))} />
             </div>
           </div>
 

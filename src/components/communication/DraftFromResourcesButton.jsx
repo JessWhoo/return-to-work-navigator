@@ -7,9 +7,7 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import { Sparkles, Loader2, Bookmark } from 'lucide-react';
 import { toast } from 'sonner';
 import { resources as resourceCatalog } from '@/components/resources/resourcesData';
@@ -106,32 +104,22 @@ export default function DraftFromResourcesButton() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <Label className="font-semibold text-foreground">Recipient</Label>
-              <Select value={recipient} onValueChange={setRecipient}>
-                <SelectTrigger className="nv-input mt-1 min-h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="supervisor">Supervisor / manager</SelectItem>
-                  <SelectItem value="HR">HR</SelectItem>
-                  <SelectItem value="team lead">Team lead</SelectItem>
-                  <SelectItem value="employer">Employer (generic)</SelectItem>
-                </SelectContent>
-              </Select>
+              <BottomSheetSelect value={recipient} onValueChange={setRecipient}
+                title="Recipient" className="mt-1 min-h-11"
+                options={[
+                  { value: 'supervisor', label: 'Supervisor / manager' },
+                  { value: 'HR', label: 'HR' },
+                  { value: 'team lead', label: 'Team lead' },
+                  { value: 'employer', label: 'Employer (generic)' },
+                ]} />
             </div>
             <div>
               <Label className="font-semibold text-foreground">Tone</Label>
-              <Select value={tone} onValueChange={setTone}>
-                <SelectTrigger className="nv-input mt-1 min-h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="professional">Professional</SelectItem>
-                  <SelectItem value="collaborative">Collaborative</SelectItem>
-                  <SelectItem value="assertive">Assertive</SelectItem>
-                  <SelectItem value="formal">Formal</SelectItem>
-                  <SelectItem value="friendly">Friendly</SelectItem>
-                </SelectContent>
-              </Select>
+              <BottomSheetSelect value={tone} onValueChange={setTone}
+                title="Tone" className="mt-1 min-h-11"
+                options={['professional', 'collaborative', 'assertive', 'formal', 'friendly'].map(value => ({
+                  value, label: value.charAt(0).toUpperCase() + value.slice(1),
+                }))} />
             </div>
           </div>
 

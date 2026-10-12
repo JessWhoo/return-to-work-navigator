@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Loader2, Sparkles, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
@@ -175,16 +175,9 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
               </div>
               <div>
                 <label className="text-xs text-brand-muted-foreground mb-1 block">Outcome</label>
-                <Select value={newResponse.outcome} onValueChange={v => setNewResponse(p => ({ ...p, outcome: v }))}>
-                  <SelectTrigger aria-label="Outcome" className="nv-input min-h-11">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(OUTCOME_CONFIG).map(([k, v]) => (
-                      <SelectItem key={k} value={k}>{v.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <BottomSheetSelect value={newResponse.outcome} onValueChange={v => setNewResponse(p => ({ ...p, outcome: v }))}
+                  title="Outcome" className="min-h-11"
+                  options={Object.entries(OUTCOME_CONFIG).map(([value, config]) => ({ value, label: config.label }))} />
               </div>
             </div>
             <div>

@@ -10,9 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import {
   Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogFooter
 } from '@/components/ui/dialog';
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/components/ui/select';
+import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import {
   MessageCircleQuestion, Search, Plus, ThumbsUp,
   Battery, Scale, Handshake, MessageSquare, Briefcase,
@@ -376,16 +374,9 @@ function AskQuestionDialog({ open, onOpenChange, currentUser, onCreated }) {
         <div className="space-y-4">
           <div>
             <label className="text-sm font-bold text-brand-text mb-1 block">Topic</label>
-            <Select value={topic} onValueChange={setTopic}>
-              <SelectTrigger aria-label="Topic" className="nv-input min-h-11">
-                <SelectValue placeholder="Choose a topic..." />
-              </SelectTrigger>
-              <SelectContent>
-                {TOPICS.filter(t => t.id !== 'all').map(t => (
-                  <SelectItem key={t.id} value={t.id}>{t.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <BottomSheetSelect value={topic} onValueChange={setTopic}
+              title="Topic" placeholder="Choose a topic..." className="min-h-11"
+              options={TOPICS.filter(t => t.id !== 'all').map(t => ({ value: t.id, label: t.label }))} />
           </div>
           <div>
             <label className="text-sm font-bold text-brand-text mb-1 block">Your question</label>

@@ -128,9 +128,14 @@ export default function Layout({ children, currentPageName }) {
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, [mobileMenuOpen]);
 
-  // Restore the saved accessibility mode preference on every load.
+  // Apply to body so portalled dialogs and sheets share the control-only rule.
   useEffect(() => {
+    const alreadyApplied = document.body.classList.contains('mobile-ui-select-none');
+    document.body.classList.add('mobile-ui-select-none');
     applyAccessibilityMode(isAccessibilityModeOn());
+    return () => {
+      if (!alreadyApplied) document.body.classList.remove('mobile-ui-select-none');
+    };
   }, []);
 
   // Restore previous scroll position for this path (if any) on navigation,
