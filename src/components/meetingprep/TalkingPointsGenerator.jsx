@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
 import { Sparkles, Loader2, Copy, Save, Check } from 'lucide-react';
+import { toast } from 'sonner';
 import { SCENARIO_TEMPLATES, CONSTRAINT_OPTIONS } from './talkingPointTemplates';
 
 const ENERGY_LABELS = ['Very low', 'Low', 'Moderate', 'Good', 'High'];
@@ -36,14 +37,23 @@ export default function TalkingPointsGenerator({ onSaved }) {
   const generate = async () => {
     setGenerating(true);
     setSaved(false);
-    const allConstraints = [...constraints, customConstraints.trim()].filter(Boolean).join('; ');
-    const tpl = SCENARIO_TEMPLATES.find((t) => t.id === selectedTemplate);
-    const result = (await base44.functions.invoke('aiGateway', {
-      operation: 'talking_points',
-      data: { scenarioName: tpl ? tpl.name : 'General return-to-work discussion', constraints: allConstraints, energyLabel: ENERGY_LABELS[energy - 1], energy },
-    })).data.result;
-    setPoints(result.talking_points || []);
-    setGenerating(false);
+    try {
+      const allConstraints = [...constraints, customConstraints.trim()].filter(Boolean).join('; ');
+      const tpl = SCENARIO_TEMPLATES.find((t) => t.id === selectedTemplate);
+      const response = await base44.functions.invoke('aiGateway', {
+        operation: 'talking_points',
+        data: { scenarioName: tpl ? tpl.name : 'General return-to-work discussion', constraints: allConstraints, energyLabel: ENERGY_LABELS[energy - 1], energy },
+      });
+      const result = response?.data?.result;
+      if (!result?.talking_points?.length) {
+        throw new Error('No talking points were returned. Please try again.');
+      }
+      setPoints(result.talking_points);
+    } catch (err) {
+      toast.error(err?.message || 'Could not generate talking points right now. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
   };
 
   const copyAll = async () => {

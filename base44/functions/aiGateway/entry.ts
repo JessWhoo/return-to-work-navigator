@@ -853,6 +853,7 @@ export default async function(req) {
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM(invokeArgs);
     return Response.json({ result });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[aiGateway] operation failed:', operation || '(none)', error?.message || error);
+    return Response.json({ error: error?.message || 'AI request failed. Please try again.' }, { status: 500 });
   }
 }

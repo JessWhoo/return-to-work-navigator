@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Loader2, Sparkles, X } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const MEETING_TYPES = {
   accommodation_request: 'Accommodation Request',
@@ -83,23 +84,32 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
   // --- AI Suggestions ---
   const generateAISuggestions = async () => {
     setAiLoading(true);
-    const result = (await base44.functions.invoke('aiGateway', {
-      operation: 'meeting_prep_suggestions',
-      data: {
-        meetingTypeLabel: MEETING_TYPES[form.meeting_type],
-        attendees: form.attendees,
-        goals: form.goals,
-        talkingPoints: form.talking_points.filter(Boolean).join('; '),
-        accommodations: form.accommodation_requests.map(a => a.accommodation).join('; '),
-      },
-    })).data.result;
-    setForm(prev => ({
-      ...prev,
-      talking_points: [...prev.talking_points.filter(Boolean), ...(result.talking_points || [])],
-      anticipated_objections: [...prev.anticipated_objections, ...(result.anticipated_objections || [])],
-      documents_to_bring: [...prev.documents_to_bring.filter(Boolean), ...(result.documents_to_bring || [])]
-    }));
-    setAiLoading(false);
+    try {
+      const response = await base44.functions.invoke('aiGateway', {
+        operation: 'meeting_prep_suggestions',
+        data: {
+          meetingTypeLabel: MEETING_TYPES[form.meeting_type],
+          attendees: form.attendees,
+          goals: form.goals,
+          talkingPoints: form.talking_points.filter(Boolean).join('; '),
+          accommodations: form.accommodation_requests.map(a => a.accommodation).join('; '),
+        },
+      });
+      const result = response?.data?.result;
+      if (!result) {
+        throw new Error('No suggestions were returned. Please try again.');
+      }
+      setForm(prev => ({
+        ...prev,
+        talking_points: [...prev.talking_points.filter(Boolean), ...(result.talking_points || [])],
+        anticipated_objections: [...prev.anticipated_objections, ...(result.anticipated_objections || [])],
+        documents_to_bring: [...prev.documents_to_bring.filter(Boolean), ...(result.documents_to_bring || [])]
+      }));
+    } catch (err) {
+      toast.error(err?.message || 'Could not generate AI suggestions right now. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   const handleSave = async () => {
