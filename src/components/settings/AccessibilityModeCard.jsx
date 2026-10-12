@@ -17,21 +17,21 @@ export default function AccessibilityModeCard() {
   };
 
   return (
-    <Card className="bg-slate-800/50 border-slate-700">
+    <Card>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-slate-200">
-          <Eye className="h-5 w-5 text-teal-400" />
+        <CardTitle className="flex items-center gap-2 font-heading text-brand-text">
+          <Eye className="h-5 w-5 text-brand-primary" />
           <span>Accessibility</span>
         </CardTitle>
-        <p className="text-sm text-slate-400 mt-2">
+        <p className="text-sm text-brand-muted-foreground mt-2">
           Easier reading for visual strain or cognitive fatigue
         </p>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between p-4 bg-slate-900 rounded-lg">
-          <div className="space-y-1 pr-4">
-            <Label className="text-slate-200">Accessibility Mode</Label>
-            <p className="text-sm text-slate-400">
+        <div className="flex items-center justify-between gap-4 rounded-brand bg-brand-muted p-4">
+          <div className="space-y-1 min-w-0">
+            <Label className="font-semibold text-brand-text">Accessibility Mode</Label>
+            <p className="text-sm text-brand-muted-foreground">
               Larger text, higher contrast, bolder borders, and no distracting motion
             </p>
           </div>
