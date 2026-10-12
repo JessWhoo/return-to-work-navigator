@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import { Card } from "@/components/ui/card";
 import BrandMark from "@/components/brand/BrandMark";
 
@@ -20,6 +21,7 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
           </header>
           {children}
           {footer && <p className="mt-6 border-t border-brand-border pt-5 text-center text-sm text-brand-muted-foreground">{footer}</p>}
+          <div className="mt-4 text-center"><Link to="/PrivacySecurity" className="nv-btn nv-btn--text nv-btn--sm">Privacy Policy</Link></div>
         </div>
       </Card>
     </main>

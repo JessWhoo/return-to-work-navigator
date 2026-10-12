@@ -12,7 +12,7 @@ export default function NavigatorFooter({ navigation }) {
         </div>
         <div className="border-t border-brand-border pt-5 text-center">
           <nav aria-label="Legal and accessibility" className="flex flex-wrap justify-center gap-2">
-            <Link to="/About" className="nv-btn nv-btn--text nv-btn--sm">About</Link><Link to="/Contact" className="nv-btn nv-btn--text nv-btn--sm">Contact</Link><Link to="/PrivacySecurity" className="nv-btn nv-btn--text nv-btn--sm">Privacy & Security</Link><Link to="/Profile" className="nv-btn nv-btn--text nv-btn--sm">Accessibility preferences</Link>
+            <Link to="/About" className="nv-btn nv-btn--text nv-btn--sm">About</Link><Link to="/Contact" className="nv-btn nv-btn--text nv-btn--sm">Contact</Link><Link to="/PrivacySecurity" className="nv-btn nv-btn--text nv-btn--sm">Privacy Policy</Link><Link to="/Profile" className="nv-btn nv-btn--text nv-btn--sm">Accessibility preferences</Link>
           </nav>
           <p className="mt-4 text-xs">© 2026 Back to Life, Back to Work for Cancer Survivors</p><p className="mt-2 text-xs">Information is for educational purposes only</p><p className="mt-1 text-xs italic">Not meant to be legal advice. Please consult with legal counsel.</p>
         </div>

@@ -375,6 +375,15 @@ export default function Profile() {
         {/* Preferences Tab */}
         <TabsContent value="preferences" className="space-y-6">
           <AccessibilityModeCard />
+          <Card>
+            <CardContent className="p-6">
+              <Link to="/PrivacySecurity" className="nv-btn nv-btn--outline">
+                <Shield className="h-5 w-5" aria-hidden="true" />
+                Privacy Policy
+              </Link>
+              <p className="mt-3 text-sm text-brand-muted-foreground">How Navigator handles your information and privacy requests.</p>
+            </CardContent>
+          </Card>
 
           <Card>
             <CardHeader>
