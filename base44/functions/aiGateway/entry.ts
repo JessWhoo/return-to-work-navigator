@@ -745,6 +745,46 @@ Return a JSON object with this exact structure:
 // ---- Simulation helpers: instruction text is owned here; client data is capped ----
 const cap = (v, n = 500) => String(v ?? '').slice(0, n);
 const capList = (a, n = 10) => (Array.isArray(a) ? a.slice(0, n).map((x) => cap(x, 300)) : []);
+const SUPABASE_RESUME_PATH_PREFIX = '/storage/v1/object/public/base44-prod/public/';
+function isPrivateIpv4(hostname) {
+  const parts = hostname.split('.').map((x) => Number(x));
+  if (parts.length !== 4 || parts.some((n) => !Number.isInteger(n) || n < 0 || n > 255)) return false;
+  if (parts[0] === 10 || parts[0] === 127) return true;
+  if (parts[0] === 169 && parts[1] === 254) return true;
+  if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true;
+  if (parts[0] === 192 && parts[1] === 168) return true;
+  return false;
+}
+function isIpv4(hostname) {
+  const parts = hostname.split('.').map((x) => Number(x));
+  return parts.length === 4 && parts.every((n) => Number.isInteger(n) && n >= 0 && n <= 255);
+}
+function isIpv6(hostname) {
+  return hostname.includes(':');
+}
+function isAllowedResumeUrl(rawUrl) {
+  if (typeof rawUrl !== 'string' || rawUrl.length > 2048) return false;
+  let parsed;
+  try { parsed = new URL(rawUrl); }
+  catch { return false; }
+
+  if (parsed.protocol !== 'https:' || parsed.username || parsed.password) return false;
+
+  const host = parsed.hostname.toLowerCase();
+  if (!host || host === 'localhost' || host.endsWith('.localhost')) return false;
+  if (isIpv6(host) || isPrivateIpv4(host)) return false;
+  if (isIpv4(host) && !isPrivateIpv4(host)) return false; // block all IP literals
+
+  if (host.endsWith('.supabase.co')) {
+    return parsed.pathname.startsWith(SUPABASE_RESUME_PATH_PREFIX);
+  }
+  if (host === 'media.base44.com') {
+    return parsed.pathname.startsWith('/files/public/')
+      || parsed.pathname.startsWith('/documents/public/')
+      || parsed.pathname.startsWith('/images/public/');
+  }
+  return false;
+}
 const TYPE_LABELS = {
   accommodation_request: 'Accommodation Request', return_to_work_plan: 'Return to Work Plan',
   performance_review: 'Performance Review', hr_discussion: 'HR Discussion',
@@ -847,6 +887,9 @@ export default async function(req) {
     const invokeArgs = schema ? { prompt, response_json_schema: schema } : { prompt };
     // resume_analysis attaches the uploaded resume file (UploadFile stays client-side).
     if (operation === 'resume_analysis' && data?.resumeUrl) {
+      if (!isAllowedResumeUrl(data.resumeUrl)) {
+        return Response.json({ error: 'Invalid resume URL. Please re-upload your file and try again.' }, { status: 400 });
+      }
       invokeArgs.file_urls = [data.resumeUrl];
     }
 
