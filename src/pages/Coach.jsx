@@ -130,8 +130,11 @@ export default function Coach() {
   const sendMessageMutation = useMutation({
     mutationFn: async (messageText) => {
       setLastUserMessage(messageText);
-      const conversation = conversations.find(c => c.id === selectedConversation);
-      if (!conversation) throw new Error('No conversation selected');
+      // The conversation may not be in local state yet right after it was
+      // created (the list is still refetching). addMessage only needs the id,
+      // so fall back to a minimal object instead of failing to send.
+      const conversation = conversations.find(c => c.id === selectedConversation)
+        || { id: selectedConversation };
 
       // Track conversation interaction
       base44.analytics.track({
@@ -220,10 +223,11 @@ export default function Coach() {
         setConversations(prev => [convWithMessages, ...prev]);
         await base44.agents.addMessage(convWithMessages, { role: 'user', content: messageText });
       } else {
-        const conversation = conversations.find(c => c.id === selectedConversation);
-        if (conversation) {
-          await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
-        }
+        // Fall back to the id when the full conversation object isn't loaded
+        // yet, so quick-send buttons never silently drop the message.
+        const conversation = conversations.find(c => c.id === selectedConversation)
+          || { id: selectedConversation };
+        await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
       }
       queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
     } catch {
