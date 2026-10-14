@@ -231,6 +231,9 @@ export default function Coach() {
     }
   };
 
+  const currentConversation = conversations.find(c => c.id === selectedConversation);
+  const messages = currentConversation?.messages || [];
+
   const firedCoachEngagement = useRef(new Set());
   useEffect(() => {
     if (!selectedConversation) return;
@@ -240,9 +243,6 @@ export default function Coach() {
       logToolEngagement('ai_coach');
     }
   }, [messages, selectedConversation]);
-
-  const currentConversation = conversations.find(c => c.id === selectedConversation);
-  const messages = currentConversation?.messages || [];
 
   if (loadingConversations) {
     return (
