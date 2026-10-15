@@ -249,10 +249,10 @@ export const ROUTE_SEO = {
     path: '/WellbeingHub',
   },
   '/energymanagement': {
-    title: 'Daily Cancer Fatigue, Energy & Symptom Tracker',
+    title: 'Daily Workday Energy & Fatigue Pacing Tracker',
     description:
-      'Log morning, afternoon, and evening energy levels, track treatment side effects, and uncover patterns to pace your workday without burnout.',
-    h1: 'Daily Energy, Fatigue & Workplace Symptom Tracker',
+      'Log morning, afternoon, and evening energy levels and uncover daily patterns to pace your workday without burnout.',
+    h1: 'Daily Workday Energy & Fatigue Pacing Tracker',
     path: '/EnergyManagement',
   },
   '/emotionalsupport': {
@@ -261,13 +261,6 @@ export const ROUTE_SEO = {
       'Practical coping strategies for cancer survivors navigating return-to-work anxiety, imposter syndrome, scanxiety, and coworker conversations.',
     h1: 'Emotional Support & Return-to-Work Anxiety Guide',
     path: '/EmotionalSupport',
-  },
-  '/symptomanalysis': {
-    title: 'Workplace Symptom Pattern Analysis & Severity Log',
-    description:
-      'Track and analyze post-treatment symptoms like fatigue, neuropathy, and cognitive fog to share clear reports with your oncology team and employer.',
-    h1: 'Workplace Symptom Pattern & Severity Analysis',
-    path: '/SymptomAnalysis',
   },
   '/communityhub': {
     title: 'Cancer Survivor Return-to-Work Peer Community Hub',

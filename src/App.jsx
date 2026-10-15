@@ -204,6 +204,8 @@ const AuthenticatedApp = () => {
       <Route path="/ForClinicsAndNurseNavigators" element={<Navigate to="/ForClinics" replace />} />
       <Route path="/Gamification" element={<Navigate to="/MyJourney" replace />} />
       <Route path="/gamification" element={<Navigate to="/MyJourney" replace />} />
+      <Route path="/SymptomAnalysis" element={<Navigate to="/WellbeingHub" replace />} />
+      <Route path="/symptomanalysis" element={<Navigate to="/WellbeingHub" replace />} />
 
       {/* ------- App routes (no sign-in required) ------- */}
       <Route>

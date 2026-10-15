@@ -28,7 +28,6 @@
   <url><loc>https://return-to-work-navigator.org/ProgressDashboard</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://return-to-work-navigator.org/EnergyManagement</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/EmotionalSupport</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://return-to-work-navigator.org/SymptomAnalysis</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://return-to-work-navigator.org/JobBoards</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/ExportReports</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 

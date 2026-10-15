@@ -61,7 +61,6 @@ import ProgressDashboard from './pages/ProgressDashboard';
 import RecordKeeping from './pages/RecordKeeping';
 import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
-import SymptomAnalysis from './pages/SymptomAnalysis';
 import WellnessResources from './pages/WellnessResources';
 import MeetingPrep from './pages/MeetingPrep';
 import InternationalLaws from './pages/InternationalLaws';
@@ -99,7 +98,6 @@ export const PAGES = {
     "RecordKeeping": RecordKeeping,
     "Resources": Resources,
     "ReturnPlanning": ReturnPlanning,
-    "SymptomAnalysis": SymptomAnalysis,
     "WellnessResources": WellnessResources,
     "MeetingPrep": MeetingPrep,
     "InternationalLaws": InternationalLaws,

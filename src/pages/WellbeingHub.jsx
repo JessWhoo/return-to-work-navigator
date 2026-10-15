@@ -19,7 +19,7 @@ export default function WellbeingHub() {
       <PageHeader
         eyebrow="Well-being"
         title="Workplace Energy, Fatigue & Emotional Well-Being Hub"
-        subtitle="Track daily energy and symptoms, pace your workday, and manage return-to-work anxiety."
+        subtitle="Track daily workday energy, pace your tasks, and manage return-to-work anxiety."
       />
 
       <Tabs defaultValue="energy" className="space-y-6">

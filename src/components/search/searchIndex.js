@@ -4,7 +4,7 @@ export const SEARCH_INDEX = [
   { title: 'AI Coach', path: '/Coach', description: 'Chat with your return-to-work AI coach', keywords: ['coach', 'chat', 'advice', 'ai', 'questions', 'support'] },
   { title: 'My Journey', path: '/MyJourney', description: 'Track your return-to-work progress', keywords: ['journey', 'progress', 'tracking', 'milestones', 'energy log'] },
   { title: 'Career & Return', path: '/CareerHub', description: 'Return planning, job boards, and career tools', keywords: ['career', 'return to work', 'job', 'resume', 'planning'] },
-  { title: 'Health & Well-Being', path: '/WellbeingHub', description: 'Energy, symptoms, and emotional support tools', keywords: ['health', 'wellbeing', 'fatigue', 'energy', 'symptoms', 'mood', 'stress'] },
+  { title: 'Health & Well-Being', path: '/WellbeingHub', description: 'Workday energy pacing and emotional support tools', keywords: ['health', 'wellbeing', 'fatigue', 'energy', 'pacing', 'mood', 'stress'] },
   { title: 'Wellness Library', path: '/WellnessLibrary', description: 'Browse resources on fatigue, rights, sleep, and more', keywords: ['wellness', 'library', 'fatigue', 'rights', 'sleep', 'nutrition', 'emotional', 'resources'] },
   { title: 'Energy Management', path: '/EnergyManagement', description: 'Tips and tracking for managing fatigue', keywords: ['energy', 'fatigue', 'tired', 'pacing', 'rest', 'exhaustion'] },
   { title: 'Emotional Support', path: '/EmotionalSupport', description: 'Coping tools and emotional well-being support', keywords: ['emotional', 'anxiety', 'depression', 'coping', 'mental health', 'stress'] },
