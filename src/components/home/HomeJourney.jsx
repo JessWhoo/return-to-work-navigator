@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Check } from 'lucide-react';
+import { Check, Compass, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BRAND_LOGO } from '@/components/brand/BrandIcon';
 import { getJourneyMilestones } from '@/components/home/homeJourneyData';
@@ -10,6 +10,14 @@ export default function HomeJourney({ progress, loading, error, onRetry }) {
   return (
     <section className="nv-home-journey space-y-6" aria-labelledby="home-journey-title" aria-busy={loading}>
       <div className="space-y-3 text-center"><h2 id="home-journey-title" className="text-2xl font-bold sm:text-3xl">Your Return Journey</h2><p className="text-brand-muted-foreground">A step-by-step path to guide you through the process.</p></div>
+      <div className="flex justify-center">
+        <Link to="/NavigatorMethod" className="inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-brand border border-brand-primary bg-brand-surface px-4 py-2.5 text-center text-sm shadow-brand-sm transition hover:bg-brand-muted hover:shadow-brand-md">
+          <Compass className="h-4 w-4 text-brand-primary" aria-hidden="true" />
+          <span className="font-heading font-bold text-brand-primary">The Navigator Method</span>
+          <span className="font-semibold text-brand-text">Explore · Plan · Build · Return · Thrive</span>
+          <ArrowRight className="h-4 w-4 text-brand-primary" aria-hidden="true" />
+        </Link>
+      </div>
       <figure className="nv-card mx-auto w-full max-w-full overflow-hidden sm:max-w-lg">
         <img src="https://media.base44.com/images/public/69406c752de234aafebf891d/346c32826_render.png" alt="Wooden signposts against a mountain landscape reading Explore, Plan, Build, Return, and Thrive." width="818" height="1024" loading="lazy" decoding="async" className="block h-auto w-full" />
       </figure>
