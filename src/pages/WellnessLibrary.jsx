@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, X, Loader2, Plus, MessageSquare } from 'lucide-react';
+import { Search, X, Loader2, Plus, MessageSquare, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WellnessResourceCard from '@/components/wellness/WellnessResourceCard';
 import LibraryErrorPanel from '@/components/wellness/LibraryErrorPanel';
@@ -31,6 +31,8 @@ const CORE_WELLNESS_GUIDES = [
     title: 'Managing Cancer-Related Fatigue & Energy Pacing at Work',
     summary:
       'Schedule demanding cognitive tasks during your peak morning energy window, take 5-minute restorative micro-breaks every 90 minutes, and use a phased part-time schedule during your first month back.',
+    to: '/WellbeingHub?tab=energy',
+    cta: 'Open energy tracker',
   },
   {
     id: 'cognitive-fog',
@@ -38,6 +40,8 @@ const CORE_WELLNESS_GUIDES = [
     title: 'Practical Strategies for Chemo Brain & Memory Changes',
     summary:
       'Request written meeting agendas and follow-up action items, work from a quiet or remote environment for deep-focus projects, and use single-tasking checklists to reduce cognitive overload.',
+    to: '/ChemoBrainGuide',
+    cta: 'Read the guide',
   },
   {
     id: 'emotional-readiness',
@@ -45,6 +49,8 @@ const CORE_WELLNESS_GUIDES = [
     title: 'Navigating Return-to-Work Anxiety & Coworker Boundaries',
     summary:
       'Prepare a short, comfortable 1-sentence script for coworker check-ins, practice box breathing before high-stakes supervisor meetings, and lean on oncology social workers or peer support groups.',
+    to: '/WellbeingHub?tab=emotional',
+    cta: 'Open emotional support',
   },
   {
     id: 'sleep-nutrition',
@@ -52,6 +58,8 @@ const CORE_WELLNESS_GUIDES = [
     title: 'Restorative Sleep & Desk Nutrition for Sustained Stamina',
     summary:
       'Keep protein-rich snacks and hydration at your workstation, protect a consistent wind-down routine after workdays, and incorporate gentle 10-minute walks to counter treatment stiffness.',
+    to: '/WellbeingHub?tab=energy',
+    cta: 'Open energy & rest',
   },
 ];
 
@@ -176,6 +184,12 @@ export default function WellnessLibrary({ embedded = false }) {
               <span className="nv-eyebrow nv-eyebrow--primary">{guide.category}</span>
               <h2 className="font-heading text-lg font-bold text-brand-text">{guide.title}</h2>
               <p className="text-sm text-brand-muted-foreground leading-relaxed">{guide.summary}</p>
+              <Button asChild variant="outline" size="sm" className="mt-2 w-fit">
+                <Link to={guide.to}>
+                  {guide.cta}
+                  <ArrowRight className="h-4 w-4 ml-1" aria-hidden="true" />
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         ))}
