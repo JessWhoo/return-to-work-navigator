@@ -7,8 +7,15 @@ import { Label } from "@/components/ui/label";
 import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
+import useSEO from "@/hooks/useSEO";
 
 export default function Login() {
+  useSEO({
+    title: "Sign In to Your Return to Work Navigator Account",
+    description:
+      "Sign in to Return to Work Navigator to access your saved accommodation drafts, energy logs, checklist progress, and private AI coaching conversations.",
+    path: "/login",
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

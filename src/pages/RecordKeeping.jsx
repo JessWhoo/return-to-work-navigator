@@ -16,8 +16,15 @@ import AddRecordDialog from '../components/records/AddRecordDialog';
 import RecordDetailView from '../components/records/RecordDetailView';
 import PullToRefresh from '../components/PullToRefresh';
 import { useAuth } from '@/lib/AuthContext';
+import useSEO from '@/hooks/useSEO';
 
 export default function RecordKeeping() {
+  useSEO({
+    title: 'Private Medical, Symptom & HR Meeting Record Log',
+    description:
+      'Keep organized, dated records of doctor recommendations, work restrictions, HR accommodation meetings, and daily symptom notes in one private log.',
+    path: '/RecordKeeping',
+  });
   const queryClient = useQueryClient();
   const { isAuthenticated, isLoadingAuth } = useAuth();
 
@@ -72,9 +79,9 @@ export default function RecordKeeping() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading text-3xl font-bold text-foreground">Record Keeping</h1>
+          <h1 className="font-heading text-3xl font-bold text-foreground">Medical, Workplace &amp; Symptom Record Keeping</h1>
           <p className="mt-1 text-muted-foreground">
-            Document your journey, track progress, and maintain important records
+            Document doctor recommendations, HR meetings, and daily symptoms in one organized log
           </p>
         </div>
         <Button onClick={() => setShowAddDialog(true)}>

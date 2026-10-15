@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import PageHeader from '@/components/brand/PageHeader';
+import useSEO from '@/hooks/useSEO';
 
 const PHASES = [
   {
@@ -95,17 +96,27 @@ export default function Roadmap() {
     return total ? Math.round((done / total) * 100) : 0;
   }, [phaseStats]);
 
+  useSEO({
+    title: 'Step-by-Step Return-to-Work Roadmap After Cancer',
+    description:
+      'Follow a guided four-stage roadmap from medical clearance and accommodation planning through your first week back and long-term career sustainability.',
+    path: '/Roadmap',
+  });
+
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto py-12 text-center">
-        <div className="w-8 h-8 border-4 border-brand-border border-t-brand-primary rounded-full animate-spin mx-auto" />
+      <div className="max-w-5xl mx-auto space-y-8">
+        <PageHeader center eyebrow="Your Return-to-Work Roadmap" title="Your Step-by-Step Return-to-Work Roadmap" subtitle="Track where you've been, where you are, and what's ahead. Tap any phase to explore its milestones." />
+        <div className="py-12 text-center">
+          <div className="w-8 h-8 border-4 border-brand-border border-t-brand-primary rounded-full animate-spin mx-auto" />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      <PageHeader center eyebrow="Your Return-to-Work Roadmap" title="Your journey, one step at a time" subtitle="Track where you've been, where you are, and what's ahead. Tap any phase to explore its milestones." />
+      <PageHeader center eyebrow="Your Return-to-Work Roadmap" title="Your Step-by-Step Return-to-Work Roadmap" subtitle="Track where you've been, where you are, and what's ahead. Tap any phase to explore its milestones." />
       <Card>
         <CardContent className="pt-6 space-y-3"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="nv-eyebrow">Overall Progress</p><p className="text-2xl font-bold text-brand-text">{overallPercent}% complete</p></div><Badge>Current: {PHASES[currentIndex].label}</Badge></div><Progress value={overallPercent} className="h-2" /></CardContent>
       </Card>

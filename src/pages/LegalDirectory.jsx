@@ -4,8 +4,15 @@ import { Search } from 'lucide-react';
 import { directoryTopics, directoryEntries } from '@/components/legal/legalDirectoryData';
 import DirectoryEntryCard from '@/components/legal/DirectoryEntryCard';
 import PageHeader from '@/components/brand/PageHeader';
+import useSEO from '@/hooks/useSEO';
 
 export default function LegalDirectory() {
+  useSEO({
+    title: 'Searchable ADA, FMLA & Insurance Legal Directory',
+    description:
+      'Find fast, plain-language answers on intermittent FMLA leave, ADA accommodation denials, short-term disability insurance, COBRA continuation, and workplace privacy.',
+    path: '/LegalDirectory',
+  });
   const [search, setSearch] = useState('');
   const [activeTopic, setActiveTopic] = useState('all');
 

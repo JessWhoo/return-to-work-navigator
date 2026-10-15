@@ -8,6 +8,7 @@ import {
   Heart, Shield, Users, Zap, Bookmark, BookmarkCheck,
   RefreshCw, ChevronDown, ChevronUp, Lightbulb, MessageSquare
 } from 'lucide-react';
+import useSEO from '@/hooks/useSEO';
 
 const jobBoards = [
   {
@@ -226,7 +227,14 @@ const colorMap = {
 
 const totalBoards = jobBoards.reduce((sum, c) => sum + c.boards.length, 0);
 
-export default function JobBoards() {
+export default function JobBoards({ embedded = false }) {
+  useSEO({
+    title: 'Flexible, Remote & Survivor-Friendly Job Boards',
+    description:
+      'Curated directory of flexible, remote, returnship, and disability-inclusive job boards for cancer survivors re-entering the workforce or changing careers.',
+    path: '/JobBoards',
+    enabled: !embedded,
+  });
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
   const [bookmarks, setBookmarks] = useState(() => {
@@ -283,9 +291,15 @@ export default function JobBoards() {
     <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
       <div className="space-y-3 text-center">
-        <h1 className="font-heading text-4xl font-bold text-foreground">
-          Job Boards & Career Resources
-        </h1>
+        {embedded ? (
+          <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
+            Flexible &amp; Survivor-Friendly Job Boards
+          </h2>
+        ) : (
+          <h1 className="font-heading text-4xl font-bold text-foreground">
+            Flexible &amp; Survivor-Friendly Job Boards
+          </h1>
+        )}
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Curated job boards for cancer survivors — flexible, remote, and disability-inclusive employers
         </p>

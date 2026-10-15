@@ -15,15 +15,16 @@ import { EMPTY_DETAILS } from '@/components/accommodationLetter/accommodationOpt
 import { logToolEngagement } from '@/lib/analytics';
 
 const STEP_COPY = {
-  1: { title: 'Which accommodations do you need?', sub: 'Select everything that would help you do your job well. You can add your own too.' },
+  1: { title: 'ADA Workplace Accommodation Letter Generator', sub: 'Select every workplace accommodation that would help you do your job well. You can add custom adjustments too.' },
   2: { title: 'A few details for the letter', sub: 'This information fills in the letter — nothing is stored or sent anywhere.' },
   3: { title: 'Your accommodation request letter', sub: 'Review it, make any edits, then copy, print, or download it to send to your employer.' },
 };
 
 export default function AccommodationLetterGenerator() {
   useSEO({
-    title: 'Accommodation Letter Generator',
-    description: 'Choose standard workplace accommodations and generate a professionally formatted request letter for your employer.',
+    title: 'Free ADA Workplace Accommodation Letter Generator',
+    description:
+      'Generate a formal, ADA-aligned workplace accommodation request letter in three guided steps — customize schedule, remote work, and fatigue accommodations.',
     path: '/AccommodationLetterGenerator',
   });
 

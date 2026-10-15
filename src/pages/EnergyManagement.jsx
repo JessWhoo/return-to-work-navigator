@@ -21,6 +21,7 @@ import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 import DownloadPlannerButton from '../components/planner/DownloadPlannerButton';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import useSEO from '@/hooks/useSEO';
 
 // Static class maps — Tailwind purges dynamically built class names.
 const TIP_BG = { amber: 'bg-muted', blue: 'bg-muted', teal: 'bg-muted', rose: 'bg-muted' };
@@ -439,7 +440,14 @@ function SymptomTab({ progress }) {
   );
 }
 
-export default function EnergyManagement() {
+export default function EnergyManagement({ embedded = false }) {
+  useSEO({
+    title: 'Daily Cancer Fatigue, Energy & Symptom Tracker',
+    description:
+      'Log morning, afternoon, and evening energy levels, track treatment side effects, and uncover patterns to pace your workday without burnout.',
+    path: '/EnergyManagement',
+    enabled: !embedded,
+  });
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('energy');
 
@@ -448,9 +456,15 @@ export default function EnergyManagement() {
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <div className="space-y-4 text-center">
-        <h1 className="font-heading text-4xl font-bold text-foreground">
-          Energy, Fatigue & Symptoms
-        </h1>
+        {embedded ? (
+          <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
+            Daily Energy, Fatigue &amp; Workplace Symptom Tracker
+          </h2>
+        ) : (
+          <h1 className="font-heading text-4xl font-bold text-foreground">
+            Daily Energy, Fatigue &amp; Workplace Symptom Tracker
+          </h1>
+        )}
         <p className="mx-auto max-w-2xl text-lg font-medium text-muted-foreground">
           Track your daily energy levels, mood, and symptoms to identify patterns and manage your well-being
         </p>

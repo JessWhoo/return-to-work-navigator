@@ -5,8 +5,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import GamificationDashboard from '@/components/gamification/GamificationDashboard';
 import { motion } from 'framer-motion';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import useSEO from '@/hooks/useSEO';
 
 export default function Gamification() {
+  useSEO({
+    title: 'Return-to-Work Milestones, Streaks & Achievements',
+    description:
+      'Celebrate every step of your return-to-work recovery with milestone badges, daily check-in streaks, and progress achievements.',
+    path: '/Gamification',
+  });
+
   const { data: progress } = useUserProgress({
     completed_checklist_items: [],
     journey_stage: 'planning',
@@ -23,15 +31,18 @@ export default function Gamification() {
   
   if (!progress) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary"></div>
+      <div className="max-w-6xl mx-auto space-y-8">
+        <PageHeader center title="Your Return-to-Work Milestones & Achievements" subtitle="Track your journey, celebrate milestones, and unlock achievements as you progress through your return-to-work journey." />
+        <div className="flex items-center justify-center min-h-[40vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary"></div>
+        </div>
       </div>
     );
   }
   
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <PageHeader center title="Your Progress & Achievements" subtitle="Track your journey, celebrate milestones, and unlock achievements as you progress through your return-to-work journey." />
+      <PageHeader center title="Your Return-to-Work Milestones & Achievements" subtitle="Track your journey, celebrate milestones, and unlock achievements as you progress through your return-to-work journey." />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <Card className="nv-card--muted">
           <CardContent className="pt-6">

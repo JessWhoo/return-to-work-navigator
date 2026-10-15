@@ -6,8 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, Loader2, AlertTriangle } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
+import useSEO from "@/hooks/useSEO";
 
 export default function ResetPassword() {
+  useSEO({
+    title: "Set a New Return to Work Navigator Password",
+    description:
+      "Choose a new password to complete your Return to Work Navigator account recovery.",
+    path: "/reset-password",
+  });
   const [searchParams] = useSearchParams();
   const resetToken = searchParams.get("token");
 

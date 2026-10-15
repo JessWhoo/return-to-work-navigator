@@ -26,9 +26,9 @@ const TOPICS = [
 
 export default function WellnessLibrary() {
   useSEO({
-    title: 'Wellness Resource Library',
+    title: 'Cancer Fatigue, Sleep & Workplace Wellness Library',
     description:
-      'Trusted wellness resources for cancer survivors returning to work — fatigue management, sleep, nutrition, movement and emotional well-being.',
+      'Evidence-based wellness guides for cancer survivors returning to work: manage chemo brain, cancer-related fatigue, sleep disruption, nutrition, and stress.',
     path: '/WellnessLibrary',
   });
   const { isAuthenticated, user } = useAuth();
@@ -78,8 +78,8 @@ export default function WellnessLibrary() {
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Wellness Library"
-        title="Wellness Resource Library"
-        subtitle="Search trusted wellness resources by topic, and rate how helpful each one was for fellow survivors."
+        title="Cancer Survivorship & Workplace Wellness Library"
+        subtitle="Search trusted fatigue, sleep, nutrition, and emotional wellness resources by topic, and rate how helpful each one was for fellow survivors."
       />
 
       {/* Search + topic filters */}

@@ -78,9 +78,9 @@ function PreviewBlock({ title, children }) {
 
 export default function AccommodationWorksheet() {
   useSEO({
-    title: 'Accommodation Meeting Worksheet',
+    title: 'Printable HR Accommodation Meeting Prep Worksheet',
     description:
-      'Generate and download a clean, printable worksheet to prepare for your workplace accommodation meeting.',
+      'Prepare for your HR or supervisor accommodation meeting with a structured, printable PDF worksheet covering your job duties, medical limitations, and proposed solutions.',
     path: '/AccommodationWorksheet',
   });
 
@@ -114,7 +114,7 @@ export default function AccommodationWorksheet() {
       `}</style>
 
       {/* Header */}
-      <PageHeader className="no-print mb-6" eyebrow="Meeting Prep" title="Accommodation Meeting Worksheet" subtitle="Fill in a few details, preview your worksheet, then download a clean PDF you can print and bring to your meeting." />
+      <PageHeader className="no-print mb-6" eyebrow="Meeting Prep" title="Accommodation Meeting Preparation Worksheet" subtitle="Fill in a few details, preview your worksheet, then download a clean PDF you can print and bring to your HR or manager meeting." />
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Form */}

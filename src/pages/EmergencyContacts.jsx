@@ -30,15 +30,15 @@ function Section({ icon: Icon, iconColor, title, description, children }) {
 
 export default function EmergencyContacts() {
   useSEO({
-    title: 'Emergency Contacts & Crisis Resources',
+    title: '24/7 Crisis Hotlines & Cancer Support Helplines',
     description:
-      'Critical hotlines, crisis text lines, and professional contacts for immediate emotional, medical, and legal assistance for cancer survivors.',
+      'Free, confidential 24/7 crisis hotlines, oncology social work helplines, and legal aid contacts for cancer survivors needing immediate emotional or workplace support.',
     path: '/emergency-contacts',
   });
 
   return (
     <div className="max-w-5xl mx-auto space-y-10">
-      <PageHeader center eyebrow="Immediate Support" title="Emergency Contacts" subtitle="If you're in crisis or need urgent help, you're not alone. Reach out any time — day or night. All lines below are free and confidential." />
+      <PageHeader center eyebrow="Immediate Support" title="24/7 Emergency Contacts & Cancer Support Hotlines" subtitle="If you're in crisis or need urgent help, you're not alone. Reach out any time — day or night. All lines below are free and confidential." />
 
       {/* 911 Banner */}
       <motion.div

@@ -15,8 +15,9 @@ const CATEGORY_ICONS = {
 
 export default function ExpertAdvice() {
   useSEO({
-    title: 'Expert Advice',
-    description: 'Professional tips from oncology social workers, employment attorneys, and psychologists on workplace adjustments, emotional readiness, and career conversations after treatment.',
+    title: 'Oncology Social Worker & Employment Lawyer Tips',
+    description:
+      'Actionable return-to-work advice from oncology social workers, employment attorneys, and clinical psychologists on workplace adjustments and career conversations.',
     path: '/ExpertAdvice',
   });
 
@@ -47,7 +48,7 @@ export default function ExpertAdvice() {
     <div className="max-w-5xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Expert advice"
-        title="Professional Tips for Your Return"
+        title="Expert Return-to-Work Advice for Cancer Survivors"
         subtitle="Practical, evidence-based guidance from oncology social workers, employment attorneys, and clinical psychologists — for the workplace, the emotional journey, and every conversation in between."
       />
 

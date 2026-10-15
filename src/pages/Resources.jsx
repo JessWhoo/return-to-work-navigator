@@ -43,9 +43,10 @@ class ErrorBoundary extends Component {
 export default function Resources() {
   const { isAuthenticated, isLoadingAuth } = useAuth();
   useSEO({
-    title: 'Resource Library',
-    description: 'Browse curated articles, videos, workshops, and support groups for cancer survivors navigating their return to work.',
-    path: '/Resources'
+    title: 'Curated Cancer Survivorship & Return-to-Work Resources',
+    description:
+      'Explore 90+ vetted articles, workshops, meditations, podcasts, and support groups tailored to every stage of returning to work after cancer.',
+    path: '/Resources',
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -353,7 +354,7 @@ export default function Resources() {
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="font-heading text-4xl font-extrabold text-foreground sm:text-5xl">
-          Resource Library
+          Curated Return-to-Work &amp; Survivorship Resources
         </h1>
         <p className="mx-auto max-w-2xl text-lg font-medium text-muted-foreground">
           {totalResources} curated resources • {progress?.bookmarked_resources?.length || 0} saved • {totalRated} rated

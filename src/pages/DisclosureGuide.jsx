@@ -14,9 +14,9 @@ const STORAGE_KEY = 'disclosure_checklist_v1';
 
 export default function DisclosureGuide() {
   useSEO({
-    title: 'Disclosure Guide',
+    title: 'How to Tell Your Employer About a Cancer Diagnosis',
     description:
-      'Decide whether, when and how to tell your employer about your cancer diagnosis, with step-by-step guidance and your legal protections explained.',
+      'Step-by-step workplace disclosure guide for cancer survivors: decide whether, when, and how to share your diagnosis with HR or your manager while protecting your privacy.',
     path: '/DisclosureGuide',
   });
   const [checkedItems, setCheckedItems] = useState([]);
@@ -53,7 +53,7 @@ export default function DisclosureGuide() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      <PageHeader center eyebrow="Step-by-step guide" title="Telling Your Employer" subtitle="A confident, protected path to disclosing a cancer diagnosis at work — with clear steps and a checklist so you never go in unprepared." />
+      <PageHeader center eyebrow="Step-by-step guide" title="How to Tell Your Employer About Your Cancer Diagnosis" subtitle="A confident, protected path to disclosing a cancer diagnosis at work — with clear steps and a checklist so you never go in unprepared." />
 
       {/* Progress */}
       <Card className="">

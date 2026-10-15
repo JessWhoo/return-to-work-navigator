@@ -9,6 +9,7 @@ import {
   CheckCircle2, Building, Clock 
 } from 'lucide-react';
 import AccommodationRequestGuide from '@/components/legal/AccommodationRequestGuide';
+import useSEO from '@/hooks/useSEO';
 
 const laws = [
   {
@@ -184,7 +185,14 @@ const accentMap = {
   rose: { iconBg: 'bg-destructive', check: 'text-destructive' },
 };
 
-export default function LegalRights() {
+export default function LegalRights({ embedded = false }) {
+  useSEO({
+    title: 'ADA, FMLA, COBRA & HIPAA Protections for Cancer Survivors',
+    description:
+      'Plain-language guide to federal employment laws protecting cancer survivors at work: the Americans with Disabilities Act (ADA), FMLA leave, COBRA, and GINA.',
+    path: '/LegalRights',
+    enabled: !embedded,
+  });
   const [activeTab, setActiveTab] = useState('ada');
 
   const handleTabChange = (lawId) => {
@@ -200,11 +208,17 @@ export default function LegalRights() {
     <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
       <div className="space-y-4 text-center">
-        <h1 className="font-heading text-4xl font-bold text-foreground">
-          Your Legal Rights
-        </h1>
+        {embedded ? (
+          <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
+            Federal Workplace Legal Rights for Cancer Survivors
+          </h2>
+        ) : (
+          <h1 className="font-heading text-4xl font-bold text-foreground">
+            Federal Workplace Legal Rights for Cancer Survivors
+          </h1>
+        )}
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          Understanding your workplace protections as a cancer survivor
+          Understanding your ADA, FMLA, COBRA, and HIPAA workplace protections as a cancer survivor
         </p>
       </div>
 

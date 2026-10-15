@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { jsPDF } from 'jspdf';
 import PageHeader from '@/components/brand/PageHeader';
+import useSEO from '@/hooks/useSEO';
 import { 
   FileText, Download, 
   Clock, Home, Utensils, Briefcase 
@@ -72,7 +73,14 @@ const commonAccommodations = [
   }
 ];
 
-export default function Accommodations() {
+export default function Accommodations({ embedded = false }) {
+  useSEO({
+    title: 'Workplace Accommodations Builder for Cancer Survivors',
+    description:
+      'Browse common ADA workplace accommodations for fatigue, chemo brain, neuropathy, and medical appointments, and build a customized request letter for HR.',
+    path: '/Accommodations',
+    enabled: !embedded,
+  });
   const [selectedAccommodations, setSelectedAccommodations] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -156,7 +164,7 @@ export default function Accommodations() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <PageHeader center title="Workplace Accommodations" subtitle="Select the accommodations you need and generate a formal request letter" actions={<div className="flex flex-col items-center gap-3"><Link to="/AccommodationLetterGenerator" className="nv-btn !whitespace-normal"><FileText className="h-4 w-4" />Try the guided letter generator</Link><Link to="/AccommodationTemplates" className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal underline">Or browse ready-made request templates</Link></div>} />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Workplace Accommodations for Cancer Survivors" subtitle="Select the ADA workplace accommodations you need and generate a formal request letter" actions={<div className="flex flex-col items-center gap-3"><Link to="/AccommodationLetterGenerator" className="nv-btn !whitespace-normal"><FileText className="h-4 w-4" />Try the guided letter generator</Link><Link to="/AccommodationTemplates" className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal underline">Or browse ready-made request templates</Link></div>} />
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">

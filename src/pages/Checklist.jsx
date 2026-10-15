@@ -12,8 +12,16 @@ import CelebrationModal from '../components/gamification/CelebrationModal';
 import LevelDisplay from '../components/gamification/LevelDisplay';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { checklistData, getChecklistTotalItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
+import useSEO from '@/hooks/useSEO';
 
-export default function Checklist() {
+export default function Checklist({ embedded = false }) {
+  useSEO({
+    title: 'Interactive Return-to-Work Preparation Checklist',
+    description:
+      'Interactive step-by-step checklist for cancer survivors preparing to return to work: medical clearance, HR conversations, schedule planning, and self-care.',
+    path: '/Checklist',
+    enabled: !embedded,
+  });
   const queryClient = useQueryClient();
   const { trackAction, showQuickPoints, quickPointsAmount, setShowQuickPoints, celebration, setCelebration } = useGamification();
   const [expandedPhases, setExpandedPhases] = useState([0]);
@@ -82,12 +90,24 @@ export default function Checklist() {
   const totalItems = getChecklistTotalItems();
   const progressPercentage = totalItems > 0 ? (completedItems.length / totalItems) * 100 : 0;
 
+  const HeadingTag = embedded ? 'h2' : 'h1';
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center space-y-3">
-          <div className="animate-spin h-12 w-12 border-4 border-brand-border border-t-brand-primary rounded-full mx-auto" />
-          <p className="text-brand-muted-foreground">Loading your checklist...</p>
+      <div className="max-w-5xl mx-auto space-y-8">
+        <div className="space-y-3 text-center">
+          <HeadingTag className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
+            Interactive Return-to-Work Preparation Checklist
+          </HeadingTag>
+          <p className="max-w-2xl mx-auto text-brand-muted-foreground">
+            Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
+          </p>
+        </div>
+        <div className="flex items-center justify-center min-h-[240px]">
+          <div className="text-center space-y-3">
+            <div className="animate-spin h-12 w-12 border-4 border-brand-border border-t-brand-primary rounded-full mx-auto" />
+            <p className="text-brand-muted-foreground">Loading your checklist...</p>
+          </div>
         </div>
       </div>
     );
@@ -110,9 +130,9 @@ export default function Checklist() {
       
       {/* Header */}
       <div className="space-y-3 text-center">
-        <h2 className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
-          Your Return to Work Checklist
-        </h2>
+        <HeadingTag className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
+          Interactive Return-to-Work Preparation Checklist
+        </HeadingTag>
         <p className="max-w-2xl mx-auto text-brand-muted-foreground">
           Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
         </p>

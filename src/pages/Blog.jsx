@@ -8,15 +8,15 @@ import useSEO from '@/hooks/useSEO';
 
 export default function Blog() {
   useSEO({
-    title: 'From the Founder — Inspiration & Hope',
+    title: 'Cancer Survivor Return-to-Work Stories & Founder Blog',
     description:
-      'Reflections, encouragement, and hope from Jess Whorton, cancer survivor and founder of Back to Life, Back to Work Navigator.',
+      'Read honest reflections, practical encouragement, and workplace recovery stories from cancer survivor and founder Jess Whorton.',
     path: '/Blog',
   });
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      <PageHeader center eyebrow="From the Founder" title="Inspiration & Hope" subtitle="Honest reflections from Jess Whorton — cancer survivor, founder, and someone who has walked the road back to work. Read one when you need a reminder that you're not alone." />
+      <PageHeader center eyebrow="From the Founder" title="Founder Reflections: Inspiration & Hope After Cancer" subtitle="Honest reflections from Jess Whorton — cancer survivor, founder, and someone who has walked the road back to work. Read one when you need a reminder that you're not alone." />
 
       {/* Posts */}
       <div className="space-y-6">

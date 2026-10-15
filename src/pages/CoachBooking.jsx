@@ -28,8 +28,9 @@ const HIGHLIGHTS = [
 
 export default function CoachBooking() {
   useSEO({
-    title: 'Book a Coach',
-    description: 'Schedule a one-on-one session with a return-to-work coach. Pick a time that works for you and get personalized guidance.',
+    title: 'Book a 1-on-1 Return-to-Work Coaching Session',
+    description:
+      'Schedule a confidential one-on-one video or phone session with a return-to-work coach for personalized guidance on accommodations, disclosure, and career planning.',
     path: '/CoachBooking',
   });
   const { user, isAuthenticated, isLoadingAuth, navigateToLogin } = useAuth();
@@ -38,7 +39,7 @@ export default function CoachBooking() {
     <div className="max-w-4xl mx-auto space-y-8">
       <PageHeader
         eyebrow="Support"
-        title="Book a Return-to-Work Coach"
+        title="Book a 1-on-1 Return-to-Work Coach"
         subtitle="Pick a date and time that works for you. A coach will reach out to confirm your session and share meeting details."
       />
 

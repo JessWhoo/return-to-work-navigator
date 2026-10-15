@@ -19,6 +19,7 @@ import TemplateLibrary from '../components/meetingprep/TemplateLibrary';
 import TalkingPointsGenerator from '../components/meetingprep/TalkingPointsGenerator';
 import { exportMeetingPrepPdf } from '../components/meetingprep/exportMeetingPrepPdf';
 import PrintableMeetingDoc from '../components/meetingprep/PrintableMeetingDoc';
+import useSEO from '@/hooks/useSEO';
 
 const STATUS_CONFIG = {
   drafting: { label: 'Drafting', variant: 'outline', icon: Clock },
@@ -37,7 +38,14 @@ const MEETING_TYPE_LABELS = {
   other: 'Other'
 };
 
-export default function MeetingPrep() {
+export default function MeetingPrep({ embedded = false }) {
+  useSEO({
+    title: 'HR & Supervisor Return-to-Work Meeting Prep Planner',
+    description:
+      'Plan your return-to-work and accommodation meetings with talking points, anticipated employer questions, response logs, and printable agendas.',
+    path: '/MeetingPrep',
+    enabled: !embedded,
+  });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isAuthenticated, isLoadingAuth } = useAuth();
@@ -80,8 +88,12 @@ export default function MeetingPrep() {
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-heading text-3xl font-bold text-foreground">Meeting Prep</h1>
-            <p className="mt-1 text-muted-foreground">Prepare talking points, track employer responses, get AI coaching.</p>
+            {embedded ? (
+              <h2 className="font-heading text-2xl font-bold text-foreground">Workplace Meeting Preparation &amp; Talking Points</h2>
+            ) : (
+              <h1 className="font-heading text-3xl font-bold text-foreground">Workplace Meeting Preparation &amp; Talking Points</h1>
+            )}
+            <p className="mt-1 text-muted-foreground">Prepare talking points, track employer responses, and practice HR conversations.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => setView('templates')}>

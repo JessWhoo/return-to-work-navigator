@@ -9,8 +9,15 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
+import useSEO from "@/hooks/useSEO";
 
 export default function Register() {
+  useSEO({
+    title: "Create Your Free Return to Work Navigator Account",
+    description:
+      "Create a free Return to Work Navigator account to save your return-to-work checklist, track daily energy, and chat with the AI Return-to-Work Coach.",
+    path: "/register",
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

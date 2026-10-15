@@ -8,6 +8,7 @@ import { CheckCircle2, RotateCcw } from 'lucide-react';
 import PageHeader from '@/components/brand/PageHeader';
 import { legalChecklistSections } from '@/components/legal/legalChecklistData';
 import { useAuth } from '@/lib/AuthContext';
+import useSEO from '@/hooks/useSEO';
 
 // All checklist item ids (legal: prefixed) — used to isolate this checklist's
 // completions from the main return-to-work checklist that shares the same
@@ -16,7 +17,14 @@ const LEGAL_ITEM_IDS = new Set(
   legalChecklistSections.flatMap((s) => s.items.map((i) => i.id))
 );
 
-export default function LegalRightsChecklist() {
+export default function LegalRightsChecklist({ embedded = false }) {
+  useSEO({
+    title: 'ADA Accommodations & FMLA Paperwork Checklist',
+    description:
+      'Track every step to protect your job and benefits during cancer recovery: medical documentation, FMLA certification, ergonomic requests, and HR follow-ups.',
+    path: '/LegalRightsChecklist',
+    enabled: !embedded,
+  });
   const { isAuthenticated, isLoadingAuth, user } = useAuth();
   const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -97,15 +105,18 @@ export default function LegalRightsChecklist() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-16">
-        <div className="w-8 h-8 border-4 border-brand-border border-t-brand-primary rounded-full animate-spin" />
+      <div className="max-w-4xl mx-auto space-y-6">
+        <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Legal Rights & Medical Accommodations Checklist" subtitle="Track the steps that protect you: understanding your rights, gathering documents, FMLA paperwork, and requesting medical accommodations like ergonomic adjustments." />
+        <div className="flex items-center justify-center py-16">
+          <div className="w-8 h-8 border-4 border-brand-border border-t-brand-primary rounded-full animate-spin" />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <PageHeader center title="Legal Rights & Medical Accommodations Checklist" subtitle="Track the steps that protect you: understanding your rights, gathering documents, FMLA paperwork, and requesting medical accommodations like ergonomic adjustments." />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Legal Rights & Medical Accommodations Checklist" subtitle="Track the steps that protect you: understanding your rights, gathering documents, FMLA paperwork, and requesting medical accommodations like ergonomic adjustments." />
       <Card className="nv-card--muted">
         <CardContent className="p-6 space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-3">

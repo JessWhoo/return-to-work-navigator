@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { base44 } from '@/api/base44Client';
 import { pagesConfig } from '@/pages.config';
+import { applySEO, getRouteSEO } from '@/hooks/useSEO';
 
 export default function NavigationTracker() {
     const location = useLocation();
@@ -10,8 +11,10 @@ export default function NavigationTracker() {
     const { Pages, mainPage } = pagesConfig;
     const mainPageKey = mainPage ?? Object.keys(Pages)[0];
 
-    // Post navigation changes to parent window
+    // Immediately sync route-level title, description, and canonical URL on
+    // every navigation (even before child page effects or auth loading finish).
     useEffect(() => {
+        applySEO(getRouteSEO(location.pathname));
         window.parent?.postMessage({
             type: "app_changed_url",
             url: window.location.href

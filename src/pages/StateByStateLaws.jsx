@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Shield, ChevronDown, ChevronUp, Star, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
+import useSEO from '@/hooks/useSEO';
 
 const stateLaws = [
   {
@@ -248,7 +249,14 @@ function StateCard({ data }) {
   );
 }
 
-export default function StateByStateLaws() {
+export default function StateByStateLaws({ embedded = false }) {
+  useSEO({
+    title: 'State-by-State Cancer Employment & Paid Leave Laws',
+    description:
+      'Compare workplace disability protections, paid family and medical leave programs, and small-employer anti-discrimination laws across all 50 U.S. states.',
+    path: '/StateByStateLaws',
+    enabled: !embedded,
+  });
   const [search, setSearch] = useState('');
   const [ratingFilter, setRatingFilter] = useState('All');
 
@@ -275,11 +283,17 @@ export default function StateByStateLaws() {
     <div className="mx-auto max-w-4xl space-y-8">
       {/* Header */}
       <div className="space-y-3 text-center">
-        <h1 className="font-heading text-4xl font-bold text-foreground">
-          State-by-State Laws
-        </h1>
+        {embedded ? (
+          <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
+            State-by-State Employment &amp; Leave Laws for Cancer Survivors
+          </h2>
+        ) : (
+          <h1 className="font-heading text-4xl font-bold text-foreground">
+            State-by-State Employment &amp; Leave Laws for Cancer Survivors
+          </h1>
+        )}
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          How your state's laws affect your return to work after cancer treatment — and where they differ from federal law
+          How your state's laws affect your return to work after cancer treatment — and where they expand on federal ADA and FMLA protections
         </p>
       </div>
 

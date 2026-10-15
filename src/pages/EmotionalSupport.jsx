@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import PageHeader from '@/components/brand/PageHeader';
 import SupportNetworkCard from '@/components/support/SupportNetworkCard';
+import useSEO from '@/hooks/useSEO';
 import { 
   Heart, Brain, Users, Sparkles, 
   MessageCircle, Phone, Video, Book
@@ -153,12 +154,19 @@ const COLOR_MAP = {
   green:  { bg: 'bg-muted', icon: 'text-primary', border: 'border-brand-secondary' },
 };
 
-export default function EmotionalSupport() {
+export default function EmotionalSupport({ embedded = false }) {
+  useSEO({
+    title: 'Managing Return-to-Work Anxiety & Emotional Recovery',
+    description:
+      'Practical coping strategies for cancer survivors navigating return-to-work anxiety, imposter syndrome, scanxiety, and coworker conversations.',
+    path: '/EmotionalSupport',
+    enabled: !embedded,
+  });
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 [overflow-wrap:anywhere]">
       {/* Header */}
-      <PageHeader center title="Emotional Support & Well-Being" subtitle="Resources for managing anxiety, building confidence, and finding support" />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Emotional Support & Return-to-Work Anxiety Guide" subtitle="Practical strategies for managing workplace anxiety, rebuilding confidence, and finding peer support" />
 
       {/* Strategies */}
       <div className="grid gap-6">

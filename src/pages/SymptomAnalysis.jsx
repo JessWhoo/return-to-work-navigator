@@ -13,8 +13,15 @@ import AddRecordDialog from '../components/records/AddRecordDialog';
 import AISymptomInsights from '../components/symptoms/AISymptomInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import PageHeader from '@/components/brand/PageHeader';
+import useSEO from '@/hooks/useSEO';
 
 export default function SymptomAnalysis() {
+  useSEO({
+    title: 'Workplace Symptom Pattern Analysis & Severity Log',
+    description:
+      'Track and analyze post-treatment symptoms like fatigue, neuropathy, and cognitive fog to share clear reports with your oncology team and employer.',
+    path: '/SymptomAnalysis',
+  });
   const queryClient = useQueryClient();
   const [showAddDialog, setShowAddDialog] = useState(false);
 
@@ -65,7 +72,7 @@ export default function SymptomAnalysis() {
   return (
     <div className="mx-auto max-w-7xl space-y-6">
       {/* Header */}
-      <PageHeader title="Symptom Analysis" subtitle="Track patterns and manage symptoms effectively" actions={<Button onClick={() => setShowAddDialog(true)}><Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />Log Symptom</Button>} />
+      <PageHeader title="Workplace Symptom Pattern & Severity Analysis" subtitle="Track post-treatment symptom trends and severity to share with your care team and manage your workday" actions={<Button onClick={() => setShowAddDialog(true)}><Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />Log Symptom</Button>} />
 
       {/* Quick Stats */}
       {stats && (

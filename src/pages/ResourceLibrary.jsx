@@ -10,9 +10,9 @@ import PageHeader from '@/components/brand/PageHeader';
 
 export default function ResourceLibrary() {
   useSEO({
-    title: 'Resource Library',
+    title: 'Legal Rights & Workplace Accommodation Resource Library',
     description:
-      'Browse trusted articles, guides, tools and organizations supporting cancer survivors through the return-to-work journey.',
+      'Searchable directory of ADA accommodation guides, FMLA checklists, legal aid organizations, and workplace templates for cancer survivors.',
     path: '/ResourceLibrary',
   });
   const [search, setSearch] = useState('');
@@ -50,8 +50,8 @@ export default function ResourceLibrary() {
       {/* Header */}
       <PageHeader
         eyebrow="Resource Library"
-        title="Legal Rights & Accommodation Resources"
-        subtitle="Every guide, template, and trusted external resource — searchable and organized in one place."
+        title="Legal Rights & Workplace Accommodation Resource Library"
+        subtitle="Every ADA guide, FMLA template, and trusted legal resource — searchable and organized in one place."
       />
 
       {/* Search */}

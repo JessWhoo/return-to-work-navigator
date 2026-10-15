@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import PageHeader from '@/components/brand/PageHeader';
 import DialogContent from '@/components/resources/ResourceDialogContent';
+import useSEO from '@/hooks/useSEO';
 
 const TOPICS = [
   { id: 'all', label: 'All Topics', icon: MessageCircleQuestion },
@@ -37,6 +38,12 @@ const TOPICS = [
 const getTopic = (id) => TOPICS.find(t => t.id === id) || TOPICS[0];
 
 export default function ExpertQA() {
+  useSEO({
+    title: 'Ask Oncology & Employment Law Experts: Survivor Q&A',
+    description:
+      'Browse real questions from cancer survivors answered by employment attorneys, HR specialists, and oncology professionals on ADA rights, fatigue, and disclosure.',
+    path: '/ExpertQA',
+  });
   const qc = useQueryClient();
   const [selectedTopic, setSelectedTopic] = useState('all');
   const [search, setSearch] = useState('');
@@ -105,7 +112,7 @@ export default function ExpertQA() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6 [overflow-wrap:anywhere]">
-      <PageHeader eyebrow="Expert Q&A" title="Ask the Experts" subtitle="Common questions about returning to work — with answers from workplace experts, attorneys, and oncology professionals." actions={<div className="flex gap-3"><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{answeredCount}</div><div className="text-xs font-semibold text-brand-muted-foreground">Answered</div></div><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{qaList.length}</div><div className="text-xs font-semibold text-brand-muted-foreground">Total</div></div></div>} />
+      <PageHeader eyebrow="Expert Q&A" title="Ask the Experts: Workplace & Cancer Survivorship Q&A" subtitle="Common questions about returning to work — with answers from workplace experts, employment attorneys, and oncology professionals." actions={<div className="flex gap-3"><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{answeredCount}</div><div className="text-xs font-semibold text-brand-muted-foreground">Answered</div></div><div className="nv-card nv-card--muted px-4 py-3 text-center"><div className="text-2xl font-bold text-brand-primary">{qaList.length}</div><div className="text-xs font-semibold text-brand-muted-foreground">Total</div></div></div>} />
 
       {/* Search + Ask */}
       <div className="flex flex-col sm:flex-row gap-3">

@@ -7,6 +7,7 @@ import PageHeader from '@/components/brand/PageHeader';
 import Communication from './Communication';
 import EmployerEmailGenerator from './EmployerEmailGenerator';
 import MeetingPrep from './MeetingPrep';
+import useSEO from '@/hooks/useSEO';
 
 const FEATURE_LINKS = [
   {
@@ -26,12 +27,19 @@ const FEATURE_LINKS = [
 ];
 
 export default function CommunicationToolkit() {
+  useSEO({
+    title: 'Workplace Communication Scripts & Email Toolkit',
+    description:
+      'Scripts, email templates, AI email drafting, and meeting preparation tools to help cancer survivors talk with managers, HR, and coworkers with confidence.',
+    path: '/CommunicationToolkit',
+  });
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Tools & rights"
-        title="Communication Toolkit"
-        subtitle="Templates, AI email drafting, and meeting preparation"
+        title="Workplace Communication Toolkit for Cancer Survivors"
+        subtitle="Copy-ready email templates, AI email drafting, and HR meeting preparation in one place."
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -71,13 +79,13 @@ export default function CommunicationToolkit() {
         </TabsList>
 
         <TabsContent value="templates">
-          <Communication />
+          <Communication embedded />
         </TabsContent>
         <TabsContent value="email">
-          <EmployerEmailGenerator />
+          <EmployerEmailGenerator embedded />
         </TabsContent>
         <TabsContent value="meeting">
-          <MeetingPrep />
+          <MeetingPrep embedded />
         </TabsContent>
       </Tabs>
     </div>

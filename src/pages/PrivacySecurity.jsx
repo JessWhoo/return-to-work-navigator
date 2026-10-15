@@ -7,14 +7,15 @@ import useSEO from '@/hooks/useSEO';
 
 export default function PrivacySecurity() {
   useSEO({
-    title: 'Privacy Policy — Navigator',
-    description: 'How Return to Work Navigator collects, uses, shares, and retains information, and how to contact us about your privacy.',
+    title: 'Privacy Policy & Data Security Practices',
+    description:
+      'Read our plain-language privacy policy explaining how Return to Work Navigator protects your health logs, workplace notes, and personal account data.',
     path: '/PrivacySecurity',
   });
 
   return (
     <article className="mx-auto max-w-3xl space-y-6">
-      <PageHeader eyebrow="Return to Work Navigator" title="Privacy Policy" subtitle="Our data handling practices, explained in plain language." />
+      <PageHeader eyebrow="Return to Work Navigator" title="Privacy Policy & Data Protection" subtitle="Our data handling and privacy practices, explained in plain language." />
       <p className="text-sm text-brand-muted-foreground">Last updated: <time dateTime="2026-10-12">October 12, 2026</time></p>
       <Card>
         <CardContent className="space-y-8 p-6 sm:p-8">

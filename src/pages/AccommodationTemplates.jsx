@@ -9,8 +9,9 @@ import { TEMPLATES, TEMPLATE_CATEGORIES } from '@/components/accommodationTempla
 
 export default function AccommodationTemplates() {
   useSEO({
-    title: 'Accommodation Request Templates',
-    description: 'Pre-written accommodation request templates you can fill out, customize, and send to your HR department.',
+    title: 'Ready-to-Send ADA Accommodation Request Letter Templates',
+    description:
+      'Customize pre-written ADA accommodation request letters for flexible schedules, remote work, reduced hours, ergonomic adjustments, and medical appointments.',
     path: '/AccommodationTemplates',
   });
   const [selected, setSelected] = useState(null);
@@ -30,7 +31,7 @@ export default function AccommodationTemplates() {
     <div className="max-w-5xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Accommodation"
-        title="Accommodation Request Templates"
+        title="Workplace Accommodation Request Letter Templates"
         subtitle={
           <>
             Pick a ready-made letter, fill in your details, customize the wording, then copy it or send it to HR.

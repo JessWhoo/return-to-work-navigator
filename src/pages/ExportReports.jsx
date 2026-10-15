@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import useSEO from '@/hooks/useSEO';
 
 const REPORT_TYPES = [
   {
@@ -303,6 +304,13 @@ async function buildPDF(type, { meetings, drafts, records, progress }) {
 }
 
 export default function ExportReports({ embedded = false }) {
+  useSEO({
+    title: 'Export Printable PDF Summaries for Doctors & HR',
+    description:
+      'Download clean, professional PDF reports of your energy logs, symptom history, meeting preparation notes, and return-to-work progress.',
+    path: '/ExportReports',
+    enabled: !embedded,
+  });
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const [generating, setGenerating] = useState(null);
   const [done, setDone] = useState(null);
@@ -332,7 +340,7 @@ export default function ExportReports({ embedded = false }) {
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Export & Download Reports" subtitle="Generate professional PDF summaries of your data to share with healthcare providers, HR teams, or for your own records." />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Export & Download Printable Return-to-Work Reports" subtitle="Generate professional PDF summaries of your data to share with healthcare providers, HR teams, or for your own records." />
 
       <div className="grid gap-5">
         {REPORT_TYPES.map((report) => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, ChevronDown, ChevronUp, Star, AlertTriangle, CheckCircle2, Info, Globe } from 'lucide-react';
+import useSEO from '@/hooks/useSEO';
 
 const countries = [
   {
@@ -258,7 +259,14 @@ function CountryCard({ data }) {
   );
 }
 
-export default function InternationalLaws() {
+export default function InternationalLaws({ embedded = false }) {
+  useSEO({
+    title: 'International Cancer Employment Rights & Sick Pay Guide',
+    description:
+      'Compare employment protections, statutory sick pay, and reasonable workplace adjustment laws for cancer survivors across the UK, Canada, EU, Australia, and beyond.',
+    path: '/InternationalLaws',
+    enabled: !embedded,
+  });
   const [search, setSearch] = useState('');
   const [ratingFilter, setRatingFilter] = useState('All');
 
@@ -283,11 +291,17 @@ export default function InternationalLaws() {
   return (
     <div className="mx-auto max-w-4xl space-y-8">
       <div className="space-y-3 text-center">
-        <h1 className="font-heading text-4xl font-bold text-foreground">
-          International Employment Laws
-        </h1>
+        {embedded ? (
+          <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
+            International Employment Laws for Cancer Survivors
+          </h2>
+        ) : (
+          <h1 className="font-heading text-4xl font-bold text-foreground">
+            International Employment Laws for Cancer Survivors
+          </h1>
+        )}
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          Cancer survivor employment rights and protections across {countries.length} countries worldwide
+          Cancer survivor employment rights, statutory sick pay, and workplace adjustment protections across {countries.length} countries worldwide
         </p>
       </div>
 

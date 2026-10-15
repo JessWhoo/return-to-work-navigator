@@ -11,9 +11,9 @@ import { toast } from 'sonner';
 
 export default function Contact() {
   useSEO({
-    title: 'Contact Us',
+    title: 'Contact the Return to Work Navigator Team',
     description:
-      'Get in touch with the Back to Life, Back to Work team with questions, feedback or resource suggestions for cancer survivors returning to work.',
+      'Reach out to the Back to Life, Back to Work Navigator team with questions, workplace resource suggestions, survivor feedback, or partnership inquiries.',
     path: '/Contact',
   });
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -51,7 +51,7 @@ export default function Contact() {
       <PageHeader
         center
         eyebrow="Support"
-        title="Contact Us"
+        title="Contact the Return to Work Navigator Team"
         subtitle="We'd love to hear from you — questions, feedback, or partnership inquiries are all welcome."
       />
 

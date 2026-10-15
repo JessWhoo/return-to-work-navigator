@@ -32,9 +32,9 @@ const HUB_TABS = [
 
 export default function LegalPolicyHub() {
   useSEO({
-    title: 'Legal Rights & Workplace Policy',
+    title: 'ADA, FMLA & Workplace Legal Rights Hub for Cancer Survivors',
     description:
-      'Understand your workplace rights as a cancer survivor — ADA and FMLA protections, accommodations, disclosure and state-by-state laws.',
+      'Understand your federal, state, and international employment protections as a cancer survivor, including ADA reasonable accommodations, FMLA leave, and medical privacy.',
     path: '/LegalPolicyHub',
   });
 
@@ -42,8 +42,8 @@ export default function LegalPolicyHub() {
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Tools & rights"
-        title="Legal & Policy Guidance"
-        subtitle="Your rights, accommodations, and laws explained"
+        title="Workplace Legal Rights & Policy Hub for Cancer Survivors"
+        subtitle="Plain-language guides to ADA reasonable accommodations, FMLA job-protected leave, disclosure, and state laws."
       />
 
       <Link to="/LegalDirectory" className="block">
@@ -77,19 +77,19 @@ export default function LegalPolicyHub() {
           <WorkplaceRightsAndDisclosure />
         </TabsContent>
         <TabsContent value="rights">
-          <Suspense fallback={<TabFallback />}><LegalRights /></Suspense>
+          <Suspense fallback={<TabFallback />}><LegalRights embedded /></Suspense>
         </TabsContent>
         <TabsContent value="accommodations">
-          <Suspense fallback={<TabFallback />}><Accommodations /></Suspense>
+          <Suspense fallback={<TabFallback />}><Accommodations embedded /></Suspense>
         </TabsContent>
         <TabsContent value="state">
-          <Suspense fallback={<TabFallback />}><StateByStateLaws /></Suspense>
+          <Suspense fallback={<TabFallback />}><StateByStateLaws embedded /></Suspense>
         </TabsContent>
         <TabsContent value="international">
-          <Suspense fallback={<TabFallback />}><InternationalLaws /></Suspense>
+          <Suspense fallback={<TabFallback />}><InternationalLaws embedded /></Suspense>
         </TabsContent>
         <TabsContent value="checklist">
-          <Suspense fallback={<TabFallback />}><LegalRightsChecklist /></Suspense>
+          <Suspense fallback={<TabFallback />}><LegalRightsChecklist embedded /></Suspense>
         </TabsContent>
       </Tabs>
     </div>

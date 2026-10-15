@@ -26,16 +26,17 @@ const EXPERT_LINKS = [
 
 export default function CommunityHub() {
   useSEO({
-    title: 'Community Hub',
-    description: 'Connect with peers, share your story, and build strength together with fellow cancer survivors returning to work.',
-    path: '/CommunityHub'
+    title: 'Cancer Survivor Return-to-Work Peer Community Hub',
+    description:
+      'Connect with fellow cancer survivors navigating the return to work, share progress milestones, exchange vetted resources, and ask expert questions.',
+    path: '/CommunityHub',
   });
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <PageHeader
         center
         eyebrow="Community"
-        title="Community Hub"
+        title="Cancer Survivor Return-to-Work Community Hub"
         subtitle="You're not alone on this journey. Connect with peers, share your story, and find strength together."
       />
 

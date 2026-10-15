@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import EmailDrafter from '../components/communication/EmailDrafter';
 import DraftEditor from '../components/communication/DraftEditor';
 import SavedDrafts from '../components/communication/SavedDrafts';
+import PageHeader from '@/components/brand/PageHeader';
+import useSEO from '@/hooks/useSEO';
 
 const emailTemplates = [
   {
@@ -211,7 +213,14 @@ const conversationScripts = [
   }
 ];
 
-export default function Communication() {
+export default function Communication({ embedded = false }) {
+  useSEO({
+    title: 'Employer Email Templates & Workplace Conversation Scripts',
+    description:
+      'Copy-ready email templates and word-for-word scripts for requesting accommodations, setting boundaries with coworkers, and explaining schedule changes.',
+    path: '/Communication',
+    enabled: !embedded,
+  });
   const [activeTab, setActiveTab] = useState('drafter');
   const [showDraftEditor, setShowDraftEditor] = useState(false);
   const [editingDraft, setEditingDraft] = useState(null);
@@ -239,9 +248,12 @@ export default function Communication() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">
-      <p className="text-lg text-muted-foreground">
-        Templates and scripts to help you navigate workplace conversations with confidence.
-      </p>
+      <PageHeader
+        headingLevel={embedded ? 'h2' : 'h1'}
+        eyebrow={embedded ? undefined : 'Communication'}
+        title="Workplace Email Templates & Conversation Scripts"
+        subtitle="Templates and word-for-word scripts to help you navigate employer and coworker conversations with confidence."
+      />
 
       {/* Info Card */}
       <Card className="nv-card--muted">

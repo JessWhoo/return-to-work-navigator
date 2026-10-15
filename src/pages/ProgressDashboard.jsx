@@ -23,8 +23,16 @@ import ComparativeInsights from '../components/health/ComparativeInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { checklistData, getChecklistTotalItems, getPhaseItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
+import useSEO from '@/hooks/useSEO';
 
-export default function ProgressDashboard() {
+export default function ProgressDashboard({ embedded = false }) {
+  useSEO({
+    title: 'Return-to-Work Energy, Mood & Milestone Analytics',
+    description:
+      'Visualize your daily energy trends, mood distribution, symptom correlations, and checklist completion as you transition back to work.',
+    path: '/ProgressDashboard',
+    enabled: !embedded,
+  });
   const [dateRange, setDateRange] = useState('7'); // days
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const queryClient = useQueryClient();
@@ -182,9 +190,16 @@ export default function ProgressDashboard() {
 
   const COLORS = ['#B5413F', '#E3A9B2', '#C9CCE2', '#8FB79A', '#6B5F7E'];
 
+  const HeadingTag = embedded ? 'h2' : 'h1';
+
   if (!progress) {
     return (
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div>
+          <p className="nv-eyebrow nv-eyebrow--primary">Your journey</p>
+          <HeadingTag className="mt-1 font-heading text-3xl font-bold text-brand-text">Return-to-Work Progress &amp; Energy Analytics Dashboard</HeadingTag>
+          <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, and checklist completion</p>
+        </div>
         <Card className="nv-card--muted">
           <CardContent className="pt-16 pb-16 text-center">
             <Activity className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
@@ -203,8 +218,8 @@ export default function ProgressDashboard() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="nv-eyebrow nv-eyebrow--primary">Your journey</p>
-          <h2 className="mt-1 font-heading text-3xl font-bold text-brand-text">Progress Dashboard</h2>
-          <p className="mt-2 text-brand-muted-foreground">Track your return-to-work journey</p>
+          <HeadingTag className="mt-1 font-heading text-3xl font-bold text-brand-text">Return-to-Work Progress &amp; Energy Analytics Dashboard</HeadingTag>
+          <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, and checklist completion</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <BottomSheetSelect

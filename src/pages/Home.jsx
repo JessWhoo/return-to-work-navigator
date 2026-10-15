@@ -25,9 +25,10 @@ import HomeToolkit from '@/components/home/HomeToolkit';
 
 export default function Home() {
   useSEO({
-    title: 'Your Return-to-Work Dashboard',
-    description: 'Your return-to-work compass for cancer survivors. Track progress, manage energy, request accommodations, and find support — at your own pace.',
-    path: '/home'
+    title: 'Cancer Survivor Return-to-Work Toolkit & ADA Guide',
+    description:
+      'Free return-to-work toolkit for cancer survivors: request ADA workplace accommodations, manage treatment fatigue, know your FMLA rights, and plan a phased return.',
+    path: '/',
   });
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuth();

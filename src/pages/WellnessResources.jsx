@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   Heart, Brain, Wind, Waves, Moon, Sparkles, CheckCircle2
 } from 'lucide-react';
+import useSEO from '@/hooks/useSEO';
 
 const copingMechanisms = [
   {
@@ -218,6 +219,12 @@ const quickExercises = [
 ];
 
 export default function WellnessResources() {
+  useSEO({
+    title: 'Stress Relief, Breathing & Coping Techniques at Work',
+    description:
+      'Quick 3-minute desk exercises, grounding techniques, sleep hygiene habits, and cognitive strategies to manage workplace stress after cancer treatment.',
+    path: '/WellnessResources',
+  });
   const [expandedTechnique, setExpandedTechnique] = useState(null);
 
   const toggleTechnique = (category, techniqueName) => {
@@ -230,10 +237,10 @@ export default function WellnessResources() {
       {/* Header */}
       <div className="space-y-4 text-center">
         <h1 className="font-heading text-4xl font-bold text-foreground">
-          Wellness Resources
+          Workplace Stress Relief &amp; Wellness Techniques
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          Science-backed techniques for managing stress, improving mood, and enhancing well-being
+          Science-backed breathing, grounding, sleep, and cognitive techniques for cancer survivors at work
         </p>
       </div>
 

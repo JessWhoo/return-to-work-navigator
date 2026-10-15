@@ -29,8 +29,16 @@ import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 import AccessibilityModeCard from '@/components/settings/AccessibilityModeCard';
+import useSEO from '@/hooks/useSEO';
 
-export default function Profile() {
+export default function Profile({ embedded = false }) {
+  useSEO({
+    title: 'Account Profile, Accessibility & Notification Settings',
+    description:
+      'Manage your Return to Work Navigator profile, high-contrast accessibility mode, email reminder preferences, and account privacy settings.',
+    path: '/Profile',
+    enabled: !embedded,
+  });
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
@@ -187,11 +195,17 @@ export default function Profile() {
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-brand-muted">
           <User className="h-10 w-10 text-brand-primary" />
         </div>
-        <h2 className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
-          My Profile
-        </h2>
+        {embedded ? (
+          <h2 className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
+            My Profile &amp; Accessibility Preferences
+          </h2>
+        ) : (
+          <h1 className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
+            My Profile &amp; Accessibility Preferences
+          </h1>
+        )}
         <p className="text-brand-muted-foreground">
-          Manage your information and track your progress
+          Manage your account information, accessibility mode, and notification preferences
         </p>
       </div>
 

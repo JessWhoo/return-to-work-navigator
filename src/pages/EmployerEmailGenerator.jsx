@@ -18,6 +18,7 @@ import { useAuth } from '@/lib/AuthContext';
 import SaveDraftButton from '@/components/communication/SaveDraftButton';
 import EmailScenarioChoice from '@/components/communication/EmailScenarioChoice';
 import { logToolEngagement } from '@/lib/analytics';
+import useSEO from '@/hooks/useSEO';
 
 const EMAIL_SCENARIOS = [
   {
@@ -97,7 +98,14 @@ function extractConversationContext(conversation) {
     .join('\n');
 }
 
-export default function EmployerEmailGenerator() {
+export default function EmployerEmailGenerator({ embedded = false }) {
+  useSEO({
+    title: 'AI Employer & HR Email Generator for Cancer Survivors',
+    description:
+      'Draft professional, tailored emails to your supervisor or HR department for return-to-work plans, accommodation requests, and medical schedule updates.',
+    path: '/EmployerEmailGenerator',
+    enabled: !embedded,
+  });
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const [selectedScenario, setSelectedScenario] = useState(null);
   const [selectedConvId, setSelectedConvId] = useState('none');
@@ -201,8 +209,12 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           <Mail className="h-5 w-5" />
         </span>
         <div>
-          <h2 className="font-heading text-xl font-bold text-foreground">Employer Email Generator</h2>
-          <p className="text-sm text-muted-foreground">AI-drafted emails grounded in your coaching conversations</p>
+          {embedded ? (
+            <h2 className="font-heading text-xl font-bold text-foreground">AI Employer &amp; HR Email Generator</h2>
+          ) : (
+            <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">AI Employer &amp; HR Email Generator</h1>
+          )}
+          <p className="text-sm text-muted-foreground">AI-drafted workplace emails grounded in your return-to-work journey and coaching conversations</p>
         </div>
       </div>
 

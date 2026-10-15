@@ -153,10 +153,11 @@ const faqData = [
 
 export default function FAQ({ embedded = false }) {
   useSEO({
-    title: 'Frequently Asked Questions',
+    title: 'Frequently Asked Questions: Returning to Work After Cancer',
     description:
-      'Answers to common questions about returning to work after cancer: disclosure, accommodations, fatigue, legal rights, benefits and more.',
+      'Clear answers to common questions about returning to work after cancer treatment: diagnosis disclosure, ADA accommodations, FMLA leave, fatigue, and privacy.',
     path: '/FAQ',
+    enabled: !embedded,
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState([0]);
@@ -187,7 +188,7 @@ export default function FAQ({ embedded = false }) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Frequently Asked Questions" subtitle="Find answers to common questions about returning to work after cancer treatment" />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Frequently Asked Questions About Returning to Work After Cancer" subtitle="Find answers to common questions about disclosure, ADA accommodations, fatigue, and returning to work after cancer treatment" />
       <Card>
         <CardContent className="pt-6"><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-muted-foreground" aria-hidden="true" /><Input aria-label="Search frequently asked questions" placeholder="Search for answers..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 h-12 text-base" /></div></CardContent>
       </Card>

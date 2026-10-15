@@ -17,9 +17,9 @@ const FEATURES = [
 
 export default function About() {
   useSEO({
-    title: 'About Us',
+    title: 'About Jess Whorton & Our Cancer Survivorship Mission',
     description:
-      'Learn why Back to Life, Back to Work exists and how our toolkit helps cancer survivors return to the workplace with confidence and support.',
+      'Meet founder Jess Whorton and learn how Back to Life, Back to Work Navigator empowers cancer survivors with practical workplace tools, legal guides, and peer support.',
     path: '/About',
   });
 

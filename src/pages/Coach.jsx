@@ -16,15 +16,17 @@ import SentimentResourceSuggestions, { detectSentimentAndResources } from '../co
 import ConversationHistory from '../components/coach/ConversationHistory';
 import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceSuggestions';
 import useSEO from '@/hooks/useSEO';
+import PageHeader from '@/components/brand/PageHeader';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 import { logToolEngagement } from '@/lib/analytics';
 
 export default function Coach() {
   useSEO({
-    title: 'AI Coach',
-    description: 'Chat with your AI return-to-work coach for personalized guidance, emotional support, and tailored advice on workplace accommodations.',
-    path: '/Coach'
+    title: '24/7 AI Return-to-Work Coach for Cancer Survivors',
+    description:
+      'Chat confidentially with your AI Return-to-Work Coach for tailored guidance on workplace accommodations, fatigue pacing, HR scripts, and emotional readiness.',
+    path: '/Coach',
   });
   const queryClient = useQueryClient();
   const messagesEndRef = useRef(null);
@@ -250,17 +252,29 @@ export default function Coach() {
 
   if (loadingConversations) {
     return (
-      <div className="mx-auto flex h-64 max-w-7xl items-center justify-center">
-        <div className="space-y-3 text-center">
-          <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
-          <p className="text-sm font-semibold text-foreground">Loading your coach...</p>
+      <div className="mx-auto max-w-7xl space-y-6 pb-4">
+        <PageHeader
+          eyebrow="24/7 Personalized Guidance"
+          title="AI Return-to-Work Coach for Cancer Survivors"
+          subtitle="Ask questions about ADA accommodations, fatigue pacing, employer conversations, and your return-to-work plan."
+        />
+        <div className="flex h-64 items-center justify-center">
+          <div className="space-y-3 text-center">
+            <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
+            <p className="text-sm font-semibold text-foreground">Loading your coach...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-7xl pb-4">
+    <div className="mx-auto max-w-7xl space-y-6 pb-4">
+      <PageHeader
+        eyebrow="24/7 Personalized Guidance"
+        title="AI Return-to-Work Coach for Cancer Survivors"
+        subtitle="Ask questions about ADA accommodations, fatigue pacing, employer conversations, and your return-to-work plan."
+      />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:items-start">
         {/* Sidebar */}
         <div className="flex flex-col gap-4 lg:col-span-1">

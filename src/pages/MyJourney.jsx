@@ -10,16 +10,17 @@ import PageHeader from '@/components/brand/PageHeader';
 
 export default function MyJourney() {
   useSEO({
-    title: 'My Journey',
-    description: 'Track your return-to-work progress, complete your checklist, and manage your profile — all in one place.',
-    path: '/MyJourney'
+    title: 'My Return-to-Work Journey Dashboard & Checklist',
+    description:
+      'Track your return-to-work milestones, complete your step-by-step preparation checklist, and download your personalized return summary in one place.',
+    path: '/MyJourney',
   });
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Your return journey"
-        title="My Journey"
-        subtitle="Your profile, progress, and checklist all in one place"
+        title="My Return-to-Work Journey & Progress Hub"
+        subtitle="Your progress analytics, preparation checklist, and personal profile all in one place."
         actions={<DownloadReturnSummaryButton />}
       />
 
@@ -40,13 +41,13 @@ export default function MyJourney() {
         </TabsList>
 
         <TabsContent value="dashboard">
-          <ProgressDashboard />
+          <ProgressDashboard embedded />
         </TabsContent>
         <TabsContent value="checklist">
-          <Checklist />
+          <Checklist embedded />
         </TabsContent>
         <TabsContent value="profile">
-          <Profile />
+          <Profile embedded />
         </TabsContent>
       </Tabs>
     </div>

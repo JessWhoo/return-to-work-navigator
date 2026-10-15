@@ -15,6 +15,7 @@ import {
 import { format, parseISO } from 'date-fns';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import useSEO from '@/hooks/useSEO';
 
 const phasedReturnTemplates = [
   {
@@ -46,7 +47,14 @@ const phasedReturnTemplates = [
   }
 ];
 
-export default function ReturnPlanning() {
+export default function ReturnPlanning({ embedded = false }) {
+  useSEO({
+    title: 'Phased Return-to-Work Schedule Builder & Templates',
+    description:
+      'Design a gradual, week-by-week return-to-work schedule with customizable part-time hours, remote work days, rest breaks, and workplace accommodations.',
+    path: '/ReturnPlanning',
+    enabled: !embedded,
+  });
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuth();
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -120,7 +128,7 @@ Sincerely,
   return (
     <div className="mx-auto max-w-5xl space-y-8">
       {/* Header */}
-      <PageHeader center title="Plan Your Return" subtitle="Create a phased return-to-work schedule that supports your recovery" />
+      <PageHeader center={!embedded} headingLevel={embedded ? 'h2' : 'h1'} title="Phased Return-to-Work Schedule Planner" subtitle="Create a gradual, week-by-week return-to-work schedule that supports your recovery" />
 
       {/* Current Return Date */}
       {progress?.return_date && (

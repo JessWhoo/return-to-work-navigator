@@ -5,14 +5,22 @@ import ReturnPlanning from './ReturnPlanning';
 import JobBoards from './JobBoards';
 import ApplyIQ from '@/components/career/ApplyIQ';
 import PageHeader from '@/components/brand/PageHeader';
+import useSEO from '@/hooks/useSEO';
 
 export default function CareerHub() {
+  useSEO({
+    title: 'Phased Return-to-Work Planner & Survivor Career Hub',
+    description:
+      'Build a phased return-to-work schedule, explore disability-inclusive and remote job boards, and analyze resumes and job postings after a medical career break.',
+    path: '/CareerHub',
+  });
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
         eyebrow="Career"
-        title="Career & Return Planning"
-        subtitle="Plan your return to work and explore career opportunities"
+        title="Career & Phased Return-to-Work Planning Hub"
+        subtitle="Build a week-by-week return schedule, browse flexible job boards, and prepare applications after cancer treatment."
       />
 
       <Tabs defaultValue="planning" className="space-y-6">
@@ -32,10 +40,10 @@ export default function CareerHub() {
         </TabsList>
 
         <TabsContent value="planning">
-          <ReturnPlanning />
+          <ReturnPlanning embedded />
         </TabsContent>
         <TabsContent value="jobs">
-          <JobBoards />
+          <JobBoards embedded />
         </TabsContent>
         <TabsContent value="applyiq">
           <ApplyIQ />

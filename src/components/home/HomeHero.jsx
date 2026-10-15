@@ -14,8 +14,8 @@ export default function HomeHero({ canTour, onTour, tourOpen }) {
       <div className="nv-home-hero-content grid gap-8 lg:grid-cols-[3fr_1fr] lg:items-center">
         <div className="space-y-6">
           <BrandMark size="lg" showName={false} className="lg:hidden" />
-          <h1 id="home-title" className="max-w-2xl text-3xl font-bold text-brand-text sm:text-5xl">Your Journey Forward Starts Here</h1>
-          <p className="max-w-xl text-base text-brand-text sm:text-lg">Practical guidance, tools, and support to help you transition back to work with confidence.</p>
+          <h1 id="home-title" className="max-w-2xl text-3xl font-bold text-brand-text sm:text-5xl">Return-to-Work Toolkit for Cancer Survivors</h1>
+          <p className="max-w-xl text-base text-brand-text sm:text-lg">Practical guidance, ADA accommodation letters, fatigue trackers, and 24/7 coaching to help you transition back to work with confidence.</p>
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild variant="onGradient"><Link to="/Checklist">Get Started<ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
             {canTour && <Button variant="outline" onClick={onTour} disabled={tourOpen}>Take the tour</Button>}
