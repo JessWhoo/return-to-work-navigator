@@ -39,6 +39,7 @@ import ManagerGuideEs from './pages/ManagerGuideEs';
 import AccommodationsEs from './pages/AccommodationsEs';
 import DisclosureGuideEs from './pages/DisclosureGuideEs';
 import AccommodationTemplates from './pages/AccommodationTemplates';
+import ChemoBrainGuide from './pages/ChemoBrainGuide';
 import ForClinics from './pages/ForClinics';
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
 import { getRouteSEO } from '@/hooks/useSEO';
@@ -299,6 +300,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="AccommodationTemplates">
               <AccommodationTemplates />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/ChemoBrainGuide"
+          element={
+            <LayoutWrapper currentPageName="ChemoBrainGuide">
+              <ChemoBrainGuide />
             </LayoutWrapper>
           }
         />

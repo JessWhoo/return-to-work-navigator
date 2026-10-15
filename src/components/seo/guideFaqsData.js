@@ -136,6 +136,49 @@ export const DISCLOSURE_GUIDE_FAQS = [
   },
 ];
 
+export const CHEMO_BRAIN_FAQS = [
+  {
+    question: 'What is chemo brain, and how long does it last?',
+    answer:
+      'Chemo brain is the umbrella term for thinking and memory changes caused by cancer and its treatment. Survivors notice trouble concentrating, slower recall, word-finding gaps, and difficulty multitasking. For most people it eases over weeks to a few months after treatment ends, though some effects can linger for a year or more and can flare on fatigued days.',
+  },
+  {
+    question: 'Is chemo brain a real medical condition or just stress?',
+    answer:
+      'It is real. Imaging and cognitive studies confirm measurable changes in memory, attention, and processing speed during and after cancer treatment. Stress and poor sleep can make it worse, but the underlying cognitive changes are a documented effect of cancer treatment, not a personal failing or a sign of aging.',
+  },
+  {
+    question: 'Can I get workplace accommodations for chemo brain under the ADA?',
+    answer:
+      'Yes. Under the Americans with Disabilities Act (ADA), cancer-related cognitive impairment is treated as a covered disability because it can substantially limit concentration and thinking. Reasonable accommodations can include written instructions and meeting summaries, permission to record meetings, a prioritized top deliverables list, protected focus blocks, a quieter workspace, and flexible start times or short rest breaks.',
+  },
+  {
+    question: 'Do I have to tell my employer I have cancer to get help with chemo brain?',
+    answer:
+      'No. You do not need to share your diagnosis with coworkers or your direct supervisor. A short note from your healthcare provider confirming a medical condition that affects concentration is enough to start the ADA interactive process, and medical documentation is typically routed through HR and kept in a confidential file separate from your personnel record.',
+  },
+  {
+    question: 'What are the best strategies to manage chemo brain at work?',
+    answer:
+      'Single-task in short focus blocks with notifications off, write a bullet recap after every meeting, tackle demanding work during your clearest hours (often the morning), ask to record meetings for later review, and protect brief rest breaks. Pacing your workload around your energy curve usually helps more than pushing through.',
+  },
+  {
+    question: 'How is chemo brain different from normal cancer fatigue?',
+    answer:
+      'Fatigue is a drain of physical and mental energy, while chemo brain specifically affects thinking and memory. They often appear together and can feed each other, but they are distinct. Tracking daily energy and mood helps you spot the days when cognitive fog is worst so you can plan demanding tasks around it.',
+  },
+  {
+    question: 'Can chemo brain affect my performance review or get me fired?',
+    answer:
+      'An employer cannot legally fire, demote, or penalize you because of cancer-related cognitive changes, nor for requesting ADA accommodations or taking protected leave. If your role is evaluated under an adjusted schedule or modified duties, your review should reflect that agreed scope. Keep your accommodation requests and agreed adjustments in writing.',
+  },
+  {
+    question: 'How can I explain chemo brain to coworkers without oversharing?',
+    answer:
+      'Use functional, work-focused language: "I am managing a medical condition that sometimes affects my focus, so I am following a few adjustments to stay on track." You do not have to name cancer. Mentioning the practical adjustments (like written follow-ups or fewer context switches) is usually enough to set expectations without disclosing your diagnosis.',
+  },
+];
+
 export const LEGAL_RIGHTS_FAQS = [
   {
     question: 'What is the difference between the ADA and FMLA for cancer survivors?',
@@ -330,6 +373,7 @@ export const GUIDE_FAQ_BY_PATH = {
   '/managerguide': MANAGER_GUIDE_FAQS,
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
+  '/chemobrainguide': CHEMO_BRAIN_FAQS,
   '/legalrights': LEGAL_RIGHTS_FAQS,
   '/faq': FAQ_PAGE_FAQS,
   '/communityguidelines': COMMUNITY_GUIDELINES_FAQS,

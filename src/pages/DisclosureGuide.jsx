@@ -141,13 +141,13 @@ export default function DisclosureGuide() {
             Ready to draft your message?
           </h2>
           <p className="text-brand-text font-medium max-w-xl mx-auto">
-            Use the Communication Toolkit to turn your plan into a professional
-            email — or rehearse with the AI Coach first.
+            Use the Employer Email Generator to turn your plan into a professional
+            disclosure email — or rehearse with the AI Coach first.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link to="/CommunicationToolkit">
+            <Link to="/EmployerEmailGenerator">
               <Button className="">
-                Draft an Email
+                Draft a Disclosure Email
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             </Link>

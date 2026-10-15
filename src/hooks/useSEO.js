@@ -94,6 +94,13 @@ export const ROUTE_SEO = {
     h1: 'How to Tell Your Employer About Your Cancer Diagnosis',
     path: '/DisclosureGuide',
   },
+  '/chemobrainguide': {
+    title: 'Chemo Brain at Work: Symptoms, Strategies & Accommodations',
+    description:
+      'A plain-language guide to cancer-related cognitive impairment (chemo brain) at work: real symptoms, practical focus strategies, ADA accommodations, and a daily energy check-in.',
+    h1: 'Chemo Brain at Work: What It Is and How to Manage It',
+    path: '/ChemoBrainGuide',
+  },
   '/managerguide': {
     title: 'Manager & HR Guide to Supporting Employees With Cancer',
     description:
