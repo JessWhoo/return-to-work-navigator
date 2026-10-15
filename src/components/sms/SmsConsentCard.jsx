@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MessageSquare, Phone } from 'lucide-react';
 
 const PHONE_DISPLAY = '(575) 221-1160';
@@ -42,8 +43,16 @@ export default function SmsConsentCard({ className = '', children }) {
 
       <p className="mt-5 max-w-2xl text-sm leading-relaxed text-brand-muted-foreground">
         By contacting us via SMS with your mobile number, you consent to receive customer care text
-        messages from Return Collective of Survivors. Msg&amp;Data rates may apply. Message frequency
-        varies. Text HELP for help. Reply "STOP" at any time to opt out.
+        messages from Return Collective of Survivors. We do not share mobile numbers, text-messaging
+        opt-in data, or consent with third parties or affiliates for marketing or promotional
+        purposes. Messaging service providers may process these details to deliver messages.
+        Msg &amp; Data rates may apply. Message frequency varies. Text HELP for assistance. Reply
+        "STOP" at any time to opt out.
+      </p>
+      <p className="mt-3 text-sm">
+        <Link to="/PrivacySecurity" className="text-brand-primary underline hover:text-brand-text">
+          Read our full Privacy Policy
+        </Link>
       </p>
 
       {children && (
