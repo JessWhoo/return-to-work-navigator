@@ -11,6 +11,11 @@
         "ai_coach"
       ],
       "description": "The tool that was engaged with"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional additional description or context for this tool engagement"
     }
   },
   "required": [
