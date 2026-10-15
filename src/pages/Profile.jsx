@@ -490,10 +490,12 @@ export default function Profile({ embedded = false }) {
                       This action <strong>cannot be undone</strong> — there is no recovery once data is deleted.
                     </p>
                     <div className="pt-2">
-                      <Label className="mb-1 block font-semibold text-brand-text">
+                      <Label htmlFor="confirm-delete" className="mb-1 block font-semibold text-brand-text">
                         Type <strong className="text-brand-destructive">DELETE</strong> below to confirm:
                       </Label>
                       <Input
+                        id="confirm-delete"
+                        aria-label="Type DELETE to confirm"
                         value={confirmText}
                         onChange={(e) => setConfirmText(e.target.value)}
                         placeholder="Type DELETE to confirm"

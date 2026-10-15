@@ -85,7 +85,7 @@ export default function Register() {
         subtitle={`We sent a code to ${email}`}
       >
         {error && (
-          <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+          <div role="alert" className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
             {error}
           </div>
         )}
@@ -96,6 +96,7 @@ export default function Register() {
             onChange={setOtpCode}
             autoFocus
             autoComplete="one-time-code"
+            aria-label="Email verification code"
           >
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -164,7 +165,7 @@ export default function Register() {
       </div>
 
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+        <div role="alert" className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
           {error}
         </div>
       )}
