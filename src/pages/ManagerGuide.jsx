@@ -1,5 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Printer, Loader2 } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import PremiumPaywall from '@/components/premium/PremiumPaywall';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import useSEO from '@/hooks/useSEO';
@@ -24,6 +26,13 @@ const TOC_SECTIONS = [
 export default function ManagerGuide() {
   const guideRef = useRef(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [access, setAccess] = useState(null);
+
+  useEffect(() => {
+    base44.functions.invoke('check-premium-access', {})
+      .then((res) => setAccess(res.data))
+      .catch(() => setAccess({ hasAccess: false, isAuthenticated: false }));
+  }, []);
 
   const handleExport = async () => {
     if (!guideRef.current || isExporting) return;
@@ -57,11 +66,13 @@ export default function ManagerGuide() {
               spanishPath="/ManagerGuideEs"
               currentLang="en"
             />
-            <Button variant="outline" onClick={handleExport} disabled={isExporting}>
-              {isExporting
-                ? <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
-                : <><Printer className="h-4 w-4" /> Print or save as PDF</>}
-            </Button>
+            {access?.hasAccess && (
+              <Button variant="outline" onClick={handleExport} disabled={isExporting}>
+                {isExporting
+                  ? <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
+                  : <><Printer className="h-4 w-4" /> Print or save as PDF</>}
+              </Button>
+            )}
           </div>
         }
       />
@@ -78,27 +89,37 @@ export default function ManagerGuide() {
         </CardContent>
       </Card>
 
-      <GuideTableOfContents sections={TOC_SECTIONS} />
+      {access?.hasAccess ? (
+        <>
+          <GuideTableOfContents sections={TOC_SECTIONS} />
 
-      <SupportTipsSection />
+          <SupportTipsSection />
 
-      <div className="space-y-6">
-        {MANAGER_GUIDE_SECTIONS.map((section) => (
-          <GuideSection key={section.id} section={section} />
-        ))}
-      </div>
+          <div className="space-y-6">
+            {MANAGER_GUIDE_SECTIONS.map((section) => (
+              <GuideSection key={section.id} section={section} />
+            ))}
+          </div>
 
-      <ManagerChecklistSection />
+          <ManagerChecklistSection />
 
-      <ManagerEmailTemplates />
+          <ManagerEmailTemplates />
 
-      <GuideFaqSection
-        id="faq"
-        eyebrow="Manager & HR FAQ"
-        title="Frequently Asked Questions: Supporting an Employee With Cancer"
-        subtitle="Direct answers to the most common legal, communication, and accommodation questions managers and HR professionals face."
-        faqs={MANAGER_GUIDE_FAQS}
-      />
+          <GuideFaqSection
+            id="faq"
+            eyebrow="Manager & HR FAQ"
+            title="Frequently Asked Questions: Supporting an Employee With Cancer"
+            subtitle="Direct answers to the most common legal, communication, and accommodation questions managers and HR professionals face."
+            faqs={MANAGER_GUIDE_FAQS}
+          />
+        </>
+      ) : access ? (
+        <PremiumPaywall isAuthenticated={access.isAuthenticated} />
+      ) : (
+        <div className="flex justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-brand-primary" aria-label="Loading premium access" />
+        </div>
+      )}
     </div>
   );
 }

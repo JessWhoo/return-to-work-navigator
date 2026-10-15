@@ -24,6 +24,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import ThankYou from './pages/ThankYou';
 import Blog from './pages/Blog';
 import MyFeedback from './pages/MyFeedback';
 import EmergencyContacts from './pages/EmergencyContacts';
@@ -107,6 +108,14 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route
+        path="/ThankYou"
+        element={
+          <LayoutWrapper currentPageName="ThankYou">
+            <ThankYou />
+          </LayoutWrapper>
+        }
+      />
       <Route
         path="/PrivacySecurity"
         element={
