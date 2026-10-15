@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight } from 'lucide-react';
+import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight, Landmark } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/brand/PageHeader';
 import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
@@ -25,7 +25,7 @@ const HUB_TABS = [
   { value: 'disclosure', label: 'Rights & Disclosure', Icon: Lock },
   { value: 'rights', label: 'Legal Rights', Icon: Shield },
   { value: 'accommodations', label: 'Accommodations', Icon: FileText },
-  { value: 'state', label: 'State Laws', Icon: Globe },
+  { value: 'state', label: 'State Laws', Icon: Landmark },
   { value: 'international', label: 'International', Icon: Globe },
   { value: 'checklist', label: 'Checklist', Icon: CheckSquare },
 ];
