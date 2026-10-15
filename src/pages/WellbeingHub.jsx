@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Zap, Heart } from 'lucide-react';
+import { Zap, Heart, BookOpen } from 'lucide-react';
 import EnergyManagement from './EnergyManagement';
 import EmotionalSupport from './EmotionalSupport';
+import WellbeingResourcesTab from '@/components/wellbeing/WellbeingResourcesTab';
 import PageHeader from '@/components/brand/PageHeader';
 import useSEO from '@/hooks/useSEO';
 
@@ -14,6 +16,11 @@ export default function WellbeingHub() {
     path: '/WellbeingHub',
   });
 
+  // Allow deep-linking the consolidated Resources tab (e.g. from redirected
+  // library routes) via ?tab=resources.
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState(params.get('tab') === 'resources' ? 'resources' : 'energy');
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
@@ -22,7 +29,7 @@ export default function WellbeingHub() {
         subtitle="Track daily workday energy, pace your tasks, and manage return-to-work anxiety."
       />
 
-      <Tabs defaultValue="energy" className="space-y-6">
+      <Tabs value={tab} onValueChange={setTab} className="space-y-6">
         <TabsList className="nv-tabs h-auto">
           <TabsTrigger value="energy" className="nv-tab">
             <Zap className="h-4 w-4" />
@@ -32,6 +39,10 @@ export default function WellbeingHub() {
             <Heart className="h-4 w-4" />
             Emotional Support
           </TabsTrigger>
+          <TabsTrigger value="resources" className="nv-tab">
+            <BookOpen className="h-4 w-4" />
+            Resources &amp; Libraries
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="energy">
@@ -39,6 +50,9 @@ export default function WellbeingHub() {
         </TabsContent>
         <TabsContent value="emotional">
           <EmotionalSupport embedded />
+        </TabsContent>
+        <TabsContent value="resources">
+          <WellbeingResourcesTab />
         </TabsContent>
       </Tabs>
     </div>

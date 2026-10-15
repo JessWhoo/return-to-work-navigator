@@ -8,12 +8,13 @@ import useSEO from '@/hooks/useSEO';
 import LibraryCard from '@/components/library/LibraryCard';
 import PageHeader from '@/components/brand/PageHeader';
 
-export default function ResourceLibrary() {
+export default function ResourceLibrary({ embedded = false }) {
   useSEO({
     title: 'Legal Rights & Workplace Accommodation Resource Library',
     description:
       'Searchable directory of ADA accommodation guides, FMLA checklists, legal aid organizations, and workplace templates for cancer survivors.',
     path: '/ResourceLibrary',
+    enabled: !embedded,
   });
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
@@ -48,11 +49,13 @@ export default function ResourceLibrary() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <PageHeader
-        eyebrow="Resource Library"
-        title="Legal Rights & Workplace Accommodation Resource Library"
-        subtitle="Every ADA guide, FMLA template, and trusted legal resource — searchable and organized in one place."
-      />
+      {!embedded && (
+        <PageHeader
+          eyebrow="Resource Library"
+          title="Legal Rights & Workplace Accommodation Resource Library"
+          subtitle="Every ADA guide, FMLA template, and trusted legal resource — searchable and organized in one place."
+        />
+      )}
 
       {/* Search */}
       <Card>

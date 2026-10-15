@@ -221,6 +221,9 @@ const AuthenticatedApp = () => {
       <Route>
         <Route path="/home" element={<Navigate to="/" replace />} />
         <Route path="/Home" element={<Navigate to="/" replace />} />
+        <Route path="/WellnessLibrary" element={<Navigate to="/WellbeingHub?tab=resources" replace />} />
+        <Route path="/WellnessResources" element={<Navigate to="/WellbeingHub?tab=resources" replace />} />
+        <Route path="/ResourceLibrary" element={<Navigate to="/WellbeingHub?tab=resources" replace />} />
         {Object.entries(Pages)
           .filter(([path]) => path !== 'Home')
           .map(([path, Page]) => (

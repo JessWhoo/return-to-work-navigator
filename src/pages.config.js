@@ -61,7 +61,6 @@ import ProgressDashboard from './pages/ProgressDashboard';
 import RecordKeeping from './pages/RecordKeeping';
 import Resources from './pages/Resources';
 import ReturnPlanning from './pages/ReturnPlanning';
-import WellnessResources from './pages/WellnessResources';
 import MeetingPrep from './pages/MeetingPrep';
 import InternationalLaws from './pages/InternationalLaws';
 import StateByStateLaws from './pages/StateByStateLaws';
@@ -78,7 +77,6 @@ import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import DisclosureGuide from './pages/DisclosureGuide';
-import ResourceLibrary from './pages/ResourceLibrary';
 import CoachBooking from './pages/CoachBooking';
 import __Layout from './Layout.jsx';
 
@@ -98,7 +96,6 @@ export const PAGES = {
     "RecordKeeping": RecordKeeping,
     "Resources": Resources,
     "ReturnPlanning": ReturnPlanning,
-    "WellnessResources": WellnessResources,
     "MeetingPrep": MeetingPrep,
     "InternationalLaws": InternationalLaws,
     "StateByStateLaws": StateByStateLaws,
@@ -115,7 +112,6 @@ export const PAGES = {
     "About": About,
     "Contact": Contact,
     "DisclosureGuide": DisclosureGuide,
-    "ResourceLibrary": ResourceLibrary,
     "CoachBooking": CoachBooking,
 }
 

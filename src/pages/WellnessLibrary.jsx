@@ -55,12 +55,13 @@ const CORE_WELLNESS_GUIDES = [
   },
 ];
 
-export default function WellnessLibrary() {
+export default function WellnessLibrary({ embedded = false }) {
   useSEO({
     title: 'Cancer Fatigue, Sleep & Workplace Wellness Library',
     description:
       'Evidence-based wellness guides for cancer survivors returning to work: manage chemo brain, cancer-related fatigue, sleep disruption, nutrition, and stress.',
     path: '/WellnessLibrary',
+    enabled: !embedded,
   });
   const { isAuthenticated, user } = useAuth();
   const isAdmin = user?.role === 'admin';
@@ -107,11 +108,13 @@ export default function WellnessLibrary() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <PageHeader
-        eyebrow="Wellness Library"
-        title="Cancer Survivorship & Workplace Wellness Library"
-        subtitle="Search trusted fatigue, sleep, nutrition, and emotional wellness resources by topic, and rate how helpful each one was for fellow survivors."
-      />
+      {!embedded && (
+        <PageHeader
+          eyebrow="Wellness Library"
+          title="Cancer Survivorship & Workplace Wellness Library"
+          subtitle="Search trusted fatigue, sleep, nutrition, and emotional wellness resources by topic, and rate how helpful each one was for fellow survivors."
+        />
+      )}
 
       {/* Search + topic filters */}
       <Card>
