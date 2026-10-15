@@ -97,6 +97,7 @@ export default async function(req) {
 
     return Response.json({
       siteUrl: SITE_URL,
+      adminEmail: user.email,
       verified: listRes.status === 200,
       verificationError: listRes.status !== 200 && listRes.body && listRes.body.error ? listRes.body.error.message : null,
       sitemaps: {
