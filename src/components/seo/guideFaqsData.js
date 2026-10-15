@@ -5,6 +5,7 @@
 // Shared between the visible on-page GuideFaqSection component and the
 // JSON-LD FAQPage schema in StructuredData.jsx so visible text and schema
 // always match 1:1.
+import { FAQ_PAGE_FAQS } from './faqPageData';
 
 export const MANAGER_GUIDE_FAQS = [
   {
@@ -160,34 +161,6 @@ export const LEGAL_RIGHTS_FAQS = [
     question: 'What should I do if I believe my employer discriminated against me because of cancer?',
     answer:
       'Save copies of your performance reviews, accommodation requests, doctor letters, and emails in a personal folder outside your work account. Contact the U.S. Equal Employment Opportunity Commission (EEOC) or your state fair-employment agency—federal ADA discrimination charges generally must be filed within 180 to 300 days of the violation.',
-  },
-];
-
-export const GENERAL_SITE_FAQS = [
-  {
-    question: 'How do I start planning my return to work after cancer treatment?',
-    answer:
-      'Begin by consulting your oncology team about your stamina, immunity, and any physical or cognitive restrictions. Next, review your workplace protections under the ADA and FMLA, identify 2 to 4 practical accommodations (such as a phased part-time schedule or hybrid work), and put your return plan and accommodation request in writing before your first day back.',
-  },
-  {
-    question: 'What accommodations can I request when returning to work after cancer?',
-    answer:
-      'Common ADA accommodations include a gradual part-time-to-full-time return schedule, flexible start times, intermittent leave for oncology appointments and scans, remote or hybrid work, written task summaries for chemo brain, scheduled rest breaks for cancer-related fatigue, and ergonomic or lifting modifications.',
-  },
-  {
-    question: 'How much do I have to tell my employer and coworkers about my cancer diagnosis?',
-    answer:
-      'You control what you share. To receive ADA accommodations or FMLA leave, you only need to provide HR with medical certification of your functional limitations and needed adjustments—you never have to share your diagnosis with coworkers or explain oncology details to your team.',
-  },
-  {
-    question: 'How do I manage cancer-related fatigue and "chemo brain" at work?',
-    answer:
-      'Combine workplace accommodations with energy pacing: schedule high-focus work during your peak morning energy window, take brief 10-to-15-minute restorative breaks before exhaustion hits, ask for written follow-ups after meetings, and use a single prioritized daily task list.',
-  },
-  {
-    question: 'Can my employer fire me because of my cancer diagnosis?',
-    answer:
-      'No. Under the federal Americans with Disabilities Act (ADA) and state fair-employment laws, employers cannot fire, demote, or retaliate against you because you have or had cancer, provided you can perform your essential job duties with or without reasonable accommodations.',
   },
 ];
 
@@ -358,7 +331,7 @@ export const GUIDE_FAQ_BY_PATH = {
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
   '/legalrights': LEGAL_RIGHTS_FAQS,
-  '/faq': GENERAL_SITE_FAQS,
+  '/faq': FAQ_PAGE_FAQS,
   '/communityguidelines': COMMUNITY_GUIDELINES_FAQS,
   '/managerguidees': MANAGER_GUIDE_FAQS_ES,
   '/accommodationses': ACCOMMODATIONS_GUIDE_FAQS_ES,

@@ -1,0 +1,152 @@
+import { HelpCircle, Shield, Heart, Zap, FileText, Calendar, Briefcase } from 'lucide-react';
+
+// Single source for the /FAQ page questions. The visible category layout
+// (FAQ.jsx) and the FAQPage JSON-LD schema (guideFaqsData → StructuredData)
+// both read from here so the on-page text and structured data match 1:1.
+
+export const FAQ_PAGE_FAQ_CATEGORIES = [
+  {
+    category: 'Getting Started',
+    icon: HelpCircle,
+    questions: [
+      {
+        q: 'How do I start planning my return to work?',
+        a: 'Begin with the "My Checklist" section to track your progress through each phase. Set your return date in "Return Planning" and consult with your healthcare team about your readiness. The toolkit will guide you through medical, legal, and practical considerations.'
+      },
+      {
+        q: 'What should I do first when using this toolkit?',
+        a: 'Start by completing your profile and setting your return date. Then review your legal rights under ADA and FMLA, assess what accommodations you might need, and begin tracking your energy levels. The onboarding tutorial can guide you through the key features.'
+      },
+      {
+        q: 'Is this toolkit a substitute for medical or legal advice?',
+        a: 'No, this toolkit provides educational information and resources but is not a substitute for professional medical or legal advice. Always consult with your healthcare team and legal counsel for your specific situation.'
+      }
+    ]
+  },
+  {
+    category: 'Legal Rights & Accommodations',
+    icon: Shield,
+    questions: [
+      {
+        q: 'What is the Americans with Disabilities Act (ADA)?',
+        a: 'The ADA is a federal law that prohibits discrimination against individuals with disabilities and requires employers to provide reasonable accommodations. Cancer survivors are protected under the ADA if their condition substantially limits a major life activity.'
+      },
+      {
+        q: 'What accommodations can I request?',
+        a: 'Common accommodations include flexible work schedules, reduced hours, work-from-home options, modified duties, frequent breaks, ergonomic equipment, and adjusted deadlines. Your specific needs will depend on your condition and treatment effects.'
+      },
+      {
+        q: 'How do I request accommodations from my employer?',
+        a: 'Use our "Request Accommodations" tool to generate a professional letter. Include medical documentation from your healthcare provider, be specific about your needs, and propose solutions. You don\'t need to disclose your full medical history.'
+      },
+      {
+        q: 'What is FMLA and am I eligible?',
+        a: 'The Family and Medical Leave Act (FMLA) provides up to 12 weeks of unpaid, job-protected leave per year. You\'re eligible if you\'ve worked for your employer for at least 12 months and 1,250 hours, and your employer has 50+ employees within 75 miles.'
+      },
+      {
+        q: 'Can my employer fire me because of my cancer diagnosis?',
+        a: 'No. The ADA prohibits discrimination based on disability, including cancer. If you can perform the essential functions of your job with or without reasonable accommodations, you are protected. Document everything and consult an employment attorney if you experience discrimination.'
+      }
+    ]
+  },
+  {
+    category: 'Managing Energy & Fatigue',
+    icon: Zap,
+    questions: [
+      {
+        q: 'How do I manage cancer-related fatigue at work?',
+        a: 'Use the "Energy & Fatigue" section to track your energy patterns. Practice pacing strategies, take regular breaks, prioritize tasks during your high-energy times, and consider a gradual return-to-work schedule. Stay hydrated and maintain good nutrition.'
+      },
+      {
+        q: 'What is pacing and how does it help?',
+        a: 'Pacing means breaking activities into smaller chunks with rest periods in between. It helps conserve energy and prevent exhaustion. Track your energy levels to identify your best times for demanding tasks and schedule rest periods proactively.'
+      },
+      {
+        q: 'Should I work full-time or part-time when I return?',
+        a: 'This depends on your energy levels, medical recommendations, and financial situation. Many survivors benefit from a gradual return, starting part-time and increasing hours as they adjust. Use our "Return Planning" tool to create a phased schedule.'
+      }
+    ]
+  },
+  {
+    category: 'Communication',
+    icon: FileText,
+    questions: [
+      {
+        q: 'How much should I tell my employer about my cancer?',
+        a: 'You control how much you disclose. For accommodation requests, you need to provide enough information to show you have a disability and need accommodation, but you don\'t need to share your full medical history. Use our communication templates for guidance.'
+      },
+      {
+        q: 'What should I tell my coworkers?',
+        a: 'This is entirely your choice. You can share as much or as little as you\'re comfortable with. Prepare responses for questions in advance. The "Communication Tools" section has scripts to help you navigate these conversations.'
+      },
+      {
+        q: 'How do I address performance concerns with my supervisor?',
+        a: 'Be proactive and honest about any limitations. Request a meeting to discuss accommodations and timeline. Document everything in writing. Use our email templates to communicate professionally about your needs and capabilities.'
+      }
+    ]
+  },
+  {
+    category: 'Planning & Timeline',
+    icon: Calendar,
+    questions: [
+      {
+        q: 'When is the right time to return to work?',
+        a: 'There\'s no one-size-fits-all answer. Consult with your healthcare team, consider your energy levels, financial needs, and job demands. Some return during treatment, others wait until after. The "Return Planning" section can help you evaluate your readiness.'
+      },
+      {
+        q: 'What is a phased return-to-work plan?',
+        a: 'A phased return involves gradually increasing your work hours or responsibilities over time. For example, starting at 4 hours/day for 2 weeks, then 6 hours/day, then full-time. This helps you adjust physically and emotionally while maintaining job protections.'
+      },
+      {
+        q: 'What if I need more time off after I\'ve returned?',
+        a: 'You may be eligible for additional FMLA leave, short-term disability, or unpaid leave depending on your situation. Communicate with your employer early and provide medical documentation. Keep detailed records of all communications.'
+      }
+    ]
+  },
+  {
+    category: 'Emotional & Mental Health',
+    icon: Heart,
+    questions: [
+      {
+        q: 'I\'m anxious about returning to work. Is this normal?',
+        a: 'Absolutely. Anxiety about returning is very common among cancer survivors. Use the "Emotional Support" resources, consider speaking with a therapist, practice stress-reduction techniques, and connect with other survivors who\'ve been through this transition.'
+      },
+      {
+        q: 'What if my cognitive abilities have changed?',
+        a: 'Many survivors experience "chemo brain" or cognitive changes. Request accommodations like written instructions, frequent breaks, or reduced multitasking. These changes often improve over time. Discuss strategies with your healthcare team.'
+      },
+      {
+        q: 'How do I deal with coworkers who don\'t understand?',
+        a: 'Set boundaries about what you will and won\'t discuss. Prepare brief responses to common questions. If someone is insensitive, you can address it directly or through HR. Focus on supportive relationships and use the wellness resources for coping strategies.'
+      }
+    ]
+  },
+  {
+    category: 'Using This Toolkit',
+    icon: Briefcase,
+    questions: [
+      {
+        q: 'How do I track my progress?',
+        a: 'Use the "Progress Dashboard" to see your overall journey. Complete items in "My Checklist," log your energy levels, and track accommodations. Your progress is automatically saved and visualized in the dashboard.'
+      },
+      {
+        q: 'Can I print or share resources from this toolkit?',
+        a: 'Yes! Many sections include download or print options. You can export your accommodation requests, download resources, and save templates. Use the share features in the Progress Dashboard to send reports to your healthcare team.'
+      },
+      {
+        q: 'How often should I update my information?',
+        a: 'Update your energy logs daily or weekly, track checklist progress regularly, and adjust your accommodation needs as they change. The more you engage with the toolkit, the more useful it becomes for your journey.'
+      },
+      {
+        q: 'How does the Return-to-Work Checklist work?',
+        a: 'Your checklist breaks preparation into four clear stages: Before You Return, Planning Your Return, First Weeks Back, and Ongoing Success. You can check off items at your own pace—without points, timers, or streaks—and export your summary whenever you need it.'
+      }
+    ]
+  }
+];
+
+// Flat question/answer list for the FAQPage JSON-LD schema, derived from the
+// visible category layout so structured data always reflects on-page text.
+export const FAQ_PAGE_FAQS = FAQ_PAGE_FAQ_CATEGORIES.flatMap((cat) =>
+  cat.questions.map((item) => ({ question: item.q, answer: item.a }))
+);
