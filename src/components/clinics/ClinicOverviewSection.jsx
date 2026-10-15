@@ -32,7 +32,7 @@ const PATIENT_TOOLS = [
     title: 'Fatigue, Chemo Brain & Energy Pacing',
     subtitle: 'Daily tracking & coping guides',
     description:
-      'Evidence-informed strategies and daily energy/symptom logs that help patients identify peak focus windows, prevent afternoon crashes, and communicate functional needs to clinicians.',
+      'Evidence-informed strategies and daily energy logs that help patients identify peak focus windows, prevent afternoon crashes, and communicate functional needs to clinicians.',
     href: '/WellnessLibrary',
     icon: Battery,
   },

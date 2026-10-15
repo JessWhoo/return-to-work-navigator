@@ -19,7 +19,6 @@ export async function generateAIRecommendations(allResources, progress) {
 
     // Fetch user's records for additional context
     const records = await base44.entities.Record.list('-date', 10);
-    const symptomRecords = await base44.entities.Record.filter({ type: 'symptom' }, '-date', 10);
     
     // Analyze user's current state
     const recentEnergyLogs = progress.energy_logs?.slice(-7) || [];
@@ -35,18 +34,6 @@ export async function generateAIRecommendations(allResources, progress) {
 
     const moods = recentEnergyLogs.map(log => log.mood).filter(Boolean);
     const dominantMood = moods.length > 0 ? moods[moods.length - 1] : 'neutral';
-
-    // Analyze symptoms
-    const recentSymptoms = symptomRecords.slice(0, 5).map(s => ({
-      title: s.title,
-      severity: s.symptom_details?.severity,
-      types: s.symptom_details?.symptom_type || [],
-      date: s.date
-    }));
-
-    const avgSymptomSeverity = recentSymptoms.length > 0
-      ? recentSymptoms.reduce((sum, s) => sum + (s.severity || 0), 0) / recentSymptoms.length
-      : 0;
 
     // Fetch all reviews to get community insights
     const allReviews = await base44.entities.ResourceReview.list();
@@ -85,8 +72,6 @@ export async function generateAIRecommendations(allResources, progress) {
 - Current Mood: ${dominantMood}
 - Checklist Progress: ${progress.completed_checklist_items?.length || 0} items completed
 - Accommodations Requested: ${progress.accommodations_requested?.length || 0}
-- Recent Symptoms: ${recentSymptoms.length} logged (avg severity: ${avgSymptomSeverity.toFixed(1)}/10)
-- Symptom Types: ${[...new Set(recentSymptoms.flatMap(s => s.types))].join(', ') || 'none reported'}
 
 USER INTERACTION PATTERNS (explicit feedback):
 - Resources tagged as USEFUL by user: ${usefulIds.length > 0 ? usefulIds.join(', ') : 'none yet'}
@@ -101,13 +86,7 @@ ${Object.entries(interactionCounts).slice(0, 10).map(([id, counts]) =>
 ).join('\n') || '- No interaction data yet'}
 
 RECENT RECORDS (last 10):
-${records.map(r => `- ${r.type}: ${r.title} (${r.date})`).join('\n')}
-
-RECENT SYMPTOMS (last 5):
-${recentSymptoms.length > 0
-  ? recentSymptoms.map(s => `- ${s.title} (${s.date}): Severity ${s.severity}/10, Types: ${s.types.join(', ')}`).join('\n')
-  : 'No symptoms logged recently'
-}
+${records.filter(r => r.type !== 'symptom').map(r => `- ${r.type}: ${r.title} (${r.date})`).join('\n')}
 
 UPCOMING EVENTS:
 ${progress.calendar_events?.slice(0, 3).map(e => `- ${e.title} (${e.date})`).join('\n') || 'None scheduled'}

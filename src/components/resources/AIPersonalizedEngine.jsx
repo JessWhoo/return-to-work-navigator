@@ -33,18 +33,6 @@ export default function AIPersonalizedEngine({
       ? recentEnergyLogs.reduce((sum, log) => sum + (log.stress_level || 0), 0) / recentEnergyLogs.length
       : 0;
 
-    // Fetch recent symptoms
-    const symptomRecords = await base44.entities.Record.filter({ type: 'symptom' }, '-date', 10);
-    const recentSymptoms = symptomRecords.slice(0, 5).map(s => ({
-      title: s.title,
-      severity: s.symptom_details?.severity,
-      types: s.symptom_details?.symptom_type || []
-    }));
-
-    const avgSymptomSeverity = recentSymptoms.length > 0
-      ? recentSymptoms.reduce((sum, s) => sum + (s.severity || 0), 0) / recentSymptoms.length
-      : 0;
-
     const commonMoods = recentEnergyLogs
       .map(log => log.mood)
       .filter(Boolean)
@@ -78,10 +66,7 @@ export default function AIPersonalizedEngine({
       days_to_return: daysToReturn,
       upcoming_events_count: upcomingEvents.length,
       recent_notes: recentEnergyLogs.map(log => log.notes).filter(Boolean).join('; '),
-      bookmarked_count: progress?.bookmarked_resources?.length || 0,
-      symptom_count: recentSymptoms.length,
-      avg_symptom_severity: avgSymptomSeverity.toFixed(1),
-      symptom_types: [...new Set(recentSymptoms.flatMap(s => s.types))].join(', ')
+      bookmarked_count: progress?.bookmarked_resources?.length || 0
     };
   };
 
@@ -146,10 +131,7 @@ export default function AIPersonalizedEngine({
 - Checklist Items Completed: ${userData.checklist_completed}
 - Accommodations Requested: ${userData.accommodations_count} (${userData.accommodations_types || 'none'})
 - Days Until Return: ${userData.days_to_return || 'not set'}
-- Recent Notes: ${userData.recent_notes || 'none'}
-- Recent Symptoms Logged: ${userData.symptom_count}
-- Average Symptom Severity (1-10): ${userData.avg_symptom_severity}
-- Symptom Types Reported: ${userData.symptom_types || 'none'}`;
+- Recent Notes: ${userData.recent_notes || 'none'}`;
       const response = (await base44.functions.invoke('aiGateway', {
         operation: 'personalized_recommendations',
         data: { userDataText, resourcesJson: JSON.stringify(resourceSummary, null, 2) },

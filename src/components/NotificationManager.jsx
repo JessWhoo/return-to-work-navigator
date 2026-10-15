@@ -73,7 +73,7 @@ function checkDailyLogReminder() {
     localStorage.setItem(STORAGE_KEY_DAILY, today);
     sendNotification(
       '💚 Daily Check-In Reminder',
-      "Don't forget to log your energy levels and any symptoms today. It only takes a moment!",
+      "Don't forget to log your workday energy levels today. It only takes a moment!",
       '/EnergyManagement'
     );
   }

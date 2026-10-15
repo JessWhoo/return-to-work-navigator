@@ -110,7 +110,7 @@ export function generateClinicHandoutPdf() {
       'Understand your federal and state protections under the ADA, Intermittent FMLA, COBRA, and state paid medical leave programs across all 50 states.',
     ],
     [
-      '5. Daily Energy, Fatigue & Symptom Pacing (return-to-work-navigator.org/WellnessLibrary)',
+      '5. Daily Energy & Fatigue Pacing (return-to-work-navigator.org/WellnessLibrary)',
       'Track morning, afternoon, and evening energy levels and learn practical workplace strategies for cancer-related fatigue and cognitive fog.',
     ],
   ];

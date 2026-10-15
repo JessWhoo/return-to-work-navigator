@@ -3,7 +3,7 @@ export const privacyPolicySections = [
     title: 'Information we collect',
     paragraphs: [
       'Return to Work Navigator is provided by Back to Life, Back to Work for Cancer Survivors. This policy covers the Navigator website and mobile app, including its account, planning, community, and AI tools.',
-      'When you create an account, we process your email address, account identifier, profile information, and sign-in information. Authentication is managed by Base44. We also process the information you choose to submit, such as return-to-work plans, health and symptom notes, energy and mood logs, medical or workplace notes, accommodation requests, drafts, calendar events, resource feedback, and community content.',
+      'When you create an account, we process your email address, account identifier, profile information, and sign-in information. Authentication is managed by Base44. We also process the information you choose to submit, such as return-to-work plans, energy and mood logs, medical or workplace notes, accommodation requests, drafts, calendar events, resource feedback, and community content.',
       'If you use coaching, support, or resume tools, we process your booking details, contact information, messages, uploaded resume, and job description. Health information is optional: avoid including details you do not want processed by the feature you use.'
     ]
   },

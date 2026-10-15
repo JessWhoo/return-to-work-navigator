@@ -314,7 +314,7 @@ export const ROUTE_SEO = {
   '/progressdashboard': {
     title: 'Return-to-Work Energy, Mood & Milestone Analytics',
     description:
-      'Visualize your daily energy trends, mood distribution, symptom correlations, and checklist completion as you transition back to work.',
+      'Visualize your daily energy trends, mood distribution, stress patterns, and checklist completion as you transition back to work.',
     h1: 'Return-to-Work Progress & Energy Analytics Dashboard',
     path: '/ProgressDashboard',
   },

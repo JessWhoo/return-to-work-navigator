@@ -47,7 +47,6 @@ export default function AIProgressInsights({ progress }) {
           accommodations: analysisData.accommodations,
           checklist_progress: analysisData.checklist_progress,
           energyTrendsText,
-          recentSymptomsText: '',
         },
       })).data.result;
 
