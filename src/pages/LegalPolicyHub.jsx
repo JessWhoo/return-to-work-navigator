@@ -5,6 +5,7 @@ import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight, Landmar
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/brand/PageHeader';
 import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
+import LegalRightsAgentChat from '@/components/legal/LegalRightsAgentChat';
 import useSEO from '@/hooks/useSEO';
 
 // Secondary tabs load on demand so the hub's initial render isn't blocked by
@@ -106,6 +107,20 @@ export default function LegalPolicyHub() {
 
         <TabsContent value="disclosure">
           <WorkplaceRightsAndDisclosure />
+          <section className="space-y-4 pt-2">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-6 w-6 text-brand-primary" />
+              <h2 className="font-heading text-2xl font-bold text-brand-text">AI Legal Rights Advisor</h2>
+            </div>
+            <p className="text-brand-muted-foreground max-w-3xl">
+              Ask plain-language questions about ADA, FMLA, COBRA, and EEOC protections. The advisor
+              reads your saved workplace and medical records so its answers reflect your real situation.
+            </p>
+            <LegalRightsAgentChat embedded />
+            <p className="text-xs italic text-brand-muted-foreground">
+              General information only — not legal advice. Please consult an employment attorney for your situation.
+            </p>
+          </section>
         </TabsContent>
         <TabsContent value="rights">
           <Suspense fallback={<TabFallback />}><LegalRights embedded /></Suspense>

@@ -13,7 +13,7 @@ const STARTERS = [
   'What should I be documenting right now?',
 ];
 
-export default function LegalRightsAgentChat() {
+export default function LegalRightsAgentChat({ embedded = false }) {
   const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -63,7 +63,7 @@ export default function LegalRightsAgentChat() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-16rem)] min-h-[28rem] bg-slate-50 border-2 border-slate-300 rounded-2xl overflow-hidden">
+    <div className={`flex flex-col ${embedded ? 'h-[36rem]' : 'h-[calc(100vh-16rem)] min-h-[28rem]'} bg-slate-50 border-2 border-slate-300 rounded-2xl overflow-hidden`}>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="space-y-3">
