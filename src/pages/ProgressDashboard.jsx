@@ -198,13 +198,27 @@ export default function ProgressDashboard({ embedded = false }) {
         <div>
           <p className="nv-eyebrow nv-eyebrow--primary">Your journey</p>
           <HeadingTag className="mt-1 font-heading text-3xl font-bold text-brand-text">Return-to-Work Progress &amp; Energy Analytics Dashboard</HeadingTag>
-          <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, and checklist completion</p>
+          <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, symptom patterns, and four-phase preparation checklist completion.</p>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {checklistData.map((phase, idx) => (
+            <Card key={phase.id}>
+              <CardContent className="p-5 space-y-2">
+                <span className="nv-eyebrow nv-eyebrow--primary">Phase {idx + 1}</span>
+                <h3 className="font-heading text-base font-bold text-brand-text">{phase.title}</h3>
+                <p className="text-xs text-brand-muted-foreground leading-relaxed">{phase.description}</p>
+                <p className="text-xs font-semibold text-brand-primary">{phase.items.length} guided milestones</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
         <Card className="nv-card--muted">
-          <CardContent className="pt-16 pb-16 text-center">
-            <Activity className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
-            <h3 className="mb-2 font-heading text-xl font-bold text-brand-text">No Progress Data Yet</h3>
-            <p className="text-brand-muted-foreground">Start tracking your energy and completing checklist items to see your progress!</p>
+          <CardContent className="pt-10 pb-10 text-center space-y-3">
+            <Activity className="mx-auto h-12 w-12 text-brand-primary" />
+            <h3 className="font-heading text-xl font-bold text-brand-text">Track Your Personal Return-to-Work Analytics</h3>
+            <p className="mx-auto max-w-2xl text-sm text-brand-muted-foreground">
+              Log your morning, afternoon, and evening energy levels, monitor post-treatment symptom trends, check off preparation milestones, and export printable PDF summaries for your oncology care team or HR department.
+            </p>
           </CardContent>
         </Card>
       </div>

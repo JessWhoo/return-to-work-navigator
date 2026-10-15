@@ -353,17 +353,36 @@ export default function Coach() {
             <CardContent className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6">
               {!isLoadingAuth && !isAuthenticated ? (
                 <div className="flex min-h-full items-center justify-center">
-                  <div className="max-w-md space-y-4 text-center">
+                  <div className="max-w-xl space-y-5 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
                       <MessageSquare className="h-10 w-10" />
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground">Sign in to chat with your coach</h3>
-                    <p className="text-muted-foreground">
-                      Your coaching conversations are private and saved to your account. Please sign in to start chatting.
-                    </p>
-                    <Button onClick={() => base44.auth.redirectToLogin()}>
-                      Sign in
-                    </Button>
+                    <div>
+                      <h2 className="mb-2 text-2xl font-bold text-foreground">
+                        Welcome to Your 24/7 AI Return-to-Work Coach
+                      </h2>
+                      <p className="mb-4 text-muted-foreground">
+                        Get confidential, personalized guidance for every stage of returning to work after cancer treatment — from drafting ADA accommodation requests and planning a phased schedule to managing treatment fatigue and preparing for HR conversations.
+                      </p>
+                      <div className="mx-auto max-w-md space-y-2 rounded-brand border border-border bg-brand-surface p-4 text-left">
+                        <p className="text-sm font-bold text-foreground">How your AI Return-to-Work Coach supports you:</p>
+                        <ul className="ml-4 space-y-1.5 text-sm text-muted-foreground">
+                          <li>• Drafting ADA workplace accommodation letters and HR emails</li>
+                          <li>• Building a gradual, week-by-week phased return schedule</li>
+                          <li>• Pacing workday energy around cancer-related fatigue and chemo brain</li>
+                          <li>• Practicing scripts for supervisor check-ins and coworker boundaries</li>
+                          <li>• Understanding federal FMLA, ADA, COBRA, and state leave protections</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-xs font-medium text-muted-foreground">
+                        Your coaching conversations are private and saved to your account.
+                      </p>
+                      <Button onClick={() => base44.auth.redirectToLogin()}>
+                        Sign in to start chatting
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ) : !selectedConversation ? (

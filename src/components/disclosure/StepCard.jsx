@@ -12,7 +12,7 @@ export default function StepCard({ step, index, checkedItems, onToggle }) {
   const isComplete = completedCount === step.checklistItems.length;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: index * 0.05 }}>
+    <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: index * 0.05 }}>
       <Card className={isComplete ? 'ring-1 ring-primary' : ''}>
         <CardContent className="p-6">
           <div className="flex items-start gap-4 mb-4">

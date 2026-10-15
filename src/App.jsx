@@ -78,24 +78,12 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
   : <>{children}</>;
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError } = useAuth();
-
-  // Show loading spinner while checking app public settings or auth, while
-  // keeping the current route's H1 and summary in the DOM for search/AI crawlers.
-  if (isLoadingPublicSettings || isLoadingAuth) {
-    const routeSEO = getRouteSEO(typeof window !== 'undefined' ? window.location.pathname : '/');
-    return (
-      <main className="fixed inset-0 flex flex-col items-center justify-center bg-brand-background px-4 text-center">
-        <h1 className="sr-only">{routeSEO.h1}</h1>
-        <p className="sr-only">{routeSEO.description}</p>
-        <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
-      </main>
-    );
-  }
+  const { authError } = useAuth();
 
   // Handle authentication errors — only the "not registered" case shows a
   // dedicated screen. Missing auth is ignored so the app is fully browsable
-  // without signing in.
+  // without signing in, and routes render immediately on first paint so the
+  // pre-rendered HTML for every route contains the full page content.
   if (authError && authError.type === 'user_not_registered') {
     return <UserNotRegisteredError />;
   }

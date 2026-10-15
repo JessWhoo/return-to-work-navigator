@@ -40,23 +40,11 @@ export default function TipCard({ tip, category }) {
         </CardContent>
       </button>
 
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            style={{ overflow: 'hidden' }}
-          >
-            <div className={`px-5 pb-5 pt-1 border-t bg-gradient-to-br ${category.bg}`}>
-              <div className="ml-4 pt-4 text-sm text-slate-800 leading-relaxed whitespace-pre-line">
-                {tip.body}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className={expanded ? `px-5 pb-5 pt-1 border-t bg-gradient-to-br ${category.bg}` : 'sr-only'}>
+        <div className="ml-4 pt-4 text-sm text-slate-800 leading-relaxed whitespace-pre-line">
+          {tip.body}
+        </div>
+      </div>
     </Card>
   );
 }

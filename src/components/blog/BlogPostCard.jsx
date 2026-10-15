@@ -6,8 +6,8 @@ import { ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function BlogPostCard({ post }) {
-  const [expanded, setExpanded] = useState(false);
+export default function BlogPostCard({ post, defaultExpanded = false }) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   return (
     <Card className="">
@@ -29,29 +29,17 @@ export default function BlogPostCard({ post }) {
           {post.excerpt}
         </p>
 
-        <AnimatePresence initial={false}>
-          {expanded && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="overflow-hidden"
-            >
-              <div className="space-y-4 pt-2 border-t border-brand-border">
-                {post.content.map((paragraph, i) => (
-                  <p key={i} className="text-brand-text">
-                    {paragraph}
-                  </p>
-                ))}
-                <div className="flex items-center gap-2 pt-2 text-sm text-brand-primary font-semibold">
-                  <Heart className="h-4 w-4 fill-brand-primary text-brand-primary" />
-                  <span>— Jess</span>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className={expanded ? 'space-y-4 pt-2 border-t border-brand-border' : 'sr-only'}>
+          {post.content.map((paragraph, i) => (
+            <p key={i} className="text-brand-text">
+              {paragraph}
+            </p>
+          ))}
+          <div className="flex items-center gap-2 pt-2 text-sm text-brand-primary font-semibold">
+            <Heart className="h-4 w-4 fill-brand-primary text-brand-primary" />
+            <span>— Jess</span>
+          </div>
+        </div>
 
         <Button
           variant="outline"

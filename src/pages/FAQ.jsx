@@ -160,8 +160,8 @@ export default function FAQ({ embedded = false }) {
     enabled: !embedded,
   });
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedCategories, setExpandedCategories] = useState([0]);
-  const [expandedQuestions, setExpandedQuestions] = useState([]);
+  const [expandedCategories, setExpandedCategories] = useState(() => faqData.map((_, i) => i));
+  const [expandedQuestions, setExpandedQuestions] = useState(['0-0', '1-0', '2-0']);
 
   const toggleCategory = (index) => {
     setExpandedCategories(prev =>
@@ -199,24 +199,20 @@ export default function FAQ({ embedded = false }) {
           return (
             <Card key={actualIndex} className="overflow-hidden">
               <FAQCategoryHeader category={category} expanded={isExpanded} onToggle={() => toggleCategory(actualIndex)} contentId={`faq-category-${actualIndex}`} />
-              <AnimatePresence>
-                {isExpanded && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
-                  <CardContent id={`faq-category-${actualIndex}`} className="space-y-3 px-5 pb-5 pt-0 sm:px-6 sm:pb-6">
-                    {category.questions.map((question, questionIndex) => {
-                      const key = `${actualIndex}-${questionIndex}`;
-                      const isQuestionExpanded = expandedQuestions.includes(key);
-                      return (
-                        <div key={questionIndex} className="border-l-4 border-brand-border">
-                          <button onClick={() => toggleQuestion(actualIndex, questionIndex)} aria-expanded={isQuestionExpanded} className="w-full text-left p-4 text-brand-text rounded-r-brand hover:bg-brand-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
-                            <div className="flex items-start justify-between gap-3"><span className="font-body font-semibold">{question.q}</span>{isQuestionExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" />}</div>
-                          </button>
-                          <AnimatePresence>{isQuestionExpanded && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}><div className="px-4 pb-4 text-brand-muted-foreground">{question.a}</div></motion.div>}</AnimatePresence>
-                        </div>
-                      );
-                    })}
-                  </CardContent>
-                </motion.div>}
-              </AnimatePresence>
+              <CardContent id={`faq-category-${actualIndex}`} className={isExpanded ? 'space-y-3 px-5 pb-5 pt-0 sm:px-6 sm:pb-6' : 'sr-only'}>
+                {category.questions.map((question, questionIndex) => {
+                  const key = `${actualIndex}-${questionIndex}`;
+                  const isQuestionExpanded = expandedQuestions.includes(key);
+                  return (
+                    <div key={questionIndex} className="border-l-4 border-brand-border">
+                      <button onClick={() => toggleQuestion(actualIndex, questionIndex)} aria-expanded={isQuestionExpanded} className="w-full text-left p-4 text-brand-text rounded-r-brand hover:bg-brand-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+                        <div className="flex items-start justify-between gap-3"><span className="font-body font-semibold">{question.q}</span>{isQuestionExpanded ? <ChevronDown className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" /> : <ChevronRight className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" />}</div>
+                      </button>
+                      <div className={isQuestionExpanded ? 'px-4 pb-4 text-brand-muted-foreground' : 'sr-only'}>{question.a}</div>
+                    </div>
+                  );
+                })}
+              </CardContent>
             </Card>
           );
         })}

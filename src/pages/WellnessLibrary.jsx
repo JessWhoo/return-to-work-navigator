@@ -24,6 +24,37 @@ const TOPICS = [
   { id: 'sleep_rest', label: 'Sleep & Rest' },
 ];
 
+const CORE_WELLNESS_GUIDES = [
+  {
+    id: 'fatigue-pacing',
+    category: 'Fatigue Management',
+    title: 'Managing Cancer-Related Fatigue & Energy Pacing at Work',
+    summary:
+      'Schedule demanding cognitive tasks during your peak morning energy window, take 5-minute restorative micro-breaks every 90 minutes, and use a phased part-time schedule during your first month back.',
+  },
+  {
+    id: 'cognitive-fog',
+    category: 'Workplace Accommodations',
+    title: 'Practical Strategies for Chemo Brain & Memory Changes',
+    summary:
+      'Request written meeting agendas and follow-up action items, work from a quiet or remote environment for deep-focus projects, and use single-tasking checklists to reduce cognitive overload.',
+  },
+  {
+    id: 'emotional-readiness',
+    category: 'Emotional Well-Being',
+    title: 'Navigating Return-to-Work Anxiety & Coworker Boundaries',
+    summary:
+      'Prepare a short, comfortable 1-sentence script for coworker check-ins, practice box breathing before high-stakes supervisor meetings, and lean on oncology social workers or peer support groups.',
+  },
+  {
+    id: 'sleep-nutrition',
+    category: 'Sleep, Rest & Nutrition',
+    title: 'Restorative Sleep & Desk Nutrition for Sustained Stamina',
+    summary:
+      'Keep protein-rich snacks and hydration at your workstation, protect a consistent wind-down routine after workdays, and incorporate gentle 10-minute walks to counter treatment stiffness.',
+  },
+];
+
 export default function WellnessLibrary() {
   useSEO({
     title: 'Cancer Fatigue, Sleep & Workplace Wellness Library',
@@ -134,9 +165,22 @@ export default function WellnessLibrary() {
         </CardContent>
       </Card>
 
+      {/* Core Evidence-Based Workplace Wellness Guides (always rendered for immediate reader & crawler value) */}
+      <section aria-label="Core workplace wellness guides" className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {CORE_WELLNESS_GUIDES.map((guide) => (
+          <Card key={guide.id} className="nv-card--muted">
+            <CardContent className="p-5 space-y-2">
+              <span className="nv-eyebrow nv-eyebrow--primary">{guide.category}</span>
+              <h2 className="font-heading text-lg font-bold text-brand-text">{guide.title}</h2>
+              <p className="text-sm text-brand-muted-foreground leading-relaxed">{guide.summary}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </section>
+
       {/* Results */}
       {isLoading ? (
-        <div className="flex justify-center py-16">
+        <div className="flex justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-border border-t-brand-primary" />
         </div>
       ) : isError ? (

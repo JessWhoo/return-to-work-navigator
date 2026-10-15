@@ -23,18 +23,18 @@ export default function Blog() {
         {founderPosts.map((post, index) => (
           <motion.div
             key={post.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 + index * 0.08, duration: 0.5 }}
           >
-            <BlogPostCard post={post} />
+            <BlogPostCard post={post} defaultExpanded={index === 0} />
           </motion.div>
         ))}
       </div>
 
       {/* Closing note */}
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
         className="nv-card nv-card--muted text-center p-8"

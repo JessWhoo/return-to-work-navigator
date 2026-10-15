@@ -20,27 +20,25 @@ export default function DirectoryEntryCard({ entry }) {
           </div>
           <ChevronDown className={`h-5 w-5 text-slate-500 flex-shrink-0 mt-1 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
-        {open && (
-          <div className="px-5 pb-5 space-y-3">
-            <p className="text-sm text-slate-800 leading-relaxed">{entry.details}</p>
-            {entry.link && (
-              <a
-                href={entry.link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-bold text-violet-700 hover:text-violet-800 underline"
-              >
-                {entry.link.label}
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            )}
-            <div className="flex flex-wrap gap-1.5">
-              {entry.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs bg-slate-100 text-slate-800 border-slate-300 font-bold">{tag}</Badge>
-              ))}
-            </div>
+        <div className={open ? 'px-5 pb-5 space-y-3' : 'sr-only'}>
+          <p className="text-sm text-slate-800 leading-relaxed">{entry.details}</p>
+          {entry.link && (
+            <a
+              href={entry.link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-violet-700 hover:text-violet-800 underline"
+            >
+              {entry.link.label}
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          )}
+          <div className="flex flex-wrap gap-1.5">
+            {entry.tags.map((tag) => (
+              <Badge key={tag} variant="outline" className="text-xs bg-slate-100 text-slate-800 border-slate-300 font-bold">{tag}</Badge>
+            ))}
           </div>
-        )}
+        </div>
       </CardContent>
     </Card>
   );
