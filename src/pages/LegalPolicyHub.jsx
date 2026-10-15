@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight, Landmark } from 'lucide-react';
+import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight, Landmark, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/brand/PageHeader';
 import WorkplaceRightsAndDisclosure from '../components/legal/WorkplaceRightsAndDisclosure';
@@ -59,6 +59,23 @@ export default function LegalPolicyHub() {
         title="Workplace Legal Rights & Policy Hub for Cancer Survivors"
         subtitle="Plain-language guides to ADA reasonable accommodations, FMLA job-protected leave, disclosure, and state laws."
       />
+
+      <Link to="/LegalRightsAdvisor" className="block">
+        <Card className="nv-card--muted">
+          <CardContent className="flex items-center justify-between gap-4 p-5">
+            <div className="flex items-center gap-3">
+              <span className="flex-shrink-0 rounded-pill bg-brand-primary p-3 text-brand-on-primary">
+                <Sparkles className="h-6 w-6" />
+              </span>
+              <div>
+                <p className="font-heading font-bold text-brand-text">AI Legal Rights Advisor</p>
+                <p className="text-sm text-brand-muted-foreground">Ask plain-language questions about ADA, FMLA &amp; EEOC — answered using your saved records as context.</p>
+              </div>
+            </div>
+            <ArrowRight className="h-6 w-6 flex-shrink-0 text-brand-primary" />
+          </CardContent>
+        </Card>
+      </Link>
 
       <Link to="/LegalDirectory" className="block">
         <Card>
