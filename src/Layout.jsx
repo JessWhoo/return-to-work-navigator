@@ -23,7 +23,7 @@ const READABLE_PAGES = new Set([
   'Resources', 'ResourceLibrary', 'WellnessResources', 'WellnessLibrary',
   'Blog', 'ExpertAdvice', 'ExpertQA', 'FAQ', 'LegalRights', 'LegalPolicyHub',
   'StateByStateLaws', 'InternationalLaws', 'DisclosureGuide', 'Accommodations',
-  'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide',
+  'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide', 'ForClinics',
 ]);
 
 // Primary destinations — pill nav items in the header.
@@ -52,6 +52,7 @@ const NAV_GROUPS = [
       { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
       { name: 'Legal & Policy', icon: NeedsAttentionIcon, page: 'LegalPolicyHub' },
       { name: 'For Managers & HR', icon: ProfileIcon, page: 'ManagerGuide' },
+      { name: 'For Clinics & Navigators', icon: Heart, page: 'ForClinics' },
     ],
   },
   {

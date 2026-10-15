@@ -25,6 +25,8 @@ export const SEARCH_INDEX = [
   { title: 'Emergency Contacts', path: '/emergency-contacts', description: 'Crisis hotlines and urgent support services', keywords: ['emergency', 'crisis', 'hotline', 'urgent', '911', 'suicide'] },
   { title: 'Blog', path: '/Blog', description: 'Stories and articles from the founder', keywords: ['blog', 'articles', 'stories', 'posts'] },
   { title: 'FAQ', path: '/FAQ', description: 'Frequently asked questions', keywords: ['faq', 'questions', 'answers', 'how to'] },
+  { title: 'For Clinics & Nurse Navigators', path: '/ForClinics', description: 'Free patient referral resources, privacy stance, and 15-minute clinic demo', keywords: ['clinic', 'clinics', 'nurse navigator', 'oncology social worker', 'refer', 'referral', 'handout', 'demo', 'hospital', 'patients'] },
+  { title: 'Manager & HR Guide', path: '/ManagerGuide', description: 'How managers and HR can support employees returning after cancer', keywords: ['manager', 'hr', 'supervisor', 'employer', 'supporting employee'] },
   { title: 'Privacy & Security', path: '/PrivacySecurity', description: 'How your data is protected', keywords: ['privacy', 'security', 'data', 'protection'] },
 ];
 

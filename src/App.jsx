@@ -35,6 +35,7 @@ import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
 import ToolEngagementDashboard from './pages/ToolEngagementDashboard';
 import ManagerGuide from './pages/ManagerGuide';
 import AccommodationTemplates from './pages/AccommodationTemplates';
+import ForClinics from './pages/ForClinics';
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
 import { getRouteSEO } from '@/hooks/useSEO';
 
@@ -165,6 +166,15 @@ const AuthenticatedApp = () => {
           </LayoutWrapper>
         }
       />
+      <Route
+        path="/ForClinics"
+        element={
+          <LayoutWrapper currentPageName="ForClinics">
+            <ForClinics />
+          </LayoutWrapper>
+        }
+      />
+      <Route path="/ForClinicsAndNurseNavigators" element={<Navigate to="/ForClinics" replace />} />
 
       {/* ------- App routes (no sign-in required) ------- */}
       <Route>

@@ -108,6 +108,13 @@ export const ROUTE_SEO = {
     h1: 'Supporting an Employee Through Cancer and Back to Work',
     path: '/ManagerGuide',
   },
+  '/forclinics': {
+    title: 'For Clinics, Oncology Social Workers & Nurse Navigators',
+    description:
+      'Learn how oncology clinics, nurse navigators, and social workers can refer cancer survivors to Return to Work Navigator — 100% free for patients, privacy-first, with printable handouts and a 15-minute team demo.',
+    h1: 'For Oncology Clinics, Nurse Navigators & Social Workers',
+    path: '/ForClinics',
+  },
   '/legalpolicyhub': {
     title: 'ADA, FMLA & Workplace Legal Rights Hub for Cancer Survivors',
     description:

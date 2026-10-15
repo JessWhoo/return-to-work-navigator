@@ -69,39 +69,71 @@ Generated via Back to Life, Back to Work Toolkit`,
   // Contact form — always to the fixed app inbox, never a caller-chosen recipient.
   contact_message: async (base44, user, data) => ({
     to: 'jess@artisanhrai.com',
-    subject: `Contact Form: ${data.name}`,
-    body: `From: ${data.name} <${data.email}>\n\n${data.message}`,
+    subject: `Contact Form: ${cap(data.name, 100)}`,
+    body: `From: ${cap(data.name, 100)} <${cap(data.email, 150)}>\n\n${cap(data.message, 4000)}`,
+  }),
+
+  // 15-minute Clinic & Nurse Navigator demo booking — always to the fixed app owner inbox.
+  clinic_demo_booking: async (base44, user, data) => ({
+    to: 'jess@artisanhrai.com',
+    subject: `15-Min Clinic Demo Request: ${cap(data.organization || data.name, 100)}`,
+    body: [
+      'New 15-Minute Clinic & Nurse Navigator Demo Request:',
+      '',
+      `Name: ${cap(data.name, 100)}`,
+      `Role: ${cap(data.role, 100)}`,
+      `Clinic / Organization: ${cap(data.organization, 150)}`,
+      `Email: ${cap(data.email, 150)}`,
+      `Requested Date: ${cap(data.dateStr, 80)}`,
+      `Requested Time: ${cap(data.time, 40)} (${cap(data.timezone, 60)})`,
+      `Duration: 15 minutes`,
+      `Format: ${cap(data.formatLabel, 40)}`,
+      data.notes ? `Questions / Notes: ${cap(data.notes, 2000)}` : '',
+    ].filter(Boolean).join('\n'),
   }),
 };
+
+// Operations that send exclusively to the fixed owner inbox (jess@artisanhrai.com)
+// and may be submitted by public visitors (e.g., nurse navigators booking a demo).
+const PUBLIC_FIXED_INBOX_OPS = new Set(['contact_message', 'clinic_demo_booking']);
 
 const cap = (v, n) => String(v ?? '').slice(0, n);
 const EMAIL_RE = /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+$/;
 
-// Best-effort per-user rate limit (per function instance).
+// Best-effort rate limit (per user or client IP).
 const SENDS = new Map();
 const LIMIT = 10;
 const WINDOW_MS = 60 * 60 * 1000;
-function rateLimited(userId) {
+function rateLimited(key) {
   const now = Date.now();
-  const recent = (SENDS.get(userId) || []).filter((t) => now - t < WINDOW_MS);
-  if (recent.length >= LIMIT) { SENDS.set(userId, recent); return true; }
+  const recent = (SENDS.get(key) || []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= LIMIT) { SENDS.set(key, recent); return true; }
   recent.push(now);
-  SENDS.set(userId, recent);
+  SENDS.set(key, recent);
   return false;
 }
 
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
     const body = await req.json();
     const { operation, data } = body || {};
     const handler = HANDLERS[operation];
     if (!handler) return Response.json({ error: 'Unknown operation' }, { status: 400 });
 
-    if (rateLimited(user.id)) return Response.json({ error: 'Too many emails. Please try again later.' }, { status: 429 });
+    let user = null;
+    try {
+      user = await base44.auth.me();
+    } catch {
+      user = null;
+    }
+
+    if (!user && !PUBLIC_FIXED_INBOX_OPS.has(operation)) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const rateKey = user?.id || req.headers.get('x-forwarded-for') || 'anon';
+    if (rateLimited(rateKey)) return Response.json({ error: 'Too many emails. Please try again later.' }, { status: 429 });
 
     const email = await handler(base44, user, data || {});
     if (!email?.to || !email?.subject || typeof email?.body !== 'string') {
