@@ -15,9 +15,6 @@ import {
 import { format, parseISO, differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import ShareReportDialog from '../components/dashboard/ShareReportDialog';
-import AIProgressInsights from '../components/dashboard/AIProgressInsights';
-import WhatIfScenarios from '../components/health/WhatIfScenarios';
-import ComparativeInsights from '../components/health/ComparativeInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { checklistData, getChecklistTotalItems, getPhaseItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
@@ -258,14 +255,6 @@ export default function ProgressDashboard({ embedded = false }) {
         </div>
       </div>
 
-      {/* AI Progress Insights */}
-      <AIProgressInsights progress={progress} />
-
-      {/* Week-over-Week & Schedule Scenarios */}
-      <ComparativeInsights progress={progress} />
-      
-      <WhatIfScenarios progress={progress} />
-
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
@@ -465,57 +454,6 @@ export default function ProgressDashboard({ embedded = false }) {
           ) : (
             <div className="h-[300px] flex items-center justify-center text-brand-muted-foreground">
               <p>No checklist data available</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Insights */}
-      <Card className="nv-card--muted">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-brand-primary" />
-            <span>Key Insights</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {parseFloat(metrics.avgEnergy) < 5 && (
-            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
-              <TrendingDown className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
-              <div>
-                <p className="font-heading font-bold text-brand-text">Low Energy Pattern</p>
-                <p className="text-sm text-brand-muted-foreground">Your average energy is below 5. Consider workplace accommodations and pacing strategies.</p>
-              </div>
-            </div>
-          )}
-          
-          {parseFloat(metrics.avgStress) >= 7 && (
-            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
-              <TrendingDown className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
-              <div>
-                <p className="font-heading font-bold text-brand-text">High Stress Levels</p>
-                <p className="text-sm text-brand-muted-foreground">Your stress is elevated. Explore stress management techniques in the Wellness Resources section.</p>
-              </div>
-            </div>
-          )}
-          
-          {metrics.completionRate >= 75 && (
-            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
-              <TrendingUp className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
-              <div>
-                <p className="font-heading font-bold text-brand-text">Great Progress!</p>
-                <p className="text-sm text-brand-muted-foreground">You've completed {metrics.completionRate}% of your checklist. Keep up the excellent work!</p>
-              </div>
-            </div>
-          )}
-          
-          {metrics.daysTracked >= 7 && (
-            <div className="flex items-start gap-3 rounded-brand bg-brand-surface p-3">
-              <Activity className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-primary" />
-              <div>
-                <p className="font-heading font-bold text-brand-text">Consistent Tracking</p>
-                <p className="text-sm text-brand-muted-foreground">You've tracked {metrics.daysTracked} days of energy data. This helps identify patterns!</p>
-              </div>
             </div>
           )}
         </CardContent>
