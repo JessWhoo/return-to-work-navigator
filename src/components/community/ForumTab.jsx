@@ -9,16 +9,9 @@ import { MessageCircle, Heart, ChevronDown, ChevronUp, User } from 'lucide-react
 import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '@/lib/AuthContext';
-
-const TOPICS = [
-  { value: 'general', label: 'General', color: 'bg-brand-muted text-brand-text' },
-  { value: 'fatigue_management', label: 'Fatigue', color: 'bg-brand-compass-cream text-brand-text' },
-  { value: 'workplace_rights', label: 'Workplace Rights', color: 'bg-brand-sky text-brand-text' },
-  { value: 'accommodations', label: 'Accommodations', color: 'bg-brand-primary text-primary-foreground' },
-  { value: 'emotional_support', label: 'Emotional Support', color: 'bg-brand-accent text-brand-text' },
-  { value: 'returning_to_work', label: 'Return to Work', color: 'bg-brand-secondary text-brand-text' },
-  { value: 'resources', label: 'Resources', color: 'bg-brand-muted text-brand-text' },
-];
+import { Link } from 'react-router-dom';
+import ForumPostComposer from '@/components/community/ForumPostComposer';
+import { FORUM_TOPICS } from '@/components/community/forumTopics';
 
 function ReplySection({ post, currentUser }) {
   const [replyText, setReplyText] = useState('');
@@ -99,15 +92,38 @@ export default function ForumTab() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['forumPosts'] })
   });
 
-  const topicConfig = Object.fromEntries(TOPICS.map(t => [t.value, t]));
+  // Reads are member-only, so show a clear invitation rather than an empty list.
+  if (!isLoadingAuth && !isAuthenticated) {
+    return (
+      <Card>
+        <CardContent className="space-y-3 py-12 text-center">
+          <MessageCircle className="mx-auto h-12 w-12 text-brand-muted-foreground opacity-40" />
+          <p className="text-lg font-bold text-brand-text">Join the conversation</p>
+          <p className="mx-auto max-w-md text-sm text-brand-muted-foreground">
+            Discussions are private to signed-in members. Sign in to read peer experience and share your own.
+          </p>
+          <Button asChild>
+            <Link to="/login">Sign in to join</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const topicConfig = Object.fromEntries(FORUM_TOPICS.map(t => [t.value, t]));
 
   return (
-    <div className="space-y-4 mt-4">
+    <div className="space-y-4">
+      <ForumPostComposer
+        currentUser={currentUser}
+        onCreated={() => queryClient.invalidateQueries({ queryKey: ['forumPosts'] })}
+      />
+
       <div className="flex flex-wrap gap-2">
         <Button size="sm" aria-pressed={filterTopic === 'all'} variant={filterTopic === 'all' ? 'default' : 'outline'} onClick={() => setFilterTopic('all')}>
           All Topics
         </Button>
-        {TOPICS.map(t => (
+        {FORUM_TOPICS.map(t => (
           <Button key={t.value} size="sm" aria-pressed={filterTopic === t.value} variant={filterTopic === t.value ? 'default' : 'outline'} onClick={() => setFilterTopic(t.value)}>
             {t.label}
           </Button>
@@ -117,7 +133,7 @@ export default function ForumTab() {
       {!isLoading && posts.length === 0 && (
         <div className="text-center py-12 text-brand-muted-foreground">
           <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-40" />
-          <p>No posts to show yet.</p>
+          <p>{filterTopic === 'all' ? 'No discussions yet — start the first one.' : 'No discussions in this topic yet.'}</p>
         </div>
       )}
       {posts.map(post => {
