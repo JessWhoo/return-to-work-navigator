@@ -12,16 +12,10 @@ import {
 export default function AppFeatureGuide() {
   const features = [
     {
-      name: 'Energy & Fatigue Tracking',
+      name: 'Energy & Workday Pacing',
       icon: Zap,
       page: 'EnergyManagement',
-      description: 'Track daily energy levels and identify patterns'
-    },
-    {
-      name: 'Symptom Analysis',
-      icon: Activity,
-      page: 'SymptomAnalysis',
-      description: 'Log symptoms and get AI-powered pattern insights'
+      description: 'Plan workday pacing and energy conservation strategies'
     },
     {
       name: 'Accommodations',

@@ -396,18 +396,20 @@ export default function Coach() {
                         Welcome to Your AI Coach
                       </h3>
                       <p className="mb-4 text-muted-foreground">
-                        Get personalized guidance for your return-to-work journey. Ask questions, share concerns, and receive tailored advice based on your progress data, symptoms, and current challenges.
+                        Get personalized workplace guidance for your return-to-work journey. Ask questions about ADA accommodations, phased schedules, HR conversations, and your return-to-work plan.
                       </p>
                       <div className="mx-auto max-w-sm space-y-2 rounded-brand border border-border bg-brand-surface p-3 text-left">
                         <p className="text-sm font-bold text-foreground">I can help you with:</p>
                         <ul className="ml-4 space-y-1 text-sm text-muted-foreground">
-                          <li>• Answering questions about your rights and accommodations</li>
-                          <li>• Providing emotional support and encouragement</li>
-                          <li>• Offering advice based on your energy, symptoms, and progress</li>
-                          <li>• Navigating app features and finding resources</li>
-                          <li>• Connecting insights from symptom analysis and health alerts</li>
+                          <li>• Answering questions about your workplace rights and ADA accommodations</li>
+                          <li>• Drafting emails and scripts for HR, managers, and coworkers</li>
+                          <li>• Planning a gradual return schedule and workday pacing strategies</li>
+                          <li>• Navigating app tools and finding workplace resources</li>
                         </ul>
                       </div>
+                      <p className="mt-3 mb-3 text-xs text-muted-foreground">
+                        Non-medical workplace support only — the AI Coach does not analyze symptoms or provide medical advice. Always consult your healthcare team for medical questions.
+                      </p>
                       <Button
                         onClick={() => createConversationMutation.mutate()}
                       >
@@ -426,7 +428,7 @@ export default function Coach() {
                         Ready to Talk?
                       </h3>
                       <p className="mb-3 text-sm text-muted-foreground">
-                        I have access to your journey stage, energy patterns, symptom logs, and progress data to provide personalized guidance.
+                        I have access to your return-to-work journey stage, checklist progress, and planning calendar to provide personalized workplace guidance (non-medical).
                       </p>
                       <div className="mx-auto max-w-sm space-y-1 rounded-brand border border-border bg-brand-surface p-3 text-left text-sm text-muted-foreground">
                         <p className="mb-2 font-bold text-foreground">Try asking about:</p>
