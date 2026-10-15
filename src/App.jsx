@@ -42,7 +42,6 @@ import AccommodationTemplates from './pages/AccommodationTemplates';
 import ChemoBrainGuide from './pages/ChemoBrainGuide';
 import ForClinics from './pages/ForClinics';
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
-import { getRouteSEO } from '@/hooks/useSEO';
 
 if (typeof document !== 'undefined' && !window.__gads_loaded) {
     window.__gads_loaded = true;

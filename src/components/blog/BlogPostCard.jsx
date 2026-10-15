@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { motion, AnimatePresence } from 'framer-motion';
 
 export default function BlogPostCard({ post, defaultExpanded = false }) {
   const [expanded, setExpanded] = useState(defaultExpanded);

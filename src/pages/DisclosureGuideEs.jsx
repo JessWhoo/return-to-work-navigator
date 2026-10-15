@@ -11,7 +11,7 @@ import { DISCLOSURE_GUIDE_FAQS_ES } from '@/components/seo/guideFaqsData';
 import useSEO from '@/hooks/useSEO';
 import {
   Shield, Users, MessageSquareQuote, Copy, Check, RotateCcw,
-  CheckCircle2, ArrowRight, Scale, ClipboardList, FileCheck, Calendar, Heart, ShieldCheck,
+  CheckCircle2, ArrowRight, Scale, ClipboardList, FileCheck, ShieldCheck,
 } from 'lucide-react';
 import { toast } from 'sonner';
 

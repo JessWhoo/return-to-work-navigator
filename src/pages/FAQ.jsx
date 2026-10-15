@@ -5,7 +5,6 @@ import useSEO from '@/hooks/useSEO';
 import PageHeader from '@/components/brand/PageHeader';
 import { ChevronDown, ChevronRight, Search, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { motion, AnimatePresence } from 'framer-motion';
 import { FAQ_PAGE_FAQ_CATEGORIES } from '@/components/seo/faqPageData';
 
 const faqData = FAQ_PAGE_FAQ_CATEGORIES;
