@@ -64,14 +64,14 @@ export default function PremiumPaywall({ isAuthenticated }) {
 
         <div className="flex items-center justify-between gap-4 pt-2">
           <div>
-            <p className="text-2xl font-bold text-brand-text">$9.99</p>
-            <p className="text-xs text-brand-muted-foreground">One-time payment</p>
+            <p className="text-2xl font-bold text-brand-text">$49<span className="text-base font-normal text-brand-muted-foreground">/mo</span></p>
+            <p className="text-xs text-brand-muted-foreground">Billed monthly · Cancel anytime</p>
           </div>
           <Button onClick={handleCheckout} disabled={loading} className="!whitespace-normal">
             {loading ? (
               <><Loader2 className="h-4 w-4 animate-spin" /> Starting checkout…</>
             ) : (
-              <><Sparkles className="h-4 w-4" /> Get Premium Access</>
+              <><Sparkles className="h-4 w-4" /> Subscribe</>
             )}
           </Button>
         </div>

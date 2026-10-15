@@ -79,9 +79,12 @@ Deno.serve(async (req: Request) => {
     // Authoritative product catalog — price resolved server-side, never trusted from the client.
     const PRODUCTS = {
       "manager-guide-premium": {
-        name: "Manager & HR Guide — Premium Access",
-        price: "9.99",
+        name: "Manager & HR Guide — Premium Subscription",
+        price: "49.00",
         currency: "USD",
+        subscription: {
+          frequency: "MONTH",
+        },
       },
     };
     const product = PRODUCTS[productId];
@@ -91,8 +94,15 @@ Deno.serve(async (req: Request) => {
     const productName = product.name;
     const price = product.price;
     const currency = product.currency;
-    // One-time payment (not a subscription).
-    const subscriptionInfo = null;
+    // Monthly recurring subscription (infinite, auto-renewing). subscriptionInfo is the only way
+    // to mark a cart item as recurring — Wix has no separate subscription creation endpoint.
+    const subscriptionInfo = product.subscription ? {
+      subscriptionSettings: {
+        frequency: product.subscription.frequency,
+      },
+      title: productName,
+      description: "Full access to the Manager & HR Guide, billed monthly. Cancel anytime.",
+    } : null;
     // Where Wix returns the buyer. Both MUST be real, PUBLICLY reachable routes in this app: the
     // returning buyer is often anonymous, so a missing or login-gated route strands a paid customer.
     // Match your router exactly — `/ThankYou`, not `/thank-you`.
