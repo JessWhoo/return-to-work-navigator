@@ -3,15 +3,15 @@ import { ListChecks } from 'lucide-react';
 
 export default function GuideTableOfContents({ sections }) {
   return (
-    <nav aria-label="Guide sections" className="bg-white border-2 border-slate-300 rounded-2xl p-5 shadow-sm">
+    <nav aria-label="Guide sections" className="nv-card p-6">
       <div className="flex items-center gap-2 mb-3">
-        <ListChecks className="h-5 w-5 text-violet-700" />
-        <h2 className="text-base font-extrabold text-slate-900">In this guide</h2>
+        <ListChecks className="h-5 w-5 text-brand-primary" />
+        <h2 className="font-heading text-base font-bold text-brand-text">In this guide</h2>
       </div>
-      <ol className="grid sm:grid-cols-2 gap-2 list-decimal pl-5">
+      <ol className="grid sm:grid-cols-2 gap-2 list-decimal pl-5 text-brand-muted-foreground">
         {sections.map((s) => (
           <li key={s.id}>
-            <a href={`#${s.id}`} className="text-sm font-semibold text-violet-700 hover:text-violet-900 underline">
+            <a href={`#${s.id}`} className="text-sm font-semibold text-brand-primary hover:text-brand-text underline">
               {s.title}
             </a>
           </li>

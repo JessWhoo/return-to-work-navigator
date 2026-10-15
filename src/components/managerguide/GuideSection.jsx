@@ -4,9 +4,9 @@ import GuideBlock from './GuideBlock';
 
 export default function GuideSection({ section }) {
   return (
-    <Card id={section.id} className="border-2 border-slate-300 shadow-sm scroll-mt-28">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-2xl font-extrabold bg-gradient-to-r from-violet-700 to-emerald-700 bg-clip-text text-transparent">
+    <Card id={section.id} className="scroll-mt-28">
+      <CardHeader className="pb-3">
+        <CardTitle className="font-heading text-xl sm:text-2xl font-bold text-brand-text">
           {section.title}
         </CardTitle>
       </CardHeader>

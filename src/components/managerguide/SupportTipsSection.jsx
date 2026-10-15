@@ -6,10 +6,11 @@ export default function SupportTipsSection() {
   return (
     <section id="quick-tips" aria-labelledby="quick-tips-heading" className="scroll-mt-28">
       <div className="mb-5">
-        <h2 id="quick-tips-heading" className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+        <p className="nv-eyebrow nv-eyebrow--primary">Core Pillars</p>
+        <h2 id="quick-tips-heading" className="font-heading text-2xl sm:text-3xl font-bold text-brand-text mt-1">
           Quick Tips: How to Best Support Survivors
         </h2>
-        <p className="text-slate-700 mt-1">
+        <p className="text-brand-muted-foreground mt-1">
           Three areas where managers and HR make the biggest difference.
         </p>
       </div>

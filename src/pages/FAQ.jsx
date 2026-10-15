@@ -161,7 +161,9 @@ export default function FAQ({ embedded = false }) {
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState(() => faqData.map((_, i) => i));
-  const [expandedQuestions, setExpandedQuestions] = useState(['0-0', '1-0', '2-0']);
+  const [expandedQuestions, setExpandedQuestions] = useState(() =>
+    faqData.flatMap((cat, cIdx) => cat.questions.map((_, qIdx) => `${cIdx}-${qIdx}`))
+  );
 
   const toggleCategory = (index) => {
     setExpandedCategories(prev =>

@@ -41,22 +41,22 @@ export default function ManagerChecklistSection() {
   const percent = totalCount ? Math.round((checkedCount / totalCount) * 100) : 0;
 
   return (
-    <section id="checklist" aria-labelledby="checklist-heading" className="scroll-mt-28 bg-white border-2 border-slate-300 rounded-3xl p-6 sm:p-8 shadow-sm">
+    <section id="checklist" aria-labelledby="checklist-heading" className="scroll-mt-28 nv-card p-6 sm:p-8">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
         <div className="flex items-start gap-3">
-          <div className="p-3 rounded-2xl bg-gradient-to-br from-violet-600 to-emerald-600 shadow-md">
-            <ClipboardCheck className="h-6 w-6 text-white" />
+          <div className="p-3 rounded-pill bg-brand-muted text-brand-primary shrink-0">
+            <ClipboardCheck className="h-6 w-6" />
           </div>
           <div>
-            <h2 id="checklist-heading" className="text-2xl font-extrabold text-slate-900">Return-to-Work Support Checklist</h2>
-            <p className="text-slate-700 mt-1">Check off steps as you complete them — your progress saves automatically on this device.</p>
+            <h2 id="checklist-heading" className="font-heading text-2xl font-bold text-brand-text">Return-to-Work Support Checklist</h2>
+            <p className="text-brand-muted-foreground mt-1 text-sm sm:text-base">Check off steps as you complete them — your progress saves automatically on this device.</p>
           </div>
         </div>
         <div className="flex gap-2 flex-shrink-0">
-          <Button onClick={generateManagerChecklistPdf} className="bg-violet-700 hover:bg-violet-800 text-white font-bold whitespace-nowrap">
+          <Button onClick={generateManagerChecklistPdf} className="whitespace-nowrap">
             <Download className="h-4 w-4" /> Download PDF
           </Button>
-          <Button onClick={reset} variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 font-bold whitespace-nowrap">
+          <Button onClick={reset} variant="outline" className="whitespace-nowrap">
             Reset
           </Button>
         </div>
@@ -65,12 +65,12 @@ export default function ManagerChecklistSection() {
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-sm font-bold text-slate-800">{checkedCount} of {totalCount} steps completed</span>
-          <span className="text-sm font-extrabold text-violet-700">{percent}%</span>
+          <span className="text-sm font-bold text-brand-text">{checkedCount} of {totalCount} steps completed</span>
+          <span className="text-sm font-extrabold text-brand-primary">{percent}%</span>
         </div>
-        <div className="h-3 bg-slate-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}>
+        <div className="h-3 bg-brand-muted rounded-full overflow-hidden" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}>
           <div
-            className="h-full bg-gradient-to-r from-violet-600 to-emerald-600 rounded-full transition-all duration-300"
+            className="h-full bg-brand-primary rounded-full transition-all duration-300"
             style={{ width: `${percent}%` }}
           />
         </div>
@@ -82,10 +82,10 @@ export default function ManagerChecklistSection() {
           const sectionChecked = sectionKeys.filter((k) => checked[k]).length;
 
           return (
-            <div key={section.phase} className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5">
+            <div key={section.phase} className="rounded-brand border border-brand-border bg-brand-background p-5">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-extrabold text-violet-800">{section.phase}</h3>
-                <span className="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-full">
+                <h3 className="font-heading text-base font-bold text-brand-text">{section.phase}</h3>
+                <span className="nv-chip !px-2.5 !py-0.5">
                   {sectionChecked}/{section.items.length}
                 </span>
               </div>
@@ -99,18 +99,18 @@ export default function ManagerChecklistSection() {
                         type="button"
                         onClick={() => toggle(key)}
                         aria-pressed={isChecked}
-                        className="flex gap-2.5 text-left text-sm text-slate-800 leading-relaxed w-full py-1 rounded-md hover:bg-white transition-colors px-1"
+                        className="flex gap-2.5 text-left text-sm text-brand-text leading-relaxed w-full py-1.5 rounded-brand hover:bg-brand-surface transition-colors px-1.5"
                       >
                         <span
-                          className={`flex-shrink-0 mt-0.5 h-5 w-5 rounded-md border-2 flex items-center justify-center transition-colors ${
+                          className={`flex-shrink-0 mt-0.5 h-5 w-5 rounded-md border flex items-center justify-center transition-colors ${
                             isChecked
-                              ? 'bg-emerald-600 border-emerald-600'
-                              : 'bg-white border-slate-400'
+                              ? 'bg-brand-primary border-brand-primary'
+                              : 'bg-brand-surface border-brand-border'
                           }`}
                         >
                           {isChecked && <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />}
                         </span>
-                        <span className={isChecked ? 'line-through text-slate-500' : ''}>{item}</span>
+                        <span className={isChecked ? 'line-through text-brand-muted-foreground' : ''}>{item}</span>
                       </button>
                     </li>
                   );

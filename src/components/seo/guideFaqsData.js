@@ -135,8 +135,66 @@ export const DISCLOSURE_GUIDE_FAQS = [
   },
 ];
 
+export const LEGAL_RIGHTS_FAQS = [
+  {
+    question: 'What is the difference between the ADA and FMLA for cancer survivors?',
+    answer:
+      'The Family and Medical Leave Act (FMLA) provides up to 12 weeks of job-protected unpaid leave per year (taken continuously or intermittently) at employers with 50+ employees within 75 miles, provided you have worked there 12 months and 1,250 hours. The Americans with Disabilities Act (ADA) applies to employers with 15+ employees from day one of employment, prohibits disability discrimination, and requires reasonable workplace accommodations—including schedule flexibility, remote work, or additional leave after FMLA runs out.',
+  },
+  {
+    question: 'Can my employer fire me while I am in cancer treatment or on FMLA leave?',
+    answer:
+      'An employer cannot legally fire, demote, or retaliate against you because of a cancer diagnosis, because you took protected FMLA leave, or because you requested ADA accommodations. While FMLA does not shield an employee from a legitimate, company-wide layoff unrelated to health, terminating an employee due to medical leave or disability violates federal law.',
+  },
+  {
+    question: 'What happens when my 12 weeks of FMLA leave run out and I still need recovery time?',
+    answer:
+      'Under EEOC guidance on the ADA, additional unpaid medical leave for a definite recovery period—or a part-time phased return-to-work schedule—can qualify as a reasonable accommodation under the ADA unless the employer can prove undue hardship.',
+  },
+  {
+    question: 'How does COBRA work if I leave my job during or after cancer treatment?',
+    answer:
+      'COBRA allows employees at companies with 20 or more workers to continue their exact employer-sponsored health insurance plan for 18 months (and up to 29 months if determined disabled by Social Security) after leaving a job or dropping below full-time hours. You have 60 days from the notice date to elect COBRA or compare Marketplace plans under the Affordable Care Act (ACA), which cannot deny coverage or charge more for pre-existing cancer history.',
+  },
+  {
+    question: 'What should I do if I believe my employer discriminated against me because of cancer?',
+    answer:
+      'Save copies of your performance reviews, accommodation requests, doctor letters, and emails in a personal folder outside your work account. Contact the U.S. Equal Employment Opportunity Commission (EEOC) or your state fair-employment agency—federal ADA discrimination charges generally must be filed within 180 to 300 days of the violation.',
+  },
+];
+
+export const GENERAL_SITE_FAQS = [
+  {
+    question: 'How do I start planning my return to work after cancer treatment?',
+    answer:
+      'Begin by consulting your oncology team about your stamina, immunity, and any physical or cognitive restrictions. Next, review your workplace protections under the ADA and FMLA, identify 2 to 4 practical accommodations (such as a phased part-time schedule or hybrid work), and put your return plan and accommodation request in writing before your first day back.',
+  },
+  {
+    question: 'What accommodations can I request when returning to work after cancer?',
+    answer:
+      'Common ADA accommodations include a gradual part-time-to-full-time return schedule, flexible start times, intermittent leave for oncology appointments and scans, remote or hybrid work, written task summaries for chemo brain, scheduled rest breaks for cancer-related fatigue, and ergonomic or lifting modifications.',
+  },
+  {
+    question: 'How much do I have to tell my employer and coworkers about my cancer diagnosis?',
+    answer:
+      'You control what you share. To receive ADA accommodations or FMLA leave, you only need to provide HR with medical certification of your functional limitations and needed adjustments—you never have to share your diagnosis with coworkers or explain oncology details to your team.',
+  },
+  {
+    question: 'How do I manage cancer-related fatigue and "chemo brain" at work?',
+    answer:
+      'Combine workplace accommodations with energy pacing: schedule high-focus work during your peak morning energy window, take brief 10-to-15-minute restorative breaks before exhaustion hits, ask for written follow-ups after meetings, and use a single prioritized daily task list.',
+  },
+  {
+    question: 'Can my employer fire me because of my cancer diagnosis?',
+    answer:
+      'No. Under the federal Americans with Disabilities Act (ADA) and state fair-employment laws, employers cannot fire, demote, or retaliate against you because you have or had cancer, provided you can perform your essential job duties with or without reasonable accommodations.',
+  },
+];
+
 export const GUIDE_FAQ_BY_PATH = {
   '/managerguide': MANAGER_GUIDE_FAQS,
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
+  '/legalrights': LEGAL_RIGHTS_FAQS,
+  '/faq': GENERAL_SITE_FAQS,
 };

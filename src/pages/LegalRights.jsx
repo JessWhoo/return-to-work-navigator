@@ -9,6 +9,8 @@ import {
   CheckCircle2, Building, Clock 
 } from 'lucide-react';
 import AccommodationRequestGuide from '@/components/legal/AccommodationRequestGuide';
+import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import { LEGAL_RIGHTS_FAQS } from '@/components/seo/guideFaqsData';
 import useSEO from '@/hooks/useSEO';
 
 const laws = [
@@ -254,7 +256,13 @@ export default function LegalRights({ embedded = false }) {
           const Icon = law.icon;
           const accent = accentMap[law.color] || accentMap.blue;
           return (
-            <TabsContent key={law.id} value={law.id} className="space-y-6" style={{outline:'none'}}>
+            <TabsContent
+              key={law.id}
+              value={law.id}
+              forceMount
+              className={`space-y-6 ${activeTab === law.id ? '' : 'hidden'}`}
+              style={{ outline: 'none' }}
+            >
               {/* Law Overview */}
               <Card>
                 <CardContent className="pt-6">
@@ -343,6 +351,15 @@ export default function LegalRights({ embedded = false }) {
           </div>
         </CardContent>
       </Card>
+
+      <GuideFaqSection
+        id="legal-rights-faq"
+        eyebrow="Federal Workplace Law FAQ"
+        title="Frequently Asked Questions: ADA, FMLA & COBRA for Cancer Survivors"
+        subtitle="Direct answers on how federal leave, disability accommodations, and health insurance continuation protect you during and after cancer treatment."
+        faqs={LEGAL_RIGHTS_FAQS}
+        headingLevel={embedded ? 'h3' : 'h2'}
+      />
     </div>
   );
 }
