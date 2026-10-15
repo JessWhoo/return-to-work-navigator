@@ -81,18 +81,11 @@ export const ROUTE_SEO = {
     path: '/WellnessResources',
   },
   '/expertadvice': {
-    title: 'Oncology Social Worker & Employment Lawyer Tips',
+    title: 'Expert Advice & Q&A: Oncology Social Workers & Employment Lawyers',
     description:
-      'Actionable return-to-work advice from oncology social workers, employment attorneys, and clinical psychologists on workplace adjustments and career conversations.',
-    h1: 'Expert Return-to-Work Advice for Cancer Survivors',
+      'Actionable return-to-work advice from oncology social workers, employment attorneys, and clinical psychologists, plus real survivor questions answered by workplace experts.',
+    h1: 'Expert Return-to-Work Advice & Answers for Cancer Survivors',
     path: '/ExpertAdvice',
-  },
-  '/expertqa': {
-    title: 'Ask Oncology & Employment Law Experts: Survivor Q&A',
-    description:
-      'Browse real questions from cancer survivors answered by employment attorneys, HR specialists, and oncology professionals on ADA rights, fatigue, and disclosure.',
-    h1: 'Ask the Experts: Workplace & Cancer Survivorship Q&A',
-    path: '/ExpertQA',
   },
   '/disclosureguide': {
     title: 'How to Tell Your Employer About a Cancer Diagnosis',

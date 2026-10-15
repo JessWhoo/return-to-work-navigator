@@ -17,7 +17,6 @@ import Roadmap from './pages/Roadmap';
 import LegalRightsChecklist from './pages/LegalRightsChecklist';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
-import ExpertQA from './pages/ExpertQA';
 import ExpertAdvice from './pages/ExpertAdvice';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -241,14 +240,7 @@ const AuthenticatedApp = () => {
             </LayoutWrapper>
           }
         />
-        <Route
-          path="/ExpertQA"
-          element={
-            <LayoutWrapper currentPageName="ExpertQA">
-              <ExpertQA />
-            </LayoutWrapper>
-          }
-        />
+        <Route path="/ExpertQA" element={<Navigate to="/ExpertAdvice?tab=qa" replace />} />
         <Route
           path="/LegalRightsChecklist"
           element={

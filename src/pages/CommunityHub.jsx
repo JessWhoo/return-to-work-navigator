@@ -11,16 +11,9 @@ const EXPERT_LINKS = [
   {
     to: '/ExpertAdvice',
     icon: Sparkles,
-    eyebrow: 'Guidance',
-    title: 'Expert Advice',
-    text: 'Professional tips on workplace adjustments, emotional readiness, and career conversations.',
-  },
-  {
-    to: '/ExpertQA',
-    icon: MessageCircleQuestion,
-    eyebrow: 'Ask the experts',
-    title: 'Ask the Experts',
-    text: 'Answers from attorneys and oncology pros on fatigue, rights, and more.',
+    eyebrow: 'Expert guidance',
+    title: 'Expert Advice & Answers',
+    text: 'Professional tips on workplace adjustments and career conversations, plus real survivor questions answered by attorneys and oncology pros.',
   },
 ];
 

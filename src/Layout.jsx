@@ -21,7 +21,7 @@ import {
 // Resource / article style pages where listening to the content is useful.
 const READABLE_PAGES = new Set([
   'Resources', 'ResourceLibrary', 'WellnessResources', 'WellnessLibrary',
-  'Blog', 'ExpertAdvice', 'ExpertQA', 'FAQ', 'LegalRights', 'LegalPolicyHub',
+  'Blog', 'ExpertAdvice', 'FAQ', 'LegalRights', 'LegalPolicyHub',
   'StateByStateLaws', 'InternationalLaws', 'DisclosureGuide', 'Accommodations',
   'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide', 'ForClinics',
   'ManagerGuideEs', 'AccommodationsEs', 'DisclosureGuideEs',
