@@ -3,6 +3,7 @@
   <!-- Homepage & Core Hubs -->
   <url><loc>https://return-to-work-navigator.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://return-to-work-navigator.org/Roadmap</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://return-to-work-navigator.org/NavigatorMethod</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://return-to-work-navigator.org/CareerHub</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/WellbeingHub</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/CommunicationToolkit</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

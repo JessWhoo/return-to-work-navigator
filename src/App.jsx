@@ -14,6 +14,7 @@ import { installUnauthorizedMonitor } from '@/lib/sessionGuard';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Roadmap from './pages/Roadmap';
+import NavigatorMethod from './pages/NavigatorMethod';
 import LegalRightsChecklist from './pages/LegalRightsChecklist';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
@@ -246,6 +247,14 @@ const AuthenticatedApp = () => {
           element={
             <LayoutWrapper currentPageName="Roadmap">
               <Roadmap />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/NavigatorMethod"
+          element={
+            <LayoutWrapper currentPageName="NavigatorMethod">
+              <NavigatorMethod />
             </LayoutWrapper>
           }
         />
