@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { jsPDF } from 'jspdf';
 import PageHeader from '@/components/brand/PageHeader';
 import useSEO from '@/hooks/useSEO';
+import { useAuth } from '@/lib/AuthContext';
 import AccommodationsEditorialGuide from '@/components/accommodations/AccommodationsEditorialGuide';
 import GuideFaqSection from '@/components/seo/GuideFaqSection';
 import GuideLanguageSwitch from '@/components/seo/GuideLanguageSwitch';
@@ -85,6 +86,7 @@ export default function Accommodations({ embedded = false }) {
     path: '/Accommodations',
     enabled: !embedded,
   });
+  const { isAuthenticated } = useAuth();
   const [selectedAccommodations, setSelectedAccommodations] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -168,7 +170,7 @@ export default function Accommodations({ embedded = false }) {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <PageHeader center={!embedded} eyebrow="Complete ADA Guide & Letter Builder" headingLevel={embedded ? 'h2' : 'h1'} title="Workplace Accommodations for Cancer Survivors" subtitle="Learn how ADA workplace accommodations work for fatigue, chemo brain, neuropathy, and medical appointments — then build and download your custom request letter." actions={<div className="flex flex-col items-center gap-3"><GuideLanguageSwitch englishPath="/Accommodations" spanishPath="/AccommodationsEs" currentLang="en" /><Link to="/AccommodationLetterGenerator" className="nv-btn !whitespace-normal"><FileText className="h-4 w-4" />Try the 3-step guided letter generator</Link><Link to="/AccommodationTemplates" className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal underline">Or browse ready-made request templates</Link></div>} />
+      <PageHeader center={!embedded} eyebrow="Complete ADA Guide & Letter Builder" headingLevel={embedded ? 'h2' : 'h1'} title="Workplace Accommodations for Cancer Survivors" subtitle="Learn how ADA workplace accommodations work for fatigue, chemo brain, neuropathy, and medical appointments — then build and download your custom request letter." actions={<div className="flex flex-col items-center gap-3">{!isAuthenticated && <Link to="/register" className="nv-btn !whitespace-normal w-full justify-center">Create your free account</Link>}<GuideLanguageSwitch englishPath="/Accommodations" spanishPath="/AccommodationsEs" currentLang="en" /><Link to="/AccommodationLetterGenerator" className="nv-btn !whitespace-normal"><FileText className="h-4 w-4" />Try the 3-step guided letter generator</Link><Link to="/AccommodationTemplates" className="nv-btn nv-btn--text nv-btn--sm !whitespace-normal underline">Or browse ready-made request templates</Link></div>} />
 
       <AccommodationsEditorialGuide headingLevel={embedded ? 'h3' : 'h2'} />
 

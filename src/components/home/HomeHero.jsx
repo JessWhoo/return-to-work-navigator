@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BrandMark from '@/components/brand/BrandMark';
 
-export default function HomeHero({ canTour, onTour, tourOpen }) {
+export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated }) {
   return (
     <section className="nv-hero nv-home-hero" aria-labelledby="home-title">
       <video autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="nv-home-scenery">
@@ -18,6 +18,7 @@ export default function HomeHero({ canTour, onTour, tourOpen }) {
           <p className="max-w-xl text-base text-brand-text sm:text-lg">Practical guidance, ADA accommodation letters, fatigue trackers, and 24/7 coaching to help you transition back to work with confidence.</p>
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild variant="onGradient"><Link to="/Checklist">Get Started<ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
+            {!isAuthenticated && <Button asChild variant="outline"><Link to="/register">Create your free account</Link></Button>}
             {canTour && <Button variant="outline" onClick={onTour} disabled={tourOpen}>Take the tour</Button>}
           </div>
         </div>

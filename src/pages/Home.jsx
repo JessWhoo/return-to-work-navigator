@@ -78,7 +78,7 @@ export default function Home() {
   return (
     <div className="nv-home mx-auto max-w-7xl space-y-10 sm:space-y-12">
       <OnboardingFlow open={showOnboarding} onComplete={handleCompleteOnboarding} />
-      <div><HomeHero canTour={isAuthenticated && !!progress} onTour={() => setShowOnboarding(true)} tourOpen={showOnboarding} /><HomeQuickNav /></div>
+      <div><HomeHero canTour={isAuthenticated && !!progress} onTour={() => setShowOnboarding(true)} tourOpen={showOnboarding} isAuthenticated={isAuthenticated} /><HomeQuickNav /></div>
       <HomeTools />
       <HomeJourney progress={isProgressError ? null : progress} loading={isProgressLoading} error={isProgressError} onRetry={refetchProgress} />
       <HomeFeatures />

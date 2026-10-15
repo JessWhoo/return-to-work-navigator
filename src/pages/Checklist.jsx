@@ -9,6 +9,8 @@ import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { checklistData, getChecklistTotalItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
 import useSEO from '@/hooks/useSEO';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Checklist({ embedded = false }) {
   useSEO({
@@ -18,6 +20,7 @@ export default function Checklist({ embedded = false }) {
     path: '/Checklist',
     enabled: !embedded,
   });
+  const { isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   const [expandedPhases, setExpandedPhases] = useState([0]);
 
@@ -112,6 +115,11 @@ export default function Checklist({ embedded = false }) {
         <p className="max-w-2xl mx-auto text-brand-muted-foreground">
           Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
         </p>
+        {!isAuthenticated && (
+          <div className="flex justify-center pt-2">
+            <Link to="/register" className="nv-btn">Create your free account</Link>
+          </div>
+        )}
       </div>
 
       {/* Progress Overview */}
