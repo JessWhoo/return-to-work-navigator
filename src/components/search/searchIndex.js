@@ -27,6 +27,9 @@ export const SEARCH_INDEX = [
   { title: 'FAQ', path: '/FAQ', description: 'Frequently asked questions', keywords: ['faq', 'questions', 'answers', 'how to'] },
   { title: 'For Clinics & Nurse Navigators', path: '/ForClinics', description: 'Free patient referral resources, privacy stance, and 15-minute clinic demo', keywords: ['clinic', 'clinics', 'nurse navigator', 'oncology social worker', 'refer', 'referral', 'handout', 'demo', 'hospital', 'patients'] },
   { title: 'Manager & HR Guide', path: '/ManagerGuide', description: 'How managers and HR can support employees returning after cancer', keywords: ['manager', 'hr', 'supervisor', 'employer', 'supporting employee'] },
+  { title: 'Guía para Gerentes y RR. HH. (Español)', path: '/ManagerGuideEs', description: 'Cómo apoyar a un empleado con cáncer y en su regreso al trabajo (ADA y FMLA)', keywords: ['español', 'spanish', 'gerente', 'recursos humanos', 'apoyo', 'cáncer', 'regreso al trabajo'] },
+  { title: 'Adaptaciones Laborales ADA (Español)', path: '/AccommodationsEs', description: 'Guía en español y generador de carta de adaptaciones laborales bajo la ADA', keywords: ['español', 'spanish', 'adaptaciones', 'ada', 'carta', 'fatiga', 'quimiocerebro', 'teletrabajo'] },
+  { title: 'Guía de Divulgación en el Trabajo (Español)', path: '/DisclosureGuideEs', description: 'Privacidad laboral, derechos y guiones en español para hablar en el trabajo', keywords: ['español', 'spanish', 'divulgación', 'privacidad', 'guiones', 'jefe', 'recursos humanos'] },
   { title: 'Privacy & Security', path: '/PrivacySecurity', description: 'How your data is protected', keywords: ['privacy', 'security', 'data', 'protection'] },
 ];
 

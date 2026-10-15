@@ -44,6 +44,7 @@ export default function StructuredData() {
     ];
 
     if (routeSEO.isKnownRoute && !routeSEO.noindex) {
+      const pageLang = routeSEO.lang || 'en-US';
       nodes.push({
         '@type': 'WebPage',
         '@id': `${pageUrl}#webpage`,
@@ -52,7 +53,7 @@ export default function StructuredData() {
         headline: routeSEO.h1,
         description: routeSEO.description,
         isPartOf: { '@id': `${SITE}/#website` },
-        inLanguage: 'en-US',
+        inLanguage: pageLang,
       });
 
       if (guideFaqs && guideFaqs.length > 0) {
@@ -68,7 +69,7 @@ export default function StructuredData() {
             jobTitle: 'Founder, Cancer Survivor & HR Leader',
           },
           publisher: { '@id': `${SITE}/#organization` },
-          inLanguage: 'en-US',
+          inLanguage: pageLang,
         });
 
         nodes.push({
@@ -76,6 +77,7 @@ export default function StructuredData() {
           '@id': `${pageUrl}#faq`,
           url: pageUrl,
           isPartOf: { '@id': `${pageUrl}#webpage` },
+          inLanguage: pageLang,
           mainEntity: guideFaqs.map((item) => ({
             '@type': 'Question',
             name: item.question,

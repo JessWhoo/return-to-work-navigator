@@ -24,6 +24,7 @@ const READABLE_PAGES = new Set([
   'Blog', 'ExpertAdvice', 'ExpertQA', 'FAQ', 'LegalRights', 'LegalPolicyHub',
   'StateByStateLaws', 'InternationalLaws', 'DisclosureGuide', 'Accommodations',
   'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide', 'ForClinics',
+  'ManagerGuideEs', 'AccommodationsEs', 'DisclosureGuideEs',
 ]);
 
 // Primary destinations — pill nav items in the header.

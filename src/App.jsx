@@ -34,6 +34,9 @@ import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
 import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
 import ToolEngagementDashboard from './pages/ToolEngagementDashboard';
 import ManagerGuide from './pages/ManagerGuide';
+import ManagerGuideEs from './pages/ManagerGuideEs';
+import AccommodationsEs from './pages/AccommodationsEs';
+import DisclosureGuideEs from './pages/DisclosureGuideEs';
 import AccommodationTemplates from './pages/AccommodationTemplates';
 import ForClinics from './pages/ForClinics';
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
@@ -163,6 +166,30 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="ManagerGuide">
             <ManagerGuide />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/ManagerGuideEs"
+        element={
+          <LayoutWrapper currentPageName="ManagerGuideEs">
+            <ManagerGuideEs />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/AccommodationsEs"
+        element={
+          <LayoutWrapper currentPageName="AccommodationsEs">
+            <AccommodationsEs />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/DisclosureGuideEs"
+        element={
+          <LayoutWrapper currentPageName="DisclosureGuideEs">
+            <DisclosureGuideEs />
           </LayoutWrapper>
         }
       />

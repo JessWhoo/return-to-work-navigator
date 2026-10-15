@@ -191,10 +191,142 @@ export const GENERAL_SITE_FAQS = [
   },
 ];
 
+export const MANAGER_GUIDE_FAQS_ES = [
+  {
+    question: '¿Qué debe decir un gerente cuando un empleado le informa que tiene cáncer?',
+    answer:
+      'Comienza con empatía sincera y quita presión de inmediato: di "Lamento mucho que estés pasando por esto y te agradezco tu confianza. Tu salud es lo primero, y juntos veremos cómo organizar el trabajo". Evita frases hechas como "todo pasa por algo", no compares su caso con el de un familiar y pregúntale a quién (si es que a alguien) autoriza informar.',
+  },
+  {
+    question: '¿Puede un gerente contarle al equipo o a otros jefes sobre el diagnóstico de cáncer de un empleado?',
+    answer:
+      'No. Bajo la Ley de Estadounidenses con Discapacidades (ADA), la información médica de un empleado es estrictamente confidencial. Un gerente o representante de Recursos Humanos no puede compartir el diagnóstico con compañeros, clientes ni otros líderes sin el permiso explícito del empleado. Si es necesario redistribuir tareas, solo se debe informar que el empleado cuenta con un ajuste de horario o licencia aprobada.',
+  },
+  {
+    question: '¿El cáncer califica como una discapacidad bajo la ley ADA aunque el empleado esté en remisión?',
+    answer:
+      'Sí. Bajo la Ley de Enmiendas a la ADA (ADAAA), el cáncer casi siempre califica como una discapacidad porque limita sustancialmente el crecimiento celular normal. La protección legal aplica durante el tratamiento activo, durante la recuperación y también cuando el cáncer está en remisión o existe un antecedente de cáncer.',
+  },
+  {
+    question: '¿Cómo funcionan juntas la licencia FMLA y la ley ADA para un empleado con cáncer?',
+    answer:
+      'En empleadores cubiertos (50 o más empleados en un radio de 75 millas), los empleados elegibles pueden tomar hasta 12 semanas de licencia sin sueldo con protección del puesto bajo la FMLA, ya sea de forma continua o intermitente para sesiones de quimioterapia, radioterapia o estudios. Cuando se agota la FMLA —o si el empleado aún no cumple el año de antigüedad para FMLA—, la ley ADA (15 o más empleados) exige considerar adaptaciones laborales razonables, que pueden incluir licencia médica adicional, regreso gradual a medio tiempo o teletrabajo.',
+  },
+  {
+    question: '¿Cómo es un horario de regreso gradual al trabajo después del tratamiento contra el cáncer?',
+    answer:
+      'Un regreso gradual típico comienza con el 40 % al 50 % de la jornada habitual (por ejemplo, tres medios días por semana o mañanas de cuatro horas cuando hay mayor energía) y aumenta un 10 % a 20 % cada una o dos semanas según la tolerancia física y la indicación médica. Incluir un día de descanso a mitad de semana (como los miércoles) y teletrabajo temporal mejora significativamente la recuperación y retención.',
+  },
+  {
+    question: '¿Cómo debe evaluar un gerente el desempeño de un empleado en tratamiento o recuperación de cáncer?',
+    answer:
+      'Evalúa al empleado de manera justa con base en el trabajo acordado bajo su horario ajustado o funciones modificadas; nunca lo penalices por haber tomado licencia protegida bajo la FMLA ni por utilizar adaptaciones de la ADA. Deja todos los ajustes de metas y plazos por escrito.',
+  },
+  {
+    question: '¿Qué documentación médica puede pedir Recursos Humanos para una adaptación bajo la ADA?',
+    answer:
+      'Recursos Humanos puede solicitar una carta breve del médico tratante que confirme que el empleado tiene una condición médica cubierta, describa las limitaciones funcionales en el trabajo (como fatiga, límite para levantar peso o defensas bajas) y recomiende las adaptaciones y su duración estimada. El empleador no puede exigir el expediente oncológico completo ni pruebas genéticas.',
+  },
+  {
+    question: '¿Cómo apoyar a un empleado que experimenta "quimiocerebro" o fatiga relacionada con el cáncer?',
+    answer:
+      'Los ajustes prácticos de bajo costo marcan una gran diferencia: envía resúmenes breves por escrito después de las reuniones, permite grabar reuniones como apoyo de memoria, ayuda a priorizar las 2 o 3 entregas más importantes de la semana, protege bloques de concentración sin interrupciones y permite flexibilidad de horario o pausas breves de descanso.',
+  },
+];
+
+export const ACCOMMODATIONS_GUIDE_FAQS_ES = [
+  {
+    question: '¿Está cubierto el cáncer como discapacidad para adaptaciones laborales bajo la ley ADA?',
+    answer:
+      'Sí. Bajo la Ley de Estadounidenses con Discapacidades (ADA) a nivel federal, que cubre a empleadores con 15 o más trabajadores, el cáncer está reconocido como una discapacidad calificada porque limita el crecimiento celular normal y actividades importantes de la vida. Además, muchas leyes estatales protegen a empleados en empresas aún más pequeñas.',
+  },
+  {
+    question: '¿Cuáles son las adaptaciones laborales más comunes para sobrevivientes de cáncer?',
+    answer:
+      'Las adaptaciones más solicitadas y aprobadas incluyen horarios flexibles de entrada y salida, licencia intermitente para citas de oncología y análisis, trabajo remoto o híbrido temporal (especialmente si hay bajas defensas o fatiga severa), regreso gradual de medio tiempo a tiempo completo, instrucciones por escrito para la neblina mental ("quimiocerebro"), equipo ergonómico o límites para levantar peso por neuropatía o cirugía, y pausas breves de descanso.',
+  },
+  {
+    question: '¿Tengo que mencionar las palabras "ADA" o "adaptación razonable" al hacer mi solicitud?',
+    answer:
+      'Legalmente no es obligatorio usar palabras técnicas: según la Comisión para la Igualdad de Oportunidades en el Empleo (EEOC), basta con informar que necesitas un ajuste en el trabajo debido a una condición médica. Sin embargo, presentar una solicitud por escrito que mencione explícitamente "adaptaciones razonables bajo la ADA" crea un respaldo formal e inicia la obligación legal del empleador de participar en el proceso interactivo.',
+  },
+  {
+    question: '¿Debo decirle a mi jefe que tengo cáncer para obtener una adaptación bajo la ADA?',
+    answer:
+      'No necesitas revelar tu diagnóstico específico de cáncer a tus compañeros ni siquiera a tu supervisor directo si tu empresa gestiona la documentación médica a través de Recursos Humanos. La carta de tu médico solo necesita confirmar que tienes una condición médica cubierta, describir tus limitaciones funcionales (por ejemplo, resistencia física, inmunidad o concentración) e indicar los ajustes laborales necesarios.',
+  },
+  {
+    question: '¿Qué es el "proceso interactivo" de la ADA y cuánto tiempo toma?',
+    answer:
+      'El proceso interactivo es un diálogo colaborativo entre tú y tu empleador (generalmente Recursos Humanos y tu supervisor) para revisar las adaptaciones solicitadas y acordar soluciones eficaces. El empleador debe responder con prontitud. Con frecuencia se acuerda un periodo de prueba de 30, 60 o 90 días con una fecha de revisión para ajustar el plan según avance tu recuperación.',
+  },
+  {
+    question: '¿Puede mi empleador negar mi solicitud de adaptación laboral?',
+    answer:
+      'Un empleador solo puede negar una adaptación razonable si demuestra que causa una "dificultad excesiva" (undue hardship, es decir, una dificultad o gasto significativo en relación con los recursos de la empresa) o si elimina una función esencial del puesto. Incluso si tu primera opción no es viable, el empleador está obligado por ley a explorar alternativas eficaces contigo.',
+  },
+  {
+    question: '¿Puedo solicitar adaptaciones meses o años después de haber terminado el tratamiento contra el cáncer?',
+    answer:
+      'Sí. Los efectos secundarios a largo plazo o tardíos del tratamiento —como la fatiga crónica relacionada con el cáncer, la neuropatía periférica, el linfedema, los cambios cognitivos y los efectos de la terapia hormonal— siguen estando protegidos por la ADA mucho después de finalizar la quimioterapia, la radioterapia o la cirugía.',
+  },
+  {
+    question: '¿Qué debe incluir la carta de apoyo de mi oncólogo o médico?',
+    answer:
+      'Una carta médica eficaz se redacta en hoja membretada de la clínica e incluye: (1) confirmación de que estás bajo atención médica por una condición que afecta funciones específicas, (2) una lista clara de las adaptaciones laborales recomendadas, (3) confirmación de que estos ajustes te permiten cumplir con las funciones esenciales de tu puesto y (4) una duración estimada (por ejemplo, 3 o 6 meses con revisión periódica).',
+  },
+];
+
+export const DISCLOSURE_GUIDE_FAQS_ES = [
+  {
+    question: '¿Estoy legalmente obligado/a a decirle a mi empleador que tengo cáncer?',
+    answer:
+      'No. En los Estados Unidos no tienes ninguna obligación legal de revelar un diagnóstico de cáncer a tu empleador, supervisor ni compañeros. Si no necesitas licencia médica ni adaptaciones laborales, no tienes que compartir nada. Si solicitas licencia FMLA o adaptaciones bajo la ADA, solo debes entregar a Recursos Humanos una certificación médica sobre tus limitaciones funcionales y los ajustes que necesitas.',
+  },
+  {
+    question: '¿Debo hablar primero con Recursos Humanos o con mi jefe directo?',
+    answer:
+      'Si tu prioridad es asegurar tu protección legal, tramitar la licencia FMLA o solicitar adaptaciones formales bajo la ADA manteniendo reservados tus detalles clínicos, habla primero con Recursos Humanos. RR. HH. está obligado por ley a guardar tu documentación médica en un expediente confidencial separado. Luego podrás acordar qué información puramente operativa (como tu horario) debe conocer tu supervisor.',
+  },
+  {
+    question: '¿Cómo puedo pedir adaptaciones laborales sin mencionar la palabra cáncer?',
+    answer:
+      'Utiliza un lenguaje funcional y enfocado en el trabajo en lugar de etiquetas médicas. Por ejemplo: "Estoy atendiendo una condición médica bajo el cuidado de mi doctor. Para desempeñar mi puesto de manera eficaz durante mi tratamiento y recuperación, mi médico recomienda trabajar de forma remota tres días por semana y contar con flexibilidad de horario para citas médicas".',
+  },
+  {
+    question: '¿Puede Recursos Humanos compartir mi diagnóstico de cáncer con mi supervisor o compañeros?',
+    answer:
+      'No sin tu consentimiento. Bajo las reglas de confidencialidad de la ADA, la información médica entregada para una adaptación o licencia debe mantenerse confidencial. A los supervisores solo se les puede informar sobre las restricciones laborales necesarias y las adaptaciones aprobadas, nunca sobre tu diagnóstico subyacente.',
+  },
+  {
+    question: '¿Tengo que revelar que tuve cáncer durante una entrevista de trabajo?',
+    answer:
+      'No. Bajo la ley ADA, los empleadores tienen prohibido hacer preguntas sobre tu historial médico, discapacidades o licencias médicas previas antes de realizar una oferta condicional de empleo. Si tienes una pausa en tu currículum por el tratamiento, basta con explicar que tomaste una pausa planificada por motivos personales o de salud ya resueltos y que estás listo/a para reincorporarte por completo.',
+  },
+  {
+    question: '¿Qué pasa si necesito adaptaciones después de recibir una oferta de empleo?',
+    answer:
+      'Puedes esperar a recibir la oferta formal por escrito —o incluso a haber iniciado en el puesto— antes de solicitar adaptaciones razonables para tus tareas diarias. Un empleador no puede retirar legalmente una oferta de trabajo por el hecho de que tengas antecedentes de cáncer o solicites una adaptación razonable.',
+  },
+  {
+    question: '¿Por qué es tan importante dar seguimiento por escrito después de hablar con RR. HH. o con mi jefe?',
+    answer:
+      'Un correo breve enviado el mismo día crea un registro con fecha y hora de que notificaste a tu empleador sobre una necesidad médica protegida y solicitaste adaptaciones o licencia. Si más adelante ocurre un malentendido, un cambio de jefe o una evaluación injusta, ese respaldo escrito es tu mejor protección legal.',
+  },
+  {
+    question: '¿Qué puedo responder si mis compañeros hacen preguntas médicas incómodas o invasivas?',
+    answer:
+      'Prepara de antemano una frase breve y amable para marcar tu límite sin sentirte incómodo/a. Por ejemplo: "Te agradezco mucho que preguntes por mí. Prefiero mantener los detalles médicos en privado para poder enfocarme en mis proyectos mientras estoy aquí, pero todo va avanzando bien".',
+  },
+];
+
 export const GUIDE_FAQ_BY_PATH = {
   '/managerguide': MANAGER_GUIDE_FAQS,
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
   '/legalrights': LEGAL_RIGHTS_FAQS,
   '/faq': GENERAL_SITE_FAQS,
+  '/managerguidees': MANAGER_GUIDE_FAQS_ES,
+  '/accommodationses': ACCOMMODATIONS_GUIDE_FAQS_ES,
+  '/disclosureguidees': DISCLOSURE_GUIDE_FAQS_ES,
 };

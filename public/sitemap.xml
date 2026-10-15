@@ -39,6 +39,9 @@
   <url><loc>https://return-to-work-navigator.org/WellnessResources</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/DisclosureGuide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/ManagerGuide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://return-to-work-navigator.org/ManagerGuideEs</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://return-to-work-navigator.org/AccommodationsEs</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://return-to-work-navigator.org/DisclosureGuideEs</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/ForClinics</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/LegalRights</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://return-to-work-navigator.org/StateByStateLaws</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

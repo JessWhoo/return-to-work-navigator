@@ -416,6 +416,30 @@ export const ROUTE_SEO = {
     h1: 'Tool Engagement Metrics Dashboard',
     path: '/ToolEngagementDashboard',
   },
+  '/managerguidees': {
+    title: 'Guía para Gerentes y Recursos Humanos: Apoyo a Empleados con Cáncer',
+    description:
+      'Guía práctica en español para gerentes y Recursos Humanos sobre cómo apoyar a un empleado con cáncer: qué decir, adaptaciones bajo la ADA, licencia FMLA, confidencialidad y regreso gradual.',
+    h1: 'Cómo Apoyar a un Empleado Durante el Cáncer y en su Regreso al Trabajo',
+    path: '/ManagerGuideEs',
+    lang: 'es',
+  },
+  '/accommodationses': {
+    title: 'Adaptaciones Laborales bajo la ADA para Sobrevivientes de Cáncer (Guía y Carta)',
+    description:
+      'Guía completa en español sobre adaptaciones laborales razonables bajo la ADA para sobrevivientes de cáncer: fatiga, quimiocerebro, teletrabajo, regreso gradual y generador de carta para RR. HH.',
+    h1: 'Adaptaciones Laborales para Sobrevivientes de Cáncer',
+    path: '/AccommodationsEs',
+    lang: 'es',
+  },
+  '/disclosureguidees': {
+    title: 'Guía sobre la Divulgación del Cáncer en el Trabajo: Derechos, Privacidad y Guiones',
+    description:
+      'Guía práctica en español sobre si debes decir en el trabajo que tienes cáncer: privacidad bajo la ADA y la FMLA, diferencias entre RR. HH. y tu jefe, y guiones listos para usar.',
+    h1: 'Guía sobre la Divulgación del Cáncer en el Trabajo',
+    path: '/DisclosureGuideEs',
+    lang: 'es',
+  },
 };
 
 export function getRouteSEO(pathname = '/') {

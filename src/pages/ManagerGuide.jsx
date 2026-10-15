@@ -12,6 +12,7 @@ import SupportTipsSection from '@/components/managerguide/SupportTipsSection';
 import ManagerChecklistSection from '@/components/managerguide/ManagerChecklistSection';
 import ManagerEmailTemplates from '@/components/managerguide/ManagerEmailTemplates';
 import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import GuideLanguageSwitch from '@/components/seo/GuideLanguageSwitch';
 import { MANAGER_GUIDE_FAQS } from '@/components/seo/guideFaqsData';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -50,11 +51,18 @@ export default function ManagerGuide() {
         title="Supporting an Employee Through Cancer and Back to Work"
         subtitle="A practical guide to what your employee is facing, what actually helps, the mistakes to avoid, and your legal responsibilities."
         actions={
-          <Button variant="outline" onClick={handleExport} disabled={isExporting}>
-            {isExporting
-              ? <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
-              : <><Printer className="h-4 w-4" /> Print or save as PDF</>}
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <GuideLanguageSwitch
+              englishPath="/ManagerGuide"
+              spanishPath="/ManagerGuideEs"
+              currentLang="en"
+            />
+            <Button variant="outline" onClick={handleExport} disabled={isExporting}>
+              {isExporting
+                ? <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
+                : <><Printer className="h-4 w-4" /> Print or save as PDF</>}
+            </Button>
+          </div>
         }
       />
 
