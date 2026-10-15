@@ -245,14 +245,14 @@ export default function Checklist({ embedded = false }) {
         })}
       </div>
 
-      {/* Completion Message */}
+      {/* Completion message — a plain progress acknowledgement, no scoring or rewards */}
       {progressPercentage === 100 && (
         <Card className="nv-card--muted">
           <CardContent className="pt-6 text-center">
             <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
-            <h3 className="mb-2 font-heading text-2xl font-bold text-brand-text">Congratulations! 🎉</h3>
+            <h3 className="mb-2 font-heading text-2xl font-bold text-brand-text">Checklist complete</h3>
             <p className="font-medium text-brand-text">
-              You've completed all checklist items. Remember, returning to work is an ongoing journey. 
+              You've worked through every checklist item. Remember, returning to work is an ongoing journey.
               Continue to advocate for yourself and adjust as needed.
             </p>
           </CardContent>

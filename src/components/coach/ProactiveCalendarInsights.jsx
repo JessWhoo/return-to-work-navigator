@@ -153,14 +153,14 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
         tips: [
           'Take time to reflect on your progress',
           'Identify what strategies have been most helpful',
-          'Celebrate this achievement - you\'ve earned it',
+          'Note what this milestone reflects about your progress',
           'Consider what you\'ve learned about your capabilities',
           'Share your success with supportive people'
         ],
         resources: [
           'Reflection prompts for milestone moments',
           'Self-compassion exercises',
-          'Ways to celebrate progress mindfully'
+          'Ways to reflect on progress mindfully'
         ],
         questions: [
           'What am I most proud of accomplishing?',

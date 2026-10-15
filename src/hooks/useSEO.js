@@ -332,13 +332,6 @@ export const ROUTE_SEO = {
     h1: 'Medical, Workplace & Journal Record Keeping',
     path: '/RecordKeeping',
   },
-  '/gamification': {
-    title: 'Return-to-Work Milestones, Streaks & Achievements',
-    description:
-      'Celebrate every step of your return-to-work recovery with milestone badges, daily check-in streaks, and progress achievements.',
-    h1: 'Your Return-to-Work Milestones & Achievements',
-    path: '/Gamification',
-  },
   '/coach': {
     title: '24/7 AI Return-to-Work Coach for Cancer Survivors',
     description:

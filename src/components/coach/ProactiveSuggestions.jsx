@@ -228,17 +228,17 @@ export default function ProactiveSuggestions({ progress, onSelectSuggestion }) {
       });
     }
 
-    // Celebration of progress
+    // Progress reflection — plain tracking, no points, rewards or badges
     if (completedCount >= 8) {
       suggestions.push({
         type: 'insight',
         priority: 'low',
-        title: '🎉 Celebrate Your Progress!',
-        insight: `You've completed ${completedCount} checklist items! That's significant progress. Take a moment to acknowledge how far you've come.`,
+        title: 'A Good Moment to Look at Your Progress',
+        insight: `You've worked through ${completedCount} checklist items. Take a moment to note what has helped most so far and what still needs attention.`,
         actions: [
           'Write down 3 things you\'re proud of',
           'Share your progress with someone supportive',
-          'Reward yourself for this milestone'
+          'Review which steps you want to revisit'
         ]
       });
     }
