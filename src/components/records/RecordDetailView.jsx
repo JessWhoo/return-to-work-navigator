@@ -75,35 +75,6 @@ export default function RecordDetailView({ record }) {
         </div>
       )}
 
-      {/* Symptom Details */}
-      {record.type === 'symptom' && record.symptom_details && (
-        <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-800">
-          <h4 className="font-semibold text-slate-200 mb-3">Symptom Details</h4>
-          <div className="space-y-2 text-sm">
-            {record.symptom_details.severity && (
-              <div>
-                <span className="text-slate-400">Severity:</span>
-                <span className="text-slate-200 ml-2 font-semibold">
-                  {record.symptom_details.severity}/10
-                </span>
-              </div>
-            )}
-            {record.symptom_details.duration && (
-              <div>
-                <span className="text-slate-400">Duration:</span>
-                <span className="text-slate-200 ml-2">{record.symptom_details.duration}</span>
-              </div>
-            )}
-            {record.symptom_details.relief_measures && (
-              <div>
-                <span className="text-slate-400">Relief Measures:</span>
-                <p className="text-slate-200 mt-1">{record.symptom_details.relief_measures}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Tags */}
       {record.tags && record.tags.length > 0 && (
         <div>

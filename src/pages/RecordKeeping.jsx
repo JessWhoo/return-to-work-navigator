@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { 
   Plus, Search, FileText, Stethoscope, Briefcase, 
-  BookOpen, Activity, Calendar, Tag,
+  BookOpen, Calendar, Tag,
   ChevronDown, Edit, Trash2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,9 +20,9 @@ import useSEO from '@/hooks/useSEO';
 
 export default function RecordKeeping() {
   useSEO({
-    title: 'Private Medical, Symptom & HR Meeting Record Log',
+    title: 'Private Medical, Workplace & HR Meeting Record Log',
     description:
-      'Keep organized, dated records of doctor recommendations, work restrictions, HR accommodation meetings, and daily symptom notes in one private log.',
+      'Keep organized, dated records of doctor recommendations, work restrictions, HR accommodation meetings, and workplace journal notes in one private log.',
     path: '/RecordKeeping',
   });
   const queryClient = useQueryClient();
@@ -56,11 +56,12 @@ export default function RecordKeeping() {
     { value: 'all', label: 'All Records', icon: FileText },
     { value: 'medical', label: 'Medical', icon: Stethoscope },
     { value: 'workplace', label: 'Workplace', icon: Briefcase },
-    { value: 'journal', label: 'Journal', icon: BookOpen },
-    { value: 'symptom', label: 'Symptoms', icon: Activity }
+    { value: 'journal', label: 'Journal', icon: BookOpen }
   ];
 
-  const filteredRecords = records.filter(record => {
+  const activeRecords = records.filter(r => r.type !== 'symptom');
+
+  const filteredRecords = activeRecords.filter(record => {
     const matchesSearch = searchQuery === '' || 
       (record.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       (record.content || '').toLowerCase().includes(searchQuery.toLowerCase());
@@ -79,9 +80,9 @@ export default function RecordKeeping() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading text-3xl font-bold text-foreground">Medical, Workplace &amp; Symptom Record Keeping</h1>
+          <h1 className="font-heading text-3xl font-bold text-foreground">Medical, Workplace &amp; Journal Record Keeping</h1>
           <p className="mt-1 text-muted-foreground">
-            Document doctor recommendations, HR meetings, and daily symptoms in one organized log
+            Document doctor recommendations, HR meetings, and personal workplace notes in one organized log
           </p>
         </div>
         <Button onClick={() => setShowAddDialog(true)}>
@@ -91,10 +92,10 @@ export default function RecordKeeping() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {recordTypes.slice(1).map((type) => {
           const Icon = type.icon;
-          const count = records.filter(r => r.type === type.value).length;
+          const count = activeRecords.filter(r => r.type === type.value).length;
           return (
             <Card key={type.value}>
               <CardContent className="pt-6">

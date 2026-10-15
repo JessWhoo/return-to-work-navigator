@@ -286,7 +286,7 @@ export const ROUTE_SEO = {
   '/exportreports': {
     title: 'Export Printable PDF Summaries for Doctors & HR',
     description:
-      'Download clean, professional PDF reports of your energy logs, symptom history, meeting preparation notes, and return-to-work progress.',
+      'Download clean, professional PDF reports of your workday energy logs, meeting preparation notes, communication drafts, and return-to-work progress.',
     h1: 'Export & Download Printable Return-to-Work Reports',
     path: '/ExportReports',
   },
@@ -326,10 +326,10 @@ export const ROUTE_SEO = {
     path: '/Profile',
   },
   '/recordkeeping': {
-    title: 'Private Medical, Symptom & HR Meeting Record Log',
+    title: 'Private Medical, Workplace & HR Meeting Record Log',
     description:
-      'Keep organized, dated records of doctor recommendations, work restrictions, HR accommodation meetings, and daily symptom notes in one private log.',
-    h1: 'Medical, Workplace & Symptom Record Keeping',
+      'Keep organized, dated records of doctor recommendations, work restrictions, HR accommodation meetings, and workplace journal notes in one private log.',
+    h1: 'Medical, Workplace & Journal Record Keeping',
     path: '/RecordKeeping',
   },
   '/gamification': {

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   FileDown, Loader2, CheckCircle, Users, MessageSquare, 
-  TrendingUp, FileText, Activity, Stethoscope
+  TrendingUp, FileText, Stethoscope
 } from 'lucide-react';
 // jsPDF loaded dynamically to avoid React duplicate instance issues
 import { format } from 'date-fns';
@@ -32,23 +32,16 @@ const REPORT_TYPES = [
     badge: 'For Professional Records'
   },
   {
-    id: 'symptom_log',
-    title: 'Symptom & Health Log',
-    description: 'Chronological log of symptom entries for sharing with healthcare providers.',
-    icon: Activity,
-    badge: 'For Healthcare Providers'
-  },
-  {
     id: 'progress',
     title: 'Progress & Journey Report',
-    description: 'Journey stage, energy logs, checklist progress, and accommodation statuses.',
+    description: 'Journey stage, workday energy logs, checklist progress, and accommodation statuses.',
     icon: TrendingUp,
     badge: 'Comprehensive Overview'
   },
   {
     id: 'full',
     title: 'Full Professional Summary',
-    description: 'Complete report combining all sections — ideal for care team meetings.',
+    description: 'Complete report combining meeting preps, communication drafts, and return-to-work progress.',
     icon: Stethoscope,
     badge: 'All-in-One'
   }
@@ -179,41 +172,6 @@ function generateCommunicationSection(doc, drafts, y, pageWidth) {
   return y;
 }
 
-function generateSymptomSection(doc, records, y, pageWidth) {
-  y = addSectionTitle(doc, 'Symptom & Health Log', y);
-  const symptoms = records?.filter(r => r.type === 'symptom' || r.type === 'medical') || [];
-  if (!symptoms.length) {
-    doc.setFontSize(10); doc.setTextColor(120,120,120);
-    doc.text('No symptom or medical records found.', 14, y);
-    doc.setTextColor(0,0,0);
-    return y + 10;
-  }
-  for (const r of symptoms) {
-    y = checkPageBreak(doc, y);
-    doc.setFontSize(10); doc.setFont('helvetica', 'bold');
-    doc.text(`${r.date || ''}  —  ${r.title}`, 14, y);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(80,80,80);
-    doc.text(r.type, 14, y + 5);
-    doc.setTextColor(0,0,0); y += 12;
-    if (r.symptom_details) {
-      const sd = r.symptom_details;
-      if (sd.symptom_type?.length) { doc.text(`Symptoms: ${sd.symptom_type.join(', ')}`, 14, y); y += 5; }
-      if (sd.severity) { doc.text(`Severity: ${sd.severity}/10`, 14, y); y += 5; }
-      if (sd.triggers) { y = wrapText(doc, `Triggers: ${sd.triggers}`, 14, y, 180); }
-      if (sd.relief_measures) { y = wrapText(doc, `Relief: ${sd.relief_measures}`, 14, y, 180); }
-      y += 2;
-    }
-    if (r.content) {
-      y = checkPageBreak(doc, y);
-      y = wrapText(doc, r.content, 14, y, 180);
-      y += 2;
-    }
-    doc.setDrawColor(200,200,200); doc.line(14, y, pageWidth-14, y);
-    y += 8;
-  }
-  return y;
-}
-
 function generateProgressSection(doc, progress, y, _pageWidth) {
   y = addSectionTitle(doc, 'Progress & Journey Overview', y);
   if (!progress) {
@@ -252,7 +210,7 @@ function generateProgressSection(doc, progress, y, _pageWidth) {
   return y + 8;
 }
 
-async function buildPDF(type, { meetings, drafts, records, progress }) {
+async function buildPDF(type, { meetings, drafts, progress }) {
   const { default: jsPDF } = await import('jspdf');
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -281,11 +239,6 @@ async function buildPDF(type, { meetings, drafts, records, progress }) {
     y = generateCommunicationSection(doc, drafts, y, pageWidth);
     y += 4;
   }
-  if (type === 'symptom_log' || type === 'full') {
-    y = checkPageBreak(doc, y);
-    y = generateSymptomSection(doc, records, y, pageWidth);
-    y += 4;
-  }
   if (type === 'progress' || type === 'full') {
     y = checkPageBreak(doc, y);
     generateProgressSection(doc, progress, y, pageWidth);
@@ -307,7 +260,7 @@ export default function ExportReports({ embedded = false }) {
   useSEO({
     title: 'Export Printable PDF Summaries for Doctors & HR',
     description:
-      'Download clean, professional PDF reports of your energy logs, symptom history, meeting preparation notes, and return-to-work progress.',
+      'Download clean, professional PDF reports of your workday energy logs, meeting preparation notes, communication drafts, and return-to-work progress.',
     path: '/ExportReports',
     enabled: !embedded,
   });
@@ -318,14 +271,13 @@ export default function ExportReports({ embedded = false }) {
 
   const { data: meetings } = useQuery({ queryKey: ['meetingPreps'], enabled: authed, queryFn: () => base44.entities.MeetingPrep.list('-meeting_date') });
   const { data: drafts } = useQuery({ queryKey: ['communicationDrafts'], enabled: authed, queryFn: () => base44.entities.CommunicationDraft.list('-updated_date') });
-  const { data: records } = useQuery({ queryKey: ['records'], enabled: authed, queryFn: () => base44.entities.Record.list('-date') });
   const { data: progress } = useUserProgress();
 
   const handleExport = async (type) => {
     setGenerating(type);
     setDone(null);
     try {
-      const doc = await buildPDF(type, { meetings, drafts, records, progress });
+      const doc = await buildPDF(type, { meetings, drafts, progress });
       const filename = `navigator-${type}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
       doc.save(filename);
       setDone(type);

@@ -20,7 +20,7 @@ export const SEARCH_INDEX = [
   { title: 'Expert Advice', path: '/ExpertAdvice', description: 'Tips from workplace and cancer-care experts', keywords: ['expert', 'advice', 'tips', 'professional'] },
   { title: 'Expert Q&A', path: '/ExpertQA', description: 'Ask experts your return-to-work questions', keywords: ['expert', 'questions', 'answers', 'ask', 'q&a'] },
   { title: 'Coach Booking', path: '/CoachBooking', description: 'Book a one-on-one coaching session', keywords: ['booking', 'coach', 'session', 'appointment', 'schedule'] },
-  { title: 'Record Keeping', path: '/RecordKeeping', description: 'Log medical, workplace, and symptom records', keywords: ['records', 'journal', 'medical', 'symptoms', 'notes', 'documentation'] },
+  { title: 'Record Keeping', path: '/RecordKeeping', description: 'Log medical, workplace, and journal records', keywords: ['records', 'journal', 'medical', 'workplace', 'notes', 'documentation'] },
   { title: 'Help & Support', path: '/HelpSupport', description: 'Get help using the app and find support', keywords: ['help', 'support', 'faq', 'contact'] },
   { title: 'Emergency Contacts', path: '/emergency-contacts', description: 'Crisis hotlines and urgent support services', keywords: ['emergency', 'crisis', 'hotline', 'urgent', '911', 'suicide'] },
   { title: 'Blog', path: '/Blog', description: 'Stories and articles from the founder', keywords: ['blog', 'articles', 'stories', 'posts'] },

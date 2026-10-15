@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { Stethoscope, Briefcase, BookOpen, Activity, Tag } from 'lucide-react';
+import { Stethoscope, Briefcase, BookOpen, Tag } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
@@ -29,18 +29,16 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
   // Type-specific fields
   const [medicalDetails, setMedicalDetails] = useState({});
   const [workplaceDetails, setWorkplaceDetails] = useState({});
-  const [symptomDetails, setSymptomDetails] = useState({});
 
   useEffect(() => {
     if (editRecord) {
-      setType(editRecord.type);
+      setType(editRecord.type === 'symptom' ? 'journal' : editRecord.type);
       setTitle(editRecord.title);
       setDate(editRecord.date);
       setContent(editRecord.content);
       setTags(editRecord.tags || []);
       setMedicalDetails(editRecord.medical_details || {});
       setWorkplaceDetails(editRecord.workplace_details || {});
-      setSymptomDetails(editRecord.symptom_details || {});
     } else {
       resetForm();
     }
@@ -55,7 +53,6 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
     setTagInput('');
     setMedicalDetails({});
     setWorkplaceDetails({});
-    setSymptomDetails({});
   };
 
   const saveMutation = useMutation({
@@ -86,8 +83,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
       content,
       tags,
       ...(type === 'medical' && { medical_details: medicalDetails }),
-      ...(type === 'workplace' && { workplace_details: workplaceDetails }),
-      ...(type === 'symptom' && { symptom_details: symptomDetails })
+      ...(type === 'workplace' && { workplace_details: workplaceDetails })
     };
 
     saveMutation.mutate(recordData);
@@ -103,8 +99,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
   const recordTypes = [
     { value: 'medical', label: 'Medical', icon: Stethoscope },
     { value: 'workplace', label: 'Workplace', icon: Briefcase },
-    { value: 'journal', label: 'Journal', icon: BookOpen },
-    { value: 'symptom', label: 'Symptom', icon: Activity }
+    { value: 'journal', label: 'Journal', icon: BookOpen }
   ];
 
   return (
@@ -118,7 +113,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
           {/* Type Selection */}
           <div>
             <Label>Record Type</Label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-2">
+            <div className="grid grid-cols-3 gap-3 mt-2">
               {recordTypes.map(t => <BrandChoice key={t.value} stacked selected={type === t.value} icon={t.icon} onClick={() => setType(t.value)}>{t.label}</BrandChoice>)}
             </div>
           </div>
@@ -187,32 +182,6 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
                 placeholder="Outcomes and action items"
                 value={workplaceDetails.outcomes || ''}
                 onChange={(e) => setWorkplaceDetails({ ...workplaceDetails, outcomes: e.target.value })}
-              />
-            </div>
-          )}
-
-          {type === 'symptom' && (
-            <div className="nv-card nv-card--sage space-y-4 p-4">
-              <h4 className="font-semibold text-brand-text">Symptom Details</h4>
-              <div>
-                <Label>Severity (1-10)</Label>
-                <Input
-                  type="number"
-                  min="1"
-                  max="10"
-                  value={symptomDetails.severity || ''}
-                  onChange={(e) => setSymptomDetails({ ...symptomDetails, severity: parseInt(e.target.value) })}
-                />
-              </div>
-              <Input
-                placeholder="Duration (e.g., 2 hours, all day)"
-                value={symptomDetails.duration || ''}
-                onChange={(e) => setSymptomDetails({ ...symptomDetails, duration: e.target.value })}
-              />
-              <Textarea
-                placeholder="Relief measures that helped"
-                value={symptomDetails.relief_measures || ''}
-                onChange={(e) => setSymptomDetails({ ...symptomDetails, relief_measures: e.target.value })}
               />
             </div>
           )}
