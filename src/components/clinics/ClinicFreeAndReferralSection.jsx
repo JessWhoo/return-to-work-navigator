@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { HeartHandshake, Copy, Check, FileDown, Share2, ClipboardList } from 'lucide-react';
+import { HeartHandshake, Copy, Check, FileDown, Share2, ClipboardList, Printer, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
 import { generateClinicHandoutPdf } from './generateClinicHandoutPdf';
+import { QrCodeSvg } from './qrCodeMatrix';
 
 const AVS_BLURB = `Return to Work Support (Free Resource):
 As you prepare to return to work or request workplace adjustments during treatment recovery, visit The Return to Work Navigator at https://return-to-work-navigator.org — a 100% free, private toolkit for cancer survivors. It includes a step-by-step ADA Workplace Accommodation Letter Generator, a Phased Return Schedule Planner, plain-language FMLA/ADA legal guides, fatigue & chemo-brain pacing tools, and employer email scripts. No account or sign-in is required to browse guides or generate accommodation letters.`;
@@ -36,7 +37,7 @@ const REFERRAL_SCENARIOS = [
   },
 ];
 
-export default function ClinicFreeAndReferralSection() {
+export default function ClinicFreeAndReferralSection({ onOpenPrintHandout }) {
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedBlurb, setCopiedBlurb] = useState(false);
 
@@ -89,9 +90,15 @@ export default function ClinicFreeAndReferralSection() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0 w-full md:w-auto">
-            <Button onClick={handleDownloadHandout} className="w-full">
+            {onOpenPrintHandout && (
+              <Button onClick={onOpenPrintHandout} className="w-full">
+                <Printer className="h-4 w-4" />
+                Printable Patient Handout (with QR Code)
+              </Button>
+            )}
+            <Button variant="secondary" onClick={handleDownloadHandout} className="w-full">
               <FileDown className="h-4 w-4" />
-              Download 1-Page Patient Handout (PDF)
+              Download 1-Page Handout PDF
             </Button>
             <Button variant="outline" onClick={handleCopyLink} className="w-full">
               {copiedLink ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -137,21 +144,33 @@ export default function ClinicFreeAndReferralSection() {
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-brand-primary font-heading font-bold">
                 <FileDown className="h-5 w-5 shrink-0" />
-                <h4>2. Print the 1-Page Clinic Resource Sheet</h4>
+                <h4>2. Print the 1-Page Patient Handout (with QR Code)</h4>
               </div>
               <p className="text-sm text-brand-muted-foreground">
-                Keep a printed stack in infusion suites, radiation waiting areas, or social work offices, or include the 1-page PDF in new-patient and end-of-treatment folders.
+                Keep a printed stack in infusion suites, radiation waiting areas, or social work offices so patients can scan the QR code with their phone camera.
               </p>
-              <ul className="text-xs text-brand-muted-foreground space-y-1.5 list-disc pl-4">
-                <li>Formatted for standard 8.5&quot; × 11&quot; black-and-white or color clinic printing</li>
-                <li>Lists direct URLs for the ADA Letter Generator, Return Planner, and Legal Hub</li>
-                <li>Includes clear privacy and non-medical educational disclaimers</li>
-              </ul>
+              <div className="flex items-center gap-3 rounded-brand border border-brand-border bg-brand-background p-3">
+                <QrCodeSvg url="https://return-to-work-navigator.org" size={76} className="shrink-0 rounded-sm border border-brand-border" />
+                <div className="space-y-1 text-xs text-brand-muted-foreground">
+                  <p className="font-bold text-brand-text flex items-center gap-1">
+                    <Smartphone className="h-3.5 w-3.5 text-brand-primary" /> Built-In Scannable QR Code
+                  </p>
+                  <p>Opens <strong>return-to-work-navigator.org</strong> directly on the patient&apos;s phone — no typing required.</p>
+                </div>
+              </div>
             </div>
-            <Button variant="secondary" size="sm" onClick={handleDownloadHandout} className="w-full">
-              <FileDown className="h-4 w-4" />
-              Download Printable PDF Flyer
-            </Button>
+            <div className="flex flex-col gap-2 pt-1">
+              {onOpenPrintHandout && (
+                <Button size="sm" onClick={onOpenPrintHandout} className="w-full">
+                  <Printer className="h-4 w-4" />
+                  Preview &amp; Print Handout
+                </Button>
+              )}
+              <Button variant="secondary" size="sm" onClick={handleDownloadHandout} className="w-full">
+                <FileDown className="h-4 w-4" />
+                Download PDF with QR Code
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
