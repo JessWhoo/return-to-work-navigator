@@ -10,6 +10,7 @@ import StepIndicator from '@/components/accommodationLetter/StepIndicator';
 import AccommodationSelector from '@/components/accommodationLetter/AccommodationSelector';
 import LetterDetailsForm from '@/components/accommodationLetter/LetterDetailsForm';
 import LetterPreview from '@/components/accommodationLetter/LetterPreview';
+import PostLetterSharePrompt from '@/components/accommodationLetter/PostLetterSharePrompt';
 import { buildLetter } from '@/components/accommodationLetter/buildLetter';
 import { EMPTY_DETAILS } from '@/components/accommodationLetter/accommodationOptions';
 import { logToolEngagement } from '@/lib/analytics';
@@ -73,7 +74,10 @@ export default function AccommodationLetterGenerator() {
           transition={{ duration: 0.25, ease: 'easeOut' }}
         >
           {step === 3 ? (
-            <LetterPreview text={letter} onChange={setLetter} onRegenerate={() => setLetter(buildLetter(selected, details))} />
+            <div className="space-y-6">
+              <LetterPreview text={letter} onChange={setLetter} onRegenerate={() => setLetter(buildLetter(selected, details))} />
+              <PostLetterSharePrompt />
+            </div>
           ) : (
             <Card>
               <CardContent className="p-5 sm:p-8">
