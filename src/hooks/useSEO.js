@@ -1,6 +1,20 @@
 import { useEffect } from 'react';
 
 const BASE_TITLE = 'Navigator — Back to Life, Back to Work';
+export const CANONICAL_ORIGIN = 'https://return-to-work-navigator.org';
+
+const NOINDEX_ROUTES = new Set([
+  '/login',
+  '/register',
+  '/forgot-password',
+  '/reset-password',
+  '/oauthconsent',
+  '/profile',
+  '/myfeedback',
+  '/recordkeeping',
+  '/gamification',
+  '/toolegagementdashboard',
+]);
 
 export const ROUTE_SEO = {
   '/': {
@@ -400,18 +414,27 @@ export const ROUTE_SEO = {
 export function getRouteSEO(pathname = '/') {
   const clean = (pathname || '/').split('?')[0].split('#')[0].replace(/\/+$/, '') || '/';
   const key = clean.toLowerCase();
-  return (
-    ROUTE_SEO[key] || {
-      title: ROUTE_SEO['/'].title,
-      description: ROUTE_SEO['/'].description,
-      h1: ROUTE_SEO['/'].h1,
-      path: clean,
-    }
-  );
+  const matched = ROUTE_SEO[key];
+  if (matched) {
+    return {
+      ...matched,
+      noindex: NOINDEX_ROUTES.has(key),
+      isKnownRoute: true,
+    };
+  }
+  return {
+    title: 'Page Not Found (404)',
+    description:
+      'The page you requested could not be found. Explore Return to Work Navigator tools, ADA workplace accommodation guides, and cancer survivorship resources.',
+    h1: 'Page Not Found',
+    path: clean,
+    noindex: true,
+    isKnownRoute: false,
+  };
 }
 
 /**
- * Updates document title, meta description, and canonical URL per page.
+ * Updates document title, meta description, robots directive, and canonical URL per page.
  * Also updates Open Graph and Twitter card tags for social sharing.
  */
 function setMeta(selector, attr, value) {
@@ -429,12 +452,17 @@ function setMeta(selector, attr, value) {
   el.setAttribute(attr, value);
 }
 
-export function applySEO({ title, description, path } = {}) {
+export function applySEO({ title, description, path, noindex } = {}) {
   if (typeof document === 'undefined' || typeof window === 'undefined') return;
-  const fallback = getRouteSEO(path || window.location.pathname);
+  const currentPathname = window.location.pathname || '/';
+  const fallback = getRouteSEO(path || currentPathname);
   const resolvedTitle = title || fallback.title;
   const resolvedDescription = description || fallback.description;
-  const resolvedPath = path || fallback.path || window.location.pathname;
+  const canonicalPath = fallback.isKnownRoute
+    ? fallback.path
+    : (path || fallback.path || '/');
+  const shouldNoIndex =
+    typeof noindex === 'boolean' ? noindex : Boolean(fallback.noindex);
 
   const fullTitle = resolvedTitle.includes('Navigator')
     ? resolvedTitle
@@ -451,15 +479,23 @@ export function applySEO({ title, description, path } = {}) {
   setMeta('meta[property="og:title"]', 'content', fullTitle);
   setMeta('meta[name="twitter:title"]', 'content', fullTitle);
 
+  const robotsContent = shouldNoIndex ? 'noindex, nofollow' : 'index, follow';
+  setMeta('meta[name="robots"]', 'content', robotsContent);
+  setMeta('meta[name="googlebot"]', 'content', robotsContent);
+
   let canonical = document.head.querySelector('link[rel="canonical"]');
-  if (!canonical) {
-    canonical = document.createElement('link');
-    canonical.setAttribute('rel', 'canonical');
-    document.head.appendChild(canonical);
+  if (shouldNoIndex && !fallback.isKnownRoute) {
+    if (canonical) canonical.remove();
+  } else {
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    const absoluteUrl = new URL(canonicalPath, CANONICAL_ORIGIN).href;
+    canonical.setAttribute('href', absoluteUrl);
+    setMeta('meta[property="og:url"]', 'content', absoluteUrl);
   }
-  const absoluteUrl = new URL(resolvedPath, window.location.origin).href;
-  canonical.setAttribute('href', absoluteUrl);
-  setMeta('meta[property="og:url"]', 'content', absoluteUrl);
 }
 
 // Apply route metadata immediately on module load so crawlers inspecting the
@@ -468,9 +504,9 @@ if (typeof window !== 'undefined') {
   applySEO(getRouteSEO(window.location.pathname));
 }
 
-export default function useSEO({ title, description, path, enabled = true } = {}) {
+export default function useSEO({ title, description, path, noindex, enabled = true } = {}) {
   useEffect(() => {
     if (!enabled) return;
-    applySEO({ title, description, path });
-  }, [title, description, path, enabled]);
+    applySEO({ title, description, path, noindex });
+  }, [title, description, path, noindex, enabled]);
 }

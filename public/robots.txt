@@ -4,5 +4,18 @@ Disallow: /login
 Disallow: /register
 Disallow: /forgot-password
 Disallow: /reset-password
+Disallow: /OAuthConsent
+Disallow: /Profile
+Disallow: /MyFeedback
+Disallow: /RecordKeeping
+Disallow: /Gamification
+Disallow: /ToolEngagementDashboard
+Disallow: /Home
+Disallow: /home
+Disallow: /api/
+Disallow: /functions/
+Disallow: /*?*token=
+Disallow: /*?*returnTo=
+Disallow: /*?*from_url=
 
-Sitemap: https://return-to-work-navigator-febf891d.base44.app/sitemap.xml
+Sitemap: https://return-to-work-navigator.org/sitemap.xml

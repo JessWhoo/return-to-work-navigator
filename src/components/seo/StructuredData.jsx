@@ -2,55 +2,60 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getRouteSEO } from '@/hooks/useSEO';
 
-const SITE = 'https://return-to-work-navigator-febf891d.base44.app';
+const SITE = 'https://return-to-work-navigator.org';
 
 export default function StructuredData() {
   const { pathname } = useLocation();
 
   useEffect(() => {
     const routeSEO = getRouteSEO(pathname);
-    const pageUrl = new URL(routeSEO.path || pathname, SITE).href;
+    const pageUrl = new URL(routeSEO.path || '/', SITE).href;
+
+    const nodes = [
+      {
+        '@type': 'Organization',
+        '@id': `${SITE}/#organization`,
+        name: 'Back to Life, Back to Work',
+        url: SITE,
+        description:
+          'Guidance, tools and resources helping cancer survivors return to work with confidence.',
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE}/#website`,
+        url: SITE,
+        name: 'Navigator — Back to Life, Back to Work',
+        publisher: { '@id': `${SITE}/#organization` },
+        inLanguage: 'en-US',
+      },
+      {
+        '@type': 'WebApplication',
+        name: 'Return to Work Navigator',
+        url: SITE,
+        applicationCategory: 'HealthApplication',
+        operatingSystem: 'Web, iOS, Android',
+        description:
+          'A return-to-work toolkit for cancer survivors: fatigue management, workplace accommodations, legal rights, communication templates and an AI coach.',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      },
+    ];
+
+    if (routeSEO.isKnownRoute && !routeSEO.noindex) {
+      nodes.push({
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: `${routeSEO.title} | Navigator — Back to Life, Back to Work`,
+        headline: routeSEO.h1,
+        description: routeSEO.description,
+        isPartOf: { '@id': `${SITE}/#website` },
+        inLanguage: 'en-US',
+      });
+    }
 
     const graph = {
       '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'Organization',
-          '@id': `${SITE}/#organization`,
-          name: 'Back to Life, Back to Work',
-          url: SITE,
-          description:
-            'Guidance, tools and resources helping cancer survivors return to work with confidence.',
-        },
-        {
-          '@type': 'WebSite',
-          '@id': `${SITE}/#website`,
-          url: SITE,
-          name: 'Navigator — Back to Life, Back to Work',
-          publisher: { '@id': `${SITE}/#organization` },
-          inLanguage: 'en-US',
-        },
-        {
-          '@type': 'WebPage',
-          '@id': `${pageUrl}#webpage`,
-          url: pageUrl,
-          name: `${routeSEO.title} | Navigator — Back to Life, Back to Work`,
-          headline: routeSEO.h1,
-          description: routeSEO.description,
-          isPartOf: { '@id': `${SITE}/#website` },
-          inLanguage: 'en-US',
-        },
-        {
-          '@type': 'WebApplication',
-          name: 'Return to Work Navigator',
-          url: SITE,
-          applicationCategory: 'HealthApplication',
-          operatingSystem: 'Web, iOS, Android',
-          description:
-            'A return-to-work toolkit for cancer survivors: fatigue management, workplace accommodations, legal rights, communication templates and an AI coach.',
-          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        },
-      ],
+      '@graph': nodes,
     };
 
     const id = 'site-structured-data';

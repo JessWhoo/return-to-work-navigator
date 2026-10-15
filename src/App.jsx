@@ -7,7 +7,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
 import NavigationTracker from '@/lib/NavigationTracker'
 import { pagesConfig } from './pages.config'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import SessionExpiredNotice from '@/components/SessionExpiredNotice';
 import { installUnauthorizedMonitor } from '@/lib/sessionGuard';
@@ -168,22 +168,21 @@ const AuthenticatedApp = () => {
 
       {/* ------- App routes (no sign-in required) ------- */}
       <Route>
-        <Route path="/home" element={
-          <LayoutWrapper currentPageName={mainPageKey}>
-            <MainPage />
-          </LayoutWrapper>
-        } />
-        {Object.entries(Pages).map(([path, Page]) => (
-          <Route
-            key={path}
-            path={`/${path}`}
-            element={
-              <LayoutWrapper currentPageName={path}>
-                <Page />
-              </LayoutWrapper>
-            }
-          />
-        ))}
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="/Home" element={<Navigate to="/" replace />} />
+        {Object.entries(Pages)
+          .filter(([path]) => path !== 'Home')
+          .map(([path, Page]) => (
+            <Route
+              key={path}
+              path={`/${path}`}
+              element={
+                <LayoutWrapper currentPageName={path}>
+                  <Page />
+                </LayoutWrapper>
+              }
+            />
+          ))}
         <Route
           path="/MyFeedback"
           element={
