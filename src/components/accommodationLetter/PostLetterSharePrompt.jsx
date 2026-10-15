@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 
 const SHARE_URL = 'https://return-to-work-navigator.org/AccommodationLetterGenerator';
+const ROOT_URL = 'https://return-to-work-navigator.org';
 const SHARE_MESSAGE =
   'If you are navigating work after cancer treatment, this free ADA Accommodation Letter Generator helps you draft a customized workplace request letter in a few minutes (no sign-in required): https://return-to-work-navigator.org/AccommodationLetterGenerator';
 
@@ -25,10 +26,10 @@ export default function PostLetterSharePrompt() {
   };
 
   const handleCopyLink = async () => {
-    await navigator.clipboard.writeText(SHARE_URL);
+    await navigator.clipboard.writeText(ROOT_URL);
     setCopiedLink(true);
     trackShare('copy_link');
-    toast.success('Tool link copied to clipboard');
+    toast.success('Link copied to clipboard');
     setTimeout(() => setCopiedLink(false), 2500);
   };
 
@@ -70,11 +71,11 @@ export default function PostLetterSharePrompt() {
           <div className="space-y-1">
             <p className="nv-eyebrow nv-eyebrow--primary">Pay It Forward</p>
             <h3 className="font-heading text-lg sm:text-xl font-bold text-brand-text">
-              Did this letter save you energy today? Pass the tool along.
+              Know another survivor who could use this? Share the Navigator.
             </h3>
             <p className="text-sm text-brand-muted-foreground">
-              Share this free generator with another survivor, support group, or oncology social worker.{' '}
-              <strong className="text-brand-text">Your personal letter is never shared</strong> — only the link to the blank tool.
+              The Navigator is always <strong className="text-brand-text">free</strong>, no sign-in required — and your personal
+              letter never leaves this page. Only the link is shared.
             </p>
           </div>
         </div>
@@ -82,7 +83,7 @@ export default function PostLetterSharePrompt() {
         <div className="flex flex-wrap items-center gap-3 pt-1">
           <Button type="button" onClick={handleCopyLink}>
             {copiedLink ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            {copiedLink ? 'Link Copied' : 'Copy Tool Link'}
+            {copiedLink ? 'Link Copied' : 'Copy Link'}
           </Button>
           <Button type="button" variant="outline" onClick={handleCopyMessage}>
             {copiedMessage ? <Check className="h-4 w-4" /> : <MessageSquare className="h-4 w-4" />}
