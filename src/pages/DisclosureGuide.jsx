@@ -9,6 +9,9 @@ import { MessageSquare, Sparkles, ArrowRight, RefreshCw } from 'lucide-react';
 import { DISCLOSURE_STEPS } from '@/components/disclosure/disclosureSteps';
 import StepCard from '@/components/disclosure/StepCard';
 import LegalProtectionsCard from '@/components/disclosure/LegalProtectionsCard';
+import DisclosureEditorialGuide from '@/components/disclosure/DisclosureEditorialGuide';
+import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import { DISCLOSURE_GUIDE_FAQS } from '@/components/seo/guideFaqsData';
 
 const STORAGE_KEY = 'disclosure_checklist_v1';
 
@@ -84,11 +87,20 @@ export default function DisclosureGuide() {
         </CardContent>
       </Card>
 
+      {/* Comprehensive Readable Guide & Scripts */}
+      <DisclosureEditorialGuide />
+
       {/* Legal protections */}
       <LegalProtectionsCard />
 
       {/* Steps */}
-      <div className="space-y-5">
+      <section aria-labelledby="step-by-step-checklist-heading" className="space-y-5">
+        <div className="space-y-1.5">
+          <p className="nv-eyebrow nv-eyebrow--primary">Interactive Preparation Checklist</p>
+          <h2 id="step-by-step-checklist-heading" className="font-heading text-2xl sm:text-3xl font-bold text-brand-text">
+            8-Step Workplace Disclosure Action Plan
+          </h2>
+        </div>
         {DISCLOSURE_STEPS.map((step, idx) => (
           <StepCard
             key={step.id}
@@ -98,7 +110,15 @@ export default function DisclosureGuide() {
             onToggle={toggle}
           />
         ))}
-      </div>
+      </section>
+
+      <GuideFaqSection
+        id="disclosure-faq"
+        eyebrow="Workplace Disclosure FAQ"
+        title="Frequently Asked Questions: Disclosing Cancer at Work"
+        subtitle="Answers to the most common questions about medical privacy, HR vs. manager conversations, job interviews, and ADA protections."
+        faqs={DISCLOSURE_GUIDE_FAQS}
+      />
 
       {/* Next actions */}
       <Card className="nv-card--muted">

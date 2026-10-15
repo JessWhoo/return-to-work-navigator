@@ -11,6 +11,14 @@ import GuideSection from '@/components/managerguide/GuideSection';
 import SupportTipsSection from '@/components/managerguide/SupportTipsSection';
 import ManagerChecklistSection from '@/components/managerguide/ManagerChecklistSection';
 import ManagerEmailTemplates from '@/components/managerguide/ManagerEmailTemplates';
+import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import { MANAGER_GUIDE_FAQS } from '@/components/seo/guideFaqsData';
+import { Card, CardContent } from '@/components/ui/card';
+
+const TOC_SECTIONS = [
+  ...MANAGER_GUIDE_SECTIONS,
+  { id: 'faq', title: 'Frequently Asked Questions (FAQ)' },
+];
 
 export default function ManagerGuide() {
   const guideRef = useRef(null);
@@ -50,19 +58,39 @@ export default function ManagerGuide() {
         }
       />
 
+      <Card>
+        <CardContent className="p-6 sm:p-8 space-y-3">
+          <p className="nv-eyebrow nv-eyebrow--primary">Executive Summary for HR &amp; People Leaders</p>
+          <h2 className="font-heading text-xl sm:text-2xl font-bold text-brand-text">
+            How to Support an Employee With Cancer: The 4-Pillar Framework
+          </h2>
+          <p className="text-sm sm:text-base text-brand-text leading-relaxed">
+            When an employee is diagnosed with cancer or returns after treatment, managers and HR must balance <strong>compassionate human leadership</strong> with <strong>strict legal compliance</strong> under the Americans with Disabilities Act (ADA) and the Family and Medical Leave Act (FMLA). The most effective workplace response follows four pillars: (1) <strong>Protect medical confidentiality</strong>—never share a diagnosis with coworkers without explicit consent; (2) <strong>Engage in the ADA interactive process early</strong> to offer flexible hours, remote work, or phased ramp-up schedules; (3) <strong>Document every accommodation and leave agreement in writing</strong>; and (4) <strong>Manage team workload transparently</strong> without making the returning employee feel like a burden.
+          </p>
+        </CardContent>
+      </Card>
+
+      <GuideTableOfContents sections={TOC_SECTIONS} />
+
       <SupportTipsSection />
-
-      <ManagerChecklistSection />
-
-      <ManagerEmailTemplates />
-
-      <GuideTableOfContents sections={MANAGER_GUIDE_SECTIONS} />
 
       <div className="space-y-6">
         {MANAGER_GUIDE_SECTIONS.map((section) => (
           <GuideSection key={section.id} section={section} />
         ))}
       </div>
+
+      <ManagerChecklistSection />
+
+      <ManagerEmailTemplates />
+
+      <GuideFaqSection
+        id="faq"
+        eyebrow="Manager & HR FAQ"
+        title="Frequently Asked Questions: Supporting an Employee With Cancer"
+        subtitle="Direct answers to the most common legal, communication, and accommodation questions managers and HR professionals face."
+        faqs={MANAGER_GUIDE_FAQS}
+      />
     </div>
   );
 }

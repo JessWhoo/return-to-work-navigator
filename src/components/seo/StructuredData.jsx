@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getRouteSEO } from '@/hooks/useSEO';
+import { GUIDE_FAQ_BY_PATH } from './guideFaqsData';
 
 const SITE = 'https://return-to-work-navigator.org';
 
@@ -10,6 +11,8 @@ export default function StructuredData() {
   useEffect(() => {
     const routeSEO = getRouteSEO(pathname);
     const pageUrl = new URL(routeSEO.path || '/', SITE).href;
+    const normalizedPath = (routeSEO.path || pathname || '/').toLowerCase();
+    const guideFaqs = GUIDE_FAQ_BY_PATH[normalizedPath];
 
     const nodes = [
       {
@@ -51,6 +54,38 @@ export default function StructuredData() {
         isPartOf: { '@id': `${SITE}/#website` },
         inLanguage: 'en-US',
       });
+
+      if (guideFaqs && guideFaqs.length > 0) {
+        nodes.push({
+          '@type': 'Article',
+          '@id': `${pageUrl}#article`,
+          headline: routeSEO.h1 || routeSEO.title,
+          description: routeSEO.description,
+          mainEntityOfPage: { '@id': `${pageUrl}#webpage` },
+          author: {
+            '@type': 'Person',
+            name: 'Jess Whorton',
+            jobTitle: 'Founder, Cancer Survivor & HR Leader',
+          },
+          publisher: { '@id': `${SITE}/#organization` },
+          inLanguage: 'en-US',
+        });
+
+        nodes.push({
+          '@type': 'FAQPage',
+          '@id': `${pageUrl}#faq`,
+          url: pageUrl,
+          isPartOf: { '@id': `${pageUrl}#webpage` },
+          mainEntity: guideFaqs.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.answer,
+            },
+          })),
+        });
+      }
     }
 
     const graph = {
