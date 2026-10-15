@@ -17,6 +17,7 @@ export const SEARCH_INDEX = [
   { title: 'Meeting Prep', path: '/MeetingPrep', description: 'Prepare for HR and supervisor meetings', keywords: ['meeting', 'prep', 'hr', 'supervisor', 'talking points', 'accommodation request'] },
   { title: 'Resource Library', path: '/ResourceLibrary', description: 'Legal rights and accommodation resources', keywords: ['resources', 'library', 'rights', 'legal', 'guides', 'articles'] },
   { title: 'Community & Resources', path: '/CommunityHub', description: 'Forums, peer connections, and shared resources', keywords: ['community', 'forum', 'peers', 'connections', 'support group', 'messages'] },
+  { title: 'Community Guidelines', path: '/CommunityGuidelines', description: 'How the peer forum stays supportive, private, and work-focused', keywords: ['community guidelines', 'forum rules', 'guidelines', 'moderation', 'privacy', 'report a post'] },
   { title: 'Expert Advice & Q&A', path: '/ExpertAdvice', description: 'Tips from experts and answers to survivor questions', keywords: ['expert', 'advice', 'tips', 'professional', 'questions', 'answers', 'ask', 'q&a'] },
   { title: 'Coach Booking', path: '/CoachBooking', description: 'Book a one-on-one coaching session', keywords: ['booking', 'coach', 'session', 'appointment', 'schedule'] },
   { title: 'Record Keeping', path: '/RecordKeeping', description: 'Log medical, workplace, and journal records', keywords: ['records', 'journal', 'medical', 'workplace', 'notes', 'documentation'] },

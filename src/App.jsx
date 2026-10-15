@@ -18,6 +18,7 @@ import LegalRightsChecklist from './pages/LegalRightsChecklist';
 import DisclosureGuide from './pages/DisclosureGuide';
 import ResourceLibrary from './pages/ResourceLibrary';
 import ExpertAdvice from './pages/ExpertAdvice';
+import CommunityGuidelines from './pages/CommunityGuidelines';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -158,6 +159,14 @@ const AuthenticatedApp = () => {
         element={
           <LayoutWrapper currentPageName="ExpertAdvice">
             <ExpertAdvice />
+          </LayoutWrapper>
+        }
+      />
+      <Route
+        path="/CommunityGuidelines"
+        element={
+          <LayoutWrapper currentPageName="CommunityGuidelines">
+            <CommunityGuidelines />
           </LayoutWrapper>
         }
       />

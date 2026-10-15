@@ -262,6 +262,13 @@ export const ROUTE_SEO = {
     h1: 'Cancer Survivor Return-to-Work Community Hub',
     path: '/CommunityHub',
   },
+  '/communityguidelines': {
+    title: 'Community Forum Guidelines: Supportive, Work-Focused Peer Support',
+    description:
+      'How the Return to Work Navigator community forum works: kindness, privacy, on-topic peer support about returning to work after cancer, and how posts are moderated.',
+    h1: 'Community Guidelines',
+    path: '/CommunityGuidelines',
+  },
   '/helpsupport': {
     title: 'Help Center, Return-to-Work FAQs & PDF Report Exports',
     description:

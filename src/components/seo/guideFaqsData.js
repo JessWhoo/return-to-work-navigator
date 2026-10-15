@@ -320,12 +320,46 @@ export const DISCLOSURE_GUIDE_FAQS_ES = [
   },
 ];
 
+export const COMMUNITY_GUIDELINES_FAQS = [
+  {
+    question: 'Who can read and post in the Community Forum?',
+    answer:
+      'The forum is private to signed-in members. Discussions are not visible to anyone who is not signed in, and they are not indexed by search engines. Creating an account is free, and once you are signed in you can read every topic, post a question, and reply to others.',
+  },
+  {
+    question: 'Can I post or reply anonymously?',
+    answer:
+      'Yes. Choose the anonymous option when you post or reply and your display name will show as "Anonymous" to everyone else in the community. Anonymous posts are treated exactly like named ones. In our own records an anonymous post still belongs to your account so we can act on a report or a safety concern, but that link is never shown to other members.',
+  },
+  {
+    question: 'Can I share or screenshot someone else’s post outside the forum?',
+    answer:
+      'No, not without the author’s permission. Members share candid details about their health, their employers, and their colleagues on the understanding that the room is private. Ask the author first, and never include screenshots or names alongside a quote.',
+  },
+  {
+    question: 'Can I ask for medical or legal advice in the forum?',
+    answer:
+      'You can ask for peer experience, and members can describe what worked for them. You should not rely on the forum for medical or legal advice. For anything clinical, talk with your oncology team. For anything legal, speak with a qualified attorney or legal aid service — the Legal & Policy Hub and the Legal Rights Advisor are good starting points.',
+  },
+  {
+    question: 'What happens if a post breaks the guidelines?',
+    answer:
+      'A moderator may edit or remove the post, close the thread, or send a private reminder about the guidelines. Accounts that repeatedly cause harm can have their community access paused or permanently removed. Posts that put a member at risk are removed first and reviewed afterwards.',
+  },
+  {
+    question: 'How do I report a post that feels harmful or off-topic?',
+    answer:
+      'Use the Contact page and include the post title, its topic, and what felt wrong. Reports are confidential: the author is never told who reported the post. If someone appears to be in immediate danger, the Emergency Contacts page lists free 24/7 crisis and cancer support lines you can share with them.',
+  },
+];
+
 export const GUIDE_FAQ_BY_PATH = {
   '/managerguide': MANAGER_GUIDE_FAQS,
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
   '/legalrights': LEGAL_RIGHTS_FAQS,
   '/faq': GENERAL_SITE_FAQS,
+  '/communityguidelines': COMMUNITY_GUIDELINES_FAQS,
   '/managerguidees': MANAGER_GUIDE_FAQS_ES,
   '/accommodationses': ACCOMMODATIONS_GUIDE_FAQS_ES,
   '/disclosureguidees': DISCLOSURE_GUIDE_FAQS_ES,

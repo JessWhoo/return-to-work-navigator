@@ -105,6 +105,11 @@ export default function ForumTab() {
           <Button asChild>
             <Link to="/login">Sign in to join</Link>
           </Button>
+          <p>
+            <Link to="/CommunityGuidelines" className="text-sm font-semibold text-brand-primary underline">
+              Read the community guidelines
+            </Link>
+          </p>
         </CardContent>
       </Card>
     );
@@ -114,6 +119,14 @@ export default function ForumTab() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-brand-muted-foreground">
+        To keep this a private, supportive, work-focused space, please read the{' '}
+        <Link to="/CommunityGuidelines" className="font-semibold text-brand-primary underline">
+          community guidelines
+        </Link>{' '}
+        before you post.
+      </p>
+
       <ForumPostComposer
         currentUser={currentUser}
         onCreated={() => queryClient.invalidateQueries({ queryKey: ['forumPosts'] })}

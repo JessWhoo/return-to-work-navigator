@@ -24,6 +24,7 @@ const READABLE_PAGES = new Set([
   'Blog', 'ExpertAdvice', 'FAQ', 'LegalRights', 'LegalPolicyHub',
   'StateByStateLaws', 'InternationalLaws', 'DisclosureGuide', 'Accommodations',
   'About', 'PrivacySecurity', 'Roadmap', 'ManagerGuide', 'ForClinics',
+  'CommunityGuidelines',
   'ManagerGuideEs', 'AccommodationsEs', 'DisclosureGuideEs',
 ]);
 
