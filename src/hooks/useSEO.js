@@ -509,7 +509,11 @@ export function applySEO({ title, description, path, noindex } = {}) {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    const absoluteUrl = new URL(canonicalPath, CANONICAL_ORIGIN).href;
+    // Homepage canonical is the root absolute URL so every entry point
+    // (/home, /Home) consolidates onto the indexable root, never /home.
+    const absoluteUrl = canonicalPath === '/'
+      ? `${CANONICAL_ORIGIN}/`
+      : new URL(canonicalPath, CANONICAL_ORIGIN).href;
     canonical.setAttribute('href', absoluteUrl);
     setMeta('meta[property="og:url"]', 'content', absoluteUrl);
   }
