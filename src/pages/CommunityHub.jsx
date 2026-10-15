@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { FileText, Bookmark, MessageCircleQuestion, ArrowRight, Sparkles } from 'lucide-react';
+import { FileText, Bookmark, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 import ProgressReportTab from '../components/community/ProgressReportTab';
 import SharedResourcesTab from '../components/community/SharedResourcesTab';
+import ForumTab from '@/components/community/ForumTab';
 import useSEO from '@/hooks/useSEO';
 import PageHeader from '@/components/brand/PageHeader';
 
@@ -61,10 +62,15 @@ export default function CommunityHub() {
             <Bookmark className="h-4 w-4" />
             <span >Resources</span>
           </TabsTrigger>
+          <TabsTrigger value="forum" className="nv-tab">
+            <MessageCircle className="h-4 w-4" />
+            <span >Forum</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="report"><ProgressReportTab /></TabsContent>
         <TabsContent value="resources"><SharedResourcesTab /></TabsContent>
+        <TabsContent value="forum" className="mt-4"><ForumTab /></TabsContent>
       </Tabs>
     </div>
   );
