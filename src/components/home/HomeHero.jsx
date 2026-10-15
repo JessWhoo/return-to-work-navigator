@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BrandMark from '@/components/brand/BrandMark';
 
@@ -16,6 +16,12 @@ export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated })
           <BrandMark size="lg" showName={false} className="lg:hidden" />
           <h1 id="home-title" className="max-w-2xl text-3xl font-bold text-brand-text sm:text-5xl">Return-to-Work Toolkit for Cancer Survivors</h1>
           <p className="max-w-xl text-base text-brand-text sm:text-lg">Practical guidance, ADA accommodation letters, fatigue trackers, and 24/7 coaching to help you transition back to work with confidence.</p>
+          <Link to="/NavigatorMethod" className="inline-flex max-w-xl flex-wrap items-center gap-x-2.5 gap-y-1 rounded-brand border border-brand-primary bg-brand-surface px-4 py-2.5 text-sm shadow-brand-sm transition hover:bg-brand-muted hover:shadow-brand-md">
+            <Compass className="h-4 w-4 text-brand-primary" aria-hidden="true" />
+            <span className="font-heading font-bold text-brand-primary">The Navigator Method</span>
+            <span className="font-semibold text-brand-text">Explore · Plan · Build · Return · Thrive</span>
+            <ArrowRight className="h-4 w-4 text-brand-primary" aria-hidden="true" />
+          </Link>
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild variant="onGradient"><Link to="/Checklist">Get Started<ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
             {!isAuthenticated && <Button asChild variant="outline"><Link to="/register">Create your free account</Link></Button>}
