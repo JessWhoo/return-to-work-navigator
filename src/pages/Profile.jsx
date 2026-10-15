@@ -479,7 +479,7 @@ export default function Profile({ embedded = false }) {
                   <div className="space-y-3 text-sm">
                     <p className="font-semibold text-brand-text">This will permanently erase:</p>
                     <ul className="list-inside list-disc space-y-1 text-brand-muted-foreground">
-                      <li>Your journey progress, checklists, and gamification points</li>
+                      <li>Your journey progress and completed checklist items</li>
                       <li>All saved records, symptom logs, and energy data</li>
                       <li>Communication drafts and meeting preparation notes</li>
                       <li>Bookmarked resources, ratings, and reviews</li>

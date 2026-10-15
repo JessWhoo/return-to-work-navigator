@@ -54,7 +54,6 @@ import Communication from './pages/Communication';
 import EmotionalSupport from './pages/EmotionalSupport';
 import EnergyManagement from './pages/EnergyManagement';
 import FAQ from './pages/FAQ';
-import Gamification from './pages/Gamification';
 import Home from './pages/Home';
 import LegalRights from './pages/LegalRights';
 import Profile from './pages/Profile';
@@ -93,7 +92,6 @@ export const PAGES = {
     "EmotionalSupport": EmotionalSupport,
     "EnergyManagement": EnergyManagement,
     "FAQ": FAQ,
-    "Gamification": Gamification,
     "Home": Home,
     "LegalRights": LegalRights,
     "Profile": Profile,

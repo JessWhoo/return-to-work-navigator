@@ -6,10 +6,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react';
-import { useGamification } from '../components/gamification/useGamification';
-import QuickPointsDisplay from '../components/gamification/QuickPointsDisplay';
-import CelebrationModal from '../components/gamification/CelebrationModal';
-import LevelDisplay from '../components/gamification/LevelDisplay';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { checklistData, getChecklistTotalItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
 import useSEO from '@/hooks/useSEO';
@@ -23,7 +19,6 @@ export default function Checklist({ embedded = false }) {
     enabled: !embedded,
   });
   const queryClient = useQueryClient();
-  const { trackAction, showQuickPoints, quickPointsAmount, setShowQuickPoints, celebration, setCelebration } = useGamification();
   const [expandedPhases, setExpandedPhases] = useState([0]);
 
   const { data: progress, isLoading } = useUserProgress({
@@ -59,12 +54,6 @@ export default function Checklist({ embedded = false }) {
     onError: (_err, _vars, context) => {
       if (context?.previous) {
         queryClient.setQueryData(['userProgress'], context.previous);
-      }
-    },
-    onSuccess: (_, { isChecked }) => {
-      // Award points when checking (not unchecking)
-      if (isChecked && progress) {
-        trackAction(progress, 'checklist_complete');
       }
     },
     onSettled: () => {
@@ -115,19 +104,6 @@ export default function Checklist({ embedded = false }) {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      <QuickPointsDisplay 
-        points={quickPointsAmount}
-        show={showQuickPoints}
-        onComplete={() => setShowQuickPoints(false)}
-      />
-      
-      <CelebrationModal
-        open={celebration.show}
-        onClose={() => setCelebration({ show: false, type: 'points', data: {} })}
-        type={celebration.type}
-        data={celebration.data}
-      />
-      
       {/* Header */}
       <div className="space-y-3 text-center">
         <HeadingTag className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
@@ -156,10 +132,33 @@ export default function Checklist({ embedded = false }) {
         </CardContent>
       </Card>
       
-      {/* Gamification Level Display */}
-      {progress?.gamification && (
-        <LevelDisplay points={progress.gamification.total_points} compact />
-      )}
+      {/* Straightforward Phase Summary */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {checklistData.map((phase, idx) => {
+          const phaseItems = phase.sections.flatMap(s => s.items);
+          const doneCount = phaseItems.filter(item => completedItems.includes(item.id)).length;
+          return (
+            <button
+              key={phase.phase}
+              type="button"
+              onClick={() => {
+                if (!expandedPhases.includes(idx)) {
+                  setExpandedPhases(prev => [...prev, idx]);
+                }
+              }}
+              className="nv-card p-4 text-left transition-colors hover:bg-brand-muted"
+            >
+              <span className="nv-eyebrow nv-eyebrow--primary">Phase {idx + 1}</span>
+              <p className="mt-1 font-heading text-sm font-bold text-brand-text line-clamp-1">
+                {phase.phase.replace(/^Phase \d+:\s*/, '')}
+              </p>
+              <p className="mt-2 text-xs font-semibold text-brand-muted-foreground">
+                {doneCount} of {phaseItems.length} completed
+              </p>
+            </button>
+          );
+        })}
+      </div>
 
       {/* Checklist Phases */}
       <div className="space-y-6">

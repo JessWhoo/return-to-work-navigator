@@ -79,7 +79,6 @@ export default function AIPersonalizedEngine({
       upcoming_events_count: upcomingEvents.length,
       recent_notes: recentEnergyLogs.map(log => log.notes).filter(Boolean).join('; '),
       bookmarked_count: progress?.bookmarked_resources?.length || 0,
-      current_streak: progress?.gamification?.current_streak || 0,
       symptom_count: recentSymptoms.length,
       avg_symptom_severity: avgSymptomSeverity.toFixed(1),
       symptom_types: [...new Set(recentSymptoms.flatMap(s => s.types))].join(', ')
@@ -148,7 +147,6 @@ export default function AIPersonalizedEngine({
 - Accommodations Requested: ${userData.accommodations_count} (${userData.accommodations_types || 'none'})
 - Days Until Return: ${userData.days_to_return || 'not set'}
 - Recent Notes: ${userData.recent_notes || 'none'}
-- Engagement Streak: ${userData.current_streak} days
 - Recent Symptoms Logged: ${userData.symptom_count}
 - Average Symptom Severity (1-10): ${userData.avg_symptom_severity}
 - Symptom Types Reported: ${userData.symptom_types || 'none'}`;

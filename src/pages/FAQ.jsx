@@ -144,8 +144,8 @@ const faqData = [
         a: 'Update your energy logs daily or weekly, track checklist progress regularly, and adjust your accommodation needs as they change. The more you engage with the toolkit, the more useful it becomes for your journey.'
       },
       {
-        q: 'What are the Achievements for?',
-        a: 'The gamification system rewards your progress with points, badges, and levels. It\'s designed to motivate and celebrate your journey milestones. Earn points by completing checklist items, logging energy, and engaging with resources.'
+        q: 'How does the Return-to-Work Checklist work?',
+        a: 'Your checklist breaks preparation into four clear stages: Before You Return, Planning Your Return, First Weeks Back, and Ongoing Success. You can check off items at your own pace—without points, timers, or streaks—and export your summary whenever you need it.'
       }
     ]
   }
