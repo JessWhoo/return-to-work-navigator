@@ -36,8 +36,18 @@ export default function Checklist({ embedded = false }) {
         ? [...currentItems, itemId]
         : currentItems.filter(id => id !== itemId);
 
-      return await base44.entities.UserProgress.update(progress.id, {
-        completed_checklist_items: updatedItems
+      // When no UserProgress record exists yet (a just-registered user whose
+      // record hasn't been created, or a guest session), create one carrying
+      // this completion instead of calling update(undefined) and losing the
+      // mark.
+      if (progress?.id) {
+        return await base44.entities.UserProgress.update(progress.id, {
+          completed_checklist_items: updatedItems
+        });
+      }
+      return await base44.entities.UserProgress.create({
+        completed_checklist_items: updatedItems,
+        journey_stage: 'planning'
       });
     },
     // Optimistic update — apply locally instantly, roll back on error.
@@ -45,17 +55,22 @@ export default function Checklist({ embedded = false }) {
       await queryClient.cancelQueries({ queryKey: ['userProgress'] });
       const previous = queryClient.getQueryData(['userProgress']);
       queryClient.setQueryData(['userProgress'], (old) => {
-        if (!old) return old;
-        const currentItems = old.completed_checklist_items || [];
+        // Fall back to a base object so the checkbox still reflects the click
+        // before a record exists, rather than no-oping on a null cache.
+        const base = old || { completed_checklist_items: [], journey_stage: 'planning' };
+        const currentItems = base.completed_checklist_items || [];
         const updatedItems = isChecked
           ? [...currentItems, itemId]
           : currentItems.filter(id => id !== itemId);
-        return { ...old, completed_checklist_items: updatedItems };
+        return { ...base, completed_checklist_items: updatedItems };
       });
       return { previous };
     },
     onError: (_err, _vars, context) => {
-      if (context?.previous) {
+      // Roll back only when there was a prior cache. A guest with no cached
+      // record (previous === undefined) keeps the optimistic local state so
+      // the checkbox still reflects the click.
+      if (context?.previous !== undefined) {
         queryClient.setQueryData(['userProgress'], context.previous);
       }
     },

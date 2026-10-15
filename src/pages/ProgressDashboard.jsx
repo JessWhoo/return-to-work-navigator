@@ -196,16 +196,20 @@ export default function ProgressDashboard({ embedded = false }) {
           <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, and four-phase preparation checklist completion.</p>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {checklistData.map((phase, idx) => (
-            <Card key={phase.id}>
-              <CardContent className="p-5 space-y-2">
-                <span className="nv-eyebrow nv-eyebrow--primary">Phase {idx + 1}</span>
-                <h3 className="font-heading text-base font-bold text-brand-text">{phase.title}</h3>
-                <p className="text-xs text-brand-muted-foreground leading-relaxed">{phase.description}</p>
-                <p className="text-xs font-semibold text-brand-primary">{phase.items.length} guided milestones</p>
-              </CardContent>
-            </Card>
-          ))}
+          {checklistData.map((phase, idx) => {
+            const phaseItems = getPhaseItems(phase);
+            return (
+              <Card key={phase.phase}>
+                <CardContent className="p-5 space-y-2">
+                  <span className="nv-eyebrow nv-eyebrow--primary">Phase {idx + 1}</span>
+                  <h3 className="font-heading text-base font-bold text-brand-text">
+                    {phase.phase.replace(/^Phase \d+:\s*/, '')}
+                  </h3>
+                  <p className="text-xs font-semibold text-brand-primary">{phaseItems.length} guided milestones</p>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
         <Card className="nv-card--muted">
           <CardContent className="pt-10 pb-10 text-center space-y-3">
