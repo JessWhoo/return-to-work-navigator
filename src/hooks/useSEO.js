@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const BASE_TITLE = 'Navigator — Back to Life, Back to Work';
+export const BASE_TITLE = 'Return to Work Navigator — Back to Life, Back to Work';
 export const CANONICAL_ORIGIN = 'https://return-to-work-navigator.org';
 
 const NOINDEX_ROUTES = new Set([
@@ -34,14 +34,14 @@ export const ROUTE_SEO = {
   '/about': {
     title: 'About Jess Whorton & Our Cancer Survivorship Mission',
     description:
-      'Meet founder Jess Whorton and learn how Back to Life, Back to Work Navigator empowers cancer survivors with practical workplace tools, legal guides, and peer support.',
-    h1: 'About Back to Life, Back to Work Navigator',
+      'Meet founder Jess Whorton and learn how the Return to Work Navigator empowers cancer survivors with practical workplace tools, legal guides, and peer support.',
+    h1: 'About the Return to Work Navigator',
     path: '/About',
   },
   '/contact': {
     title: 'Contact the Return to Work Navigator Team',
     description:
-      'Reach out to the Back to Life, Back to Work Navigator team with questions, workplace resource suggestions, survivor feedback, or partnership inquiries.',
+      'Reach out to the Return to Work Navigator team with questions, workplace resource suggestions, survivor feedback, or partnership inquiries.',
     h1: 'Contact the Return to Work Navigator Team',
     path: '/Contact',
   },

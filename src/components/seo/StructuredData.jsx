@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getRouteSEO } from '@/hooks/useSEO';
+import { getRouteSEO, BASE_TITLE } from '@/hooks/useSEO';
 import { GUIDE_FAQ_BY_PATH } from './guideFaqsData';
+import { BRAND_LOGO } from '@/components/brand/BrandIcon';
 
 const SITE = 'https://return-to-work-navigator.org';
 
@@ -18,8 +19,10 @@ export default function StructuredData() {
       {
         '@type': 'Organization',
         '@id': `${SITE}/#organization`,
-        name: 'Back to Life, Back to Work',
+        name: 'Return to Work Navigator',
         url: SITE,
+        logo: BRAND_LOGO,
+        slogan: 'Back to Life, Back to Work',
         description:
           'Guidance, tools and resources helping cancer survivors return to work with confidence.',
       },
@@ -27,7 +30,7 @@ export default function StructuredData() {
         '@type': 'WebSite',
         '@id': `${SITE}/#website`,
         url: SITE,
-        name: 'Navigator — Back to Life, Back to Work',
+        name: 'Return to Work Navigator',
         publisher: { '@id': `${SITE}/#organization` },
         inLanguage: 'en-US',
       },
@@ -49,7 +52,7 @@ export default function StructuredData() {
         '@type': 'WebPage',
         '@id': `${pageUrl}#webpage`,
         url: pageUrl,
-        name: `${routeSEO.title} | Navigator — Back to Life, Back to Work`,
+        name: `${routeSEO.title} | ${BASE_TITLE}`,
         headline: routeSEO.h1,
         description: routeSEO.description,
         isPartOf: { '@id': `${SITE}/#website` },
