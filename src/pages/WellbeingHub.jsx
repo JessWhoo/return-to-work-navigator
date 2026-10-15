@@ -31,19 +31,6 @@ export default function WellbeingHub() {
         subtitle="Track daily workday energy, pace your tasks, and manage return-to-work anxiety."
       />
 
-      <Card className="nv-card--sage">
-        <CardContent className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5">
-          <span className="flex-shrink-0 rounded-pill bg-brand-muted p-3 text-brand-primary">
-            <Brain className="h-6 w-6" aria-hidden="true" />
-          </span>
-          <div className="flex-1 min-w-0">
-            <p className="font-heading text-lg font-bold text-brand-text">Chemo brain at work</p>
-            <p className="text-sm text-brand-muted-foreground">Real symptoms, practical focus strategies, ADA accommodations, and a daily energy check-in.</p>
-          </div>
-          <Button asChild><Link to="/ChemoBrainGuide">Read the guide <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" /></Link></Button>
-        </CardContent>
-      </Card>
-
       <Tabs value={tab} onValueChange={setTab} className="space-y-6">
         <TabsList className="nv-tabs h-auto">
           <TabsTrigger value="energy" className="nv-tab">
@@ -60,7 +47,19 @@ export default function WellbeingHub() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="energy">
+        <TabsContent value="energy" className="space-y-6">
+          <Card className="nv-card--sage">
+            <CardContent className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5">
+              <span className="flex-shrink-0 rounded-pill bg-brand-muted p-3 text-brand-primary">
+                <Brain className="h-6 w-6" aria-hidden="true" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="font-heading text-lg font-bold text-brand-text">Chemo brain at work</p>
+                <p className="text-sm text-brand-muted-foreground">Real symptoms, practical focus strategies, ADA accommodations, and a daily energy check-in.</p>
+              </div>
+              <Button asChild><Link to="/ChemoBrainGuide">Read the guide <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" /></Link></Button>
+            </CardContent>
+          </Card>
           <EnergyManagement embedded />
         </TabsContent>
         <TabsContent value="emotional">
