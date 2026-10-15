@@ -17,8 +17,6 @@ const TOOLS = [
   { id: 'ai_coach', label: 'AI Coach', icon: MessageCircle, color: '#7E8AA6' },
 ];
 
-const TOOL_LABELS = Object.fromEntries(TOOLS.map((t) => [t.id, t.label]));
-
 function formatDate(iso) {
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
