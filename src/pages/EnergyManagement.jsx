@@ -203,7 +203,7 @@ function EnergyTab({ progress, queryClient }) {
 
             <div className="space-y-2">
               <Label>Notes</Label>
-              <Textarea value={notes} onChange={(e) => setNotes(e.target.value)}
+              <Textarea aria-label="Notes" value={notes} onChange={(e) => setNotes(e.target.value)}
                 placeholder="What affected your energy or mood today?" rows={3} />
             </div>
 

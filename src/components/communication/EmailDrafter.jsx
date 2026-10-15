@@ -137,6 +137,7 @@ ${emailBody}`;
               <span>Recipient Name (Optional)</span>
             </Label>
             <Input
+              aria-label="Recipient name (optional)"
               placeholder="e.g., Sarah Johnson"
               value={recipientName}
               onChange={(e) => setRecipientName(e.target.value)}
@@ -172,6 +173,7 @@ ${emailBody}`;
                 </Label>
                 <Input
                   type="email"
+                  aria-label="Recipient email"
                   placeholder="e.g., hr@company.com"
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
@@ -181,6 +183,7 @@ ${emailBody}`;
               <div className="space-y-2">
                 <Label>Subject</Label>
                 <Input
+                  aria-label="Subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 />
@@ -189,6 +192,7 @@ ${emailBody}`;
               <div className="space-y-2">
                 <Label>Email Body</Label>
                 <Textarea
+                  aria-label="Email body"
                   value={emailBody}
                   onChange={(e) => setEmailBody(e.target.value)}
                   rows={12}

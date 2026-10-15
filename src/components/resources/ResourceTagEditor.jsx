@@ -136,6 +136,7 @@ Type: ${resource.type}`;
           {/* Add custom tag */}
           <div className="flex gap-2">
             <Input
+              aria-label="Add custom tag"
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAddCustomTag()}

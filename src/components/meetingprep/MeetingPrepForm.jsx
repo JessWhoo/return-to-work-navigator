@@ -138,13 +138,13 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Meeting Title *</label>
-              <Input value={form.title} onChange={e => update('title', e.target.value)}
+              <Input aria-label="Meeting title" value={form.title} onChange={e => update('title', e.target.value)}
                 placeholder="e.g., Accommodation Request with HR"
                 className="nv-input" />
             </div>
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Meeting Date</label>
-              <Input type="date" value={form.meeting_date} onChange={e => update('meeting_date', e.target.value)}
+              <Input aria-label="Meeting date" type="date" value={form.meeting_date} onChange={e => update('meeting_date', e.target.value)}
                 className="nv-input" />
             </div>
           </div>
@@ -157,14 +157,14 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
             </div>
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Attendees</label>
-              <Input value={form.attendees} onChange={e => update('attendees', e.target.value)}
+              <Input aria-label="Attendees" value={form.attendees} onChange={e => update('attendees', e.target.value)}
                 placeholder="e.g., HR Manager, Direct Supervisor"
                 className="nv-input" />
             </div>
           </div>
           <div>
             <label className="text-xs text-brand-muted-foreground mb-1 block">Meeting Goals</label>
-            <Textarea value={form.goals} onChange={e => update('goals', e.target.value)}
+            <Textarea aria-label="Meeting goals" value={form.goals} onChange={e => update('goals', e.target.value)}
               placeholder="What do you want to achieve from this meeting?"
               className="nv-input min-h-[70px]" />
           </div>
@@ -194,7 +194,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
           {form.talking_points.map((pt, idx) => (
             <div key={idx} className="flex gap-2">
               <span className="text-brand-muted-foreground text-sm pt-2 w-5 flex-shrink-0">{idx + 1}.</span>
-              <Input value={pt} onChange={e => updatePoint(idx, e.target.value)}
+              <Input aria-label="Talking point" value={pt} onChange={e => updatePoint(idx, e.target.value)}
                 placeholder="Enter a talking point..."
                 className="nv-input min-w-0 flex-1" />
               <Button size="icon" variant="ghost" onClick={() => removePoint(idx)}
@@ -237,10 +237,10 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
             <div key={idx} className="nv-card nv-card--muted space-y-3 p-4">
               <div className="flex gap-2 items-start">
                 <div className="min-w-0 flex-1 space-y-2">
-                  <Input value={req.accommodation} onChange={e => updateAccommodation(idx, 'accommodation', e.target.value)}
+                  <Input aria-label="Accommodation being requested" value={req.accommodation} onChange={e => updateAccommodation(idx, 'accommodation', e.target.value)}
                     placeholder="Accommodation being requested..."
                     className="nv-input" />
-                  <Textarea value={req.reason} onChange={e => updateAccommodation(idx, 'reason', e.target.value)}
+                  <Textarea aria-label="Reason for accommodation" value={req.reason} onChange={e => updateAccommodation(idx, 'reason', e.target.value)}
                     placeholder="Why you need this accommodation (medical basis)..."
                     className="nv-input min-h-[55px] text-sm" />
                 </div>
@@ -290,7 +290,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
         <CardContent className="space-y-2">
           {form.documents_to_bring.map((doc, idx) => (
             <div key={idx} className="flex gap-2">
-              <Input value={doc} onChange={e => updateDocument(idx, e.target.value)}
+              <Input aria-label="Document to bring" value={doc} onChange={e => updateDocument(idx, e.target.value)}
                 placeholder="e.g., Doctor's note, ADA accommodation letter..."
                 className="nv-input min-w-0 flex-1" />
               <Button size="icon" variant="ghost" onClick={() => removeDocument(idx)}

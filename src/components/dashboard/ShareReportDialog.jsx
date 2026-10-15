@@ -244,6 +244,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
             </Label>
             <Input
               type="email"
+              aria-label="Email report (optional)"
               placeholder="healthcare.provider@example.com"
               value={recipientEmail}
               onChange={(e) => setRecipientEmail(e.target.value)}

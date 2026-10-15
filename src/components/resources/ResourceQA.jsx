@@ -95,12 +95,14 @@ function QuestionItem({ post, currentUser }) {
           {showReplyForm ? (
             <div className="px-4 py-3 border-t border-brand-border space-y-2">
               <Input
+                aria-label="Your name (optional)"
                 placeholder="Your name (optional)"
                 value={replyName}
                 onChange={e => setReplyName(e.target.value)}
                 className="h-8 text-xs border-brand-border"
               />
               <Textarea
+                aria-label="Share your answer or experience"
                 placeholder="Share your answer or experience..."
                 value={replyText}
                 onChange={e => setReplyText(e.target.value)}
@@ -205,18 +207,21 @@ export default function ResourceQA({ resourceId, currentUser }) {
             <div className="nv-card nv-card--muted p-4 space-y-3">
               <p className="text-xs font-semibold text-brand-primary">Ask a Question</p>
               <Input
+                aria-label="Your name (optional)"
                 placeholder="Your name (optional)"
                 value={authorName}
                 onChange={e => setAuthorName(e.target.value)}
                 className="h-8 text-xs border-brand-border"
               />
               <Input
+                aria-label="Question title"
                 placeholder="Question title (e.g. 'How do I access this resource?')"
                 value={questionTitle}
                 onChange={e => setQuestionTitle(e.target.value)}
                 className="text-sm border-brand-border"
               />
               <Textarea
+                aria-label="Add more detail about your question"
                 placeholder="Add more detail about your question..."
                 value={questionContent}
                 onChange={e => setQuestionContent(e.target.value)}

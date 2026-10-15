@@ -117,6 +117,7 @@ export default function Contact() {
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-brand-text">Your Name</label>
                   <Input
+                    aria-label="Your name"
                     placeholder="Jane Smith"
                     value={form.name}
                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
@@ -127,6 +128,7 @@ export default function Contact() {
                   <label className="text-sm font-semibold text-brand-text">Email Address</label>
                   <Input
                     type="email"
+                    aria-label="Email address"
                     placeholder="jane@example.com"
                     value={form.email}
                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
@@ -137,6 +139,7 @@ export default function Contact() {
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-brand-text">Message</label>
                 <textarea
+                  aria-label="Message"
                   rows={5}
                   placeholder="Tell us how we can help…"
                   value={form.message}

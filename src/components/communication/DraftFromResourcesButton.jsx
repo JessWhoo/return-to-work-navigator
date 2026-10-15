@@ -128,6 +128,7 @@ export default function DraftFromResourcesButton() {
               Anything specific to mention? <span className="font-normal text-muted-foreground">(optional)</span>
             </Label>
             <Textarea
+              aria-label="Anything specific to mention (optional)"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="E.g. I'd like flexible start times and 2 remote days per week during treatment."

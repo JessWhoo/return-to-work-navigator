@@ -99,6 +99,7 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
         </CardHeader>
         <CardContent>
           <textarea
+            aria-label="Job description"
             value={jobDescription}
             onChange={e => setJobDescription(e.target.value)}
             placeholder="Paste the full job description here (requirements, responsibilities, qualifications)..."

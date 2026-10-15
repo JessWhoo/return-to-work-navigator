@@ -112,7 +112,7 @@ export default function TalkingPointsGenerator({ onSaved }) {
               </button>
             ))}
           </div>
-          <Textarea value={customConstraints} onChange={(e) => setCustomConstraints(e.target.value)}
+          <Textarea aria-label="Additional work constraints" value={customConstraints} onChange={(e) => setCustomConstraints(e.target.value)}
             placeholder="Anything else? (e.g. 'I commute 90 minutes each way')" className="mt-2 text-sm" rows={2} />
         </div>
         <div>

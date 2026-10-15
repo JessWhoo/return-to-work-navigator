@@ -119,6 +119,7 @@ export default function SuggestResourceDialog() {
             <div>
               <label className="text-sm font-medium mb-2 block">Resource Name *</label>
               <Input
+                aria-label="Resource name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g., Cancer and Careers Toolkit"
@@ -128,6 +129,7 @@ export default function SuggestResourceDialog() {
             <div>
               <label className="text-sm font-medium mb-2 block">Organization</label>
               <Input
+                aria-label="Organization"
                 value={formData.organization}
                 onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
                 placeholder="e.g., Cancer and Careers"
@@ -138,6 +140,7 @@ export default function SuggestResourceDialog() {
           <div>
             <label className="text-sm font-medium mb-2 block">URL *</label>
             <Input
+              aria-label="URL"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               placeholder="https://..."
@@ -148,6 +151,7 @@ export default function SuggestResourceDialog() {
           <div>
             <label className="text-sm font-medium mb-2 block">Description *</label>
             <Textarea
+              aria-label="Description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Brief description of what this resource provides..."
@@ -187,6 +191,7 @@ export default function SuggestResourceDialog() {
             <label className="text-sm font-medium mb-2 block">Topics</label>
             <div className="flex gap-2 mb-2">
               <Input
+                aria-label="Add topics"
                 value={topicInput}
                 onChange={(e) => setTopicInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTopic())}
@@ -213,6 +218,7 @@ export default function SuggestResourceDialog() {
           <div>
             <label className="text-sm font-medium mb-2 block">Additional Notes</label>
             <Textarea
+              aria-label="Additional notes"
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               placeholder="Any additional context about why this resource would be helpful..."

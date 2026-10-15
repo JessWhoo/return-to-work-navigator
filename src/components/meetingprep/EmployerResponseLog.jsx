@@ -169,7 +169,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label className="text-xs text-brand-muted-foreground mb-1 block">Date</label>
-                <Input type="date" value={newResponse.date}
+                <Input aria-label="Date" type="date" value={newResponse.date}
                   onChange={e => setNewResponse(p => ({ ...p, date: e.target.value }))}
                   className="nv-input" />
               </div>
@@ -182,14 +182,16 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
             </div>
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">What did the employer say?</label>
-              <Textarea value={newResponse.response_text}
+              <Textarea aria-label="What did the employer say?"
+                value={newResponse.response_text}
                 onChange={e => setNewResponse(p => ({ ...p, response_text: e.target.value }))}
                 placeholder="Describe the employer's response..."
                 className="nv-input min-h-[80px]" />
             </div>
             <div>
               <label className="text-xs text-brand-muted-foreground mb-1 block">Additional Notes</label>
-              <Input value={newResponse.notes}
+              <Input aria-label="Additional notes"
+                value={newResponse.notes}
                 onChange={e => setNewResponse(p => ({ ...p, notes: e.target.value }))}
                 placeholder="Any additional context..."
                 className="nv-input" />

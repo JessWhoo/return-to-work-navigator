@@ -122,6 +122,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
           <div>
             <Label>Title *</Label>
             <Input
+              aria-label="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Brief description of this record"
@@ -132,6 +133,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
           <div>
             <Label>Date *</Label>
             <Input
+              aria-label="Date"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
@@ -144,16 +146,19 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
             <div className="nv-card nv-card--pink space-y-4 p-4">
               <h4 className="font-semibold text-brand-text">Medical Details</h4>
               <Input
+                aria-label="Doctor's name"
                 placeholder="Doctor's Name"
                 value={medicalDetails.doctor_name || ''}
                 onChange={(e) => setMedicalDetails({ ...medicalDetails, doctor_name: e.target.value })}
               />
               <Input
+                aria-label="Work restrictions"
                 placeholder="Work Restrictions"
                 value={medicalDetails.work_restrictions || ''}
                 onChange={(e) => setMedicalDetails({ ...medicalDetails, work_restrictions: e.target.value })}
               />
               <Input
+                aria-label="Next appointment"
                 type="date"
                 placeholder="Next Appointment"
                 value={medicalDetails.next_appointment || ''}
@@ -179,6 +184,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
                 ]}
               />
               <Textarea
+                aria-label="Outcomes and action items"
                 placeholder="Outcomes and action items"
                 value={workplaceDetails.outcomes || ''}
                 onChange={(e) => setWorkplaceDetails({ ...workplaceDetails, outcomes: e.target.value })}
@@ -190,6 +196,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
           <div>
             <Label>Notes *</Label>
             <Textarea
+              aria-label="Notes"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Detailed notes..."
@@ -202,6 +209,7 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
             <Label>Tags</Label>
             <div className="flex gap-2 mt-2">
               <Input
+                aria-label="Add tag"
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}

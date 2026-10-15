@@ -223,7 +223,7 @@ export default function ConversationSimulator({ meeting }) {
         <div ref={bottomRef} />
       </div>
       <div className="flex gap-2">
-        <textarea rows={2} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
+        <textarea aria-label="Type your response" rows={2} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
           placeholder="Type your response as you would say it in the real meeting… (Enter to send)" disabled={loading}
           className="nv-input flex-1 min-w-0 px-3 py-2 text-sm resize-none disabled:opacity-50" />
         <Button onClick={sendMessage} disabled={loading || !input.trim()} aria-label="Send response" size="icon" className="self-end"><Send className="h-4 w-4" /></Button>

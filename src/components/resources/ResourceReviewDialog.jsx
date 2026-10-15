@@ -117,7 +117,7 @@ export default function ResourceReviewDialog({ resourceId, resourceName, trigger
           </div>
           <div>
             <label className="text-sm font-semibold mb-2 block">Your Review (Optional)</label>
-            <Textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience with this resource..." className="min-h-[100px]" />
+            <Textarea aria-label="Your review (optional)" value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience with this resource..." className="min-h-[100px]" />
           </div>
           <div>
             <label className="text-sm font-semibold mb-2 block">What was this most helpful for?</label>
