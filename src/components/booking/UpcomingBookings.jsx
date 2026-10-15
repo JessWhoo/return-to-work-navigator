@@ -75,14 +75,14 @@ export default function UpcomingBookings({ enabled = true }) {
             <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-slate-900 font-bold">
-                  <Calendar className="h-4 w-4 text-rose-600" />
+                  <Calendar className="h-4 w-4 text-rose-600" aria-hidden="true" />
                   <span>{dateLabel}</span>
                   <span className="text-slate-400">·</span>
-                  <Clock className="h-4 w-4 text-sky-600" />
+                  <Clock className="h-4 w-4 text-sky-600" aria-hidden="true" />
                   <span>{b.requested_time}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-sm text-slate-700 font-medium">
-                  <FormatIcon className="h-4 w-4 text-emerald-600" />
+                  <FormatIcon className="h-4 w-4 text-emerald-600" aria-hidden="true" />
                   <span>{b.session_format === 'phone' ? 'Phone' : 'Video'} · {b.duration_minutes || 30} min</span>
                   <span className="text-slate-400">·</span>
                   <span>{TOPIC_LABELS[b.topic] || b.topic}</span>
@@ -100,7 +100,7 @@ export default function UpcomingBookings({ enabled = true }) {
                   onClick={() => cancelMutation.mutate(b.id)}
                   className="border-2 border-slate-300 text-slate-800 hover:bg-slate-100"
                 >
-                  <X className="h-4 w-4 mr-1" /> Cancel
+                  <X className="h-4 w-4 mr-1" aria-hidden="true" /> Cancel
                 </Button>
               </div>
             </CardContent>

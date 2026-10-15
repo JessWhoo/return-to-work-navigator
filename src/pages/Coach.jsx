@@ -260,7 +260,7 @@ export default function Coach() {
         />
         <div className="flex h-64 items-center justify-center">
           <div className="space-y-3 text-center">
-            <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
+            <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" aria-hidden="true" />
             <p className="text-sm font-semibold text-foreground">Loading your coach...</p>
           </div>
         </div>
@@ -299,7 +299,7 @@ export default function Coach() {
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-pill bg-primary text-primary-foreground">
-                  <Bot className="h-5 w-5" />
+                  <Bot className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-foreground">AI Return-to-Work Coach</h3>
@@ -333,7 +333,7 @@ export default function Coach() {
             <CardHeader className="border-b border-border">
               <div className="flex items-center justify-between gap-3">
                 <CardTitle className="flex min-w-0 items-center gap-2 text-lg sm:text-xl">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
                   <span>Chat with Your Coach</span>
                 </CardTitle>
                 {currentConversation && (
@@ -355,7 +355,7 @@ export default function Coach() {
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-xl space-y-5 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
-                      <MessageSquare className="h-10 w-10" />
+                      <MessageSquare className="h-10 w-10" aria-hidden="true" />
                     </div>
                     <div>
                       <h2 className="mb-2 text-2xl font-bold text-foreground">
@@ -389,7 +389,7 @@ export default function Coach() {
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-md space-y-4 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
-                      <MessageSquare className="h-10 w-10" />
+                      <MessageSquare className="h-10 w-10" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="mb-2 text-2xl font-bold text-foreground">
@@ -413,7 +413,7 @@ export default function Coach() {
                       <Button
                         onClick={() => createConversationMutation.mutate()}
                       >
-                        <Plus className="h-4 w-4" />
+                        <Plus className="h-4 w-4" aria-hidden="true" />
                         Start New Conversation
                       </Button>
                     </div>
@@ -422,7 +422,7 @@ export default function Coach() {
               ) : messages.length === 0 ? (
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-md space-y-4 text-center">
-                    <Bot className="mx-auto h-16 w-16 text-primary" />
+                    <Bot className="mx-auto h-16 w-16 text-primary" aria-hidden="true" />
                     <div>
                       <h3 className="mb-2 text-xl font-bold text-foreground">
                         Ready to Talk?
@@ -506,9 +506,9 @@ export default function Coach() {
                   className="self-end"
                 >
                   {sendMessageMutation.isPending ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
                   ) : (
-                    <Send className="h-5 w-5" />
+                    <Send className="h-5 w-5" aria-hidden="true" />
                   )}
                 </Button>
               </div>

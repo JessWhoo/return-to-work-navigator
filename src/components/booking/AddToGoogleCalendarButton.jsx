@@ -59,7 +59,7 @@ export default function AddToGoogleCalendarButton({ booking }) {
       onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
       className="border-2 border-sky-300 text-sky-800 hover:bg-sky-50 font-bold"
     >
-      <CalendarPlus className="h-4 w-4 mr-1" /> Add to Google Calendar
+      <CalendarPlus className="h-4 w-4 mr-1" aria-hidden="true" /> Add to Google Calendar
     </Button>
   );
 }

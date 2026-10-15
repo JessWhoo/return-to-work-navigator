@@ -48,7 +48,7 @@ export default function CoachBooking() {
           <Card key={title}>
             <CardContent className="flex items-start gap-3 p-4">
               <span className="mt-0.5 flex-shrink-0 rounded-pill bg-brand-muted p-2 text-brand-primary">
-                <Icon className="h-5 w-5" />
+                <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
                 <p className="text-sm font-bold text-brand-text">{title}</p>
@@ -73,7 +73,7 @@ export default function CoachBooking() {
           ) : !isAuthenticated ? (
             <div className="space-y-4 py-8 text-center">
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-pill bg-brand-muted text-brand-primary">
-                <LogIn className="h-7 w-7" />
+                <LogIn className="h-7 w-7" aria-hidden="true" />
               </span>
               <div className="space-y-1">
                 <p className="text-lg font-bold text-brand-text">Sign in to book a session</p>

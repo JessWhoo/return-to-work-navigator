@@ -170,7 +170,7 @@ export default function CoachBookingForm({ user, onBooked }) {
       {/* Date picker */}
       <div>
         <Label className="text-slate-900 font-bold text-base flex items-center gap-2 mb-3">
-          <CalendarIcon className="h-4 w-4 text-rose-600" />
+          <CalendarIcon className="h-4 w-4 text-rose-600" aria-hidden="true" />
           Choose a date
         </Label>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2">
@@ -206,7 +206,7 @@ export default function CoachBookingForm({ user, onBooked }) {
       {/* Time picker */}
       <div>
         <Label className="text-slate-900 font-bold text-base flex items-center gap-2 mb-3">
-          <Clock className="h-4 w-4 text-sky-600" />
+          <Clock className="h-4 w-4 text-sky-600" aria-hidden="true" />
           Choose a time
           <span className="ml-2 text-xs font-semibold text-slate-600">({timezone})</span>
           {loadingAvailability && (
@@ -269,7 +269,7 @@ export default function CoachBookingForm({ user, onBooked }) {
                   : 'border-slate-300 bg-white text-slate-800 hover:border-emerald-400'
               }`}
             >
-              <Video className="h-4 w-4" /> Video
+              <Video className="h-4 w-4" aria-hidden="true" /> Video
             </button>
             <button
               type="button"
@@ -280,7 +280,7 @@ export default function CoachBookingForm({ user, onBooked }) {
                   : 'border-slate-300 bg-white text-slate-800 hover:border-emerald-400'
               }`}
             >
-              <Phone className="h-4 w-4" /> Phone
+              <Phone className="h-4 w-4" aria-hidden="true" /> Phone
             </button>
           </div>
         </div>
@@ -347,7 +347,7 @@ export default function CoachBookingForm({ user, onBooked }) {
       >
         {submitting ? 'Booking your session…' : (
           <span className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5" /> Request this session
+            <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> Request this session
           </span>
         )}
       </Button>
