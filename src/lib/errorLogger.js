@@ -63,13 +63,30 @@ function maybeRecoverFromStorm(now) {
   setTimeout(reload, 3000); // hard fallback if purge hangs
 }
 
+export function isIgnorableExternalError(message, source = '', stack = '') {
+  const msg = String(message || '').trim();
+  const src = String(source || '').trim();
+  const stk = String(stack || '').trim();
+  if (!msg || /^Script error\.?$/i.test(msg)) return true;
+  if (msg.includes('window.ethereum') || msg.includes('selectedAddress')) return true;
+  if (/^(chrome|moz|safari|webkit-masked)-extension:\/\//i.test(src)) return true;
+  if (/^(chrome|moz|safari|webkit-masked)-extension:\/\//i.test(stk)) return true;
+  return false;
+}
+
 export function logError(type, error, extra = {}) {
+  const message = error?.message || String(error || '');
+  const stack = error?.stack || null;
+  if (isIgnorableExternalError(message, extra?.source, stack)) {
+    return null;
+  }
+
   const entry = {
     type,
     time: new Date().toISOString(),
     url: window.location.pathname + window.location.search,
-    message: error?.message || String(error),
-    stack: error?.stack || null,
+    message,
+    stack,
     ...extra,
   };
 
@@ -111,16 +128,24 @@ export function logError(type, error, extra = {}) {
 
 export function installGlobalErrorLogging() {
   window.addEventListener('error', (event) => {
-    // "Script error." with no detail = cross-origin script; note it explicitly.
-    const isOpaque = event.message === 'Script error.' && !event.error;
+    const message = event?.error?.message || event?.message || '';
+    if (isIgnorableExternalError(message, event?.filename, event?.error?.stack)) {
+      event.preventDefault?.();
+      return;
+    }
     logError('GlobalError', event.error || new Error(event.message), {
-      source: event.filename || (isOpaque ? '(cross-origin script — no details available)' : null),
+      source: event.filename || null,
       line: event.lineno,
       col: event.colno,
     });
   });
 
   window.addEventListener('unhandledrejection', (event) => {
+    const message = event?.reason?.message || String(event?.reason || '');
+    if (isIgnorableExternalError(message, '', event?.reason?.stack)) {
+      event.preventDefault?.();
+      return;
+    }
     logError('UnhandledRejection', event.reason);
   });
 

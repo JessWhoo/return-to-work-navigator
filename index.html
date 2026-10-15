@@ -2,6 +2,73 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function () {
+        try {
+          if (typeof window !== 'undefined') {
+            if (!window.ethereum) {
+              Object.defineProperty(window, 'ethereum', {
+                value: {
+                  selectedAddress: null,
+                  isMetaMask: false,
+                  request: function () { return Promise.resolve(null); },
+                  on: function () {},
+                  removeListener: function () {},
+                },
+                writable: true,
+                configurable: true,
+              });
+            } else {
+              var desc = Object.getOwnPropertyDescriptor(window.ethereum, 'selectedAddress');
+              if (desc && desc.get && !desc.set && desc.configurable) {
+                Object.defineProperty(window.ethereum, 'selectedAddress', {
+                  get: desc.get,
+                  set: function () {},
+                  configurable: true,
+                });
+              } else if (!('selectedAddress' in window.ethereum)) {
+                try { window.ethereum.selectedAddress = null; } catch (_) {}
+              }
+            }
+
+            var isThirdPartyNoise = function (msg, filename) {
+              var m = String(msg || '');
+              var f = String(filename || '');
+              if (/^Script error\.?$/i.test(m)) return true;
+              if (m.indexOf('window.ethereum') !== -1 || m.indexOf('selectedAddress') !== -1) return true;
+              if (/^(chrome|moz|safari|webkit-masked)-extension:\/\//i.test(f)) return true;
+              return false;
+            };
+
+            window.addEventListener(
+              'error',
+              function (event) {
+                if (isThirdPartyNoise(event && event.message, event && event.filename)) {
+                  event.preventDefault();
+                  event.stopImmediatePropagation();
+                  return false;
+                }
+              },
+              true
+            );
+
+            window.addEventListener(
+              'unhandledrejection',
+              function (event) {
+                var reason = event && event.reason;
+                var msg = reason && (reason.message || String(reason));
+                if (isThirdPartyNoise(msg, '')) {
+                  event.preventDefault();
+                  event.stopImmediatePropagation();
+                  return false;
+                }
+              },
+              true
+            );
+          }
+        } catch (_) {}
+      })();
+    </script>
     <link rel="icon" type="image/png" href="https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png" />
     <link rel="apple-touch-icon" href="https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />

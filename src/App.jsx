@@ -68,6 +68,7 @@ if (typeof document !== 'undefined' && !window.__gads_loaded) {
     const s = document.createElement('script');
     s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18498327009';
     s.async = true;
+    s.onerror = () => {};
     document.head.appendChild(s);
     window.gtag('js', new Date());
     window.gtag('config', 'AW-18498327009', { send_page_view: false });
