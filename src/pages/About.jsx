@@ -19,7 +19,7 @@ export default function About() {
   useSEO({
     title: 'About Jess Whorton & Our Cancer Survivorship Mission',
     description:
-      'Meet founder Jess Whorton and learn how Back to Life, Back to Work Navigator empowers cancer survivors with practical workplace tools, legal guides, and peer support.',
+      'Meet founder Jess Whorton and learn how Return to Work Navigator empowers cancer survivors with practical workplace tools, legal guides, and peer support.',
     path: '/About',
   });
 
@@ -29,7 +29,7 @@ export default function About() {
       <PageHeader
         center
         eyebrow="Our story"
-        title="About Back to Life, Back to Work Navigator"
+        title="About Return to Work Navigator"
         subtitle="A compassionate, comprehensive toolkit built for cancer survivors navigating the journey back to the workplace."
         className="nv-card nv-card--muted p-5 sm:p-8"
       />
@@ -51,7 +51,7 @@ export default function About() {
             <div className="flex-1 space-y-3">
               <div>
                 <p className="font-heading text-2xl font-bold text-brand-text">Jess Whorton</p>
-                <p className="text-base font-semibold text-brand-primary">Founder &amp; Creator — Back to Life, Back to Work Navigator</p>
+                <p className="text-base font-semibold text-brand-primary">Founder &amp; Creator — Return to Work Navigator</p>
                 <p className="mt-1 text-sm font-semibold text-brand-text">
                   14-year breast cancer survivor &middot; 15+ years in Human Resources &middot; B.S. in Human Resources Management, WGU
                 </p>
@@ -84,7 +84,7 @@ export default function About() {
         <CardContent className="space-y-4 p-5 sm:p-8">
           <h2 className="font-heading text-2xl font-bold sm:text-3xl text-brand-text">What We Do</h2>
           <p className="text-base text-brand-text">
-            The Back to Life, Back to Work Navigator is a free, all-in-one digital companion designed to guide cancer
+            The Return to Work Navigator is a free, all-in-one digital companion designed to guide cancer
             survivors through every phase of returning to employment after treatment. Returning to work after a cancer
             diagnosis is rarely straightforward — physical fatigue, cognitive changes, emotional anxiety, legal
             questions, and workplace communication challenges can all feel overwhelming at once.
