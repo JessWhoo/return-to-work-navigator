@@ -4,17 +4,23 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { FileText, Bookmark, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 import ProgressReportTab from '../components/community/ProgressReportTab';
 import SharedResourcesTab from '../components/community/SharedResourcesTab';
-import ForumTab from '@/components/community/ForumTab';
 import useSEO from '@/hooks/useSEO';
 import PageHeader from '@/components/brand/PageHeader';
 
-const EXPERT_LINKS = [
+const COMMUNITY_LINKS = [
   {
     to: '/ExpertAdvice',
     icon: Sparkles,
     eyebrow: 'Expert guidance',
     title: 'Expert Advice & Answers',
     text: 'Professional tips on workplace adjustments and career conversations, plus real survivor questions answered by attorneys and oncology pros.',
+  },
+  {
+    to: '/ExpertAdvice?tab=forum',
+    icon: MessageCircle,
+    eyebrow: 'Peer support',
+    title: 'Community Forum',
+    text: 'Ask a question, share what worked for you, and talk with other cancer survivors facing the same return-to-work decisions.',
   },
 ];
 
@@ -35,7 +41,7 @@ export default function CommunityHub() {
       />
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {EXPERT_LINKS.map(({ to, icon: Icon, eyebrow, title, text }) => (
+        {COMMUNITY_LINKS.map(({ to, icon: Icon, eyebrow, title, text }) => (
           <Link key={to} to={to} className="nv-resource">
             <div className="nv-media" />
             <div className="nv-body">
@@ -62,15 +68,10 @@ export default function CommunityHub() {
             <Bookmark className="h-4 w-4" />
             <span >Resources</span>
           </TabsTrigger>
-          <TabsTrigger value="forum" className="nv-tab">
-            <MessageCircle className="h-4 w-4" />
-            <span >Forum</span>
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="report"><ProgressReportTab /></TabsContent>
         <TabsContent value="resources"><SharedResourcesTab /></TabsContent>
-        <TabsContent value="forum" className="mt-4"><ForumTab /></TabsContent>
       </Tabs>
     </div>
   );
