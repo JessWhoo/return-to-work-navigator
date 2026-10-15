@@ -427,7 +427,10 @@ export default function JobBoards({ embedded = false }) {
                             <p className="text-sm leading-relaxed text-muted-foreground">{board.description}</p>
                           </div>
                           <button
+                            type="button"
                             onClick={() => toggleBookmark(board.name)}
+                            aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark this board'}
+                            aria-pressed={isBookmarked}
                             className={`flex-shrink-0 rounded-brand p-1.5 transition-all ${isBookmarked ? 'bg-muted text-primary' : 'text-muted-foreground hover:bg-muted hover:text-primary'}`}
                             title={isBookmarked ? 'Remove bookmark' : 'Bookmark this board'}
                           >
@@ -437,9 +440,15 @@ export default function JobBoards({ embedded = false }) {
 
                         <div className="flex flex-wrap gap-1.5">
                           {board.tags.map(tag => (
-                            <span key={tag} className="cursor-pointer rounded-pill border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:border-primary" onClick={() => setActiveFilter(tag)}>
+                            <button
+                              key={tag}
+                              type="button"
+                              aria-pressed={activeFilter === tag}
+                              className="cursor-pointer rounded-pill border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:border-primary"
+                              onClick={() => setActiveFilter(tag)}
+                            >
                               {tag}
-                            </span>
+                            </button>
                           ))}
                         </div>
 
