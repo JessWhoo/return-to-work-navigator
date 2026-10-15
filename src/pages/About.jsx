@@ -52,12 +52,18 @@ export default function About() {
               <div>
                 <p className="font-heading text-2xl font-bold text-brand-text">Jess Whorton</p>
                 <p className="text-base font-semibold text-brand-primary">Founder &amp; Creator — Back to Life, Back to Work Navigator</p>
+                <p className="mt-1 text-sm font-semibold text-brand-text">
+                  14-year breast cancer survivor &middot; 15+ years in Human Resources &middot; B.S. in Human Resources Management, WGU
+                </p>
               </div>
               <p className="text-base text-brand-text">
-                As a cancer survivor herself, our founder knows firsthand how isolating and overwhelming the return-to-work
-                journey can feel. After navigating her own diagnosis, treatment, and the difficult conversations that
-                followed with employers, HR, and coworkers, she realized how little practical support existed for people
-                trying to rebuild their careers while healing.
+                As a 14-year breast cancer survivor and an HR professional with over 15 years of experience, Jess knows
+                firsthand how isolating and overwhelming the return-to-work journey can feel. After navigating her own
+                diagnosis, treatment, and the difficult conversations that followed with employers, HR, and coworkers,
+                she realized how little practical support existed for people trying to rebuild their careers while
+                healing. Her background in Human Resources — backed by a B.S. in Human Resources Management from Western
+                Governors University — gives her a unique understanding of both the survivor's and the employer's side of
+                the return-to-work conversation.
               </p>
               <p className="text-base text-brand-text">
                 She founded the Navigator to be the resource she wished she'd had — a warm, judgment-free companion that
