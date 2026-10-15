@@ -15,12 +15,8 @@ export default function AIProgressInsights({ progress }) {
     queryFn: async () => {
       if (!progress) return null;
 
-      // Fetch recent records for additional context
-      const records = await base44.entities.Record.list('-date', 20);
-      
-      // Prepare data for AI analysis
+      // Prepare data for AI analysis (non-medical: energy pacing, mood, stress, and checklist progress only)
       const recentEnergyLogs = progress.energy_logs?.slice(-14) || [];
-      const symptomRecords = records.filter(r => r.type === 'symptom');
       
       const analysisData = {
         energy_trends: recentEnergyLogs.map(log => ({
@@ -38,19 +34,10 @@ export default function AIProgressInsights({ progress }) {
         accommodations: progress.accommodations_requested?.length || 0,
         // Scoped to this checklist's ids so the number matches the Checklist page.
         checklist_progress: getCompletedChecklistIds(progress.completed_checklist_items).length,
-        recent_symptoms: symptomRecords.slice(0, 5).map(s => ({
-          date: s.date,
-          type: s.symptom_details?.symptom_type,
-          severity: s.symptom_details?.severity,
-          triggers: s.symptom_details?.triggers
-        }))
       };
 
       const energyTrendsText = analysisData.energy_trends.slice(-14).map(log =>
         `${log.date}: Energy ${log.avg.toFixed(1)}/10 (Morning: ${log.morning}, Afternoon: ${log.afternoon}, Evening: ${log.evening}), Mood: ${log.mood}, Stress: ${log.stress}/10${log.notes ? `, Notes: ${log.notes}` : ''}`
-      ).join('\n');
-      const recentSymptomsText = analysisData.recent_symptoms.map(s =>
-        `${s.date}: ${s.type?.join(', ') || 'N/A'} - Severity ${s.severity}/10${s.triggers ? `, Triggers: ${s.triggers}` : ''}`
       ).join('\n');
       const response = (await base44.functions.invoke('aiGateway', {
         operation: 'progress_insights',
@@ -60,7 +47,7 @@ export default function AIProgressInsights({ progress }) {
           accommodations: analysisData.accommodations,
           checklist_progress: analysisData.checklist_progress,
           energyTrendsText,
-          recentSymptomsText,
+          recentSymptomsText: '',
         },
       })).data.result;
 

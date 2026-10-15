@@ -20,7 +20,6 @@ export default function WhatIfScenarios({ progress }) {
   const scenarioMutation = useMutation({
     mutationFn: async (scenarioConfig) => {
       const recentEnergyLogs = progress.energy_logs?.slice(-30) || [];
-      const symptomRecords = await base44.entities.Record.filter({ type: 'symptom' }, '-date', 30);
 
       // Calculate current baselines
       const avgEnergy = recentEnergyLogs.length > 0
@@ -33,23 +32,12 @@ export default function WhatIfScenarios({ progress }) {
         ? recentEnergyLogs.reduce((sum, log) => sum + (log.stress_level || 0), 0) / recentEnergyLogs.length
         : 0;
 
-      const avgSymptomSeverity = symptomRecords.length > 0
-        ? symptomRecords.reduce((sum, s) => sum + (s.symptom_details?.severity || 0), 0) / symptomRecords.length
-        : 0;
-
       const baselineText = `- Average Energy Level: ${avgEnergy.toFixed(1)}/10 (last 30 days)
 - Average Stress Level: ${avgStress.toFixed(1)}/10
-- Average Symptom Severity: ${avgSymptomSeverity.toFixed(1)}/10
-- Recent Symptom Frequency: ${symptomRecords.length} symptoms in 30 days
 - Journey Stage: ${progress.journey_stage || 'planning'}`;
       const recentPatternsText = `Energy Logs (last 7 days):
 ${recentEnergyLogs.slice(-7).map(log =>
   `${log.date}: Energy ${((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1)}/10, Stress ${log.stress_level}/10, Mood: ${log.mood}`
-).join('\n')}
-
-Recent Symptoms:
-${symptomRecords.slice(0, 5).map(s =>
-  `${s.date}: ${s.title} (Severity ${s.symptom_details?.severity}/10)`
 ).join('\n')}`;
       const scenarioText = `${scenarioConfig.type === 'work_hours' ? `Increase work hours by ${scenarioConfig.change_amount} hours per ${scenarioConfig.timeframe}` : ''}
 ${scenarioConfig.type === 'reduce_hours' ? `Decrease work hours by ${scenarioConfig.change_amount} hours per ${scenarioConfig.timeframe}` : ''}
@@ -200,10 +188,7 @@ ${scenarioConfig.type === 'add_activity' ? `Add ${scenarioConfig.change_amount} 
                     <span className="text-brand-muted-foreground">Stress:</span> {scenarioMutation.data.predicted_impacts.stress_change}
                   </p>
                   <p className="text-brand-text">
-                    <span className="text-brand-muted-foreground">Symptoms:</span> {scenarioMutation.data.predicted_impacts.symptom_likelihood}
-                  </p>
-                  <p className="text-brand-text">
-                    <span className="text-brand-muted-foreground">Fatigue:</span> {scenarioMutation.data.predicted_impacts.fatigue_risk}
+                    <span className="text-brand-muted-foreground">Workday Pacing &amp; Fatigue:</span> {scenarioMutation.data.predicted_impacts.fatigue_risk}
                   </p>
                 </div>
               </div>

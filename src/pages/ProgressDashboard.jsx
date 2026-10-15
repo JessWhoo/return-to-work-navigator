@@ -16,8 +16,6 @@ import { format, parseISO, differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import ShareReportDialog from '../components/dashboard/ShareReportDialog';
 import AIProgressInsights from '../components/dashboard/AIProgressInsights';
-import PredictiveHealthAlerts from '../components/health/PredictiveHealthAlerts';
-import ActivitySymptomCorrelations from '../components/health/ActivitySymptomCorrelations';
 import WhatIfScenarios from '../components/health/WhatIfScenarios';
 import ComparativeInsights from '../components/health/ComparativeInsights';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -29,7 +27,7 @@ export default function ProgressDashboard({ embedded = false }) {
   useSEO({
     title: 'Return-to-Work Energy, Mood & Milestone Analytics',
     description:
-      'Visualize your daily energy trends, mood distribution, symptom correlations, and checklist completion as you transition back to work.',
+      'Visualize your daily workday energy trends, mood distribution, and four-phase checklist completion as you transition back to work.',
     path: '/ProgressDashboard',
     enabled: !embedded,
   });
@@ -198,7 +196,7 @@ export default function ProgressDashboard({ embedded = false }) {
         <div>
           <p className="nv-eyebrow nv-eyebrow--primary">Your journey</p>
           <HeadingTag className="mt-1 font-heading text-3xl font-bold text-brand-text">Return-to-Work Progress &amp; Energy Analytics Dashboard</HeadingTag>
-          <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, symptom patterns, and four-phase preparation checklist completion.</p>
+          <p className="mt-2 text-brand-muted-foreground">Visualize your daily energy trends, mood distribution, and four-phase preparation checklist completion.</p>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {checklistData.map((phase, idx) => (
@@ -217,7 +215,7 @@ export default function ProgressDashboard({ embedded = false }) {
             <Activity className="mx-auto h-12 w-12 text-brand-primary" />
             <h3 className="font-heading text-xl font-bold text-brand-text">Track Your Personal Return-to-Work Analytics</h3>
             <p className="mx-auto max-w-2xl text-sm text-brand-muted-foreground">
-              Log your morning, afternoon, and evening energy levels, monitor post-treatment symptom trends, check off preparation milestones, and export printable PDF summaries for your oncology care team or HR department.
+              Log your morning, afternoon, and evening workday energy levels, check off preparation milestones, and export printable PDF summaries for your records or HR meetings.
             </p>
           </CardContent>
         </Card>
@@ -263,13 +261,8 @@ export default function ProgressDashboard({ embedded = false }) {
       {/* AI Progress Insights */}
       <AIProgressInsights progress={progress} />
 
-      {/* Advanced Analytics */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PredictiveHealthAlerts progress={progress} />
-        <ComparativeInsights progress={progress} />
-      </div>
-
-      <ActivitySymptomCorrelations progress={progress} />
+      {/* Week-over-Week & Schedule Scenarios */}
+      <ComparativeInsights progress={progress} />
       
       <WhatIfScenarios progress={progress} />
 
