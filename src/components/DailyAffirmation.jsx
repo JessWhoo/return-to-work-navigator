@@ -200,6 +200,7 @@ export default function DailyAffirmation({ progress }) {
                       onClick={() => updateMutation.mutate({ id: a.id, updates: { is_saved: false } })}
                       className="text-purple-500 hover:text-red-400 transition-colors shrink-0"
                       title="Remove from favorites"
+                      aria-label="Remove from favorites"
                     >
                       <HeartOff className="h-4 w-4" />
                     </button>
