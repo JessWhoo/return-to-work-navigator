@@ -22,7 +22,7 @@ import {
 import { 
   User, Mail, Calendar, TrendingUp, BookmarkCheck, 
   FileText, Bell, Shield, CheckCircle2, Award, Target, Trash2, AlertTriangle,
-  BarChart3
+  BarChart3, CreditCard, Loader2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -45,6 +45,8 @@ export default function Profile({ embedded = false }) {
   const [editedName, setEditedName] = useState('');
   const [confirmText, setConfirmText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['currentUser'],
@@ -75,6 +77,12 @@ export default function Profile({ embedded = false }) {
     queryFn: () => base44.entities.ResourceSuggestion.list(),
     enabled: !isLoadingAuth && !!isAuthenticated,
     initialData: []
+  });
+
+  const { data: subscription } = useQuery({
+    queryKey: ['premiumAccess'],
+    queryFn: () => base44.functions.invoke('check-premium-access', {}).then(r => r.data),
+    enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
   const updateUserMutation = useMutation({
@@ -129,6 +137,23 @@ export default function Profile({ embedded = false }) {
     } catch (error) {
       setIsDeleting(false);
       toast.error('Could not complete deletion: ' + (error?.message || 'unknown error'));
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    setIsCancelling(true);
+    try {
+      const response = await base44.functions.invoke('cancel-subscription', {});
+      if (response?.data?.error) {
+        throw new Error(response.data.error);
+      }
+      toast.success('Subscription canceled. You keep access until the end of your current billing cycle.');
+      queryClient.invalidateQueries({ queryKey: ['premiumAccess'] });
+      setShowCancelDialog(false);
+    } catch (error) {
+      toast.error('Could not cancel subscription: ' + (error?.message || 'unknown error'));
+    } finally {
+      setIsCancelling(false);
     }
   };
 
@@ -429,6 +454,64 @@ export default function Profile({ embedded = false }) {
               </div>
             </CardContent>
           </Card>
+
+          {subscription?.hasAccess && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 font-heading text-brand-text">
+                  <CreditCard className="h-5 w-5 text-brand-primary" />
+                  <span>Premium Subscription</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between gap-3 rounded-brand bg-brand-muted p-4">
+                  <div className="space-y-1">
+                    <Label className="font-semibold text-brand-text">Manager &amp; HR Guide</Label>
+                    <p className="text-sm text-brand-muted-foreground">$49/month</p>
+                  </div>
+                  <span className="nv-chip nv-chip--primary">Active</span>
+                </div>
+                <p className="text-sm text-brand-muted-foreground">
+                  You are billed $49 each month. Cancel anytime — you keep access until the end of your current billing cycle.
+                </p>
+                <AlertDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline" className="w-full">
+                      Cancel Subscription
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="flex items-center gap-2 font-heading">
+                        <AlertTriangle className="h-5 w-5 text-brand-destructive" />
+                        Cancel your premium subscription?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-brand-muted-foreground">
+                        Your subscription remains active until the end of your current billing cycle, then your access to the Manager &amp; HR Guide ends.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel disabled={isCancelling}>Keep Subscription</AlertDialogCancel>
+                      <AlertDialogAction
+                        disabled={isCancelling}
+                        className="nv-btn nv-btn--destructive"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleCancelSubscription();
+                        }}
+                      >
+                        {isCancelling ? (
+                          <><Loader2 className="h-4 w-4 animate-spin" /> Canceling…</>
+                        ) : (
+                          'Yes, Cancel Subscription'
+                        )}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>
