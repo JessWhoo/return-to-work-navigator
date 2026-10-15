@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
  * Generates AI-powered resource recommendations based on user data
  */
 export async function generateAIRecommendations(allResources, progress) {
-  if (!progress) return { recommendations: [], overall_insights: '' };
+  if (!progress) return { recommendations: [] };
 
   try {
     // Flatten all resources with IDs
@@ -120,7 +120,7 @@ ${Object.entries(reviewsByResource).slice(0, 10).map(([id, reviews]) => {
         journey_stage: progress?.journey_stage || 'unknown',
       }
     });
-    return { recommendations: [], overall_insights: '' };
+    return { recommendations: [] };
   }
 }
 

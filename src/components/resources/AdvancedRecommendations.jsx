@@ -58,7 +58,7 @@ export default function AdvancedRecommendations({
             id: `${cat.category}-${cat.items.indexOf(item)}`,
             category: cat.category,
             color: cat.color,
-            reason: `Low energy detected (avg: ${avgEnergy.toFixed(1)}/10) - this can help`,
+            reason: 'Energy and fatigue management support',
             priority: 'high'
           }))
         );
@@ -81,7 +81,7 @@ export default function AdvancedRecommendations({
             id: `${cat.category}-${cat.items.indexOf(item)}`,
             category: cat.category,
             color: cat.color,
-            reason: `High stress detected (avg: ${avgStress.toFixed(1)}/10) - find relief here`,
+            reason: 'Stress reduction and relaxation support',
             priority: 'high'
           }))
         );

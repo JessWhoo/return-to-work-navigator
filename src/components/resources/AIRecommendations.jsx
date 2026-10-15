@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Star, ExternalLink, MessageCircle, Bookmark, BookmarkCheck, Loader2, Zap, TrendingUp, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Sparkles, Star, ExternalLink, MessageCircle, Bookmark, BookmarkCheck, Loader2, TrendingUp, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { generateAIRecommendations } from '@/components/resources/AIResourceAnalyzer';
@@ -88,7 +88,6 @@ export default function AIRecommendations({
           <CardTitle className="flex flex-wrap items-center gap-2"><Sparkles className="h-5 w-5 text-brand-primary shrink-0" /><span>AI-Powered Recommendations</span><Badge>Personalized</Badge></CardTitle>
           <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} aria-expanded={isExpanded}>{isExpanded ? 'Collapse' : 'Expand'}</Button>
         </div>
-        {aiRecommendations?.overall_insights && <div className="nv-card mt-3 p-3"><p className="text-sm text-brand-text flex items-start gap-2"><Zap className="h-4 w-4 text-brand-primary mt-0.5 shrink-0" /><span><strong>AI Insight:</strong> {aiRecommendations.overall_insights}</span></p></div>}
       </CardHeader>
       {isExpanded && (
         <CardContent>

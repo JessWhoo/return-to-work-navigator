@@ -117,7 +117,6 @@ const SCHEMAS = {
   resource_recommendations: {
     type: 'object',
     properties: {
-      overall_insights: { type: 'string' },
       recommendations: {
         type: 'array',
         items: {
@@ -130,7 +129,7 @@ const SCHEMAS = {
         },
       },
     },
-    required: ['overall_insights', 'recommendations'],
+    required: ['recommendations'],
   },
   auto_tag_resources: {
     type: 'object',
@@ -383,22 +382,18 @@ TASK:
 Recommend 5-8 resources that are MOST RELEVANT to this user's current situation. Consider:
 1. Their journey stage and upcoming events
 2. Energy and stress levels - prioritize energy management if levels are low
-3. Recent symptoms - if high severity or frequent, prioritize symptom management resources
-4. Recent records (medical, workplace issues)
-5. Community ratings and feedback - prefer highly-rated resources
-6. Variety across different types of support needed
-7. URGENCY: If symptoms are severe (7+/10) or stress is high (7+/10), mark as high/urgent priority
-8. CRITICAL: NEVER recommend resources tagged as "not_relevant" by the user
-9. STRONGLY PREFER resources matching user's preferred topics/categories/types from useful tags
-10. Boost relevance_score for resources similar to ones the user has engaged with most
+3. Recent records (medical, workplace issues)
+4. Community ratings and feedback - prefer highly-rated resources
+5. Variety across different types of support needed
+6. CRITICAL: NEVER recommend resources tagged as "not_relevant" by the user
+7. STRONGLY PREFER resources matching user's preferred topics/categories/types from useful tags
+8. Boost relevance_score for resources similar to ones the user has engaged with most
 
 For each recommendation, provide:
 - resource_id (MUST match exactly from the list above)
 - priority (urgent/high/medium/low)
 - reason (why this resource is relevant RIGHT NOW for this user - be specific and personal, mention if it matches their stated preferences)
-- relevance_score (1-10, how relevant is this)
-
-Also provide overall_insights (2-3 sentences about the user's current state and general recommendations, mentioning any clear preference patterns observed).`,
+- relevance_score (1-10, how relevant is this)`,
 
   auto_tag_resources: (d) => `Analyze these return-to-work resources and suggest additional relevant tags/keywords that would help users find them.
 
