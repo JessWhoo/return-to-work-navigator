@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield, FileText, Globe, Lock, CheckSquare, Search, ArrowRight } from 'lucide-react';
@@ -38,6 +38,20 @@ export default function LegalPolicyHub() {
     path: '/LegalPolicyHub',
   });
 
+  const tabsListRef = useRef(null);
+
+  const handleTabChange = useCallback(() => {
+    // After switching tabs, bring the tab bar (and the content just below it)
+    // into view so the newly selected content is visible rather than leaving
+    // the user scrolled down on the previous tab's content.
+    requestAnimationFrame(() => {
+      const el = tabsListRef.current;
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY - 88;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    });
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
@@ -63,10 +77,10 @@ export default function LegalPolicyHub() {
         </Card>
       </Link>
 
-      <Tabs defaultValue="disclosure" className="space-y-6">
-        <TabsList className="nv-tabs h-auto">
+      <Tabs defaultValue="disclosure" className="space-y-6" onValueChange={handleTabChange}>
+        <TabsList ref={tabsListRef} className="nv-tabs h-auto">
           {HUB_TABS.map(({ value, label, Icon }) => (
-            <TabsTrigger key={value} value={value} className="nv-tab">
+            <TabsTrigger key={value} value={value} className="nv-tab !flex-none">
               <Icon className="h-4 w-4" />
               {label}
             </TabsTrigger>
