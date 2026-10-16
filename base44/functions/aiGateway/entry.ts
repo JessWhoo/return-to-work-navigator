@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
+import { createClientFromRequest } from 'npm:@base44/sdk';
 import { EMAIL_TEMPLATES, EMPLOYER_SCENARIOS, validEmailData, retryAfter } from '../../shared/aiGatewaySecurity.ts';
 
 // Centralized, auth-gated gateway for every AI (InvokeLLM) feature in the app.
@@ -538,6 +538,7 @@ Format your response as JSON:
 }
 
 export default async function(req) {
+  let operation = '(none)';
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
@@ -548,7 +549,8 @@ export default async function(req) {
     let body;
     try { body = JSON.parse(rawBody); }
     catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }); }
-    const { operation, data = {} } = body || {};
+    const { operation: op, data = {} } = body || {};
+    operation = op;
     if (typeof operation !== 'string' || !Object.hasOwn(BUILDERS, operation)) {
       return Response.json({ error: 'Unknown operation' }, { status: 400 });
     }
@@ -575,7 +577,7 @@ export default async function(req) {
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM(invokeArgs);
     return Response.json({ result });
   } catch (error) {
-    console.error('[aiGateway] operation failed:', operation || '(none)', error?.message || error);
+    console.error('[aiGateway] operation failed:', operation, error?.message || error);
     return Response.json({ error: error?.message || 'AI request failed. Please try again.' }, { status: 500 });
   }
 }
