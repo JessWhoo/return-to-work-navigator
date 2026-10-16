@@ -15,6 +15,7 @@ import ManagerChecklistSection from '@/components/managerguide/ManagerChecklistS
 import ManagerEmailTemplates from '@/components/managerguide/ManagerEmailTemplates';
 import GuideFaqSection from '@/components/seo/GuideFaqSection';
 import GuideLanguageSwitch from '@/components/seo/GuideLanguageSwitch';
+import SubscriptionManager from '@/components/managerguide/SubscriptionManager';
 import { MANAGER_GUIDE_FAQS } from '@/components/seo/guideFaqsData';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -91,6 +92,7 @@ export default function ManagerGuide() {
 
       {access?.hasAccess ? (
         <>
+          <SubscriptionManager />
           <GuideTableOfContents sections={TOC_SECTIONS} />
 
           <SupportTipsSection />
