@@ -18,7 +18,7 @@ const countries = [
       { label: 'Employment Tribunals', detail: 'Workers can bring disability discrimination claims to an Employment Tribunal within 3 months of the act complained of.' },
     ],
     keyPoints: 'Cancer is automatically a disability under UK law. Reasonable adjustments are mandatory. Statutory Sick Pay available up to 28 weeks.',
-    resources: [{ name: 'Equality Advisory Service', url: 'https://www.equalityadvisoryservice.com' }, { name: 'Macmillan Work Support', url: 'https://www.macmillan.org.uk/cancer-information-and-support/work-and-cancer' }]
+    resources: [{ name: 'Equality Advisory Service', url: 'https://www.equalityadvisoryservice.com' }, { name: 'Macmillan Work Support', url: 'https://www.macmillan.org.uk/cancer-information-and-support/impacts-of-cancer/work-and-cancer' }]
   },
   {
     country: 'Canada',
@@ -153,7 +153,7 @@ const countries = [
       { label: 'Employment Promotion Act', detail: 'Employers with 100+ employees must employ a quota of persons with disabilities. Cancer survivors qualifying as disabled may be eligible.' },
     ],
     keyPoints: '18-month sickness allowance at ~67% pay. Disability discrimination is prohibited. Protections for cancer are less explicit than Europe but improving.',
-    resources: [{ name: 'Japan Pension Service', url: 'https://www.nenkin.go.jp' }, { name: 'Ministry of Health, Labour and Welfare', url: 'https://www.mhlw.go.jp/english' }]
+    resources: [{ name: 'Japan Pension Service', url: 'https://www.nenkin.go.jp' }, { name: 'Ministry of Health, Labour and Welfare', url: 'https://www.mhlw.go.jp/www1/english/index.html' }]
   },
   {
     country: 'South Africa',
@@ -168,7 +168,7 @@ const countries = [
       { label: 'Labour Relations Act', detail: 'Dismissing an employee due to incapacity from illness requires a fair process — the employer must assess ability, consider alternatives, and consult the employee.' },
     ],
     keyPoints: 'Cancer is a recognized disability. 30 days paid sick leave per 3-year cycle. UIF illness benefit provides partial income replacement up to 238 days.',
-    resources: [{ name: 'CCMA', url: 'https://www.ccma.org.za' }, { name: 'UIF', url: 'https://www.labour.gov.za/uif' }]
+    resources: [{ name: 'CCMA', url: 'https://www.ccma.org.za' }, { name: 'UIF', url: 'https://ufiling.labour.gov.za/' }]
   },
   {
     country: 'New Zealand',

@@ -110,7 +110,7 @@ const stateLaws = [
       { label: 'No SDI', detail: 'Illinois has no state disability insurance program for wage replacement during longer medical absences.' },
     ],
     keyDifferences: 'New 2024 paid leave law (40 hrs/yr). No state disability insurance for longer leaves. Protections cover employers with 15+ employees.',
-    resources: [{ name: 'IDHR', url: 'https://www.illinois.gov/idhr' }]
+    resources: [{ name: 'IDHR', url: 'https://dhr.illinois.gov/' }]
   },
   {
     state: 'Colorado',
