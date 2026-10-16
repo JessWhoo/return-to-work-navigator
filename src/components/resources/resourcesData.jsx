@@ -164,7 +164,7 @@ export const resources = [
         name: 'Social Security Disability Insurance (SSDI) for People with Cancer',
         org: 'American Cancer Society',
         description: 'Comprehensive guide explaining SSDI eligibility, application process, benefits, and what to do if your application is turned down. Includes information about Compassionate Allowances for faster approval',
-        url: 'https://www.cancer.org/cancer/managing-cancer/financial-insurance-matters/social-security-disability-insurance.html',
+        url: 'https://www.cancer.org/cancer/financial-insurance-matters/programs-and-resources/social-security-disability-income-for-people-with-cancer.html',
         type: 'GUIDE',
         topics: ['disability', 'benefits', 'SSDI'],
         stages: ['planning']
@@ -367,7 +367,7 @@ export const resources = [
         name: 'Working Through Cancer: Your Legal Rights',
         org: 'Triage Cancer',
         description: 'A comprehensive guide to employment rights for cancer survivors, covering ADA, FMLA, and more',
-        url: 'https://triagecancer.org/employmentrights',
+        url: 'https://triagecancer.org/employment',
         type: 'GUIDE',
         topics: ['legal rights', 'employment', 'ADA', 'FMLA'],
         stages: ['planning', 'first_week']

@@ -91,7 +91,7 @@ export const workplaceAndLegal = [
     hours: 'Mon–Fri 9am–5pm PT',
     description:
       'Free information on cancer-related legal issues including employment, insurance, and disability rights.',
-    website: 'https://thedrlc.org/cancer',
+    website: 'https://thedrlc.org/cancer-justice/',
   },
   {
     name: 'Triage Cancer Legal & Financial Helpline',

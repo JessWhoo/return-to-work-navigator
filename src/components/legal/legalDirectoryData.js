@@ -53,7 +53,7 @@ export const directoryEntries = [
     summary: 'Yes. Cancer — current or in remission — is virtually always a covered disability under the ADA as amended in 2008.',
     details: 'The Americans with Disabilities Act protects employees of companies with 15+ employees from discrimination based on disability. Under the ADA Amendments Act (ADAAA), cancer qualifies even when in remission, because it substantially limits normal cell growth when active. This means you are protected from discrimination and entitled to reasonable accommodations both during and after treatment.',
     tags: ['disability', 'remission', 'discrimination', 'protection'],
-    link: { label: 'EEOC: Cancer in the Workplace', url: 'https://www.eeoc.gov/laws/guidance/questions-answers-about-cancer-workplace-and-americans-disabilities-act-ada' },
+    link: { label: 'EEOC: Cancer in the Workplace', url: 'https://www.eeoc.gov/laws/guidance/cancer-workplace-and-ada' },
   },
   {
     id: 'ada-reasonable',
