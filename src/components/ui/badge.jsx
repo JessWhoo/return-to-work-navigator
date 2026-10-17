@@ -23,11 +23,12 @@ const badgeVariants = cva(
   }
 )
 
-function Badge({
+/** @type {React.ComponentType<any>} */
+const Badge = ({
   className,
   variant,
   ...props
-}) {
+}) => {
   return (<div className={cn(badgeVariants({ variant }), className)} {...props} />);
 }
 

@@ -2,6 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/** @type {React.ComponentType<any>} */
 const Input = React.forwardRef(({ className, type, ...props }, ref) => {
   return (
     (<input
