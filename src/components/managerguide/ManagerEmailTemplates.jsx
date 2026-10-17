@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { Mail, Copy, Check, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  MANAGER_EMAIL_TEMPLATES,
-  EMAIL_TEMPLATE_CATEGORIES,
-} from '@/components/managerguide/managerEmailTemplates';
 import { toast } from 'sonner';
 
-export default function ManagerEmailTemplates() {
+export default function ManagerEmailTemplates({ templates, categories }) {
+  const templateList = templates || [];
+  const categoryList = categories || [];
   const [activeCategory, setActiveCategory] = useState('all');
   const [copiedId, setCopiedId] = useState(null);
 
   const filtered =
     activeCategory === 'all'
-      ? MANAGER_EMAIL_TEMPLATES
-      : MANAGER_EMAIL_TEMPLATES.filter((t) => t.category === activeCategory);
+      ? templateList
+      : templateList.filter((t) => t.category === activeCategory);
 
   const handleCopy = async (template) => {
     const fullText = `Subject: ${template.subject}\n\n${template.body}`;
@@ -58,7 +56,7 @@ export default function ManagerEmailTemplates() {
         >
           All
         </button>
-        {EMAIL_TEMPLATE_CATEGORIES.map((cat) => (
+        {categoryList.map((cat) => (
           <button
             key={cat.id}
             type="button"

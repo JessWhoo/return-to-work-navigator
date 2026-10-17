@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 import useSEO from '@/hooks/useSEO';
 import PageHeader from '@/components/brand/PageHeader';
 import { generateManagerGuidePdf } from '@/components/managerguide/generateManagerGuidePdf';
-import { MANAGER_GUIDE_SECTIONS } from '@/components/managerguide/managerGuideData';
 import GuideTableOfContents from '@/components/managerguide/GuideTableOfContents';
 import GuideSection from '@/components/managerguide/GuideSection';
 import SupportTipsSection from '@/components/managerguide/SupportTipsSection';
@@ -16,24 +15,28 @@ import ManagerEmailTemplates from '@/components/managerguide/ManagerEmailTemplat
 import GuideFaqSection from '@/components/seo/GuideFaqSection';
 import GuideLanguageSwitch from '@/components/seo/GuideLanguageSwitch';
 import SubscriptionManager from '@/components/managerguide/SubscriptionManager';
-import { MANAGER_GUIDE_FAQS } from '@/components/seo/guideFaqsData';
 import { Card, CardContent } from '@/components/ui/card';
-
-const TOC_SECTIONS = [
-  ...MANAGER_GUIDE_SECTIONS,
-  { id: 'faq', title: 'Frequently Asked Questions (FAQ)' },
-];
 
 export default function ManagerGuide() {
   const guideRef = useRef(null);
   const [isExporting, setIsExporting] = useState(false);
   const [access, setAccess] = useState(null);
+  const [content, setContent] = useState(null);
+  const [contentError, setContentError] = useState(false);
 
   useEffect(() => {
     base44.functions.invoke('check-premium-access', {})
       .then((res) => setAccess(res.data))
       .catch(() => setAccess({ hasAccess: false, isAuthenticated: false }));
   }, []);
+
+  useEffect(() => {
+    if (access?.hasAccess && !content && !contentError) {
+      base44.functions.invoke('get-manager-guide', {})
+        .then((res) => setContent(res.data))
+        .catch(() => setContentError(true));
+    }
+  }, [access?.hasAccess]);
 
   const handleExport = async () => {
     if (!guideRef.current || isExporting) return;
@@ -53,6 +56,9 @@ export default function ManagerGuide() {
     description: 'How managers and HR can support employees returning to work after cancer: what to say, accommodations, FMLA and ADA basics, talking to the team, and phased returns.',
     path: '/ManagerGuide',
   });
+
+  const en = content?.en;
+  const tocSections = en ? [...en.sections, { id: 'faq', title: 'Frequently Asked Questions (FAQ)' }] : [];
 
   return (
     <div ref={guideRef} className="max-w-4xl mx-auto space-y-8">
@@ -91,30 +97,40 @@ export default function ManagerGuide() {
       </Card>
 
       {access?.hasAccess ? (
-        <>
-          <SubscriptionManager />
-          <GuideTableOfContents sections={TOC_SECTIONS} />
-
-          <SupportTipsSection />
-
-          <div className="space-y-6">
-            {MANAGER_GUIDE_SECTIONS.map((section) => (
-              <GuideSection key={section.id} section={section} />
-            ))}
+        contentError ? (
+          <div className="flex justify-center py-12">
+            <p className="text-sm text-brand-muted-foreground">Could not load the premium guide. Please refresh the page to try again.</p>
           </div>
+        ) : en ? (
+          <>
+            <SubscriptionManager />
+            <GuideTableOfContents sections={tocSections} />
 
-          <ManagerChecklistSection />
+            <SupportTipsSection tips={en.supportTips} />
 
-          <ManagerEmailTemplates />
+            <div className="space-y-6">
+              {en.sections.map((section) => (
+                <GuideSection key={section.id} section={section} />
+              ))}
+            </div>
 
-          <GuideFaqSection
-            id="faq"
-            eyebrow="Manager & HR FAQ"
-            title="Frequently Asked Questions: Supporting an Employee With Cancer"
-            subtitle="Direct answers to the most common legal, communication, and accommodation questions managers and HR professionals face."
-            faqs={MANAGER_GUIDE_FAQS}
-          />
-        </>
+            <ManagerChecklistSection checklist={en.checklist} />
+
+            <ManagerEmailTemplates templates={en.emailTemplates} categories={en.emailTemplateCategories} />
+
+            <GuideFaqSection
+              id="faq"
+              eyebrow="Manager & HR FAQ"
+              title="Frequently Asked Questions: Supporting an Employee With Cancer"
+              subtitle="Direct answers to the most common legal, communication, and accommodation questions managers and HR professionals face."
+              faqs={en.faqs}
+            />
+          </>
+        ) : (
+          <div className="flex justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-brand-primary" aria-label="Loading premium content" />
+          </div>
+        )
       ) : access ? (
         <PremiumPaywall isAuthenticated={access.isAuthenticated} />
       ) : (

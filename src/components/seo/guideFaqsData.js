@@ -7,49 +7,6 @@
 // always match 1:1.
 import { FAQ_PAGE_FAQS } from './faqPageData';
 
-export const MANAGER_GUIDE_FAQS = [
-  {
-    question: 'What should a manager say when an employee discloses a cancer diagnosis?',
-    answer:
-      'Start with brief, genuine empathy and remove immediate pressure: say "I am so sorry you are dealing with this, and thank you for trusting me. Your health comes first, and we will figure out work together." Avoid platitudes like "everything happens for a reason," avoid comparing their diagnosis to a relative’s cancer story, and ask who (if anyone) they authorize you to inform.',
-  },
-  {
-    question: 'Can a manager tell coworkers or upper management about an employee’s cancer diagnosis?',
-    answer:
-      'No. Under the Americans with Disabilities Act (ADA), employee medical information is strictly confidential. A manager or HR representative may not share an employee’s diagnosis with coworkers, clients, or other leaders without the employee’s explicit permission. If work needs to be redistributed, explain only that the employee has an approved absence or schedule adjustment.',
-  },
-  {
-    question: 'Does cancer qualify as a disability under the ADA even if the employee is in remission?',
-    answer:
-      'Yes. Under the ADA Amendments Act (ADAAA), cancer almost always qualifies as a disability because it substantially limits normal cell growth—an major bodily function. Protection applies during active treatment, during recovery, and when cancer is in remission or if the employee has a history ("record of") cancer.',
-  },
-  {
-    question: 'How do FMLA and the ADA work together for an employee with cancer?',
-    answer:
-      'Eligible employees at covered employers (50+ employees within 75 miles) can take up to 12 weeks of job-protected unpaid leave under the Family and Medical Leave Act (FMLA), either as a continuous block or intermittently for infusions, radiation, and follow-up scans. When FMLA is exhausted—or if the employee is not eligible for FMLA—the ADA (15+ employees) requires employers to consider reasonable workplace accommodations, which can include additional medical leave, part-time ramp-up schedules, remote work, or modified duties.',
-  },
-  {
-    question: 'What does a phased return-to-work schedule after cancer treatment look like?',
-    answer:
-      'A typical phased return starts at 40% to 50% of normal hours (for example, three half-days per week or four-hour mornings when energy is highest) and increases by 10% to 20% every one to two weeks based on medical clearance and treatment fatigue. Incorporating a mid-week rest day (such as Wednesday off) and temporary telework significantly improves retention.',
-  },
-  {
-    question: 'How should a manager handle performance reviews for an employee in cancer treatment or recovery?',
-    answer:
-      'Evaluate the employee fairly on the work assigned under their adjusted schedule or modified duties—never penalize them for taking protected FMLA leave, using ADA accommodations, or having reduced output caused by approved medical leave. Put all agreed timeline adjustments and scope changes in writing so expectations remain clear.',
-  },
-  {
-    question: 'What can HR ask for in medical documentation for an ADA accommodation request?',
-    answer:
-      'HR may request limited documentation from the employee’s healthcare provider confirming that the employee has a covered medical condition, describing the functional limitations at work (such as fatigue, lifting limits, or immunosuppression), and outlining recommended accommodations and their expected duration. Employers may not demand full oncology chart notes or genetic test results.',
-  },
-  {
-    question: 'How do you support an employee experiencing "chemo brain" or cancer-related fatigue at work?',
-    answer:
-      'Practical, low-cost adjustments make the biggest difference: follow up verbal meetings with short written bullet summaries, allow meetings to be recorded, help prioritize the top two or three weekly deliverables, protect uninterrupted focus blocks, and allow flexible start times or brief afternoon rest breaks.',
-  },
-];
-
 export const ACCOMMODATIONS_GUIDE_FAQS = [
   {
     question: 'Is cancer covered as a disability for workplace accommodations under the ADA?',
@@ -207,49 +164,6 @@ export const LEGAL_RIGHTS_FAQS = [
   },
 ];
 
-export const MANAGER_GUIDE_FAQS_ES = [
-  {
-    question: '¿Qué debe decir un gerente cuando un empleado le informa que tiene cáncer?',
-    answer:
-      'Comienza con empatía sincera y quita presión de inmediato: di "Lamento mucho que estés pasando por esto y te agradezco tu confianza. Tu salud es lo primero, y juntos veremos cómo organizar el trabajo". Evita frases hechas como "todo pasa por algo", no compares su caso con el de un familiar y pregúntale a quién (si es que a alguien) autoriza informar.',
-  },
-  {
-    question: '¿Puede un gerente contarle al equipo o a otros jefes sobre el diagnóstico de cáncer de un empleado?',
-    answer:
-      'No. Bajo la Ley de Estadounidenses con Discapacidades (ADA), la información médica de un empleado es estrictamente confidencial. Un gerente o representante de Recursos Humanos no puede compartir el diagnóstico con compañeros, clientes ni otros líderes sin el permiso explícito del empleado. Si es necesario redistribuir tareas, solo se debe informar que el empleado cuenta con un ajuste de horario o licencia aprobada.',
-  },
-  {
-    question: '¿El cáncer califica como una discapacidad bajo la ley ADA aunque el empleado esté en remisión?',
-    answer:
-      'Sí. Bajo la Ley de Enmiendas a la ADA (ADAAA), el cáncer casi siempre califica como una discapacidad porque limita sustancialmente el crecimiento celular normal. La protección legal aplica durante el tratamiento activo, durante la recuperación y también cuando el cáncer está en remisión o existe un antecedente de cáncer.',
-  },
-  {
-    question: '¿Cómo funcionan juntas la licencia FMLA y la ley ADA para un empleado con cáncer?',
-    answer:
-      'En empleadores cubiertos (50 o más empleados en un radio de 75 millas), los empleados elegibles pueden tomar hasta 12 semanas de licencia sin sueldo con protección del puesto bajo la FMLA, ya sea de forma continua o intermitente para sesiones de quimioterapia, radioterapia o estudios. Cuando se agota la FMLA —o si el empleado aún no cumple el año de antigüedad para FMLA—, la ley ADA (15 o más empleados) exige considerar adaptaciones laborales razonables, que pueden incluir licencia médica adicional, regreso gradual a medio tiempo o teletrabajo.',
-  },
-  {
-    question: '¿Cómo es un horario de regreso gradual al trabajo después del tratamiento contra el cáncer?',
-    answer:
-      'Un regreso gradual típico comienza con el 40 % al 50 % de la jornada habitual (por ejemplo, tres medios días por semana o mañanas de cuatro horas cuando hay mayor energía) y aumenta un 10 % a 20 % cada una o dos semanas según la tolerancia física y la indicación médica. Incluir un día de descanso a mitad de semana (como los miércoles) y teletrabajo temporal mejora significativamente la recuperación y retención.',
-  },
-  {
-    question: '¿Cómo debe evaluar un gerente el desempeño de un empleado en tratamiento o recuperación de cáncer?',
-    answer:
-      'Evalúa al empleado de manera justa con base en el trabajo acordado bajo su horario ajustado o funciones modificadas; nunca lo penalices por haber tomado licencia protegida bajo la FMLA ni por utilizar adaptaciones de la ADA. Deja todos los ajustes de metas y plazos por escrito.',
-  },
-  {
-    question: '¿Qué documentación médica puede pedir Recursos Humanos para una adaptación bajo la ADA?',
-    answer:
-      'Recursos Humanos puede solicitar una carta breve del médico tratante que confirme que el empleado tiene una condición médica cubierta, describa las limitaciones funcionales en el trabajo (como fatiga, límite para levantar peso o defensas bajas) y recomiende las adaptaciones y su duración estimada. El empleador no puede exigir el expediente oncológico completo ni pruebas genéticas.',
-  },
-  {
-    question: '¿Cómo apoyar a un empleado que experimenta "quimiocerebro" o fatiga relacionada con el cáncer?',
-    answer:
-      'Los ajustes prácticos de bajo costo marcan una gran diferencia: envía resúmenes breves por escrito después de las reuniones, permite grabar reuniones como apoyo de memoria, ayuda a priorizar las 2 o 3 entregas más importantes de la semana, protege bloques de concentración sin interrupciones y permite flexibilidad de horario o pausas breves de descanso.',
-  },
-];
-
 export const ACCOMMODATIONS_GUIDE_FAQS_ES = [
   {
     question: '¿Está cubierto el cáncer como discapacidad para adaptaciones laborales bajo la ley ADA?',
@@ -370,14 +284,12 @@ export const COMMUNITY_GUIDELINES_FAQS = [
 ];
 
 export const GUIDE_FAQ_BY_PATH = {
-  '/managerguide': MANAGER_GUIDE_FAQS,
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
   '/chemobrainguide': CHEMO_BRAIN_FAQS,
   '/legalrights': LEGAL_RIGHTS_FAQS,
   '/faq': FAQ_PAGE_FAQS,
   '/communityguidelines': COMMUNITY_GUIDELINES_FAQS,
-  '/managerguidees': MANAGER_GUIDE_FAQS_ES,
   '/accommodationses': ACCOMMODATIONS_GUIDE_FAQS_ES,
   '/disclosureguidees': DISCLOSURE_GUIDE_FAQS_ES,
 };

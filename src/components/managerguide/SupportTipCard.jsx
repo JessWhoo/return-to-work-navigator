@@ -1,8 +1,9 @@
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { ICON_MAP } from './iconMap';
 
 export default function SupportTipCard({ tip }) {
-  const Icon = tip.icon;
+  const Icon = typeof tip.icon === 'string' ? (ICON_MAP[tip.icon] || CheckCircle2) : tip.icon;
   return (
     <article className="nv-card p-6 flex flex-col">
       <div className="bg-brand-muted text-brand-primary h-11 w-11 rounded-pill flex items-center justify-center mb-4">

@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk';
+import { hasManagerGuideAccess } from '../../shared/premiumAccess.ts';
 
 export default async function(req) {
   try {
@@ -15,37 +16,9 @@ export default async function(req) {
     }
 
     const db = base44.asServiceRole;
-    const productId = 'manager-guide-premium';
+    const hasAccess = await hasManagerGuideAccess(db, user);
 
-    // Direct match: a paid purchase already linked to this user.
-    const ownPurchases = await db.entities.Base44Purchase.filter({
-      productId,
-      status: 'paid',
-      appUserId: user.id,
-    });
-    if (ownPurchases?.length > 0) {
-      return Response.json({ hasAccess: true, isAuthenticated: true });
-    }
-
-    // Claim: an anonymous buyer paid with their email, then signed in.
-    if (user.email) {
-      const emailPurchases = await db.entities.Base44Purchase.filter({
-        productId,
-        status: 'paid',
-        buyerEmail: user.email,
-      });
-      if (emailPurchases?.length > 0) {
-        const purchase = emailPurchases[0];
-        if (!purchase.appUserId || purchase.appUserId === user.id) {
-          if (!purchase.appUserId) {
-            await db.entities.Base44Purchase.update(purchase.id, { appUserId: user.id });
-          }
-          return Response.json({ hasAccess: true, isAuthenticated: true });
-        }
-      }
-    }
-
-    return Response.json({ hasAccess: false, isAuthenticated: true });
+    return Response.json({ hasAccess, isAuthenticated: true });
   } catch (error) {
     console.error('check-premium-access: unhandled error', error);
     return Response.json({ error: error.message }, { status: 500 });

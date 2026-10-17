@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Download, ClipboardCheck, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { MANAGER_CHECKLIST } from './managerChecklistData';
 import { generateManagerChecklistPdf } from './generateManagerChecklistPdf';
 
 const STORAGE_KEY = 'managerRtwChecklistProgress';
 
-function generateKeys() {
-  return MANAGER_CHECKLIST.flatMap((section, sIdx) =>
-    section.items.map((_, iIdx) => `${sIdx}-${iIdx}`)
-  );
-}
-
-export default function ManagerChecklistSection() {
+export default function ManagerChecklistSection({ checklist }) {
+  const checklistData = checklist || [];
   const [checked, setChecked] = useState({});
 
   useEffect(() => {
@@ -35,7 +29,9 @@ export default function ManagerChecklistSection() {
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
   };
 
-  const allKeys = generateKeys();
+  const allKeys = checklistData.flatMap((section, sIdx) =>
+    section.items.map((_, iIdx) => `${sIdx}-${iIdx}`)
+  );
   const checkedCount = allKeys.filter((k) => checked[k]).length;
   const totalCount = allKeys.length;
   const percent = totalCount ? Math.round((checkedCount / totalCount) * 100) : 0;
@@ -53,7 +49,7 @@ export default function ManagerChecklistSection() {
           </div>
         </div>
         <div className="flex gap-2 flex-shrink-0">
-          <Button onClick={generateManagerChecklistPdf} className="whitespace-nowrap">
+          <Button onClick={() => generateManagerChecklistPdf(checklistData)} className="whitespace-nowrap">
             <Download className="h-4 w-4" /> Download PDF
           </Button>
           <Button onClick={reset} variant="outline" className="whitespace-nowrap">
@@ -77,7 +73,7 @@ export default function ManagerChecklistSection() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {MANAGER_CHECKLIST.map((section, sIdx) => {
+        {checklistData.map((section, sIdx) => {
           const sectionKeys = section.items.map((_, iIdx) => `${sIdx}-${iIdx}`);
           const sectionChecked = sectionKeys.filter((k) => checked[k]).length;
 

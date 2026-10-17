@@ -1,8 +1,8 @@
 import React from 'react';
-import { SUPPORT_TIPS } from './supportTipsData';
 import SupportTipCard from './SupportTipCard';
 
-export default function SupportTipsSection() {
+export default function SupportTipsSection({ tips }) {
+  const tipsList = tips || [];
   return (
     <section id="quick-tips" aria-labelledby="quick-tips-heading" className="scroll-mt-28">
       <div className="mb-5">
@@ -15,7 +15,7 @@ export default function SupportTipsSection() {
         </p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {SUPPORT_TIPS.map((tip) => (
+        {tipsList.map((tip) => (
           <SupportTipCard key={tip.id} tip={tip} />
         ))}
       </div>

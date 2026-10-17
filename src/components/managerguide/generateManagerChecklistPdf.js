@@ -1,10 +1,9 @@
 import { jsPDF } from 'jspdf';
-import { MANAGER_CHECKLIST } from './managerChecklistData';
 
 const MARGIN = 18;
 const LINE = 6;
 
-export function generateManagerChecklistPdf() {
+export function generateManagerChecklistPdf(checklist) {
   const doc = new jsPDF({ unit: 'mm', format: 'letter' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -31,7 +30,7 @@ export function generateManagerChecklistPdf() {
   doc.text('Employee: ____________________   Return date: ____________   Manager: ____________________', MARGIN, y);
   y += 10;
 
-  MANAGER_CHECKLIST.forEach((section) => {
+  checklist.forEach((section) => {
     ensureSpace(14);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(13);
