@@ -53,7 +53,15 @@ export default function OfflineIndicator() {
     // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
-        .then(() => console.log('[SW] registered'))
+        .then(() => {
+          // navigator.serviceWorker.register() resolves on every load — even
+          // when the SW was already registered. Only log on a genuinely new
+          // registration: the controller is null until a fresh SW activates and
+          // claims this client, so a set controller means a prior registration.
+          if (!navigator.serviceWorker.controller) {
+            console.log('[SW] registered');
+          }
+        })
         .catch((err) => console.warn('[SW] registration failed:', err));
     }
 
