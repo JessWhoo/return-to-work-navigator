@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Plus, Trash2, RefreshCw, Loader2, Clock } from 'lucide-react';
+import { MessageSquare, Plus, RefreshCw, Loader2, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 function getConversationPreview(conv) {
@@ -22,7 +22,6 @@ export default function ConversationHistory({
   selectedConversation,
   onSelect,
   onNew,
-  onDelete,
   onRefresh,
   loading,
   error,
@@ -115,16 +114,6 @@ export default function ConversationHistory({
                       </span>
                     </div>
                   </div>
-                  {isActive && onDelete && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onDelete(conv.id); }}
-                      className="nv-btn nv-btn--text nv-btn--icon shrink-0 text-destructive"
-                      title="Delete conversation"
-                      aria-label="Delete conversation"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </button>
-                  )}
                 </div>
               </div>
             );

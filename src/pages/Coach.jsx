@@ -163,20 +163,6 @@ export default function Coach() {
     }
   });
 
-  const deleteConversationMutation = useMutation({
-    mutationFn: async (convId) => {
-      // Note: You'll need to implement delete in the SDK if not available
-      // For now, we'll just update the list locally
-      return convId;
-    },
-    onSuccess: (deletedId) => {
-      setConversations(prev => prev.filter(c => c.id !== deletedId));
-      if (selectedConversation === deletedId) {
-        setSelectedConversation(conversations[0]?.id || null);
-      }
-    }
-  });
-
   const handleSend = async () => {
     if (!message.trim()) return;
     const currentMessage = message;
@@ -286,7 +272,6 @@ export default function Coach() {
                 selectedConversation={selectedConversation}
                 onSelect={setSelectedConversation}
                 onNew={() => createConversationMutation.mutate()}
-                onDelete={(id) => deleteConversationMutation.mutate(id)}
                 onRefresh={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
                 loading={loadingConversations}
                 error={conversationsError}
@@ -328,7 +313,7 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className="order-first flex h-[70vh] min-h-[480px] flex-col lg:order-none lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px]">
+        <div className="order-first flex h-[70dvh] min-h-[420px] flex-col lg:order-none lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px]">
           <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
             <CardHeader className="border-b border-border">
               <div className="flex items-center justify-between gap-3">
