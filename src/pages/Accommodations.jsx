@@ -199,16 +199,16 @@ export default function Accommodations({ embedded = false }) {
                     </div>
                     <div className="space-y-2 ml-2">
                       {category.items.map((item, index) => (
-                        <div key={index} className="flex items-start space-x-3">
+                        <div key={index} className="flex min-h-[44px] items-center gap-3">
                           <Checkbox
                             id={`${category.category}-${index}`}
                             checked={selectedAccommodations.includes(item)}
                             onCheckedChange={() => handleAccommodationToggle(item)}
-                            className="mt-1"
+                            className="shrink-0"
                           />
                           <label
                             htmlFor={`${category.category}-${index}`}
-                            className="text-sm text-brand-text cursor-pointer flex-1"
+                            className="flex flex-1 cursor-pointer items-center py-1.5 text-sm text-brand-text"
                           >
                             {item}
                           </label>

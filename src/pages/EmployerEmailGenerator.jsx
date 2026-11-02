@@ -336,8 +336,9 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-1.5">
-                <Label className="flex items-center gap-1 text-xs text-foreground"><User className="h-3 w-3" /> Recipient Name</Label>
+                <Label htmlFor="recipient-name" className="flex items-center gap-1 text-xs text-foreground"><User className="h-3 w-3" /> Recipient Name</Label>
                 <Input
+                  id="recipient-name"
                   placeholder="e.g. Sarah Johnson"
                   value={recipientName}
                   onChange={e => setRecipientName(e.target.value)}
@@ -345,8 +346,9 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-foreground">Recipient Role</Label>
+                <Label htmlFor="recipient-role" className="text-xs text-foreground">Recipient Role</Label>
                 <Input
+                  id="recipient-role"
                   placeholder="e.g. HR Manager, Supervisor"
                   value={recipientRole}
                   onChange={e => setRecipientRole(e.target.value)}
@@ -354,8 +356,9 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-foreground">Additional Context (optional)</Label>
+                <Label htmlFor="extra-context" className="text-xs text-foreground">Additional Context (optional)</Label>
                 <Textarea
+                  id="extra-context"
                   placeholder="e.g. I need 2 days WFH per week and a later start time on Tuesdays..."
                   value={extraContext}
                   onChange={e => setExtraContext(e.target.value)}
@@ -422,8 +425,9 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                     className="space-y-4"
                   >
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-foreground">Subject</Label>
+                      <Label htmlFor="email-draft-subject" className="text-xs text-foreground">Subject</Label>
                       <Input
+                        id="email-draft-subject"
                         value={subject}
                         onChange={e => setSubject(e.target.value)}
                         className="text-sm"
@@ -431,13 +435,14 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                     </div>
 
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-foreground">Body — edit freely</Label>
+                      <Label htmlFor="email-draft-body" className="text-xs text-foreground">Body — edit freely</Label>
                       <Textarea
+                        id="email-draft-body"
                         value={emailBody}
                         onChange={e => setEmailBody(e.target.value)}
                         className="min-h-[320px] font-body text-sm"
                       />
-                      <p className="text-[10px] text-muted-foreground">Fill in any <span className="text-primary">[bracketed placeholders]</span> before sending.</p>
+                      <p className="text-xs text-muted-foreground">Fill in any <span className="text-primary">[bracketed placeholders]</span> before sending.</p>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3 pt-1 sm:grid-cols-3">

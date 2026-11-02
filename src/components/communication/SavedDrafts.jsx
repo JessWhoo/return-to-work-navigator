@@ -104,7 +104,7 @@ export default function SavedDrafts({ onEdit }) {
         return (
           <Card key={draft.id}>
             <CardHeader className="cursor-pointer" onClick={() => setExpandedDraft(isExpanded ? null : draft.id)}>
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <CardTitle className="mb-2 text-lg text-foreground">{draft.title}</CardTitle>
                   <div className="flex flex-wrap items-center gap-2">
@@ -125,14 +125,21 @@ export default function SavedDrafts({ onEdit }) {
                     </span>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" aria-expanded={isExpanded} aria-label={isExpanded ? 'Collapse draft' : 'Expand draft'}>
-                  {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={(e) => { e.stopPropagation(); setExpandedDraft(isExpanded ? null : draft.id); }}
+                  aria-expanded={isExpanded}
+                  aria-controls={`draft-body-${draft.id}`}
+                  aria-label={isExpanded ? 'Collapse draft' : 'Expand draft'}
+                >
+                  {isExpanded ? <ChevronUp className="h-4 w-4" aria-hidden="true" /> : <ChevronDown className="h-4 w-4" aria-hidden="true" />}
                 </Button>
               </div>
             </CardHeader>
 
             {isExpanded && (
-              <CardContent className="space-y-4 border-t border-border pt-4">
+              <CardContent id={`draft-body-${draft.id}`} className="space-y-4 border-t border-border pt-4">
                 {draft.subject && (
                   <div>
                     <p className="mb-1 text-xs font-semibold text-muted-foreground">Subject:</p>
