@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Copy, Printer, ChevronDown, ChevronUp, Mail, FileText, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import getNavigatorPrintTheme from '@/components/brand/getNavigatorPrintTheme';
+import { escapeHtml } from '@/lib/escapeHtml';
 
 const TEMPLATES = [
   {
@@ -290,16 +291,19 @@ function TemplateCard({ template }) {
 
   const handlePrint = () => {
     const win = window.open('', '_blank');
+    const safeTitle = escapeHtml(template.title);
+    const safeCategory = escapeHtml(template.category);
+    const safeBody = escapeHtml(edited);
     win.document.write(`
       <html>
         <head>
-          <title>${template.title}</title>
+          <title>${safeTitle}</title>
           <style>${getNavigatorPrintTheme()}</style>
         </head>
         <body>
-          <h1>${template.title}</h1>
-          <div class="meta">${template.category} Template · Back to Life, Back to Work Navigator</div>
-          <pre>${edited}</pre>
+          <h1>${safeTitle}</h1>
+          <div class="meta">${safeCategory} Template · Back to Life, Back to Work Navigator</div>
+          <pre>${safeBody}</pre>
           <div class="footer">Printed ${new Date().toLocaleDateString()} · Replace all [bracketed placeholders] before sending.</div>
         </body>
       </html>
