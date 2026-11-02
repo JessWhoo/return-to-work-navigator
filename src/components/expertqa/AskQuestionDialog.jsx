@@ -45,15 +45,17 @@ export default function AskQuestionDialog({ open, onOpenChange, currentUser, onC
         return;
       }
 
+      // Submit through the sanitizing backend function — ExpertQA records are
+      // admin-only to create, and this function forces status to "pending" and
+      // strips any answer/expert fields so a client can never self-publish.
       const payload = {
         question: question.trim(),
         topic,
         is_anonymous: anonymous,
-        asker_name: anonymous ? 'Anonymous' : (user.full_name || 'Anonymous'),
-        status: 'pending',
       };
       if (details.trim()) payload.question_details = details.trim();
-      await base44.entities.ExpertQA.create(payload);
+      const res = await base44.functions.invoke('ask-expert-question', payload);
+      if (res?.data?.error) throw new Error(res.data.error);
       reset();
       onOpenChange(false);
       onCreated?.();
