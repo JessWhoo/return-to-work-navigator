@@ -236,7 +236,7 @@ export default function LegalRights({ embedded = false }) {
 
       {/* Laws Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4">
+        <TabsList className="grid h-auto w-full grid-cols-2 gap-1 lg:grid-cols-4">
           {laws.map((law) => {
             const Icon = law.icon;
             return (
@@ -244,9 +244,10 @@ export default function LegalRights({ embedded = false }) {
                 key={law.id} 
                 value={law.id}
                 onClick={() => handleTabChange(law.id)}
+                className="min-h-[44px] gap-1.5"
               >
-                <Icon className="h-4 w-4" />
-                <span className="hidden sm:inline">{law.id.toUpperCase()}</span>
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                <span>{law.id.toUpperCase()}</span>
               </TabsTrigger>
             );
           })}
@@ -271,7 +272,7 @@ export default function LegalRights({ embedded = false }) {
                       <Icon className="h-8 w-8 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="mb-2 flex items-center space-x-3">
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
                         <h2 className="font-heading text-2xl font-bold text-foreground">{law.name}</h2>
                         <Badge variant="secondary">{law.year}</Badge>
                       </div>
@@ -287,7 +288,7 @@ export default function LegalRights({ embedded = false }) {
                   <Card key={index}>
                     <CardHeader>
                       <CardTitle className="flex items-center space-x-2 text-lg">
-                        <CheckCircle2 className={`h-5 w-5 ${accent.check}`} />
+                        <CheckCircle2 className={`h-5 w-5 flex-shrink-0 ${accent.check}`} aria-hidden="true" />
                         <span className="font-bold text-foreground">{section.title}</span>
                       </CardTitle>
                     </CardHeader>

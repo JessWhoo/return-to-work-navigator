@@ -23,7 +23,7 @@ export default function LibraryCard({ item }) {
             <BookOpen className="h-5 w-5 text-white" />
           </div>
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-300">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-300">
               {item.type}
             </span>
             <h3 className="text-base font-extrabold text-slate-900 mt-1.5 leading-tight">
@@ -41,7 +41,7 @@ export default function LibraryCard({ item }) {
             {item.tags.slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full"
+                className="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full"
               >
                 {tag}
               </span>

@@ -138,7 +138,7 @@ export default function LegalRightsChecklist({ embedded = false }) {
                 const isDone = completed.has(item.id);
                 return (
                   <label key={item.id} className={`nv-card flex items-start gap-3 p-3 cursor-pointer ${isDone ? 'nv-card--muted ring-1 ring-primary' : ''}`}>
-                    <Checkbox checked={isDone} onCheckedChange={() => toggleItem(item.id)} disabled={saving} className="mt-0.5" />
+                    <Checkbox checked={isDone} onCheckedChange={() => toggleItem(item.id)} disabled={saving} aria-label={item.label} className="mt-0.5 shrink-0" />
                     <span className={`text-sm font-medium ${isDone ? 'text-brand-muted-foreground line-through' : 'text-brand-text'}`}>{item.label}</span>
                   </label>
                 );

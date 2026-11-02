@@ -61,20 +61,22 @@ export default function ResourceLibrary({ embedded = false }) {
       <Card>
         <CardContent className="p-5">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-muted-foreground" aria-hidden="true" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by topic, law name, or keyword (e.g. ADA, fatigue, FMLA)..."
-              className="nv-input h-12 pl-12 pr-12 text-base"
+              placeholder="Search resources — ADA, FMLA, fatigue…"
+              aria-label="Search the resource library"
+              className="nv-input h-12 pl-12 pr-14 text-base"
             />
             {search && (
               <button
+                type="button"
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-pill p-1.5 hover:bg-brand-muted"
+                className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-pill hover:bg-brand-muted"
                 aria-label="Clear search"
               >
-                <X className="h-4 w-4 text-brand-muted-foreground" />
+                <X className="h-4 w-4 text-brand-muted-foreground" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -88,6 +90,7 @@ export default function ResourceLibrary({ embedded = false }) {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
+                  aria-pressed={isActive}
                   className={`nv-btn nv-btn--sm ${isActive ? 'nv-btn--secondary' : 'nv-btn--outline'}`}
                 >
                   {cat.label}

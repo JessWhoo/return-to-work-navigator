@@ -13,6 +13,7 @@ export default function DirectoryEntryCard({ entry }) {
           onClick={() => setOpen(!open)}
           className="w-full text-left p-5 flex items-start justify-between gap-3"
           aria-expanded={open}
+          aria-controls={`entry-details-${entry.id}`}
         >
           <div>
             <h3 className="font-bold text-slate-900">{entry.title}</h3>
@@ -20,7 +21,7 @@ export default function DirectoryEntryCard({ entry }) {
           </div>
           <ChevronDown className={`h-5 w-5 text-slate-500 flex-shrink-0 mt-1 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
-        <div className={open ? 'px-5 pb-5 space-y-3' : 'sr-only'}>
+        <div id={`entry-details-${entry.id}`} className={open ? 'px-5 pb-5 space-y-3' : 'sr-only'}>
           <p className="text-sm text-slate-800 leading-relaxed">{entry.details}</p>
           {entry.link && (
             <a

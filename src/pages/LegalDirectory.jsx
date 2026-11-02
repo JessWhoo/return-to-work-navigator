@@ -44,11 +44,12 @@ export default function LegalDirectory() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-muted-foreground" />
+        <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-muted-foreground" aria-hidden="true" />
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search — e.g. 'intermittent leave', 'fatigue', 'denied claim'..."
+          placeholder="Search — e.g. 'intermittent leave'"
+          aria-label="Search the legal directory"
           className="nv-input py-6 pl-12 text-base"
         />
       </div>
@@ -57,6 +58,7 @@ export default function LegalDirectory() {
       <div className="flex flex-wrap justify-center gap-2">
         <button
           onClick={() => setActiveTopic('all')}
+          aria-pressed={activeTopic === 'all'}
           className={`nv-btn nv-btn--sm ${activeTopic === 'all' ? 'nv-btn--secondary' : 'nv-btn--outline'}`}
         >
           All Topics
@@ -65,6 +67,7 @@ export default function LegalDirectory() {
           <button
             key={topic.id}
             onClick={() => setActiveTopic(topic.id)}
+            aria-pressed={activeTopic === topic.id}
             className={`nv-btn nv-btn--sm ${activeTopic === topic.id ? 'nv-btn--secondary' : 'nv-btn--outline'}`}
           >
             {topic.name}
@@ -75,7 +78,9 @@ export default function LegalDirectory() {
       {/* Results grouped by topic */}
       {grouped.length === 0 ? (
         <div className="space-y-2 py-16 text-center">
-          <p className="text-lg font-bold text-brand-text">No results for "{search}"</p>
+          <p className="text-lg font-bold text-brand-text">
+            {search ? `No results for "${search}"` : 'No answers in this topic yet'}
+          </p>
           <p className="text-sm text-brand-muted-foreground">Try a broader term like "leave", "insurance", or "accommodation".</p>
         </div>
       ) : (
