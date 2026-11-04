@@ -27,15 +27,15 @@ export default function MyJourney() {
       <Tabs defaultValue="dashboard" className="space-y-6">
         <TabsList className="nv-tabs h-auto">
           <TabsTrigger value="dashboard" className="nv-tab">
-            <TrendingUp className="h-4 w-4" />
+            <TrendingUp className="hidden h-4 w-4 sm:block" />
             Dashboard
           </TabsTrigger>
           <TabsTrigger value="checklist" className="nv-tab">
-            <CheckSquare className="h-4 w-4" />
+            <CheckSquare className="hidden h-4 w-4 sm:block" />
             Checklist
           </TabsTrigger>
           <TabsTrigger value="profile" className="nv-tab">
-            <User className="h-4 w-4" />
+            <User className="hidden h-4 w-4 sm:block" />
             My Profile
           </TabsTrigger>
         </TabsList>

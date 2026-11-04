@@ -260,7 +260,7 @@ export default function ProgressDashboard({ embedded = false }) {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Card>
           <CardContent className="pt-6">
             <div className="mb-3 flex items-center justify-between">
@@ -414,7 +414,7 @@ export default function ProgressDashboard({ embedded = false }) {
                     cy="50%"
                     labelLine={false}
                     label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                    outerRadius={100}
+                    outerRadius="55%"
                     fill="#8884d8"
                     dataKey="value"
                   >

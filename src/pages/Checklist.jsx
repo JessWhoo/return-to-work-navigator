@@ -196,8 +196,17 @@ export default function Checklist({ embedded = false }) {
           return (
             <Card key={phaseIndex}>
               <CardHeader 
-                className="cursor-pointer transition-colors hover:bg-brand-muted"
+                role="button"
+                tabIndex={0}
+                aria-expanded={isExpanded}
+                className="cursor-pointer transition-colors hover:bg-brand-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
                 onClick={() => togglePhase(phaseIndex)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    togglePhase(phaseIndex);
+                  }
+                }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
