@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Eye } from 'lucide-react';
 import { toast } from 'sonner';
@@ -28,15 +27,23 @@ export default function AccessibilityModeCard() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between gap-4 rounded-brand bg-brand-muted p-4">
-          <div className="space-y-1 min-w-0">
-            <Label className="font-semibold text-brand-text">Accessibility Mode</Label>
-            <p className="text-sm text-brand-muted-foreground">
+        <label
+          htmlFor="accessibility-mode"
+          className="flex cursor-pointer items-center justify-between gap-4 rounded-brand bg-brand-muted p-4"
+        >
+          <span className="block min-w-0 space-y-1">
+            <span className="block font-semibold text-brand-text">Accessibility Mode</span>
+            <span className="block text-sm text-brand-muted-foreground">
               Larger text, higher contrast, bolder borders, and no distracting motion
-            </p>
-          </div>
-          <Switch checked={enabled} onCheckedChange={handleToggle} aria-label="Accessibility mode" />
-        </div>
+            </span>
+          </span>
+          <Switch
+            id="accessibility-mode"
+            checked={enabled}
+            onCheckedChange={handleToggle}
+            aria-label="Accessibility mode"
+          />
+        </label>
       </CardContent>
     </Card>
   );

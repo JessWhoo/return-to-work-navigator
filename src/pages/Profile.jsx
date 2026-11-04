@@ -235,7 +235,7 @@ export default function Profile({ embedded = false }) {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="nv-tabs h-auto">
+        <TabsList aria-label="Profile sections" className="nv-tabs h-auto">
           <TabsTrigger value="overview" className="nv-tab">Overview</TabsTrigger>
           <TabsTrigger value="personal" className="nv-tab">Personal Info</TabsTrigger>
           <TabsTrigger value="preferences" className="nv-tab">Preferences</TabsTrigger>
@@ -437,19 +437,24 @@ export default function Profile({ embedded = false }) {
             <CardContent className="space-y-4">
               <div className="space-y-4">
                 {notificationRows.map(({ key, label, text }) => (
-                  <div key={key} className="flex items-center justify-between gap-4 rounded-brand bg-brand-muted p-4">
-                    <div className="space-y-1">
-                      <Label className="font-semibold text-brand-text">{label}</Label>
-                      <p className="text-sm text-brand-muted-foreground">
+                  <label
+                    key={key}
+                    htmlFor={`pref-${key}`}
+                    className="flex cursor-pointer items-center justify-between gap-4 rounded-brand bg-brand-muted p-4"
+                  >
+                    <span className="block min-w-0 space-y-1">
+                      <span className="block font-semibold text-brand-text">{label}</span>
+                      <span className="block text-sm text-brand-muted-foreground">
                         {text}
-                      </p>
-                    </div>
+                      </span>
+                    </span>
                     <Switch
+                      id={`pref-${key}`}
                       checked={notificationPrefs[key]}
                       onCheckedChange={() => handleNotificationToggle(key)}
                       aria-label={label}
                     />
-                  </div>
+                  </label>
                 ))}
               </div>
             </CardContent>
