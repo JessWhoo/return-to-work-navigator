@@ -74,7 +74,7 @@ export default function UpcomingBookings({ enabled = true }) {
           <Card key={b.id} className="bg-white border-2 border-slate-200">
             <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="space-y-1">
-                <div className="flex items-center gap-2 text-slate-900 font-bold">
+                <div className="flex flex-wrap items-center gap-2 text-slate-900 font-bold">
                   <Calendar className="h-4 w-4 text-rose-600" aria-hidden="true" />
                   <span>{dateLabel}</span>
                   <span className="text-slate-400">·</span>

@@ -46,6 +46,7 @@ export default function ConversationHistory({
               onClick={onRefresh}
               className="h-7 w-7 p-0"
               title="Refresh"
+              aria-label="Refresh conversations"
             >
               <RefreshCw className="h-3.5 w-3.5" />
             </Button>

@@ -15,6 +15,9 @@ import AppFeatureGuide from '../components/coach/AppFeatureGuide';
 import SentimentResourceSuggestions, { detectSentimentAndResources } from '../components/coach/SentimentResourceSuggestions';
 import ConversationHistory from '../components/coach/ConversationHistory';
 import ProactiveResourceSuggestions from '../components/coach/ProactiveResourceSuggestions';
+import CoachProfileCard from '../components/coach/CoachProfileCard';
+import CoachProfileDialog from '../components/coach/CoachProfileDialog';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useSEO from '@/hooks/useSEO';
 import PageHeader from '@/components/brand/PageHeader';
 import { useUserProgress } from '@/hooks/useUserProgress';
@@ -29,8 +32,11 @@ export default function Coach() {
     path: '/Coach',
   });
   const queryClient = useQueryClient();
-  const messagesEndRef = useRef(null);
+  const messagesScrollRef = useRef(null);
   const [message, setMessage] = useState('');
+  // Mobile is a two-tab view: the conversation, or the coach's profile.
+  const [mobileTab, setMobileTab] = useState('chat');
+  const [profileOpen, setProfileOpen] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [lastUserMessage, setLastUserMessage] = useState('');
@@ -95,9 +101,12 @@ export default function Coach() {
     return () => unsubscribe();
   }, [selectedConversation]);
 
-  // Auto-scroll to bottom
+  // Scroll the message list itself (never the window) so loading or streaming
+  // a conversation doesn't drag the whole mobile page around.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const scroller = messagesScrollRef.current;
+    if (!scroller) return;
+    scroller.scrollTop = scroller.scrollHeight;
   }, [conversations, selectedConversation]);
 
   const createConversationMutation = useMutation({
@@ -123,6 +132,7 @@ export default function Coach() {
       setChatError(null);
       queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
       setSelectedConversation(newConv.id);
+      setMobileTab('chat');
     },
     onError: () => {
       setChatError("Couldn't start a new conversation. Please try again.");
@@ -200,6 +210,7 @@ export default function Coach() {
   const handleQuickMessage = async (messageText) => {
     setLastUserMessage(messageText);
     setChatError(null);
+    setMobileTab('chat');
     try {
       if (!selectedConversation) {
         const newConv = await base44.agents.createConversation({
@@ -262,10 +273,24 @@ export default function Coach() {
         subtitle="Ask questions about ADA accommodations, fatigue pacing, employer conversations, and your return-to-work plan."
       />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:items-start">
+        {/* Mobile: switch between the conversation and the coach profile */}
+        <Tabs value={mobileTab} onValueChange={setMobileTab} className="order-1 lg:hidden">
+          <TabsList aria-label="Coach sections" className="nv-tabs h-auto">
+            <TabsTrigger value="chat" className="nv-tab">
+              <MessageSquare className="h-4 w-4" aria-hidden="true" />
+              <span>Chat</span>
+            </TabsTrigger>
+            <TabsTrigger value="coach" className="nv-tab">
+              <Bot className="h-4 w-4" aria-hidden="true" />
+              <span>My Coach</span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         {/* Sidebar */}
-        <div className="flex flex-col gap-4 lg:col-span-1">
+        <div className={`order-3 flex-col gap-4 lg:order-none lg:flex lg:col-span-1 ${mobileTab === 'coach' ? 'flex' : 'hidden'}`}>
           {/* Conversation History Panel */}
-          <Card className="flex flex-col" style={{ maxHeight: '50vh' }}>
+          <Card className="order-2 flex flex-col lg:order-none" style={{ maxHeight: '50vh' }}>
             <CardContent className="flex flex-1 flex-col overflow-hidden pt-4 pb-4">
               <ConversationHistory
                 conversations={conversations}
@@ -279,23 +304,14 @@ export default function Coach() {
             </CardContent>
           </Card>
 
-          {/* Coach Avatar */}
-          <Card className="nv-card--muted">
-            <CardContent className="pt-4 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-pill bg-primary text-primary-foreground">
-                  <Bot className="h-5 w-5" aria-hidden="true" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">AI Return-to-Work Coach</h3>
-                  <p className="text-xs font-medium text-muted-foreground">Your 24/7 return-to-work guide</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Coach identity — carries the profile entry point on mobile */}
+          <CoachProfileCard
+            className="order-1 lg:order-none"
+            onViewProfile={() => setProfileOpen(true)}
+          />
 
           {/* Contextual Sidebar Tools */}
-          <div className="space-y-3">
+          <div className="order-3 space-y-3 lg:order-none">
             {progress && (
               <>
                 <ProactiveCalendarInsights 
@@ -313,7 +329,7 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className="order-first flex h-[70dvh] min-h-[420px] flex-col lg:order-none lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px]">
+        <div className={`order-2 h-[calc(70dvh-4rem)] min-h-[420px] flex-col lg:order-none lg:flex lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px] ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
           <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
             <CardHeader className="border-b border-border">
               <div className="flex items-center justify-between gap-3">
@@ -335,7 +351,7 @@ export default function Coach() {
             </CardHeader>
 
             {/* Messages */}
-            <CardContent className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6">
+            <CardContent ref={messagesScrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6">
               {!isLoadingAuth && !isAuthenticated ? (
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-xl space-y-5 text-center">
@@ -453,7 +469,6 @@ export default function Coach() {
                     })}
                 </AnimatePresence>
               )}
-              <div ref={messagesEndRef} />
             </CardContent>
 
             {/* Sentiment-based resource suggestions */}
@@ -506,6 +521,8 @@ export default function Coach() {
           </Card>
         </div>
       </div>
+
+      <CoachProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
     </div>
   );
 }

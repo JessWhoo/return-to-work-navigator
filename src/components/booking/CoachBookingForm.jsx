@@ -182,6 +182,7 @@ export default function CoachBookingForm({ user, onBooked }) {
                 key={iso}
                 type="button"
                 onClick={() => setSelectedDate(d)}
+                aria-pressed={!!active}
                 className={`px-2 py-3 rounded-lg border-2 text-center transition-all ${
                   active
                     ? 'border-rose-600 bg-rose-50 text-slate-900 shadow-md'
@@ -225,6 +226,7 @@ export default function CoachBookingForm({ user, onBooked }) {
                 disabled={disabled}
                 onClick={() => setSelectedTime(t)}
                 title={isBusy ? 'Already booked' : undefined}
+                aria-pressed={active}
                 className={`px-2 py-3 rounded-lg border-2 text-sm font-bold transition-all ${
                   active
                     ? 'border-sky-600 bg-sky-50 text-slate-900 shadow-md'
@@ -263,6 +265,7 @@ export default function CoachBookingForm({ user, onBooked }) {
             <button
               type="button"
               onClick={() => setFormat('video')}
+              aria-pressed={format_ === 'video'}
               className={`flex items-center justify-center gap-2 py-2.5 rounded-lg border-2 font-semibold transition-all ${
                 format_ === 'video'
                   ? 'border-emerald-600 bg-emerald-50 text-slate-900'
@@ -274,6 +277,7 @@ export default function CoachBookingForm({ user, onBooked }) {
             <button
               type="button"
               onClick={() => setFormat('phone')}
+              aria-pressed={format_ === 'phone'}
               className={`flex items-center justify-center gap-2 py-2.5 rounded-lg border-2 font-semibold transition-all ${
                 format_ === 'phone'
                   ? 'border-emerald-600 bg-emerald-50 text-slate-900'
