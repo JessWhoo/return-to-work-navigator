@@ -5,6 +5,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CONDITION_PHRASES } from './accommodationOptions';
 
+/**
+ * @param {{ id: string, label: string, hint?: string, children: any }} props
+ */
 function Field({ id, label, hint, children }) {
   return (
     <div className="space-y-1.5">

@@ -53,7 +53,7 @@ export function useRateResource() {
   const key = ['wellness-library', user?.id || 'anonymous'];
   return useMutation({
     scope: { id: `wellness-ratings-${user?.id}` },
-    mutationFn: async ({ resourceId, value, note }) => {
+    mutationFn: async (/** @type {{ resourceId: string, value: number, note: string }} */ { resourceId, value, note }) => {
       if (!user?.id) throw new Error('Please sign in to save a rating.');
       if (!Number.isInteger(value) || value < 1 || value > 5) throw new Error('Choose 1–5 stars.');
       const { items } = await base44.entities.WellnessResourceRating.filter(

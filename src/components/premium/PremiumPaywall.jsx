@@ -29,7 +29,7 @@ export default function PremiumPaywall({ isAuthenticated }) {
         toast.error('Could not start checkout. Please try again.');
         setLoading(false);
       }
-    } catch (err) {
+    } catch {
       toast.error('Could not start checkout. Please try again.');
       setLoading(false);
     }

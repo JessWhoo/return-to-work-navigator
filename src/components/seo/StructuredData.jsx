@@ -15,6 +15,7 @@ export default function StructuredData() {
     const normalizedPath = (routeSEO.path || pathname || '/').toLowerCase();
     const guideFaqs = GUIDE_FAQ_BY_PATH[normalizedPath];
 
+    /** @type {any[]} */
     const nodes = [
       {
         '@type': 'Organization',
@@ -103,7 +104,7 @@ export default function StructuredData() {
     if (!script) {
       script = document.createElement('script');
       script.id = id;
-      script.type = 'application/ld+json';
+      script.setAttribute('type', 'application/ld+json');
       document.head.appendChild(script);
     }
     script.textContent = JSON.stringify(graph);

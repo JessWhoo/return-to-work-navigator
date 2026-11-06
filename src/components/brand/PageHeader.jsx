@@ -14,7 +14,7 @@ import React from 'react';
  *   center?: boolean,
  *   className?: string,
  *   headingLevel?: 'h1' | 'h2'
- * }} [props]
+ * }} props
  */
 export default function PageHeader({ eyebrow, title, subtitle, actions, center = false, className = '', headingLevel = 'h1' }) {
   const Heading = headingLevel === 'h2' ? 'h2' : 'h1';

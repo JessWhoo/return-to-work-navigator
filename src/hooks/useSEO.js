@@ -476,6 +476,9 @@ function setMeta(selector, attr, value) {
   el.setAttribute(attr, value);
 }
 
+/**
+ * @param {{ title?: string, description?: string, path?: string, noindex?: boolean }} [options]
+ */
 export function applySEO({ title, description, path, noindex } = {}) {
   if (typeof document === 'undefined' || typeof window === 'undefined') return;
   const currentPathname = window.location.pathname || '/';

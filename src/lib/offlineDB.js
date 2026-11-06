@@ -23,15 +23,15 @@ function openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
     req.onupgradeneeded = (e) => {
-      const db = e.target.result;
+      const db = (/** @type {any} */ (e.target)).result;
       STORES.forEach(name => {
         if (!db.objectStoreNames.contains(name)) {
           db.createObjectStore(name, { keyPath: 'id' });
         }
       });
     };
-    req.onsuccess  = (e) => { _db = e.target.result; resolve(_db); };
-    req.onerror    = (e) => reject(toError(e.target.error));
+    req.onsuccess  = (e) => { _db = (/** @type {any} */ (e.target)).result; resolve(_db); };
+    req.onerror    = (e) => reject(toError((/** @type {any} */ (e.target)).error));
   });
 }
 

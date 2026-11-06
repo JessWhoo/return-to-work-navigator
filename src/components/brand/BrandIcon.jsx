@@ -4,6 +4,7 @@ import React from 'react';
  * Navigator icons — 1:1 from the design system's Icons section.
  * Line icons, 1.75 stroke, currentColor.
  */
+/** @type {any} */
 const base = {
   viewBox: '0 0 24 24',
   fill: 'none',

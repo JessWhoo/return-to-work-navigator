@@ -53,7 +53,7 @@ async function flush() {
     let failed = false;
     for (const evt of batch) {
       try {
-        const result = base44.analytics.track(evt);
+        const result = /** @type {any} */ (base44.analytics.track(evt));
         if (result && typeof result.then === 'function') {
           await result.catch(() => { failed = true; });
         }
