@@ -532,6 +532,11 @@ if (typeof window !== 'undefined') {
   applySEO(getRouteSEO(window.location.pathname));
 }
 
+/**
+ * Applies per-page metadata. Every field is optional: anything omitted falls
+ * back to the route's entry in ROUTE_SEO.
+ * @param {{ title?: string, description?: string, path?: string, noindex?: boolean, enabled?: boolean }} [options]
+ */
 export default function useSEO({ title, description, path, noindex, enabled = true } = {}) {
   useEffect(() => {
     if (!enabled) return;

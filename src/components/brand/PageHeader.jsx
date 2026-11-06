@@ -5,6 +5,17 @@ import React from 'react';
  * for page actions. Used as the single header pattern across inner pages so
  * every screen opens with the same branded lockup.
  */
+/**
+ * @param {{
+ *   eyebrow?: string,
+ *   title?: string,
+ *   subtitle?: string,
+ *   actions?: any,
+ *   center?: boolean,
+ *   className?: string,
+ *   headingLevel?: 'h1' | 'h2'
+ * }} [props]
+ */
 export default function PageHeader({ eyebrow, title, subtitle, actions, center = false, className = '', headingLevel = 'h1' }) {
   const Heading = headingLevel === 'h2' ? 'h2' : 'h1';
   return (

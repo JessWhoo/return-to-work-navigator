@@ -18,6 +18,19 @@ import { Check, ChevronDown } from 'lucide-react';
  *  - className?: string (applied to the trigger button)
  *  - disabled?: bool
  *  - triggerLabel?: string (override the displayed value)
+ *
+ * @param {{
+ *   value: any,
+ *   onValueChange: (newValue: any) => void,
+ *   options?: Array<{ value: any, label: string }>,
+ *   placeholder?: string,
+ *   title?: string,
+ *   id?: string,
+ *   ariaLabel?: string,
+ *   className?: string,
+ *   disabled?: boolean,
+ *   triggerLabel?: string
+ * }} props
  */
 export default function BottomSheetSelect({
   value,
