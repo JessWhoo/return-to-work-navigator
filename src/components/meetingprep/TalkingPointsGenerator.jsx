@@ -11,6 +11,9 @@ import { SCENARIO_TEMPLATES, CONSTRAINT_OPTIONS } from './talkingPointTemplates'
 
 const ENERGY_LABELS = ['Very low', 'Low', 'Moderate', 'Good', 'High'];
 
+/**
+ * @param {{ onSaved?: (prep: any) => void }} props
+ */
 export default function TalkingPointsGenerator({ onSaved }) {
   const queryClient = useQueryClient();
   const [selectedTemplate, setSelectedTemplate] = useState(null);

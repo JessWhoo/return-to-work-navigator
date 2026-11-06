@@ -114,7 +114,7 @@ export default function Resources() {
   });
 
   const toggleBookmarkMutation = useMutation({
-    mutationFn: async (resourceId) => {
+    mutationFn: async (/** @type {string} */ resourceId) => {
       const currentBookmarks = progress?.bookmarked_resources || [];
       const isBookmarked = currentBookmarks.includes(resourceId);
       const updatedBookmarks = isBookmarked
@@ -136,17 +136,17 @@ export default function Resources() {
       });
     },
     // Optimistic update — flip the bookmark instantly, roll back if the server rejects.
-    onMutate: async (resourceId) => {
+    onMutate: async (/** @type {string} */ resourceId) => {
       await queryClient.cancelQueries({ queryKey: ['userProgress'] });
       const previous = queryClient.getQueryData(['userProgress']);
       queryClient.setQueryData(['userProgress'], (old) => {
         if (!old) return old;
-        const currentBookmarks = old.bookmarked_resources || [];
+        const currentBookmarks = (/** @type {any} */ (old)).bookmarked_resources || [];
         const isBookmarked = currentBookmarks.includes(resourceId);
         const updatedBookmarks = isBookmarked
           ? currentBookmarks.filter(id => id !== resourceId)
           : [...currentBookmarks, resourceId];
-        return { ...old, bookmarked_resources: updatedBookmarks };
+        return { ...(/** @type {any} */ (old)), bookmarked_resources: updatedBookmarks };
       });
       return { previous };
     },
@@ -165,7 +165,7 @@ export default function Resources() {
   });
 
   const rateResourceMutation = useMutation({
-    mutationFn: async ({ resourceId, rating }) => {
+    mutationFn: async (/** @type {{ resourceId: string, rating: number }} */ { resourceId, rating }) => {
       const currentRatings = progress?.resource_ratings || {};
       const updatedRatings = { ...currentRatings, [resourceId]: rating };
       
@@ -174,7 +174,7 @@ export default function Resources() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       toast.success('Rating saved');
     }
   });
@@ -184,7 +184,7 @@ export default function Resources() {
     const newInteraction = { resource_id: resourceId, event, timestamp: new Date().toISOString() };
     const updated = [...(progress.resource_interactions || []).slice(-99), newInteraction]; // keep last 100
     await base44.entities.UserProgress.update(progress.id, { resource_interactions: updated });
-    queryClient.invalidateQueries(['userProgress']);
+    queryClient.invalidateQueries({ queryKey: ['userProgress'] });
   };
 
   const handleDiscussWithCoach = (resource) => {
@@ -239,7 +239,7 @@ export default function Resources() {
     Object.keys(progress?.resource_tags || {}).length,
     (progress?.resource_interactions || []).length
   ]);
-  const aiRecommendedIds = new Set((aiRecData?.recommendations || []).map(r => r.resource_id));
+  const aiRecommendedIds = new Set(((/** @type {any} */ (aiRecData))?.recommendations || []).map(r => r.resource_id));
 
   // Interaction counts per resource for 'most_viewed' sort
   const interactionCounts = {};

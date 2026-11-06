@@ -27,8 +27,8 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
   const [tagInput, setTagInput] = useState('');
   
   // Type-specific fields
-  const [medicalDetails, setMedicalDetails] = useState({});
-  const [workplaceDetails, setWorkplaceDetails] = useState({});
+  const [medicalDetails, setMedicalDetails] = useState(/** @type {any} */ ({}));
+  const [workplaceDetails, setWorkplaceDetails] = useState(/** @type {any} */ ({}));
 
   useEffect(() => {
     if (editRecord) {
@@ -56,14 +56,14 @@ export default function AddRecordDialog({ open, onClose, editRecord }) {
   };
 
   const saveMutation = useMutation({
-    mutationFn: async (recordData) => {
+    mutationFn: async (/** @type {any} */ recordData) => {
       if (editRecord) {
         return await base44.entities.Record.update(editRecord.id, recordData);
       }
       return await base44.entities.Record.create(recordData);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['records']);
+      queryClient.invalidateQueries({ queryKey: ['records'] });
       toast.success(editRecord ? 'Record updated!' : 'Record created!');
       onClose();
       resetForm();

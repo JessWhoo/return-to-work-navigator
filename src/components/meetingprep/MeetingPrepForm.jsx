@@ -31,6 +31,9 @@ const COMMON_ACCOMMODATIONS = [
   'Extended deadlines when needed'
 ];
 
+/**
+ * @param {{ existing?: any, onSave?: (prep: any) => void, onCancel?: () => void }} props
+ */
 export default function MeetingPrepForm({ existing, onSave, onCancel }) {
   const queryClient = useQueryClient();
   const [saving, setSaving] = useState(false);

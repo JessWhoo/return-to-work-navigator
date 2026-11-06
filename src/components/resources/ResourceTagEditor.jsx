@@ -21,7 +21,7 @@ export default function ResourceTagEditor({ resource, progress }) {
   const allTags = [...new Set([...aiTags, ...customTags])];
 
   const saveTagsMutation = useMutation({
-    mutationFn: async ({ ai, custom }) => {
+    mutationFn: async (/** @type {{ ai: string[], custom: string[] }} */ { ai, custom }) => {
       const updatedAI = { ...(progress?.resource_ai_tags || {}), [resource.id]: ai };
       const updatedCustom = { ...(progress?.resource_custom_tags || {}), [resource.id]: custom };
       return await base44.entities.UserProgress.update(progress.id, {
@@ -30,7 +30,7 @@ export default function ResourceTagEditor({ resource, progress }) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
     }
   });
 

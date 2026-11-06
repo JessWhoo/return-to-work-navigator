@@ -86,7 +86,7 @@ export default function Profile({ embedded = false }) {
   });
 
   const updateUserMutation = useMutation({
-    mutationFn: (data) => base44.auth.updateMe(data),
+    mutationFn: (/** @type {any} */ data) => base44.auth.updateMe(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       toast.success('Profile updated successfully');
@@ -95,7 +95,7 @@ export default function Profile({ embedded = false }) {
   });
 
   const updateProgressMutation = useMutation({
-    mutationFn: (data) => base44.entities.UserProgress.update(progress.id, data),
+    mutationFn: (/** @type {any} */ data) => base44.entities.UserProgress.update(progress.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       toast.success('Preferences updated');

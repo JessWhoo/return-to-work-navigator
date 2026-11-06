@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Card } from "@/components/ui/card";
 import BrandMark from "@/components/brand/BrandMark";
 
+/**
+ * @param {{ icon: any, title: string, subtitle?: any, footer?: any, children?: any }} props
+ */
 export default function AuthLayout({ icon: Icon, title, subtitle, footer, children }) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-brand-background px-4 py-8 sm:py-12">

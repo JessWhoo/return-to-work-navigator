@@ -117,6 +117,9 @@ async function exportResourcesToPDF(selectedResources) {
   return doc;
 }
 
+/**
+ * @param {{ resources: any[], bookmarkedIds?: any[], progress?: any }} props
+ */
 export default function ResourceExportDialog({ resources, bookmarkedIds }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(new Set());

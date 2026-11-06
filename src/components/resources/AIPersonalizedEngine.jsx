@@ -9,6 +9,10 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+/**
+ * @param {{ progress?: any, resources?: any[], onBookmark?: (id: string) => void,
+ *   isBookmarked?: (id: string) => boolean, onDiscuss?: (resource: any) => void }} props
+ */
 export default function AIPersonalizedEngine({ 
   progress, 
   resources, 

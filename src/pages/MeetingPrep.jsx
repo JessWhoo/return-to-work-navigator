@@ -77,7 +77,7 @@ export default function MeetingPrep({ embedded = false }) {
 
   const refreshSelected = async () => {
     const updated = await meetingAPI.list('-created_date', 50);
-    queryClient.setQueryData({ queryKey: ['meeting-preps'] }, updated);
+    queryClient.setQueryData(['meeting-preps'], updated);
     const fresh = updated.find(m => m.id === selectedMeeting?.id);
     if (fresh) setSelectedMeeting(fresh);
   };

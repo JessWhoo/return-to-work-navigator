@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
+import { createPageUrl } from '@/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -61,7 +62,7 @@ export default function Coach() {
     queryKey: ['coach-conversations'],
     queryFn: async () => {
       const convs = await base44.agents.listConversations({
-        agent_name: 'return_to_work_coach'
+        q: { agent_name: 'return_to_work_coach' }
       });
       return convs || [];
     },
@@ -141,7 +142,7 @@ export default function Coach() {
   });
 
   const sendMessageMutation = useMutation({
-    mutationFn: async (messageText) => {
+    mutationFn: async (/** @type {string} */ messageText) => {
       setLastUserMessage(messageText);
       // The conversation may not be in local state yet right after it was
       // created (the list is still refetching). addMessage only needs the id,
@@ -381,7 +382,7 @@ export default function Coach() {
                       <p className="text-xs font-medium text-muted-foreground">
                         Your coaching conversations are private and saved to your account.
                       </p>
-                      <Button onClick={() => base44.auth.redirectToLogin()}>
+                      <Button onClick={() => base44.auth.redirectToLogin(createPageUrl('Coach'))}>
                         Sign in to start chatting
                       </Button>
                     </div>

@@ -30,7 +30,7 @@ export default function Checklist({ embedded = false }) {
   });
 
   const updateProgressMutation = useMutation({
-    mutationFn: async ({ itemId, isChecked }) => {
+    mutationFn: async (/** @type {{ itemId: string, isChecked: boolean }} */ { itemId, isChecked }) => {
       const currentItems = progress?.completed_checklist_items || [];
       const updatedItems = isChecked
         ? [...currentItems, itemId]
@@ -51,13 +51,13 @@ export default function Checklist({ embedded = false }) {
       });
     },
     // Optimistic update — apply locally instantly, roll back on error.
-    onMutate: async ({ itemId, isChecked }) => {
+    onMutate: async (/** @type {{ itemId: string, isChecked: boolean }} */ { itemId, isChecked }) => {
       await queryClient.cancelQueries({ queryKey: ['userProgress'] });
       const previous = queryClient.getQueryData(['userProgress']);
       queryClient.setQueryData(['userProgress'], (old) => {
         // Fall back to a base object so the checkbox still reflects the click
         // before a record exists, rather than no-oping on a null cache.
-        const base = old || { completed_checklist_items: [], journey_stage: 'planning' };
+        const base = /** @type {any} */ (old) || { completed_checklist_items: [], journey_stage: 'planning' };
         const currentItems = base.completed_checklist_items || [];
         const updatedItems = isChecked
           ? [...currentItems, itemId]

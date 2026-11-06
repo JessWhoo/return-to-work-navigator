@@ -24,7 +24,7 @@ function ReplySection({ post, currentUser }) {
   });
 
   const addReply = useMutation({
-    mutationFn: (data) => base44.entities.ForumReply.create(data),
+    mutationFn: (/** @type {any} */ data) => base44.entities.ForumReply.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['forumReplies', post.id] });
       setReplyText('');
@@ -82,7 +82,7 @@ export default function ForumTab() {
   });
 
   const likePost = useMutation({
-    mutationFn: async (post) => {
+    mutationFn: async (/** @type {any} */ post) => {
       const liked = post.liked_by?.includes(currentUser?.email);
       const liked_by = liked
         ? post.liked_by.filter(e => e !== currentUser?.email)

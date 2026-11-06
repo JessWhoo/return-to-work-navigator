@@ -51,6 +51,9 @@ const EXAMPLE_FORM = {
   ].join('\n'),
 };
 
+/**
+ * @param {{ id: string, label: string, children?: any, hint?: string }} props
+ */
 function Field({ id, label, children, hint }) {
   return (
     <div className="space-y-1.5">
