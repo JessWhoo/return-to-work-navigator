@@ -16,7 +16,7 @@ export default function PrivacySecurity() {
   return (
     <article className="mx-auto max-w-3xl space-y-6">
       <PageHeader eyebrow="Return to Work Navigator" title="Privacy Policy & Data Protection" subtitle="Our data handling and privacy practices, explained in plain language." />
-      <p className="text-sm text-brand-muted-foreground">Last updated: <time dateTime="2026-10-12">October 12, 2026</time></p>
+      <p className="text-sm text-brand-muted-foreground">Last updated: <time dateTime="2026-11-06">November 6, 2026</time></p>
       <Card>
         <CardContent className="space-y-8 p-6 sm:p-8">
           {privacyPolicySections.map(({ title, paragraphs }, index) => (

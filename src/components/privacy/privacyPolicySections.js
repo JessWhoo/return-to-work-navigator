@@ -20,6 +20,13 @@ export const privacyPolicySections = [
     ]
   },
   {
+    title: 'Quality review of AI Coach replies',
+    paragraphs: [
+      'To help the AI Coach give answers that are clear and easy to act on when you are under stress, copies of Coach replies, and the question each reply answered, are sent to Smarter Medical Care Inc, which checks them against its AWCL communication standard.',
+      "Your name, email address and account details are removed before anything is sent. Smarter Medical Care uses this content only to review and improve the Coach's replies and to study, in combined form that does not identify anyone, what makes guidance easier to follow. It does not sell this content, use it to contact you, or share it with anyone else."
+    ]
+  },
+  {
     title: 'Community content and uploaded files',
     paragraphs: [
       'Community profiles, posts, questions, and reviews are shared according to the feature you use. A display name does not make the content itself anonymous: information you write can identify you. Administrators can access some community, feedback, and booking records for operation and moderation. Do not post sensitive information you want to keep private.',
