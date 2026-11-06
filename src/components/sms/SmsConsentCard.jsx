@@ -11,7 +11,7 @@ const CALL_CONVERSION = 'AW-18498327009/QvcyCOOjzJMdEOGj2PRE';
  * Reused wherever the text-messaging program is offered, so the disclosure
  * wording (and the phone number) lives in one place.
  */
-export default function SmsConsentCard({ className = '', children }) {
+export default function SmsConsentCard({ className = '', children = null }) {
   return (
     <div className={`nv-card p-6 sm:p-8 ${className}`}>
       <h2 className="font-heading text-xl font-bold leading-tight text-brand-text sm:text-2xl">
@@ -21,8 +21,8 @@ export default function SmsConsentCard({ className = '', children }) {
       <a
         href={`tel:${PHONE_E164}`}
         onClick={() => {
-          if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('event', 'conversion', { send_to: CALL_CONVERSION });
+          if (typeof window !== 'undefined' && /** @type {any} */ (window).gtag) {
+            /** @type {any} */ (window).gtag('event', 'conversion', { send_to: CALL_CONVERSION });
           }
         }}
         className="mt-4 inline-flex items-center gap-3 font-heading text-3xl font-bold tracking-tight text-brand-text transition-colors hover:text-brand-primary sm:text-4xl"

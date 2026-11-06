@@ -75,7 +75,7 @@ export default function TalkingPointsGenerator({ onSaved }) {
       talking_points: points,
       status: 'drafting',
     });
-    queryClient.invalidateQueries(['meeting-preps']);
+    queryClient.invalidateQueries({ queryKey: ['meeting-preps'] });
     setSaving(false);
     setSaved(true);
     onSaved?.();

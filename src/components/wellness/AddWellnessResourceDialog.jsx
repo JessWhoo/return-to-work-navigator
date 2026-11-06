@@ -30,7 +30,7 @@ export default function AddWellnessResourceDialog({ open, onOpenChange, onCreate
   const setField = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
   const createMutation = useMutation({
-    mutationFn: (data) => base44.entities.WellnessResource.create(data),
+    mutationFn: (/** @type {any} */ data) => base44.entities.WellnessResource.create(data),
     onSuccess: (resource) => {
       // Refresh every topic view so the new resource is listed immediately.
       queryClient.invalidateQueries({ queryKey: ['wellness-library'] });

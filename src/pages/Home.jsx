@@ -48,7 +48,7 @@ export default function Home() {
   }, [progress]);
 
   const updateProgressMutation = useMutation({
-    mutationFn: async (updates) => {
+    mutationFn: async (/** @type {any} */ updates) => {
       if (!progress?.id) return null;
       return await base44.entities.UserProgress.update(progress.id, updates);
     },

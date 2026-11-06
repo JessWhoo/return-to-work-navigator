@@ -103,8 +103,8 @@ export default function ClinicDemoBookingCard() {
         // Non-blocking for public clinic visitors
       }
 
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'conversion', {
+      if (typeof window !== 'undefined' && /** @type {any} */ (window).gtag) {
+        /** @type {any} */ (window).gtag('event', 'conversion', {
           send_to: 'AW-18498327009/FLoYCKuhzJMdEOGj2PRE',
         });
       }

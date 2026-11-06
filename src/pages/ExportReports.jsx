@@ -245,7 +245,7 @@ async function buildPDF(type, { meetings, drafts, progress }) {
   }
 
   // Footer on each page
-  const totalPages = doc.internal.getNumberOfPages();
+  const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFontSize(8); doc.setTextColor(150,150,150);

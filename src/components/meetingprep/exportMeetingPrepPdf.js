@@ -46,7 +46,7 @@ export function exportMeetingPrepPdf(meeting) {
     const { size = 11, style = 'normal', color = [30, 41, 59], lineGap = 4 } = opts;
     doc.setFont('helvetica', style);
     doc.setFontSize(size);
-    doc.setTextColor(...color);
+    doc.setTextColor(.../** @type {[number, number, number]} */ (color));
     const lines = doc.splitTextToSize(String(text ?? ''), contentWidth);
     lines.forEach((line) => {
       ensureSpace(size + lineGap);
@@ -180,7 +180,7 @@ export function exportMeetingPrepPdf(meeting) {
   }
 
   // ---- Footer on every page ----
-  const pageCount = doc.internal.getNumberOfPages();
+  const pageCount = doc.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFont('helvetica', 'normal');

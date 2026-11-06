@@ -64,7 +64,7 @@ export default function ReturnPlanning({ embedded = false }) {
   const { data: progress } = useUserProgress({});
 
   const saveReturnDateMutation = useMutation({
-    mutationFn: async (date) => {
+    mutationFn: async (/** @type {string} */ date) => {
       if (!isAuthenticated) {
         throw new Error('Please sign in to save your return date.');
       }
@@ -75,7 +75,7 @@ export default function ReturnPlanning({ embedded = false }) {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userProgress']);
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       toast.success('Return date saved!');
     },
     onError: (err) => {

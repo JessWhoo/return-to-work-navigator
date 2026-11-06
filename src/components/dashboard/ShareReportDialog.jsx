@@ -130,7 +130,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
     base44.analytics.track({
       eventName: 'progress_report_downloaded',
       properties: {
-        sections_included: Object.keys(selectedSections).filter(k => selectedSections[k]),
+        sections_included: Object.keys(selectedSections).filter(k => selectedSections[k]).join(', '),
         journey_stage: progress.journey_stage
       }
     });
@@ -166,7 +166,7 @@ export default function ShareReportDialog({ open, onClose, progress, metrics }) 
         eventName: 'progress_report_shared',
         properties: {
           method: 'email',
-          sections_included: Object.keys(selectedSections).filter(k => selectedSections[k]),
+          sections_included: Object.keys(selectedSections).filter(k => selectedSections[k]).join(', '),
           journey_stage: progress.journey_stage
         }
       });

@@ -56,7 +56,7 @@ export default function AIPersonalizedEngine({
     const upcomingEvents = progress?.calendar_events || [];
     
     const daysToReturn = progress?.return_date 
-      ? Math.ceil((new Date(progress.return_date) - new Date()) / (1000 * 60 * 60 * 24))
+      ? Math.ceil((new Date(progress.return_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : null;
 
     return {

@@ -42,7 +42,7 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
   const myReview = existingReviews?.find(r => r.created_by === 'current_user');
 
   const submitReviewMutation = useMutation({
-    mutationFn: async (reviewData) => {
+    mutationFn: async (/** @type {any} */ reviewData) => {
       if (myReview) {
         return await base44.entities.ResourceReview.update(myReview.id, reviewData);
       } else {
@@ -50,7 +50,7 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['resource-review']);
+      queryClient.invalidateQueries({ queryKey: ['resource-review'] });
       toast.success('Review submitted successfully!');
       setOpen(false);
       resetForm();
@@ -110,7 +110,7 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
               <div>
                 <div className="text-3xl font-bold text-brand-primary">{avgRating}</div>
                 <div className="text-xs text-brand-muted-foreground">Average Rating</div>
-                <div className="flex items-center justify-center mt-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= Math.round(avgRating) ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>
+                <div className="flex items-center justify-center mt-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= Math.round(Number(avgRating)) ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>
               </div>
               <div><div className="text-3xl font-bold text-brand-primary">{existingReviews.length}</div><div className="text-xs text-brand-muted-foreground">Reviews</div></div>
               {recommendPercent !== null && <div><div className="text-3xl font-bold text-brand-text">{recommendPercent}%</div><div className="text-xs text-brand-muted-foreground">Would Recommend</div></div>}

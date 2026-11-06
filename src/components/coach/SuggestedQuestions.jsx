@@ -83,7 +83,7 @@ export default function SuggestedQuestions({ progress, onSendMessage }) {
 
     // Return date proximity
     if (progress?.return_date) {
-      const daysToReturn = Math.ceil((new Date(progress.return_date) - new Date()) / (1000 * 60 * 60 * 24));
+      const daysToReturn = Math.ceil((new Date(progress.return_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
       if (daysToReturn > 0 && daysToReturn <= 14) {
         suggestions.push({
           question: "My return date is coming up. How can I prepare?",

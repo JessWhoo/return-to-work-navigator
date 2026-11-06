@@ -86,7 +86,7 @@ export function generateReturnSummaryPdf({ progress, userName }) {
   y += 6;
 
   const events = [...(progress?.calendar_events || [])].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);

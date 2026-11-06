@@ -127,7 +127,7 @@ export default function MeetingPrepForm({ existing, onSave, onCancel }) {
     } else {
       await base44.entities.MeetingPrep.create(payload);
     }
-    queryClient.invalidateQueries(['meeting-preps']);
+    queryClient.invalidateQueries({ queryKey: ['meeting-preps'] });
     setSaving(false);
     onSave?.();
   };

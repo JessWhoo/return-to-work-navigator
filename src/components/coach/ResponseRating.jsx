@@ -47,7 +47,7 @@ export default function ResponseRating({ conversationId, messageIndex, messageSn
 
     base44.analytics.track({
       eventName: 'coach_response_rated',
-      properties: { rating, feedback_tags: selectedTags, detected_sentiment: detectedSentiment }
+      properties: { rating, feedback_tags: selectedTags.join(', '), detected_sentiment: detectedSentiment }
     });
 
     setSubmitted(true);

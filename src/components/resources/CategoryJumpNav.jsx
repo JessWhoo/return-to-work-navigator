@@ -33,7 +33,9 @@ export default function CategoryJumpNav({ categories }) {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--cat-scroll-offset', `${headerH + navH + 14}px`);
-    return () => document.documentElement.style.removeProperty('--cat-scroll-offset');
+    return () => {
+      document.documentElement.style.removeProperty('--cat-scroll-offset');
+    };
   }, [headerH, navH]);
 
   if (!categories || categories.length < 2) return null;

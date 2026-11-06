@@ -24,7 +24,7 @@ function reportPagePerformance(page) {
   } catch { /* unsupported */ }
 
   setTimeout(() => {
-    const nav = performance.getEntriesByType?.('navigation')?.[0];
+    const nav = /** @type {any} */ (performance.getEntriesByType?.('navigation')?.[0]);
     track('page_performance', {
       page,
       load_time_ms: nav ? Math.round(nav.loadEventEnd - nav.startTime) : null,

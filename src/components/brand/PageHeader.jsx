@@ -9,7 +9,7 @@ import React from 'react';
  * @param {{
  *   eyebrow?: string,
  *   title?: string,
- *   subtitle?: string,
+ *   subtitle?: React.ReactNode,
  *   actions?: any,
  *   center?: boolean,
  *   className?: string,

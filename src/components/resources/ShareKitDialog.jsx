@@ -125,7 +125,7 @@ async function buildShareKitPDF({ resources, notes, recipientLabel }) {
   }
 
   // Footer
-  const totalPages = doc.internal.getNumberOfPages();
+  const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFontSize(8);

@@ -32,8 +32,8 @@ export default function Contact() {
         operation: 'contact_message',
         data: { name: form.name, email: form.email, message: form.message },
       });
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'conversion', {
+      if (typeof window !== 'undefined' && /** @type {any} */ (window).gtag) {
+        /** @type {any} */ (window).gtag('event', 'conversion', {
           send_to: 'AW-18498327009/N9fnCJaezJMdEOGj2PRE',
         });
       }

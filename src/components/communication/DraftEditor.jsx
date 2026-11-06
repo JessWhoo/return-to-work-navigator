@@ -63,7 +63,7 @@ export default function DraftEditor({ draft, onClose, onSave }) {
       }
     },
     onSuccess: (savedDraft) => {
-      queryClient.invalidateQueries(['communication-drafts']);
+      queryClient.invalidateQueries({ queryKey: ['communication-drafts'] });
       toast.success(draft?.id ? 'Draft updated!' : 'Draft saved!');
       if (onSave) onSave(savedDraft);
       

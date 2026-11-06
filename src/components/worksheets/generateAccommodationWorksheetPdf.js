@@ -168,7 +168,7 @@ export function generateAccommodationWorksheetPdf(data) {
   blankLines(1);
 
   // ----- Footer -----
-  const totalPages = doc.internal.getNumberOfPages();
+  const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFont('helvetica', 'normal');

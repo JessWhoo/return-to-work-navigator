@@ -44,7 +44,7 @@ export default function EmployerResponseLog({ meeting, onUpdate }) {
         : newResponse.outcome === 'follow_up_needed' ? 'follow_up'
         : meeting.status
     });
-    queryClient.invalidateQueries(['meeting-preps']);
+    queryClient.invalidateQueries({ queryKey: ['meeting-preps'] });
     setNewResponse({ date: format(new Date(), 'yyyy-MM-dd'), response_text: '', outcome: 'pending', notes: '' });
     setShowForm(false);
     setSaving(false);

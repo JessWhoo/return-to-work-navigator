@@ -36,7 +36,7 @@ export function useUserProgress(defaults = null) {
         return retry[0] || null;
       }
     },
-    retry: (failureCount, err) => {
+    retry: (failureCount, /** @type {any} */ err) => {
       const status = err?.response?.status ?? err?.status;
       return (status === 401 || status === 403) && failureCount < 1;
     },

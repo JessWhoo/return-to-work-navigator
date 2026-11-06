@@ -9,7 +9,7 @@ import {
   onUnauthorized,
 } from '@/lib/sessionGuard';
 
-const AuthContext = createContext();
+const AuthContext = createContext(/** @type {any} */ (undefined));
 
 // Tokens that already failed /User/me once. Kept at module scope so a
 // StrictMode double-mount (or a remount) never re-fires the same doomed

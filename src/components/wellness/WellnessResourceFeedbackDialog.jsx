@@ -20,7 +20,7 @@ export default function WellnessResourceFeedbackDialog({ resource, open, onOpenC
   const [submitted, setSubmitted] = useState(false);
 
   const submitMutation = useMutation({
-    mutationFn: (data) => base44.entities.ResourceFeedback.create(data),
+    mutationFn: (/** @type {any} */ data) => base44.entities.ResourceFeedback.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myFeedback'] });
       setSubmitted(true);

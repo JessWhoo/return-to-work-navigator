@@ -6,6 +6,7 @@ import { format, addDays, startOfWeek } from 'date-fns';
  * energy levels, fatigue tracking, and workplace goals.
  * One page per day, 7 days starting from the given start date (or today).
  */
+/** @param {{ weeks?: number, startDate?: string | Date }} [options] */
 export function generatePlannerPdf({ weeks = 1, startDate } = {}) {
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
   const PAGE_W = doc.internal.pageSize.getWidth();

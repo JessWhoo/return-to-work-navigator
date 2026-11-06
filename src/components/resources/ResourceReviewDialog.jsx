@@ -34,8 +34,8 @@ export default function ResourceReviewDialog({ resourceId, resourceName, trigger
       return await base44.entities.ResourceReview.create(reviewData);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['resourceReviews']);
-      queryClient.invalidateQueries(['userReview', resourceId]);
+      queryClient.invalidateQueries({ queryKey: ['resourceReviews'] });
+      queryClient.invalidateQueries({ queryKey: ['userReview', resourceId] });
       toast.success(existingReview ? 'Review updated!' : 'Review submitted!');
       setOpen(false);
       resetForm();

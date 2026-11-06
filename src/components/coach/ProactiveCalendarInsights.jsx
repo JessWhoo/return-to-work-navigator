@@ -63,7 +63,7 @@ export default function ProactiveCalendarInsights({ progress, onSendMessage }) {
       }
     });
 
-    return events.sort((a, b) => a.date - b.date);
+    return events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   };
 
   const getEventInsights = (event) => {

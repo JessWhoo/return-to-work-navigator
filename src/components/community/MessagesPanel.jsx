@@ -42,8 +42,8 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
   useEffect(() => {
     const unsub = base44.entities.DirectMessage.subscribe((event) => {
       if (event.data?.conversation_key === key) {
-        queryClient.invalidateQueries(['directMessages', key]);
-        queryClient.invalidateQueries(['dmConversations']);
+        queryClient.invalidateQueries({ queryKey: ['directMessages', key] });
+        queryClient.invalidateQueries({ queryKey: ['dmConversations'] });
       }
     });
     return unsub;
@@ -62,8 +62,8 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
     }),
     onSuccess: () => {
       setText('');
-      queryClient.invalidateQueries(['directMessages', key]);
-      queryClient.invalidateQueries(['dmConversations']);
+      queryClient.invalidateQueries({ queryKey: ['directMessages', key] });
+      queryClient.invalidateQueries({ queryKey: ['dmConversations'] });
     }
   });
 

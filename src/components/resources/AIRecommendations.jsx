@@ -32,7 +32,7 @@ export default function AIRecommendations({
 
     await base44.entities.UserProgress.update(progress.id, { resource_tags: updatedTags });
     base44.analytics.track({ eventName: 'resource_tagged', properties: { resource_id: resourceId, tag: newTag || 'removed' } });
-    queryClient.invalidateQueries(['userProgress']);
+    queryClient.invalidateQueries({ queryKey: ['userProgress'] });
     setPendingTags(prev => { const n = { ...prev }; delete n[resourceId]; return n; });
   };
 

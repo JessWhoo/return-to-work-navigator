@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
 
-export default function StarRating({ value = 0, onRate, disabled = false, size = 'h-5 w-5' }) {
+export default function StarRating({ value = 0, onRate = null, disabled = false, size = 'h-5 w-5' }) {
   const [hover, setHover] = useState(0);
   return (
     <div className="flex items-center gap-0.5" role={onRate ? 'group' : 'img'} aria-label={onRate ? 'Your star rating' : `Average rating: ${Number(value).toFixed(1)} out of 5 stars`} onMouseLeave={() => setHover(0)}>

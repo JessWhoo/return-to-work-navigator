@@ -43,7 +43,7 @@ export default function UpcomingBookings({ enabled = true }) {
   });
 
   const cancelMutation = useMutation({
-    mutationFn: (id) => base44.entities.CoachBooking.update(id, { status: 'cancelled' }),
+    mutationFn: (/** @type {string} */ id) => base44.entities.CoachBooking.update(id, { status: 'cancelled' }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coachBookings'] });
       toast({ title: 'Session cancelled' });

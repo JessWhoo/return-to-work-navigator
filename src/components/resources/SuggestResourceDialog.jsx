@@ -27,9 +27,9 @@ export default function SuggestResourceDialog() {
   const [topicInput, setTopicInput] = useState('');
 
   const submitSuggestionMutation = useMutation({
-    mutationFn: (data) => base44.entities.ResourceSuggestion.create(data),
+    mutationFn: (/** @type {any} */ data) => base44.entities.ResourceSuggestion.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['resourceSuggestions']);
+      queryClient.invalidateQueries({ queryKey: ['resourceSuggestions'] });
       toast.success('Thank you! Your suggestion has been submitted for review.');
       setOpen(false);
       resetForm();

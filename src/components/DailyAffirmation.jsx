@@ -28,12 +28,12 @@ export default function DailyAffirmation({ progress }) {
 
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.DailyAffirmation.create(data),
-    onSuccess: () => queryClient.invalidateQueries(['dailyAffirmations']),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dailyAffirmations'] }),
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, updates }) => base44.entities.DailyAffirmation.update(id, updates),
-    onSuccess: () => queryClient.invalidateQueries(['dailyAffirmations']),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dailyAffirmations'] }),
   });
 
   const generateAffirmation = async (force = false) => {

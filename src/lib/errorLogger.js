@@ -150,5 +150,5 @@ export function installGlobalErrorLogging() {
   });
 
   // Inspect collected errors anytime from the console: window.__errorLog()
-  window.__errorLog = () => readLog();
+  /** @type {any} */ (window).__errorLog = () => readLog();
 }

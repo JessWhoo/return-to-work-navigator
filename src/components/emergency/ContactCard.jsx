@@ -15,8 +15,8 @@ export default function ContactCard({ contact }) {
             <a
               href={contact.tel}
               onClick={() => {
-                if (typeof window !== 'undefined' && window.gtag) {
-                  window.gtag('event', 'conversion', {
+                if (typeof window !== 'undefined' && /** @type {any} */ (window).gtag) {
+                  /** @type {any} */ (window).gtag('event', 'conversion', {
                     send_to: 'AW-18498327009/QvcyCOOjzJMdEOGj2PRE',
                   });
                 }

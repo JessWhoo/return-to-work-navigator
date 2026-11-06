@@ -1,6 +1,6 @@
 const isNode = typeof window === 'undefined';
 const windowObj = isNode ? { localStorage: new Map() } : window;
-/** @type {Storage} */
+/** @type {any} */
 const storage = windowObj.localStorage;
 
 const toSnakeCase = (str) => {
@@ -47,11 +47,11 @@ const getAppParams = () => {
 	// persisted, so an already-poisoned browser heals on the next load.
 	storage.removeItem('base44_server_url');
 	return {
-		appId: getAppParamValue("app_id", { defaultValue: import.meta.env.VITE_BASE44_APP_ID }),
-		serverUrl: import.meta.env.VITE_BASE44_BACKEND_URL || '',
+		appId: getAppParamValue("app_id", { defaultValue: /** @type {any} */ (import.meta).env.VITE_BASE44_APP_ID }),
+		serverUrl: /** @type {any} */ (import.meta).env.VITE_BASE44_BACKEND_URL || '',
 		token: getAppParamValue("access_token", { removeFromUrl: true }),
 		fromUrl: getAppParamValue("from_url", { defaultValue: window.location.href }),
-		functionsVersion: getAppParamValue("functions_version", { defaultValue: import.meta.env.VITE_BASE44_FUNCTIONS_VERSION }),
+		functionsVersion: getAppParamValue("functions_version", { defaultValue: /** @type {any} */ (import.meta).env.VITE_BASE44_FUNCTIONS_VERSION }),
 	}
 }
 

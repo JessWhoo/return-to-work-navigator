@@ -39,7 +39,7 @@ function useAvailableDates() {
   }, []);
 }
 
-export default function CoachBookingForm({ user, onBooked }) {
+export default function CoachBookingForm({ user, onBooked = null }) {
   const queryClient = useQueryClient();
   const dates = useAvailableDates();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
@@ -110,8 +110,8 @@ export default function CoachBookingForm({ user, onBooked }) {
         status: 'requested',
       });
       // This is a saved session request, not yet a confirmed appointment.
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'conversion', {
+      if (typeof window !== 'undefined' && /** @type {any} */ (window).gtag) {
+        /** @type {any} */ (window).gtag('event', 'conversion', {
           send_to: 'AW-18498327009/FLoYCKuhzJMdEOGj2PRE',
         });
       }

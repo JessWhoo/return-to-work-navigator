@@ -34,8 +34,8 @@ function QuestionItem({ post, currentUser }) {
     onSuccess: () => {
       setReplyText('');
       setShowReplyForm(false);
-      queryClient.invalidateQueries(['forum-replies', post.id]);
-      queryClient.invalidateQueries(['resource-qa', post.resource_id]);
+      queryClient.invalidateQueries({ queryKey: ['forum-replies', post.id] });
+      queryClient.invalidateQueries({ queryKey: ['resource-qa', post.resource_id] });
     },
   });
 
@@ -167,7 +167,7 @@ export default function ResourceQA({ resourceId, currentUser }) {
       setQuestionTitle('');
       setQuestionContent('');
       setShowForm(false);
-      queryClient.invalidateQueries(['resource-qa', resourceId]);
+      queryClient.invalidateQueries({ queryKey: ['resource-qa', resourceId] });
     },
   });
 

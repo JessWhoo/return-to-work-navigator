@@ -252,7 +252,7 @@ function EnergyTab({ progress, queryClient }) {
             <CardContent>
               <div className="space-y-2">
                 {[...progress.energy_logs]
-                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                   .slice(0, 7)
                   .map((log, index) => {
                     const avg = ((log.morning_energy + log.afternoon_energy + log.evening_energy) / 3).toFixed(1);

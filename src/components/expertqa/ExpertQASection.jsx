@@ -70,7 +70,7 @@ export default function ExpertQASection() {
   }, [qaList]);
 
   const markHelpful = useMutation({
-    mutationFn: async (item) => {
+    mutationFn: async (/** @type {any} */ item) => {
       if (!currentUser) {
         toast({
           title: 'Sign in required',
@@ -167,7 +167,7 @@ export default function ExpertQASection() {
               isExpanded={expanded === item.id}
               onToggle={() => setExpanded(expanded === item.id ? null : item.id)}
               onHelpful={() => markHelpful.mutate(item)}
-              userMarkedHelpful={item.helpful_by?.includes(currentUser?.id)}
+              userMarkedHelpful={/** @type {any} */ (item).helpful_by?.includes(currentUser?.id)}
             />
           ))}
         </div>
