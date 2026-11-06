@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Link } from 'react-router-dom';
 import { 
   MessageSquare, Send, Loader2, Sparkles, Plus, Bot, RefreshCw
 } from 'lucide-react';
@@ -517,6 +518,18 @@ export default function Coach() {
                   Press Enter to send • Shift+Enter for new line
                 </p>
               )}
+            </div>
+
+            {/* Quality review disclosure — always visible under the composer */}
+            <div className="border-t border-border bg-muted px-4 py-3">
+              <p className="text-xs text-muted-foreground">
+                <span className="font-bold text-foreground">Quality review: </span>
+                to help the AI Coach give answers that are clear and easy to act on when you are under stress, copies of Coach replies and the question each reply answered are reviewed by Smarter Medical Care Inc against its AWCL communication standard. Your name, email address and account details are removed before anything is sent.{' '}
+                <Link to="/PrivacySecurity" className="font-semibold text-primary underline underline-offset-2">
+                  Read our privacy policy
+                </Link>
+                .
+              </p>
             </div>
           </Card>
         </div>
