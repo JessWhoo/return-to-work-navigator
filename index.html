@@ -119,10 +119,15 @@
   </head>
   <body>
     <div id="root">
-      <main>
-        <h1>Return-to-Work Toolkit for Cancer Survivors</h1>
-        <p>Return to Work Navigator is a free, comprehensive return-to-work toolkit helping cancer survivors plan a phased return, request ADA workplace accommodations, understand federal and state FMLA leave protections, manage treatment-related fatigue and chemo brain, and communicate with employers and HR with confidence.</p>
-      </main>
+      <!-- Pre-hydration fallback. Inline styles only, so the heading and
+           paragraph can never overlap or sit flush against each other on any
+           route while the app boots. React replaces this on mount. -->
+      <div style="min-height:100vh;background:#F8F5F0;padding:2.5rem 1.25rem;box-sizing:border-box;">
+        <main style="max-width:44rem;margin:0 auto;color:#352D35;">
+          <h1 style="margin:0 0 1rem;font-family:Georgia,'Times New Roman',serif;font-size:1.75rem;line-height:1.25;letter-spacing:0.02em;font-weight:700;">Return-to-Work Toolkit for Cancer Survivors</h1>
+          <p style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:1rem;line-height:1.65;color:#5a5361;">Return to Work Navigator is a free, comprehensive return-to-work toolkit helping cancer survivors plan a phased return, request ADA workplace accommodations, understand federal and state FMLA leave protections, manage treatment-related fatigue and chemo brain, and communicate with employers and HR with confidence.</p>
+        </main>
+      </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -137,6 +137,12 @@ export default function Coach() {
     },
     onSuccess: (newConv) => {
       setChatError(null);
+      // Show the new thread immediately instead of waiting for the refetch,
+      // which otherwise flashes the "no conversation" empty state.
+      setConversations(prev => [
+        { ...newConv, messages: newConv.messages || [] },
+        ...prev.filter(c => c.id !== newConv.id),
+      ]);
       queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
       setSelectedConversation(newConv.id);
       setMobileTab('chat');
@@ -336,13 +342,13 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className={`order-2 h-[calc(70dvh-4rem)] min-h-[420px] flex-col lg:order-none lg:flex lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px] ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
+        <div className={`order-2 flex-col lg:order-none lg:flex lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px] ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
           <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
-            <CardHeader className="border-b border-border">
+            <CardHeader className="shrink-0 border-b border-border">
               <div className="flex items-center justify-between gap-3">
                 <CardTitle className="flex min-w-0 items-center gap-2 text-lg sm:text-xl">
                   <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
-                  <span>Chat with Your Coach</span>
+                  <span className="truncate">Chat with Your Coach</span>
                 </CardTitle>
                 {currentConversation && (
                   <Button
@@ -358,7 +364,7 @@ export default function Coach() {
             </CardHeader>
 
             {/* Messages */}
-            <CardContent ref={messagesScrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6">
+            <CardContent ref={messagesScrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6 max-h-[58dvh] lg:max-h-none">
               {!isLoadingAuth && !isAuthenticated ? (
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-xl space-y-5 text-center">
@@ -476,22 +482,19 @@ export default function Coach() {
                     })}
                 </AnimatePresence>
               )}
+
+              {/* Contextual suggestions scroll with the conversation so they can
+                  never squeeze, clip, or overlap the composer below. */}
+              {lastUserMessage && selectedConversation && (
+                <SentimentResourceSuggestions lastUserMessage={lastUserMessage} />
+              )}
+              {messages.length >= 2 && (
+                <ProactiveResourceSuggestions messages={messages} />
+              )}
             </CardContent>
 
-            {/* Sentiment-based resource suggestions */}
-            {lastUserMessage && selectedConversation && (
-              <div className="bg-muted px-4 pb-2">
-                <SentimentResourceSuggestions lastUserMessage={lastUserMessage} />
-              </div>
-            )}
-
-            {/* Proactive library resource suggestions based on conversation context */}
-            {messages.length >= 2 && (
-              <ProactiveResourceSuggestions messages={messages} />
-            )}
-
             {/* Input Area */}
-            <div className="border-t border-border bg-brand-surface p-4">
+            <div className="shrink-0 border-t border-border bg-brand-surface p-4">
               {chatError && (
                 <p className="mb-2 text-sm font-semibold text-destructive" role="alert">{chatError}</p>
               )}
@@ -527,7 +530,7 @@ export default function Coach() {
             </div>
 
             {/* Quality review disclosure — always visible under the composer */}
-            <div className="border-t border-border bg-muted px-4 py-3">
+            <div className="shrink-0 border-t border-border bg-muted px-4 py-3">
               <p className="text-xs text-muted-foreground">
                 <span className="font-bold text-foreground">Quality review: </span>
                 to help the AI Coach give answers that are clear and easy to act on when you are under stress, copies of Coach replies and the question each reply answered are reviewed by Smarter Medical Care Inc against its AWCL communication standard. Your name, email address and account details are removed before anything is sent.{' '}
