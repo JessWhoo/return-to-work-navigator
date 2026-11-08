@@ -1,13 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-PXCKSHSQ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
       gtag('js', new Date());
       window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
     </script>
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-PXCKSHSQ"></script>
     <meta charset="UTF-8" />
     <script>
       (function () {

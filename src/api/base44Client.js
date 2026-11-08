@@ -1,5 +1,6 @@
 import { createClient } from '@base44/sdk';
 import { appParams } from '@/lib/app-params';
+import { readCookieConsent } from '@/lib/cookieConsent';
 
 const { appId, serverUrl, token, functionsVersion } = appParams;
 
@@ -14,3 +15,9 @@ export const base44 = createClient({
   functionsVersion,
   requiresAuth: false
 });
+
+// All app-authored analytics, including direct SDK callers, respect the banner.
+const sendAnalytics = base44.analytics.track.bind(base44.analytics);
+base44.analytics.track = (...args) => readCookieConsent() === 'granted'
+  ? sendAnalytics(...args)
+  : Promise.resolve();

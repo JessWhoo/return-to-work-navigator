@@ -1,4 +1,5 @@
 import { base44 } from '@/api/base44Client';
+import { CONSENT_EVENT, readCookieConsent } from '@/lib/cookieConsent';
 
 // ---------------------------------------------------------------------------
 // Client-side analytics queue with exponential backoff.
@@ -43,6 +44,7 @@ function scheduleFlush() {
 }
 
 async function flush() {
+  if (readCookieConsent() !== 'granted') { queue = []; flushTimer = null; return; }
   if (flushing) return;
   flushTimer = null;
   flushing = true;
@@ -52,6 +54,7 @@ async function flush() {
     const batch = queue.splice(0, Math.min(queue.length, FLUSH_BATCH));
     let failed = false;
     for (const evt of batch) {
+      if (readCookieConsent() !== 'granted') break;
       try {
         const result = /** @type {any} */ (base44.analytics.track(evt));
         if (result && typeof result.then === 'function') {
@@ -79,6 +82,13 @@ async function flush() {
 // Best-effort flush when the user navigates away or hides the tab so queued
 // events aren't dropped. Fire-and-forget — the page may unload mid-flush.
 if (typeof window !== 'undefined') {
+  window.addEventListener(CONSENT_EVENT, event => {
+    if (event.detail !== 'granted') {
+      queue = [];
+      clearTimeout(flushTimer);
+      flushTimer = null;
+    }
+  });
   const onHidden = () => { flush(); };
   window.addEventListener('pagehide', onHidden);
   if (typeof document !== 'undefined') {
@@ -89,7 +99,7 @@ if (typeof window !== 'undefined') {
 }
 
 export function track(eventName, properties = {}) {
-  if (isBurst()) return;
+  if (readCookieConsent() !== 'granted' || isBurst()) return;
   // Drop the oldest event if the queue is saturated under sustained pressure,
   // keeping the newest (most relevant) signals.
   if (queue.length >= MAX_QUEUE) queue.shift();
@@ -102,6 +112,7 @@ export function track(eventName, properties = {}) {
 // entity write as a non-blocking, swallow-all side effect — it must never block
 // or break the tool's own flow.
 export function logToolEngagement(tool) {
+  if (readCookieConsent() !== 'granted') return;
   track('tool_engagement', { tool });
   try {
     base44.functions.invoke('logToolEngagement', { tool }).catch(() => {});

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import { Toaster } from "@/components/ui/toaster"
 import { Toaster as SonnerToaster } from "@/components/ui/sonner"
@@ -43,6 +43,8 @@ import AccommodationTemplates from './pages/AccommodationTemplates';
 import ChemoBrainGuide from './pages/ChemoBrainGuide';
 import ForClinics from './pages/ForClinics';
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
+import CookieConsentBanner from '@/components/privacy/CookieConsentBanner';
+import { CONSENT_EVENT, readCookieConsent } from '@/lib/cookieConsent';
 
 if (typeof document !== 'undefined' && !window.__gads_loaded) {
     window.__gads_loaded = true;
@@ -344,6 +346,13 @@ const AuthenticatedApp = () => {
 
 
 function App() {
+  const [trackingAllowed, setTrackingAllowed] = useState(false);
+  useEffect(() => {
+    const syncConsent = event => setTrackingAllowed(event.detail === 'granted');
+    setTrackingAllowed(readCookieConsent() === 'granted');
+    window.addEventListener(CONSENT_EVENT, syncConsent);
+    return () => window.removeEventListener(CONSENT_EVENT, syncConsent);
+  }, []);
   // Catch any 401 that no caller handled, wherever it surfaces.
   useEffect(() => {
     installUnauthorizedMonitor();
@@ -351,7 +360,8 @@ function App() {
 
   return (
     <AuthProvider>
-      <GoogleAdsSignupTracking />
+      <CookieConsentBanner />
+      {trackingAllowed && <GoogleAdsSignupTracking />}
       <QueryClientProvider client={queryClientInstance}>
         <Router>
           <NavigationTracker />
