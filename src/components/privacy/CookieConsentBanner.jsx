@@ -8,12 +8,30 @@ export default function CookieConsentBanner() {
   const [ready, setReady] = useState(false);
   const settingsRef = useRef(null);
   const titleRef = useRef(null);
+  const bannerRef = useRef(null);
   useEffect(() => {
     const saved = readCookieConsent();
     applyCookieConsent(saved || 'denied');
     setOpen(!saved);
     setReady(true);
   }, []);
+  // While the banner is open it covers the bottom of the viewport, which is
+  // exactly where a page's final action row sits at full scroll. Reserve that
+  // space so those controls stay reachable.
+  useEffect(() => {
+    document.body.classList.toggle('has-consent-banner', open);
+    if (!open) return undefined;
+    const sync = () => {
+      const height = bannerRef.current?.offsetHeight || 0;
+      document.documentElement.style.setProperty('--consent-banner-height', `${height}px`);
+    };
+    sync();
+    window.addEventListener('resize', sync);
+    return () => {
+      window.removeEventListener('resize', sync);
+      document.body.classList.remove('has-consent-banner');
+    };
+  }, [open]);
   const choose = choice => {
     applyCookieConsent(choice, true);
     setOpen(false);
@@ -22,6 +40,7 @@ export default function CookieConsentBanner() {
   if (!ready) return null;
   return createPortal(open ? (
     <section
+      ref={bannerRef}
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-description"
       className="fixed inset-x-0 bottom-0 z-[9999] max-h-[100dvh] overflow-y-auto border-t border-brand-border bg-brand-background px-5 pb-6 pt-5 font-body text-brand-text shadow-brand-lg"

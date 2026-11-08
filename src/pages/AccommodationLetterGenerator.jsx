@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -65,32 +65,31 @@ export default function AccommodationLetterGenerator() {
         <div className="mt-6"><StepIndicator current={step} /></div>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -24 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
-        >
-          {step === 3 ? (
-            <div className="space-y-6">
-              <LetterPreview text={letter} onChange={setLetter} onRegenerate={() => setLetter(buildLetter(selected, details))} />
-              <PostLetterSharePrompt />
-            </div>
-          ) : (
-            <Card>
-              <CardContent className="p-5 sm:p-8">
-                {step === 1 ? (
-                  <AccommodationSelector selected={selected} onToggle={toggle} onAddCustom={addCustom} onRemoveCustom={removeCustom} />
-                ) : (
-                  <LetterDetailsForm details={details} onChange={(k, v) => setDetails((d) => ({ ...d, [k]: v }))} />
-                )}
-              </CardContent>
-            </Card>
-          )}
-        </motion.div>
-      </AnimatePresence>
+      {/* Each step mounts immediately on click — no exit-wait animation, so the
+          wizard can never stay parked on the previous step. */}
+      <motion.div
+        key={step}
+        initial={{ opacity: 0, x: 24 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+      >
+        {step === 3 ? (
+          <div className="space-y-6">
+            <LetterPreview text={letter} onChange={setLetter} onRegenerate={() => setLetter(buildLetter(selected, details))} />
+            <PostLetterSharePrompt />
+          </div>
+        ) : (
+          <Card>
+            <CardContent className="p-5 sm:p-8">
+              {step === 1 ? (
+                <AccommodationSelector selected={selected} onToggle={toggle} onAddCustom={addCustom} onRemoveCustom={removeCustom} />
+              ) : (
+                <LetterDetailsForm details={details} onChange={(k, v) => setDetails((d) => ({ ...d, [k]: v }))} />
+              )}
+            </CardContent>
+          </Card>
+        )}
+      </motion.div>
 
       <div className="no-print mt-6 flex items-center justify-between gap-3">
         <Button variant="outline" disabled={step === 1} onClick={() => setStep((s) => s - 1)}>

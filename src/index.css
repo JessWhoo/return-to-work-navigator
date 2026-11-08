@@ -302,6 +302,10 @@ select option,select optgroup{background-color:var(--brand-surface);color:var(--
 /* --- Footer band --- */
 .nv-footer{background:var(--brand-muted);border-top:1px solid var(--brand-border);color:var(--brand-muted-foreground)}
 
+/* Open cookie notice is fixed over the bottom of the viewport; reserve that
+   space in the document so last-row page actions are never covered. */
+body.has-consent-banner{padding-bottom:calc(var(--consent-banner-height, 14rem) + 1rem)}
+
 /* When the printable meeting document is open, print ONLY the document —
    hide all app chrome (header, nav, footer, page content behind it). */
 @media print {
