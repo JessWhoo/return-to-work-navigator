@@ -46,12 +46,16 @@ const getAppParams = () => {
 	// Only the build-time env value may set it. Drop any value an older build
 	// persisted, so an already-poisoned browser heals on the next load.
 	storage.removeItem('base44_server_url');
+	// Read env through a bare `import.meta.env` access: the build replaces that
+	// exact token. Written any other way (e.g. behind a cast) it survives into
+	// the bundle, where `import.meta.env` is undefined and the app never boots.
+	const env = /** @type {any} */ (import.meta.env);
 	return {
-		appId: getAppParamValue("app_id", { defaultValue: /** @type {any} */ (import.meta).env.VITE_BASE44_APP_ID }),
-		serverUrl: /** @type {any} */ (import.meta).env.VITE_BASE44_BACKEND_URL || '',
+		appId: getAppParamValue("app_id", { defaultValue: env.VITE_BASE44_APP_ID }),
+		serverUrl: env.VITE_BASE44_BACKEND_URL || '',
 		token: getAppParamValue("access_token", { removeFromUrl: true }),
 		fromUrl: getAppParamValue("from_url", { defaultValue: window.location.href }),
-		functionsVersion: getAppParamValue("functions_version", { defaultValue: /** @type {any} */ (import.meta).env.VITE_BASE44_FUNCTIONS_VERSION }),
+		functionsVersion: getAppParamValue("functions_version", { defaultValue: env.VITE_BASE44_FUNCTIONS_VERSION }),
 	}
 }
 
