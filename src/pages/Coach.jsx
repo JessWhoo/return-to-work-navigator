@@ -113,7 +113,8 @@ export default function Coach() {
   useEffect(() => {
     const scroller = messagesScrollRef.current;
     if (!scroller) return;
-    scroller.scrollTop = scroller.scrollHeight;
+    const hasMessages = conversations.some(conv => conv.id === selectedConversation && conv.messages?.length > 0);
+    scroller.scrollTop = hasMessages ? scroller.scrollHeight : 0;
   }, [conversations, selectedConversation]);
 
   const createConversationMutation = useMutation({
@@ -285,9 +286,9 @@ export default function Coach() {
         title="AI Return-to-Work Coach for Cancer Survivors"
         subtitle="Ask questions about ADA accommodations, fatigue pacing, employer conversations, and your return-to-work plan."
       />
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:items-start">
+      <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(15rem,18rem)_minmax(0,1fr)]">
         {/* Mobile: switch between the conversation and the coach profile */}
-        <Tabs value={mobileTab} onValueChange={setMobileTab} className="order-1 lg:hidden">
+        <Tabs value={mobileTab} onValueChange={setMobileTab} className="order-1 min-w-0 xl:hidden">
           <TabsList aria-label="Coach sections" className="nv-tabs h-auto">
             <TabsTrigger value="chat" className="nv-tab">
               <MessageSquare className="h-4 w-4" aria-hidden="true" />
@@ -301,10 +302,10 @@ export default function Coach() {
         </Tabs>
 
         {/* Sidebar */}
-        <div className={`order-3 flex-col gap-4 lg:order-none lg:flex lg:col-span-1 ${mobileTab === 'coach' ? 'flex' : 'hidden'}`}>
+        <div className={`order-3 min-w-0 flex-col gap-4 xl:order-none xl:flex ${mobileTab === 'coach' ? 'flex' : 'hidden'}`}>
           {/* Conversation History Panel */}
-          <Card className="order-2 flex flex-col lg:order-none" style={{ maxHeight: '50vh' }}>
-            <CardContent className="flex flex-1 flex-col overflow-hidden pt-4 pb-4">
+          <Card className="order-2 flex max-h-[50dvh] min-h-0 min-w-0 flex-col xl:order-none">
+            <CardContent className="flex min-h-0 flex-1 flex-col overflow-hidden p-4">
               <ConversationHistory
                 conversations={conversations}
                 selectedConversation={selectedConversation}
@@ -342,13 +343,13 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className={`order-2 flex-col lg:order-none lg:flex lg:sticky lg:top-24 lg:col-span-3 lg:h-[calc(100vh-9rem)] lg:min-h-[560px] ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
-          <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <div className={`order-2 h-[max(36rem,80dvh)] min-w-0 flex-col xl:order-none xl:flex ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
+          <Card className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             <CardHeader className="shrink-0 border-b border-border">
               <div className="flex items-center justify-between gap-3">
                 <CardTitle className="flex min-w-0 items-center gap-2 text-lg sm:text-xl">
                   <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
-                  <span className="truncate">Chat with Your Coach</span>
+                  <span>Chat with Your Coach</span>
                 </CardTitle>
                 {currentConversation && (
                   <Button
@@ -364,7 +365,7 @@ export default function Coach() {
             </CardHeader>
 
             {/* Messages */}
-            <CardContent ref={messagesScrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-muted p-4 sm:p-6 max-h-[58dvh] lg:max-h-none">
+            <CardContent ref={messagesScrollRef} className="min-h-0 min-w-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-muted p-4 [overflow-wrap:anywhere] sm:p-6">
               {!isLoadingAuth && !isAuthenticated ? (
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-xl space-y-5 text-center">
@@ -505,7 +506,7 @@ export default function Coach() {
                   onKeyDown={handleKeyPress}
                   placeholder="Type your message... (Shift+Enter for new line)"
                   aria-label="Message to your coach"
-                  className="min-h-[60px] max-h-[200px] min-w-0 flex-1"
+                  className="min-h-[60px] max-h-[120px] min-w-0 flex-1 resize-y text-base"
                   disabled={sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
                 />
                 <Button

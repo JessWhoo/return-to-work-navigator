@@ -27,8 +27,8 @@ export default function ConversationHistory({
   error,
 }) {
   return (
-    <div className="flex h-full flex-col">
-      <div className="mb-3 flex items-center justify-between">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+      <div className="mb-3 flex shrink-0 flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <MessageSquare className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold text-foreground">Conversations</span>
@@ -62,7 +62,7 @@ export default function ConversationHistory({
         </div>
       </div>
 
-      <div className="flex-1 space-y-1.5 overflow-y-auto pr-1">
+      <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain pr-1">
         {loading ? (
           <div className="flex justify-center py-8">
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
