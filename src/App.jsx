@@ -72,7 +72,7 @@ if (typeof document !== 'undefined' && !window.__gads_loaded) {
     s.async = true;
     s.onerror = () => {};
     document.head.appendChild(s);
-    window.gtag('js', new Date());
+    // The shared document head initializes dataLayer once for GTM and Google Ads.
     window.gtag('config', 'AW-18498327009', { send_page_view: false });
 }
 
