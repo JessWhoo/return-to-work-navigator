@@ -87,18 +87,13 @@ export default function Coach() {
         return existing ? { ...incoming, messages: existing.messages ?? incoming.messages } : incoming;
       }));
       if (!selectedConversation && conversationsList.length > 0) {
-        setSelectedConversation(conversationsList[0].id);
+        // Open the newest thread that actually has messages, so a freshly
+        // started blank conversation can never hide all saved replies.
+        const withMessages = conversationsList.find(conv => conv.messages?.length > 0);
+        setSelectedConversation((withMessages || conversationsList[0]).id);
       }
     }
   }, [conversationsList]);
-
-  const updateThread = thread => setConversations(previous => {
-    const exists = previous.some(conv => conv.id === thread.id);
-    return exists
-      ? previous.map(conv => conv.id === thread.id ? { ...conv, ...thread } : conv)
-      : [thread, ...previous];
-  });
-  const { refetch: refreshThread, error: threadError } = useCoachThread(selectedConversation, updateThread);
 
   // Scroll the message list itself (never the window) so loading or streaming
   // a conversation doesn't drag the whole mobile page around.
@@ -199,6 +194,20 @@ export default function Coach() {
   const awaitingReply = sendMessageMutation.isPending || lastMessage?.role === 'user'
     || (lastMessage?.role === 'assistant' && !lastMessage.content);
 
+  // Keeps the open thread in sync with the saved conversation, including the
+  // reply the agent writes after the send request returns.
+  const updateThread = thread => setConversations(previous => {
+    const exists = previous.some(conv => conv.id === thread.id);
+    return exists
+      ? previous.map(conv => conv.id === thread.id ? { ...conv, ...thread } : conv)
+      : [thread, ...previous];
+  });
+  const { refetch: refreshThread, error: threadError } = useCoachThread(
+    selectedConversation,
+    updateThread,
+    awaitingReply,
+  );
+
   const firedCoachEngagement = useRef(new Set());
   useEffect(() => {
     if (!selectedConversation) return;
@@ -244,7 +253,7 @@ export default function Coach() {
             </TabsTrigger>
             <TabsTrigger value="coach" className="nv-tab">
               <Bot className="h-4 w-4" aria-hidden="true" />
-              <span>My Coach</span>
+              <span>History &amp; Profile</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
