@@ -25,6 +25,7 @@ import PageHeader from '@/components/brand/PageHeader';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 import { logToolEngagement } from '@/lib/analytics';
+import useCoachThread from '@/hooks/useCoachThread';
 
 export default function Coach() {
   useSEO({
@@ -81,32 +82,23 @@ export default function Coach() {
 
   useEffect(() => {
     if (conversationsList) {
-      setConversations(conversationsList);
+      setConversations(previous => conversationsList.map(incoming => {
+        const existing = previous.find(conv => conv.id === incoming.id);
+        return existing ? { ...incoming, messages: existing.messages ?? incoming.messages } : incoming;
+      }));
       if (!selectedConversation && conversationsList.length > 0) {
         setSelectedConversation(conversationsList[0].id);
       }
     }
   }, [conversationsList]);
 
-  // Subscribe to conversation updates
-  useEffect(() => {
-    if (!selectedConversation) return;
-
-    const unsubscribe = base44.agents.subscribeToConversation(
-      selectedConversation,
-      (data) => {
-        setConversations(prev => 
-          prev.map(conv => 
-            conv.id === selectedConversation 
-              ? { ...conv, messages: data.messages }
-              : conv
-          )
-        );
-      }
-    );
-
-    return () => unsubscribe();
-  }, [selectedConversation]);
+  const updateThread = thread => setConversations(previous => {
+    const exists = previous.some(conv => conv.id === thread.id);
+    return exists
+      ? previous.map(conv => conv.id === thread.id ? { ...conv, ...thread } : conv)
+      : [thread, ...previous];
+  });
+  const { refetch: refreshThread, error: threadError } = useCoachThread(selectedConversation, updateThread);
 
   // Scroll the message list itself (never the window) so loading or streaming
   // a conversation doesn't drag the whole mobile page around.
@@ -156,100 +148,56 @@ export default function Coach() {
   const sendMessageMutation = useMutation({
     mutationFn: async (/** @type {string} */ messageText) => {
       setLastUserMessage(messageText);
-      // The conversation may not be in local state yet right after it was
-      // created (the list is still refetching). addMessage only needs the id,
-      // so fall back to a minimal object instead of failing to send.
-      const conversation = conversations.find(c => c.id === selectedConversation)
-        || { id: selectedConversation };
-
-      // Track conversation interaction
+      setChatError(null);
+      const conversation = selectedConversation
+        ? await base44.agents.getConversation(selectedConversation)
+        : await createConversationMutation.mutateAsync();
+      const sentMessage = await base44.agents.addMessage(conversation, {
+        role: 'user', content: messageText,
+      });
+      // Display the accepted message immediately, without waiting for a socket event.
+      setConversations(previous => previous.map(conv => {
+        if (conv.id !== conversation.id || conv.messages?.some(msg => msg.id === sentMessage.id)) return conv;
+        return { ...conv, messages: [...(conv.messages || []), sentMessage] };
+      }));
       base44.analytics.track({
         eventName: 'ai_coach_message_sent',
-        properties: {
-          conversation_id: selectedConversation,
-          message_length: messageText.length,
-          has_calendar_insights: progress?.calendar_events?.length > 0 || !!progress?.return_date
-        }
+        properties: { conversation_id: conversation.id, message_length: messageText.length },
       });
-
-      return await base44.agents.addMessage(conversation, {
-        role: 'user',
-        content: messageText
-      });
-    },
-    onSuccess: () => {
-      setChatError(null);
-      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
+      // Refresh this thread, not the conversation list, which can overwrite streamed replies.
+      await queryClient.invalidateQueries({ queryKey: ['coach-thread', conversation.id] });
     },
     onError: (_err, messageText) => {
       setChatError("Your message couldn't be sent. Please try again.");
       setMessage(messageText);
-    }
+    },
   });
 
-  const handleSend = async () => {
-    if (!message.trim()) return;
-    const currentMessage = message;
+  const handleSend = () => {
+    if (!message.trim() || sendMessageMutation.isPending || !isAuthenticated) return;
+    const currentMessage = message.trim();
     setMessage('');
-    setLastUserMessage(currentMessage);
-    setChatError(null);
-
-    if (!selectedConversation) {
-      try {
-        const newConv = await base44.agents.createConversation({
-          agent_name: 'return_to_work_coach',
-          metadata: { name: 'New Conversation', created_at: new Date().toISOString() }
-        });
-        const convWithMessages = { ...newConv, messages: [] };
-        setSelectedConversation(newConv.id);
-        setConversations(prev => [convWithMessages, ...prev]);
-        await base44.agents.addMessage(convWithMessages, { role: 'user', content: currentMessage });
-        queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
-      } catch {
-        setChatError("Your message couldn't be sent. Please try again.");
-        setMessage(currentMessage);
-      }
-    } else {
-      sendMessageMutation.mutate(currentMessage);
-    }
+    sendMessageMutation.mutate(currentMessage);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  const handleKeyPress = e => {
+    if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
       e.preventDefault();
       handleSend();
     }
   };
 
-  const handleQuickMessage = async (messageText) => {
-    setLastUserMessage(messageText);
-    setChatError(null);
+  const handleQuickMessage = messageText => {
+    if (sendMessageMutation.isPending || !isAuthenticated) return;
     setMobileTab('chat');
-    try {
-      if (!selectedConversation) {
-        const newConv = await base44.agents.createConversation({
-          agent_name: 'return_to_work_coach',
-          metadata: { name: 'New Conversation' }
-        });
-        const convWithMessages = { ...newConv, messages: [] };
-        setSelectedConversation(newConv.id);
-        setConversations(prev => [convWithMessages, ...prev]);
-        await base44.agents.addMessage(convWithMessages, { role: 'user', content: messageText });
-      } else {
-        // Fall back to the id when the full conversation object isn't loaded
-        // yet, so quick-send buttons never silently drop the message.
-        const conversation = conversations.find(c => c.id === selectedConversation)
-          || { id: selectedConversation };
-        await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
-      }
-      queryClient.invalidateQueries({ queryKey: ['coach-conversations'] });
-    } catch {
-      setChatError("Your message couldn't be sent. Please try again.");
-    }
+    sendMessageMutation.mutate(messageText);
   };
 
   const currentConversation = conversations.find(c => c.id === selectedConversation);
   const messages = currentConversation?.messages || [];
+  const lastMessage = messages[messages.length - 1];
+  const awaitingReply = sendMessageMutation.isPending || lastMessage?.role === 'user'
+    || (lastMessage?.role === 'assistant' && !lastMessage.content);
 
   const firedCoachEngagement = useRef(new Set());
   useEffect(() => {
@@ -356,7 +304,7 @@ export default function Coach() {
                     variant="ghost"
                     size="icon"
                     aria-label="Refresh coaching conversation"
-                    onClick={() => queryClient.invalidateQueries({ queryKey: ['coach-conversations'] })}
+                    onClick={() => refreshThread()}
                   >
                     <RefreshCw className="h-4 w-4" />
                   </Button>
@@ -482,6 +430,19 @@ export default function Coach() {
                       );
                     })}
                 </AnimatePresence>
+              )}
+
+              {awaitingReply && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Your coach is preparing a reply…
+                </div>
+              )}
+              {threadError && (
+                <div role="alert" className="space-y-2 text-sm text-destructive">
+                  <p>Couldn't load the latest replies. Your conversation is saved.</p>
+                  <Button variant="outline" size="sm" onClick={() => refreshThread()}>Reload replies</Button>
+                </div>
               )}
 
               {/* Contextual suggestions scroll with the conversation so they can
