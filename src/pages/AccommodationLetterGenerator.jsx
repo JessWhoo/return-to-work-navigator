@@ -40,6 +40,17 @@ export default function AccommodationLetterGenerator() {
     setSelected((prev) => [...prev, { id: `custom-${Date.now()}`, label, rationale: '', custom: true }]);
   const removeCustom = (id) => setSelected((prev) => prev.filter((s) => s.id !== id));
 
+  // Move to a step and bring its content into view. Without this, a user (or a
+  // scripted test) sitting at the bottom of the long accommodation list clicks
+  // Continue while the freshly rendered step sits above the viewport, so the
+  // click looks like it did nothing.
+  const goToStep = (target) => {
+    setStep(target);
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const canContinue = step !== 1 || selected.length > 0;
+
   const next = () => {
     if (step === 1 && selected.length === 0) {
       toast.error('Select at least one accommodation to continue');
@@ -49,7 +60,7 @@ export default function AccommodationLetterGenerator() {
       setLetter(buildLetter(selected, details));
       logToolEngagement('accommodation_letter_generator');
     }
-    setStep((s) => s + 1);
+    goToStep(step + 1);
   };
 
   return (
@@ -92,15 +103,17 @@ export default function AccommodationLetterGenerator() {
       </motion.div>
 
       <div className="no-print mt-6 flex items-center justify-between gap-3">
-        <Button variant="outline" disabled={step === 1} onClick={() => setStep((s) => s - 1)}>
+        <Button variant="outline" disabled={step === 1} onClick={() => goToStep(step - 1)}>
           <ArrowLeft className="h-4 w-4" /> Back
         </Button>
         {step < 3 ? (
           <div className="flex items-center gap-3">
             {step === 1 && (
-              <span className="text-sm font-semibold text-brand-muted-foreground">{selected.length} selected</span>
+              <span className="text-sm font-semibold text-brand-muted-foreground">
+                {selected.length > 0 ? `${selected.length} selected` : 'Select at least one to continue'}
+              </span>
             )}
-            <Button onClick={next}>
+            <Button onClick={next} disabled={!canContinue}>
               {step === 2 ? <><FileText className="h-4 w-4" /> Generate letter</> : <>Continue <ArrowRight className="h-4 w-4" /></>}
             </Button>
           </div>
