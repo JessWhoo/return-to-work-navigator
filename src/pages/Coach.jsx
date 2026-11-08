@@ -168,8 +168,10 @@ export default function Coach() {
     },
   });
 
+  // Sending is never blocked by a reply still being written — a survivor can
+  // follow up at any time and both messages land in the same thread.
   const handleSend = () => {
-    if (!message.trim() || sendMessageMutation.isPending || !isAuthenticated) return;
+    if (!message.trim() || !isAuthenticated) return;
     const currentMessage = message.trim();
     setMessage('');
     sendMessageMutation.mutate(currentMessage);
@@ -183,7 +185,7 @@ export default function Coach() {
   };
 
   const handleQuickMessage = messageText => {
-    if (sendMessageMutation.isPending || !isAuthenticated) return;
+    if (!isAuthenticated) return;
     setMobileTab('chat');
     sendMessageMutation.mutate(messageText);
   };
@@ -477,20 +479,16 @@ export default function Coach() {
                   placeholder="Type your message... (Shift+Enter for new line)"
                   aria-label="Message to your coach"
                   className="min-h-[60px] max-h-[120px] min-w-0 flex-1 resize-y text-base"
-                  disabled={sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
+                  disabled={!isLoadingAuth && !isAuthenticated}
                 />
                 <Button
                   onClick={handleSend}
-                  disabled={!message.trim() || sendMessageMutation.isPending || (!isLoadingAuth && !isAuthenticated)}
+                  disabled={!message.trim() || (!isLoadingAuth && !isAuthenticated)}
                   size="icon"
                   aria-label="Send message to your coach"
                   className="self-end"
                 >
-                  {sendMessageMutation.isPending ? (
-                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                  ) : (
-                    <Send className="h-5 w-5" aria-hidden="true" />
-                  )}
+                  <Send className="h-5 w-5" aria-hidden="true" />
                 </Button>
               </div>
               {selectedConversation && (
