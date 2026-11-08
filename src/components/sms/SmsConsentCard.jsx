@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MessageSquare, Phone } from 'lucide-react';
 
-const PHONE_DISPLAY = '(575) 221-1160';
-const PHONE_E164 = '+15752211160';
+const PHONE_DISPLAY = '(575) 565-3312';
+const PHONE_E164 = '+15755653312';
 const CALL_CONVERSION = 'AW-18498327009/QvcyCOOjzJMdEOGj2PRE';
 
 /**
