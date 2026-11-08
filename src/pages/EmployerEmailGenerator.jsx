@@ -126,7 +126,11 @@ export default function EmployerEmailGenerator({ embedded = false }) {
     queryKey: ['coach-conversations'],
     enabled: !isLoadingAuth && !!isAuthenticated,
     queryFn: async () => {
-      const convs = await base44.agents.listConversations({ q: { agent_name: 'return_to_work_coach' } });
+      const convs = await base44.agents.listConversations({
+        agent_name: 'return_to_work_coach',
+        sort: '-updated_date',
+        limit: 50,
+      });
       return convs || [];
     },
     retry: 1

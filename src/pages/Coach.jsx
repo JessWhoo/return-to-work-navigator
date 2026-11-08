@@ -61,8 +61,13 @@ export default function Coach() {
   const { data: conversationsList, isLoading: loadingConversations, error: conversationsError } = useQuery({
     queryKey: ['coach-conversations'],
     queryFn: async () => {
+      // Filter params go straight into the query string, so they must be flat
+      // (`q: { agent_name }` serialised to "[object Object]" and returned nothing,
+      // leaving the history empty and conversations "disappearing" on reload).
       const convs = await base44.agents.listConversations({
-        q: { agent_name: 'return_to_work_coach' }
+        agent_name: 'return_to_work_coach',
+        sort: '-updated_date',
+        limit: 50,
       });
       return convs || [];
     },
