@@ -22,7 +22,7 @@ export default function StructuredData() {
         '@id': `${SITE}/#organization`,
         name: 'Return to Work Navigator',
         url: SITE,
-        logo: BRAND_LOGO,
+        logo: `${SITE}${BRAND_LOGO}`,
         slogan: 'Back to Life, Back to Work',
         description:
           'Guidance, tools and resources helping cancer survivors return to work with confidence.',

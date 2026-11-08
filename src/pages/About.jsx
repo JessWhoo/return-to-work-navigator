@@ -40,7 +40,7 @@ export default function About() {
           <h2 className="mb-6 text-center font-heading text-2xl font-bold sm:text-3xl text-brand-text sm:text-left">Meet the Founder</h2>
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             <img
-              src="https://media.base44.com/images/public/69406c752de234aafebf891d/c66b3b480_IMG_1779.jpg"
+              src="/images/founder-photo.jpg"
               alt="Jess Whorton, Founder & Creator"
               width="192"
               height="192"

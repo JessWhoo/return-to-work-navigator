@@ -10,8 +10,8 @@ function sendNotification(title, body, url) {
   if (Notification.permission !== 'granted') return;
   const n = new Notification(title, {
     body,
-    icon: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png',
-    badge: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69406c752de234aafebf891d/433da2071_IMG_1196.png',
+    icon: '/images/navigator-logo.png',
+    badge: '/images/navigator-logo.png',
     tag: title, // deduplicate same-title notifications
   });
   if (url) {

@@ -12,7 +12,7 @@
   "categories": ["health", "medical", "productivity"],
   "icons": [
     {
-      "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
+      "src": "/images/navigator-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
@@ -27,7 +27,7 @@
       "url": "/Coach",
       "icons": [
         {
-          "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
+          "src": "/images/navigator-logo.png",
           "sizes": "512x512",
           "type": "image/png"
         }
@@ -40,7 +40,7 @@
       "url": "/ProgressDashboard",
       "icons": [
         {
-          "src": "https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png",
+          "src": "/images/navigator-logo.png",
           "sizes": "512x512",
           "type": "image/png"
         }

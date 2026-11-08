@@ -4,8 +4,8 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const features = [
-  { title: 'You Are Not Alone', description: 'Connect with a supportive community of people who understand your journey.', cta: 'Join Our Community', path: '/CommunityHub', tone: 'nv-card--sage', artwork: 'https://media.base44.com/images/public/69406c752de234aafebf891d/e31c98aa3_generated_f31f4584.webp' },
-  { title: 'Resources That Empower', description: 'Guides, templates, and expert tips to help you feel prepared at every stage.', cta: 'Explore Resources', path: '/Resources', tone: 'nv-card--pink', artwork: 'https://media.base44.com/images/public/69406c752de234aafebf891d/b85c54b88_generated_e735003c.webp' },
+  { title: 'You Are Not Alone', description: 'Connect with a supportive community of people who understand your journey.', cta: 'Join Our Community', path: '/CommunityHub', tone: 'nv-card--sage', artwork: '/images/community-artwork.webp' },
+  { title: 'Resources That Empower', description: 'Guides, templates, and expert tips to help you feel prepared at every stage.', cta: 'Explore Resources', path: '/Resources', tone: 'nv-card--pink', artwork: '/images/resources-artwork.webp' },
 ];
 
 export default function HomeFeatures() {

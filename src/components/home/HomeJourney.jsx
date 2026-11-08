@@ -19,7 +19,7 @@ export default function HomeJourney({ progress, loading, error, onRetry }) {
         </Link>
       </div>
       <figure className="nv-card mx-auto w-full max-w-full overflow-hidden sm:max-w-lg">
-        <img src="https://media.base44.com/images/public/69406c752de234aafebf891d/346c32826_render.png" alt="Wooden signposts against a mountain landscape reading Explore, Plan, Build, Return, and Thrive." width="818" height="1024" loading="lazy" decoding="async" className="block h-auto w-full" />
+        <img src="/images/journey-signposts.png" alt="Wooden signposts against a mountain landscape reading Explore, Plan, Build, Return, and Thrive." width="818" height="1024" loading="lazy" decoding="async" className="block h-auto w-full" />
       </figure>
       {loading && <p role="status" className="text-center text-sm text-brand-muted-foreground">Loading your saved progress…</p>}
       {error && !loading && <div className="nv-card p-5 text-center"><p role="alert">We couldn't load your progress just now.</p><Button variant="outline" className="mt-3" onClick={onRetry}>Try again</Button></div>}

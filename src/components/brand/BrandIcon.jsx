@@ -71,5 +71,5 @@ export const WellbeingIcon = make([
   <circle key="b" cx="16" cy="7" r="2.2" />,
 ]);
 
-export const BRAND_LOGO = 'https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png';
+export const BRAND_LOGO = '/images/navigator-logo.png';
 export const BRAND_NAME = 'Return to Work Navigator';

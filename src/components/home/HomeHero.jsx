@@ -8,8 +8,8 @@ export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated })
   return (
     <section className="nv-hero nv-home-hero" aria-labelledby="home-title">
       <video autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="nv-home-scenery">
-        <source src="https://media.base44.com/videos/public/69406c752de234aafebf891d/e6ff51187_128375816_1791718492796861.mp4" type="video/mp4" />
-        Your browser does not support video playback. <a href="https://media.base44.com/videos/public/69406c752de234aafebf891d/e6ff51187_128375816_1791718492796861.mp4">Open the video</a>.
+        <source src="/video/home-hero.mp4" type="video/mp4" />
+        Your browser does not support video playback. <a href="/video/home-hero.mp4">Open the video</a>.
       </video>
       <div className="nv-home-hero-content grid gap-8 lg:grid-cols-[3fr_1fr] lg:items-center">
         <div className="space-y-6">
