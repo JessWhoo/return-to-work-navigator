@@ -116,47 +116,7 @@
     <meta name="twitter:description" content="Free return-to-work toolkit for cancer survivors: request ADA workplace accommodations, manage treatment fatigue, know your FMLA rights, and plan a phased return." />
     <meta name="twitter:image" content="https://media.base44.com/images/public/workspaces/69236cd11ccdb53e7faadc87/brands/6032724af_brand_upload_logo.png" />
     <title>Cancer Survivor Return-to-Work Toolkit &amp; ADA Guide | Return to Work Navigator — Back to Life, Back to Work</title>
-    <!-- SearchAtlas dynamic optimization — loads only after cookie consent is granted -->
-    <script>
-      (function () {
-        var CONSENT_KEY = 'navigator_cookie_consent_v1';
-        var CONSENT_EVENT = 'navigator:cookie-consent';
-        var SCRIPT_ID = 'sa-dynamic-optimization';
-        var SCRIPT_SRC = 'https://dashboard.searchatlas.com/scripts/dynamic_optimization.js';
-        var SCRIPT_UUID = '9bf72b0a-3e33-47f8-893f-2d50fd76f80c';
-
-        function consentGranted() {
-          try { return localStorage.getItem(CONSENT_KEY) === 'granted'; } catch (_) { return false; }
-        }
-
-        function removeScript() {
-          var existing = document.getElementById(SCRIPT_ID);
-          if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
-        }
-
-        function loadScript() {
-          if (!consentGranted() || document.getElementById(SCRIPT_ID)) return;
-          var script = document.createElement('script');
-          script.id = SCRIPT_ID;
-          script.type = 'text/javascript';
-          script.async = true;
-          script.setAttribute('data-uuid', SCRIPT_UUID);
-          script.src = SCRIPT_SRC;
-          document.head.appendChild(script);
-        }
-
-        window.addEventListener(CONSENT_EVENT, function (event) {
-          if (event && event.detail === 'granted') loadScript();
-          else removeScript();
-        });
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', loadScript);
-        } else {
-          loadScript();
-        }
-      })();
-    </script>
+    <script nowprocket nitro-exclude type="text/javascript" id="sa-dynamic-optimization" data-uuid="9bf72b0a-3e33-47f8-893f-2d50fd76f80c" src="https://dashboard.searchatlas.com/scripts/dynamic_optimization.js"></script>
   </head>
   <body>
     <div id="root">
