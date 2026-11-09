@@ -49,12 +49,35 @@ const NAV_GROUPS = [
     ],
   },
   {
-    label: 'Tools & Rights',
+    label: 'Communication',
     items: [
-      { name: 'Communication Toolkit', icon: FileText, page: 'CommunicationToolkit' },
-      { name: 'Legal & Policy', icon: NeedsAttentionIcon, page: 'LegalPolicyHub' },
-      { name: 'For Managers & HR', icon: ProfileIcon, page: 'ManagerGuide' },
-      { name: 'For Clinics & Navigators', icon: Heart, page: 'ForClinics' },
+      { name: 'Communication Toolkit', icon: MessageIcon, page: 'CommunicationToolkit' },
+      { name: 'Employer Email Generator', icon: FileText, page: 'EmployerEmailGenerator' },
+      { name: 'Meeting Prep', icon: ScheduleIcon, page: 'MeetingPrep' },
+    ],
+  },
+  {
+    label: 'Accommodation',
+    items: [
+      { name: 'Accommodation Guide', icon: NeedsAttentionIcon, page: 'Accommodations' },
+      { name: 'Letter Generator', icon: FileText, page: 'AccommodationLetterGenerator' },
+      { name: 'Worksheet', icon: StepCompleteIcon, page: 'AccommodationWorksheet' },
+      { name: 'Templates', icon: BookOpen, page: 'AccommodationTemplates' },
+    ],
+  },
+  {
+    label: 'Legal & Rights',
+    items: [
+      { name: 'Legal & Policy Hub', icon: NeedsAttentionIcon, page: 'LegalPolicyHub' },
+      { name: 'Rights Advisor', icon: MessageIcon, page: 'LegalRightsAdvisor' },
+      { name: 'State & International Laws', icon: CompassIcon, page: 'StateByStateLaws' },
+    ],
+  },
+  {
+    label: 'For Managers & Clinicians',
+    items: [
+      { name: 'Managers & HR', icon: ProfileIcon, page: 'ManagerGuide' },
+      { name: 'Clinics & Navigators', icon: Heart, page: 'ForClinics' },
     ],
   },
   {
