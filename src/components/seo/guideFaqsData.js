@@ -53,6 +53,16 @@ export const ACCOMMODATIONS_GUIDE_FAQS = [
 
 export const DISCLOSURE_GUIDE_FAQS = [
   {
+    question: 'What does workplace disclosure mean when you have cancer?',
+    answer:
+      'Workplace disclosure means telling someone at your employer — usually HR, a manager, or a leave administrator — that you have a medical condition that affects your work, so you can access protected leave or reasonable accommodations. It is a decision you make, not an obligation: disclosure can be limited to the functional limitations that matter at work, and you can choose who receives it.',
+  },
+  {
+    question: 'Is it better to disclose a cancer diagnosis in writing or in person?',
+    answer:
+      'In person is often kinder for the relationship, but in writing is safer for your records. Many survivors do both: a short conversation or call to raise it, followed by a same-day email summarizing what was discussed and what you are requesting. The email is what creates a dated, provable record that your employer knew about your protected medical need.',
+  },
+  {
     question: 'Am I legally required to tell my employer that I have cancer?',
     answer:
       'No. In the United States, you are not legally required to disclose a cancer diagnosis to your employer, supervisor, or coworkers. If you do not need medical leave or workplace accommodations, you do not have to say anything. If you do request FMLA leave or ADA accommodations, you only need to provide limited medical certification of your functional limitations and need for leave or adjustments—often directly to HR rather than your day-to-day manager.',

@@ -11,6 +11,7 @@ import StepCard from '@/components/disclosure/StepCard';
 import LegalProtectionsCard from '@/components/disclosure/LegalProtectionsCard';
 import DisclosureEditorialGuide from '@/components/disclosure/DisclosureEditorialGuide';
 import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import ToolSeoIntro from '@/components/seo/ToolSeoIntro';
 import GuideLanguageSwitch from '@/components/seo/GuideLanguageSwitch';
 import { DISCLOSURE_GUIDE_FAQS } from '@/components/seo/guideFaqsData';
 
@@ -69,6 +70,21 @@ export default function DisclosureGuide() {
             currentLang="en"
           />
         }
+      />
+
+      <ToolSeoIntro
+        id="disclosure-intro"
+        eyebrow="Workplace disclosure, explained"
+        heading="Telling Your Employer About Cancer: How to Disclose at Work"
+        paragraphs={[
+          'Deciding whether and how to share a cancer diagnosis at work is one of the hardest parts of returning to work. This free disclosure guide walks you through whether you are legally required to tell your employer, whether to start with HR or your manager, what your medical privacy rights are under the ADA and FMLA, and exactly what to say — with word-for-word scripts and a preparation checklist you can work through at your own pace.',
+          'Disclosure is not all-or-nothing. You can share only what your employer needs in order to grant leave or accommodations, keep the diagnosis itself private, and control who hears what. Everything here is educational guidance, not legal advice.',
+        ]}
+        points={[
+          'Do you have to disclose? What the law actually requires',
+          'HR vs. manager: who to tell first, and what stays private',
+          'Scripts, written follow-ups, and interview questions',
+        ]}
       />
 
       {/* Progress */}
