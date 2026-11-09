@@ -14,6 +14,9 @@ import PostLetterSharePrompt from '@/components/accommodationLetter/PostLetterSh
 import { buildLetter } from '@/components/accommodationLetter/buildLetter';
 import { EMPTY_DETAILS } from '@/components/accommodationLetter/accommodationOptions';
 import { logToolEngagement } from '@/lib/analytics';
+import ToolSeoIntro from '@/components/seo/ToolSeoIntro';
+import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import { ACCOMMODATION_LETTER_FAQS } from '@/components/seo/toolFaqs';
 
 const STEP_COPY = {
   1: { title: 'ADA Workplace Accommodation Letter Generator', sub: 'Select every workplace accommodation that would help you do your job well. You can add custom adjustments too.' },
@@ -73,6 +76,24 @@ export default function AccommodationLetterGenerator() {
           title={STEP_COPY[step].title}
           subtitle={STEP_COPY[step].sub}
         />
+        {step === 1 && (
+          <div className="mt-6">
+            <ToolSeoIntro
+              id="accommodation-letter-intro"
+              eyebrow="Accommodation letter"
+              heading="How to Write an ADA Accommodation Request Letter After Cancer"
+              paragraphs={[
+                'A written accommodation request is what starts your employer’s legal duty under the Americans with Disabilities Act to consider adjustments to your job. This generator turns the accommodations you choose — flexible hours, remote work, rest breaks, ergonomic changes — into a formal request letter you can edit, print, or download and send to HR.',
+                'You decide how much to disclose, and nothing you enter is stored or sent anywhere.',
+              ]}
+              points={[
+                'Three guided steps, no sign-in needed',
+                'Covers schedule, remote work, fatigue, and workspace needs',
+                'Print or download the finished letter as a PDF',
+              ]}
+            />
+          </div>
+        )}
         <div className="mt-6"><StepIndicator current={step} /></div>
       </div>
 
@@ -122,6 +143,16 @@ export default function AccommodationLetterGenerator() {
             Educational use only — not legal advice.
           </p>
         )}
+      </div>
+
+      <div className="no-print mt-12">
+        <GuideFaqSection
+          id="accommodation-letter-faq"
+          eyebrow="Accommodation letter FAQ"
+          title="Frequently Asked Questions About ADA Accommodation Letters"
+          subtitle="What to include, who to send it to, and what your employer has to do next."
+          faqs={ACCOMMODATION_LETTER_FAQS}
+        />
       </div>
     </div>
   );

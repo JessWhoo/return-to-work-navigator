@@ -6,6 +6,7 @@
 // JSON-LD FAQPage schema in StructuredData.jsx so visible text and schema
 // always match 1:1.
 import { FAQ_PAGE_FAQS } from './faqPageData';
+import { ACCOMMODATION_LETTER_FAQS, EMPLOYER_EMAIL_FAQS, LEGAL_ADVISOR_FAQS } from './toolFaqs';
 
 export const ACCOMMODATIONS_GUIDE_FAQS = [
   {
@@ -284,6 +285,9 @@ export const COMMUNITY_GUIDELINES_FAQS = [
 ];
 
 export const GUIDE_FAQ_BY_PATH = {
+  '/accommodationlettergenerator': ACCOMMODATION_LETTER_FAQS,
+  '/employeremailgenerator': EMPLOYER_EMAIL_FAQS,
+  '/legalrightsadvisor': LEGAL_ADVISOR_FAQS,
   '/accommodations': ACCOMMODATIONS_GUIDE_FAQS,
   '/disclosureguide': DISCLOSURE_GUIDE_FAQS,
   '/chemobrainguide': CHEMO_BRAIN_FAQS,

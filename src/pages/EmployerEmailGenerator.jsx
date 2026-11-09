@@ -19,6 +19,9 @@ import SaveDraftButton from '@/components/communication/SaveDraftButton';
 import EmailScenarioChoice from '@/components/communication/EmailScenarioChoice';
 import { logToolEngagement } from '@/lib/analytics';
 import useSEO from '@/hooks/useSEO';
+import ToolSeoIntro from '@/components/seo/ToolSeoIntro';
+import GuideFaqSection from '@/components/seo/GuideFaqSection';
+import { EMPLOYER_EMAIL_FAQS } from '@/components/seo/toolFaqs';
 
 const EMAIL_SCENARIOS = [
   {
@@ -221,6 +224,23 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           <p className="text-sm text-muted-foreground">AI-drafted workplace emails grounded in your return-to-work journey and coaching conversations</p>
         </div>
       </div>
+
+      {!embedded && (
+        <ToolSeoIntro
+          id="employer-email-intro"
+          eyebrow="Employer email"
+          heading="Return-to-Work and Accommodation Emails to Your Employer"
+          paragraphs={[
+            'Telling your manager or HR what you need is easier when the words are already there. This generator drafts professional emails for a return-to-work announcement, an ADA accommodation request, a schedule change, or a follow-up on a request that went quiet — grounded in the plan you have already built in your journey and coaching conversations.',
+            'Every draft is yours to edit before you send it, and you choose how much to disclose. Nothing is sent from this page.',
+          ]}
+          points={[
+            'Six scenarios, from disclosure to follow-up',
+            'Personalized with your return date and accommodations',
+            'Copy the draft or save it to My Drafts',
+          ]}
+        />
+      )}
 
       {/* Tip banner */}
       <Card className="nv-card--muted">
@@ -472,6 +492,16 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
           </Card>
         </div>
       </div>
+
+      {!embedded && (
+        <GuideFaqSection
+          id="employer-email-faq"
+          eyebrow="Employer email FAQ"
+          title="Frequently Asked Questions About Emailing Your Employer"
+          subtitle="What to say, who to include, and how to protect yourself in writing."
+          faqs={EMPLOYER_EMAIL_FAQS}
+        />
+      )}
     </div>
   );
 }
