@@ -17,6 +17,9 @@ export default function NavigatorFooter({ navigation }) {
           <p className="mt-4 text-xs">© 2026 Return to Work Navigator</p><p className="mt-2 text-xs">Information is for educational purposes only</p><p className="mt-1 text-xs italic">Not meant to be legal advice. Please consult with legal counsel.</p>
         </div>
       </div>
+      <div className="footer-bottom bg-[#1a1a1a] px-5 py-5 text-center text-white">
+        <p className="text-sm font-semibold">Return to Work After Cancer: Toolkit | Return to Work Navigator</p>
+      </div>
     </footer>
   );
 }
