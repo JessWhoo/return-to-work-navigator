@@ -18,7 +18,10 @@ export default function NavigatorFooter({ navigation }) {
         </div>
       </div>
       <div className="footer-bottom bg-[#1a1a1a] px-5 py-5 text-center text-white">
-        <p className="text-sm font-semibold">Return to Work After Cancer: Toolkit | Return to Work Navigator</p>
+        <Link
+          to="/"
+          className="inline-block text-sm font-semibold text-white underline-offset-4 hover:underline"
+        >Return to Work After Cancer: Toolkit | Return to Work Navigator</Link>
       </div>
     </footer>
   );
