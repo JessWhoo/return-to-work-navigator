@@ -138,7 +138,7 @@ const countries = [
       { label: 'CLT Protections', detail: 'The Consolidation of Labor Laws (CLT) provides 15 days of employer-paid sick leave, after which INSS takes over. Termination during illness or treatment is broadly protectable.' },
     ],
     keyPoints: 'Cancer patients generally cannot be dismissed during treatment. INSS pays 91% of benefit salary during incapacity. 15 days employer-paid then social security.',
-    resources: [{ name: 'INSS (Previdência Social)', url: 'https://www.inss.gov.br' }, { name: 'MPT (Labor Ministry)', url: 'https://www.gov.br/trabalho-e-emprego' }]
+    resources: [{ name: 'INSS (Previdência Social)', url: 'https://www.gov.br/inss/pt-br' }, { name: 'MPT (Labor Ministry)', url: 'https://www.gov.br/trabalho-e-emprego' }]
   },
   {
     country: 'Japan',

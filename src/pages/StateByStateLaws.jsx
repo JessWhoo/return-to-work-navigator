@@ -58,7 +58,7 @@ const stateLaws = [
       { label: 'No SDI', detail: 'Florida has no state disability insurance program. Income replacement during leave is not state-mandated.' },
     ],
     keyDifferences: 'No state paid leave, no SDI, no state FMLA. Heavily reliant on federal ADA and FMLA protections.',
-    resources: [{ name: 'FCHR', url: 'http://fchr.state.fl.us' }]
+    resources: [{ name: 'FCHR', url: 'https://fchr.state.fl.us' }]
   },
   {
     state: 'Washington',
