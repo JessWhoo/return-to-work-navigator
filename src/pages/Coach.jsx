@@ -194,8 +194,14 @@ export default function Coach() {
   // Sending is never blocked by a reply still being written — a survivor can
   // follow up at any time and both messages land in the same thread.
   const handleSend = () => {
-    if (!message.trim() || !isAuthenticated) return;
     const currentMessage = message.trim();
+    if (!currentMessage) return;
+    if (!isAuthenticated) {
+      // Session ended mid-chat: keep the box and send them to sign in rather
+      // than silently swallowing the message.
+      base44.auth.redirectToLogin(createPageUrl('Coach'));
+      return;
+    }
     setMessage('');
     sendMessageMutation.mutate(currentMessage);
 
@@ -231,11 +237,18 @@ export default function Coach() {
 
   // Keeps the open thread in sync with the saved conversation, including the
   // reply the agent writes after the send request returns.
+  // A server read that lags behind a send must never delete the message that is
+  // already on screen — that is what made a just-sent message vanish.
   const updateThread = thread => setConversations(previous => {
+    const incoming = thread.messages || [];
     const exists = previous.some(conv => conv.id === thread.id);
-    return exists
-      ? previous.map(conv => conv.id === thread.id ? { ...conv, ...thread } : conv)
-      : [thread, ...previous];
+    if (!exists) return [{ ...thread, messages: incoming }, ...previous];
+    return previous.map(conv => {
+      if (conv.id !== thread.id) return conv;
+      const unsaved = (conv.messages || []).filter(m =>
+        !incoming.some(saved => saved.id === m.id || (saved.role === m.role && saved.content === m.content)));
+      return { ...conv, ...thread, messages: [...incoming, ...unsaved] };
+    });
   });
   const { refetch: refreshThread, error: threadError } = useCoachThread(
     selectedConversation,
@@ -349,7 +362,7 @@ export default function Coach() {
                   <Loader2 className="h-8 w-8 animate-spin text-primary" aria-hidden="true" />
                   <span className="sr-only">Loading your coach</span>
                 </div>
-              ) : !isAuthenticated ? (
+              ) : !isAuthenticated && messages.length === 0 ? (
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-xl space-y-5 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
@@ -505,42 +518,43 @@ export default function Coach() {
                   </Button>
                 </div>
               )}
-              {isLoadingAuth ? (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                  Loading your coach…
-                </div>
-              ) : !isAuthenticated ? (
-                <div className="space-y-3">
+              {!isLoadingAuth && !isAuthenticated && (
+                <div className="mb-3 rounded-brand border border-border bg-muted p-3">
                   <p className="text-sm text-muted-foreground">
-                    Sign in to message your coach — your conversations are saved privately to your account.
+                    You're signed out, so messages can't send. Sign in again to keep chatting — your saved conversations stay here.
                   </p>
-                  <Button onClick={() => base44.auth.redirectToLogin(createPageUrl('Coach'))}>
+                  <Button
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => base44.auth.redirectToLogin(createPageUrl('Coach'))}
+                  >
                     Sign in to message
                   </Button>
                 </div>
-              ) : (
-                <div className="flex gap-3">
-                  <Textarea
-                    ref={inputRef}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyPress}
-                    placeholder="Type your message... (Shift+Enter for new line)"
-                    aria-label="Message to your coach"
-                    className="min-h-[60px] max-h-[120px] min-w-0 flex-1 resize-y text-base"
-                  />
-                  <Button
-                    onClick={handleSend}
-                    disabled={!message.trim()}
-                    size="icon"
-                    aria-label="Send message to your coach"
-                    className="self-end"
-                  >
-                    <Send className="h-5 w-5" aria-hidden="true" />
-                  </Button>
-                </div>
               )}
+              {/* The message box is always on screen: after a send, while the
+                  keyboard is open, and while a session is being renewed. */}
+              <div className="flex gap-3">
+                <Textarea
+                  ref={inputRef}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder={isLoadingAuth ? 'Loading your coach…' : 'Type your message... (Shift+Enter for new line)'}
+                  aria-label="Message to your coach"
+                  className="min-h-[60px] max-h-[120px] min-w-0 flex-1 resize-y text-base"
+                  disabled={isLoadingAuth}
+                />
+                <Button
+                  onClick={handleSend}
+                  disabled={!message.trim() || isLoadingAuth}
+                  size="icon"
+                  aria-label="Send message to your coach"
+                  className="self-end"
+                >
+                  <Send className="h-5 w-5" aria-hidden="true" />
+                </Button>
+              </div>
               {selectedConversation && (
                 <p className="mt-2 text-xs font-medium text-muted-foreground">
                   Press Enter to send • Shift+Enter for new line
