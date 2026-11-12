@@ -144,17 +144,39 @@ export default function Coach() {
     mutationFn: async (/** @type {string} */ messageText) => {
       setLastUserMessage(messageText);
       setChatError(null);
-      const conversation = selectedConversation
-        ? await base44.agents.getConversation(selectedConversation)
-        : await createConversationMutation.mutateAsync();
-      const sentMessage = await base44.agents.addMessage(conversation, {
-        role: 'user', content: messageText,
-      });
-      // Display the accepted message immediately, without waiting for a socket event.
-      setConversations(previous => previous.map(conv => {
-        if (conv.id !== conversation.id || conv.messages?.some(msg => msg.id === sentMessage.id)) return conv;
-        return { ...conv, messages: [...(conv.messages || []), sentMessage] };
-      }));
+
+      // Never let a thread that cannot be opened stop the send: fall back to a
+      // new conversation so the survivor's message still reaches the coach.
+      let conversation = null;
+      if (selectedConversation) {
+        try {
+          conversation = await base44.agents.getConversation(selectedConversation);
+        } catch {
+          conversation = null;
+        }
+      }
+      if (!conversation) conversation = await createConversationMutation.mutateAsync();
+
+      // Show the message in the thread straight away — the reply arrives with
+      // the request, so waiting for it left the composer looking unresponsive.
+      const showOwnMessage = () => setConversations(previous => previous.map(conv =>
+        conv.id === conversation.id
+          ? { ...conv, messages: [...(conv.messages || []), { id: `pending-${Date.now()}`, role: 'user', content: messageText }] }
+          : conv));
+
+      showOwnMessage();
+
+      try {
+        await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
+      } catch (error) {
+        // A saved thread the platform no longer accepts messages on (removed or
+        // archived) is replaced rather than leaving the message unsent.
+        if (error?.status !== 404 && error?.status !== 403) throw error;
+        conversation = await createConversationMutation.mutateAsync();
+        showOwnMessage();
+        await base44.agents.addMessage(conversation, { role: 'user', content: messageText });
+      }
+
       base44.analytics.track({
         eventName: 'ai_coach_message_sent',
         properties: { conversation_id: conversation.id, message_length: messageText.length },
@@ -220,24 +242,8 @@ export default function Coach() {
     }
   }, [messages, selectedConversation]);
 
-  if (loadingConversations) {
-    return (
-      <div className="mx-auto max-w-7xl space-y-6 pb-4">
-        <PageHeader
-          eyebrow="24/7 Personalized Guidance"
-          title="AI Return-to-Work Coach for Cancer Survivors"
-          subtitle="Ask questions about ADA accommodations, fatigue pacing, employer conversations, and your return-to-work plan."
-        />
-        <div className="flex h-64 items-center justify-center">
-          <div className="space-y-3 text-center">
-            <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" aria-hidden="true" />
-            <p className="text-sm font-semibold text-foreground">Loading your coach...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // The page always renders: a slow conversation list must never hide the
+  // composer and leave the coach impossible to message.
   return (
     <div className="mx-auto max-w-7xl space-y-6 pb-4">
       <PageHeader
@@ -325,7 +331,12 @@ export default function Coach() {
 
             {/* Messages */}
             <CardContent ref={messagesScrollRef} className="min-h-0 min-w-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-muted p-4 [overflow-wrap:anywhere] sm:p-6">
-              {!isLoadingAuth && !isAuthenticated ? (
+              {isLoadingAuth ? (
+                <div className="flex min-h-full items-center justify-center" role="status">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" aria-hidden="true" />
+                  <span className="sr-only">Loading your coach</span>
+                </div>
+              ) : !isAuthenticated ? (
                 <div className="flex min-h-full items-center justify-center">
                   <div className="max-w-xl space-y-5 text-center">
                     <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-pill bg-primary text-primary-foreground">
@@ -469,28 +480,53 @@ export default function Coach() {
             {/* Input Area */}
             <div className="shrink-0 border-t border-border bg-brand-surface p-4">
               {chatError && (
-                <p className="mb-2 text-sm font-semibold text-destructive" role="alert">{chatError}</p>
+                <div className="mb-2 space-y-2" role="alert">
+                  <p className="text-sm font-semibold text-destructive">{chatError}</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => { setChatError(null); if (message.trim()) handleSend(); }}
+                  >
+                    <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
+                    Try again
+                  </Button>
+                </div>
               )}
-              <div className="flex gap-3">
-                <Textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Type your message... (Shift+Enter for new line)"
-                  aria-label="Message to your coach"
-                  className="min-h-[60px] max-h-[120px] min-w-0 flex-1 resize-y text-base"
-                  disabled={!isLoadingAuth && !isAuthenticated}
-                />
-                <Button
-                  onClick={handleSend}
-                  disabled={!message.trim() || (!isLoadingAuth && !isAuthenticated)}
-                  size="icon"
-                  aria-label="Send message to your coach"
-                  className="self-end"
-                >
-                  <Send className="h-5 w-5" aria-hidden="true" />
-                </Button>
-              </div>
+              {isLoadingAuth ? (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Loading your coach…
+                </div>
+              ) : !isAuthenticated ? (
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Sign in to message your coach — your conversations are saved privately to your account.
+                  </p>
+                  <Button onClick={() => base44.auth.redirectToLogin(createPageUrl('Coach'))}>
+                    Sign in to message
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-3">
+                  <Textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={handleKeyPress}
+                    placeholder="Type your message... (Shift+Enter for new line)"
+                    aria-label="Message to your coach"
+                    className="min-h-[60px] max-h-[120px] min-w-0 flex-1 resize-y text-base"
+                  />
+                  <Button
+                    onClick={handleSend}
+                    disabled={!message.trim()}
+                    size="icon"
+                    aria-label="Send message to your coach"
+                    className="self-end"
+                  >
+                    <Send className="h-5 w-5" aria-hidden="true" />
+                  </Button>
+                </div>
+              )}
               {selectedConversation && (
                 <p className="mt-2 text-xs font-medium text-muted-foreground">
                   Press Enter to send • Shift+Enter for new line
