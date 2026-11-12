@@ -36,6 +36,7 @@ export default function Coach() {
   });
   const queryClient = useQueryClient();
   const messagesScrollRef = useRef(null);
+  const inputRef = useRef(null);
   const [message, setMessage] = useState('');
   // Mobile is a two-tab view: the conversation, or the coach's profile.
   const [mobileTab, setMobileTab] = useState('chat');
@@ -197,6 +198,16 @@ export default function Coach() {
     const currentMessage = message.trim();
     setMessage('');
     sendMessageMutation.mutate(currentMessage);
+
+    // On a phone the chat card is taller than the visible screen once the
+    // keyboard opens, so the message box could end up hidden. Bring it back
+    // into view and keep the keyboard open for a follow-up question.
+    requestAnimationFrame(() => {
+      const box = inputRef.current;
+      if (!box) return;
+      box.scrollIntoView({ block: 'nearest' });
+      box.focus({ preventScroll: true });
+    });
   };
 
   const handleKeyPress = e => {
@@ -308,7 +319,9 @@ export default function Coach() {
         </div>
 
         {/* Main Chat Area */}
-        <div className={`order-2 h-[max(36rem,80dvh)] min-w-0 flex-col xl:order-none xl:flex ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
+        {/* Height follows the visible viewport (dvh) with no rem floor, so the
+            composer stays on screen on a phone even with the keyboard open. */}
+        <div className={`order-2 h-[calc(100dvh-8.5rem)] min-h-[20rem] min-w-0 flex-col scroll-mt-20 xl:order-none xl:h-[max(36rem,80dvh)] xl:min-h-0 xl:flex ${mobileTab === 'chat' ? 'flex' : 'hidden'}`}>
           <Card className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             <CardHeader className="shrink-0 border-b border-border">
               <div className="flex items-center justify-between gap-3">
@@ -509,6 +522,7 @@ export default function Coach() {
               ) : (
                 <div className="flex gap-3">
                   <Textarea
+                    ref={inputRef}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={handleKeyPress}
