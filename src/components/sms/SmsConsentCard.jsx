@@ -25,7 +25,7 @@ export default function SmsConsentCard({ className = '', children = null }) {
             /** @type {any} */ (window).gtag('event', 'conversion', { send_to: CALL_CONVERSION });
           }
         }}
-        className="mt-4 inline-flex items-center gap-3 font-heading text-3xl font-bold tracking-tight text-brand-text transition-colors hover:text-brand-primary sm:text-4xl"
+        className="mt-4 inline-flex min-w-0 items-center gap-3 font-heading text-2xl font-bold tracking-tight text-brand-text transition-colors hover:text-brand-primary sm:text-4xl"
       >
         <Phone className="h-7 w-7 flex-shrink-0 text-brand-primary" />
         {PHONE_DISPLAY}
