@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getRouteSEO, BASE_TITLE } from '@/hooks/useSEO';
+import { getRouteSEO, BASE_TITLE, CANONICAL_ORIGIN } from '@/hooks/useSEO';
 import { GUIDE_FAQ_BY_PATH } from './guideFaqsData';
 import { BRAND_LOGO } from '@/components/brand/BrandIcon';
 
-const SITE = 'https://return-to-work-navigator.org';
+// Same origin as the canonical tag, so structured data never names a host the
+// crawler cannot fetch.
+const SITE = CANONICAL_ORIGIN;
 
 export default function StructuredData() {
   const { pathname } = useLocation();

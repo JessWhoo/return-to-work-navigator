@@ -83,7 +83,7 @@ const STEPS = [
       { label: 'Career Hub', to: '/CareerHub', hint: 'Resume, interviews & career growth', icon: Briefcase },
       { label: 'Job Boards', to: '/JobBoards', hint: 'Find flexible, survivor-friendly work', icon: Search },
       { label: 'Community Hub', to: '/CommunityHub', hint: 'Peer connections & forums', icon: Users },
-      { label: 'Wellness Resources', to: '/WellnessResources', hint: 'Long-term wellbeing library', icon: HeartPulse },
+      { label: 'Wellness Resources', to: '/WellbeingHub?tab=resources', hint: 'Long-term wellbeing library', icon: HeartPulse },
       { label: 'Emotional Support', to: '/EmotionalSupport', hint: 'Ongoing support & coping tools', icon: HeartHandshake },
     ],
   },

@@ -248,7 +248,7 @@ export default function Layout({ children, currentPageName }) {
                   <ChevronLeft className="h-5 w-5" />
                 </button>
               )}
-              <Link to={createPageUrl('Home')} aria-label="Navigator home" className="min-w-0">
+              <Link to="/" aria-label="Navigator home" className="min-w-0">
                 <BrandMark showTagline className="hidden sm:inline-flex" />
                 {/* The full name wraps to three lines once the back button and the
                     header controls share a phone-width row, so phones show the

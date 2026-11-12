@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 
 export const BASE_TITLE = 'Return to Work Navigator — Back to Life, Back to Work';
-export const CANONICAL_ORIGIN = 'https://return-to-work-navigator.org';
+// Canonical URLs follow the host that actually served the page, so the tag can
+// never point at a domain Google is unable to fetch.
+export const CANONICAL_ORIGIN =
+  typeof window !== 'undefined'
+    ? window.location.origin
+    : 'https://return-to-work-navigator-febf891d.base44.app';
 
 const NOINDEX_ROUTES = new Set([
   '/login',
@@ -78,7 +83,9 @@ export const ROUTE_SEO = {
     description:
       'Quick 3-minute desk exercises, grounding techniques, sleep hygiene habits, and cognitive strategies to manage workplace stress after cancer treatment.',
     h1: 'Workplace Stress Relief & Wellness Techniques',
-    path: '/WellnessResources',
+    // /WellnessResources redirects into the Wellbeing Hub, so it must never
+    // present itself as the canonical URL for this content.
+    path: '/WellbeingHub',
   },
   '/expertadvice': {
     title: 'Expert Advice & Q&A: Oncology Social Workers & Employment Lawyers',
@@ -303,6 +310,13 @@ export const ROUTE_SEO = {
       'Follow a guided four-stage roadmap from medical clearance and accommodation planning through your first week back and long-term career sustainability.',
     h1: 'Your Step-by-Step Return-to-Work Roadmap',
     path: '/Roadmap',
+  },
+  '/navigatormethod': {
+    title: 'The Navigator Method: 5 Steps to Return to Work After Cancer',
+    description:
+      'The Navigator Method is a five-step framework, Explore, Plan, Build, Return, Thrive, that guides cancer survivors back to work. Each step links to free ADA, coaching, and accommodation tools.',
+    h1: 'The Navigator Method: Five Steps Back to Work',
+    path: '/NavigatorMethod',
   },
   '/myjourney': {
     title: 'My Return-to-Work Journey Dashboard & Checklist',

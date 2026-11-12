@@ -18,4 +18,4 @@ Disallow: /*?*token=
 Disallow: /*?*returnTo=
 Disallow: /*?*from_url=
 
-Sitemap: https://return-to-work-navigator.org/sitemap.xml
+Sitemap: https://return-to-work-navigator-febf891d.base44.app/sitemap.xml
