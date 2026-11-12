@@ -20,7 +20,11 @@ export const ROUTE_SEO = {
   '/': {
     title: 'Cancer Survivor Return-to-Work Toolkit & ADA Guide',
     description:
-      'Free return-to-work toolkit for cancer survivors: request ADA workplace accommodations, manage treatment fatigue, know your FMLA rights, and plan a phased return.',
+      'Return to Work Navigator helps cancer survivors manage fatigue, request workplace accommodations, and understand legal rights.',
+    ogDescription:
+      'Navigate returning to work after cancer with an AI assistant and 90+ trusted resources.',
+    twitterDescription:
+      'Support for returning to work after cancer: manage fatigue, request accommodations, and understand your rights.',
     h1: 'Return-to-Work Toolkit for Cancer Survivors',
     path: '/',
   },
@@ -479,7 +483,7 @@ function setMeta(selector, attr, value) {
 /**
  * @param {{ title?: string, description?: string, path?: string, noindex?: boolean }} [options]
  */
-export function applySEO({ title, description, path, noindex } = {}) {
+export function applySEO({ title, description, ogDescription, twitterDescription, path, noindex } = {}) {
   if (typeof document === 'undefined' || typeof window === 'undefined') return;
   const currentPathname = window.location.pathname || '/';
   const fallback = getRouteSEO(path || currentPathname);
@@ -499,8 +503,8 @@ export function applySEO({ title, description, path, noindex } = {}) {
 
   if (resolvedDescription) {
     setMeta('meta[name="description"]', 'content', resolvedDescription);
-    setMeta('meta[property="og:description"]', 'content', resolvedDescription);
-    setMeta('meta[name="twitter:description"]', 'content', resolvedDescription);
+    setMeta('meta[property="og:description"]', 'content', ogDescription || resolvedDescription);
+    setMeta('meta[name="twitter:description"]', 'content', twitterDescription || resolvedDescription);
   }
 
   setMeta('meta[property="og:title"]', 'content', fullTitle);
@@ -540,9 +544,9 @@ if (typeof window !== 'undefined') {
  * back to the route's entry in ROUTE_SEO.
  * @param {{ title?: string, description?: string, path?: string, noindex?: boolean, enabled?: boolean }} [options]
  */
-export default function useSEO({ title, description, path, noindex, enabled = true } = {}) {
+export default function useSEO({ title, description, ogDescription, twitterDescription, path, noindex, enabled = true } = {}) {
   useEffect(() => {
     if (!enabled) return;
-    applySEO({ title, description, path, noindex });
-  }, [title, description, path, noindex, enabled]);
+    applySEO({ title, description, ogDescription, twitterDescription, path, noindex });
+  }, [title, description, ogDescription, twitterDescription, path, noindex, enabled]);
 }

@@ -27,7 +27,11 @@ export default function Home() {
   useSEO({
     title: 'Cancer Survivor Return-to-Work Toolkit & ADA Guide',
     description:
-      'Free return-to-work toolkit for cancer survivors: request ADA workplace accommodations, manage treatment fatigue, know your FMLA rights, and plan a phased return.',
+      'Return to Work Navigator helps cancer survivors manage fatigue, request workplace accommodations, and understand legal rights.',
+    ogDescription:
+      'Navigate returning to work after cancer with an AI assistant and 90+ trusted resources.',
+    twitterDescription:
+      'Support for returning to work after cancer: manage fatigue, request accommodations, and understand your rights.',
     path: '/',
   });
   const queryClient = useQueryClient();
