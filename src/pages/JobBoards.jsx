@@ -296,7 +296,7 @@ export default function JobBoards({ embedded = false }) {
             Flexible &amp; Survivor-Friendly Job Boards
           </h2>
         ) : (
-          <h1 className="font-heading text-4xl font-bold text-foreground">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">
             Flexible &amp; Survivor-Friendly Job Boards
           </h1>
         )}

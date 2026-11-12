@@ -50,20 +50,9 @@ export default function OfflineIndicator() {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(() => {
-          // navigator.serviceWorker.register() resolves on every load — even
-          // when the SW was already registered. Only log on a genuinely new
-          // registration: the controller is null until a fresh SW activates and
-          // claims this client, so a set controller means a prior registration.
-          if (!navigator.serviceWorker.controller) {
-            console.log('[SW] registered');
-          }
-        })
-        .catch((err) => console.warn('[SW] registration failed:', err));
-    }
+    // No service-worker registration here: the app shell is intentionally served
+    // without one (see main.jsx), because a cache-first worker keeps serving a
+    // stale bundle after a deploy. Offline support comes from IndexedDB instead.
 
     return () => {
       window.removeEventListener('online', handleOnline);

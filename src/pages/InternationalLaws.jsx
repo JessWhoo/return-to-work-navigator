@@ -296,7 +296,7 @@ export default function InternationalLaws({ embedded = false }) {
             International Employment Laws for Cancer Survivors
           </h2>
         ) : (
-          <h1 className="font-heading text-4xl font-bold text-foreground">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">
             International Employment Laws for Cancer Survivors
           </h1>
         )}

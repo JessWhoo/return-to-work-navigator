@@ -215,7 +215,7 @@ export default function LegalRights({ embedded = false }) {
             Federal Workplace Legal Rights for Cancer Survivors
           </h2>
         ) : (
-          <h1 className="font-heading text-4xl font-bold text-foreground">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">
             Federal Workplace Legal Rights for Cancer Survivors
           </h1>
         )}

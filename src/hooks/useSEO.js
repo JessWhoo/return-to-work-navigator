@@ -479,7 +479,7 @@ function setMeta(selector, attr, value) {
 /**
  * @param {{ title?: string, description?: string, path?: string, noindex?: boolean }} [options]
  */
-export function applySEO({ title, description, ogDescription, twitterDescription, path, noindex } = {}) {
+export function applySEO({ title, description, path, noindex } = {}) {
   if (typeof document === 'undefined' || typeof window === 'undefined') return;
   const currentPathname = window.location.pathname || '/';
   const fallback = getRouteSEO(path || currentPathname);
@@ -499,8 +499,8 @@ export function applySEO({ title, description, ogDescription, twitterDescription
 
   if (resolvedDescription) {
     setMeta('meta[name="description"]', 'content', resolvedDescription);
-    setMeta('meta[property="og:description"]', 'content', ogDescription || resolvedDescription);
-    setMeta('meta[name="twitter:description"]', 'content', twitterDescription || resolvedDescription);
+    setMeta('meta[property="og:description"]', 'content', resolvedDescription);
+    setMeta('meta[name="twitter:description"]', 'content', resolvedDescription);
   }
 
   setMeta('meta[property="og:title"]', 'content', fullTitle);
@@ -540,9 +540,9 @@ if (typeof window !== 'undefined') {
  * back to the route's entry in ROUTE_SEO.
  * @param {{ title?: string, description?: string, path?: string, noindex?: boolean, enabled?: boolean }} [options]
  */
-export default function useSEO({ title, description, ogDescription, twitterDescription, path, noindex, enabled = true } = {}) {
+export default function useSEO({ title, description, path, noindex, enabled = true } = {}) {
   useEffect(() => {
     if (!enabled) return;
-    applySEO({ title, description, ogDescription, twitterDescription, path, noindex });
-  }, [title, description, ogDescription, twitterDescription, path, noindex, enabled]);
+    applySEO({ title, description, path, noindex });
+  }, [title, description, path, noindex, enabled]);
 }

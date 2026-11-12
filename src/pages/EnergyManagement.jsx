@@ -297,7 +297,7 @@ export default function EnergyManagement({ embedded = false }) {
             Daily Workday Energy &amp; Fatigue Pacing Tracker
           </h2>
         ) : (
-          <h1 className="font-heading text-4xl font-bold text-foreground">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">
             Daily Workday Energy &amp; Fatigue Pacing Tracker
           </h1>
         )}

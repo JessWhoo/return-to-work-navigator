@@ -223,7 +223,7 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className="relative min-h-screen bg-brand-background text-brand-text">
+    <div className="relative min-h-[100dvh] bg-brand-background text-brand-text">
       <a href="#main-content" className="nv-skip-link">Skip to main content</a>
       <StructuredData />
       <OfflineIndicator />

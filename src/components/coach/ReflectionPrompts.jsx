@@ -106,7 +106,13 @@ export default function ReflectionPrompts({ onSendToCoach }) {
     }
 
     // Save to localStorage for now
-    const saved = JSON.parse(localStorage.getItem('reflections') || '[]');
+    let saved = [];
+    try {
+      saved = JSON.parse(localStorage.getItem('reflections') || '[]');
+    } catch {
+      saved = [];
+    }
+    if (!Array.isArray(saved)) saved = [];
     saved.push({
       prompt: selectedPrompt,
       reflection: reflection,

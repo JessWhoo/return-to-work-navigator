@@ -92,6 +92,20 @@ body {
 }
 
 /* =========================================================================
+   Mobile hardening — long words/URLs wrap instead of widening the page, and
+   media can never overflow its container on small screens.
+   ========================================================================= */
+body {
+  overflow-wrap: break-word;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* =========================================================================
    ACCESSIBILITY MODE (toggled from Profile > Preferences)
    Larger base text, maximum-contrast colours, stronger borders, reduced motion.
    ========================================================================= */

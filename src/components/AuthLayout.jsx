@@ -8,7 +8,7 @@ import BrandMark from "@/components/brand/BrandMark";
  */
 export default function AuthLayout({ icon: Icon, title, subtitle, footer, children }) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-brand-background px-4 py-8 sm:py-12">
+    <main className="flex min-h-[100dvh] items-center justify-center bg-brand-background px-4 py-8 sm:py-12">
       <Card className="w-full max-w-md overflow-hidden">
         <div className="nv-media h-20 sm:h-24" aria-hidden="true" />
         <div className="p-5 sm:p-8">

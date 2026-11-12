@@ -238,7 +238,7 @@ export default function WellnessResources({ embedded = false }) {
       {/* Header */}
       {!embedded && (
         <div className="space-y-4 text-center">
-          <h1 className="font-heading text-4xl font-bold text-foreground">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">
             Workplace Stress Relief &amp; Wellness Techniques
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">

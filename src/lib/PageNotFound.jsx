@@ -45,7 +45,7 @@ export default function PageNotFound() {
   });
 
   return (
-    <main className="min-h-screen bg-brand-background px-4 py-12 sm:px-6 flex items-center justify-center">
+    <main className="min-h-[100dvh] bg-brand-background px-4 py-12 sm:px-6 flex items-center justify-center">
       <div className="max-w-2xl w-full space-y-8 text-center">
         <div className="space-y-3">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-pill bg-brand-muted text-brand-primary">
