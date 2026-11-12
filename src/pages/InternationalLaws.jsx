@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, ChevronDown, ChevronUp, Star, AlertTriangle, CheckCircle2, Info, Globe } from 'lucide-react';
 import useSEO from '@/hooks/useSEO';
@@ -10,14 +10,14 @@ const countries = [
     abbr: 'UK',
     flag: '🇬🇧',
     rating: 'strong',
-    summary: 'Strong protections under the Equality Act 2010, with statutory sick pay and employer duty to make reasonable adjustments.',
+    summary: 'Cancer is a disability from diagnosis, with mandatory adjustments and statutory sick pay.',
     highlights: [
-      { label: 'Equality Act 2010', detail: 'Cancer is automatically classified as a disability from the point of diagnosis — no need to prove functional impairment. Employers must make reasonable adjustments.' },
-      { label: 'Statutory Sick Pay', detail: 'SSP pays £109.40/week for up to 28 weeks. Many employers offer enhanced contractual sick pay beyond this minimum.' },
-      { label: 'Fit Notes', detail: 'A GP can issue a "fit note" recommending phased return, altered hours, amended duties, or workplace adaptations.' },
-      { label: 'Employment Tribunals', detail: 'Workers can bring disability discrimination claims to an Employment Tribunal within 3 months of the act complained of.' },
+      { label: 'Equality Act 2010', detail: 'Cancer counts as a disability from diagnosis; reasonable adjustments are mandatory.' },
+      { label: 'Statutory Sick Pay', detail: '£109.40 a week for up to 28 weeks; many employers pay more.' },
+      { label: 'Fit Notes', detail: 'A GP can recommend phased return, reduced hours, or amended duties.' },
+      { label: 'Employment Tribunals', detail: 'Discrimination claims within 3 months of the act complained of.' },
     ],
-    keyPoints: 'Cancer is automatically a disability under UK law. Reasonable adjustments are mandatory. Statutory Sick Pay available up to 28 weeks.',
+    keyPoints: 'No need to prove impairment, adjustments are required, and sick pay runs up to 28 weeks.',
     resources: [{ name: 'Equality Advisory Service', url: 'https://www.equalityadvisoryservice.com' }, { name: 'Macmillan Work Support', url: 'https://www.macmillan.org.uk/cancer-information-and-support/impacts-of-cancer/work-and-cancer' }]
   },
   {
@@ -25,14 +25,14 @@ const countries = [
     abbr: 'CA',
     flag: '🇨🇦',
     rating: 'strong',
-    summary: 'Federal and provincial human rights codes prohibit cancer discrimination, with Employment Insurance providing sickness benefits.',
+    summary: 'Human rights codes in every province, plus 26 weeks of EI sickness benefits.',
     highlights: [
-      { label: 'Human Rights Codes', detail: 'Each province has its own human rights code prohibiting disability discrimination. Cancer is universally recognized as a disability requiring accommodation to the point of "undue hardship."' },
-      { label: 'EI Sickness Benefits', detail: 'Employment Insurance provides up to 26 weeks of sickness benefits, replacing 55% of average insurable earnings (up to a weekly maximum).' },
-      { label: 'Duty to Accommodate', detail: 'Employers have a legal duty to accommodate disability — including cancer — unless it causes undue hardship. This includes modified duties, reduced hours, and flexible scheduling.' },
-      { label: 'Provincial Variations', detail: 'Ontario, BC, and Quebec have additional provincial protections. Quebec also provides its own short-term disability plan (CNESST).' },
+      { label: 'Human Rights Codes', detail: 'Cancer is a recognized disability requiring accommodation in every province.' },
+      { label: 'EI Sickness Benefits', detail: 'Up to 26 weeks at 55% of insurable earnings.' },
+      { label: 'Duty to Accommodate', detail: 'Required unless it causes undue hardship — modified duties, hours, schedules.' },
+      { label: 'Provincial Variations', detail: 'Ontario, BC and Quebec add protections; Quebec runs its own disability plan.' },
     ],
-    keyPoints: 'Duty to accommodate cancer as a disability in all provinces. EI sickness benefits up to 26 weeks. Provincial codes add additional protections.',
+    keyPoints: 'An accommodation duty in every province and 26 weeks of EI sickness benefits.',
     resources: [{ name: 'Canadian Human Rights Commission', url: 'https://www.chrc-ccdp.gc.ca' }, { name: 'Service Canada EI', url: 'https://www.canada.ca/en/services/benefits/ei/ei-sickness.html' }]
   },
   {
@@ -40,14 +40,14 @@ const countries = [
     abbr: 'AU',
     flag: '🇦🇺',
     rating: 'strong',
-    summary: 'The Disability Discrimination Act and Fair Work Act provide strong protections, with personal/carer\'s leave for medical treatment.',
+    summary: 'Disability Discrimination Act plus 10 days of paid personal leave a year.',
     highlights: [
-      { label: 'Disability Discrimination Act 1992', detail: 'Cancer is a disability under federal law. Employers cannot discriminate in hiring, terms of employment, or dismissal. Reasonable adjustments are required.' },
-      { label: 'Fair Work Act', detail: 'Full-time employees accrue 10 days of paid personal/carer\'s leave per year, usable for illness including cancer treatment. Unpaid leave is also available.' },
-      { label: 'Unfair Dismissal', detail: 'Dismissing an employee due to cancer or illness-related absence (within protected periods) constitutes unfair dismissal. The Fair Work Commission oversees claims.' },
-      { label: 'Workers Comp', detail: 'If cancer is work-related (e.g., occupational exposure), workers\' compensation may provide income replacement and medical expenses.' },
+      { label: 'Disability Discrimination Act', detail: 'Covers hiring, terms and dismissal; reasonable adjustments required.' },
+      { label: 'Fair Work Act', detail: "10 days paid personal/carer's leave a year, plus unpaid leave options." },
+      { label: 'Unfair Dismissal', detail: 'Dismissal over cancer or related absence can be challenged at the Fair Work Commission.' },
+      { label: 'Workers Comp', detail: 'Work-related cancer may bring income replacement and medical costs.' },
     ],
-    keyPoints: 'Cancer is a disability under federal law. 10 days paid personal leave per year. Unfair dismissal protections apply for illness-related absences.',
+    keyPoints: 'Cancer is a disability, 10 paid personal days a year, and unfair dismissal protection.',
     resources: [{ name: 'Australian Human Rights Commission', url: 'https://humanrights.gov.au' }, { name: 'Fair Work Ombudsman', url: 'https://www.fairwork.gov.au' }]
   },
   {
@@ -55,14 +55,14 @@ const countries = [
     abbr: 'DE',
     flag: '🇩🇪',
     rating: 'strongest',
-    summary: 'Comprehensive protections including statutory sick pay for up to 78 weeks, strong dismissal protections, and rehabilitation rights.',
+    summary: 'Up to 78 weeks of income replacement, plus strong dismissal and reintegration rights.',
     highlights: [
-      { label: 'General Equal Treatment Act (AGG)', detail: 'Prohibits disability discrimination in the workplace. Cancer qualifies as a disability when it causes functional limitations. Employers must provide reasonable accommodations.' },
-      { label: 'Statutory Sick Pay', detail: 'Employers pay full salary for 6 weeks. After that, statutory health insurance pays 70% of gross salary (sick pay / Krankengeld) for up to 78 weeks total.' },
-      { label: 'Severe Disability Status', detail: 'If cancer results in a disability degree (GdB) of 50+, employees gain "severely disabled" status with extra annual leave, enhanced dismissal protection, and right to part-time work.' },
-      { label: 'Phased Return (BEM)', detail: 'Employers with 10+ employees must offer a "Company Integration Management" (BEM) process after 42 days of sick leave — a structured plan to reintegrate the employee.' },
+      { label: 'Equal Treatment Act', detail: 'Cancer counts when it limits function; accommodations required (AGG).' },
+      { label: 'Statutory Sick Pay', detail: 'Full salary for 6 weeks, then 70% for up to 78 weeks.' },
+      { label: 'Severe Disability Status', detail: 'GdB 50+ brings extra leave, dismissal protection and part-time rights.' },
+      { label: 'Phased Return (BEM)', detail: 'Employers with 10+ staff must offer reintegration planning after 42 days off.' },
     ],
-    keyPoints: 'Up to 78 weeks of income replacement. Employers must offer reintegration planning after 42 days. Severe disability status grants extra rights at GdB 50+.',
+    keyPoints: '78 weeks of income replacement and reintegration planning after 42 days of leave.',
     resources: [{ name: 'Bundesagentur für Arbeit', url: 'https://www.arbeitsagentur.de' }, { name: 'REHADAT', url: 'https://www.rehadat.de' }]
   },
   {
@@ -70,14 +70,14 @@ const countries = [
     abbr: 'FR',
     flag: '🇫🇷',
     rating: 'strong',
-    summary: 'Cancer patients are protected by disability law, with generous sick pay (up to 3 years), and employer obligations for reintegration.',
+    summary: 'Long-term illness status, up to 3 years of sick pay, and a mandatory return visit.',
     highlights: [
-      { label: 'Labour Code & Disability', detail: 'Cancer that causes functional limitations qualifies as a disability under French law. Employers must make reasonable adjustments and cannot discriminate.' },
-      { label: 'Sick Pay (Indemnités Journalières)', detail: 'Social Security pays daily sick allowances for up to 3 years for long-term illness (ALD — Affection de Longue Durée), including cancer. Pays approximately 50–66% of daily wages.' },
-      { label: 'ALD Status', detail: 'Cancer is on the ALD list. This grants 100% medical cost reimbursement, extended sick leave, and access to specialized support services.' },
-      { label: 'Reintegration Visit', detail: 'After 30+ days of sick leave, a "visite de reprise" with occupational medicine is mandatory before returning to work. May result in adjusted duties.' },
+      { label: 'Labour Code & Disability', detail: 'Functional limitations count as disability; adjustments required.' },
+      { label: 'Sick Pay', detail: 'Daily allowances up to 3 years for long-term illness, at about 50–66% of wages.' },
+      { label: 'ALD Status', detail: 'Cancer is on the ALD list: 100% medical costs covered and extended leave.' },
+      { label: 'Reintegration Visit', detail: 'An occupational medicine review is required after 30+ days off.' },
     ],
-    keyPoints: 'Cancer is an ALD giving full medical cost coverage. Up to 3 years sick pay. Mandatory medical reintegration visit after extended leave.',
+    keyPoints: 'Full medical cost cover, 3 years of sick pay, and a mandatory return visit.',
     resources: [{ name: 'Ameli (Assurance Maladie)', url: 'https://www.ameli.fr' }, { name: 'Défenseur des droits', url: 'https://www.defenseurdesdroits.fr' }]
   },
   {
@@ -85,14 +85,14 @@ const countries = [
     abbr: 'NL',
     flag: '🇳🇱',
     rating: 'strongest',
-    summary: 'Employers must pay at least 70% of salary for up to 2 years, with a strict reintegration obligation and strong anti-discrimination law.',
+    summary: 'Employers pay at least 70% of salary for 2 years, and dismissal is barred meanwhile.',
     highlights: [
-      { label: 'Sick Pay (2 Years)', detail: 'Employers are legally required to continue paying at least 70% of salary (often 100% in first year via contract) for up to 104 weeks of illness.' },
-      { label: 'Reintegration Obligation', detail: 'Employer and employee must create a reintegration plan. After 2 years, UWV (Social Security) takes over with WIA disability benefits if the employee cannot return to work.' },
-      { label: 'WGBH / Equal Treatment Act', detail: 'Disability discrimination is prohibited. Cancer patients must receive reasonable accommodations. Dismissal during sick leave is not permitted (2-year protection).' },
-      { label: 'Dismissal Protection', detail: 'An employer legally cannot dismiss a sick employee during the first 2 years of illness — one of the strongest dismissal protections in Europe.' },
+      { label: 'Sick Pay (2 Years)', detail: 'At least 70% of salary, often 100% in year one, for up to 104 weeks.' },
+      { label: 'Reintegration Obligation', detail: 'A joint plan is required; UWV takes over with disability benefit after 2 years.' },
+      { label: 'Equal Treatment Act', detail: 'Discrimination is banned and accommodations required during treatment.' },
+      { label: 'Dismissal Protection', detail: 'No dismissal during the first 2 years of illness.' },
     ],
-    keyPoints: 'Cannot be dismissed during 2-year sick period. Employer pays 70%+ of salary for 2 years. Mandatory reintegration plan required.',
+    keyPoints: 'Two years of pay and no dismissal while you are off sick.',
     resources: [{ name: 'UWV (Social Security)', url: 'https://www.uwv.nl' }, { name: 'College voor de Rechten van de Mens', url: 'https://www.mensenrechten.nl' }]
   },
   {
@@ -100,14 +100,14 @@ const countries = [
     abbr: 'SE',
     flag: '🇸🇪',
     rating: 'strongest',
-    summary: 'Generous sickness benefit system with up to 364 days of sickness allowance and strong rehabilitation obligations.',
+    summary: 'Around 80% income replacement, plus a legal duty to plan your rehabilitation.',
     highlights: [
-      { label: 'Sickness Benefit (Sjukpenning)', detail: 'After 14 days of employer-paid sick pay, Försäkringskassan (Social Insurance Agency) pays sickness benefit at ~80% of income for up to 364 days, with extensions for serious illness.' },
-      { label: 'Rehabilitation Obligation', detail: 'Employers have a legal obligation to investigate, plan, and implement rehabilitation measures so the employee can return to work.' },
-      { label: 'Discrimination Act', detail: 'The Discrimination Act (2008) covers disability including cancer. Employers must take active measures and provide reasonable accommodations.' },
-      { label: 'Extended Benefits', detail: 'For serious illness like cancer, benefits can be extended beyond 364 days. Long-term sickness activity allowance is also available.' },
+      { label: 'Sickness Benefit', detail: 'After 14 days of employer pay, about 80% of income for up to 364 days.' },
+      { label: 'Rehabilitation Obligation', detail: 'Employers must investigate, plan and fund return-to-work measures.' },
+      { label: 'Discrimination Act', detail: 'Covers cancer; active measures and accommodations required.' },
+      { label: 'Extended Benefits', detail: 'Serious illness can extend benefits beyond 364 days.' },
     ],
-    keyPoints: '~80% income replacement during illness. Employer rehabilitation obligation. Extended benefits for serious illness like cancer.',
+    keyPoints: '80% income replacement and a legal rehabilitation duty on employers.',
     resources: [{ name: 'Försäkringskassan', url: 'https://www.forsakringskassan.se' }, { name: 'Diskrimineringsombudsmannen', url: 'https://www.do.se' }]
   },
   {
@@ -115,14 +115,14 @@ const countries = [
     abbr: 'IN',
     flag: '🇮🇳',
     rating: 'moderate',
-    summary: 'The Rights of Persons with Disabilities Act 2016 covers cancer, with sector-specific protections and ESI medical benefits.',
+    summary: 'Cancer is a recognized disability; leave and benefits vary widely by sector.',
     highlights: [
-      { label: 'RPWD Act 2016', detail: 'Cancer is recognized as a disability under the Rights of Persons with Disabilities Act. Employers with 20+ employees must have an equal opportunity policy and avoid discrimination.' },
-      { label: 'ESI (Employees State Insurance)', detail: 'For eligible workers, ESI provides sickness benefits at 70% of wages for up to 91 days per year. Extended sickness benefit available for 2 years for specified serious diseases including cancer.' },
-      { label: 'Gratuity & Leave', detail: 'Workers are entitled to sick leave under applicable state laws (varies). The Factories Act and Shops & Establishments Acts govern leave entitlements by sector.' },
-      { label: 'Public Sector', detail: 'Government employees often have more generous provisions including medical leave on full/half pay and special leave for cancer treatment.' },
+      { label: 'RPWD Act 2016', detail: 'Employers with 20+ staff need an equal opportunity policy and no discrimination.' },
+      { label: 'ESI Benefits', detail: '70% of wages for up to 91 days a year, extendable to 2 years for cancer.' },
+      { label: 'Gratuity & Leave', detail: 'Sick leave follows state and sector rules, so entitlements vary.' },
+      { label: 'Public Sector', detail: 'Government roles often include full-pay medical leave and special leave.' },
     ],
-    keyPoints: 'Cancer is a recognized disability under RPWD Act 2016. ESI provides 70% wage replacement. Protections vary significantly by sector and employer size.',
+    keyPoints: 'Recognized disability, 70% ESI wage replacement, and patchy coverage elsewhere.',
     resources: [{ name: 'ESIC (ESI Corporation)', url: 'https://www.esic.in' }, { name: 'Dept. of Empowerment of Persons with Disabilities', url: 'https://disabilityaffairs.gov.in' }]
   },
   {
@@ -130,14 +130,14 @@ const countries = [
     abbr: 'BR',
     flag: '🇧🇷',
     rating: 'strong',
-    summary: 'Cancer patients have special dismissal protections and social security sickness benefits; cancer is explicitly protected under Brazilian law.',
+    summary: 'Courts generally bar dismissal during treatment; INSS pays 91% of benefit salary.',
     highlights: [
-      { label: 'Special Dismissal Protection', detail: 'Brazilian courts and law recognize cancer patients as having enhanced job stability. Dismissing an employee during cancer treatment without just cause is generally prohibited and reversible.' },
-      { label: 'INSS Sickness Benefit (Auxílio-Doença)', detail: 'Social Security (INSS) pays sickness benefits after 15 employer-paid days, replacing 91% of the benefit salary for the duration of incapacity.' },
-      { label: 'Disability Quota', detail: 'Companies with 100+ employees must fill 2–5% of positions with people with disabilities (Lei de Cotas). Cancer patients qualifying as disabled may benefit.' },
-      { label: 'CLT Protections', detail: 'The Consolidation of Labor Laws (CLT) provides 15 days of employer-paid sick leave, after which INSS takes over. Termination during illness or treatment is broadly protectable.' },
+      { label: 'Dismissal Protection', detail: 'Removing an employee during treatment is usually prohibited and reversible.' },
+      { label: 'INSS Sickness Benefit', detail: 'Paid after 15 employer-paid days, replacing 91% of benefit salary.' },
+      { label: 'Disability Quota', detail: 'Companies with 100+ staff must fill 2–5% of roles with disabled people.' },
+      { label: 'CLT Protections', detail: '15 days of employer-paid sick leave, then social security takes over.' },
     ],
-    keyPoints: 'Cancer patients generally cannot be dismissed during treatment. INSS pays 91% of benefit salary during incapacity. 15 days employer-paid then social security.',
+    keyPoints: 'Job stability during treatment and 91% income replacement from INSS.',
     resources: [{ name: 'INSS (Previdência Social)', url: 'https://www.gov.br/inss/pt-br' }, { name: 'MPT (Labor Ministry)', url: 'https://www.gov.br/trabalho-e-emprego' }]
   },
   {
@@ -145,14 +145,14 @@ const countries = [
     abbr: 'JP',
     flag: '🇯🇵',
     rating: 'moderate',
-    summary: 'Health Insurance provides sickness allowance for up to 18 months; disability discrimination protections exist but are less explicit than Western peers.',
+    summary: 'Health insurance pays about two-thirds of pay for up to 18 months.',
     highlights: [
-      { label: 'Health Insurance Sickness Allowance', detail: 'Employees covered by health insurance receive a sickness allowance (傷病手当金) of approximately 2/3 of standard remuneration for up to 18 months when unable to work due to illness.' },
-      { label: 'Act for Eliminating Discrimination against Persons with Disabilities', detail: 'Enacted 2016, prohibits unreasonable discrimination. Cancer qualifying as a functional disability is covered, with employers required to provide "reasonable consideration."' },
-      { label: 'Work Style Reform', detail: 'The 2018 Work Style Reform Act encourages flexible working arrangements. Some companies have introduced support programs for employees undergoing treatment.' },
-      { label: 'Employment Promotion Act', detail: 'Employers with 100+ employees must employ a quota of persons with disabilities. Cancer survivors qualifying as disabled may be eligible.' },
+      { label: 'Sickness Allowance', detail: 'About 2/3 of standard pay for up to 18 months off work.' },
+      { label: 'Discrimination Act', detail: 'Unreasonable discrimination banned since 2016; reasonable consideration required.' },
+      { label: 'Work Style Reform', detail: 'Encourages flexible arrangements; some firms run treatment support programs.' },
+      { label: 'Employment Promotion', detail: 'Employers with 100+ staff must meet a disability employment quota.' },
     ],
-    keyPoints: '18-month sickness allowance at ~67% pay. Disability discrimination is prohibited. Protections for cancer are less explicit than Europe but improving.',
+    keyPoints: '18 months at about 67% pay; cancer cover is improving but less explicit than Europe.',
     resources: [{ name: 'Japan Pension Service', url: 'https://www.nenkin.go.jp' }, { name: 'Ministry of Health, Labour and Welfare', url: 'https://www.mhlw.go.jp/www1/english/index.html' }]
   },
   {
@@ -160,14 +160,14 @@ const countries = [
     abbr: 'ZA',
     flag: '🇿🇦',
     rating: 'moderate',
-    summary: 'The Employment Equity Act protects cancer patients as disabled persons; sick leave and UIF benefits apply.',
+    summary: 'Cancer counts as a disability, with 30 days sick leave per cycle and UIF support.',
     highlights: [
-      { label: 'Employment Equity Act', detail: 'Cancer is recognized as a disability. Employers must take steps to eliminate unfair discrimination and provide reasonable accommodation for employees with disabilities.' },
-      { label: 'Basic Conditions of Employment Act', detail: 'Workers are entitled to 30 days of paid sick leave in a 3-year cycle. Employers must accommodate sick employees where reasonable.' },
-      { label: 'UIF (Unemployment Insurance Fund)', detail: 'The UIF Illness Benefit provides up to 238 days of income replacement at a reduced rate (between 38–58% of earnings) when unable to work due to illness.' },
-      { label: 'Labour Relations Act', detail: 'Dismissing an employee due to incapacity from illness requires a fair process — the employer must assess ability, consider alternatives, and consult the employee.' },
+      { label: 'Employment Equity Act', detail: 'Recognizes cancer as a disability; accommodation and no unfair discrimination.' },
+      { label: 'Basic Conditions Act', detail: '30 days of paid sick leave in a 3-year cycle.' },
+      { label: 'UIF Illness Benefit', detail: 'Up to 238 days of income replacement at 38–58% of earnings.' },
+      { label: 'Labour Relations Act', detail: 'Dismissal for illness needs a fair process and alternatives considered.' },
     ],
-    keyPoints: 'Cancer is a recognized disability. 30 days paid sick leave per 3-year cycle. UIF illness benefit provides partial income replacement up to 238 days.',
+    keyPoints: 'Recognized disability, 30 days of sick leave per cycle, and UIF income support.',
     resources: [{ name: 'CCMA', url: 'https://www.ccma.org.za' }, { name: 'UIF', url: 'https://ufiling.labour.gov.za/' }]
   },
   {
@@ -175,14 +175,14 @@ const countries = [
     abbr: 'NZ',
     flag: '🇳🇿',
     rating: 'strong',
-    summary: 'The Human Rights Act and Employment Relations Act protect cancer patients; 10 days sick leave plus ACC coverage for treatment injuries.',
+    summary: 'Cancer is a protected disability, with 10 days sick leave and fair-process protection.',
     highlights: [
-      { label: 'Human Rights Act 1993', detail: 'Cancer is a disability under NZ law. Employers cannot discriminate in hiring, conditions, or dismissal on grounds of disability including cancer.' },
-      { label: 'Sick Leave Entitlement', detail: 'Employees are entitled to at least 10 days paid sick leave per year (increased from 5 days in 2021). Unused days can carry over up to 20 days total.' },
-      { label: 'Employment Relations Act', detail: 'Employers must follow a fair process before dismissal for health reasons, including genuine attempts to accommodate the employee and consider alternatives.' },
-      { label: 'ACC Coverage', detail: 'Accident Compensation Corporation may cover work-related cancer or treatment injuries, providing medical costs and 80% of lost earnings.' },
+      { label: 'Human Rights Act 1993', detail: 'No discrimination in hiring, conditions or dismissal.' },
+      { label: 'Sick Leave', detail: 'At least 10 days paid a year, carrying over up to 20 days.' },
+      { label: 'Employment Relations Act', detail: 'A health-related dismissal needs a fair process and genuine accommodation.' },
+      { label: 'ACC Coverage', detail: 'Work-related cancer or treatment injury can bring 80% of lost earnings.' },
     ],
-    keyPoints: '10 days paid sick leave per year. Cancer is a protected disability. Employers must follow fair process before any health-related dismissal.',
+    keyPoints: '10 paid sick days a year and a fair process before any health dismissal.',
     resources: [{ name: 'Human Rights Commission NZ', url: 'https://www.hrc.co.nz' }, { name: 'Employment NZ', url: 'https://www.employment.govt.nz' }]
   },
 ];
@@ -200,54 +200,60 @@ function CountryCard({ data }) {
   const RatingIcon = cfg.icon;
 
   return (
-    <Card className="transition-all">
-      <button onClick={() => setExpanded(!expanded)} className="w-full text-left">
-        <div className="p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-brand border border-border bg-muted text-2xl">
-                {data.flag}
-              </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-foreground">{data.country}</h3>
-                <p className="text-sm leading-snug text-muted-foreground">{data.summary}</p>
-              </div>
+    <Card>
+      <button
+        type="button"
+        onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
+        className="w-full text-left"
+      >
+        <div className="p-4 sm:p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-brand border border-border bg-muted text-2xl sm:h-12 sm:w-12">
+              <span aria-hidden="true">{data.flag}</span>
             </div>
-            <div className="flex flex-shrink-0 flex-col items-end gap-2">
-              <span className={`flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
-                <RatingIcon className="h-3 w-3" />
+            <div className="min-w-0 flex-1 space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="min-w-0 font-heading text-lg font-bold text-foreground">
+                  {data.country}
+                  <span className="sr-only"> ({data.abbr})</span>
+                </h3>
+                {expanded
+                  ? <ChevronUp className="mt-1 h-4 w-4 flex-shrink-0 text-muted-foreground" aria-hidden="true" />
+                  : <ChevronDown className="mt-1 h-4 w-4 flex-shrink-0 text-muted-foreground" aria-hidden="true" />}
+              </div>
+              <p className="text-sm leading-snug text-muted-foreground">{data.summary}</p>
+              <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
+                <RatingIcon className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
                 {cfg.label}
               </span>
-              {expanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
             </div>
           </div>
         </div>
       </button>
 
       {expanded && (
-        <div className="space-y-4 border-t border-border px-5 pb-5 pt-4">
+        <div className="space-y-4 border-t border-border px-4 pb-5 pt-4 sm:px-5">
           <div className={`rounded-brand border bg-muted p-3 ${cfg.border}`}>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Key Points</p>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bottom line</p>
             <p className="text-sm text-foreground">{data.keyPoints}</p>
           </div>
 
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Laws & Protections</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Laws &amp; protections</p>
             {data.highlights.map((h, i) => (
               <div key={i} className="rounded-brand border border-border bg-muted p-3">
-                <div className="flex items-start gap-2">
-                  <span className="mt-0.5 flex-shrink-0 rounded bg-primary px-2 py-0.5 text-xs font-bold text-white">{h.label}</span>
-                  <p className="text-sm leading-relaxed text-foreground">{h.detail}</p>
-                </div>
+                <span className="inline-block rounded bg-primary px-2 py-0.5 text-xs font-bold text-white">{h.label}</span>
+                <p className="mt-1.5 text-sm leading-relaxed text-foreground">{h.detail}</p>
               </div>
             ))}
           </div>
 
           {data.resources?.length > 0 && (
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
               {data.resources.map(r => (
                 <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer"
-                  className="text-xs font-semibold text-primary underline underline-offset-2 hover:text-foreground">
+                  className="text-sm font-semibold text-primary underline underline-offset-2 hover:text-foreground">
                   → {r.name}
                 </a>
               ))}
@@ -289,39 +295,39 @@ export default function InternationalLaws({ embedded = false }) {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
-      <div className="space-y-3 text-center">
+    <div className="mx-auto max-w-4xl space-y-6 sm:space-y-8">
+      <div className="space-y-2 text-center">
         {embedded ? (
           <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
             International Employment Laws for Cancer Survivors
           </h2>
         ) : (
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">
+          <h1 className="font-heading text-3xl font-bold text-foreground sm:text-4xl">
             International Employment Laws for Cancer Survivors
           </h1>
         )}
-        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          Cancer survivor employment rights, statutory sick pay, and workplace adjustment protections across {countries.length} countries worldwide
+        <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">
+          Employment rights, sick pay and workplace adjustments across {countries.length} countries.
         </p>
       </div>
 
-      {/* Global Note */}
+      {/* Shared principles */}
       <Card className="nv-card--muted">
-        <div className="p-5">
+        <CardContent className="px-4 pb-5 pt-5 sm:px-6">
           <div className="flex items-start gap-3">
-            <Globe className="mt-0.5 h-6 w-6 flex-shrink-0 text-primary" />
-            <div className="space-y-2">
-              <h3 className="font-heading text-lg font-bold text-foreground">Universal Principles</h3>
-              <div className="grid gap-2 text-sm leading-relaxed text-foreground sm:grid-cols-2">
-                <div><strong className="text-foreground">Anti-discrimination:</strong> Most countries prohibit cancer discrimination in employment through disability or health laws.</div>
-                <div><strong className="text-foreground">Reasonable adjustments:</strong> Employers globally are increasingly required to accommodate cancer patients returning to work.</div>
-                <div><strong className="text-foreground">Income replacement:</strong> Most developed nations offer some form of sickness benefit ranging from 50–100% of wages.</div>
-                <div><strong className="text-foreground">Dismissal protection:</strong> Many countries restrict or prohibit dismissal during active illness or treatment.</div>
-              </div>
-              <p className="mt-2 text-xs italic text-muted-foreground">Laws vary significantly between countries and can change. Always verify current rules with local legal counsel or government resources.</p>
+            <Globe className="mt-0.5 h-6 w-6 flex-shrink-0 text-primary" aria-hidden="true" />
+            <div className="min-w-0 space-y-2">
+              <h3 className="font-heading text-lg font-bold text-foreground">What's common worldwide</h3>
+              <ul className="space-y-1.5 text-sm text-foreground">
+                <li><strong>Anti-discrimination:</strong> most countries ban cancer discrimination through disability or health law.</li>
+                <li><strong>Reasonable adjustments:</strong> employers are increasingly required to adapt work after treatment.</li>
+                <li><strong>Income replacement:</strong> most developed nations pay 50–100% of wages during illness.</li>
+                <li><strong>Dismissal protection:</strong> many countries restrict dismissal during treatment.</li>
+              </ul>
+              <p className="text-xs text-muted-foreground">Rules differ by country and change often — check with local counsel or government resources.</p>
             </div>
           </div>
-        </div>
+        </CardContent>
       </Card>
 
       {/* Rating summary */}
@@ -331,8 +337,8 @@ export default function InternationalLaws({ embedded = false }) {
           const Icon = cfg.icon;
           return (
             <div key={key} className="rounded-brand border border-border bg-surface p-3 text-center">
-              <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-1 text-xs font-medium ${cfg.color}`}>
-                <Icon className="h-3 w-3" />
+              <span className={`flex w-full items-center justify-center gap-1 rounded-pill px-2 py-1 text-center text-xs font-medium leading-tight ${cfg.color}`}>
+                <Icon className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
                 {cfg.label}
               </span>
               <p className="mt-2 text-lg font-bold text-foreground">{counts[key] || 0}</p>
@@ -342,12 +348,13 @@ export default function InternationalLaws({ embedded = false }) {
         })}
       </div>
 
-      {/* Search & Filter */}
+      {/* Search & filter */}
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
           <Input
             placeholder="Search by country, law name, or topic..."
+            aria-label="Search international laws"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10"
@@ -357,7 +364,9 @@ export default function InternationalLaws({ embedded = false }) {
           {filters.map(f => (
             <button
               key={f}
+              type="button"
               onClick={() => setRatingFilter(f)}
+              aria-pressed={ratingFilter === f}
               className={`rounded-pill px-3 py-1.5 text-sm font-medium transition-all ${
                 ratingFilter === f
                   ? 'bg-primary text-white'
@@ -373,7 +382,7 @@ export default function InternationalLaws({ embedded = false }) {
       {filtered.length === 0 ? (
         <Card>
           <div className="py-8 text-center">
-            <Search className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+            <Search className="mx-auto mb-3 h-10 w-10 text-muted-foreground" aria-hidden="true" />
             <p className="text-muted-foreground">No countries found for "{search}". Try a broader search.</p>
           </div>
         </Card>
@@ -384,17 +393,17 @@ export default function InternationalLaws({ embedded = false }) {
       )}
 
       <Card className="nv-card--muted">
-        <div className="p-5">
+        <CardContent className="px-4 pb-5 pt-5 sm:px-6">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive" />
-            <div>
-              <p className="mb-1 text-base font-bold text-foreground">Important Disclaimer</p>
-              <p className="text-sm leading-relaxed text-foreground">
-                This information is for educational purposes only and provides general summaries. Employment laws change frequently and vary by employer size, industry, and individual circumstances. <strong>Please consult a qualified local employment attorney or HR professional</strong> for advice specific to your country and situation.
+            <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive" aria-hidden="true" />
+            <div className="min-w-0">
+              <p className="mb-1 text-sm font-semibold text-foreground">Important disclaimer</p>
+              <p className="text-sm text-foreground">
+                General summaries for education only. Laws change and vary by employer and country. <strong>Please consult a qualified local employment attorney or HR professional</strong> about your own situation.
               </p>
             </div>
           </div>
-        </div>
+        </CardContent>
       </Card>
     </div>
   );
