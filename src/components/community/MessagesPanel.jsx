@@ -35,7 +35,9 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
   const { data: messages = [] } = useQuery({
     queryKey: ['directMessages', key],
     queryFn: () => base44.entities.DirectMessage.filter({ conversation_key: key }, 'created_date', 200),
-    refetchInterval: 3000,
+    // New messages arrive through the subscription below; this slow poll is
+    // only a safety net for a dropped live connection.
+    refetchInterval: 30_000,
   });
 
   // Real-time subscription
