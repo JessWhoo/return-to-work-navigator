@@ -219,7 +219,8 @@ export default function Resources() {
     queryKey: ['all-resource-reviews'],
     queryFn: async () => {
       return await base44.entities.ResourceReview.list();
-    }
+    },
+    staleTime: 60_000
   });
 
   const getResourceRating = (resourceId) => {
