@@ -33,7 +33,8 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
   const { data: existingReviews } = useQuery({
     queryKey: ['resource-review', resourceId],
     queryFn: () => base44.entities.ResourceReview.filter({ resource_id: resourceId }),
-    enabled: open
+    enabled: open,
+    staleTime: 60_000
   });
 
   const myReview = existingReviews?.find(r => r.created_by === 'current_user');

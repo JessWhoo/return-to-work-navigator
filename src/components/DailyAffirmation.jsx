@@ -21,6 +21,7 @@ export default function DailyAffirmation({ progress }) {
   const { data: affirmations = [], isLoading: isLoadingAffirmations } = useQuery({
     queryKey: ['dailyAffirmations'],
     queryFn: () => base44.entities.DailyAffirmation.list('-created_date', 50),
+    staleTime: 5 * 60_000,
   });
 
   const todayAffirmation = affirmations.find(a => a.date === today);

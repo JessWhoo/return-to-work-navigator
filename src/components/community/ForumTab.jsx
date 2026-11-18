@@ -79,6 +79,7 @@ export default function ForumTab() {
     queryFn: () => filterTopic === 'all'
       ? base44.entities.ForumPost.list('-created_date', 50)
       : base44.entities.ForumPost.filter({ topic: filterTopic }, '-created_date', 50),
+    staleTime: 60_000,
   });
 
   const likePost = useMutation({

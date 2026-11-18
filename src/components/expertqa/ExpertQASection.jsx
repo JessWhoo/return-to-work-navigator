@@ -40,6 +40,7 @@ export default function ExpertQASection() {
         return [];
       }
     },
+    staleTime: 5 * 60_000,
   });
 
   const qaList = rawQaList.length > 0 ? rawQaList : FEATURED_EXPERT_QAS;

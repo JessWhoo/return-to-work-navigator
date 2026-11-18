@@ -69,12 +69,14 @@ export default function Profile({ embedded = false }) {
     queryKey: ['userReviews', 'count'],
     queryFn: () => base44.entities.ResourceReview.count(),
     enabled: !isLoadingAuth && !!isAuthenticated,
+    staleTime: 60_000,
   });
 
   const { data: suggestionCount = 0 } = useQuery({
     queryKey: ['userSuggestions', 'count'],
     queryFn: () => base44.entities.ResourceSuggestion.count(),
     enabled: !isLoadingAuth && !!isAuthenticated,
+    staleTime: 60_000,
   });
 
   const { data: subscription } = useQuery({

@@ -17,6 +17,7 @@ export default function MessagesTab() {
     queryKey: ['peerConnections'],
     queryFn: () => base44.entities.PeerConnection.filter({ is_active: true }),
     enabled: !!currentUser,
+    staleTime: 60_000,
   });
 
   const myPeerProfile = allPeers.find(p => p.created_by_id === currentUser?.id) || null;

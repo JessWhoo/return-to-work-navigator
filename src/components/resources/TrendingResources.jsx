@@ -13,10 +13,12 @@ export default function TrendingResources({
   isBookmarked,
   getRating 
 }) {
-  const { data: reviews } = useQuery({
+  // A default instead of initialData: seeded data would count as fresh and
+  // delay the first real read by the whole staleTime.
+  const { data: reviews = [] } = useQuery({
     queryKey: ['resourceReviews'],
     queryFn: () => base44.entities.ResourceReview.list(),
-    initialData: []
+    staleTime: 5 * 60_000
   });
 
   const getResourceStats = (resourceId) => {

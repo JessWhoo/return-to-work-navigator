@@ -231,6 +231,7 @@ export default function PeerConnectionsTab() {
     queryKey: ['peerConnections', 'list', filterIndustry, filterStage],
     enabled: !isLoadingAuth && !!isAuthenticated,
     placeholderData: keepPreviousData,
+    staleTime: 60_000,
     queryFn: () => base44.entities.PeerConnection.filter({
       is_active: true,
       ...(filterIndustry !== 'all' && { industry: filterIndustry }),
