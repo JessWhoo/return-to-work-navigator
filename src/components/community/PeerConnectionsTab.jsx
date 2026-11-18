@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -225,13 +225,27 @@ export default function PeerConnectionsTab() {
     enabled: !isLoadingAuth && !!isAuthenticated,
   });
 
-  const { data: allPeers = [], isLoading } = useQuery({
-    queryKey: ['peerConnections'],
+  const isFiltered = filterIndustry !== 'all' || filterStage !== 'all';
+
+  const { data: filteredPeers = [], isLoading: peersLoading } = useQuery({
+    queryKey: ['peerConnections', 'list', filterIndustry, filterStage],
     enabled: !isLoadingAuth && !!isAuthenticated,
-    queryFn: () => base44.entities.PeerConnection.filter({ is_active: true }),
+    placeholderData: keepPreviousData,
+    queryFn: () => base44.entities.PeerConnection.filter({
+      is_active: true,
+      ...(filterIndustry !== 'all' && { industry: filterIndustry }),
+      ...(filterStage !== 'all' && { return_stage: filterStage }),
+    }),
   });
 
-  const myProfile = allPeers.find(p => p.created_by_id === currentUser?.id);
+  const { data: myProfiles = [], isLoading: profileLoading } = useQuery({
+    queryKey: ['peerConnections', 'mine', currentUser?.id],
+    enabled: !!currentUser?.id,
+    queryFn: () => base44.entities.PeerConnection.filter({ is_active: true, created_by_id: currentUser.id }),
+  });
+
+  const myProfile = myProfiles[0];
+  const isLoading = peersLoading || profileLoading;
 
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.PeerConnection.create(data),
@@ -274,12 +288,6 @@ export default function PeerConnectionsTab() {
       createMutation.mutate(form);
     }
   };
-
-  const filteredPeers = allPeers.filter(p => {
-    if (filterIndustry !== 'all' && p.industry !== filterIndustry) return false;
-    if (filterStage !== 'all' && p.return_stage !== filterStage) return false;
-    return true;
-  });
 
   const hasRequestedConnection = (peer) => {
     return myProfile?.connection_requests_sent?.includes(peer.id) || false;
@@ -364,7 +372,7 @@ export default function PeerConnectionsTab() {
       )}
 
       {/* Filters */}
-      {allPeers.length > 0 && (
+      {(filteredPeers.length > 0 || isFiltered) && (
         <div className="flex flex-wrap gap-3">
           <BottomSheetSelect
             ariaLabel="Filter by industry"

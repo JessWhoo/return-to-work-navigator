@@ -65,18 +65,16 @@ export default function Profile({ embedded = false }) {
     }
   });
 
-  const { data: reviews } = useQuery({
-    queryKey: ['userReviews'],
-    queryFn: () => base44.entities.ResourceReview.list(),
+  const { data: reviewCount = 0 } = useQuery({
+    queryKey: ['userReviews', 'count'],
+    queryFn: () => base44.entities.ResourceReview.count(),
     enabled: !isLoadingAuth && !!isAuthenticated,
-    initialData: []
   });
 
-  const { data: suggestions } = useQuery({
-    queryKey: ['userSuggestions'],
-    queryFn: () => base44.entities.ResourceSuggestion.list(),
+  const { data: suggestionCount = 0 } = useQuery({
+    queryKey: ['userSuggestions', 'count'],
+    queryFn: () => base44.entities.ResourceSuggestion.count(),
     enabled: !isLoadingAuth && !!isAuthenticated,
-    initialData: []
   });
 
   const { data: subscription } = useQuery({
@@ -186,8 +184,8 @@ export default function Profile({ embedded = false }) {
     savedResources: progress?.bookmarked_resources?.length || 0,
     energyLogs: progress?.energy_logs?.length || 0,
     accommodationRequests: progress?.accommodations_requested?.length || 0,
-    reviews: reviews.length,
-    suggestions: suggestions.length
+    reviews: reviewCount,
+    suggestions: suggestionCount
   };
 
   const notificationPrefs = progress?.notification_preferences || {

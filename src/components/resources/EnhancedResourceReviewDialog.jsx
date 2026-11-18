@@ -32,10 +32,7 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
   // Fetch existing review if any
   const { data: existingReviews } = useQuery({
     queryKey: ['resource-review', resourceId],
-    queryFn: async () => {
-      const reviews = await base44.entities.ResourceReview.list();
-      return reviews.filter(r => r.resource_id === resourceId);
-    },
+    queryFn: () => base44.entities.ResourceReview.filter({ resource_id: resourceId }),
     enabled: open
   });
 
