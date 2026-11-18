@@ -30,14 +30,31 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
   const [wouldRecommend, setWouldRecommend] = useState(true);
 
   // Fetch existing review if any
-  const { data: existingReviews } = useQuery({
+  // Totals come from the server; only the five reviews shown are loaded.
+  const { data: reviewData } = useQuery({
     queryKey: ['resource-review', resourceId],
-    queryFn: () => base44.entities.ResourceReview.filter({ resource_id: resourceId }),
+    queryFn: async () => {
+      const Review = base44.entities.ResourceReview;
+      const [stats, recommendCount, shown, mine] = await Promise.all([
+        Review.aggregate({ query: { resource_id: resourceId }, avg: ['rating'] }),
+        Review.count({ resource_id: resourceId, would_recommend: true }),
+        Review.filter({ resource_id: resourceId }, { sort: 'created_date', limit: 5 }),
+        Review.filter({ resource_id: resourceId, created_by: 'current_user' }, { limit: 1 }),
+      ]);
+      return {
+        count: stats.rows[0]?.count || 0,
+        average: stats.rows[0]?.avg_rating || 0,
+        recommendCount,
+        shown: shown.items,
+        mine: mine.items[0],
+      };
+    },
     enabled: open,
     staleTime: 60_000
   });
 
-  const myReview = existingReviews?.find(r => r.created_by === 'current_user');
+  const myReview = reviewData?.mine;
+  const reviewCount = reviewData?.count || 0;
 
   const submitReviewMutation = useMutation({
     mutationFn: async (/** @type {any} */ reviewData) => {
@@ -89,12 +106,10 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
   };
 
   // Calculate aggregate stats
-  const avgRating = existingReviews?.length > 0
-    ? (existingReviews.reduce((sum, r) => sum + r.rating, 0) / existingReviews.length).toFixed(1)
-    : null;
+  const avgRating = reviewCount > 0 ? reviewData.average.toFixed(1) : null;
 
-  const recommendPercent = existingReviews?.length > 0
-    ? Math.round((existingReviews.filter(r => r.would_recommend).length / existingReviews.length) * 100)
+  const recommendPercent = reviewCount > 0
+    ? Math.round((reviewData.recommendCount / reviewCount) * 100)
     : null;
 
   return (
@@ -103,14 +118,14 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
       <DialogContent className="max-w-2xl">
         <DialogHeader><DialogTitle>Review: {resourceName}</DialogTitle></DialogHeader>
         <div className="space-y-6">
-          {existingReviews && existingReviews.length > 0 && (
+          {reviewCount > 0 && (
             <div className="nv-card nv-card--muted grid grid-cols-3 gap-3 p-4 text-center">
               <div>
                 <div className="text-3xl font-bold text-brand-primary">{avgRating}</div>
                 <div className="text-xs text-brand-muted-foreground">Average Rating</div>
                 <div className="flex items-center justify-center mt-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= Math.round(Number(avgRating)) ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>
               </div>
-              <div><div className="text-3xl font-bold text-brand-primary">{existingReviews.length}</div><div className="text-xs text-brand-muted-foreground">Reviews</div></div>
+              <div><div className="text-3xl font-bold text-brand-primary">{reviewCount}</div><div className="text-xs text-brand-muted-foreground">Reviews</div></div>
               {recommendPercent !== null && <div><div className="text-3xl font-bold text-brand-text">{recommendPercent}%</div><div className="text-xs text-brand-muted-foreground">Would Recommend</div></div>}
             </div>
           )}
@@ -137,11 +152,11 @@ export default function EnhancedResourceReviewDialog({ resourceId, resourceName 
               <Button size="icon" variant={wouldRecommend ? 'secondary' : 'ghost'} onClick={() => setWouldRecommend(true)} aria-label="Would recommend" aria-pressed={wouldRecommend}><ThumbsUp className="h-5 w-5" /></Button>
             </div>
           </div>
-          {existingReviews && existingReviews.length > 0 && (
+          {reviewCount > 0 && (
             <div>
               <h4 className="font-semibold mb-3 flex items-center gap-2"><MessageSquare className="h-4 w-4 text-brand-primary" /><span>Recent Community Reviews</span></h4>
               <div className="space-y-3 max-h-[200px] overflow-y-auto">
-                {existingReviews.slice(-5).reverse().map((review, idx) => (
+                {reviewData.shown.map((review, idx) => (
                   <div key={idx} className="nv-card nv-card--muted p-3">
                     <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
                       <div className="flex items-center gap-1">{[1, 2, 3, 4, 5].map(star => <Star key={star} className={`h-3 w-3 ${star <= review.rating ? 'text-brand-primary fill-brand-primary' : 'text-brand-border'}`} />)}</div>

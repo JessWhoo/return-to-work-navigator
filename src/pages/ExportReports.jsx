@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
 import useSEO from '@/hooks/useSEO';
+import { listAllRecords } from '@/lib/listAllRecords';
 
 const REPORT_TYPES = [
   {
@@ -269,8 +270,8 @@ export default function ExportReports({ embedded = false }) {
   const [done, setDone] = useState(null);
   const authed = !isLoadingAuth && !!isAuthenticated;
 
-  const { data: meetings } = useQuery({ queryKey: ['meetingPreps'], enabled: authed, queryFn: () => base44.entities.MeetingPrep.list('-meeting_date') });
-  const { data: drafts } = useQuery({ queryKey: ['communicationDrafts'], enabled: authed, queryFn: () => base44.entities.CommunicationDraft.list('-updated_date') });
+  const { data: meetings } = useQuery({ queryKey: ['meetingPreps'], enabled: authed, queryFn: () => listAllRecords(base44.entities.MeetingPrep, '-meeting_date') });
+  const { data: drafts } = useQuery({ queryKey: ['communicationDrafts'], enabled: authed, queryFn: () => listAllRecords(base44.entities.CommunicationDraft, '-updated_date') });
   const { data: progress } = useUserProgress();
 
   const handleExport = async (type) => {

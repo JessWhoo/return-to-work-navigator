@@ -1,4 +1,5 @@
 import { base44 } from '@/api/base44Client';
+import { listAllRecords } from '@/lib/listAllRecords';
 
 /**
  * Generates AI-powered resource recommendations based on user data
@@ -36,7 +37,7 @@ export async function generateAIRecommendations(allResources, progress) {
     const dominantMood = moods.length > 0 ? moods[moods.length - 1] : 'neutral';
 
     // Fetch all reviews to get community insights
-    const allReviews = await base44.entities.ResourceReview.list();
+    const allReviews = await listAllRecords(base44.entities.ResourceReview);
     const reviewsByResource = {};
     allReviews.forEach(review => {
       if (!reviewsByResource[review.resource_id]) {

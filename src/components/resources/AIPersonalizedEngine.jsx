@@ -8,6 +8,7 @@ import {
   ExternalLink, Bookmark, BookmarkCheck, Loader2, Brain
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { listAllRecords } from '@/lib/listAllRecords';
 
 /**
  * @param {{ progress?: any, resources?: any[], onBookmark?: (id: string) => void,
@@ -82,7 +83,7 @@ export default function AIPersonalizedEngine({
       const userData = await analyzeUserData();
       
       // Fetch all resource reviews for community feedback
-      const allReviews = await base44.entities.ResourceReview.list();
+      const allReviews = await listAllRecords(base44.entities.ResourceReview);
       
       // Calculate average ratings and review counts for each resource
       const resourceRatings = {};

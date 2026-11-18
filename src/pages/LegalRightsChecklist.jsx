@@ -50,8 +50,8 @@ export default function LegalRightsChecklist({ embedded = false }) {
       }
 
       try {
-        const list = await base44.entities.UserProgress.list();
-        const record = list?.[0] || await base44.entities.UserProgress.create({ completed_checklist_items: [] });
+        const page = await base44.entities.UserProgress.list({ limit: 1 });
+        const record = page.items?.[0] || await base44.entities.UserProgress.create({ completed_checklist_items: [] });
         setProgress(record);
       } catch {
         localMode();

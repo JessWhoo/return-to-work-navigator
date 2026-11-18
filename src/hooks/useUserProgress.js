@@ -22,8 +22,8 @@ export function useUserProgress(defaults = null) {
     queryKey: ['userProgress'],
     enabled: !isLoadingAuth && !!isAuthenticated && !!user?.id && hasSessionToken(),
     queryFn: async () => {
-      const list = await base44.entities.UserProgress.list();
-      if (list.length > 0) return list[0];
+      const page = await base44.entities.UserProgress.list({ limit: 1 });
+      if (page.items.length > 0) return page.items[0];
       if (!defaults) return null;
 
       // No record yet — create one. If the create is rejected (transient
@@ -32,8 +32,8 @@ export function useUserProgress(defaults = null) {
       try {
         return await base44.entities.UserProgress.create(defaults);
       } catch {
-        const retry = await base44.entities.UserProgress.list().catch(() => []);
-        return retry[0] || null;
+        const retry = await base44.entities.UserProgress.list({ limit: 1 }).catch(() => ({ items: [] }));
+        return retry.items[0] || null;
       }
     },
     retry: (failureCount, /** @type {any} */ err) => {

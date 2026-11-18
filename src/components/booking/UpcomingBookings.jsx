@@ -1,6 +1,6 @@
 import React from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -30,15 +30,19 @@ const STATUS_STYLES = {
 export default function UpcomingBookings({ enabled = true }) {
   const queryClient = useQueryClient();
 
-  const { data: bookings = [], isLoading } = useQuery({
+  // Only open sessions are shown, so the status filter runs on the server and
+  // the list is read a page at a time.
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['coachBookings'],
     enabled,
-    queryFn: async () => {
-      const items = await base44.entities.CoachBooking
-        .list('-requested_date')
-        .catch(() => []);
-      return items || [];
-    },
+    initialPageParam: null,
+    queryFn: ({ pageParam }) => base44.entities.CoachBooking
+      .filter(
+        { status: { $nin: ['cancelled', 'completed'] } },
+        { sort: '-requested_date', limit: 50, ...(pageParam ? { cursor: pageParam } : {}) }
+      )
+      .catch(() => ({ items: [], has_more: false })),
+    getNextPageParam: (lastPage) => (lastPage.has_more ? lastPage.next_cursor : undefined),
     staleTime: 30_000,
   });
 
@@ -59,7 +63,7 @@ export default function UpcomingBookings({ enabled = true }) {
 
   if (isLoading) return null;
 
-  const active = bookings.filter((b) => b.status !== 'cancelled' && b.status !== 'completed');
+  const active = (data?.pages || []).flatMap((page) => page.items || []);
   if (active.length === 0) return null;
 
   return (
@@ -107,6 +111,11 @@ export default function UpcomingBookings({ enabled = true }) {
           </Card>
         );
       })}
+      {hasNextPage && (
+        <Button variant="outline" disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
+          {isFetchingNextPage ? 'Loading...' : 'Load more sessions'}
+        </Button>
+      )}
     </div>
   );
 }

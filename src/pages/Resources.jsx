@@ -215,22 +215,21 @@ export default function Resources() {
   };
 
   // Fetch all reviews for rating display
-  const { data: allReviews } = useQuery({
+  const { data: ratingRows } = useQuery({
     queryKey: ['all-resource-reviews'],
     queryFn: async () => {
-      return await base44.entities.ResourceReview.list();
+      const result = await base44.entities.ResourceReview.aggregate({ groupBy: 'resource_id', avg: ['rating'] });
+      return result.rows;
     },
     staleTime: 60_000
   });
 
   const getResourceRating = (resourceId) => {
-    if (!allReviews) return null;
-    const resourceReviews = allReviews.filter(r => r.resource_id === resourceId);
-    if (resourceReviews.length === 0) return null;
-    const avg = resourceReviews.reduce((sum, r) => sum + r.rating, 0) / resourceReviews.length;
+    const row = ratingRows?.find(r => r.resource_id === resourceId);
+    if (!row || !row.count) return null;
     return {
-      average: avg,
-      count: resourceReviews.length
+      average: row.avg_rating,
+      count: row.count
     };
   };
 

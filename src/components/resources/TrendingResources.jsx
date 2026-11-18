@@ -15,23 +15,30 @@ export default function TrendingResources({
 }) {
   // A default instead of initialData: seeded data would count as fresh and
   // delay the first real read by the whole staleTime.
-  const { data: reviews = [] } = useQuery({
+  // Per-resource totals are worked out on the server rather than by loading
+  // every review.
+  const { data: reviewStats = {} } = useQuery({
     queryKey: ['resourceReviews'],
-    queryFn: () => base44.entities.ResourceReview.list(),
+    queryFn: async () => {
+      const Review = base44.entities.ResourceReview;
+      const [all, recommended] = await Promise.all([
+        Review.aggregate({ groupBy: 'resource_id', avg: ['rating'] }),
+        Review.aggregate({ query: { would_recommend: true }, groupBy: 'resource_id' }),
+      ]);
+      const stats = {};
+      all.rows.forEach(row => {
+        stats[row.resource_id] = { avgRating: row.avg_rating || 0, reviewCount: row.count, recommendCount: 0 };
+      });
+      recommended.rows.forEach(row => {
+        if (stats[row.resource_id]) stats[row.resource_id].recommendCount = row.count;
+      });
+      return stats;
+    },
     staleTime: 5 * 60_000
   });
 
-  const getResourceStats = (resourceId) => {
-    const resourceReviews = reviews.filter(r => r.resource_id === resourceId);
-    const avgRating = resourceReviews.length > 0
-      ? resourceReviews.reduce((sum, r) => sum + r.rating, 0) / resourceReviews.length
-      : 0;
-    return {
-      avgRating,
-      reviewCount: resourceReviews.length,
-      recommendCount: resourceReviews.filter(r => r.would_recommend).length
-    };
-  };
+  const getResourceStats = (resourceId) =>
+    reviewStats[resourceId] || { avgRating: 0, reviewCount: 0, recommendCount: 0 };
 
   const trendingResources = allResources
     .flatMap(cat => 
