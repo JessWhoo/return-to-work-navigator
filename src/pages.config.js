@@ -47,73 +47,13 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Accommodations from './pages/Accommodations';
-import Checklist from './pages/Checklist';
-import Coach from './pages/Coach';
-import Communication from './pages/Communication';
-import EmotionalSupport from './pages/EmotionalSupport';
-import EnergyManagement from './pages/EnergyManagement';
-import FAQ from './pages/FAQ';
 import Home from './pages/Home';
-import LegalRights from './pages/LegalRights';
-import Profile from './pages/Profile';
-import ProgressDashboard from './pages/ProgressDashboard';
-import RecordKeeping from './pages/RecordKeeping';
-import Resources from './pages/Resources';
-import ReturnPlanning from './pages/ReturnPlanning';
-import MeetingPrep from './pages/MeetingPrep';
-import InternationalLaws from './pages/InternationalLaws';
-import StateByStateLaws from './pages/StateByStateLaws';
-import MyJourney from './pages/MyJourney';
-import CommunicationToolkit from './pages/CommunicationToolkit';
-import LegalPolicyHub from './pages/LegalPolicyHub';
-import WellbeingHub from './pages/WellbeingHub';
-import CareerHub from './pages/CareerHub';
-import HelpSupport from './pages/HelpSupport';
-import CommunityHub from './pages/CommunityHub';
-import ExportReports from './pages/ExportReports';
-import JobBoards from './pages/JobBoards';
-import EmployerEmailGenerator from './pages/EmployerEmailGenerator';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import DisclosureGuide from './pages/DisclosureGuide';
-import CoachBooking from './pages/CoachBooking';
 import __Layout from './Layout.jsx';
+import { lazyPage } from '@/lib/lazyPage';
 
-
-export const PAGES = {
-    "Accommodations": Accommodations,
-    "Checklist": Checklist,
-    "Coach": Coach,
-    "Communication": Communication,
-    "EmotionalSupport": EmotionalSupport,
-    "EnergyManagement": EnergyManagement,
-    "FAQ": FAQ,
-    "Home": Home,
-    "LegalRights": LegalRights,
-    "Profile": Profile,
-    "ProgressDashboard": ProgressDashboard,
-    "RecordKeeping": RecordKeeping,
-    "Resources": Resources,
-    "ReturnPlanning": ReturnPlanning,
-    "MeetingPrep": MeetingPrep,
-    "InternationalLaws": InternationalLaws,
-    "StateByStateLaws": StateByStateLaws,
-    "MyJourney": MyJourney,
-    "CommunicationToolkit": CommunicationToolkit,
-    "LegalPolicyHub": LegalPolicyHub,
-    "WellbeingHub": WellbeingHub,
-    "CareerHub": CareerHub,
-    "HelpSupport": HelpSupport,
-    "CommunityHub": CommunityHub,
-    "ExportReports": ExportReports,
-    "JobBoards": JobBoards,
-    "EmployerEmailGenerator": EmployerEmailGenerator,
-    "About": About,
-    "Contact": Contact,
-    "DisclosureGuide": DisclosureGuide,
-    "CoachBooking": CoachBooking,
-}
+// Keep the landing page immediately available; fetch other screens on navigation.
+const names = ['Accommodations','Checklist','Coach','Communication','EmotionalSupport','EnergyManagement','FAQ','LegalRights','Profile','ProgressDashboard','RecordKeeping','Resources','ReturnPlanning','MeetingPrep','InternationalLaws','StateByStateLaws','MyJourney','CommunicationToolkit','LegalPolicyHub','WellbeingHub','CareerHub','HelpSupport','CommunityHub','ExportReports','JobBoards','EmployerEmailGenerator','About','Contact','DisclosureGuide','CoachBooking'];
+export const PAGES = { Home, ...Object.fromEntries(names.map(name => [name, lazyPage(name)])) };
 
 export const pagesConfig = {
     mainPage: "Home",

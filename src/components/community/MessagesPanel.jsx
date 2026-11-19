@@ -56,22 +56,22 @@ function ConversationView({ myProfile, otherProfile, onBack }) {
   }, [messages]);
 
   const sendMutation = useMutation({
-    mutationFn: () => base44.entities.DirectMessage.create({
+    mutationFn: (draft) => base44.entities.DirectMessage.create({
       conversation_key: key,
       sender_profile_id: myProfile.id,
       sender_display_name: myProfile.display_name,
-      content: text.trim(),
+      content: draft.trim(),
     }),
-    onSuccess: () => {
-      setText('');
+    onSuccess: (_, draft) => {
+      setText(current => current === draft ? '' : current);
       queryClient.invalidateQueries({ queryKey: ['directMessages', key] });
       queryClient.invalidateQueries({ queryKey: ['dmConversations'] });
     }
   });
 
   const handleSend = () => {
-    if (!text.trim()) return;
-    sendMutation.mutate();
+    if (!text.trim() || sendMutation.isPending) return;
+    sendMutation.mutate(text);
   };
 
   return (
@@ -135,22 +135,29 @@ export default function MessagesPanel({ myPeerProfile, allPeers }) {
   }, [myPeerProfile, allPeers]);
 
   // Unread counts per conversation
-  const { data: recentMessages = [] } = useQuery({
-    queryKey: ['dmConversations'],
-    queryFn: () => base44.entities.DirectMessage.list('-created_date', 100),
-    enabled: !!myProfile,
-    refetchInterval: 5000,
+  const queryClient = useQueryClient();
+  const myId = myProfile?.id;
+  const conversationKeys = React.useMemo(() => matchedProfiles.map(({ profile }) => convKey(myId, profile.id)), [matchedProfiles, myId]);
+  const { data: unreadCounts = {} } = useQuery({
+    queryKey: ['dmConversations', myId, conversationKeys],
+    queryFn: async () => {
+      const { rows } = await base44.entities.DirectMessage.aggregate({
+        query: { conversation_key: { $in: conversationKeys }, sender_profile_id: { $ne: myId }, is_read: { $ne: true } },
+        groupBy: 'conversation_key',
+      });
+      return Object.fromEntries(rows.map(row => [row.conversation_key, row.count]));
+    },
+    enabled: !!myId && conversationKeys.length > 0 && !openConv,
   });
-
-  const getUnread = (otherProfile) => {
-    if (!myProfile) return 0;
-    const key = convKey(myProfile.id, otherProfile.id);
-    return recentMessages.filter(m =>
-      m.conversation_key === key &&
-      m.sender_profile_id !== myProfile.id &&
-      !m.is_read
-    ).length;
-  };
+  useEffect(() => {
+    if (!myId || !conversationKeys.length || openConv) return;
+    return base44.entities.DirectMessage.subscribe(event => {
+      if (event.type === 'delete' || conversationKeys.includes(event.data?.conversation_key)) {
+        queryClient.invalidateQueries({ queryKey: ['dmConversations', myId] });
+      }
+    });
+  }, [myId, conversationKeys, openConv, queryClient]);
+  const getUnread = otherProfile => unreadCounts[convKey(myId, otherProfile.id)] || 0;
 
   if (openConv) {
     return (

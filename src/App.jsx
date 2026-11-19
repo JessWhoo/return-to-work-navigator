@@ -13,36 +13,10 @@ import SessionExpiredNotice from '@/components/SessionExpiredNotice';
 import { installUnauthorizedMonitor } from '@/lib/sessionGuard';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Roadmap from './pages/Roadmap';
-import NavigatorMethod from './pages/NavigatorMethod';
-import LegalRightsChecklist from './pages/LegalRightsChecklist';
-import DisclosureGuide from './pages/DisclosureGuide';
-import ResourceLibrary from './pages/ResourceLibrary';
-import ExpertAdvice from './pages/ExpertAdvice';
-import CommunityGuidelines from './pages/CommunityGuidelines';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import Mfa from './pages/Mfa';
-import ThankYou from './pages/ThankYou';
-import Blog from './pages/Blog';
-import MyFeedback from './pages/MyFeedback';
-import EmergencyContacts from './pages/EmergencyContacts';
-import PrivacySecurity from './pages/PrivacySecurity';
-import AccommodationWorksheet from './pages/AccommodationWorksheet';
-import LegalDirectory from './pages/LegalDirectory';
-import WellnessLibrary from './pages/WellnessLibrary';
-import LegalRightsAdvisor from './pages/LegalRightsAdvisor';
-import AccommodationLetterGenerator from './pages/AccommodationLetterGenerator';
-import ToolEngagementDashboard from './pages/ToolEngagementDashboard';
-import ManagerGuide from './pages/ManagerGuide';
-import ManagerGuideEs from './pages/ManagerGuideEs';
-import AccommodationsEs from './pages/AccommodationsEs';
-import DisclosureGuideEs from './pages/DisclosureGuideEs';
-import AccommodationTemplates from './pages/AccommodationTemplates';
-import ChemoBrainGuide from './pages/ChemoBrainGuide';
-import ForClinics from './pages/ForClinics';
+import { Suspense } from 'react';
+import { lazyPage } from '@/lib/lazyPage';
+const [Roadmap, NavigatorMethod, LegalRightsChecklist, DisclosureGuide, ResourceLibrary, ExpertAdvice, CommunityGuidelines, Login, Register, ForgotPassword, ResetPassword, Mfa, ThankYou, Blog, MyFeedback, EmergencyContacts, PrivacySecurity, AccommodationWorksheet, LegalDirectory, WellnessLibrary, LegalRightsAdvisor, AccommodationLetterGenerator, ToolEngagementDashboard, ManagerGuide, ManagerGuideEs, AccommodationsEs, DisclosureGuideEs, AccommodationTemplates, ChemoBrainGuide, ForClinics] =
+  'Roadmap NavigatorMethod LegalRightsChecklist DisclosureGuide ResourceLibrary ExpertAdvice CommunityGuidelines Login Register ForgotPassword ResetPassword Mfa ThankYou Blog MyFeedback EmergencyContacts PrivacySecurity AccommodationWorksheet LegalDirectory WellnessLibrary LegalRightsAdvisor AccommodationLetterGenerator ToolEngagementDashboard ManagerGuide ManagerGuideEs AccommodationsEs DisclosureGuideEs AccommodationTemplates ChemoBrainGuide ForClinics'.split(' ').map(lazyPage);
 import GoogleAdsSignupTracking from '@/components/analytics/GoogleAdsSignupTracking';
 import CookieConsentBanner from '@/components/privacy/CookieConsentBanner';
 import { CONSENT_EVENT, readCookieConsent } from '@/lib/cookieConsent';
@@ -84,7 +58,7 @@ const mainPageKey = mainPage ?? Object.keys(Pages)[0];
 const MainPage = mainPageKey ? Pages[mainPageKey] : <></>;
 
 const LayoutWrapper = ({ children, currentPageName }) => Layout ?
-  <Layout currentPageName={currentPageName}>{children}</Layout>
+  <Layout currentPageName={currentPageName}><Suspense fallback={<p role="status">Loading page…</p>}>{children}</Suspense></Layout>
   : <>{children}</>;
 
 const AuthenticatedApp = () => {
@@ -366,7 +340,7 @@ function App() {
         <Router>
           <NavigationTracker />
           <SessionExpiredNotice />
-          <AuthenticatedApp />
+          <Suspense fallback={<p role="status">Loading page…</p>}><AuthenticatedApp /></Suspense>
         </Router>
         <Toaster />
         <SonnerToaster theme="light" richColors position="top-center" />
