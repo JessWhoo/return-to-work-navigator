@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 
 export const BASE_TITLE = 'Return to Work Navigator — Back to Life, Back to Work';
-// Canonical URLs follow the host that actually served the page, so the tag can
-// never point at a domain Google is unable to fetch.
-export const CANONICAL_ORIGIN =
-  typeof window !== 'undefined'
-    ? window.location.origin
-    : 'https://return-to-work-navigator-febf891d.base44.app';
+// Always declare the custom domain as the canonical origin regardless of which
+// host serves the page, so search engines consolidate onto one address.
+export const CANONICAL_ORIGIN = 'https://return-to-work-navigator.org';
 
 const NOINDEX_ROUTES = new Set([
   '/login',
