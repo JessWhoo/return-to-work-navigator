@@ -3,11 +3,11 @@ import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import PageHeader from '@/components/brand/PageHeader';
 import ReturnPlanChoice from '@/components/planner/ReturnPlanChoice';
+import ReturnDatePicker from '@/components/planner/ReturnDatePicker';
 import { toast } from 'sonner';
 import { 
   Calendar, Clock, Home, Save, Download 
@@ -203,12 +203,11 @@ Sincerely,
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="returnDate">Return Date</Label>
-                <Input
+                <ReturnDatePicker
                   id="returnDate"
-                  type="date"
                   value={returnDate}
-                  onChange={(e) => setReturnDate(e.target.value)}
-                  min={format(new Date(), 'yyyy-MM-dd')}
+                  onChange={setReturnDate}
+                  minDate={new Date()}
                 />
               </div>
 
