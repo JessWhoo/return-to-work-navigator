@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -36,6 +35,7 @@ export default function AccommodationLetterGenerator() {
   const [selected, setSelected] = useState([]);
   const [details, setDetails] = useState(EMPTY_DETAILS);
   const [letter, setLetter] = useState('');
+  const stepTopRef = useRef(null);
 
   const toggle = (opt) =>
     setSelected((prev) => (prev.some((s) => s.id === opt.id) ? prev.filter((s) => s.id !== opt.id) : [...prev, opt]));
@@ -43,34 +43,32 @@ export default function AccommodationLetterGenerator() {
     setSelected((prev) => [...prev, { id: `custom-${Date.now()}`, label, rationale: '', custom: true }]);
   const removeCustom = (id) => setSelected((prev) => prev.filter((s) => s.id !== id));
 
-  // Move to a step and bring its content into view. Without this, a user (or a
-  // scripted test) sitting at the bottom of the long accommodation list clicks
-  // Continue while the freshly rendered step sits above the viewport, so the
-  // click looks like it did nothing.
   const goToStep = (target) => {
-    setStep(target);
-    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const canContinue = step !== 1 || selected.length > 0;
-
-  const next = () => {
-    if (step === 1 && selected.length === 0) {
+    if (target > 1 && selected.length === 0) {
       toast.error('Select at least one accommodation to continue');
       return;
     }
-    if (step === 2) {
+    if (target === 3) {
       setLetter(buildLetter(selected, details));
       logToolEngagement('accommodation_letter_generator');
     }
-    goToStep(step + 1);
+    setStep(target);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      requestAnimationFrame(() => stepTopRef.current?.focus({ preventScroll: true }));
+    }
   };
+
+  const canContinue = step !== 1 || selected.length > 0;
+  const maxReachable = selected.length === 0 ? 1 : letter ? 3 : 2;
+
+  const next = () => goToStep(step + 1);
 
   return (
     <div className="max-w-4xl mx-auto">
       <style>{`@media print { .no-print { display: none !important; } .print-letter { border: none !important; box-shadow: none !important; } }`}</style>
 
-      <div className="no-print mb-8">
+      <div ref={stepTopRef} tabIndex={-1} className="no-print mb-8 outline-none">
         <PageHeader
           eyebrow="Accommodation"
           title={STEP_COPY[step].title}
@@ -94,17 +92,22 @@ export default function AccommodationLetterGenerator() {
             />
           </div>
         )}
-        <div className="mt-6"><StepIndicator current={step} /></div>
+        <div className="mt-6 space-y-4">
+          <StepIndicator current={step} maxReachable={maxReachable} onSelectStep={goToStep} />
+          {step === 1 && selected.length > 0 && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-brand border border-brand-border bg-brand-surface px-4 py-3 shadow-brand-sm">
+              <span className="text-sm font-semibold text-brand-text">
+                {selected.length} accommodation{selected.length === 1 ? '' : 's'} selected
+              </span>
+              <Button type="button" size="sm" onClick={next}>
+                Continue <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Each step mounts immediately on click — no exit-wait animation, so the
-          wizard can never stay parked on the previous step. */}
-      <motion.div
-        key={step}
-        initial={{ opacity: 0, x: 24 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.25, ease: 'easeOut' }}
-      >
+      <div key={step}>
         {step === 3 ? (
           <div className="space-y-6">
             <LetterPreview text={letter} onChange={setLetter} onRegenerate={() => setLetter(buildLetter(selected, details))} />
@@ -121,10 +124,10 @@ export default function AccommodationLetterGenerator() {
             </CardContent>
           </Card>
         )}
-      </motion.div>
+      </div>
 
       <div className="no-print mt-6 flex items-center justify-between gap-3">
-        <Button variant="outline" disabled={step === 1} onClick={() => goToStep(step - 1)}>
+        <Button type="button" variant="outline" disabled={step === 1} onClick={() => goToStep(step - 1)}>
           <ArrowLeft className="h-4 w-4" /> Back
         </Button>
         {step < 3 ? (
@@ -134,7 +137,7 @@ export default function AccommodationLetterGenerator() {
                 {selected.length > 0 ? `${selected.length} selected` : 'Select at least one to continue'}
               </span>
             )}
-            <Button onClick={next} disabled={!canContinue}>
+            <Button type="button" onClick={next} disabled={!canContinue}>
               {step === 2 ? <><FileText className="h-4 w-4" /> Generate letter</> : <>Continue <ArrowRight className="h-4 w-4" /></>}
             </Button>
           </div>

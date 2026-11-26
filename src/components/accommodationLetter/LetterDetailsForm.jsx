@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import ReturnDatePicker from '@/components/planner/ReturnDatePicker';
 import { CONDITION_PHRASES } from './accommodationOptions';
 
 /**
@@ -49,7 +50,7 @@ export default function LetterDetailsForm({ details, onChange }) {
           <Input id="recipientTitle" value={details.recipientTitle} onChange={set('recipientTitle')} placeholder="Human Resources Manager" />
         </Field>
         <Field id="startDate" label="Accommodations needed from">
-          <Input id="startDate" type="date" value={details.startDate} onChange={set('startDate')} />
+          <ReturnDatePicker id="startDate" value={details.startDate} onChange={(val) => onChange('startDate', val)} />
         </Field>
       </div>
 
