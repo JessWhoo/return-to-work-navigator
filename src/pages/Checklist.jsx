@@ -7,22 +7,44 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react';
 import { useUserProgress } from '@/hooks/useUserProgress';
-import { checklistData, getChecklistTotalItems, getCompletedChecklistIds } from '@/components/checklist/checklistData';
+import { checklistData, getChecklistTotalItems, getCompletedChecklistIds, getPhaseItems } from '@/components/checklist/checklistData';
+import ChecklistQuickStart from '@/components/checklist/ChecklistQuickStart';
+import { Button } from '@/components/ui/button';
 import useSEO from '@/hooks/useSEO';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 
+const MARKS_STORAGE_KEY = 'nv_checklist_item_marks';
+function readItemMarks() {
+  try { return JSON.parse(localStorage.getItem(MARKS_STORAGE_KEY) || '{}'); }
+  catch { return {}; }
+}
+
 export default function Checklist({ embedded = false }) {
   useSEO({
-    title: 'Interactive Return-to-Work Preparation Checklist',
+    title: 'Return-to-Work Preparation Checklist',
     description:
-      'Interactive step-by-step checklist for cancer survivors preparing to return to work: medical clearance, HR conversations, schedule planning, and self-care.',
+      'Interactive preparation checklist for navigating work after cancer: medical clearance, HR conversations, schedule planning, and pacing.',
     path: '/Checklist',
     enabled: !embedded,
   });
   const { isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   const [expandedPhases, setExpandedPhases] = useState([0]);
+  const [showFullChecklist, setShowFullChecklist] = useState(false);
+  const [itemMarks, setItemMarks] = useState(readItemMarks);
+
+  const handleSetMark = (itemId, mark) => {
+    setItemMarks((prev) => {
+      const next = { ...prev };
+      if (!mark) delete next[itemId];
+      else next[itemId] = mark;
+      try { localStorage.setItem(MARKS_STORAGE_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  };
+
+  const allChecklistItems = checklistData.flatMap(getPhaseItems);
 
   const { data: progress, isLoading } = useUserProgress({
     completed_checklist_items: [],
@@ -104,10 +126,10 @@ export default function Checklist({ embedded = false }) {
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="space-y-3 text-center">
           <HeadingTag className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
-            Interactive Return-to-Work Preparation Checklist
+            Your return-to-work preparation checklist
           </HeadingTag>
           <p className="max-w-2xl mx-auto text-brand-muted-foreground">
-            Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
+            Choose one item that feels useful today. You do not need to complete everything at once, and some items may not apply to you.
           </p>
         </div>
         <div className="flex items-center justify-center min-h-[240px]">
@@ -125,37 +147,66 @@ export default function Checklist({ embedded = false }) {
       {/* Header */}
       <div className="space-y-3 text-center">
         <HeadingTag className="font-heading text-3xl font-bold text-brand-text sm:text-4xl">
-          Interactive Return-to-Work Preparation Checklist
+          Your return-to-work preparation checklist
         </HeadingTag>
         <p className="max-w-2xl mx-auto text-brand-muted-foreground">
-          Use this step-by-step guide to prepare for your return to work. Check off items as you complete them.
+          Choose one item that feels useful today. You do not need to complete everything at once, and some items may not apply to you.
         </p>
         {!isAuthenticated && (
-          <div className="flex justify-center pt-2">
-            <Link to="/register" className="nv-btn">Create your free account</Link>
-          </div>
+          <p className="text-xs text-brand-muted-foreground">
+            Viewing as a guest.{' '}
+            <Link to="/register" className="font-semibold text-brand-primary underline underline-offset-4">
+              Create a free account
+            </Link>{' '}
+            to save your progress across visits.
+          </p>
         )}
       </div>
 
-      {/* Progress Overview */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between gap-3">
-              <span className="nv-eyebrow">Overall progress</span>
-              <span className="text-sm font-bold text-brand-primary">
-                {completedItems.length} of {totalItems} completed
-              </span>
-            </div>
-            <Progress value={progressPercentage} className="h-2" />
-            <p className="text-center text-xs font-semibold text-brand-muted-foreground">
-              {progressPercentage.toFixed(0)}% complete
+      {/* Short Opening View vs Full Checklist */}
+      {!showFullChecklist ? (
+        <ChecklistQuickStart
+          allItems={allChecklistItems}
+          completedItems={completedItems}
+          itemMarks={itemMarks}
+          onToggleComplete={handleCheckboxChange}
+          onSetMark={handleSetMark}
+          onShowFull={() => setShowFullChecklist(true)}
+        />
+      ) : (
+        <>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-brand-muted-foreground">
+              Showing all {totalItems} items across {checklistData.length} phases.
             </p>
+            <Button variant="ghost" size="sm" onClick={() => setShowFullChecklist(false)}>
+              Back to 3 suggested prompts
+            </Button>
           </div>
-        </CardContent>
-      </Card>
-      
-      {/* Straightforward Phase Summary */}
+
+          {/* Progress Overview */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="nv-eyebrow">Overall progress</span>
+                  <span className="text-sm font-bold text-brand-primary">
+                    {completedItems.length} of {totalItems} completed
+                  </span>
+                </div>
+                <Progress value={progressPercentage} className="h-2" />
+                <p className="text-center text-xs font-semibold text-brand-muted-foreground">
+                  {progressPercentage.toFixed(0)}% checked
+                  {Object.values(itemMarks).filter(m => m === 'revisit_later').length > 0 &&
+                    ` · ${Object.values(itemMarks).filter(m => m === 'revisit_later').length} to revisit later`}
+                  {Object.values(itemMarks).filter(m => m === 'not_relevant').length > 0 &&
+                    ` · ${Object.values(itemMarks).filter(m => m === 'not_relevant').length} marked not relevant`}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Straightforward Phase Summary */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {checklistData.map((phase, idx) => {
           const phaseItems = phase.sections.flatMap(s => s.items);
@@ -239,31 +290,64 @@ export default function Checklist({ embedded = false }) {
                       <div className="space-y-3 ml-2">
                         {section.items.map((item) => {
                           const isChecked = completedItems.includes(item.id);
+                          const mark = itemMarks[item.id];
                           return (
                             <div 
                               key={item.id}
-                              className="flex items-start space-x-3 rounded-brand p-3 transition-colors hover:bg-brand-muted"
+                              className="rounded-brand p-3 transition-colors hover:bg-brand-muted space-y-2"
                             >
-                              <Checkbox
-                                id={item.id}
-                                checked={isChecked}
-                                onCheckedChange={(checked) => handleCheckboxChange(item.id, checked)}
-                                className="mt-1"
-                              />
-                              <label
-                                htmlFor={item.id}
-                                className={`flex-1 cursor-pointer text-sm ${
-                                     isChecked ? 'line-through text-brand-muted-foreground' : 'text-brand-text'
-                                }`}
-                              >
-                                {item.text}
-                              </label>
-                              {/* Fixed-width slot: the icon appearing must not reflow the list below. */}
-                              <span className="w-5 flex-shrink-0">
-                                {isChecked && (
-                                  <CheckCircle2 className={`h-5 w-5 ${phase.checkClass}`} />
-                                )}
-                              </span>
+                              <div className="flex items-start space-x-3">
+                                <Checkbox
+                                  id={item.id}
+                                  checked={isChecked}
+                                  onCheckedChange={(checked) => handleCheckboxChange(item.id, checked)}
+                                  className="mt-1"
+                                />
+                                <label
+                                  htmlFor={item.id}
+                                  className={`flex-1 cursor-pointer text-sm ${
+                                    isChecked
+                                      ? 'line-through text-brand-muted-foreground'
+                                      : mark === 'not_relevant'
+                                        ? 'italic text-brand-muted-foreground'
+                                        : 'text-brand-text'
+                                  }`}
+                                >
+                                  {item.text}
+                                </label>
+                                {/* Fixed-width slot: the icon appearing must not reflow the list below. */}
+                                <span className="w-5 flex-shrink-0">
+                                  {isChecked && (
+                                    <CheckCircle2 className={`h-5 w-5 ${phase.checkClass}`} />
+                                  )}
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap items-center gap-2 pl-7">
+                                <button
+                                  type="button"
+                                  onClick={() => handleSetMark(item.id, mark === 'revisit_later' ? null : 'revisit_later')}
+                                  aria-pressed={mark === 'revisit_later'}
+                                  className={`rounded-pill border px-2.5 py-0.5 text-xs font-semibold transition-colors ${
+                                    mark === 'revisit_later'
+                                      ? 'border-brand-primary bg-brand-primary text-brand-on-primary'
+                                      : 'border-brand-border bg-brand-surface text-brand-muted-foreground hover:bg-brand-background'
+                                  }`}
+                                >
+                                  Revisit later
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleSetMark(item.id, mark === 'not_relevant' ? null : 'not_relevant')}
+                                  aria-pressed={mark === 'not_relevant'}
+                                  className={`rounded-pill border px-2.5 py-0.5 text-xs font-semibold transition-colors ${
+                                    mark === 'not_relevant'
+                                      ? 'border-brand-primary bg-brand-muted text-brand-text'
+                                      : 'border-brand-border bg-brand-surface text-brand-muted-foreground hover:bg-brand-background'
+                                  }`}
+                                >
+                                  Not relevant
+                                </button>
+                              </div>
                             </div>
                           );
                         })}
@@ -277,18 +361,20 @@ export default function Checklist({ embedded = false }) {
         })}
       </div>
 
-      {/* Completion message — a plain progress acknowledgement, no scoring or rewards */}
-      {progressPercentage === 100 && (
-        <Card className="nv-card--muted">
-          <CardContent className="pt-6 text-center">
-            <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
-            <h3 className="mb-2 font-heading text-2xl font-bold text-brand-text">Checklist complete</h3>
-            <p className="font-medium text-brand-text">
-              You've worked through every checklist item. Remember, returning to work is an ongoing journey.
-              Continue to advocate for yourself and adjust as needed.
-            </p>
-          </CardContent>
-        </Card>
+          {/* Completion message — a plain progress acknowledgement, never a readiness claim */}
+          {progressPercentage === 100 && (
+            <Card className="nv-card--muted">
+              <CardContent className="pt-6 text-center">
+                <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-brand-primary" />
+                <h3 className="mb-2 font-heading text-2xl font-bold text-brand-text">All items checked</h3>
+                <p className="font-medium text-brand-text">
+                  You have checked every item on this list. Checking items helps organize your questions,
+                  and does not determine medical or personal readiness—continue to discuss timing and support with your healthcare team.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </>
       )}
     </div>
   );

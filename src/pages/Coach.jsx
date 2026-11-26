@@ -29,9 +29,9 @@ import useCoachThread from '@/hooks/useCoachThread';
 
 export default function Coach() {
   useSEO({
-    title: '24/7 AI Return-to-Work Coach for Cancer Survivors',
+    title: '24/7 AI Return-to-Work Coach',
     description:
-      'Chat confidentially with your AI Return-to-Work Coach for tailored guidance on workplace accommodations, fatigue pacing, HR scripts, and emotional readiness.',
+      'Chat with the AI Return-to-Work Coach to prepare workplace accommodation questions, fatigue pacing ideas, and employer messages.',
     path: '/Coach',
   });
   const queryClient = useQueryClient();
@@ -271,9 +271,14 @@ export default function Coach() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 pb-4">
       <PageHeader
-        eyebrow="24/7 Personalized Guidance"
-        title="AI Return-to-Work Coach for Cancer Survivors"
-        subtitle="Ask questions about ADA accommodations, fatigue pacing, employer conversations, and your return-to-work plan."
+        eyebrow="24/7 Automated AI Support"
+        title="AI Return-to-Work Coach"
+        subtitle="Prepare workplace questions, draft employer messages, and explore pacing ideas with an AI assistant. Looking for 1-on-1 human coaching? Visit Book a Coach."
+        actions={
+          <Button asChild variant="outline" size="sm">
+            <Link to="/CoachBooking">Book a 1-on-1 human coach</Link>
+          </Button>
+        }
       />
       <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(15rem,18rem)_minmax(0,1fr)]">
         {/* Mobile: switch between the conversation and the coach profile */}
@@ -370,28 +375,28 @@ export default function Coach() {
                     </div>
                     <div>
                       <h2 className="mb-2 text-2xl font-bold text-foreground">
-                        Welcome to Your 24/7 AI Return-to-Work Coach
+                        Welcome to the AI Return-to-Work Coach
                       </h2>
                       <p className="mb-4 text-muted-foreground">
-                        Get confidential, personalized guidance for every stage of returning to work after cancer treatment — from drafting ADA accommodation requests and planning a phased schedule to managing treatment fatigue and preparing for HR conversations.
+                        AI support can help you prepare questions and draft workplace messages. It does not replace advice from your healthcare team or a qualified legal professional.
                       </p>
                       <div className="mx-auto max-w-md space-y-2 rounded-brand border border-border bg-brand-surface p-4 text-left">
-                        <p className="text-sm font-bold text-foreground">How your AI Return-to-Work Coach supports you:</p>
-                        <ul className="ml-4 space-y-1.5 text-sm text-muted-foreground">
-                          <li>• Drafting ADA workplace accommodation letters and HR emails</li>
-                          <li>• Building a gradual, week-by-week phased return schedule</li>
-                          <li>• Pacing workday energy around cancer-related fatigue and chemo brain</li>
-                          <li>• Practicing scripts for supervisor check-ins and coworker boundaries</li>
-                          <li>• Understanding federal FMLA, ADA, COBRA, and state leave protections</li>
-                        </ul>
+                        <p className="text-sm font-bold text-foreground">Before you chat</p>
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                          AI services process the information you submit and may use relevant saved information to generate a reply. Copies of Coach questions and answers also go to an external communication-quality reviewer after your name, email, and account details are removed. Avoid including identifying or medical details you do not want processed.{' '}
+                          <Link to="/PrivacySecurity" className="font-semibold text-primary underline underline-offset-2">
+                            Read how your information is used
+                          </Link>
+                          .
+                        </p>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <p className="text-xs font-medium text-muted-foreground">
-                        Your coaching conversations are private and saved to your account.
+                        Sign in to start an AI conversation.
                       </p>
                       <Button onClick={() => base44.auth.redirectToLogin(createPageUrl('Coach'))}>
-                        Sign in to start chatting
+                        Sign in to start an AI conversation
                       </Button>
                     </div>
                   </div>
@@ -521,14 +526,14 @@ export default function Coach() {
               {!isLoadingAuth && !isAuthenticated && (
                 <div className="mb-3 rounded-brand border border-border bg-muted p-3">
                   <p className="text-sm text-muted-foreground">
-                    You're signed out, so messages can't send. Sign in again to keep chatting — your saved conversations stay here.
+                    Sign in to start an AI conversation.
                   </p>
                   <Button
                     size="sm"
                     className="mt-2"
                     onClick={() => base44.auth.redirectToLogin(createPageUrl('Coach'))}
                   >
-                    Sign in to message
+                    Sign in to start chatting
                   </Button>
                 </div>
               )}
@@ -562,15 +567,18 @@ export default function Coach() {
               )}
             </div>
 
-            {/* Quality review disclosure — always visible under the composer */}
-            <div className="shrink-0 border-t border-border bg-muted px-4 py-3">
+            {/* AI processing & quality review disclosure — always visible beside the message field */}
+            <div className="shrink-0 border-t border-border bg-muted px-4 py-3 space-y-1.5">
               <p className="text-xs text-muted-foreground">
-                <span className="font-bold text-foreground">Quality review: </span>
-                to help the AI Coach give answers that are clear and easy to act on when you are under stress, copies of Coach replies and the question each reply answered are reviewed by Smarter Medical Care Inc against its AWCL communication standard. Your name, email address and account details are removed before anything is sent.{' '}
+                <span className="font-bold text-foreground">Before you chat: </span>
+                AI services process the information you submit and may use relevant saved information to generate a reply. Copies of Coach questions and answers also go to Smarter Medical Care Inc for communication-quality review after your name, email, and account details are removed. Avoid including identifying or medical details you do not want processed.{' '}
                 <Link to="/PrivacySecurity" className="font-semibold text-primary underline underline-offset-2">
-                  Read our privacy policy
+                  Read how your information is used
                 </Link>
                 .
+              </p>
+              <p className="text-xs text-muted-foreground">
+                AI support can help you prepare questions and draft workplace messages. It does not replace advice from your healthcare team or a qualified legal professional.
               </p>
             </div>
           </Card>

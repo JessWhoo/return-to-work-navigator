@@ -18,8 +18,9 @@ export const sectionGroups = [
     { title: 'Legal Rights', description: 'Understand ADA, FMLA, and your workplace protections', icon: NeedsAttentionIcon, page: 'LegalRights' },
   ] },
   { groupTitle: 'Learn & Connect', groupDescription: 'Guides, coaching, and stories to walk alongside you.', items: [
+    { title: 'AI Return-to-Work Coach', description: '24/7 automated AI guidance to help prepare workplace questions and messages (requires a free account)', icon: MessageIcon, page: 'Coach' },
     { title: 'Resource Library', description: 'Access curated guides, organizations, and support services', icon: JourneyIcon, page: 'Resources' },
-    { title: 'Book a Coach', description: 'Schedule a one-on-one session with a return-to-work coach at a time that works for you', icon: ScheduleIcon, page: 'CoachBooking' },
-    { title: 'From the Founder', description: 'Blog posts from Jess — reflections, inspiration, and hope for the road back to work', icon: MessageIcon, page: 'Blog' },
+    { title: 'Book a Human Coach', description: 'Request a one-on-one session with a human return-to-work coach (availability and details on the booking page)', icon: ScheduleIcon, page: 'CoachBooking' },
+    { title: 'From the Founder', description: 'Blog posts from Jess — reflections and practical workplace perspective', icon: MessageIcon, page: 'Blog' },
   ] },
 ];

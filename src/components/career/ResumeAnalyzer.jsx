@@ -3,6 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, FileText, CheckCircle2, Loader2, AlertTriangle, TrendingUp, Lightbulb, XCircle, ClipboardList } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onResumeUploaded }) {
   const [resumeFile, setResumeFile] = useState(sharedResumeFile || null);
@@ -86,6 +87,13 @@ export default function ResumeAnalyzer({ sharedResumeUrl, sharedResumeFile, onRe
             </span>
             {!resumeFile && <span className="text-xs text-brand-muted-foreground mt-1">PDF, DOC, DOCX supported</span>}
           </label>
+          <p className="mt-3 text-xs leading-relaxed text-brand-muted-foreground">
+            <strong>Before uploading:</strong> Uploaded resumes are currently stored at a public link that anyone with the link can open, and are sent to AI services when you request analysis. Remove unnecessary personal or medical details before uploading. Deleting a saved record does not remove an uploaded file.{' '}
+            <Link to="/PrivacySecurity" className="font-semibold text-brand-primary underline underline-offset-2">
+              Read our privacy policy
+            </Link>
+            .
+          </p>
         </CardContent>
       </Card>
 

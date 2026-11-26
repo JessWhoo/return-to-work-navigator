@@ -11,8 +11,9 @@ import useSEO from '@/hooks/useSEO';
 import { useAuth } from '@/lib/AuthContext';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import HomeHero from '@/components/home/HomeHero';
-import HomeQuickNav from '@/components/home/HomeQuickNav';
-import HomeTools from '@/components/home/HomeTools';
+import HomeTaskChoices from '@/components/home/HomeTaskChoices';
+import HomeFounderIntro from '@/components/home/HomeFounderIntro';
+import HomeSamplePreview from '@/components/home/HomeSamplePreview';
 import HomeJourney from '@/components/home/HomeJourney';
 import HomeFeatures from '@/components/home/HomeFeatures';
 import HomeQuote from '@/components/home/HomeQuote';
@@ -78,8 +79,10 @@ export default function Home() {
   return (
     <div className="nv-home mx-auto max-w-7xl space-y-10 sm:space-y-12">
       <OnboardingFlow open={showOnboarding} onComplete={handleCompleteOnboarding} />
-      <div><HomeHero canTour={isAuthenticated && !!progress} onTour={() => setShowOnboarding(true)} tourOpen={showOnboarding} isAuthenticated={isAuthenticated} /><HomeQuickNav /></div>
-      <HomeTools />
+      <HomeHero canTour={isAuthenticated && !!progress} onTour={() => setShowOnboarding(true)} tourOpen={showOnboarding} isAuthenticated={isAuthenticated} />
+      <HomeTaskChoices />
+      <HomeFounderIntro />
+      <HomeSamplePreview />
       <HomeJourney progress={isProgressError ? null : progress} loading={isProgressLoading} error={isProgressError} onRetry={refetchProgress} />
       <HomeFeatures />
       <HomeQuote />

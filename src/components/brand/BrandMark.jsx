@@ -20,7 +20,7 @@ export default function BrandMark({ size = 'md', showTagline = false, showName =
       />
       {showName && <span>
         <span className={`block font-heading ${word} font-bold text-brand-primary`}>{BRAND_NAME}</span>
-        {showTagline && <span className="block text-xs text-brand-muted-foreground">Back to life, back to work</span>}
+        {showTagline && <span className="block text-xs text-brand-muted-foreground">Practical work guidance. At your pace.</span>}
       </span>}
     </span>
   );

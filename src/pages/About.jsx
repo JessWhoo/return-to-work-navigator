@@ -10,7 +10,7 @@ const FEATURES = [
   { icon: Zap, title: 'Energy & Mood Tracking', desc: 'Daily check-ins with AI-matched resource recommendations.' },
   { icon: Shield, title: 'Legal Rights Guidance', desc: 'Plain-language summaries of ADA, FMLA, and state laws.' },
   { icon: BookOpen, title: '90+ Curated Resources', desc: 'Vetted guides, videos, support groups, and tools.' },
-  { icon: Users, title: 'Community Forum', desc: 'Anonymous forums to share experiences and support.' },
+  { icon: Users, title: 'Community Forum', desc: 'Display-name forums to share experiences and support (a display name does not make post content anonymous).' },
   { icon: Heart, title: 'AI Return-to-Work Coach', desc: 'Personalized guidance available 24/7 via conversational AI.' },
   { icon: ArrowRight, title: 'Communication Toolkit', desc: 'Templates and scripts for employer conversations and emails.' },
 ];
@@ -71,8 +71,7 @@ export default function About() {
                 Her mission is to make sure no survivor ever has to figure this out alone.
               </p>
               <p className="text-base italic text-brand-muted-foreground">
-                "You are not going back to who you were. You are going forward as someone stronger — and you deserve support
-                every step of the way."
+                "You do not have to navigate work after cancer alone. You deserve support that respects where you are now."
               </p>
             </div>
           </div>

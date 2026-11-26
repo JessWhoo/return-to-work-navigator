@@ -544,8 +544,19 @@ export default function Profile({ embedded = false }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="mb-4 text-sm text-brand-muted-foreground">
-                Permanently delete your account and all associated data. This action cannot be undone.
+              <p className="mb-2 text-sm text-brand-muted-foreground">
+                Permanently remove supported app records associated with your account. This action cannot be undone.
+              </p>
+              <p className="mb-4 text-xs leading-relaxed text-brand-muted-foreground">
+                <strong>Deletion limits:</strong> This control removes supported app records, but does not itself remove your sign-in account, previously uploaded public files, or separately stored AI conversations. For a complete account and data deletion request, use the{' '}
+                <Link to="/Contact" className="font-semibold text-brand-primary underline underline-offset-2">
+                  Contact page
+                </Link>{' '}
+                or review our{' '}
+                <Link to="/PrivacySecurity" className="font-semibold text-brand-primary underline underline-offset-2">
+                  privacy policy
+                </Link>
+                .
               </p>
               <AlertDialog onOpenChange={(open) => { if (!open) setConfirmText(''); }}>
                 <AlertDialogTrigger asChild>
@@ -574,6 +585,9 @@ export default function Profile({ embedded = false }) {
                       <li>Community profiles, peer connections, and messages</li>
                       <li>All notification preferences</li>
                     </ul>
+                    <p className="text-xs text-brand-muted-foreground">
+                      Note: This removes supported app records only. It does not remove your sign-in account, previously uploaded public files, or separately stored AI conversations; use the Contact page for a full deletion request.
+                    </p>
                     <p className="text-brand-destructive">
                       This action <strong>cannot be undone</strong> — there is no recovery once data is deleted.
                     </p>

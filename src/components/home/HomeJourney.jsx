@@ -9,7 +9,7 @@ export default function HomeJourney({ progress, loading, error, onRetry }) {
   const milestones = getJourneyMilestones(progress);
   return (
     <section className="nv-home-journey space-y-6" aria-labelledby="home-journey-title" aria-busy={loading}>
-      <div className="space-y-3 text-center"><h2 id="home-journey-title" className="text-2xl font-bold sm:text-3xl">Your Return Journey</h2><p className="text-brand-muted-foreground">A step-by-step path to guide you through the process.</p></div>
+      <div className="space-y-3 text-center"><h2 id="home-journey-title" className="text-2xl font-bold sm:text-3xl">Topics to Explore at Your Pace</h2><p className="mx-auto max-w-2xl text-brand-muted-foreground">There is no single right timeline. Use what helps, pause when you need to, and discuss readiness with your healthcare team.</p></div>
       <div className="flex justify-center">
         <Link to="/NavigatorMethod" className="inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-brand border border-brand-primary bg-brand-surface px-4 py-2.5 text-center text-sm shadow-brand-sm transition hover:bg-brand-muted hover:shadow-brand-md">
           <Compass className="h-4 w-4 text-brand-primary" aria-hidden="true" />

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import ResumeAnalyzer from '@/components/career/ResumeAnalyzer';
 import BrandChoice from '@/components/brand/BrandChoice';
+import { Link } from 'react-router-dom';
 
 const MOCK_JOBS = [
   { id: 1, title: 'HR Coordinator', company: 'HealthFirst', location: 'Remote', salary: '$55k–$70k', match: 94, tags: ['Part-Time', 'Flexible', 'Healthcare'] },
@@ -119,6 +120,13 @@ export default function ApplyIQ() {
               </span>
               {!resumeFile && <span className="text-xs text-brand-muted-foreground mt-1">PDF, DOC, DOCX supported</span>}
             </label>
+            <p className="mt-3 text-xs leading-relaxed text-brand-muted-foreground">
+              <strong>Before uploading:</strong> Uploaded resumes are currently stored at a public link that anyone with the link can open. Remove unnecessary personal or medical details before uploading. Deleting a saved record does not remove an uploaded file.{' '}
+              <Link to="/PrivacySecurity" className="font-semibold text-brand-primary underline underline-offset-2">
+                Read our privacy policy
+              </Link>
+              .
+            </p>
           </CardContent>
         </Card>
 

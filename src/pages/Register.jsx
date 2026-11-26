@@ -135,8 +135,8 @@ export default function Register() {
   return (
     <AuthLayout
       icon={UserPlus}
-      title="Create your account"
-      subtitle="Sign up to get started"
+      title="Create your free Navigator account"
+      subtitle="Save your progress and return to your planning tools when you need them. You can view the preparation checklist before signing up."
       footer={
         <>
           Already have an account?{" "}
@@ -227,10 +227,17 @@ export default function Register() {
               Creating account...
             </>
           ) : (
-            "Create account"
+            "Create my free account"
           )}
         </Button>
       </form>
+      <p className="mt-4 text-center text-xs text-muted-foreground">
+        Not ready to sign up?{' '}
+        <Link to="/Checklist" className="font-medium text-primary underline underline-offset-2">
+          View the preparation checklist first
+        </Link>
+        .
+      </p>
     </AuthLayout>
   );
 }

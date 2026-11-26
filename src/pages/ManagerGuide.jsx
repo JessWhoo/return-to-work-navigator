@@ -65,7 +65,7 @@ export default function ManagerGuide() {
       <PageHeader
         eyebrow="For Managers & HR"
         title="Supporting an Employee Through Cancer and Back to Work"
-        subtitle="A practical guide to what your employee is facing, what actually helps, the mistakes to avoid, and your legal responsibilities."
+        subtitle="Practical guidance for workplace conversations, accommodations, and return planning."
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <GuideLanguageSwitch
@@ -90,8 +90,14 @@ export default function ManagerGuide() {
           <h2 className="font-heading text-xl sm:text-2xl font-bold text-brand-text">
             How to Support an Employee With Cancer: The 4-Pillar Framework
           </h2>
+          <p className="rounded-brand border border-brand-border bg-brand-muted p-4 text-sm font-medium text-brand-text leading-relaxed">
+            <strong>Start with listening:</strong> Ask what support would be useful. Discuss work-related needs and agree on the next check-in. Avoid assumptions about readiness, recovery, or what the employee wants shared.
+          </p>
           <p className="text-sm sm:text-base text-brand-text leading-relaxed">
-            When an employee is diagnosed with cancer or returns after treatment, managers and HR must balance <strong>compassionate human leadership</strong> with <strong>strict legal compliance</strong> under the Americans with Disabilities Act (ADA) and the Family and Medical Leave Act (FMLA). The most effective workplace response follows four pillars: (1) <strong>Protect medical confidentiality</strong>—never share a diagnosis with coworkers without explicit consent; (2) <strong>Engage in the ADA interactive process early</strong> to offer flexible hours, remote work, or phased ramp-up schedules; (3) <strong>Document every accommodation and leave agreement in writing</strong>; and (4) <strong>Manage team workload transparently</strong> without making the returning employee feel like a burden.
+            In practice, supportive workplace responses focus on four concrete habits: (1) <strong>Protect confidentiality</strong>—share nothing about an employee’s health without their explicit permission; (2) <strong>Use an interactive accommodation process</strong> to explore flexible hours, remote options, or phased schedules; (3) <strong>Confirm agreements in writing</strong> so expectations stay clear for both sides; and (4) <strong>Plan team workload proactively</strong> during leave and ramp-up periods.
+          </p>
+          <p className="text-xs text-brand-muted-foreground leading-relaxed">
+            <strong>Legal note:</strong> Summaries of the ADA, FMLA, and state leave laws on this page are for general educational reference only and are not individualized legal advice. Employer coverage and employee eligibility depend on company size, tenure, and jurisdiction—consult HR or qualified employment counsel for your specific situation.
           </p>
         </CardContent>
       </Card>
