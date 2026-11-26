@@ -47,9 +47,24 @@ export default function UpcomingBookings({ enabled = true }) {
   });
 
   const cancelMutation = useMutation({
-    mutationFn: (/** @type {string} */ id) => base44.entities.CoachBooking.update(id, { status: 'cancelled' }),
+    mutationFn: async (/** @type {string} */ id) => {
+      await base44.entities.CoachBooking.update(id, { status: 'cancelled' });
+      try {
+        const page = await base44.entities.UserProgress.list({ limit: 1 });
+        const existing = page.items[0];
+        if (existing && Array.isArray(existing.calendar_events)) {
+          const filtered = existing.calendar_events.filter((e) => e.id !== `coach-booking-${id}`);
+          if (filtered.length !== existing.calendar_events.length) {
+            await base44.entities.UserProgress.update(existing.id, { calendar_events: filtered });
+          }
+        }
+      } catch {
+        // Non-fatal if calendar cleanup fails
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coachBookings'] });
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       toast({ title: 'Session cancelled' });
     },
     onError: (err) => {

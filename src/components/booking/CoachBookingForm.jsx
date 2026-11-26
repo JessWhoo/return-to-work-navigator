@@ -121,6 +121,33 @@ export default function CoachBookingForm({ user, onBooked = null }) {
       // on CoachBooking.create. Clients cannot invoke that endpoint directly.
       const topicLabel = TOPICS.find((t) => t.value === topic)?.label || topic;
 
+      // Also add the session to the user's in-app Return-to-Work Calendar so it
+      // shows up immediately without requiring an external calendar sign-in.
+      try {
+        const calendarEvent = {
+          id: `coach-booking-${booking.id}`,
+          title: `Coaching session — ${topicLabel}`,
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          type: 'meeting',
+          description: `${selectedTime} (${timezone}) · ${format_ === 'video' ? 'Video call' : 'Phone call'} (${duration} min)`,
+        };
+        const page = await base44.entities.UserProgress.list({ limit: 1 });
+        if (page.items.length > 0) {
+          const existing = page.items[0];
+          const prevEvents = Array.isArray(existing.calendar_events) ? existing.calendar_events : [];
+          await base44.entities.UserProgress.update(existing.id, {
+            calendar_events: [...prevEvents, calendarEvent],
+          });
+        } else {
+          await base44.entities.UserProgress.create({
+            calendar_events: [calendarEvent],
+          });
+        }
+        queryClient.invalidateQueries({ queryKey: ['userProgress'] });
+      } catch (calErr) {
+        console.warn('Could not sync booking to in-app calendar:', calErr);
+      }
+
       // Send a confirmation email so the user has a written record of the request.
       // Failure here shouldn't block the booking itself — just log it.
       try {

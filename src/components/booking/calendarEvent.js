@@ -1,7 +1,7 @@
 // Builds calendar links for a confirmed coaching booking.
-// Google's event template only renders when the visitor already has a Google
-// session — signed out, Google sends them to its marketing page. The .ics file
-// is the reliable path: every calendar app (Google, Apple, Outlook) imports it.
+// Uses Google Calendar's /calendar/r/eventedit endpoint so pre-filled event
+// parameters are preserved through sign-in instead of landing on the generic
+// Workspace marketing page, alongside a downloadable .ics file for any calendar.
 
 export const TOPIC_LABELS = {
   return_to_work_planning: 'Return-to-work planning',
@@ -11,6 +11,7 @@ export const TOPIC_LABELS = {
   career_transition: 'Career transition',
   communication_and_boundaries: 'Communication & boundaries',
   emotional_support: 'Emotional support',
+  clinic_navigator_demo: 'Clinic & Navigator Demo',
   other: 'Coaching session',
 };
 
@@ -49,13 +50,12 @@ export function buildGoogleCalendarUrl(booking) {
   const slot = readSlot(booking);
   if (!slot) return null;
   const params = new URLSearchParams({
-    action: 'TEMPLATE',
     text: slot.title,
     dates: `${slot.startStamp}/${slot.endStamp}`,
     details: slot.details,
     ctz: booking.timezone || 'UTC',
   });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  return `https://calendar.google.com/calendar/r/eventedit?${params.toString()}`;
 }
 
 const escapeIcs = (text) =>

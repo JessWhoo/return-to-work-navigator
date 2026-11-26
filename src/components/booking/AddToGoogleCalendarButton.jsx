@@ -35,10 +35,12 @@ export default function AddToGoogleCalendarButton({ booking }) {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => window.open(googleUrl, '_blank', 'noopener,noreferrer')}
+        asChild
         className="font-bold"
       >
-        <CalendarPlus className="h-4 w-4 mr-1" aria-hidden="true" /> Google Calendar
+        <a href={googleUrl} target="_blank" rel="noopener noreferrer">
+          <CalendarPlus className="h-4 w-4 mr-1" aria-hidden="true" /> Google Calendar
+        </a>
       </Button>
     </div>
   );
