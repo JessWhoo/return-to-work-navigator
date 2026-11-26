@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { resources as allResources } from './resources/resourcesData';
 import { toast } from 'sonner';
 import { CompassIcon } from '@/components/brand/BrandIcon';
+import { useAuth } from '@/lib/AuthContext';
+import { isUnauthorizedError } from '@/lib/sessionGuard';
 
 const MOODS = [
   { value: 'very_low', label: '😞 Very low' },
@@ -44,17 +46,25 @@ const flatResources = allResources.flatMap((cat) =>
  * carrying this app's real mood, energy and challenge questions.
  */
 export default function DailyCheckIn() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [open, setOpen] = useState(false);
   const [mood, setMood] = useState(null);
   const [energy, setEnergy] = useState(null);
   const [challenge, setChallenge] = useState(null);
   const [loading, setLoading] = useState(false);
   const [recommendation, setRecommendation] = useState(null);
+  const [needsSignIn, setNeedsSignIn] = useState(false);
 
   const canSubmit = mood && energy && challenge;
+  const showSignInPrompt = (!isLoadingAuth && !isAuthenticated) || needsSignIn;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
+    if (!isAuthenticated) {
+      setNeedsSignIn(true);
+      return;
+    }
+    setNeedsSignIn(false);
     setLoading(true);
     setRecommendation(null);
 
@@ -75,8 +85,12 @@ export default function DailyCheckIn() {
       } else {
         toast.error('Could not pick a recommendation. Try again.');
       }
-    } catch {
-      toast.error('Something went wrong. Please try again.');
+    } catch (err) {
+      if (isUnauthorizedError(err) || err?.response?.status === 401) {
+        setNeedsSignIn(true);
+      } else {
+        toast.error('Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -179,6 +193,20 @@ export default function DailyCheckIn() {
                       ))}
                     </div>
                   </div>
+
+                  {showSignInPrompt && (
+                    <div className="rounded-brand border border-brand-border bg-brand-surface p-4 text-brand-text space-y-2.5">
+                      <p className="text-sm font-medium">
+                        Sign in to get a personalized AI resource recommendation for today.
+                      </p>
+                      <Button
+                        size="sm"
+                        onClick={() => base44.auth.redirectToLogin(window.location.pathname || '/')}
+                      >
+                        Sign in to continue
+                      </Button>
+                    </div>
+                  )}
 
                   <button
                     type="button"

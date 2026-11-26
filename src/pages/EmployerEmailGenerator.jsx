@@ -15,6 +15,8 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useAuth } from '@/lib/AuthContext';
+import { isUnauthorizedError } from '@/lib/sessionGuard';
+import { createPageUrl } from '@/utils';
 import SaveDraftButton from '@/components/communication/SaveDraftButton';
 import EmailScenarioChoice from '@/components/communication/EmailScenarioChoice';
 import { logToolEngagement } from '@/lib/analytics';
@@ -119,7 +121,10 @@ export default function EmployerEmailGenerator({ embedded = false }) {
   const [emailBody, setEmailBody] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showConvPicker, setShowConvPicker] = useState(false);
+  const [needsSignIn, setNeedsSignIn] = useState(false);
   const draftRef = useRef(null);
+  const signInPromptRef = useRef(null);
+  const showSignInPrompt = (!isLoadingAuth && !isAuthenticated) || needsSignIn;
 
   // Load user progress for context
   const { data: progress } = useUserProgress();
@@ -147,6 +152,14 @@ export default function EmployerEmailGenerator({ embedded = false }) {
       toast.error('Please select an email scenario first.');
       return;
     }
+    if (!isAuthenticated) {
+      setNeedsSignIn(true);
+      requestAnimationFrame(() =>
+        signInPromptRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      );
+      return;
+    }
+    setNeedsSignIn(false);
     setIsGenerating(true);
     setEmailBody('');
     setSubject('');
@@ -196,7 +209,11 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
         );
       }
     } catch (err) {
-      toast.error('Failed to generate: ' + err.message);
+      if (isUnauthorizedError(err) || err?.response?.status === 401) {
+        setNeedsSignIn(true);
+      } else {
+        toast.error('Failed to generate: ' + err.message);
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -391,6 +408,20 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
               </div>
             </CardContent>
           </Card>
+
+          {showSignInPrompt && (
+            <div ref={signInPromptRef} className="rounded-brand border border-brand-border bg-muted p-4 space-y-2.5">
+              <p className="text-sm font-medium text-foreground">
+                Sign in to generate an AI email draft.
+              </p>
+              <Button
+                size="sm"
+                onClick={() => base44.auth.redirectToLogin(createPageUrl('EmployerEmailGenerator'))}
+              >
+                Sign in to generate draft
+              </Button>
+            </div>
+          )}
 
           <Button
             onClick={generateEmail}

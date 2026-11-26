@@ -8,6 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Mail, Copy, Send, Sparkles, User, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/lib/AuthContext';
+import { isUnauthorizedError } from '@/lib/sessionGuard';
 import SaveDraftButton from './SaveDraftButton';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
 
@@ -26,8 +28,11 @@ export default function EmailDrafter() {
   const [recipientName, setRecipientName] = useState('');
   const [subject, setSubject] = useState('');
   const [emailBody, setEmailBody] = useState('');
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   const [emailType, setEmailType] = useState('accommodation_request');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [needsSignIn, setNeedsSignIn] = useState(false);
+  const showSignInPrompt = (!isLoadingAuth && !isAuthenticated) || needsSignIn;
 
   const { data: progress } = useUserProgress();
 
@@ -55,6 +60,11 @@ export default function EmailDrafter() {
   };
 
   const generateEmail = async () => {
+    if (!isAuthenticated) {
+      setNeedsSignIn(true);
+      return;
+    }
+    setNeedsSignIn(false);
     setIsGenerating(true);
     try {
       const template = emailTemplates[emailType];
@@ -76,7 +86,11 @@ User context:
       setEmailBody(response);
       toast.success('Email draft generated!');
     } catch (error) {
-      toast.error('Failed to generate email: ' + error.message);
+      if (isUnauthorizedError(error) || error?.response?.status === 401) {
+        setNeedsSignIn(true);
+      } else {
+        toast.error('Failed to generate email: ' + error.message);
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -144,6 +158,20 @@ ${emailBody}`;
             />
           </div>
         </div>
+
+        {showSignInPrompt && (
+          <div className="rounded-brand border border-brand-border bg-muted p-4 space-y-2.5">
+            <p className="text-sm font-medium text-foreground">
+              Sign in to generate an AI email draft.
+            </p>
+            <Button
+              size="sm"
+              onClick={() => base44.auth.redirectToLogin(window.location.pathname || '/Communication')}
+            >
+              Sign in to generate draft
+            </Button>
+          </div>
+        )}
 
         <Button
           onClick={generateEmail}
