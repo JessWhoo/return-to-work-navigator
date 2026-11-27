@@ -4,6 +4,11 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BrandMark from '@/components/brand/BrandMark';
 
+/**
+ * Hero — one filled action, one quiet line of secondary links.
+ * Everything else that used to compete here is demoted so the first screen
+ * asks for a single decision.
+ */
 export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated }) {
   return (
     <section className="nv-hero nv-home-hero" aria-labelledby="home-title">
@@ -17,13 +22,26 @@ export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated })
           <h1 id="home-title" className="max-w-2xl text-3xl font-bold text-brand-text sm:text-5xl">Return-to-work guidance, at your pace.</h1>
           <p className="max-w-xl text-base text-brand-text sm:text-lg">A free toolkit for people navigating work after cancer. Explore workplace conversation templates, accommodation guidance, energy tools, and return planning—if and when returning is right for you.</p>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <Button asChild variant="onGradient"><Link to="/Checklist">View the return-to-work checklist<ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
-            <Link to="/Resources" className="text-sm font-semibold text-brand-primary underline underline-offset-4 hover:text-brand-text">Explore resources</Link>
-            {!isAuthenticated && <Link to="/register" className="text-sm font-semibold text-brand-text underline underline-offset-4 hover:text-brand-primary">Create a free account to save progress</Link>}
-            {canTour && <Button variant="outline" onClick={onTour} disabled={tourOpen}>Take the tour</Button>}
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+              <Button asChild variant="onGradient"><Link to="/Checklist">View the return-to-work checklist<ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
+              <p className="text-xs font-medium text-brand-text sm:text-sm">No account needed to view the checklist. Choose one useful step today.</p>
+            </div>
+            <nav aria-label="More ways to begin" className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold">
+              <Link to="/Resources" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">Explore resources</Link>
+              {!isAuthenticated && <Link to="/register" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">Create a free account</Link>}
+              {canTour && (
+                <button
+                  type="button"
+                  onClick={onTour}
+                  disabled={tourOpen}
+                  className="text-brand-text underline underline-offset-4 hover:text-brand-primary disabled:opacity-60"
+                >
+                  Take the tour
+                </button>
+              )}
+            </nav>
           </div>
-          <p className="text-xs font-medium text-brand-text/90 sm:text-sm">No account needed to view the checklist. Choose one useful step today.</p>
         </div>
         <BrandMark size="hero" showName={false} className="hidden justify-center lg:flex" />
       </div>

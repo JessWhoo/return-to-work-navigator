@@ -10,14 +10,20 @@ const features = [
 
 export default function HomeFeatures() {
   return (
-    <section aria-label="Community support and resources" className="grid gap-5 md:grid-cols-2">
-      {features.map(feature => <article key={feature.title} className={`nv-card flex flex-col gap-6 p-5 sm:p-8 ${feature.tone}`}>
-        <div className="grid grid-cols-[minmax(0,1fr)_64px] items-center gap-3 sm:grid-cols-[minmax(0,1fr)_120px]">
-          <div className="space-y-3"><h2 className="text-xl font-bold sm:text-2xl">{feature.title}</h2><p className="text-sm text-brand-text sm:text-base">{feature.description}</p></div>
-          <img src={feature.artwork} alt="" width="1024" height="1024" loading="lazy" decoding="async" className="h-auto w-full object-contain" />
-        </div>
-        <Button asChild variant="outline" className="mt-auto self-start !whitespace-normal"><Link to={feature.path}>{feature.cta}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></Button>
-      </article>)}
+    <section aria-labelledby="home-together-title" className="space-y-5">
+      <p id="home-together-title" className="nv-eyebrow nv-eyebrow--primary">Together</p>
+      <div className="grid overflow-hidden rounded-brand-lg border border-brand-border md:grid-cols-2">
+        {features.map(feature => (
+          <article key={feature.title} className={`flex flex-col ${feature.tone}`}>
+            <img src={feature.artwork} alt="" width="1024" height="1024" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+            <div className="flex flex-1 flex-col gap-3 p-6 sm:p-8">
+              <h2 className="text-xl font-bold sm:text-2xl">{feature.title}</h2>
+              <p className="text-sm text-brand-text sm:text-base">{feature.description}</p>
+              <Button asChild variant="outline" className="mt-auto self-start !whitespace-normal"><Link to={feature.path}>{feature.cta}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></Button>
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

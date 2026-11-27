@@ -5,59 +5,58 @@ import { Button } from '@/components/ui/button';
 
 export default function HomeSamplePreview() {
   return (
-    <section aria-labelledby="home-sample-title" className="nv-card p-5 sm:p-8 space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="nv-eyebrow nv-eyebrow--primary">Example tool output</p>
-          <h2 id="home-sample-title" className="mt-1 font-heading text-xl font-bold text-brand-text sm:text-2xl">
-            See what an accommodation draft looks like
-          </h2>
+    <section aria-labelledby="home-sample-title" className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
+      <div className="space-y-5 lg:col-span-5">
+        <p className="nv-eyebrow nv-eyebrow--primary">See an example</p>
+        <h2 id="home-sample-title" className="font-heading text-xl font-bold text-brand-text sm:text-2xl">
+          See what an accommodation draft looks like
+        </h2>
+
+        <div className="space-y-1">
+          <p className="text-sm font-semibold text-brand-text">What the tool helps you prepare</p>
+          <p className="text-sm leading-relaxed text-brand-muted-foreground">
+            Work-focused phrasing, clear scheduling options, and structured talking points you can tailor without sharing medical details you prefer to keep private.
+          </p>
         </div>
-        <span className="nv-chip nv-chip--muted">Clearly labeled example</span>
+
+        <div className="space-y-1">
+          <p className="text-sm font-semibold text-brand-text">What still requires review</p>
+          <p className="text-sm leading-relaxed text-brand-muted-foreground">
+            Your employer’s specific policies, any medical documentation or work-restriction notes from your healthcare team, and advice from a qualified legal professional if needed.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-start gap-3">
+          <Button asChild variant="default">
+            <Link to="/AccommodationLetterGenerator">
+              Try the Accommodation Letter Generator
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <Link
+            to="/EmployerEmailGenerator"
+            className="text-sm font-semibold text-brand-primary underline underline-offset-4 hover:text-brand-text"
+          >
+            Or preview employer email scripts
+          </Link>
+        </div>
       </div>
 
-      <div className="rounded-brand border border-brand-border bg-brand-background p-4 sm:p-5 space-y-2.5 text-sm text-brand-text">
-        <p className="font-semibold text-brand-primary flex items-center gap-2">
-          <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
-          Subject: Request for Workplace Accommodation Discussion
-        </p>
-        <p className="leading-relaxed">
+      <figure className="nv-card space-y-4 p-6 sm:p-8 lg:col-span-7">
+        <figcaption className="flex flex-wrap items-center justify-between gap-3">
+          <span className="flex items-center gap-2 text-sm font-semibold text-brand-primary">
+            <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
+            Subject: Request for Workplace Accommodation Discussion
+          </span>
+          <span className="nv-chip nv-chip--muted">Clearly labeled example</span>
+        </figcaption>
+        <blockquote className="border-t border-brand-border pt-4 font-heading text-base leading-relaxed text-brand-text sm:text-lg">
           “Hi [Manager/HR Name], I am preparing for my transition back to work and would like to request
           an interactive discussion about temporary workplace accommodations—specifically a gradual
           three-day schedule for the first four weeks and brief rest breaks as needed. These adjustments
           will help me meet my core responsibilities reliably while managing recovery.”
-        </p>
-      </div>
-
-      <div className="grid gap-4 text-sm sm:grid-cols-2">
-        <div className="rounded-brand border border-brand-border bg-brand-surface p-4">
-          <p className="font-semibold text-brand-text mb-1">What the tool helps you prepare</p>
-          <p className="text-brand-muted-foreground">
-            Work-focused phrasing, clear scheduling options, and structured talking points you can tailor without sharing medical details you prefer to keep private.
-          </p>
-        </div>
-        <div className="rounded-brand border border-brand-border bg-brand-surface p-4">
-          <p className="font-semibold text-brand-text mb-1">What still requires review</p>
-          <p className="text-brand-muted-foreground">
-            Your employer’s specific policies, any medical documentation or work-restriction notes from your healthcare team, and advice from a qualified legal professional if needed.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-3">
-        <Button asChild variant="outline">
-          <Link to="/AccommodationLetterGenerator">
-            Try the Accommodation Letter Generator
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
-        <Link
-          to="/EmployerEmailGenerator"
-          className="text-sm font-semibold text-brand-primary underline underline-offset-4 hover:text-brand-text"
-        >
-          Or preview employer email scripts
-        </Link>
-      </div>
+        </blockquote>
+      </figure>
     </section>
   );
 }

@@ -17,7 +17,6 @@ import HomeSamplePreview from '@/components/home/HomeSamplePreview';
 import HomeJourney from '@/components/home/HomeJourney';
 import HomeFeatures from '@/components/home/HomeFeatures';
 import HomeQuote from '@/components/home/HomeQuote';
-import HomeProgressStats from '@/components/home/HomeProgressStats';
 import HomeToolkit from '@/components/home/HomeToolkit';
 
 
@@ -77,22 +76,37 @@ export default function Home() {
   };
 
   return (
-    <div className="nv-home mx-auto max-w-7xl space-y-10 sm:space-y-12">
+    <div className="nv-home mx-auto max-w-7xl space-y-14 sm:space-y-20">
       <OnboardingFlow open={showOnboarding} onComplete={handleCompleteOnboarding} />
       <HomeHero canTour={isAuthenticated && !!progress} onTour={() => setShowOnboarding(true)} tourOpen={showOnboarding} isAuthenticated={isAuthenticated} />
       <HomeTaskChoices />
-      <HomeFounderIntro />
-      <HomeSamplePreview />
       <HomeJourney progress={isProgressError ? null : progress} loading={isProgressLoading} error={isProgressError} onRetry={refetchProgress} />
+
+      <section aria-label="Today" className="space-y-5 rounded-brand-lg bg-brand-muted px-5 py-8 sm:px-8 sm:py-10">
+        <p className="nv-eyebrow nv-eyebrow--primary">Today</p>
+        <DailyCheckIn />
+        {progress && <CalendarView progress={progress} onUpdateProgress={updates => updateProgressMutation.mutate(updates)} />}
+      </section>
+
+      <HomeSamplePreview />
+      <HomeToolkit />
       <HomeFeatures />
       <HomeQuote />
-      <HomeProgressStats progress={progress} />
-      <DailyCheckIn />
-      {progress && <CalendarView progress={progress} onUpdateProgress={updates => updateProgressMutation.mutate(updates)} />}
-      <HomeToolkit />
-      <ManagerResourceHub />
-      <ResourceFeedbackForm page="Home" />
-      <SmsConsentCard />
+
+      <section aria-label="For employers" className="space-y-4">
+        <p className="nv-eyebrow nv-eyebrow--primary">For employers</p>
+        <ManagerResourceHub />
+      </section>
+
+      <HomeFounderIntro />
+
+      <section aria-label="Stay in touch" className="space-y-5">
+        <p className="nv-eyebrow nv-eyebrow--primary">Stay in touch</p>
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+          <ResourceFeedbackForm page="Home" />
+          <SmsConsentCard />
+        </div>
+      </section>
     </div>
   );
 }
