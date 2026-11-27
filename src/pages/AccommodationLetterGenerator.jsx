@@ -35,6 +35,7 @@ export default function AccommodationLetterGenerator() {
   const [selected, setSelected] = useState([]);
   const [details, setDetails] = useState(EMPTY_DETAILS);
   const [letter, setLetter] = useState('');
+  const [showSelectHint, setShowSelectHint] = useState(false);
   const stepTopRef = useRef(null);
 
   const toggle = (opt) =>
@@ -59,10 +60,22 @@ export default function AccommodationLetterGenerator() {
     }
   };
 
-  const canContinue = step !== 1 || selected.length > 0;
   const maxReachable = selected.length === 0 ? 1 : letter ? 3 : 2;
 
-  const next = () => goToStep(step + 1);
+  // Step 1's Continue is deliberately never disabled: a disabled button swallows
+  // the click and leaves the user clicking with no feedback at all, which looks
+  // exactly like a wizard that refuses to advance. Instead it always responds —
+  // advancing when something is chosen, explaining what's missing when not.
+  const missingSelection = showSelectHint && selected.length === 0;
+
+  const next = () => {
+    if (step === 1 && selected.length === 0) {
+      setShowSelectHint(true);
+      toast.error('Select at least one accommodation to continue');
+      return;
+    }
+    goToStep(step + 1);
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -99,7 +112,7 @@ export default function AccommodationLetterGenerator() {
               <span className="text-sm font-semibold text-brand-text">
                 {selected.length} accommodation{selected.length === 1 ? '' : 's'} selected
               </span>
-              <Button type="button" size="sm" onClick={next}>
+              <Button type="button" size="sm" onClick={next} aria-label="Continue to your details">
                 Continue <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
@@ -133,11 +146,14 @@ export default function AccommodationLetterGenerator() {
         {step < 3 ? (
           <div className="flex items-center gap-3">
             {step === 1 && (
-              <span className="text-sm font-semibold text-brand-muted-foreground">
+              <span
+                role={missingSelection ? 'alert' : undefined}
+                className={`text-sm font-semibold ${missingSelection ? 'text-destructive' : 'text-brand-muted-foreground'}`}
+              >
                 {selected.length > 0 ? `${selected.length} selected` : 'Select at least one to continue'}
               </span>
             )}
-            <Button type="button" onClick={next} disabled={!canContinue}>
+            <Button type="button" onClick={next}>
               {step === 2 ? <><FileText className="h-4 w-4" /> Generate letter</> : <>Continue <ArrowRight className="h-4 w-4" /></>}
             </Button>
           </div>
