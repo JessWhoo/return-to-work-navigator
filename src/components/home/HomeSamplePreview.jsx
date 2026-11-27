@@ -5,12 +5,11 @@ import { Button } from '@/components/ui/button';
 
 export default function HomeSamplePreview() {
   return (
-    <section aria-labelledby="home-sample-title" className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
+    <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
       <div className="space-y-5 lg:col-span-5">
-        <p className="nv-eyebrow nv-eyebrow--primary">See an example</p>
-        <h2 id="home-sample-title" className="font-heading text-xl font-bold text-brand-text sm:text-2xl">
+        <h4 className="font-heading text-xl font-bold text-brand-text sm:text-2xl">
           See what an accommodation draft looks like
-        </h2>
+        </h4>
 
         <div className="space-y-1">
           <p className="text-sm font-semibold text-brand-text">What the tool helps you prepare</p>
@@ -57,6 +56,6 @@ export default function HomeSamplePreview() {
           will help me meet my core responsibilities reliably while managing recovery.”
         </blockquote>
       </figure>
-    </section>
+    </div>
   );
 }

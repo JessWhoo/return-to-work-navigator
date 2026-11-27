@@ -5,9 +5,7 @@ import { Button } from '@/components/ui/button';
 import BrandMark from '@/components/brand/BrandMark';
 
 /**
- * Hero — one filled action, one quiet line of secondary links.
- * Everything else that used to compete here is demoted so the first screen
- * asks for a single decision.
+ * Calm, low-load hero — one primary action and a short row of gentle links.
  */
 export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated }) {
   return (
@@ -19,17 +17,37 @@ export default function HomeHero({ canTour, onTour, tourOpen, isAuthenticated })
       <div className="nv-home-hero-content grid gap-8 lg:grid-cols-[3fr_1fr] lg:items-center">
         <div className="space-y-6">
           <BrandMark size="lg" showName={false} className="lg:hidden" />
-          <h1 id="home-title" className="max-w-2xl text-3xl font-bold text-brand-text sm:text-5xl">Return-to-work guidance, at your pace.</h1>
-          <p className="max-w-xl text-base text-brand-text sm:text-lg">A free toolkit for people navigating work after cancer. Explore workplace conversation templates, accommodation guidance, energy tools, and return planning—if and when returning is right for you.</p>
+          <h1 id="home-title" className="max-w-2xl text-3xl font-bold text-brand-text sm:text-5xl">
+            Return-to-work guidance, at your pace.
+          </h1>
+          <p className="max-w-xl text-base text-brand-text sm:text-lg">
+            A free, private toolkit for navigating work after cancer. Start with one small step—everything else waits until you're ready.
+          </p>
 
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-              <Button asChild variant="onGradient"><Link to="/Checklist">View the return-to-work checklist<ArrowRight className="h-5 w-5" aria-hidden="true" /></Link></Button>
-              <p className="text-xs font-medium text-brand-text sm:text-sm">No account needed to view the checklist. Choose one useful step today.</p>
+              <Button asChild variant="onGradient">
+                <Link to="/Checklist">
+                  Start the return-to-work checklist
+                  <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
+              </Button>
+              <p className="text-xs font-medium text-brand-text sm:text-sm">
+                No account needed. Go at your own pace.
+              </p>
             </div>
             <nav aria-label="More ways to begin" className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold">
-              <Link to="/Resources" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">Explore resources</Link>
-              {!isAuthenticated && <Link to="/register" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">Create a free account</Link>}
+              <Link to="/Coach" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">
+                Ask the AI Coach
+              </Link>
+              <Link to="/Resources" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">
+                Explore resources
+              </Link>
+              {!isAuthenticated && (
+                <Link to="/register" className="text-brand-text underline underline-offset-4 hover:text-brand-primary">
+                  Create a free account
+                </Link>
+              )}
               {canTour && (
                 <button
                   type="button"

@@ -14,10 +14,9 @@ const DOT_TONE = {
 export default function HomeJourney({ progress, loading, error, onRetry }) {
   const milestones = getJourneyMilestones(progress);
   return (
-    <section aria-labelledby="home-journey-title" aria-busy={loading} className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="space-y-4 lg:sticky lg:top-24 lg:col-span-4 lg:self-start">
-        <p className="nv-eyebrow nv-eyebrow--primary">Your path</p>
-        <h2 id="home-journey-title" className="text-2xl font-bold sm:text-3xl">Topics to Explore at Your Pace</h2>
+    <div aria-busy={loading} className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className="space-y-4 lg:col-span-4 lg:self-start">
+        <h4 className="font-heading text-xl font-bold text-brand-text sm:text-2xl">Topics to Explore at Your Pace</h4>
         <p className="text-brand-muted-foreground">There is no single right timeline. Use what helps, pause when you need to, and discuss readiness with your healthcare team.</p>
         <Link to="/NavigatorMethod" className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-brand-primary underline underline-offset-4 hover:text-brand-text">
           <Compass className="h-4 w-4" aria-hidden="true" />
@@ -66,6 +65,6 @@ export default function HomeJourney({ progress, loading, error, onRetry }) {
           ))}
         </ol>
       </div>
-    </section>
+    </div>
   );
 }

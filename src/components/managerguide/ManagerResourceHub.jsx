@@ -17,9 +17,9 @@ export default function ManagerResourceHub() {
             </span>
             <p className="text-xs font-semibold uppercase tracking-wider text-brand-background">For Managers &amp; HR</p>
           </div>
-          <h2 id="manager-hub-heading" className="font-heading text-xl font-bold sm:text-2xl">
+          <h4 id="manager-hub-heading" className="font-heading text-xl font-bold sm:text-2xl">
             Supporting an employee through cancer?
-          </h2>
+          </h4>
           <p className="text-sm leading-relaxed text-brand-background sm:text-base">
             Explore practical guidance for workplace conversations, accommodations, and return planning.
             Start by listening to the employee’s needs rather than assuming their experience.

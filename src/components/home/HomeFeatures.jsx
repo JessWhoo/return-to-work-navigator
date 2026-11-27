@@ -10,20 +10,17 @@ const features = [
 
 export default function HomeFeatures() {
   return (
-    <section aria-labelledby="home-together-title" className="space-y-5">
-      <p id="home-together-title" className="nv-eyebrow nv-eyebrow--primary">Together</p>
-      <div className="grid overflow-hidden rounded-brand-lg border border-brand-border md:grid-cols-2">
-        {features.map(feature => (
-          <article key={feature.title} className={`flex flex-col ${feature.tone}`}>
-            <img src={feature.artwork} alt="" width="1024" height="1024" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
-            <div className="flex flex-1 flex-col gap-3 p-6 sm:p-8">
-              <h2 className="text-xl font-bold sm:text-2xl">{feature.title}</h2>
-              <p className="text-sm text-brand-text sm:text-base">{feature.description}</p>
-              <Button asChild variant="outline" className="mt-auto self-start !whitespace-normal"><Link to={feature.path}>{feature.cta}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></Button>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+    <div className="grid overflow-hidden rounded-brand-lg border border-brand-border md:grid-cols-2">
+      {features.map(feature => (
+        <article key={feature.title} className={`flex flex-col ${feature.tone}`}>
+          <img src={feature.artwork} alt="" width="1024" height="1024" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+          <div className="flex flex-1 flex-col gap-3 p-6 sm:p-8">
+            <h4 className="font-heading text-xl font-bold sm:text-2xl">{feature.title}</h4>
+            <p className="text-sm text-brand-text sm:text-base">{feature.description}</p>
+            <Button asChild variant="outline" className="mt-auto self-start !whitespace-normal"><Link to={feature.path}>{feature.cta}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></Button>
+          </div>
+        </article>
+      ))}
+    </div>
   );
 }

@@ -9,16 +9,12 @@ import { sectionGroups } from '@/components/home/homeToolkitData';
  */
 export default function HomeToolkit() {
   return (
-    <section className="space-y-6" aria-labelledby="home-toolkit-title">
-      <div className="space-y-2">
-        <p className="nv-eyebrow nv-eyebrow--primary">Toolkit</p>
-        <h2 id="home-toolkit-title" className="text-2xl font-bold sm:text-3xl">Everything, organised by what you're working on</h2>
-      </div>
+    <div className="space-y-4">
       <div className="border-t border-brand-border">
         {sectionGroups.map(group => (
-          <div key={group.groupTitle} className="grid gap-4 border-b border-brand-border py-8 lg:grid-cols-12 lg:gap-8">
+          <div key={group.groupTitle} className="grid gap-4 border-b border-brand-border py-6 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-4">
-              <h3 className="font-heading text-xl font-bold text-brand-text">{group.groupTitle}</h3>
+              <h4 className="font-heading text-lg font-bold text-brand-text">{group.groupTitle}</h4>
               <p className="mt-1 text-sm text-brand-muted-foreground">{group.groupDescription}</p>
             </div>
             <ul className="grid gap-x-8 sm:grid-cols-2 lg:col-span-8">
@@ -40,6 +36,6 @@ export default function HomeToolkit() {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
