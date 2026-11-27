@@ -403,8 +403,10 @@ Energy logs tracked: ${progress.energy_logs?.length > 0 ? 'yes' : 'no'}
                   placeholder="e.g. I need 2 days WFH per week and a later start time on Tuesdays..."
                   value={extraContext}
                   onChange={e => setExtraContext(e.target.value)}
+                  maxLength={1500}
                   className="min-h-[70px] text-xs"
                 />
+                <p className="text-xs text-muted-foreground">{(extraContext.length)}/1500 characters</p>
               </div>
             </CardContent>
           </Card>

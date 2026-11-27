@@ -12,10 +12,15 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import BottomSheetSelect from '@/components/ui/bottom-sheet-select';
+import { useAuth } from '@/lib/AuthContext';
+import { isUnauthorizedError } from '@/lib/sessionGuard';
 
 export default function DraftEditor({ draft, onClose, onSave }) {
   const queryClient = useQueryClient();
   const draftAPI = useOfflineEntity('CommunicationDraft');
+  const { isAuthenticated, isLoadingAuth } = useAuth();
+  const [needsSignIn, setNeedsSignIn] = useState(false);
+  const showSignInPrompt = (!isLoadingAuth && !isAuthenticated) || needsSignIn;
   const [formData, setFormData] = useState({
     title: draft?.title || '',
     scenario_type: draft?.scenario_type || 'accommodation_request',
@@ -81,6 +86,11 @@ export default function DraftEditor({ draft, onClose, onSave }) {
 
   const getAISuggestionsMutation = useMutation({
     mutationFn: async () => {
+      if (!isAuthenticated) {
+        const err = new Error('Sign in to get AI suggestions');
+        err.response = { status: 401 };
+        throw err;
+      }
       const response = (await base44.functions.invoke('aiGateway', {
         operation: 'improve_draft',
         data: {
@@ -101,12 +111,24 @@ export default function DraftEditor({ draft, onClose, onSave }) {
         }
       });
 
-      return response.suggestions;
+      return Array.isArray(response?.suggestions) ? response.suggestions : [];
     },
     onSuccess: (suggestions) => {
+      setNeedsSignIn(false);
+      if (suggestions.length === 0) {
+        toast.error('No suggestions came back. Please try again.');
+        return;
+      }
       setAiSuggestions(suggestions);
       toast.success('AI suggestions generated!');
-    }
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error) || error?.response?.status === 401) {
+        setNeedsSignIn(true);
+      } else {
+        toast.error('Could not get AI suggestions: ' + (error?.message || 'please try again'));
+      }
+    },
   });
 
   const handleCopy = () => {
@@ -215,6 +237,21 @@ export default function DraftEditor({ draft, onClose, onSave }) {
               className="min-h-[300px] font-body"
             />
           </div>
+
+          {showSignInPrompt && (
+            <div className="space-y-2.5 rounded-brand border border-brand-border bg-muted p-4">
+              <p className="text-sm font-medium text-foreground">
+                Sign in to get AI suggestions for this draft.
+              </p>
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => base44.auth.redirectToLogin(window.location.pathname || '/CommunicationToolkit')}
+              >
+                Sign in to get AI suggestions
+              </Button>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex flex-col gap-3 border-t border-brand-border pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
